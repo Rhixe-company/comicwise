@@ -1,0 +1,179 @@
+// ═══════════════════════════════════════════════════
+// LOCAL UPLOAD PROVIDER
+// Next.js 16.0.7 + Local File System Storage
+// ═══════════════════════════════════════════════════
+
+import { env } from "@/app-config";
+import crypto from "crypto";
+import fs from "fs/promises";
+import path from "path";
+import sharp from "sharp";
+
+import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
+
+export interface LocalTransformationOptions {
+  width?: number;
+  height?: number;
+  quality?: number;
+  format?: "jpeg" | "png" | "webp" | "avif";
+}
+
+export class LocalProvider implements UploadProvider {
+  private readonly uploadDir: string;
+  private readonly publicPath: string;
+
+  constructor() {
+    this.uploadDir = path.join(process.cwd(), "public", "uploads");
+    this.publicPath = "/uploads";
+  }
+
+  /**
+   * Upload file to local file system
+   */
+  async upload(
+    file: File | Buffer,
+    options: UploadOptions & { transformation?: LocalTransformationOptions } = {}
+  ): Promise<UploadResult> {
+    try {
+      let buffer: Buffer;
+      let originalName = "image";
+
+      // Convert File to Buffer if needed
+      if (typeof File !== "undefined" && file instanceof File) {
+        const arrayBuffer = await file.arrayBuffer();
+        buffer = Buffer.from(arrayBuffer);
+        originalName = file.name;
+      } else if (Buffer.isBuffer(file)) {
+        buffer = file;
+      } else {
+        return {
+          url: "",
+          publicId: "",
+          size: 0,
+          format: "",
+          success: false,
+          error: "Invalid file type. Must be Buffer or File.",
+        };
+      }
+
+      // Apply transformations if specified
+      if (options.transformation) {
+        let sharpInstance = sharp(buffer);
+        const { width, height, quality, format } = options.transformation;
+        if (width || height) {
+          sharpInstance = sharpInstance.resize(width, height);
+        }
+        if (format) {
+          sharpInstance = sharpInstance.toFormat(format, { quality });
+        } else if (quality) {
+          sharpInstance = sharpInstance.jpeg({ quality });
+        }
+        buffer = await sharpInstance.toBuffer();
+      }
+
+      // Generate unique filename
+      const hash = crypto.randomBytes(16).toString("hex");
+      const ext = options.transformation?.format
+        ? `.${options.transformation.format}`
+        : path.extname(originalName) || ".jpg";
+      const filename = options.filename ? `${options.filename}${ext}` : `${hash}${ext}`;
+
+      // Create directory structure
+      const folder = options.folder || "general";
+      const uploadPath = path.join(this.uploadDir, folder);
+      await fs.mkdir(uploadPath, { recursive: true });
+
+      // Save file
+      const filePath = path.join(uploadPath, filename);
+      await fs.writeFile(filePath, buffer);
+
+      // Get file stats
+      const stats = await fs.stat(filePath);
+
+      // Construct public URL
+      const publicId = path.join(folder, filename);
+      const url = `${env.NEXT_PUBLIC_APP_URL}${this.publicPath}/${publicId}`;
+
+      return {
+        url,
+        publicId,
+        size: stats.size,
+        format: ext.replace(".", ""),
+        success: true,
+      };
+    } catch (error) {
+      return {
+        url: "",
+        publicId: "",
+        size: 0,
+        format: "",
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+  }
+
+  /**
+   * Delete file from local file system
+   */
+  async delete(publicId: string): Promise<boolean> {
+    try {
+      const filePath = path.join(this.uploadDir, publicId);
+      await fs.unlink(filePath);
+      return true;
+    } catch (error) {
+      console.error("Local delete error:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Get URL for local file
+   */
+  getUrl(publicId: string, _transformation?: Record<string, unknown>): string {
+    return `${env.NEXT_PUBLIC_APP_URL}${this.publicPath}/${publicId}`;
+  }
+
+  /**
+   * Get thumbnail URL (local provider doesn't generate thumbnails)
+   */
+  getThumbnailUrl(publicId: string): string {
+    return this.getUrl(publicId);
+  }
+
+  /**
+   * List files in directory
+   */
+  async listFiles(folder = "general"): Promise<string[]> {
+    try {
+      const uploadPath = path.join(this.uploadDir, folder);
+      const files = await fs.readdir(uploadPath);
+      return files;
+    } catch (error) {
+      console.error("Local list error:", error);
+      return [];
+    }
+  }
+
+  /**
+   * Get file stats
+   */
+  async getFileStats(publicId: string): Promise<{
+    size: number;
+    createdAt: Date;
+    modifiedAt: Date;
+  } | null> {
+    try {
+      const filePath = path.join(this.uploadDir, publicId);
+      const stats = await fs.stat(filePath);
+      return {
+        size: stats.size,
+        createdAt: stats.birthtime,
+        modifiedAt: stats.mtime,
+      };
+    } catch (error) {
+      console.error("Local stats error:", error);
+      return null;
+    }
+  }
+}

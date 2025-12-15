@@ -1,0 +1,113 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Next: Dev (pnpm)",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "console": "integratedTerminal",
+      "autoAttachChildProcesses": true,
+      "env": {
+        "NODE_OPTIONS": "--enable-source-maps"
+      },
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Next: Dev (inspect)",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pwsh",
+      "runtimeArgs": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "pnpm dev -- --inspect=0.0.0.0:9229"
+      ],
+      "console": "integratedTerminal",
+      "autoAttachChildProcesses": true,
+      "env": {
+        "NODE_OPTIONS": "--enable-source-maps --inspect=9229"
+      },
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Attach to Next (9229)",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "${workspaceFolder}",
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Attach to Node (8888)",
+      "type": "node",
+      "request": "attach",
+      "port": 8888,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "${workspaceFolder}",
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Attach to Process",
+      "type": "node",
+      "request": "attach",
+      "processId": "${command:PickProcess}",
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Unit Tests (vitest)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["run"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Unit Tests (vitest watch)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["watch"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "E2E Tests (playwright)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
+      "args": ["test"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Dev + Node Attach",
+      "configurations": ["Next: Dev (pnpm)", "Attach to Process"]
+    },
+    {
+      "name": "Dev (inspect) + Attach",
+      "configurations": ["Next: Dev (inspect)", "Attach to Next (9229)"]
+    },
+    {
+      "name": "Full Test Suite",
+      "configurations": ["Unit Tests (vitest)", "E2E Tests (playwright)"]
+    }
+  ]
+}

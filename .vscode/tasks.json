@@ -1,0 +1,182 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ESLint: Fix All",
+      "type": "shell",
+      "command": "pnpm lint:fix",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": ["$eslint-stylish"],
+      "isBackground": false
+    },
+    {
+      "label": "ESLint: Check Strict",
+      "type": "shell",
+      "command": "pnpm lint:strict",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": ["$eslint-stylish"],
+      "isBackground": false
+    },
+    {
+      "label": "ESLint: Format & Lint",
+      "type": "shell",
+      "command": "pnpm format && pnpm lint:fix",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Format: Prettier",
+      "type": "shell",
+      "command": "pnpm format",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Format: Check",
+      "type": "shell",
+      "command": "pnpm format:check",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Validate: Full Pipeline",
+      "type": "shell",
+      "command": "pnpm validate",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "TypeCheck: Strict",
+      "type": "shell",
+      "command": "pnpm type-check",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "TypeCheck: Watch",
+      "type": "shell",
+      "command": "pnpm type-check:watch",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^([^\\\\s].*)\\\\((\\\\d+),(\\\\d+)\\\\): (error) (TS\\\\d+): (.*)$",
+          "file": 1,
+          "location": 2,
+          "endLocation": 3,
+          "message": 6
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^\\\\s*$",
+          "endsPattern": "Found \\\\d+ error"
+        }
+      }
+    },
+    {
+      "label": "Spell Check: All Files",
+      "type": "shell",
+      "command": "pnpm cspell",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Dev: Start",
+      "type": "shell",
+      "command": "pnpm dev",
+      "group": "build",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "Dev: Debug",
+      "type": "shell",
+      "command": "pnpm dev:debug",
+      "group": "build",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "Build: Prod",
+      "type": "shell",
+      "command": "pnpm build",
+      "group": "build",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: Analyze",
+      "type": "shell",
+      "command": "pnpm build:analyze",
+      "group": "build",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: Unit",
+      "type": "shell",
+      "command": "pnpm test:unit:run",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: Unit Coverage",
+      "type": "shell",
+      "command": "pnpm test:unit:coverage",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: E2E",
+      "type": "shell",
+      "command": "pnpm test",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "DB: Push Schema",
+      "type": "shell",
+      "command": "pnpm db:push",
+      "group": "build",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "DB: Seed Data",
+      "type": "shell",
+      "command": "pnpm db:seed",
+      "group": "build",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Setup: Clean Install",
+      "type": "shell",
+      "command": "pnpm setup:clean",
+      "group": "build",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "CI: Full Pipeline",
+      "type": "shell",
+      "command": "pnpm ci:full",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    }
+  ]
+}

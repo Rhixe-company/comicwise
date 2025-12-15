@@ -1,0 +1,123 @@
+{
+  "compilerOptions": {
+    // ═══════════════════════════════════════════════════
+    // Language and Environment (Next.js 16 Optimized)
+    // ═══════════════════════════════════════════════════
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ESNext", "ES2022"],
+    "jsx": "react-jsx",
+    // ═══════════════════════════════════════════════════
+    // Module Resolution (Next.js 16 with Turbopack)
+    // ═══════════════════════════════════════════════════
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": false,
+    // ═══════════════════════════════════════════════════
+    // Type Checking (Strict Mode for Production)
+    // ═══════════════════════════════════════════════════
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": true,
+    "noUncheckedSideEffectImports": false,
+    // ═══════════════════════════════════════════════════
+    // Emit Configuration
+    // ═══════════════════════════════════════════════════
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": true,
+    "removeComments": false,
+    "importHelpers": true,
+    "downlevelIteration": true,
+    // ═══════════════════════════════════════════════════
+    // Interop Constraints
+    // ═══════════════════════════════════════════════════
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    // ═══════════════════════════════════════════════════
+    // Completeness
+    // ═══════════════════════════════════════════════════
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    // ═══════════════════════════════════════════════════
+    // Advanced Options
+    // ═══════════════════════════════════════════════════
+    "allowJs": true,
+    "incremental": true,
+    "tsBuildInfoFile": ".next/cache/tsbuildinfo.json",
+    // ═══════════════════════════════════════════════════
+    // Next.js 16 Specific Configuration
+    // ═══════════════════════════════════════════════════
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    // ═══════════════════════════════════════════════════
+    // Path Mapping (Optimized for Clean Imports)
+    // ═══════════════════════════════════════════════════
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "src/*": ["./src/*"],
+      "styles/*": ["./src/styles/*"],
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "layout/*": ["./src/components/layout/*"],
+      "ui/*": ["./src/components/ui/*"],
+      "lib/*": ["./src/lib/*"],
+      "actions/*": ["./src/lib/actions/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "database": ["./src/database"],
+      "database/": ["./src/database/"],
+      "database/*": ["./src/database/*"],
+      "stores/*": ["./src/stores/*"],
+      "services/*": ["./src/services/*"],
+      "emails/*": ["./src/components/emails/*"],
+      "types": ["./src/types/index"],
+      "types/*": ["./src/types/*"],
+      "auth": ["./src/lib/auth"],
+      "db": ["./src/database/db"],
+      "utils": ["./src/lib/utils"],
+      "appConfig": ["./src/app-config/index"]
+    }
+  },
+  // ═══════════════════════════════════════════════════
+  // Include / Exclude Patterns
+  // ═══════════════════════════════════════════════════
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.d.ts",
+    "**/*.tsx",
+    "**/*.mts",
+    "**/*.cts",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.mjs",
+    "**/*.cjs",
+    ".next/types/**/*.ts",
+    "src/**/*",
+    "tests/**/*",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", ".next", "out", "build", "dist", "coverage"]
+}

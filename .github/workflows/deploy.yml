@@ -1,0 +1,222 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PNPM_VERSION: 9.13.6
+  NODE_VERSION: 20
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Pre-deployment checks
+  # ═══════════════════════════════════════════════════════════════════════════
+  pre-deploy-checks:
+    name: Pre-deployment Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      deploy-staging: ${{ steps.check.outputs.deploy-staging }}
+      deploy-production: ${{ steps.check.outputs.deploy-production }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine deployment target
+        id: check
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.event.inputs.environment }}" == "production" ]]; then
+            echo "deploy-staging=false" >> $GITHUB_OUTPUT
+            echo "deploy-production=true" >> $GITHUB_OUTPUT
+            echo "🚀 Deploying to PRODUCTION"
+          else
+            echo "deploy-staging=true" >> $GITHUB_OUTPUT
+            echo "deploy-production=false" >> $GITHUB_OUTPUT
+            echo "🚀 Deploying to STAGING"
+          fi
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Deploy to Vercel (staging)
+  # ═══════════════════════════════════════════════════════════════════════════
+  deploy-vercel-staging:
+    name: Deploy to Vercel (Staging)
+    runs-on: ubuntu-latest
+    needs: pre-deploy-checks
+    if: needs.pre-deploy-checks.outputs.deploy-staging == 'true'
+    timeout-minutes: 30
+    environment:
+      name: staging
+      url: https://staging-comicwise.vercel.app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel (Preview)
+        uses: vercel/action@main
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify deployment (Staging)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ **Staging Deployment**: Preview URL ready for testing'
+            });
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Deploy to Vercel (production)
+  # ═══════════════════════════════════════════════════════════════════════════
+  deploy-vercel-production:
+    name: Deploy to Vercel (Production)
+    runs-on: ubuntu-latest
+    needs: pre-deploy-checks
+    if: needs.pre-deploy-checks.outputs.deploy-production == 'true'
+    timeout-minutes: 30
+    environment:
+      name: production
+      url: https://comicwise.vercel.app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel (Production)
+        uses: vercel/action@main
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          production: true
+
+      - name: Notify deployment (Production)
+        run: |
+          echo "🎉 Deployment to production successful!"
+          echo "URL: https://comicwise.vercel.app"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Deploy via Docker to self-hosted
+  # ═══════════════════════════════════════════════════════════════════════════
+  deploy-docker:
+    name: Deploy via Docker
+    runs-on: ubuntu-latest
+    needs: pre-deploy-checks
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 45
+    environment:
+      name: docker-production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.DOCKER_REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY }}/comicwise:latest
+            ${{ secrets.DOCKER_REGISTRY }}/comicwise:${{ github.sha }}
+          cache-from: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/comicwise:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/comicwise:buildcache,mode=max
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            cd /app/comicwise
+            docker-compose pull
+            docker-compose up -d
+            docker-compose exec -T web pnpm db:push
+            echo "✅ Docker deployment complete"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Post-deployment verification
+  # ═══════════════════════════════════════════════════════════════════════════
+  post-deploy-checks:
+    name: Post-deployment Checks
+    runs-on: ubuntu-latest
+    needs: [pre-deploy-checks, deploy-vercel-staging, deploy-vercel-production, deploy-docker]
+    if: always()
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Health check (Production)
+        if: needs.pre-deploy-checks.outputs.deploy-production == 'true'
+        run: |
+          echo "🏥 Running health checks on production..."
+          max_attempts=5
+          attempt=0
+          until [ $attempt -ge $max_attempts ]; do
+            if curl -f https://comicwise.vercel.app/api/health; then
+              echo "✅ Production is healthy"
+              exit 0
+            fi
+            attempt=$((attempt+1))
+            echo "⏳ Health check attempt $attempt of $max_attempts..."
+            sleep 10
+          done
+          echo "❌ Health check failed after $max_attempts attempts"
+          exit 1
+        continue-on-error: true
+
+      - name: Health check (Staging)
+        if: needs.pre-deploy-checks.outputs.deploy-staging == 'true'
+        run: |
+          echo "🏥 Running health checks on staging..."
+          curl -f https://staging-comicwise.vercel.app/api/health || true
+        continue-on-error: true
+
+      - name: Notify deployment status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ job.status }}';
+            const emoji = status === 'success' ? '✅' : '⚠️';
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `${emoji} **Deployment Status**: ${status.toUpperCase()}`
+            });

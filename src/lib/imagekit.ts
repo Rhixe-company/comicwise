@@ -1,0 +1,761 @@
+// ═══════════════════════════════════════════════════
+// IMAGEKIT SERVICE - Image Upload & Management
+// ═══════════════════════════════════════════════════
+
+import { appConfig } from "@/app-config";
+import ImageKit from "imagekit";
+
+// ═══════════════════════════════════════════════════
+// IMAGEKIT CLIENT
+// ═══════════════════════════════════════════════════
+
+let imagekit: ImageKit | null = null;
+
+export function getImageKitInstance(): ImageKit {
+  if (!appConfig.upload.imageKit.enabled) {
+    throw new Error("ImageKit is not configured. Please set IMAGEKIT environment variables.");
+  }
+
+  if (!imagekit) {
+    imagekit = new ImageKit({
+      publicKey: appConfig.upload.imageKit.publicKey,
+      privateKey: appConfig.upload.imageKit.privateKey,
+      urlEndpoint: appConfig.upload.imageKit.urlEndpoint,
+    });
+  }
+
+  return imagekit;
+}
+
+// ═══════════════════════════════════════════════════
+// TYPE DEFINITIONS
+// ═══════════════════════════════════════════════════
+
+export interface UploadOptions {
+  file: Buffer | string;
+  fileName: string;
+  folder?: string;
+  tags?: string[];
+  useUniqueFileName?: boolean;
+  isPrivateFile?: boolean;
+  transformation?: Record<string, unknown>;
+}
+
+export interface UploadResult {
+  success: boolean;
+  url?: string;
+  fileId?: string;
+  name?: string;
+  size?: number;
+  thumbnailUrl?: string;
+  error?: string;
+}
+
+export interface DeleteResult {
+  success: boolean;
+  error?: string;
+}
+
+export type UploadType = "comic-cover" | "chapter-image" | "avatar" | "general";
+
+// ═══════════════════════════════════════════════════
+// UPLOAD FUNCTIONS
+// ═══════════════════════════════════════════════════
+
+/**
+ * Upload an image to ImageKit
+ */
+export async function uploadImage(options: UploadOptions): Promise<UploadResult> {
+  try {
+    const ik = getImageKitInstance();
+
+    const uploadResponse = await ik.upload({
+      file: options.file,
+      fileName: options.fileName,
+      folder: options.folder || "/comicwise",
+      tags: options.tags || [],
+      useUniqueFileName: options.useUniqueFileName ?? true,
+      // isPrivateFile: options.isPrivateFile ?? false,
+    });
+
+    return {
+      success: true,
+      url: uploadResponse.url,
+      fileId: uploadResponse.fileId,
+      name: uploadResponse.name,
+      size: uploadResponse.size,
+      thumbnailUrl: uploadResponse.thumbnailUrl,
+    };
+  } catch (error) {
+    console.error("ImageKit upload error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown upload error",
+    };
+  }
+}
+
+/**
+ * Upload comic cover image
+ */
+export async function uploadComicCover(
+  file: Buffer | string,
+  comicId: string,
+  fileName: string
+): Promise<UploadResult> {
+  return uploadImage({
+    file,
+    fileName,
+    folder: "/comicwise/comics/covers",
+    tags: ["comic", "cover", comicId],
+    useUniqueFileName: true,
+  });
+}
+
+/**
+ * Upload chapter image
+ */
+export async function uploadChapterImage(
+  file: Buffer | string,
+  chapterId: string,
+  fileName: string,
+  sequence?: number
+): Promise<UploadResult> {
+  const tags = ["chapter", "content", chapterId];
+  if (sequence !== undefined) {
+    tags.push(`seq-${sequence}`);
+  }
+
+  return uploadImage({
+    file,
+    fileName,
+    folder: "/comicwise/chapters/images",
+    tags,
+    useUniqueFileName: true,
+  });
+}
+
+/**
+ * Upload user avatar
+ */
+export async function uploadAvatar(
+  file: Buffer | string,
+  userId: string,
+  fileName: string
+): Promise<UploadResult> {
+  return uploadImage({
+    file,
+    fileName,
+    folder: "/comicwise/avatars",
+    tags: ["avatar", "user", userId],
+    useUniqueFileName: true,
+  });
+}
+
+/**
+ * Batch upload multiple images
+ */
+export async function uploadMultipleImages(
+  files: Array<{ file: Buffer | string; fileName: string }>,
+  folder?: string,
+  tags?: string[]
+): Promise<UploadResult[]> {
+  const results = await Promise.allSettled(
+    files.map((fileData) =>
+      uploadImage({
+        file: fileData.file,
+        fileName: fileData.fileName,
+        folder,
+        tags,
+        useUniqueFileName: true,
+      })
+    )
+  );
+
+  return results.map((result) => {
+    if (result.status === "fulfilled") {
+      return result.value;
+    } else {
+      return {
+        success: false,
+        error: result.reason instanceof Error ? result.reason.message : "Upload failed",
+      };
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// DELETE FUNCTIONS
+// ═══════════════════════════════════════════════════
+
+/**
+ * Delete an image from ImageKit
+ */
+export async function deleteImage(fileId: string): Promise<DeleteResult> {
+  try {
+    const ik = getImageKitInstance();
+    await ik.deleteFile(fileId);
+
+    return { success: true };
+  } catch (error) {
+    console.error("ImageKit delete error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown delete error",
+    };
+  }
+}
+
+/**
+ * Delete multiple images
+ */
+export async function deleteMultipleImages(fileIds: string[]): Promise<DeleteResult[]> {
+  const results = await Promise.allSettled(fileIds.map((fileId) => deleteImage(fileId)));
+
+  return results.map((result) => {
+    if (result.status === "fulfilled") {
+      return result.value;
+    } else {
+      return {
+        success: false,
+        error: result.reason instanceof Error ? result.reason.message : "Delete failed",
+      };
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// UTILITY FUNCTIONS
+// ═══════════════════════════════════════════════════
+
+/**
+ * Generate authentication parameters for client-side uploads
+ */
+export function getAuthenticationParameters(): {
+  token: string;
+  expire: number;
+  signature: string;
+} {
+  const ik = getImageKitInstance();
+  return ik.getAuthenticationParameters();
+}
+
+/**
+ * Generate URL with transformations
+ */
+export function getOptimizedUrl(
+  filePath: string,
+  options?: {
+    width?: number;
+    height?: number;
+    quality?: number;
+    format?: "jpg" | "png" | "webp" | "avif";
+    blur?: number;
+  }
+): string {
+  const ik = getImageKitInstance();
+
+  const transformation: Array<{ [key: string]: string | number }> = [];
+
+  if (options?.width) {
+    transformation.push({ width: options.width });
+  }
+  if (options?.height) {
+    transformation.push({ height: options.height });
+  }
+  if (options?.quality) {
+    transformation.push({ quality: options.quality });
+  }
+  if (options?.format) {
+    transformation.push({ format: options.format });
+  }
+  if (options?.blur) {
+    transformation.push({ blur: options.blur });
+  }
+
+  return ik.url({
+    path: filePath,
+    transformation,
+  });
+}
+
+/**
+ * Generate thumbnail URL
+ */
+export function getThumbnailUrl(
+  filePath: string,
+  size: "small" | "medium" | "large" = "medium"
+): string {
+  const sizes = {
+    small: { width: 150, height: 150 },
+    medium: { width: 300, height: 300 },
+    large: { width: 600, height: 600 },
+  };
+
+  return getOptimizedUrl(filePath, {
+    ...sizes[size],
+    quality: 80,
+    format: "webp",
+  });
+}
+
+/**
+ * Generate responsive image URLs
+ */
+export function getResponsiveUrls(filePath: string): {
+  thumbnail: string;
+  small: string;
+  medium: string;
+  large: string;
+  original: string;
+} {
+  return {
+    thumbnail: getOptimizedUrl(filePath, { width: 150, height: 150, quality: 70, format: "webp" }),
+    small: getOptimizedUrl(filePath, { width: 400, quality: 75, format: "webp" }),
+    medium: getOptimizedUrl(filePath, { width: 800, quality: 80, format: "webp" }),
+    large: getOptimizedUrl(filePath, { width: 1200, quality: 85, format: "webp" }),
+    original: getOptimizedUrl(filePath, { quality: 90 }),
+  };
+}
+
+/**
+ * List files from a folder
+ */
+export async function listFiles(folder: string = "/comicwise", limit: number = 50) {
+  try {
+    const ik = getImageKitInstance();
+    const result = await ik.listFiles({
+      path: folder,
+      limit,
+    });
+
+    return {
+      success: true,
+      files: result,
+    };
+  } catch (error) {
+    console.error("ImageKit list files error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+      files: [],
+    };
+  }
+}
+
+/**
+ * Get file details
+ */
+export async function getFileDetails(fileId: string) {
+  try {
+    const ik = getImageKitInstance();
+    const result = await ik.getFileDetails(fileId);
+
+    return {
+      success: true,
+      file: result,
+    };
+  } catch (error) {
+    console.error("ImageKit get file details error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// VALIDATION FUNCTIONS
+// ═══════════════════════════════════════════════════
+
+/**
+ * Validate image file
+ */
+export function validateImageFile(file: File): { valid: boolean; error?: string } {
+  // Check file size (10MB max)
+  const maxSize = 10 * 1024 * 1024;
+  if (file.size > maxSize) {
+    return { valid: false, error: "File size exceeds 10MB limit" };
+  }
+
+  // Check file type
+  const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"];
+  if (!allowedTypes.includes(file.type)) {
+    return {
+      valid: false,
+      error: "Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed",
+    };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Convert File to Buffer
+ */
+export async function fileToBuffer(file: File): Promise<Buffer> {
+  const arrayBuffer = await file.arrayBuffer();
+  return Buffer.from(arrayBuffer);
+}
+
+/**
+ * Generate unique filename
+ */
+export function generateUniqueFileName(originalName: string, prefix?: string): string {
+  const timestamp = Date.now();
+  const randomString = Math.random().toString(36).substring(2, 10);
+  const extension = originalName.split(".").pop()?.toLowerCase() || "jpg";
+  const baseName = originalName
+    .split(".")
+    .slice(0, -1)
+    .join(".")
+    .replace(/[^a-z0-9]/gi, "-");
+
+  if (prefix) {
+    return `${prefix}-${baseName}-${timestamp}-${randomString}.${extension}`;
+  }
+
+  return `${baseName}-${timestamp}-${randomString}.${extension}`;
+}
+
+// ═══════════════════════════════════════════════════
+// IMAGE OPTIMIZATION & COMPRESSION
+// ═══════════════════════════════════════════════════
+
+export interface OptimizationOptions {
+  quality?: number;
+  format?: "jpg" | "png" | "webp" | "avif";
+  maxWidth?: number;
+  maxHeight?: number;
+  progressive?: boolean;
+  lossless?: boolean;
+}
+
+/**
+ * Upload with automatic optimization
+ */
+export async function uploadOptimizedImage(
+  file: Buffer | string,
+  fileName: string,
+  folder?: string,
+  options: OptimizationOptions = {}
+): Promise<UploadResult> {
+  try {
+    const ik = getImageKitInstance();
+
+    // Default optimization settings
+    const defaultOptions: OptimizationOptions = {
+      quality: 85,
+      format: "webp",
+      progressive: true,
+      lossless: false,
+    };
+
+    const opts = { ...defaultOptions, ...options };
+
+    // Build transformation string
+    const transformations: string[] = [];
+    if (opts.quality) {
+      transformations.push(`q-${opts.quality}`);
+    }
+    if (opts.format) {
+      transformations.push(`f-${opts.format}`);
+    }
+    if (opts.maxWidth) {
+      transformations.push(`w-${opts.maxWidth}`);
+    }
+    if (opts.maxHeight) {
+      transformations.push(`h-${opts.maxHeight}`);
+    }
+    if (opts.progressive) {
+      transformations.push("pr-true");
+    }
+
+    const uploadResponse = await ik.upload({
+      file,
+      fileName,
+      folder: folder || "/comicwise",
+      useUniqueFileName: true,
+      // transformation: {
+      //   pre: transformations.join(","),
+      // },
+    });
+
+    return {
+      success: true,
+      url: uploadResponse.url,
+      fileId: uploadResponse.fileId,
+      name: uploadResponse.name,
+      size: uploadResponse.size,
+      thumbnailUrl: uploadResponse.thumbnailUrl,
+    };
+  } catch (error) {
+    console.error("ImageKit optimized upload error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown upload error",
+    };
+  }
+}
+
+/**
+ * Upload comic cover with optimization
+ */
+export async function uploadOptimizedComicCover(
+  file: Buffer | string,
+  // comicId: string,
+  fileName: string
+): Promise<UploadResult> {
+  return uploadOptimizedImage(file, fileName, "/comicwise/comics/covers", {
+    quality: 90,
+    format: "webp",
+    maxWidth: 1000,
+    progressive: true,
+  });
+}
+
+/**
+ * Upload chapter image with optimization
+ */
+export async function uploadOptimizedChapterImage(
+  file: Buffer | string,
+  // chapterId: string,
+  fileName: string
+  // sequence?: number
+): Promise<UploadResult> {
+  return uploadOptimizedImage(file, fileName, "/comicwise/chapters/images", {
+    quality: 85,
+    format: "webp",
+    maxWidth: 1200,
+    progressive: true,
+  });
+}
+
+/**
+ * Bulk optimize existing images
+ */
+export async function bulkOptimizeImages(fileIds: string[]): Promise<{
+  success: boolean;
+  optimized: number;
+  failed: number;
+  errors: string[];
+}> {
+  const results = {
+    success: true,
+    optimized: 0,
+    failed: 0,
+    errors: [] as string[],
+  };
+
+  for (const fileId of fileIds) {
+    try {
+      const ik = getImageKitInstance();
+
+      // Get file details
+      const fileDetails = await ik.getFileDetails(fileId);
+
+      // Download original
+      const response = await fetch(fileDetails.url);
+      const buffer = Buffer.from(await response.arrayBuffer());
+
+      // Re-upload with optimization
+      const optimized = await uploadOptimizedImage(
+        buffer,
+        fileDetails.name,
+        fileDetails.filePath.split("/").slice(0, -1).join("/"),
+        { quality: 85, format: "webp" }
+      );
+
+      if (optimized.success) {
+        // Delete old file
+        await deleteImage(fileId);
+        results.optimized++;
+      } else {
+        results.failed++;
+        results.errors.push(`Failed to optimize ${fileDetails.name}: ${optimized.error}`);
+      }
+    } catch (error) {
+      results.failed++;
+      results.errors.push(
+        `Failed to process ${fileId}: ${error instanceof Error ? error.message : "Unknown error"}`
+      );
+    }
+  }
+
+  results.success = results.failed === 0;
+  return results;
+}
+
+/**
+ * Generate srcset for responsive images
+ */
+export function generateSrcSet(
+  filePath: string,
+  widths: number[] = [400, 800, 1200, 1600]
+): string {
+  return widths
+    .map((width) => {
+      const url = getOptimizedUrl(filePath, { width, quality: 85, format: "webp" });
+      return `${url} ${width}w`;
+    })
+    .join(", ");
+}
+
+/**
+ * Generate picture element sources for multiple formats
+ */
+export function generatePictureSources(
+  filePath: string,
+  widths: number[] = [400, 800, 1200]
+): Array<{ type: string; srcset: string }> {
+  const formats: Array<"avif" | "webp" | "jpg"> = ["avif", "webp", "jpg"];
+
+  return formats.map((format) => {
+    const srcset = widths
+      .map((width) => {
+        const url = getOptimizedUrl(filePath, { width, quality: 85, format });
+        return `${url} ${width}w`;
+      })
+      .join(", ");
+
+    return {
+      type: `image/${format}`,
+      srcset,
+    };
+  });
+}
+
+/**
+ * Compress image before upload
+ */
+export async function compressAndUpload(
+  file: File,
+  fileName: string,
+  folder?: string,
+  targetSizeKB?: number
+): Promise<UploadResult> {
+  try {
+    // Start with quality 90
+    let quality = 90;
+    let compressedBuffer: Buffer;
+
+    // Convert file to buffer
+    const originalBuffer = await fileToBuffer(file);
+
+    // If target size specified, iteratively compress
+    if (targetSizeKB) {
+      compressedBuffer = originalBuffer;
+
+      while (compressedBuffer.length > targetSizeKB * 1024 && quality > 50) {
+        quality -= 10;
+
+        // Upload with compression and get result
+        const testUpload = await uploadOptimizedImage(compressedBuffer, fileName, folder, {
+          quality,
+          format: "webp",
+        });
+
+        if (testUpload.success && testUpload.size && testUpload.size <= targetSizeKB * 1024) {
+          return testUpload;
+        }
+
+        // If still too large, continue loop
+        if (testUpload.fileId) {
+          await deleteImage(testUpload.fileId);
+        }
+      }
+    }
+
+    // Final upload with optimized settings
+    return uploadOptimizedImage(originalBuffer, fileName, folder, {
+      quality,
+      format: "webp",
+      progressive: true,
+    });
+  } catch (error) {
+    console.error("Compress and upload error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Compression failed",
+    };
+  }
+}
+
+/**
+ * Get image metadata
+ */
+export async function getImageMetadata(fileId: string): Promise<{
+  success: boolean;
+  metadata?: {
+    width: number;
+    height: number;
+    format: string;
+    size: number;
+    hasAlpha: boolean;
+    isAnimated?: boolean;
+  };
+  error?: string;
+}> {
+  try {
+    const ik: ImageKit = getImageKitInstance();
+    const details = (await ik.getFileMetadata(fileId)) as {
+      width: number;
+      height: number;
+      format: string;
+      size: number;
+      hasAlpha: boolean;
+      isAnimated?: boolean;
+    };
+
+    return {
+      success: true,
+      metadata: {
+        width: details.width,
+        height: details.height,
+        format: details.format,
+        size: details.size,
+        hasAlpha: details.hasAlpha,
+        isAnimated: details.isAnimated,
+      },
+    };
+  } catch (error) {
+    console.error("Get metadata error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to get metadata",
+    };
+  }
+}
+
+/**
+ * Smart crop for comic covers (auto-detect main subject)
+ */
+export function getSmartCroppedUrl(filePath: string, width: number, height: number): string {
+  const ik = getImageKitInstance();
+
+  return ik.url({
+    path: filePath,
+    transformation: [
+      {
+        width,
+        height,
+        cropMode: "fo-auto", // Focus mode: auto-detect subject
+        quality: 85,
+        format: "webp",
+      },
+    ],
+  });
+}
+
+/**
+ * Lazy load placeholder (blur hash)
+ */
+export function getLazyLoadPlaceholder(filePath: string): string {
+  return getOptimizedUrl(filePath, {
+    width: 20,
+    height: 20,
+    quality: 20,
+    blur: 10,
+    format: "webp",
+  });
+}

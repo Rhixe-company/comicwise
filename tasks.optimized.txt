@@ -1,0 +1,163 @@
+---
+Project: ComicWise
+Generated: 2025-12-09
+Purpose: Consolidated, prioritized and actionable task list with Copilot Chat prompts
+---
+
+OVERVIEW
+- Source files read: `tasks.txt`, `TODO.md`, `Todos.md`, README and root project docs.
+- Output: this `tasks.optimized.txt` contains a prioritized task list, todos, recommended packages, acceptance criteria, and ready-to-copy GitHub Copilot Chat prompts for each major task.
+
+HOW TO USE
+- Copy a task's Copilot Chat prompt into GitHub Copilot Chat to have the assistant scaffold or modify files.
+- Run the provided commands to install recommended packages and run checks.
+
+PRIORITY KEY
+- HIGH: must-do before release
+- MEDIUM: important but can follow high items
+- LOW: nice-to-have or future
+
+TASKS (Prioritized)
+
+1) HIGH - Project configuration & editor settings
+   - Goal: Add an optimized `.vscode` workspace with recommended extensions, `settings.json`, `launch.json`, and `tasks.json` for Next.js 16.0.8 development.
+   - Acceptance: `.vscode` added with tasks to run `pnpm dev`, `pnpm build`, `pnpm lint` and debug launch configs.
+   - Estimated: 1-2 hours
+   - Copilot Prompt:
+     "Create or update `.vscode/settings.json`, `launch.json`, and `tasks.json` for a Next.js 16.0.8 TypeScript project. Include recommended extensions (ESLint, Prettier, Tailwind CSS IntelliSense, GitLens, pnpm), workspace settings (format on save, editor default formatter, eslint validate), and tasks for `pnpm dev`, `pnpm build`, `pnpm lint`. Ensure cross-platform PowerShell/Windows compatibility." 
+
+2) HIGH - Centralize environment and app-config typing
+   - Goal: Add `src/app-config` module to centralize `process.env` access, use `dotenv-safe`, typed env schema, fallbacks and runtime validation with `zod`.
+   - Acceptance: All env access imports from `appConfig` module and `.env.example` updated.
+   - Estimated: 1-2 hours
+   - Copilot Prompt:
+     "Add `src/app-config/index.ts` that loads environment using `dotenv-safe`, validates shape using `zod`, and exports typed constants. Provide fallback values and throw helpful errors in non-production. Update `.env.example` with required variables. Ensure TypeScript types exported for usage throughout the project." 
+
+3) HIGH - Type system & custom types
+   - Goal: Create `src/types/*` and global `types` stubs for packages that lack types; add `types` to `tsconfig` `typeRoots` (already present).
+   - Acceptance: `src/types/index.ts` and package stubs for major libs that need them; `pnpm run types:generate` guidance.
+   - Estimated: 2-3 hours
+   - Copilot Prompt:
+     "Create `src/types` index and per-package stub `.d.ts` files for any third-party packages missing types (imagekit, cloudinary, some internal libs). Export common interfaces for `Comic`, `Chapter`, `User`, and `Auth` used across the app. Include examples and TODO comments for refining types." 
+
+4) HIGH - Drizzle schema & DB setup
+   - Goal: Ensure `src/database/schema.ts` contains `comics` and `chapters` with `slug` fields, indexes, relations and constraints; provide `src/database/db.ts` for Postgres + drizzle-orm client.
+   - Acceptance: Schema has `slug` on both `comics` and `chapters`, unique constraints, indexes for search, and proper foreign key relations.
+   - Estimated: 2-4 hours
+   - Copilot Prompt:
+     "Inspect existing Drizzle schema files and ensure `comics` and `chapters` tables include `slug` columns, unique constraints, indexes for search, and proper foreign key relations. Generate `src/database/db.ts` that initializes Drizzle with `postgres` client using `DATABASE_URL` from app-config, and include small helper to run migrations and seeds." 
+
+5) HIGH - Seeds + realistic data
+   - Goal: Optimize seed script to populate `users`, `comics`, `chapters` using `faker` and provided JSON (`comics*.json`, `users.json`, `chapters*.json`). Support dry-run and flags.
+   - Acceptance: `db:seed` command runs without errors and populates test data; images optionally skipped.
+   - Estimated: 2-3 hours
+   - Copilot Prompt:
+     "Create a robust seeding `src/database/seed/index.ts` that reads JSON fixtures and uses `faker` to fill missing fields, supports CLI flags `--dry-run`, `--skip-images`, `--users-only`, and uses Drizzle insert helpers. Ensure idempotency and logging." 
+
+6) HIGH - Auth scaffolding (NextAuth v5 + Drizzle adapter)
+   - Goal: Add `src/lib/authConfig.ts`, `src/lib/authAdapter.ts`, `src/lib/auth.ts` and `proxy.ts` with NextAuth v5-compatible setup, email provider via Nodemailer, drizzle adapter usage, and security settings.
+   - Acceptance: Auth endpoints scaffolded; sign-in/out flows work in dev; email templates present.
+   - Estimated: 3-5 hours
+   - Copilot Prompt:
+     "Scaffold NextAuth v5 config files: `src/lib/authConfig.ts` (providers, session strategy, callbacks), `src/lib/authAdapter.ts` (drizzle adapter wiring), `src/lib/auth.ts` (server-side helpers), and `proxy.ts` for environment-safe fetch. Include email provider using Nodemailer and example templates. Make TypeScript types strict." 
+
+7) MEDIUM - Image upload & optimization
+   - Goal: Provide abstraction `src/lib/image.ts` supporting Cloudinary, ImageKit and S3 with helpers to upload, transform and generate CDN URLs. Use `sharp` for server-side transforms.
+   - Acceptance: Upload helpers and config toggles present; example usage in seeding and components.
+   - Estimated: 2-4 hours
+   - Copilot Prompt:
+     "Create `src/lib/image.ts` with adapters for Cloudinary, ImageKit and AWS S3. Provide `uploadImage`, `deleteImage`, and `getResponsiveSrcSet` helpers. Use `sharp` for server-side processing when needed and read provider config from app-config." 
+
+8) MEDIUM - Lint/Format/Config files
+   - Goal: Ensure `eslint.config.ts`, `prettier.config.ts`, `postcss.config.mjs`, `next.config.ts` are consistent with Next 16 best practices and project needs.
+   - Acceptance: Linting and formatting pass with `pnpm lint` and `pnpm format:check` on CI.
+   - Estimated: 1-2 hours
+   - Copilot Prompt:
+     "Create/verify `eslint.config.ts`, `prettier.config.ts`, `postcss.config.mjs`, and `next.config.ts` for Next.js 16 with Turbopack. Enable recommended plugins and rules, Tailwind CSS integration, and module alias resolution matching `tsconfig` paths." 
+
+9) MEDIUM - Components & routes scaffold
+   - Goal: Scaffold `src/components` and `src/app/(root)` and `(auth)` routes with shadcn-based components for comics listing, carousel, accordion, and auth pages (sign-in, sign-up, forgot password).
+   - Acceptance: Pages render server-side, basic forms wired to server actions, zod validation in place, and toasts/notifications wired.
+   - Estimated: 4-8 hours
+   - Copilot Prompt:
+     "Scaffold `src/app/(root)/page.tsx` showing comics list, a carousel, and an accordion for comic details using shadcn components. Create `src/app/(auth)` routes for sign-in, sign-up, forgot-password, and verify-request pages with Zod validation and server action placeholders." 
+
+10) MEDIUM - CRUD admin pages
+    - Goal: Generate CRUD scaffolding for all tables with pagination, filtering, Zod validation, and server actions to send emails where appropriate.
+    - Acceptance: Admin pages can create/read/update/delete records; validations run; email on create/update triggers email helper.
+    - Estimated: 6-12 hours (per major entity set)
+    - Copilot Prompt:
+      "Create CRUD pages (server + client components) for `Comics`, `Chapters`, and `Users` with forms using shadcn components, Zod validation schemas, server actions for create/update/delete, and pagination (cursor-based). Hook email notifications to create/update events." 
+
+11) LOW - CI/CD, Docker, and scripts
+    - Goal: Ensure `Dockerfile`, `docker-compose.yml`, `docker-compose.dev.yml`, `compose/*` scripts, `Makefile`, and `test-docker.sh` are present and optimized.
+    - Acceptance: Docker dev and prod compose up works; `Makefile` contains common tasks; `test-docker.sh` for CI testing.
+    - Estimated: 2-4 hours
+    - Copilot Prompt:
+      "Create an optimized `Dockerfile` for Next.js 16 (production build using node:20), `docker-compose.yml` and `docker-compose.dev.yml` including postgres and redis services, and `Makefile` with targets `dev`, `build`, `test`, `lint`, `db:seed`. Add `test-docker.sh` to run integration test script." 
+
+12) LOW - Developer helpers & import fixer
+    - Goal: Provide a script to update imports to use path aliases and a script to run lint/type fixes.
+    - Acceptance: `update-imports-to-aliases.ts` documented and `scripts/fix-all.sh` or Node script created.
+    - Estimated: 1-2 hours
+    - Copilot Prompt:
+      "Improve the existing `update-imports-to-aliases.ts` script to automatically convert relative imports to `@/*` aliases using AST-based rewriting (ts-morph). Add `scripts/fix-all.ts` to run `eslint --fix`, `prettier --write`, and `tsc --noEmit` and report failures." 
+
+RECOMMENDED PACKAGES (Prioritized)
+
+- Production
+  - `next@16.0.8` (already present)
+  - `react@19.2.1`, `react-dom@19.2.1` (present)
+  - `drizzle-orm` + `drizzle-kit` (present)
+  - `postgres` (present)
+  - `next-auth@5.0.0-beta.30` (present)
+  - `zod` (present)
+  - `cloudinary` or `@cloudinary/url-gen` (image CDN)
+  - `@aws-sdk/client-s3` (if S3 is used)
+  - `imagekit` / `imagekitio-next` (optional)
+  - `sharp` (present)
+
+- Dev / Tooling
+  - `eslint`, `@typescript-eslint/*` (present)
+  - `prettier` + `prettier-plugin-tailwindcss` (present)
+  - `playwright`, `vitest` (present)
+  - `ts-node` / `tsx` (present)
+  - `dot-env`/`dotenv-safe` (present)
+  - `typescript@5.x` (present)
+  - `ts-morph` (for import rewriting)
+  - `ts-prune` (dead export detection) — referenced in `package.json`
+
+INSTALL SUGGESTION
+Run recommended installs (example):
+
+```pwsh
+pnpm add @aws-sdk/client-s3 cloudinary
+pnpm add -D ts-morph
+```
+
+COPILOT CHAT PROMPT TEMPLATES
+- Each task above includes a one-line Copilot prompt. Use these prompts in GitHub Copilot Chat.
+- Example extended prompt for complex tasks (copy/paste):
+
+"You are a senior Next.js engineer. I have a Next 16.0.8 monorepo-style project. Please create `src/app-config/index.ts` that loads `.env` using `dotenv-safe`, validates environment variables using `zod` with explicit types for `DATABASE_URL`, `CLOUDINARY_URL`, `NEXTAUTH_URL`, `SMTP_*` and exports typed constants. Provide fallback values for local dev and throw clear errors for missing required vars in production. Update `.env.example` accordingly. Also show a unit test for the module using `vitest`." 
+
+DELIVERABLES
+- `tasks.optimized.txt` (this file)
+- Optional follow-ups: apply scaffolding via Copilot Chat prompts or ask me to run changes directly.
+
+NEXT STEPS (suggested)
+1. Review priorities and mark any items you want deferred/removed.
+2. Run `pnpm install` with recommended packages.
+3. Use Copilot Chat with the prompts to scaffold files or ask me to apply changes directly.
+
+Commands to run locally:
+
+```pwsh
+pnpm install
+pnpm run lint
+pnpm run type-check
+pnpm run test:unit
+```
+
+---
+End of optimized tasks file.

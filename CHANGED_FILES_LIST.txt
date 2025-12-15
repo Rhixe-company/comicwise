@@ -1,0 +1,229 @@
+COMPLETE LIST OF 191 CHANGED FILES
+
+App Authentication & User Pages (9)
+- src/app/(auth)/forgot-password/page.tsx
+- src/app/(auth)/new-user/page.tsx
+- src/app/(auth)/register/page.tsx
+- src/app/(auth)/resend-verification/page.tsx
+- src/app/(auth)/reset-password/page.tsx
+- src/app/(auth)/sign-in/page.tsx
+- src/app/(auth)/sign-out/page.tsx
+- src/app/(auth)/verify-email/page.tsx
+- src/app/(auth)/verify-request/page.tsx
+
+App Root Pages (15)
+- src/app/(root)/bookmarks/loading.tsx
+- src/app/(root)/bookmarks/page.tsx
+- src/app/(root)/comics/page.tsx
+- src/app/(root)/comics/[id]/page.tsx
+- src/app/(root)/comics/[id]/read/[chapterId]/page.tsx
+- src/app/(root)/comics/[slug]/loading.tsx
+- src/app/(root)/comics/[slug]/[chapterNumber]/loading.tsx
+- src/app/(root)/dmca/page.tsx
+- src/app/(root)/error.tsx
+- src/app/(root)/layout.tsx
+- src/app/(root)/loading.tsx
+- src/app/(root)/page.tsx
+- src/app/(root)/privacy-policy/page.tsx
+- src/app/(root)/profile/loading.tsx
+- src/app/(root)/profile/page.tsx
+- src/app/(root)/terms-of-service/page.tsx
+
+Admin Pages (24)
+- src/app/admin/artists/new/page.tsx
+- src/app/admin/artists/page.tsx
+- src/app/admin/artists/[id]/EditArtistForm.tsx
+- src/app/admin/authors/new/page.tsx
+- src/app/admin/authors/page.tsx
+- src/app/admin/authors/[id]/EditAuthorForm.tsx
+- src/app/admin/chapters/new/page.tsx
+- src/app/admin/chapters/page.tsx
+- src/app/admin/chapters/[id]/EditChapterForm.tsx
+- src/app/admin/comics/comic-form.tsx
+- src/app/admin/comics/page.tsx
+- src/app/admin/error.tsx
+- src/app/admin/genres/new/page.tsx
+- src/app/admin/genres/page.tsx
+- src/app/admin/genres/[id]/EditGenreForm.tsx
+- src/app/admin/layout.tsx
+- src/app/admin/loading.tsx
+- src/app/admin/page.tsx
+- src/app/admin/types/loading.tsx
+- src/app/admin/types/new/loading.tsx
+- src/app/admin/types/new/page.tsx
+- src/app/admin/types/page.tsx
+- src/app/admin/types/[id]/EditTypeForm.tsx
+- src/app/admin/users/columns.tsx
+- src/app/admin/users/new/page.tsx
+- src/app/admin/users/page.tsx
+- src/app/admin/users/[id]/EditUserForm.tsx
+
+API Routes (23)
+- src/app/api/artists/route.ts
+- src/app/api/artists/[id]/route.ts
+- src/app/api/authors/route.ts
+- src/app/api/authors/[id]/route.ts
+- src/app/api/bookmarks/route.ts
+- src/app/api/chapter-images/route.ts
+- src/app/api/chapters/route.ts
+- src/app/api/chapters/[id]/route.ts
+- src/app/api/comic-images/route.ts
+- src/app/api/comics/route.ts
+- src/app/api/comics/[id]/route.ts
+- src/app/api/comments/route.ts
+- src/app/api/comments/[id]/route.ts
+- src/app/api/genres/route.ts
+- src/app/api/genres/[id]/route.ts
+- src/app/api/health/route.ts
+- src/app/api/search/route.ts
+- src/app/api/types/route.ts
+- src/app/api/types/[id]/route.ts
+- src/app/api/upload/route.ts
+- src/app/api/users/route.ts
+- src/app/api/users/[id]/route.ts
+
+Demo Pages (7)
+- src/app/application-shell-01/page.tsx
+- src/app/blog-component-01/page.tsx
+- src/app/dashboard-shell-01/page.tsx
+- src/app/footer-component-01/page.tsx
+- src/app/global-error.tsx
+- src/app/login-page-01/page.tsx
+- src/app/navbar-component-01/page.tsx
+
+Config (1)
+- src/app-config/index.ts
+
+Components (5)
+- src/components/admin/ClientImageUploader.tsx
+- src/components/admin/ImageUpload.tsx
+- src/components/AppSidebar.tsx
+- src/components/BookmarkButton.tsx
+- src/components/emails/index.ts
+
+Email Templates (3)
+- src/components/emails/PasswordResetEmail.tsx
+- src/components/emails/VerificationEmail.tsx
+- src/components/emails/WelcomeEmail.tsx
+
+UI Components (1)
+- src/components/ui/shadcn-io/tags/index.tsx
+
+Database Core (2)
+- src/database/db.ts
+- src/database/index.ts
+
+Database Mutations (19)
+- src/database/mutations/accounts.ts
+- src/database/mutations/artists.ts
+- src/database/mutations/authenticators.ts
+- src/database/mutations/authors.ts
+- src/database/mutations/bookmarks.ts
+- src/database/mutations/chapterImages.ts
+- src/database/mutations/chapters.ts
+- src/database/mutations/comicImages.ts
+- src/database/mutations/comics.ts
+- src/database/mutations/comicToGenre.ts
+- src/database/mutations/comments.ts
+- src/database/mutations/genres.ts
+- src/database/mutations/index.ts
+- src/database/mutations/passwordResetToken.ts
+- src/database/mutations/sessions.ts
+- src/database/mutations/types.ts
+- src/database/mutations/users.ts
+- src/database/mutations/verificationTokens.ts
+
+Database Queries (18)
+- src/database/queries/accounts.ts
+- src/database/queries/artists.ts
+- src/database/queries/authenticators.ts
+- src/database/queries/authors.ts
+- src/database/queries/bookmarks.ts
+- src/database/queries/chapterImages.ts
+- src/database/queries/chapters.ts
+- src/database/queries/comicImages.ts
+- src/database/queries/comics.ts
+- src/database/queries/comicToGenre.ts
+- src/database/queries/comments.ts
+- src/database/queries/genres.ts
+- src/database/queries/index.ts
+- src/database/queries/metadata.ts
+- src/database/queries/passwordResetToken.ts
+- src/database/queries/sessions.ts
+- src/database/queries/types.ts
+- src/database/queries/users.ts
+- src/database/queries/verificationTokens.ts
+
+Database Seed (5)
+- src/database/seed/index.ts
+- src/database/seed/orchestrator.ts
+- src/database/seed/seeders/chapter-seeder.ts
+- src/database/seed/seeders/comic-seeder.ts
+- src/database/seed/seeders/user-seeder.ts
+
+Database Seed Utils (2)
+- src/database/seed/utils/batch-processor.ts
+- src/database/seed/utils/metadata-cache.ts
+
+Library & Actions (21)
+- src/lib/actions/artists.ts
+- src/lib/actions/auth/actions.ts
+- src/lib/actions/auth/auth-actions.ts
+- src/lib/actions/auth/index.ts
+- src/lib/actions/auth.ts
+- src/lib/actions/authors-artists.ts
+- src/lib/actions/authors.ts
+- src/lib/actions/bookmark.ts
+- src/lib/actions/bookmarks-comments.ts
+- src/lib/actions/chapter.ts
+- src/lib/actions/chapters.ts (FIXED: slugify import)
+- src/lib/actions/comic.ts
+- src/lib/actions/comics.ts (FIXED: slugify import)
+- src/lib/actions/comments.ts
+- src/lib/actions/genres-types.ts
+- src/lib/actions/genres.ts
+- src/lib/actions/types.ts
+- src/lib/actions/users-management.ts
+- src/lib/actions/users.ts
+- src/lib/actions/workflow.ts
+
+Library Core (13)
+- src/lib/auth.ts
+- src/lib/authAdapter.ts
+- src/lib/authConfig.ts
+- src/lib/cache.ts
+- src/lib/cacheMiddleware.ts
+- src/lib/comicCache.ts
+- src/lib/email.ts
+- src/lib/imagekit.ts
+- src/lib/nodemailer.ts
+- src/lib/proxy.ts
+- src/lib/queue.ts
+- src/lib/ratelimit.ts
+
+Services (8)
+- src/services/cache.service.ts
+- src/services/rate-limit.service.ts
+- src/services/reading-progress.service.ts
+- src/services/search.ts
+- src/services/upload/index.ts
+- src/services/upload/providers/cloudinary.ts
+- src/services/upload/providers/imagekit.ts
+- src/services/upload/providers/local.ts
+
+Tests (7)
+- src/tests/auth.spec.ts
+- src/tests/crud.spec.ts
+- src/tests/unit/actions/auth.test.ts
+- src/tests/unit/actions/bookmark.test.ts
+- src/tests/unit/actions/chapter.test.ts
+- src/tests/unit/actions/comic.test.ts
+- src/tests/unit/actions/comment.test.ts
+- src/tests/unit/schemas.test.ts
+- src/tests/unit/validations.test.ts
+
+Types (2)
+- src/types/database-auto.ts
+- src/types/database.ts
+
+TOTAL: 191 FILES MODIFIED

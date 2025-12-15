@@ -1,0 +1,110 @@
+COMICWISE — Optimized Setup & Copilot Prompts
+Generated: 2025-12-10
+
+Purpose
+- A concise, prioritized setup and onboarding plan for contributors and Copilot (Chat/CLI) automation.
+- Includes: one-line tasks, acceptance criteria, and ready-to-paste GitHub Copilot Chat and Copilot-CLI prompts.
+
+How to use
+- For human-driven work: follow the Priority checklist and run the commands listed.
+- For automated scaffolding: copy the "Copilot Chat Prompt" into GitHub Copilot Chat (or run via Copilot CLI where available), review before applying changes, and run test commands.
+
+Quick verification (run first)
+- Install deps
+  pwsh:
+    pnpm install
+- Type-check
+    pnpm type-check
+- Lint
+    pnpm lint
+- Format check
+    pnpm format:check
+
+Top-level priorities (short)
+- P0 (Immediate): Ensure `pnpm install` + `pnpm type-check` pass; fix import path and stray TypeScript errors.
+- P1 (High): Harden Drizzle typing, complete auth wiring (NextAuth v5 + Drizzle adapter), convert admin forms to Zod server-actions.
+- P2 (Medium): Centralize image upload (useImageUpload), finish admin form conversions, codemods for repetitive refactors, CI, seeding.
+- P3 (Low): Perf optimizations, additional tests, docs polishing, accessibility fixes.
+
+Detailed Task List & Copilot Prompts
+(Each block: Task / Acceptance / Copilot Chat prompt)
+
+1) Task: Repo health & fast failures
+- Acceptance: `pnpm install`, `pnpm type-check` succeed; `pnpm lint` shows zero errors (warnings allowed unless critical).
+- Copilot Chat Prompt:
+  "Scan the repository for TypeScript errors, missing imports, and non-aliased import paths. Produce a minimal patch that fixes import paths like `from 'hooks/..'` to `from 'src/hooks/..'` and remove stray unused variables. Show the list of files changed and run `pnpm type-check` to verify." 
+- Human steps:
+  pwsh:
+    pnpm install
+    pnpm type-check
+    pnpm lint
+
+2) Task: Drizzle typing hardening (High)
+- Acceptance: Database access helpers and query files have specific types, avoid `any`, and `pnpm type-check` shows no DB-related type errors.
+- Copilot Chat Prompt:
+  "Audit the Drizzle schema and queries in `src/database`. Add or tighten TypeScript types for results returned by key queries (comics, chapters, users). Create `src/types/database.d.ts` with interface shapes and update the top queries to consume these types. Run `pnpm type-check` and report remaining issues." 
+
+3) Task: Auth wiring (High)
+- Acceptance: NextAuth v5 + Drizzle adapter wired; server actions for register/login reset work locally in dev; sign-in/sign-up pages compile.
+- Copilot Chat Prompt:
+  "Ensure NextAuth v5 is configured via `src/lib/authConfig.ts` with Drizzle adapter. Add server-side helpers in `src/lib/auth.ts` and a minimal sign-in page at `src/app/(auth)/sign-in/page.tsx` using server actions. Validate env usage via `src/app-config/index.ts`. Run `pnpm dev` and report missing runtime env errors." 
+
+4) Task: Convert admin forms to Zod server-actions (P1)
+- Acceptance: Admin new/edit forms for `artists`, `authors`, `comics`, `chapters`, `genres`, `types`, and `users` use Zod validation in server actions; client components remain minimal (file upload handled by client hook).
+- Copilot Chat Prompt:
+  "For admin create/edit forms (artists, authors, comics, chapters, genres, types, users), convert the client form handlers to use Zod-validated server actions. Create Zod schemas in `src/lib/validations/schemas.ts` if missing, add server actions in relevant files, and keep small client wrappers to call actions. Provide patches per entity and run `pnpm type-check` after each entity." 
+
+5) Task: Centralize image upload & client hook (P1/P2)
+- Acceptance: `src/hooks/useImageUpload.ts` exists and is used by admin upload UI; upload providers abstracted in `src/services/upload` and `src/lib/imagekit.ts` or cloudinary adapters; admin forms write final URL to server action payload.
+- Copilot Chat Prompt:
+  "Ensure a typed `useImageUpload` hook exists under `src/hooks/useImageUpload.ts` and a small client component `src/components/admin/ClientImageUploader.tsx`. Wire admin forms to use the hook. If provider adapters are incomplete, scaffold Cloudinary and local adapters in `src/services/upload` with `uploadImage(file)` signature." 
+
+6) Task: Automated codemods (P2)
+- Acceptance: `scripts/codemods/replace-upload-with-hook.jscodeshift.js` present and can run in dry mode; a `pnpm` script `codemod:replace-upload` exists.
+- Copilot Chat Prompt:
+  "Run the jscodeshift transform `scripts/codemods/replace-upload-with-hook.jscodeshift.js` in `--dry` mode across `src/app/admin` and show a 3-file sample diff. After review, run it to apply changes. Commit results to a branch `refactor/image-upload-hook`." 
+- CLI example:
+  npx jscodeshift -t scripts/codemods/replace-upload-with-hook.jscodeshift.js --extensions=ts,tsx src/app --dry
+
+7) Task: Seeds & fixtures (P2)
+- Acceptance: `pnpm db:seed` populates sample users, comics, chapters; seeding supports `--skip-images` and `--dry-run`.
+- Copilot Chat Prompt:
+  "Create a robust seeding script `src/database/seed/index.ts` that reads `comicsdata1.json`, `comicsdata2.json`, and `users.json` and creates realistic records using `faker` where necessary. Support CLI flags `--dry-run` and `--skip-images`. Add a `pnpm` script to call it, e.g., `pnpm db:seed`." 
+
+8) Task: CI template (P2)
+- Acceptance: `.github/workflows/ci.yml` runs install, type-check, lint (max-warnings=0), unit tests and E2E tests; artifacts uploaded.
+- Copilot Chat Prompt:
+  "Generate `.github/workflows/ci.yml` that installs pnpm, runs `pnpm install`, `pnpm type-check`, `pnpm lint --max-warnings=0`, `pnpm test:unit:run`, and a Playwright job (optional). Upload artifacts and set `failure` conditions. Put job matrix for node versions or browsers if useful." 
+
+9) Task: Docker & production check (P2)
+- Acceptance: `docker-compose` dev/prod start reproducibly; images small; healthcheck works.
+- Copilot Chat Prompt:
+  "Audit `Dockerfile` and `docker-compose.yml` for best practices and suggest minimal hardening and caching improvements. Provide a short patch for the `Dockerfile` multi-stage build and a `docker-compose.prod.yml` snippet." 
+
+10) Task: Docs and onboarding (P0/P1)
+- Acceptance: `setup.txt` & `setup.md` exist with onboarding commands and Copilot prompts; top-level READMEs list exact commands to get dev environment up.
+- Copilot Chat Prompt:
+  "Consolidate README, QUICKSTART, and TODO into an `setup.txt` at repo root with prioritized tasks, Copilot Chat prompts, and direct `pnpm` commands. Keep it concise and actionable." 
+
+
+Prompts for GitHub Copilot CLI (example formats)
+- Copilot Chat: paste the Copilot Chat prompt blocks above into the chat UI.
+- Copilot CLI (if installed): run interactive sessions or use `gh` plugin if available; otherwise use `npx jscodeshift` for codemods and `pnpm` scripts for repo operations.
+
+Typical session pattern
+1. Run quick verification (install/type-check/lint). Fix easy errors.
+2. Run codemods in `--dry` to review. Commit small batches.
+3. Tackle high-priority tasks (DB typing, auth wiring) one entity at a time.
+4. Run CI/Build locally (`pnpm build`) and address runtime issues.
+
+Acceptance checklist (before release)
+- [ ] `pnpm type-check` passes with no errors
+- [ ] `pnpm lint` passes (no critical errors)
+- [ ] `pnpm build` succeeds
+- [ ] E2E smoke tests run locally (Playwright)
+- [ ] Seed scripts create test data reliably
+- [ ] Codemods reviewed and approved in PRs
+
+File created: `setup.txt` — keep this file updated with any process changes.
+
+Questions? Want me to run one of the Copilot prompts (e.g., apply a codemod dry-run) now?

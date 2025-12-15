@@ -1,0 +1,48 @@
+networks:
+  comicwise-dev-network:
+    driver: bridge
+    name: comicwise_dev_network
+
+services:
+  postgres:
+    extends:
+      file: docker-compose.yml
+      service: postgres
+    environment:
+      POSTGRES_DB: comicwise_dev
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev123
+    ports:
+      - "5433:5432"
+
+  redis:
+    extends:
+      file: docker-compose.yml
+      service: redis
+    ports:
+      - "6380:6379"
+
+  app:
+    build:
+      context: .
+      dockerfile: compose/Dockerfile
+      target: builder
+    container_name: comicwise-app-dev
+    restart: "no"
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://dev:dev123@postgres:5432/comicwise_dev
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_URL: http://localhost:3000
+      NODE_ENV: development
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    command: pnpm dev
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - comicwise-dev-network

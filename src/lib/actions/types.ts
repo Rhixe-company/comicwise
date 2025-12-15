@@ -1,0 +1,71 @@
+"use server";
+
+import { appConfig, checkRateLimit } from "@/app-config";
+import * as mutations from "@/database/mutations";
+import { error } from "@/lib/actions/utils";
+import { createTypeSchema, updateTypeSchema } from "@/lib/validator";
+import { revalidatePath } from "next/cache";
+import type { ActionResponse } from "src/types";
+import z from "zod";
+
+export async function createType(formData: FormData): Promise<ActionResponse<{ id: number }>> {
+  try {
+    // Rate limiting
+    const rateLimit = checkRateLimit("create:type", appConfig.rateLimit.default);
+    if (!rateLimit.allowed) {
+      return error("Too many requests. Please try again later.");
+    }
+
+    const data = createTypeSchema.parse({
+      name: formData.get("name"),
+      description: formData.get("description") || undefined,
+    });
+
+    const type = await mutations.createType(data);
+    if (!type) {
+      return error("Failed to create type");
+    }
+
+    revalidatePath("/admin/types");
+    return { success: true, data: { id: type.id } };
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return error(err.issues[0]?.message || "Validation error");
+    }
+    console.error("Create type error:", err);
+    return error("Failed to create type");
+  }
+}
+
+export async function updateType(typeId: number, formData: FormData): Promise<ActionResponse> {
+  try {
+    const data = updateTypeSchema.parse({
+      name: formData.get("name") || undefined,
+      description: formData.get("description") || undefined,
+    });
+
+    await mutations.updateType(typeId, data);
+    revalidatePath("/admin/types");
+    revalidatePath(`/admin/types/${typeId}`);
+
+    return { success: true };
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return error(err.issues[0]?.message || "Validation error");
+    }
+    console.error("Update type error:", err);
+    return error("Failed to update type");
+  }
+}
+
+export async function deleteType(typeId: number): Promise<ActionResponse> {
+  try {
+    await mutations.deleteType(typeId);
+    revalidatePath("/admin/types");
+
+    return { success: true };
+  } catch (err) {
+    console.error("Delete type error:", err);
+    return error("Failed to delete type");
+  }
+}

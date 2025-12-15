@@ -1,0 +1,22 @@
+{
+  "name": "ComicWise Devcontainer",
+  "dockerFile": "Dockerfile",
+  "context": "..",
+  "forwardPorts": [3000, 9229],
+  "postCreateCommand": "corepack enable && pnpm install --frozen-lockfile",
+  "remoteUser": "vscode",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "editor.formatOnSave": true
+  },
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "eamodio.gitlens",
+    "ms-azuretools.vscode-docker"
+  ],
+  "mounts": [
+    "source=${localWorkspaceFolder}/node_modules,target=/workspaces/${localWorkspaceFolderBasename}/node_modules,type=bind,consistency=cached"
+  ]
+}

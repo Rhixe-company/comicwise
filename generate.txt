@@ -1,0 +1,663 @@
+# ComicWise - Next.js 16 Setup & Implementation Guide
+
+## Project Overview
+ComicWise is a modern comic reading platform built with Next.js 16, PostgreSQL, Drizzle ORM, and cutting-edge web technologies.
+
+## Prerequisites
+- Node.js 22+ (with Corepack enabled)
+- pnpm 9+ (enable with `corepack enable`)
+- PostgreSQL 17+ (or Docker)
+- Docker & Docker Compose (optional, for containerized setup)
+
+## Quick Setup
+
+### 1. Initial Setup
+```bash
+# Clone repository
+git clone <repository-url>
+cd comicwise
+
+# Install dependencies
+pnpm install
+# or use make
+make install
+```
+
+### 2. Environment Configuration
+```bash
+# Copy environment template
+cp .env.example .env.local
+
+# Generate NextAuth secret
+openssl rand -base64 32
+
+# Edit .env.local with your configuration
+```
+
+### 3. Environment Variables
+```env
+# Database (Required)
+DATABASE_URL=postgresql://user:pass@localhost:5432/comicwise
+
+# Authentication (Required)
+NEXTAUTH_SECRET=<generated-secret-from-step-2>
+NEXTAUTH_URL=http://localhost:3000
+
+# Email Configuration (Required for auth emails)
+EMAIL_SERVER_HOST=smtp.gmail.com
+EMAIL_SERVER_PORT=587
+EMAIL_SERVER_USER=your-email@gmail.com
+EMAIL_SERVER_PASSWORD=your-app-password
+EMAIL_FROM=noreply@comicwise.com
+EMAIL_SECURE=false
+
+# Application
+NODE_ENV=development
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# OAuth Providers (Optional)
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+
+# Upload Providers (Optional)
+UPLOAD_PROVIDER=local
+IMAGEKIT_PUBLIC_KEY=your-imagekit-public-key
+IMAGEKIT_PRIVATE_KEY=your-imagekit-private-key
+IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your-id
+CLOUDINARY_CLOUD_NAME=your-cloudinary-name
+CLOUDINARY_API_KEY=your-cloudinary-key
+CLOUDINARY_API_SECRET=your-cloudinary-secret
+
+# Rate Limiting (Optional, recommended for production)
+UPSTASH_REDIS_REST_URL=your-upstash-redis-url
+UPSTASH_REDIS_REST_TOKEN=your-upstash-token
+
+# Background Jobs (Optional)
+QSTASH_TOKEN=your-qstash-token
+QSTASH_CURRENT_SIGNING_KEY=your-signing-key
+QSTASH_NEXT_SIGNING_KEY=your-next-signing-key
+QSTASH_URL=your-qstash-url
+```
+
+### 4. Database Setup
+
+#### Option A: Using Docker (Recommended for Development)
+```bash
+# Start PostgreSQL & Redis containers
+make docker-dev
+# or
+docker compose -f docker-compose.dev.yml up -d
+
+# Wait for containers to be ready
+docker compose -f docker-compose.dev.yml ps
+
+# Push database schema
+make db-push
+
+# Seed database with sample data
+make db-seed
+
+# or combined
+make db-reset
+```
+
+#### Option B: Local PostgreSQL
+```bash
+# Create database
+createdb comicwise
+
+# Update DATABASE_URL in .env.local
+
+# Push schema
+make db-push
+
+# Seed data
+make db-seed
+```
+
+### 5. Start Development Server
+```bash
+# Start Next.js development server with Turbopack
+make dev
+# or
+pnpm dev
+
+# Open browser at http://localhost:3000
+```
+
+### 6. Access Points
+- **Application**: http://localhost:3000
+- **Admin Dashboard**: http://localhost:3000/admin (requires admin role)
+- **Drizzle Studio**: Run `make db-studio` (http://localhost:4983)
+- **Health Check**: http://localhost:3000/api/health
+
+## Available Commands
+
+### Development
+```bash
+make dev              # Start development server
+make build            # Build for production
+make start            # Start production server
+make preview          # Build and preview
+```
+
+### Code Quality
+```bash
+make lint             # Run ESLint
+make lint-fix         # Fix linting issues
+make format           # Format with Prettier
+make format-check     # Check formatting
+make type-check       # TypeScript type checking
+make cspell           # Run spell checker
+make check-all        # Run all quality checks
+```
+
+### Database
+```bash
+make db-generate      # Generate Drizzle migrations
+make db-push          # Push schema changes
+make db-migrate       # Run migrations
+make db-studio        # Open Drizzle Studio
+make db-seed          # Seed database
+make db-reset         # Reset and reseed
+```
+
+### Docker (Production)
+```bash
+make docker-up        # Start production containers
+make docker-down      # Stop containers
+make docker-build     # Build images
+make docker-rebuild   # Rebuild and restart
+make docker-logs      # View logs
+make docker-ps        # Show container status
+make docker-clean     # Clean all Docker resources
+```
+
+### Docker (Development)
+```bash
+make docker-dev       # Start dev containers (DB & Redis)
+make docker-dev-down  # Stop dev containers
+make docker-dev-clean # Clean dev containers
+```
+
+### Testing
+```bash
+make test             # Run tests
+make test-docker      # Test Docker setup
+```
+
+### Utilities
+```bash
+make check-updates    # Check for package updates
+make update-deps      # Update dependencies
+make deps-audit       # Security audit
+make deps-audit-fix   # Fix vulnerabilities
+```
+
+### Combined Workflows
+```bash
+make setup            # Complete initial setup
+make dev-setup        # Setup with Docker
+make fresh-start      # Complete fresh start
+make ci               # Run CI pipeline locally
+make pre-commit       # Pre-commit checks
+make pre-push         # Pre-push checks
+```
+
+## Project Structure
+
+```
+comicwise/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── (auth)/            # Authentication pages
+│   │   │   ├── sign-in/       # Sign in page
+│   │   │   ├── sign-out/      # Sign out page
+│   │   │   ├── register/      # Registration page
+│   │   │   ├── forgot-password/ # Forgot password
+│   │   │   ├── reset-password/ # Reset password
+│   │   │   ├── verify-email/  # Email verification
+│   │   │   ├── verify-request/ # Verification request
+│   │   │   ├── resend-verification/ # Resend verification
+│   │   │   └── new-user/      # New user onboarding
+│   │   ├── (root)/            # Main application routes
+│   │   ├── admin/             # Admin dashboard
+│   │   └── api/               # API routes
+│   ├── components/            # React components
+│   │   ├── ui/               # shadcn/ui components
+│   │   ├── admin/            # Admin components
+│   │   └── emails/           # Email templates
+│   ├── lib/                   # Utilities and helpers
+│   │   ├── actions/          # Server actions
+│   │   ├── validations/      # Zod schemas
+│   │   ├── auth.ts           # NextAuth config
+│   │   ├── email.ts          # Email service
+│   │   ├── ratelimit.ts      # Rate limiting
+│   │   └── utils.ts          # Utility functions
+│   ├── db/                    # Database layer
+│   │   ├── schema/           # Drizzle schemas
+│   │   └── index.ts          # Database client
+│   ├── app-config/           # App configuration
+│   │   ├── env.ts            # Environment validation
+│   │   └── index.ts          # App config
+│   ├── types/                # TypeScript types
+│   │   ├── global.d.ts       # Global type definitions
+│   │   ├── nodemailer.d.ts   # Nodemailer types
+│   │   └── react-email.d.ts  # React Email types
+│   ├── hooks/                # Custom React hooks
+│   ├── stores/               # State management (Zustand/Jotai)
+│   ├── services/             # External services
+│   ├── scripts/              # Utility scripts
+│   └── tests/                # Test files
+├── compose/
+│   └── Dockerfile            # Production Dockerfile
+├── drizzle/                  # Database migrations
+├── public/                   # Static assets
+├── docker-compose.yml        # Production Docker setup
+├── docker-compose.dev.yml    # Development Docker setup
+├── Makefile                  # Development commands
+├── test-docker.sh           # Docker test script
+├── next.config.ts           # Next.js configuration
+├── tsconfig.json            # TypeScript configuration
+├── eslint.config.mjs        # ESLint configuration
+├── prettier.config.ts       # Prettier configuration
+├── postcss.config.mjs       # PostCSS configuration
+├── tailwind.config.ts       # Tailwind CSS configuration
+├── drizzle.config.ts        # Drizzle configuration
+└── package.json             # Dependencies
+
+```
+
+## Technology Stack
+
+### Core
+- **Next.js 16** - React framework with App Router
+- **React 19** - UI library
+- **TypeScript 5** - Type safety
+- **Turbopack** - Fast bundler
+
+### Database & ORM
+- **PostgreSQL 17** - Primary database
+- **Drizzle ORM 0.44** - Type-safe ORM
+- **Drizzle Kit** - Migration tool
+
+### Authentication
+- **NextAuth.js v5** - Authentication framework
+- **bcryptjs** - Password hashing
+- **OAuth** - Google, GitHub providers
+
+### UI & Styling
+- **Tailwind CSS 4** - Utility-first CSS
+- **shadcn/ui** - Component library
+- **Radix UI** - Headless components
+- **Lucide React** - Icons
+- **Motion** - Animations
+
+### Forms & Validation
+- **React Hook Form** - Form management
+- **Zod** - Schema validation
+- **@hookform/resolvers** - Form validation
+
+### Email
+- **Nodemailer** - Email sending
+- **React Email** - Email templates
+- **@react-email/components** - Email components
+
+### State Management
+- **Zustand** - Client state
+- **Jotai** - Atomic state
+- **TanStack Table** - Data tables
+
+### File Upload
+- **ImageKit** - Image CDN (optional)
+- **Cloudinary** - Image hosting (optional)
+- **react-dropzone** - File uploads
+- **react-image-crop** - Image cropping
+
+### Developer Experience
+- **ESLint** - Linting
+- **Prettier** - Code formatting
+- **Husky** - Git hooks
+- **cspell** - Spell checking
+- **Playwright** - E2E testing
+
+### DevOps
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
+- **Make** - Task automation
+
+## Features
+
+### Authentication & Authorization
+- ✅ Email/Password authentication
+- ✅ OAuth (Google, GitHub)
+- ✅ Email verification
+- ✅ Password reset
+- ✅ Role-based access control (user, admin, moderator)
+- ✅ Protected routes
+- ✅ Rate limiting
+
+### User Features
+- ✅ User registration and profile
+- ✅ Bookmark comics
+- ✅ Track reading progress
+- ✅ Comment on chapters
+- ✅ View reading history
+
+### Admin Features
+- ✅ CRUD operations for all entities
+- ✅ User management
+- ✅ Content management (comics, chapters)
+- ✅ Genre/type management
+- ✅ Author/artist management
+- ✅ Analytics dashboard
+
+### Comic Management
+- ✅ Create/edit comics
+- ✅ Upload chapters and images
+- ✅ Genre categorization
+- ✅ Status tracking (Ongoing, Completed, etc.)
+- ✅ Ratings and views
+- ✅ Advanced filtering and search
+
+### Email Notifications
+- ✅ Welcome emails
+- ✅ Verification emails
+- ✅ Password reset emails
+- ✅ Account update notifications
+- ✅ New chapter notifications
+- ✅ Comment notifications
+
+## Best Practices
+
+### Next.js 16
+- ✅ App Router with server components
+- ✅ Streaming and suspense
+- ✅ Server actions for mutations
+- ✅ Route handlers for APIs
+- ✅ Middleware for authentication
+- ✅ Turbopack for fast builds
+- ✅ Optimized images
+- ✅ Font optimization
+
+### TypeScript
+- ✅ Strict mode enabled
+- ✅ No implicit any
+- ✅ Path aliases
+- ✅ Type-safe environment variables
+- ✅ Zod for runtime validation
+
+### Security
+- ✅ Environment variable validation
+- ✅ Rate limiting
+- ✅ Password hashing
+- ✅ SQL injection prevention
+- ✅ XSS protection
+- ✅ CSRF protection
+- ✅ Secure headers
+- ✅ JWT sessions
+
+### Performance
+- ✅ Server-side rendering
+- ✅ Static generation where possible
+- ✅ Image optimization
+- ✅ Code splitting
+- ✅ Lazy loading
+- ✅ Database query optimization
+- ✅ Caching strategies
+
+### Code Quality
+- ✅ ESLint with strict rules
+- ✅ Prettier formatting
+- ✅ Type checking
+- ✅ Spell checking
+- ✅ Import organization
+- ✅ Unused code detection
+
+## Docker Setup
+
+### Development Environment
+```bash
+# Start development containers (PostgreSQL + Redis)
+make docker-dev
+
+# Check status
+docker compose -f docker-compose.dev.yml ps
+
+# View logs
+docker compose -f docker-compose.dev.yml logs -f
+
+# Stop containers
+make docker-dev-down
+
+# Clean up
+make docker-dev-clean
+```
+
+### Production Environment
+```bash
+# Build production images
+make docker-build
+
+# Start production containers
+make docker-up
+
+# Check status
+make docker-ps
+
+# View logs
+make docker-logs
+
+# Test deployment
+make test-docker
+
+# Stop containers
+make docker-down
+
+# Clean all resources
+make docker-clean
+```
+
+## Troubleshooting
+
+### Database Connection Issues
+```bash
+# Check if PostgreSQL is running
+docker compose ps
+
+# View PostgreSQL logs
+docker compose logs postgres
+
+# Verify DATABASE_URL in .env.local
+echo $DATABASE_URL
+
+# Test connection
+make db-studio
+```
+
+### Email Service Issues
+```bash
+# Verify email configuration
+# Check EMAIL_SERVER_* variables in .env.local
+
+# For Gmail, enable "App Passwords"
+# https://myaccount.google.com/apppasswords
+
+# Test email sending
+# Sign up for a new account to trigger verification email
+```
+
+### Type Errors
+```bash
+# Run type check
+make type-check
+
+# Regenerate types
+pnpm dlx @types/node
+
+# Clear Next.js cache
+rm -rf .next
+```
+
+### Build Errors
+```bash
+# Clean build artifacts
+make clean
+
+# Reinstall dependencies
+pnpm install
+
+# Rebuild
+make build
+```
+
+### Docker Issues
+```bash
+# Clean Docker resources
+make docker-clean
+
+# Rebuild from scratch
+make docker-rebuild
+
+# Check logs for specific container
+docker compose logs app
+docker compose logs postgres
+docker compose logs redis
+```
+
+## Common Tasks
+
+### Create Admin User
+```bash
+# Option 1: Via database seeding
+make db-seed
+
+# Option 2: Manually via Drizzle Studio
+make db-studio
+# Navigate to users table and update role to 'admin'
+
+# Option 3: Via SQL
+docker compose exec postgres psql -U postgres -d comicwise -c "UPDATE \"user\" SET role='admin' WHERE email='your-email@example.com';"
+```
+
+### Add New Comic
+1. Log in as admin
+2. Navigate to /admin
+3. Click "Comics" → "Create New"
+4. Fill in comic details
+5. Upload cover image
+6. Add genres
+7. Submit
+
+### Add Chapter to Comic
+1. Navigate to comic details page
+2. Click "Add Chapter"
+3. Fill in chapter details
+4. Upload chapter images
+5. Set chapter number and release date
+6. Publish
+
+### Update Environment Variables
+```bash
+# Edit .env.local
+nano .env.local
+
+# Restart development server
+# Ctrl+C to stop, then make dev
+
+# For Docker, restart containers
+make docker-down
+make docker-up
+```
+
+### Database Migrations
+```bash
+# Generate migration
+make db-generate
+
+# Apply migration
+make db-migrate
+
+# Or push schema directly (development)
+make db-push
+```
+
+## Production Deployment
+
+### Environment Setup
+1. Set all required environment variables
+2. Use strong NEXTAUTH_SECRET
+3. Configure production database
+4. Set up email service
+5. Configure OAuth providers
+6. Enable rate limiting with Redis
+
+### Build & Deploy
+```bash
+# Run all checks
+make check-all
+
+# Build production
+make build
+
+# Test build locally
+make start
+
+# Deploy with Docker
+make prod-deploy
+```
+
+### Post-Deployment
+1. Run database migrations
+2. Verify health endpoints
+3. Test authentication flow
+4. Check email delivery
+5. Monitor logs
+6. Set up backups
+
+## Maintenance
+
+### Regular Tasks
+```bash
+# Update dependencies
+make check-updates
+make update-deps
+
+# Run security audit
+make deps-audit
+
+# Clean old build artifacts
+make clean
+
+# Backup database
+docker compose exec postgres pg_dump -U postgres comicwise > backup.sql
+```
+
+### Monitoring
+- Check health endpoint: /api/health
+- Monitor container logs: `make docker-logs`
+- Check resource usage: `docker stats`
+- Review error logs in Next.js
+
+## Support
+
+### Documentation
+- [Quick Start Guide](./QUICKSTART.md)
+- [README](./README.md)
+- [Project Structure](./README.md#project-structure)
+- [API Documentation](./docs/API.md)
+
+### Getting Help
+- Check existing documentation
+- Review closed issues on GitHub
+- Open new issue with detailed description
+- Include error logs and environment details
+
+## License
+MIT License - See LICENSE file for details
+
+---
+
+**Built with ❤️ using Next.js 16**
