@@ -21,7 +21,7 @@ import {
   updateGenreSchema,
   updateTypeSchema,
 } from "@/lib/validations/schemas";
-import { eq, like, sql } from "drizzle-orm";
+import { asc, eq, like, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export type ActionResult<T = unknown> =

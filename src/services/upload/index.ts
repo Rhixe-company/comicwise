@@ -3,7 +3,7 @@
 // Next.js 16.0.7 Optimized
 // ═══════════════════════════════════════════════════
 
-import { env } from "@/app-config";
+import { getUploadProvider } from "./factory";
 
 export interface UploadOptions {
   folder?: string;
@@ -31,28 +31,15 @@ export interface UploadProvider {
 }
 
 // ═══════════════════════════════════════════════════
-// PROVIDER FACTORY
+// PROVIDER FACTORY & IMPORTS
 // ═══════════════════════════════════════════════════
 
-export async function getUploadProvider(): Promise<UploadProvider> {
-  const provider: "imagekit" | "cloudinary" | "local" = env.UPLOAD_PROVIDER;
-  const { CloudinaryProvider } = await import("./providers/cloudinary");
-  const { ImageKitProvider } = await import("./providers/imagekit");
-  const { LocalProvider } = await import("./providers/local");
-  switch (provider) {
-    case "cloudinary":
-      return new CloudinaryProvider();
-
-    case "imagekit":
-      return new ImageKitProvider();
-
-    case "local":
-      return new LocalProvider();
-
-    default:
-      throw new Error(`Unknown upload provider: ${provider}`);
-  }
-}
+export {
+  getAvailableProviders,
+  getConfiguredProvider,
+  getUploadProvider,
+  isProviderAvailable,
+} from "./factory";
 
 // ═══════════════════════════════════════════════════
 // HELPER FUNCTIONS
@@ -78,3 +65,15 @@ export async function getImageUrl(
   const provider = await getUploadProvider();
   return provider.getUrl(publicId, transformation);
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// RE-EXPORTS - Make types available from main export
+// ═══════════════════════════════════════════════════════════════════════════
+
+export type {
+  FileValidationResult,
+  ImageTransformation,
+  UploadConstraints,
+  UploadProviderType,
+  UploadType,
+} from "./types";

@@ -202,8 +202,6 @@ extends in `eslint.config.ts`.
 - **Settings**:
   ```json
   {
-    "entryPoint": "src/styles/globals.css",
-    "tailwindConfig": "",
     "attributes": ["class", "className"],
     "callees": [
       "cc",
@@ -220,8 +218,10 @@ extends in `eslint.config.ts`.
       "twJoin",
       "twMerge"
     ],
-    "variables": ["className", "classNames", "classes", "style", "styles"],
-    "tags": ["myTag"]
+    "entryPoint": "src/styles/globals.css",
+    "tags": ["myTag"],
+    "tailwindConfig": "",
+    "variables": ["className", "classNames", "classes", "style", "styles"]
   }
   ```
 - **Key Rules**:

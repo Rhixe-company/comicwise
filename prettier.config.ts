@@ -22,7 +22,17 @@ const config: Config = {
   // ═══════════════════════════════════════════════════
   // Plugin Configuration
   // ═══════════════════════════════════════════════════
-  plugins: ["prettier-plugin-tailwindcss", "prettier-plugin-organize-imports"],
+  plugins: [
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-organize-imports",
+    "prettier-plugin-packagejson",
+    "prettier-plugin-sort-json",
+  ],
+
+  // Prettier Plugin: Tailwind CSS
+  tailwindConfig: "",
+  tailwindAttributes: ["class", "className"],
+  tailwindFunctions: ["clsx", "cn", "cva", "twMerge", "twJoin"],
 
   // ═══════════════════════════════════════════════════
   // File-Specific Overrides
@@ -39,6 +49,18 @@ const config: Config = {
       options: {
         proseWrap: "always",
         printWidth: 80,
+      },
+    },
+    {
+      files: "*.yaml",
+      options: {
+        tabWidth: 2,
+      },
+    },
+    {
+      files: "*.yml",
+      options: {
+        tabWidth: 2,
       },
     },
   ],

@@ -119,15 +119,15 @@ All imports now conform to `tsconfig.json` path mappings:
 ```json
 {
   "@/*": ["./src/*"],
+  "auth": ["./src/lib/auth"],
   "components/*": ["./src/components/*"],
+  "database": ["./src/database"],
   "database/*": ["./src/database/*"],
   "hooks/*": ["./src/hooks/*"],
   "lib/*": ["./src/lib/*"],
   "services/*": ["./src/services/*"],
   "stores/*": ["./src/stores/*"],
-  "types/*": ["./src/types/*"],
-  "database": ["./src/database"],
-  "auth": ["./src/lib/auth"]
+  "types/*": ["./src/types/*"]
 }
 ```
 

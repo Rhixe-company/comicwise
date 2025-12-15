@@ -250,6 +250,12 @@ GET /api/search?q=action&status=Ongoing&minRating=4.0&sortBy=popularity&page=1&l
 
 ```json
 {
+  "pagination": {
+    "page": 1,
+    "limit": 12,
+    "total": 45,
+    "totalPages": 4
+  },
   "results": [
     {
       "id": 1,
@@ -268,13 +274,7 @@ GET /api/search?q=action&status=Ongoing&minRating=4.0&sortBy=popularity&page=1&l
       "createdAt": "2024-01-01T00:00:00.000Z",
       "updatedAt": "2024-01-01T00:00:00.000Z"
     }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 12,
-    "total": 45,
-    "totalPages": 4
-  }
+  ]
 }
 ```
 
@@ -292,9 +292,9 @@ GET /api/search?action=suggest&q=nar&limit=5
 
 ```json
 {
-  "comics": ["Naruto", "Naruto Shippuden"],
+  "artists": ["Masashi Kishimoto"],
   "authors": ["Masashi Kishimoto"],
-  "artists": ["Masashi Kishimoto"]
+  "comics": ["Naruto", "Naruto Shippuden"]
 }
 ```
 

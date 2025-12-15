@@ -5,6 +5,12 @@
 import type { DefaultSession, DefaultUser } from "next-auth";
 import type { DefaultJWT } from "next-auth/jwt";
 
+// Ambient module to provide typed aliases for imports from "database".
+// This lets code `import { database, tables, Database } from "database"`
+// receive accurate types derived from the real implementations without
+// causing duplicate-declaration issues.
+import type { Database as DBType, Schema as SchemaType } from "../database/db";
+
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
@@ -33,7 +39,7 @@ declare global {
 
   // Node.js process types
   namespace NodeJS {
-    interface ProcessEnv {
+    interface ProcessEnvironment {
       // Database
       DATABASE_URL: string;
       NEON_DATABASE_URL?: string;
@@ -83,12 +89,45 @@ declare global {
     }
   }
 }
+declare module "*.svg" {
+  import type * as React from "react";
+
+  const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export default ReactComponent;
+}
+
+declare module "*.png";
+declare module "*.jpg";
+declare module "*.jpeg";
+declare module "*.webp";
+
+// Allow importing raw text for fixtures
+declare module "*.txt" {
+  const content: string;
+  export default content;
+}
+
+export {};
+declare global {
+  type Nullable<T> = T | null | undefined;
+}
+
+declare module "database" {
+  // The runtime `database` object (Drizzle client) — use the exported
+  // `Database` type from `database/db` so consumers see the proper
+  // `query` helpers and table bindings.
+  export const database: DBType;
+  // export const client: import("../database/db").client;
+  export const tables: SchemaType;
+
+  export type Database = DBType;
+  export type Schema = SchemaType;
+}
 
 // Database Types
 export * from "src/types/nodemailer";
 
 // Global Type Definitions
-export * from "src/types/react-email";
 // Database Types
 export * from "src/types/stub-types";
 

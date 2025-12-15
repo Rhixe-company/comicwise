@@ -1,29 +1,99 @@
 import { useRef, useState } from "react";
 
+// ═══════════════════════════════════════════════════════════════════════════
+// IMAGE UPLOAD HOOK - React hook for uploading files with progress tracking
+// ═══════════════════════════════════════════════════════════════════════════
+
 const DEFAULT_ALLOWED = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"];
 
 export interface UseImageUploadOptions {
+  /**
+   * Maximum file size in MB (default: 10)
+   */
   maxSizeMB?: number;
+  /**
+   * Allowed MIME types (default: common image formats)
+   */
   allowedTypes?: string[];
+  /**
+   * Upload type for server-side categorization
+   * Examples: 'comic-cover', 'chapter-image', 'avatar', 'general'
+   */
   uploadType?: string;
+  /**
+   * Callback when file URL is set (fires immediately after validation)
+   */
   onChange?(url: string): void;
+  /**
+   * Callback when upload completes successfully
+   */
   onUploadComplete?(url: string): void;
 }
 
 export interface UseImageUploadReturn {
+  /**
+   * Ref to attach to hidden file input element
+   */
   fileInputRef: React.RefObject<HTMLInputElement | null>;
+  /**
+   * Whether an upload is currently in progress
+   */
   isUploading: boolean;
+  /**
+   * Upload progress as percentage (0-100)
+   */
   uploadProgress: number;
+  /**
+   * Error message if upload failed, null otherwise
+   */
   error: string | null;
+  /**
+   * Whether the last upload was successful
+   */
   success: boolean;
+  /**
+   * Handle file input change event
+   */
   handleFileSelect(e: React.ChangeEvent<HTMLInputElement>): Promise<void>;
+  /**
+   * Reset all state to initial values
+   */
   reset(): void;
 }
 
 /**
- * Hook encapsulating image validation and POST upload logic used by admin image upload components.
+ * React hook for uploading files with validation and progress tracking.
  *
- * This isolates side effects and state so the UI component can focus on presentation.
+ * Features:
+ * - File type validation (configurable MIME types)
+ * - File size validation (default 10MB for images, configurable)
+ * - Upload progress tracking
+ * - Error handling and reporting
+ * - Multiple file type support (images, PDFs, etc.)
+ *
+ * @param options - Configuration options for upload behavior
+ * @returns Object with upload state and control methods
+ *
+ * @example
+ * ```tsx
+ * const { fileInputRef, isUploading, error, handleFileSelect } = useImageUpload({
+ *   maxSizeMB: 10,
+ *   uploadType: 'comic-cover',
+ *   onChange: (url) => console.log('URL:', url),
+ *   onUploadComplete: (url) => saveToDatabase(url),
+ * });
+ *
+ * return (
+ *   <>
+ *     <input
+ *       ref={fileInputRef}
+ *       type="file"
+ *       onChange={handleFileSelect}
+ *     />
+ *     {error && <div className="error">{error}</div>}
+ *   </>
+ * );
+ * ```
  */
 export function useImageUpload(options: UseImageUploadOptions = {}): UseImageUploadReturn {
   const {

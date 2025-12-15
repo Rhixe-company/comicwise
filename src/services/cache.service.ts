@@ -20,7 +20,7 @@ export const cache = {
     if (!clientInstance) return null;
     return clientInstance.get(key);
   },
-  async set<T>(key: string, value: string, ttlSeconds?: number) {
+  async set(key: string, value: string, ttlSeconds?: number) {
     if (!clientInstance) return Promise.resolve(null);
     return clientInstance.set(key, value, ttlSeconds);
   },

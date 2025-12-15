@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 type GetFn = (id: string | number) => Promise<unknown>;
 type UpdateFn = (id: string | number, data: unknown) => Promise<unknown>;
-type DeleteFn = (id: string | number) => Promise<unknown>;
+type DeleteFn = (id: string | number) => Promise<unknown | boolean>;
 
 interface ValidationResult {
   success: boolean;

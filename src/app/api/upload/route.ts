@@ -184,8 +184,19 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Too many files. Maximum is 50" }, { status: 400 });
     }
 
-    const uploadResults = [];
-    const errors = [];
+    const uploadResults: Array<{
+      index: number;
+      originalName: string;
+      url: string;
+      filename: string;
+      size: number;
+      type: string;
+    }> = [];
+    const errors: Array<{
+      index: number;
+      filename: string;
+      error: string;
+    }> = [];
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];

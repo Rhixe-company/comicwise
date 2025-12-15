@@ -11,7 +11,7 @@ import { sendAccountUpdatedEmail, sendWelcomeEmail } from "@/lib/email";
 import type { CreateUserInput, UpdateUserInput, UserFilterInput } from "@/lib/validations/schemas";
 import { createUserSchema, updateUserSchema, userFilterSchema } from "@/lib/validations/schemas";
 import bcrypt from "bcryptjs";
-import { asc, desc, eq, like, or, sql } from "drizzle-orm";
+import { asc, desc, eq, like, or, sql, type SQL } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export type ActionResult<T = unknown> =
@@ -235,14 +235,16 @@ export async function listUsers(input?: UserFilterInput) {
     const offset = (page - 1) * limit;
 
     // Build where conditions
-    const conditions = [];
+    const conditions: SQL<unknown>[] = [];
 
     if (search) {
-      conditions.push(or(like(user.name, `%${search}%`), like(user.email, `%${search}%`)));
+      conditions.push(
+        or(like(user.name, `%${search}%`), like(user.email, `%${search}%`)) as SQL<unknown>
+      );
     }
 
     if (role) {
-      conditions.push(eq(user.role, role));
+      conditions.push(eq(user.role, role) as SQL<unknown>);
     }
 
     const whereClause = conditions.length > 0 ? conditions[0] : undefined;
@@ -255,8 +257,8 @@ export async function listUsers(input?: UserFilterInput) {
 
     const total = countResult?.count || 0;
 
-    // Get users (without passwords)
-    let usersQuery = database
+    // Get users (without passwords) with ordering
+    let usersQuery: any = database
       .select({
         id: user.id,
         name: user.name,
@@ -268,24 +270,28 @@ export async function listUsers(input?: UserFilterInput) {
         updatedAt: user.updatedAt,
       })
       .from(user)
-      .where(whereClause)
-      .limit(limit)
-      .offset(offset);
+      .where(whereClause);
 
-    // Apply ordering with typed columns (avoid implicit `any` in callback)
+    // Apply ordering
     if (sortBy === "name") {
-      usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.name) : asc(user.name));
+      usersQuery = usersQuery.orderBy((cols: any) =>
+        sortOrder === "desc" ? desc(cols.name) : asc(cols.name)
+      );
     } else if (sortBy === "email") {
-      usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.email) : asc(user.email));
+      usersQuery = usersQuery.orderBy((cols: any) =>
+        sortOrder === "desc" ? desc(cols.email) : asc(cols.email)
+      );
     } else if (sortBy === "role") {
-      usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.role) : asc(user.role));
+      usersQuery = usersQuery.orderBy((cols: any) =>
+        sortOrder === "desc" ? desc(cols.role) : asc(cols.role)
+      );
     } else {
-      usersQuery = usersQuery.orderBy(
-        sortOrder === "desc" ? desc(user.createdAt) : asc(user.createdAt)
+      usersQuery = usersQuery.orderBy((cols: any) =>
+        sortOrder === "desc" ? desc(cols.createdAt) : asc(cols.createdAt)
       );
     }
 
-    const results = await usersQuery;
+    const results = await usersQuery.limit(limit).offset(offset);
 
     return {
       success: true,

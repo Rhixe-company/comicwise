@@ -1,37 +1,64 @@
-// Ambient module declarations for `database/schema` using `typeof import(...)`
+// Ambient module declarations for `database/schema` using explicit type imports
 // This avoids top-level imports and prevents duplicate symbol declarations
 // while allowing the compiler to infer accurate types from the implementation.
 
+import type {
+  account as AccountType,
+  artist as ArtistType,
+  authenticator as AuthenticatorType,
+  author as AuthorType,
+  bookmark as BookmarkType,
+  chapterImage as ChapterImageType,
+  chapters as ChaptersType,
+  chapter as ChapterType,
+  comicImage as ComicImageType,
+  comicStatus as ComicStatusType,
+  comics as ComicsType,
+  comicToGenre as ComicToGenreType,
+  comic as ComicType,
+  comment as CommentType,
+  genre as GenreType,
+  passwordResetToken as PasswordResetTokenType,
+  readingProgress as ReadingProgressType,
+  session as SessionType,
+  tsvector as TsvectorType,
+  type as TypeType,
+  userRole as UserRoleType,
+  users as UsersType,
+  user as UserType,
+  verificationToken as VerificationTokenType,
+} from "../database/schema";
+
 declare module "database/schema" {
-  export const users: typeof import("../database/schema").users;
-  export const comics: typeof import("../database/schema").comics;
-  export const chapters: typeof import("../database/schema").chapters;
+  export const users: typeof UsersType;
+  export const comics: typeof ComicsType;
+  export const chapters: typeof ChaptersType;
 
-  export const tsvector: typeof import("../database/schema").tsvector;
+  export const tsvector: typeof TsvectorType;
 
-  export const userRole: typeof import("../database/schema").userRole;
-  export const comicStatus: typeof import("../database/schema").comicStatus;
+  export const userRole: typeof UserRoleType;
+  export const comicStatus: typeof ComicStatusType;
 
-  export const user: typeof import("../database/schema").user;
-  export const account: typeof import("../database/schema").account;
-  export const session: typeof import("../database/schema").session;
-  export const verificationToken: typeof import("../database/schema").verificationToken;
-  export const authenticator: typeof import("../database/schema").authenticator;
-  export const passwordResetToken: typeof import("../database/schema").passwordResetToken;
+  export const user: typeof UserType;
+  export const account: typeof AccountType;
+  export const session: typeof SessionType;
+  export const verificationToken: typeof VerificationTokenType;
+  export const authenticator: typeof AuthenticatorType;
+  export const passwordResetToken: typeof PasswordResetTokenType;
 
-  export const type: typeof import("../database/schema").type;
-  export const author: typeof import("../database/schema").author;
-  export const artist: typeof import("../database/schema").artist;
-  export const genre: typeof import("../database/schema").genre;
-  export const comic: typeof import("../database/schema").comic;
-  export const chapter: typeof import("../database/schema").chapter;
-  export const comicImage: typeof import("../database/schema").comicImage;
-  export const chapterImage: typeof import("../database/schema").chapterImage;
-  export const comicToGenre: typeof import("../database/schema").comicToGenre;
+  export const type: typeof TypeType;
+  export const author: typeof AuthorType;
+  export const artist: typeof ArtistType;
+  export const genre: typeof GenreType;
+  export const comic: typeof ComicType;
+  export const chapter: typeof ChapterType;
+  export const comicImage: typeof ComicImageType;
+  export const chapterImage: typeof ChapterImageType;
+  export const comicToGenre: typeof ComicToGenreType;
 
-  export const bookmark: typeof import("../database/schema").bookmark;
-  export const comment: typeof import("../database/schema").comment;
-  export const readingProgress: typeof import("../database/schema").readingProgress;
+  export const bookmark: typeof BookmarkType;
+  export const comment: typeof CommentType;
+  export const readingProgress: typeof ReadingProgressType;
 
   // Utility relation types (keep permissive until we derive full relation types)
   export type ComicWithRelations = any;

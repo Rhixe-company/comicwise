@@ -76,3 +76,10 @@ export async function getAllArtists(filters?: {
     totalPages: Math.ceil(total / limit),
   };
 }
+
+export async function getArtistsForSelect() {
+  return await database
+    .select({ id: artist.id, name: artist.name })
+    .from(artist)
+    .orderBy(asc(artist.name));
+}

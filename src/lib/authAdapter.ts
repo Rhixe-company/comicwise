@@ -1,10 +1,13 @@
+import type { Database } from "@/database/db";
 import { account, session, user, verificationToken } from "@/database/schema";
 import { DrizzleAdapter as NextAuthDrizzleAdapter } from "@auth/drizzle-adapter";
 import type { Adapter } from "next-auth/adapters";
-import { db } from "../database";
 
-// Table mappings for Drizzle Adapter (customize as needed)
-export function DrizzleAdapter(database: typeof db): Adapter {
+/**
+ * Initialize Drizzle ORM adapter for NextAuth v5
+ * Maps Drizzle schema tables to NextAuth tables
+ */
+export function DrizzleAdapter(database: Database): Adapter {
   return NextAuthDrizzleAdapter(database, {
     usersTable: user,
     accountsTable: account,
@@ -12,5 +15,3 @@ export function DrizzleAdapter(database: typeof db): Adapter {
     verificationTokensTable: verificationToken,
   }) as Adapter;
 }
-
-export const adapter = DrizzleAdapter(db);

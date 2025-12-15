@@ -227,25 +227,26 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
   }
 
   // Apply sorting
-  baseQuery = applySorting(baseQuery, sortBy, sortOrder, searchQuery || search);
+  const sortedQuery = applySorting(
+    baseQuery as any,
+    sortBy,
+    sortOrder,
+    searchQuery || search
+  ) as any;
 
   // Apply pagination
   const offset = (page - 1) * limit;
-  const results = await baseQuery.limit(limit).offset(offset);
+  const results = await sortedQuery.limit(limit).offset(offset);
 
   // Get total count
   const total = await getSearchTotalCount(conditions);
 
   // Fetch genres for each comic
-  const comicIds = results.map((r) => r.id);
+  const comicIds = results.map((r: any) => r.id);
   const genresMap = await getComicGenres(comicIds);
 
   // Combine results with genres — map into the typed SearchResult shape
-  interface RawRow {
-    id: number;
-    [key: string]: unknown;
-  }
-  const enrichedResults: SearchResult[] = results.map((result) => ({
+  const enrichedResults: SearchResult[] = results.map((result: any) => ({
     id: result.id,
     title: (result.title as string) || "",
     description: (result.description as string) || "",
@@ -253,16 +254,24 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
     status: (result.status as string) || "",
     rating: (result.rating as string) || "",
     views: typeof result.views === "number" ? result.views : Number(result.views) || 0,
-    authorName: (result.authorName as string) || null,
-    artistName: (result.artistName as string) || null,
-    typeName: (result.typeName as string) || null,
-    genres: genresMap?.[result.id] ? genresMap[result.id] : [],
+    authorName: (result.authorName as string | null) || null,
+    artistName: (result.artistName as string | null) || null,
+    typeName: (result.typeName as string | null) || null,
+    genres: (genresMap?.[result.id] || []) as string[],
     relevanceScore: (result.relevanceScore as number) || undefined,
     publicationDate: result.publicationDate
-      ? new Date(result.publicationDate as string)
+      ? new Date(
+          (result.publicationDate as any).getTime
+            ? (result.publicationDate as Date)
+            : result.publicationDate
+        )
       : new Date(),
-    createdAt: result.createdAt ? new Date(result.createdAt as string) : new Date(),
-    updatedAt: result.updatedAt ? new Date(result.updatedAt as string) : new Date(),
+    createdAt: result.createdAt
+      ? new Date((result.createdAt as any).getTime ? (result.createdAt as Date) : result.createdAt)
+      : new Date(),
+    updatedAt: result.updatedAt
+      ? new Date((result.updatedAt as any).getTime ? (result.updatedAt as Date) : result.updatedAt)
+      : new Date(),
   }));
 
   return {
@@ -309,33 +318,33 @@ function buildSearchQuery(query: string, mode: string): string {
 /**
  * Apply sorting to the query
  */
-function applySorting<T extends Record<string, unknown>>(
-  query: T,
+function applySorting(
+  query: unknown,
   sortBy: string,
   sortOrder: string,
   hasSearchQuery?: string
-): T {
+): unknown {
   const isDesc = sortOrder === "desc";
+  const q = query as any;
 
   switch (sortBy) {
     case "relevance":
       if (hasSearchQuery) {
-        return query.orderBy(isDesc ? desc(sql`relevance_score`) : asc(sql`relevance_score`));
+        return q.orderBy(isDesc ? desc(sql`relevance_score`) : asc(sql`relevance_score`));
       }
-      return query.orderBy(desc(comic.rating));
+      return q.orderBy(desc(comic.rating));
 
     case "rating":
-      return query.orderBy(isDesc ? desc(comic.rating) : asc(comic.rating));
+      return q.orderBy(isDesc ? desc(comic.rating) : asc(comic.rating));
 
     case "views":
-      return query.orderBy(isDesc ? desc(comic.views) : asc(comic.views));
+      return q.orderBy(isDesc ? desc(comic.views) : asc(comic.views));
 
     case "title":
-      return query.orderBy(isDesc ? desc(comic.title) : asc(comic.title));
+      return q.orderBy(isDesc ? desc(comic.title) : asc(comic.title));
 
     case "popularity":
-      // Popularity = combination of views and rating
-      return query.orderBy(
+      return q.orderBy(
         isDesc
           ? desc(sql`(${comic.views} * 0.7 + CAST(${comic.rating} AS INTEGER) * 100 * 0.3)`)
           : asc(sql`(${comic.views} * 0.7 + CAST(${comic.rating} AS INTEGER) * 100 * 0.3)`)
@@ -343,7 +352,7 @@ function applySorting<T extends Record<string, unknown>>(
 
     case "latest":
     default:
-      return query.orderBy(isDesc ? desc(comic.createdAt) : asc(comic.createdAt));
+      return q.orderBy(isDesc ? desc(comic.createdAt) : asc(comic.createdAt));
   }
 }
 

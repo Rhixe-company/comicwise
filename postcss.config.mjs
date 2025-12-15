@@ -22,6 +22,16 @@ const config = {
     "postcss-nested": {},
 
     // ═══════════════════════════════════════════════════
+    // Modern CSS Features (Variables, Mixins, Nesting)
+    // ═══════════════════════════════════════════════════
+    "postcss-preset-env": {
+      stage: 2,
+      features: {
+        "nesting-rules": false, // Already handled by postcss-nested
+      },
+    },
+
+    // ═══════════════════════════════════════════════════
     // Autoprefixer (Production Only)
     // ═══════════════════════════════════════════════════
     ...(isProduction

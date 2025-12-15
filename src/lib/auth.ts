@@ -1,100 +1,116 @@
-// keep auth options loosely typed here to avoid hard dependency on a specific Auth type
-import { user } from "@/database/schema";
-import { DrizzleAdapter } from "@/lib/authAdapter";
-import { authOptions } from "@/lib/authConfig";
-import { signInSchema } from "@/lib/validator";
-import bcrypt from "bcryptjs";
-import type { Database } from "db";
-import { db } from "db";
-import { eq } from "drizzle-orm";
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+/**
+ * NextAuth v5 configuration with Drizzle adapter
+ * Exports auth handlers and sign-in/sign-out functions
+ */
 
-export function getAuthOptions(): unknown {
-  return authOptions as unknown;
+import { authOptions } from "@/lib/authConfig";
+import NextAuth from "next-auth";
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions as any);
+
+/**
+ * Server-side authentication helpers
+ */
+
+import { database } from "@/database";
+import { user } from "@/database/schema";
+import { eq } from "drizzle-orm";
+import type { Session } from "next-auth";
+
+/**
+ * Get the current user's session
+ * Safe to call from Server Components
+ */
+export async function getSession(): Promise<Session | null> {
+  try {
+    return await auth();
+  } catch {
+    return null;
+  }
 }
 
-export default getAuthOptions;
+/**
+ * Get the currently logged-in user with full details from database
+ */
+export async function getCurrentUser() {
+  try {
+    const session = await getSession();
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db as unknown as Database),
-  session: {
-    strategy: "jwt",
-    maxAge: 7 * 24 * 60 * 60,
-  },
-  pages: {
-    signIn: "/sign-in",
-    newUser: "/register",
-    signOut: "/sign-out",
-    error: "/error",
-    verifyRequest: "/verify-request",
-  },
-  providers: [
-    Credentials({
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials: Partial<Record<"email" | "password", unknown>> | undefined) {
-        try {
-          const { email, password } = signInSchema.parse(credentials);
+    if (!session?.user?.email) {
+      return null;
+    }
 
-          const existingUser = await db.query.user.findFirst({
-            where: eq(user.email, email),
-          });
+    const currentUser = await database.query.user.findFirst({
+      where: eq(user.email, session.user.email),
+    });
 
-          if (!existingUser?.password) {
-            return null;
-          }
+    return currentUser || null;
+  } catch {
+    return null;
+  }
+}
 
-          const passwordMatch = await bcrypt.compare(password, existingUser.password);
+/**
+ * Get current user ID safely
+ */
+export async function getCurrentUserId(): Promise<string | null> {
+  try {
+    const session = await getSession();
+    return session?.user?.id ?? null;
+  } catch {
+    return null;
+  }
+}
 
-          if (!passwordMatch) {
-            return null;
-          }
+/**
+ * Check if user is authenticated
+ */
+export async function isAuthenticated(): Promise<boolean> {
+  const session = await getSession();
+  return !!session?.user;
+}
 
-          return {
-            id: existingUser.id,
-            email: existingUser.email,
-            name: existingUser.name,
-            image: existingUser.image,
-            role: existingUser.role,
-          };
-        } catch {
-          return null;
-        }
-      },
-    }),
-  ],
-  callbacks: {
-    async jwt({
-      token,
-      user: jwtUser,
-    }: {
-      token: Record<string, unknown>;
-      user?: Record<string, unknown>;
-    }) {
-      if (jwtUser?.id) {
-        token.role = jwtUser.role;
-        token.id = jwtUser.id;
-      }
-      return token;
-    },
-    async session({
-      session,
-      token,
-    }: {
-      session: Record<string, unknown>;
-      token: Record<string, unknown>;
-    }) {
-      if (session.user && token.id) {
-        (session.user as Record<string, unknown>).role = token.role as
-          | "user"
-          | "admin"
-          | "moderator";
-        (session.user as Record<string, unknown>).id = token.id as string;
-      }
-      return session;
-    },
-  },
-});
+/**
+ * Check if user has specific role
+ */
+export async function hasRole(requiredRole: "admin" | "moderator" | "user"): Promise<boolean> {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) return false;
+
+  if (requiredRole === "admin") {
+    return currentUser.role === "admin";
+  }
+
+  if (requiredRole === "moderator") {
+    return currentUser.role === "admin" || currentUser.role === "moderator";
+  }
+
+  return true;
+}
+
+/**
+ * Require authentication - throw error if not authenticated
+ */
+export async function requireAuth() {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    throw new Error("Authentication required");
+  }
+
+  return currentUser;
+}
+
+/**
+ * Require specific role - throw error if not authorized
+ */
+export async function requireRole(requiredRole: "admin" | "moderator") {
+  const currentUser = await requireAuth();
+  const hasRequiredRole = await hasRole(requiredRole);
+
+  if (!hasRequiredRole) {
+    throw new Error(`${requiredRole} role required`);
+  }
+
+  return currentUser;
+}

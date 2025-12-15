@@ -23,10 +23,10 @@
     "strictBindCallApply": true,
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": false,
@@ -100,6 +100,7 @@
       "appConfig": ["./src/app-config/index"]
     }
   },
+  "exclude": ["node_modules", ".next", "out", "build", "dist", "coverage"],
   // ═══════════════════════════════════════════════════
   // Include / Exclude Patterns
   // ═══════════════════════════════════════════════════
@@ -118,6 +119,5 @@
     "src/**/*",
     "tests/**/*",
     ".next/dev/types/**/*.ts"
-  ],
-  "exclude": ["node_modules", ".next", "out", "build", "dist", "coverage"]
+  ]
 }

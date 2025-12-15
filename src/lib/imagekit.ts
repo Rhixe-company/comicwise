@@ -194,7 +194,7 @@ export async function uploadMultipleImages(
 export async function deleteImage(fileId: string): Promise<DeleteResult> {
   try {
     const ik = getImageKitInstance();
-    await ik.deleteFile(fileId);
+    await (ik.deleteFile as any)(fileId);
 
     return { success: true };
   } catch (error) {
@@ -698,13 +698,28 @@ export async function getImageMetadata(fileId: string): Promise<{
 }> {
   try {
     const ik: ImageKit = getImageKitInstance();
-    const details = (await ik.getFileMetadata(fileId)) as {
+    const metadataResult = await ik.getFileMetadata(fileId);
+    const details: {
       width: number;
       height: number;
       format: string;
       size: number;
       hasAlpha: boolean;
       isAnimated?: boolean;
+    } = {
+      width: typeof (metadataResult as any).width === "number" ? (metadataResult as any).width : 0,
+      height:
+        typeof (metadataResult as any).height === "number" ? (metadataResult as any).height : 0,
+      format:
+        typeof (metadataResult as any).format === "string"
+          ? (metadataResult as any).format
+          : "unknown",
+      size: typeof (metadataResult as any).size === "number" ? (metadataResult as any).size : 0,
+      hasAlpha:
+        typeof (metadataResult as any).hasAlpha === "boolean"
+          ? (metadataResult as any).hasAlpha
+          : false,
+      isAnimated: (metadataResult as any).isAnimated,
     };
 
     return {

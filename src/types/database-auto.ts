@@ -1,5 +1,6 @@
-import type * as schema from "@/database/schema";
 import type { InferModel } from "drizzle-orm";
+
+import type * as schema from "@/database/schema";
 
 // Per-table model types (read / insert)
 export type Users = InferModel<typeof schema.users>;

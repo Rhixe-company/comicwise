@@ -1,0 +1,24 @@
+
+> comicwise@0.1.0 type-check C:\Users\Alexa\Desktop\SandBox\comicwise
+> tsc --noEmit
+
+eslint.config.ts(9,33): error TS2307: Cannot find module '@typescript-eslint/utils/ts-eslint' or its corresponding type declarations.
+eslint.config.ts(36,7): error TS2322: Type '{ configs: Record<string, Config>; meta: PluginMeta; rules: TypeScriptESLintRules; }' is not assignable to type 'Plugin'.
+  Types of property 'configs' are incompatible.
+    Type 'Record<string, Config>' is not assignable to type 'Record<string, LegacyConfigObject<RulesConfig, RulesConfig> | ConfigObject<RulesConfig> | ConfigObject<RulesConfig>[]>'.
+      'string' index signatures are incompatible.
+        Type 'Config' is not assignable to type 'LegacyConfigObject<RulesConfig, RulesConfig> | ConfigObject<RulesConfig> | ConfigObject<RulesConfig>[]'.
+          Type 'Config' is not assignable to type 'LegacyConfigObject<RulesConfig, RulesConfig>'.
+            Types of property 'overrides' are incompatible.
+              Type 'ConfigOverride[] | undefined' is not assignable to type 'ConfigOverride<RulesConfig>[] | undefined'.
+                Type 'ConfigOverride[]' is not assignable to type 'ConfigOverride<RulesConfig>[]'.
+                  Type 'ConfigOverride' is not assignable to type 'ConfigOverride<RulesConfig>'.
+                    Types of property 'parser' are incompatible.
+                      Type 'string | null | undefined' is not assignable to type 'string | undefined'.
+                        Type 'null' is not assignable to type 'string | undefined'.
+eslint.config.ts(38,7): error TS2322: Type '{ meta: { name: string; version: string; }; rules: { 'exhaustive-deps': { meta: { type: "suggestion"; docs: { description: string; recommended: true; url: string; }; fixable: "code"; hasSuggestions: true; schema: { ...; }[]; }; create(context: RuleContext): { ...; }; }; 'rules-of-hooks': { ...; }; }; configs: { ...;...' is not assignable to type 'Plugin'.
+  Types of property 'configs' are incompatible.
+    Type '{ recommended: { plugins: string[]; rules: RulesConfig; }; 'recommended-latest': { plugins: string[]; rules: RulesConfig; }; flat: { recommended: ReactHooksFlatConfig; "recommended-latest": ReactHooksFlatConfig; }; }' is not assignable to type 'Record<string, LegacyConfigObject<RulesConfig, RulesConfig> | ConfigObject<RulesConfig> | ConfigObject<RulesConfig>[]>'.
+      Property 'flat' is incompatible with index signature.
+        Type '{ recommended: ReactHooksFlatConfig; "recommended-latest": ReactHooksFlatConfig; }' is not assignable to type 'LegacyConfigObject<RulesConfig, RulesConfig> | ConfigObject<RulesConfig> | ConfigObject<RulesConfig>[]'.
+ΓÇëELIFECYCLEΓÇë Command failed with exit code 1.

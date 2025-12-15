@@ -18,7 +18,7 @@ import {
   createChapterSchema,
   updateChapterSchema,
 } from "@/lib/validations/schemas";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, sql, type SQL } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 type ParsedCreateChapter = CreateChapterInput & { slug?: string };
@@ -213,12 +213,12 @@ export async function listChapters(input?: ChapterFilterInput) {
 
     const offset = (page - 1) * limit;
 
-    const conditions = [];
+    const conditions: SQL<unknown>[] = [];
     if (comicId) {
-      conditions.push(eq(chapter.comicId, comicId));
+      conditions.push(eq(chapter.comicId, comicId) as SQL<unknown>);
     }
 
-    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+    const whereClause = conditions.length > 0 ? and(...(conditions as SQL<unknown>[])) : undefined;
 
     // Get total count
     const [countResult] = await database

@@ -37,7 +37,7 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "role",
     header: "Role",
     cell: ({ row }) => {
-      const role = row.getValue("role");
+      const role = row.getValue("role") as string;
       return <Badge variant={role === "admin" ? "default" : "secondary"}>{role}</Badge>;
     },
   },
@@ -53,7 +53,7 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "createdAt",
     header: "Created",
     cell: ({ row }) => {
-      const date = row.getValue("createdAt");
+      const date = row.getValue("createdAt") as Date;
       return new Date(date).toLocaleDateString();
     },
   },

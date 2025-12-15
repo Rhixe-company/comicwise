@@ -111,13 +111,13 @@ The seeder looks for JSON files in the workspace root:
 
 ```json
 {
-  "id": "user_123",
-  "name": "John Doe",
   "email": "john@example.com",
-  "password": "plaintext_password",
+  "emailVerified": "2024-01-01T00:00:00Z",
+  "id": "user_123",
   "image": "https://example.com/avatar.jpg",
-  "role": "user",
-  "emailVerified": "2024-01-01T00:00:00Z"
+  "name": "John Doe",
+  "password": "plaintext_password",
+  "role": "user"
 }
 ```
 
@@ -125,21 +125,21 @@ The seeder looks for JSON files in the workspace root:
 
 ```json
 {
-  "title": "Comic Title",
-  "description": "Comic description",
-  "slug": "comic-title",
-  "status": "Ongoing",
-  "type": "Manga",
-  "author": "Author Name",
   "artist": "Artist Name",
+  "author": "Author Name",
+  "description": "Comic description",
   "genres": ["Action", "Adventure"],
-  "rating": "4.5",
   "image_urls": ["https://example.com/cover.jpg"],
   "images": [
     { "url": "https://example.com/image1.jpg" },
     { "url": "https://example.com/image2.jpg" }
   ],
   "publicationDate": "August 14th 2025",
+  "rating": "4.5",
+  "slug": "comic-title",
+  "status": "Ongoing",
+  "title": "Comic Title",
+  "type": "Manga",
   "updated_at": "2025-01-01"
 }
 ```
@@ -148,14 +148,14 @@ The seeder looks for JSON files in the workspace root:
 
 ```json
 {
-  "comictitle": "Comic Title",
   "chaptername": "Chapter 1",
-  "title": "Chapter 1: The Beginning",
-  "releaseDate": "2025-01-01",
+  "comictitle": "Comic Title",
   "images": [
     { "url": "https://example.com/page1.jpg" },
     { "url": "https://example.com/page2.jpg" }
   ],
+  "releaseDate": "2025-01-01",
+  "title": "Chapter 1: The Beginning",
   "updated_at": "2025-01-01"
 }
 ```

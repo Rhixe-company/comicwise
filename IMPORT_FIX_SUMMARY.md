@@ -136,11 +136,11 @@ All path aliases from `tsconfig.json` are now properly used:
 {
   "@/*": ["./src/*"],
   "components/*": ["./src/components/*"],
+  "database/*": ["./src/database/*"],
   "hooks/*": ["./src/hooks/*"],
   "lib/*": ["./src/lib/*"],
   "services/*": ["./src/services/*"],
   "stores/*": ["./src/stores/*"],
-  "database/*": ["./src/database/*"],
   "types/*": ["./src/types/*"]
 }
 ```

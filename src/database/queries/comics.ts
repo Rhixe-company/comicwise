@@ -1,6 +1,6 @@
 import { db as database } from "@/database/db";
 import { artist, author, chapter, comic, comicToGenre, genre, type } from "@/database/schema";
-import { and, asc, desc, eq, gte, inArray, like, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, inArray, like, or, sql, type SQL } from "drizzle-orm";
 
 import type { ComicFilters, ComicWithDetails, Genre, PaginatedResponse } from "src/types";
 
@@ -43,7 +43,7 @@ export async function getAllComics(
     .leftJoin(type, eq(comic.typeId, type.id))
     .$dynamic();
 
-  const conditions = [];
+  const conditions: SQL<unknown>[] = [];
 
   if (search) {
     conditions.push(
@@ -51,20 +51,20 @@ export async function getAllComics(
         like(comic.title, `%${search}%`),
         like(author.name, `%${search}%`),
         like(artist.name, `%${search}%`)
-      )
+      ) as SQL<unknown>
     );
   }
 
   if (typeId) {
-    conditions.push(eq(comic.typeId, typeId));
+    conditions.push(eq(comic.typeId, typeId) as SQL<unknown>);
   }
 
   if (status) {
-    conditions.push(eq(comic.status, status));
+    conditions.push(eq(comic.status, status) as SQL<unknown>);
   }
 
   if (minRating) {
-    conditions.push(gte(comic.rating, minRating.toString()));
+    conditions.push(gte(comic.rating, minRating.toString()) as SQL<unknown>);
   }
 
   if (genreIds && genreIds.length > 0) {
@@ -75,12 +75,12 @@ export async function getAllComics(
 
     const comicIds = comicsWithGenres.map((c) => c.comicId);
     if (comicIds.length > 0) {
-      conditions.push(inArray(comic.id, comicIds));
+      conditions.push(inArray(comic.id, comicIds) as SQL<unknown>);
     }
   }
 
   if (conditions.length > 0) {
-    query = query.where(and(...conditions));
+    query = query.where(and(...(conditions as SQL<unknown>[])));
   }
 
   switch (sortBy) {

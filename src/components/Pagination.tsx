@@ -25,7 +25,7 @@ export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: Pag
   };
 
   const renderPageNumbers = () => {
-    const pages = [];
+    const pages: (React.ReactElement | React.ReactNode)[] = [];
     const maxVisible = 5;
 
     let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));

@@ -4,7 +4,7 @@
 
 import { artist, author, comic, comicToGenre, type as comicType } from "@/database/schema";
 import { db } from "db";
-import { and, asc, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, or, sql, type SQL } from "drizzle-orm";
 // ═══════════════════════════════════════════════════
 // TYPE DEFINITIONS
 // ═══════════════════════════════════════════════════
@@ -61,36 +61,36 @@ export async function fullTextSearch(
       .join(" & ");
 
     // Build WHERE conditions
-    const conditions = [];
+    const conditions: SQL<unknown>[] = [];
 
     // Full-text search condition
     if (tsQuery) {
-      conditions.push(sql`search_vector @@ to_tsquery('english', ${tsQuery})`);
+      conditions.push(sql`search_vector @@ to_tsquery('english', ${tsQuery})` as SQL<unknown>);
     }
 
     // Status filter
     if (options.filters?.status && options.filters.status.length > 0) {
-      conditions.push(sql`${comic.status} = ANY(${options.filters.status})`);
+      conditions.push(sql`${comic.status} = ANY(${options.filters.status})` as SQL<unknown>);
     }
 
     // Rating filter
     if (options.filters?.minRating) {
-      conditions.push(sql`${comic.rating} >= ${options.filters.minRating}`);
+      conditions.push(sql`${comic.rating} >= ${options.filters.minRating}` as SQL<unknown>);
     }
 
     // Type filter
     if (options.filters?.typeId) {
-      conditions.push(eq(comic.typeId, options.filters.typeId));
+      conditions.push(eq(comic.typeId, options.filters.typeId) as SQL<unknown>);
     }
 
     // Author filter
     if (options.filters?.authorId) {
-      conditions.push(eq(comic.authorId, options.filters.authorId));
+      conditions.push(eq(comic.authorId, options.filters.authorId) as SQL<unknown>);
     }
 
     // Artist filter
     if (options.filters?.artistId) {
-      conditions.push(eq(comic.artistId, options.filters.artistId));
+      conditions.push(eq(comic.artistId, options.filters.artistId) as SQL<unknown>);
     }
 
     // Genre filter
@@ -101,7 +101,7 @@ export async function fullTextSearch(
           SELECT 1 FROM ${comicToGenre}
           WHERE ${comicToGenre.comicId} = ${comic.id}
           AND ${comicToGenre.genreId} = ANY(${genreIds})
-        )`
+        )` as SQL<unknown>
       );
     }
 
@@ -133,7 +133,7 @@ export async function fullTextSearch(
     }
 
     // Execute search query
-    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+    const whereClause = conditions.length > 0 ? and(...(conditions as SQL<unknown>[])) : undefined;
 
     const results = await db
       .select({
@@ -211,33 +211,35 @@ export async function simpleSearch(
     const offset = (page - 1) * limit;
 
     // Build WHERE conditions
-    const conditions = [];
+    const conditions: SQL<unknown>[] = [];
 
     // Basic ILIKE search on title and description
     if (searchQuery && searchQuery.trim()) {
       const query = `%${searchQuery.trim()}%`;
-      conditions.push(or(ilike(comic.title, query), ilike(comic.description, query)));
+      conditions.push(
+        or(ilike(comic.title, query), ilike(comic.description, query)) as SQL<unknown>
+      );
     }
 
     // Apply filters (same as full-text search)
     if (options.filters?.status && options.filters.status.length > 0) {
-      conditions.push(sql`${comic.status} = ANY(${options.filters.status})`);
+      conditions.push(sql`${comic.status} = ANY(${options.filters.status})` as SQL<unknown>);
     }
 
     if (options.filters?.minRating) {
-      conditions.push(sql`${comic.rating} >= ${options.filters.minRating}`);
+      conditions.push(sql`${comic.rating} >= ${options.filters.minRating}` as SQL<unknown>);
     }
 
     if (options.filters?.typeId) {
-      conditions.push(eq(comic.typeId, options.filters.typeId));
+      conditions.push(eq(comic.typeId, options.filters.typeId) as SQL<unknown>);
     }
 
     if (options.filters?.authorId) {
-      conditions.push(eq(comic.authorId, options.filters.authorId));
+      conditions.push(eq(comic.authorId, options.filters.authorId) as SQL<unknown>);
     }
 
     if (options.filters?.artistId) {
-      conditions.push(eq(comic.artistId, options.filters.artistId));
+      conditions.push(eq(comic.artistId, options.filters.artistId) as SQL<unknown>);
     }
 
     // Build ORDER BY
@@ -259,7 +261,7 @@ export async function simpleSearch(
         orderBy = sortOrder(comic.createdAt);
     }
 
-    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+    const whereClause = conditions.length > 0 ? and(...(conditions as SQL<unknown>[])) : undefined;
 
     const results = await db
       .select({

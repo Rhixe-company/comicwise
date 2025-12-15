@@ -1,6 +1,6 @@
 import { database } from "@/database";
 import { user } from "@/database/schema";
-import { asc, desc, eq, ilike, or } from "drizzle-orm";
+import { asc, desc, eq, ilike, or, type SQL } from "drizzle-orm";
 
 export async function getUserById(userId: string) {
   return await database.query.user.findFirst({
@@ -17,7 +17,7 @@ export async function getUserByEmail(email: string) {
 export async function getUsers(params?: {
   limit?: number;
   offset?: number;
-  sortBy?: "name" | "email" | "createdAt";
+  sortBy?: "name" | "email" | "role" | "createdAt";
   sortOrder?: "asc" | "desc";
   search?: string;
   role?: "user" | "admin" | "moderator";
@@ -34,16 +34,18 @@ export async function getUsers(params?: {
   let query = database.select().from(user).$dynamic();
 
   // Apply filters
-  const conditions = [];
+  const conditions: SQL<unknown>[] = [];
   if (search) {
-    conditions.push(or(ilike(user.name, `%${search}%`), ilike(user.email, `%${search}%`)));
+    conditions.push(
+      or(ilike(user.name, `%${search}%`), ilike(user.email, `%${search}%`)) as SQL<unknown>
+    );
   }
   if (role) {
-    conditions.push(eq(user.role, role));
+    conditions.push(eq(user.role, role) as SQL<unknown>);
   }
 
   if (conditions.length > 0) {
-    query = query.where(or(...conditions));
+    query = query.where(or(...(conditions as SQL<unknown>[])));
   }
 
   // Apply sorting
@@ -65,12 +67,14 @@ export async function getUserCount(params?: {
 
   let query = database.select().from(user).$dynamic();
 
-  const conditions = [];
+  const conditions: SQL<unknown>[] = [];
   if (search) {
-    conditions.push(or(ilike(user.name, `%${search}%`), ilike(user.email, `%${search}%`)));
+    conditions.push(
+      or(ilike(user.name, `%${search}%`), ilike(user.email, `%${search}%`)) as SQL<unknown>
+    );
   }
   if (role) {
-    conditions.push(eq(user.role, role));
+    conditions.push(eq(user.role, role) as SQL<unknown>);
   }
 
   if (conditions.length > 0) {
@@ -107,7 +111,7 @@ export async function getAllUsers(filters?: {
     role,
     limit,
     offset,
-    sortBy: sortBy === "createdAt" || sortBy === "updatedAt" ? sortBy : "createdAt",
+    sortBy: sortBy === "name" || sortBy === "email" || sortBy === "role" ? sortBy : "createdAt",
     sortOrder,
   });
 

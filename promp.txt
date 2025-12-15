@@ -1,0 +1,15 @@
+---
+Take into consideration Sorry, you have been rate-limited Please wait a moment before trying again Learn More Server Error: Sorry, you have exceeded your Copilot token usage Please review our Terms of Service. Error Code: rate_limited while running all future tasks dontcreate summary until  tasks are completed successfully the package manager is pnpm  and the system is windows
+Review the Prettier config in @prettier.config.ts and verify:
+1. All required Prettier plugins are properly installed and configured:
+Review the Postcss config in @postcss.config.mjs and verify:
+1. All required PostCSS plugins are properly installed and configured:
+Review the ESLint config in @eslint.config.ts and verify:
+1. All ESLint plugins are properly installed and configured:
+2. Each plugin has rules configured in the main config block
+3. There are no redundant or conflicting rules
+4. The config adheres to best practices for performance and maintainability
+Report any missing plugins or configuration gaps with a maximum patch.
+Install any missing packages.
+Update all  any types to  use a generic type  infer types from usage or infer its types from usage
+---

@@ -1,5 +1,18 @@
 {
-  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Dev + Node Attach",
+      "configurations": ["Next: Dev (pnpm)", "Attach to Process"]
+    },
+    {
+      "name": "Dev (inspect) + Attach",
+      "configurations": ["Next: Dev (inspect)", "Attach to Next (9229)"]
+    },
+    {
+      "name": "Full Test Suite",
+      "configurations": ["Unit Tests (vitest)", "E2E Tests (playwright)"]
+    }
+  ],
   "configurations": [
     {
       "name": "Next: Dev (pnpm)",
@@ -96,18 +109,5 @@
       "skipFiles": ["<node_internals>/**"]
     }
   ],
-  "compounds": [
-    {
-      "name": "Dev + Node Attach",
-      "configurations": ["Next: Dev (pnpm)", "Attach to Process"]
-    },
-    {
-      "name": "Dev (inspect) + Attach",
-      "configurations": ["Next: Dev (inspect)", "Attach to Next (9229)"]
-    },
-    {
-      "name": "Full Test Suite",
-      "configurations": ["Unit Tests (vitest)", "E2E Tests (playwright)"]
-    }
-  ]
+  "version": "0.2.0"
 }

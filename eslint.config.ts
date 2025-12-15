@@ -1,3 +1,6 @@
+/* eslint-disable simple-import-sort/imports */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // ESLint 9.x Flat Config for Next.js 16 + React 19 + TypeScript 5
 import css from "@eslint/css";
 import js from "@eslint/js";
@@ -10,17 +13,22 @@ import prettierConfig from "eslint-config-prettier/flat";
 import pluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
 import * as pluginDrizzle from "eslint-plugin-drizzle";
 import importPlugin from "eslint-plugin-import";
+import jsdoc from "eslint-plugin-jsdoc";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import security from "eslint-plugin-security";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import sonarjs from "eslint-plugin-sonarjs";
-import unusedImports from "eslint-plugin-unused-imports";
+import unicorn from "eslint-plugin-unicorn";
+import unused from "eslint-plugin-unused-imports";
+import zod from "eslint-plugin-zod";
+import type { Config } from "eslint/config";
 import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-const eslintConfig = defineConfig([
+const eslintConfig: Config[] = defineConfig([
   js.configs.recommended,
   tseslint.configs.recommended,
   {
@@ -34,11 +42,15 @@ const eslintConfig = defineConfig([
       "jsx-a11y": jsxA11y,
       "better-tailwindcss": pluginBetterTailwindcss,
       import: importPlugin,
-      "unused-imports": unusedImports,
+      "simple-import-sort": simpleImportSort,
+      "unused-imports": unused,
       drizzle: pluginDrizzle,
       security,
       sonarjs,
-    } as any,
+      unicorn,
+      jsdoc,
+      zod: zod,
+    },
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -231,6 +243,8 @@ const eslintConfig = defineConfig([
       "import/no-unresolved": "error",
       "import/no-duplicates": "error",
       "import/order": "off",
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
       "import/no-default-export": "off",
       "import/prefer-default-export": "off",
       "import/no-named-default": "error",
@@ -264,6 +278,7 @@ const eslintConfig = defineConfig([
       ],
 
       // Tailwind CSS
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       ...(pluginBetterTailwindcss.configs["recommended-warn"]?.rules ?? {}),
       "better-tailwindcss/no-conflicting-classes": "warn",
       "better-tailwindcss/no-unregistered-classes": "warn",
@@ -271,6 +286,10 @@ const eslintConfig = defineConfig([
       // Drizzle ORM
       "drizzle/enforce-delete-with-where": ["error", { drizzleObjectName: ["database", "db"] }],
       "drizzle/enforce-update-with-where": ["error", { drizzleObjectName: ["database", "db"] }],
+
+      // Zod
+      "zod/prefer-enum": "error",
+      "zod/require-strict": "warn",
 
       // Security
       "security/detect-object-injection": "off",
@@ -284,6 +303,74 @@ const eslintConfig = defineConfig([
       "sonarjs/no-identical-expressions": "warn",
       "sonarjs/no-collapsible-if": "warn",
       "sonarjs/no-duplicate-string": "warn",
+
+      // JSDoc
+      "jsdoc/require-jsdoc": [
+        "warn",
+        {
+          publicOnly: true,
+          require: {
+            FunctionDeclaration: true,
+            MethodDefinition: true,
+            ClassDeclaration: true,
+          },
+        },
+      ],
+      "jsdoc/require-param": "warn",
+      "jsdoc/require-returns": "warn",
+      "jsdoc/valid-types": "warn",
+
+      // Unicorn
+      "unicorn/better-regex": "warn",
+      "unicorn/catch-error-name": ["warn", { name: "error" }],
+      "unicorn/consistent-destructuring": "warn",
+      "unicorn/escape-case": "warn",
+      "unicorn/filename-case": ["warn", { case: "kebabCase" }],
+      "unicorn/new-for-builtins": "warn",
+      "unicorn/no-array-callback-reference": "warn",
+      "unicorn/no-array-method-this-argument": "warn",
+      "unicorn/no-await-expression-member": "warn",
+      "unicorn/no-console-spaces": "warn",
+      "unicorn/no-invalid-remove-event-listener": "warn",
+      "unicorn/no-new-array": "warn",
+      "unicorn/no-object-as-default-parameter": "warn",
+      "unicorn/no-static-only-class": "warn",
+      "unicorn/no-unreadable-array-destructuring": "warn",
+      "unicorn/no-unused-properties": "warn",
+      "unicorn/prefer-array-find": "warn",
+      "unicorn/prefer-array-flat": "warn",
+      "unicorn/prefer-array-index-of": "warn",
+      "unicorn/prefer-array-some": "warn",
+      "unicorn/prefer-date-now": "warn",
+      "unicorn/prefer-default-parameters": "warn",
+      "unicorn/prefer-includes": "warn",
+      "unicorn/prefer-logical-operator-over-ternary": "warn",
+      "unicorn/prefer-modern-dom-apis": "warn",
+      "unicorn/prefer-modern-math-apis": "warn",
+      "unicorn/prefer-number-properties": "warn",
+      "unicorn/prefer-object-from-entries": "warn",
+      "unicorn/prefer-optional-catch-binding": "warn",
+      "unicorn/prefer-prototype-methods": "warn",
+      "unicorn/prefer-query-selector": "warn",
+      "unicorn/prefer-reflect-apply": "warn",
+      "unicorn/prefer-regexp-test": "warn",
+      "unicorn/prefer-set-has": "warn",
+      "unicorn/prefer-spread": "warn",
+      "unicorn/prefer-string-replace-all": "warn",
+      "unicorn/prefer-string-slice": "warn",
+      "unicorn/prefer-string-starts-ends-with": "warn",
+      "unicorn/prefer-string-trim-start-end": "warn",
+      "unicorn/prefer-switch": "warn",
+      "unicorn/prefer-ternary": "warn",
+      "unicorn/prefer-top-level-await": "warn",
+      "unicorn/prevent-abbreviations": "warn",
+      // "unicorn/relative-url-style": ["warn", "relative"],
+      "unicorn/require-array-join-separator": "warn",
+      // "unicorn/require-number-is-nan": "warn",
+      "unicorn/require-post-message-target-origin": "warn",
+      // "unicorn/string-content-replacement": "warn",
+      "unicorn/switch-case-braces": ["warn", "avoid"],
+      "unicorn/throw-new-error": "warn",
     },
   },
 
@@ -348,6 +435,8 @@ const eslintConfig = defineConfig([
     "**/.vercel/**",
     "**/public/**",
     "**/drizzle/**",
+    "**/coverage/**",
+    "**/.turbo/**",
     "src/styles/globals.css",
     "**/docs/**",
   ]),

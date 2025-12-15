@@ -82,3 +82,10 @@ export async function getAllGenres(filters?: {
     totalPages: Math.ceil(total / limit),
   };
 }
+
+export async function getGenresForSelect() {
+  return await database
+    .select({ id: genre.id, name: genre.name })
+    .from(genre)
+    .orderBy(asc(genre.name));
+}

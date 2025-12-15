@@ -21,28 +21,33 @@ declare module "eslint-plugin-security" {
 declare module "@react-email/components" {
   import type { ComponentType, ReactNode } from "react";
 
-  export interface EmailProps {
+  export interface EmailProperties {
     children?: ReactNode;
     style?: React.CSSProperties;
     className?: string;
   }
 
-  export const Html: ComponentType<EmailProps>;
-  export const Head: ComponentType<EmailProps>;
-  export const Body: ComponentType<EmailProps>;
-  export const Container: ComponentType<EmailProps>;
-  export const Section: ComponentType<EmailProps>;
-  export const Row: ComponentType<EmailProps>;
-  export const Column: ComponentType<EmailProps>;
-  export const Text: ComponentType<EmailProps>;
-  export const Button: ComponentType<EmailProps & { href?: string }>;
-  export const Link: ComponentType<EmailProps & { href: string }>;
-  export const Hr: ComponentType<EmailProps>;
+  export const Html: ComponentType<EmailProperties>;
+  export const Head: ComponentType<EmailProperties>;
+  export const Body: ComponentType<EmailProperties>;
+  export const Container: ComponentType<EmailProperties>;
+  export const Section: ComponentType<EmailProperties>;
+  export const Row: ComponentType<EmailProperties>;
+  export const Column: ComponentType<EmailProperties>;
+  export const Text: ComponentType<EmailProperties>;
+  export const Button: ComponentType<EmailProperties & { href?: string }>;
+  export const Link: ComponentType<EmailProperties & { href: string }>;
+  export const Hr: ComponentType<EmailProperties>;
   export const Img: ComponentType<
-    EmailProps & { src: string; alt?: string; width?: number | string; height?: number | string }
+    EmailProperties & {
+      src: string;
+      alt?: string;
+      width?: number | string;
+      height?: number | string;
+    }
   >;
   export const Preview: ComponentType<{ children: string }>;
-  export const Heading: ComponentType<EmailProps & { as?: any }>;
+  export const Heading: ComponentType<EmailProperties & { as?: any }>;
   // helper render function commonly exported by @react-email/components
   export function render(element: any): string;
 }
@@ -51,7 +56,7 @@ declare module "@react-email/components" {
 declare module "react-fast-marquee" {
   import type { ComponentType, CSSProperties, ReactNode } from "react";
 
-  export interface MarqueeProps {
+  export interface MarqueeProperties {
     children: ReactNode;
     style?: CSSProperties;
     className?: string;
@@ -72,7 +77,7 @@ declare module "react-fast-marquee" {
     children?: ReactNode;
   }
 
-  const Marquee: ComponentType<MarqueeProps>;
+  const Marquee: ComponentType<MarqueeProperties>;
   export default Marquee;
 }
 
@@ -87,7 +92,7 @@ declare module "react-medium-image-zoom" {
     ? T
     : Record<string, any>;
 
-  export interface ZoomProps {
+  export interface ZoomProperties {
     children?: ReactNode;
     zoomMargin?: number;
     overlayBgColorStart?: string;
@@ -110,13 +115,13 @@ declare module "react-medium-image-zoom" {
   }
 
   export const Controlled: ComponentType<
-    ZoomProps & {
+    ZoomProperties & {
       isZoomed: boolean;
       onZoomChange(isZoomed: boolean): void;
     }
   >;
 
-  const Zoom: ComponentType<ZoomProps>;
+  const Zoom: ComponentType<ZoomProperties>;
   export default Zoom;
 }
 
@@ -124,7 +129,7 @@ declare module "react-medium-image-zoom" {
 declare module "vaul" {
   import type { ComponentType, ReactNode } from "react";
 
-  export interface DrawerProps {
+  export interface DrawerProperties {
     children?: ReactNode;
     open?: boolean;
     onOpenChange?(open: boolean): void;
@@ -144,8 +149,8 @@ declare module "vaul" {
     noBodyStyles?: boolean;
   }
 
-  export const Drawer: ComponentType<DrawerProps> & {
-    Root: ComponentType<DrawerProps>;
+  export const Drawer: ComponentType<DrawerProperties> & {
+    Root: ComponentType<DrawerProperties>;
     Trigger: ComponentType<{ children?: ReactNode; asChild?: boolean }>;
     Portal: ComponentType<{ children?: ReactNode }>;
     Overlay: ComponentType<{ className?: string; style?: React.CSSProperties }>;
@@ -158,10 +163,10 @@ declare module "vaul" {
     Description: ComponentType<{ className?: string; children?: ReactNode }>;
     Close: ComponentType<{ className?: string; children?: ReactNode; asChild?: boolean }>;
     Handle: ComponentType<{ className?: string }>;
-    NestedRoot: ComponentType<DrawerProps>;
+    NestedRoot: ComponentType<DrawerProperties>;
   };
 
-  export const Root: ComponentType<DrawerProps>;
+  export const Root: ComponentType<DrawerProperties>;
   export const Trigger: ComponentType<{ children?: ReactNode; asChild?: boolean }>;
   export const Portal: ComponentType<{ children?: ReactNode }>;
   export const Overlay: ComponentType<{ className?: string; style?: React.CSSProperties }>;
@@ -178,14 +183,14 @@ declare module "vaul" {
     asChild?: boolean;
   }>;
   export const Handle: ComponentType<{ className?: string }>;
-  export const NestedRoot: ComponentType<DrawerProps>;
+  export const NestedRoot: ComponentType<DrawerProperties>;
 }
 
 // CMDK (Command Menu)
 declare module "cmdk" {
   import type { ComponentType, HTMLAttributes, ReactNode } from "react";
 
-  export interface CommandProps extends HTMLAttributes<HTMLDivElement> {
+  export interface CommandProperties extends HTMLAttributes<HTMLDivElement> {
     children?: ReactNode;
     label?: string;
     shouldFilter?: boolean;
@@ -197,7 +202,7 @@ declare module "cmdk" {
     vimBindings?: boolean;
   }
 
-  export interface CommandItemProps extends HTMLAttributes<HTMLDivElement> {
+  export interface CommandItemProperties extends HTMLAttributes<HTMLDivElement> {
     children?: ReactNode;
     disabled?: boolean;
     onSelect?(value: string): void;
@@ -206,12 +211,12 @@ declare module "cmdk" {
     forceMount?: boolean;
   }
 
-  export const Command: ComponentType<CommandProps> & {
+  export const Command: ComponentType<CommandProperties> & {
     Input: ComponentType<HTMLAttributes<HTMLInputElement>>;
     List: ComponentType<HTMLAttributes<HTMLDivElement>>;
     Empty: ComponentType<HTMLAttributes<HTMLDivElement>>;
     Group: ComponentType<HTMLAttributes<HTMLDivElement> & { heading?: ReactNode }>;
-    Item: ComponentType<CommandItemProps>;
+    Item: ComponentType<CommandItemProperties>;
     Separator: ComponentType<HTMLAttributes<HTMLDivElement>>;
     Dialog: ComponentType<any>;
     Loading: ComponentType<HTMLAttributes<HTMLDivElement>>;
@@ -255,9 +260,9 @@ declare module "embla-carousel" {
     breakpoints?: {
       [key: string]: Omit<EmblaOptionsType, "breakpoints">;
     };
-    watchDrag?(emblaApi: EmblaCarouselType, evt: MouseEvent | TouchEvent): boolean | void;
-    watchResize?(emblaApi: EmblaCarouselType, entries: ResizeObserverEntry[]): boolean | void;
-    watchSlides?(emblaApi: EmblaCarouselType, mutations: MutationRecord[]): boolean | void;
+    watchDrag?(emblaApi: EmblaCarouselType, event_: MouseEvent | TouchEvent): boolean | undefined;
+    watchResize?(emblaApi: EmblaCarouselType, entries: ResizeObserverEntry[]): boolean | undefined;
+    watchSlides?(emblaApi: EmblaCarouselType, mutations: MutationRecord[]): boolean | undefined;
   }
 
   export interface EmblaCarouselType {
@@ -297,20 +302,23 @@ declare module "embla-carousel" {
 declare module "input-otp" {
   import type { ComponentType, InputHTMLAttributes } from "react";
 
-  export interface OTPInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+  export interface OTPInputProperties extends Omit<
+    InputHTMLAttributes<HTMLInputElement>,
+    "onChange"
+  > {
     value?: string;
     onChange?(value: string): void;
     maxLength?: number;
     pattern?: string;
     inputMode?: "numeric" | "text";
-    render?(props: { slots: any[] }): React.ReactNode;
+    render?(properties: { slots: any[] }): React.ReactNode;
     containerClassName?: string;
     textAlign?: "left" | "center" | "right";
     pushPasswordManagerStrategy?: "increase-width" | "none";
     noScriptCSSFallback?: string | null;
   }
 
-  export const OTPInput: ComponentType<OTPInputProps>;
+  export const OTPInput: ComponentType<OTPInputProperties>;
   export interface OTPInputContextType {
     slots?: any[];
   }
@@ -330,7 +338,7 @@ declare module "react-resizable-panels" {
     ? T
     : Record<string, any>;
 
-  export interface PanelProps extends HTMLAttributes<HTMLDivElement> {
+  export interface PanelProperties extends HTMLAttributes<HTMLDivElement> {
     children?: ReactNode;
     collapsedSize?: number;
     collapsible?: boolean;
@@ -339,12 +347,12 @@ declare module "react-resizable-panels" {
     maxSize?: number;
     minSize?: number;
     onCollapse?(collapsed: boolean): void;
-    onResize?(size: number, prevSize: number | undefined): void;
+    onResize?(size: number, previousSize: number | undefined): void;
     order?: number;
     tagName?: keyof HTMLElementTagNameMap;
   }
 
-  export interface PanelGroupProps extends HTMLAttributes<HTMLDivElement> {
+  export interface PanelGroupProperties extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
     autoSaveId?: string;
     direction: "horizontal" | "vertical";
@@ -357,7 +365,7 @@ declare module "react-resizable-panels" {
     tagName?: keyof HTMLElementTagNameMap;
   }
 
-  export interface PanelResizeHandleProps extends HTMLAttributes<HTMLDivElement> {
+  export interface PanelResizeHandleProperties extends HTMLAttributes<HTMLDivElement> {
     children?: ReactNode;
     className?: string;
     disabled?: boolean;
@@ -367,9 +375,9 @@ declare module "react-resizable-panels" {
     hitAreaMargins?: { coarse: number; fine: number };
   }
 
-  export const Panel: ComponentType<PanelProps>;
-  export const PanelGroup: ComponentType<PanelGroupProps>;
-  export const PanelResizeHandle: ComponentType<PanelResizeHandleProps>;
+  export const Panel: ComponentType<PanelProperties>;
+  export const PanelGroup: ComponentType<PanelGroupProperties>;
+  export const PanelResizeHandle: ComponentType<PanelResizeHandleProperties>;
 
   export function getPanelElement(id: string, groupId?: string): HTMLElement | null;
   export function getPanelGroupElement(id: string): HTMLElement | null;
@@ -378,22 +386,73 @@ declare module "react-resizable-panels" {
 
 // Media Chrome
 declare module "media-chrome" {
+  /**
+   *
+   */
   export class MediaController extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaPlayButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaMuteButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaTimeRange extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaVolumeRange extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaTimeDisplay extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaDurationDisplay extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaFullscreenButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaPipButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaSeekBackwardButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaSeekForwardButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaPlaybackRateButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaCaptionsButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaAirplayButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaCastButton extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaPosterImage extends HTMLElement {}
+  /**
+   *
+   */
   export class MediaLoadingIndicator extends HTMLElement {}
 }
 
@@ -410,7 +469,7 @@ declare module "motion" {
 declare module "recharts" {
   import type { ComponentType, CSSProperties, ReactNode } from "react";
 
-  export interface ChartProps {
+  export interface ChartProperties {
     width?: number | string;
     height?: number | string;
     data?: any[];
@@ -428,17 +487,17 @@ declare module "recharts" {
     maxBarSize?: number;
   }
 
-  export const LineChart: ComponentType<ChartProps>;
-  export const BarChart: ComponentType<ChartProps>;
-  export const AreaChart: ComponentType<ChartProps>;
-  export const PieChart: ComponentType<ChartProps>;
-  export const RadarChart: ComponentType<ChartProps>;
-  export const ScatterChart: ComponentType<ChartProps>;
-  export const ComposedChart: ComponentType<ChartProps>;
-  export const Treemap: ComponentType<ChartProps>;
-  export const Sankey: ComponentType<ChartProps>;
-  export const RadialBarChart: ComponentType<ChartProps>;
-  export const FunnelChart: ComponentType<ChartProps>;
+  export const LineChart: ComponentType<ChartProperties>;
+  export const BarChart: ComponentType<ChartProperties>;
+  export const AreaChart: ComponentType<ChartProperties>;
+  export const PieChart: ComponentType<ChartProperties>;
+  export const RadarChart: ComponentType<ChartProperties>;
+  export const ScatterChart: ComponentType<ChartProperties>;
+  export const ComposedChart: ComponentType<ChartProperties>;
+  export const Treemap: ComponentType<ChartProperties>;
+  export const Sankey: ComponentType<ChartProperties>;
+  export const RadialBarChart: ComponentType<ChartProperties>;
+  export const FunnelChart: ComponentType<ChartProperties>;
 
   export const Line: ComponentType<any>;
   export const Bar: ComponentType<any>;
@@ -462,15 +521,14 @@ declare module "recharts" {
   export const Brush: ComponentType<any>;
   export const ErrorBar: ComponentType<any>;
   export const Funnel: ComponentType<any>;
-  export const FunnelChart: ComponentType<any>;
 
   // minimal props types used in project
-  export type LegendProps = any;
+  export type LegendProperties = any;
 }
 
 // Minimal Recharts primitive namespace shim used in the codebase
 declare namespace RechartsPrimitive {
-  export type LegendProps = any;
+  export type LegendProperties = any;
 }
 
 // React Dropzone
@@ -508,7 +566,7 @@ declare module "react-dropzone" {
     onFileDialogOpen?(): void;
     useFsAccessApi?: boolean;
     autoFocus?: boolean;
-    onError?(err: Error): void;
+    onError?(error: Error): void;
     validator?(file: File): FileError | FileError[] | null;
     multiple?: boolean;
   }
@@ -523,9 +581,9 @@ declare module "react-dropzone" {
     fileRejections: FileRejection[];
     rootRef: React.RefObject<HTMLElement>;
     inputRef: React.RefObject<HTMLInputElement>;
-    getRootProps(props?: any): any;
+    getRootProps(properties?: any): any;
     getInputProps(
-      props?: InputHTMLAttributes<HTMLInputElement>
+      properties?: InputHTMLAttributes<HTMLInputElement>
     ): InputHTMLAttributes<HTMLInputElement>;
     open(): void;
   }
@@ -576,18 +634,30 @@ declare module "glob" {
   export function globStream(pattern: string | string[], options?: GlobOptions): ReadableStream;
   export function globStreamSync(pattern: string | string[], options?: GlobOptions): ReadableStream;
   export function hasMagic(pattern: string, options?: GlobOptions): boolean;
+  /**
+   *
+   */
   export class Glob {
+    /**
+     *
+     */
     constructor(pattern: string, options?: GlobOptions);
     found: Set<string>;
+    /**
+     *
+     */
     walk(): Promise<void>;
+    /**
+     *
+     */
     walkSync(): void;
   }
 }
 
 // Lodash Debounce
 declare module "lodash.debounce" {
-  function debounce<T extends (...args: any[]) => any>(
-    func: T,
+  function debounce<T extends (...arguments_: any[]) => any>(
+    function_: T,
     wait?: number,
     options?: {
       leading?: boolean;
@@ -650,7 +720,7 @@ declare module "color" {
   }
 
   interface ColorConstructor {
-    (obj?: string | number[] | Record<string, any> | Color): Color;
+    (object?: string | number[] | Record<string, any> | Color): Color;
     rgb(r: number, g: number, b: number): Color;
     rgb(values: [number, number, number]): Color;
     hsl(h: number, s: number, l: number, a?: number): Color;
@@ -696,9 +766,9 @@ declare module "dotenv" {
   }
 
   export function config(options?: DotenvConfigOptions): DotenvConfigOutput;
-  export function parse(src: string | Buffer, options?: DotenvParseOptions): DotenvParseOutput;
+  export function parse(source: string | Buffer, options?: DotenvParseOptions): DotenvParseOutput;
   export function populate(
-    processEnv: Record<string, any>,
+    processEnvironment: Record<string, any>,
     parsed: DotenvPopulateInput,
     options?: DotenvConfigOptions
   ): void;
@@ -721,9 +791,9 @@ declare module "dotenv-safe" {
   }
 
   export function config(options?: DotenvSafeOptions): DotenvConfigOutput;
-  export function parse(src: string | Buffer, options?: DotenvParseOptions): DotenvParseOutput;
+  export function parse(source: string | Buffer, options?: DotenvParseOptions): DotenvParseOutput;
   export function populate(
-    processEnv: Record<string, any>,
+    processEnvironment: Record<string, any>,
     parsed: DotenvPopulateInput,
     options?: DotenvConfigOptions
   ): void;

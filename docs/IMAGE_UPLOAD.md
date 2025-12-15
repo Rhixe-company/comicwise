@@ -121,13 +121,13 @@ export const appConfig = {
 
 ```json
 {
-  "success": true,
-  "url": "https://ik.imagekit.io/your_id/comicwise/comics/covers/comic-123.jpg",
   "fileId": "imagekit_file_id",
   "name": "comic-cover-1234567890-abc123.jpg",
   "size": 524288,
+  "success": true,
   "thumbnailUrl": "https://ik.imagekit.io/.../tr:w-200,h-300/...",
-  "type": "comic-cover"
+  "type": "comic-cover",
+  "url": "https://ik.imagekit.io/your_id/comicwise/comics/covers/comic-123.jpg"
 }
 ```
 
@@ -135,8 +135,8 @@ export const appConfig = {
 
 ```json
 {
-  "error": "Error message",
-  "details": "Detailed error information"
+  "details": "Detailed error information",
+  "error": "Error message"
 }
 ```
 

@@ -76,3 +76,10 @@ export async function getAllAuthors(filters?: {
     totalPages: Math.ceil(total / limit),
   };
 }
+
+export async function getAuthorsForSelect() {
+  return await database
+    .select({ id: author.id, name: author.name })
+    .from(author)
+    .orderBy(asc(author.name));
+}

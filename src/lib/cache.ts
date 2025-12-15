@@ -27,26 +27,35 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
     return {
       raw: rawClient as Record<string, unknown>,
       async get(key: string) {
-        // Upstash returns a Promise<string | null>
-        const result = await (rawClient as Record<string, unknown>).get(key);
+        const getFn = (rawClient as Record<string, unknown>).get as
+          | ((k: string) => Promise<string | null>)
+          | undefined;
+        if (!getFn) return null;
+        const result = await getFn(key);
         return (result as string | null) ?? null;
       },
       async set(key: string, value: string, ttlSeconds?: number) {
+        const setFn = (rawClient as Record<string, unknown>).set as
+          | ((k: string, v: string, opts?: unknown) => Promise<void>)
+          | undefined;
+        if (!setFn) return;
         if (ttlSeconds) {
-          await (rawClient as Record<string, unknown>).set(key, value, { ex: ttlSeconds });
+          await setFn(key, value, { ex: ttlSeconds });
         } else {
-          await (rawClient as Record<string, unknown>).set(key, value);
+          await setFn(key, value);
         }
       },
       async del(key: string) {
-        // Upstash returns number of deleted keys
-        await (rawClient as Record<string, unknown>).del(key);
+        const delFn = (rawClient as Record<string, unknown>).del as
+          | ((k: string) => Promise<number>)
+          | undefined;
+        if (delFn) await delFn(key);
       },
       async clear() {
-        // Upstash may not support flushall in managed env; try if available
         const client = rawClient as Record<string, unknown>;
-        if (typeof client.flushdb === "function") {
-          await (client.flushdb as () => Promise<void>)();
+        const flushdbFn = client.flushdb as (() => Promise<void>) | undefined;
+        if (typeof flushdbFn === "function") {
+          await flushdbFn();
         }
       },
     };
@@ -567,12 +576,14 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Flush entire cache (use with caution!)
-   */
   async flushAll(): Promise<boolean> {
     try {
-      await (this.redis as unknown as Record<string, unknown>).flushdatabase?.();
+      const flushFn = (this.redis as unknown as Record<string, unknown>).flushdatabase as
+        | (() => Promise<void>)
+        | undefined;
+      if (flushFn) {
+        await flushFn();
+      }
       console.warn("⚠️  Cache flushed");
       return true;
     } catch (error) {
@@ -592,15 +603,18 @@ export class RedisCache {
     hitRate: number;
   }> {
     try {
-      const info = await this.redis.info("stats");
-      const memory = await this.redis.info("memory");
-      const databasesize = await (
-        this.redis as unknown as Record<string, unknown>
-      ).databasesize?.();
+      const infoFn = (this.redis as unknown as Record<string, unknown>).info as
+        | ((type: string) => Promise<string>)
+        | undefined;
+      const info = infoFn ? await infoFn("stats") : "";
+      const memory = infoFn ? await infoFn("memory") : "";
+      const databasesizeFn = (this.redis as unknown as Record<string, unknown>).databasesize as
+        | (() => Promise<number>)
+        | undefined;
+      const databasesize = databasesizeFn ? await databasesizeFn() : 0;
 
-      // Parse stats from info string
       const stats = {
-        keys: databasesize as number,
+        keys: databasesize,
         memory: memory.match(/used_memory_human:([^\r\n]+)/)?.[1] || "N/A",
         hits: parseInt(info.match(/keyspace_hits:(\d+)/)?.[1] || "0"),
         misses: parseInt(info.match(/keyspace_misses:(\d+)/)?.[1] || "0"),

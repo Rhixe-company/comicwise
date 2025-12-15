@@ -9,25 +9,25 @@ declare module "recharts" {
     color?: string;
   }
 
-  export interface LegendProps {
+  export interface LegendProperties {
     payload?: LegendPayload[];
     layout?: "horizontal" | "vertical";
     align?: "left" | "center" | "right";
     verticalAlign?: "top" | "middle" | "bottom";
   }
 
-  export interface BarProps {
+  export interface BarProperties {
     dataKey?: string | number;
     barSize?: number;
     maxBarSize?: number;
     [key: string]: any;
   }
 
-  export const Bar: React.FC<BarProps>;
+  export const Bar: React.FC<BarProperties>;
   export const BarChart: React.FC<any>;
   export const LineChart: React.FC<any>;
   export const ResponsiveContainer: React.FC<any>;
-  export const Legend: React.FC<LegendProps>;
+  export const Legend: React.FC<LegendProperties>;
 
   export default {} as any;
 }

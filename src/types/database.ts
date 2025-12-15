@@ -165,7 +165,7 @@ export interface ArtistWithComics extends Artist {
 // FILTER & PAGINATION TYPES
 // ═══════════════════════════════════════════════════
 
-export interface PaginationParams {
+export interface PaginationParameters {
   page?: number;
   limit?: number;
   offset?: number;
