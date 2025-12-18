@@ -10,9 +10,11 @@ import { comment } from "@/database/schema";
  * @param data.userId
  * @param data.chapterId
  */
-export async function createComment(
-  data: { content: string; userId: string; chapterId: number }
-): Promise<typeof comment.$inferSelect | undefined> {
+export async function createComment(data: {
+  content: string;
+  userId: string;
+  chapterId: number;
+}): Promise<typeof comment.$inferSelect | undefined> {
   const [newComment] = await database
     .insert(comment)
     .values({

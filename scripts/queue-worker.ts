@@ -5,7 +5,6 @@
  */
 
 import { emailQueue } from "@/lib/queue";
-import { Worker } from "bullmq";
 
 console.log("═══════════════════════════════════════════════════════════");
 console.log("  ⚙️  Queue Worker Starting");

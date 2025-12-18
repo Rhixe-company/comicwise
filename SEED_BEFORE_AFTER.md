@@ -3,6 +3,7 @@
 ## User Seeder
 
 ### BEFORE: Raw Database Operations
+
 ```typescript
 // Create user
 await database.insert(user).values({
@@ -31,6 +32,7 @@ await database
 ```
 
 ### AFTER: Using Mutations
+
 ```typescript
 // Create user
 await mutations.createUser({
@@ -52,6 +54,7 @@ await mutations.updateUser(existing.id, {
 ```
 
 **Benefits:**
+
 - Cleaner code
 - Consistent password handling
 - Better type safety
@@ -62,6 +65,7 @@ await mutations.updateUser(existing.id, {
 ## Comic Seeder
 
 ### BEFORE: Raw Operations & Complex Loop
+
 ```typescript
 // Create comic
 const [created] = await database
@@ -121,6 +125,7 @@ await database
 ```
 
 ### AFTER: Clean Mutations
+
 ```typescript
 // Create comic
 const created = await mutations.createComic({
@@ -171,6 +176,7 @@ await mutations.createComicImage({
 ```
 
 **Benefits:**
+
 - Genre management centralized
 - Better error handling
 - Atomic genre updates
@@ -181,6 +187,7 @@ await mutations.createComicImage({
 ## Chapter Seeder
 
 ### BEFORE: Complex Manual Operations
+
 ```typescript
 // Create chapter
 await database.insert(chapter).values({
@@ -211,6 +218,7 @@ for (let i = 0; i < chapterData.images.length; i++) {
 ```
 
 ### AFTER: Clean Mutations with Batch Support
+
 ```typescript
 // Create chapter
 const created = await mutations.createChapter({
@@ -240,6 +248,7 @@ if (created && pageImages.length > 0) {
 ```
 
 **Benefits:**
+
 - Automatic slug generation
 - Batch image processing
 - Better caching with chapterCache
@@ -249,15 +258,15 @@ if (created && pageImages.length > 0) {
 
 ## Summary of Changes
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| Raw Operations | 9 | 0 |
-| Type Safety | Manual | Enforced |
-| Error Handling | Variable | Consistent |
-| Code Lines | ~70 operations | 9 mutation calls |
-| Maintainability | Low | High |
-| Testing | Difficult | Easy |
-| Reusability | Seeders only | App-wide |
+| Aspect          | Before         | After            |
+| --------------- | -------------- | ---------------- |
+| Raw Operations  | 9              | 0                |
+| Type Safety     | Manual         | Enforced         |
+| Error Handling  | Variable       | Consistent       |
+| Code Lines      | ~70 operations | 9 mutation calls |
+| Maintainability | Low            | High             |
+| Testing         | Difficult      | Easy             |
+| Reusability     | Seeders only   | App-wide         |
 
 ---
 

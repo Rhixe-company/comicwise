@@ -10,9 +10,11 @@ import { artist } from "@/database/schema";
  * @param data.bio
  * @param data.image
  */
-export async function createArtist(
-  data: { name: string; bio?: string; image?: string }
-): Promise<typeof artist.$inferSelect | undefined> {
+export async function createArtist(data: {
+  name: string;
+  bio?: string;
+  image?: string;
+}): Promise<typeof artist.$inferSelect | undefined> {
   const [newArtist] = await database
     .insert(artist)
     .values({

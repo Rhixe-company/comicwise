@@ -6,8 +6,8 @@
 
 import { env } from "@/app-config";
 import { db } from "@/database/db";
-import IORedis from "ioredis";
 import { sql } from "drizzle-orm";
+import IORedis from "ioredis";
 
 async function healthCheck() {
   console.log("═══════════════════════════════════════════════════════════");

@@ -65,9 +65,7 @@ export async function updateUserPassword(
   return updatedUser;
 }
 
-export async function deleteUser(
-  userId: string
-): Promise<typeof user.$inferSelect | undefined> {
+export async function deleteUser(userId: string): Promise<typeof user.$inferSelect | undefined> {
   const [deletedUser] = await database.delete(user).where(eq(user.id, userId)).returning();
   return deletedUser;
 }

@@ -5,8 +5,8 @@
  */
 
 import { db as database } from "@/database/db";
-import { artist, author, genre, type as typeTable } from "@/database/schema";
 import * as queries from "@/database/queries";
+import { artist, author, genre, type as typeTable } from "@/database/schema";
 
 export class MetadataCache {
   private typeCache = new Map<string, number>();

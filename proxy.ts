@@ -18,7 +18,7 @@ import { NextResponse } from "next/server";
 // ═══════════════════════════════════════════════════
 
 // Protected routes that require authentication
-const protectedRoutes = ["/admin","/admin/*", "/profile", "/bookmarks"] as const;
+const protectedRoutes = ["/admin", "/admin/*", "/profile", "/bookmarks"] as const;
 
 // Auth routes that should redirect to home if already authenticated
 const authRoutes = [
@@ -29,11 +29,11 @@ const authRoutes = [
   "/resend-verification",
   "/reset-password",
   "/verify-email",
-  "/verify-request"
+  "/verify-request",
 ] as const;
 
 // Admin-only routes
-const adminRoutes = ["/admin","/admin/*"] as const;
+const adminRoutes = ["/admin", "/admin/*"] as const;
 
 // Public API routes that should bypass auth
 const publicApiRoutes = ["/api/health", "/api/webhooks"] as const;

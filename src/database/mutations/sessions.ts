@@ -14,9 +14,11 @@ import { session } from "@/database/schema";
  * @param data.userId
  * @param data.expires
  */
-export async function createSession(
-  data: { sessionToken: string; userId: string; expires: Date }
-): Promise<typeof session.$inferSelect | undefined> {
+export async function createSession(data: {
+  sessionToken: string;
+  userId: string;
+  expires: Date;
+}): Promise<typeof session.$inferSelect | undefined> {
   const [newSession] = await database.insert(session).values(data).returning();
   return newSession;
 }

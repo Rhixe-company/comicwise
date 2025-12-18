@@ -2,7 +2,8 @@
 
 ## Overview
 
-Upload all local images from your `public` directory to configured cloud storage providers (ImageKit, Cloudinary, AWS S3) in one command.
+Upload all local images from your `public` directory to configured cloud storage
+providers (ImageKit, Cloudinary, AWS S3) in one command.
 
 ## Features
 
@@ -16,7 +17,8 @@ Upload all local images from your `public` directory to configured cloud storage
 
 ## Installation
 
-The script is already included in your project. Just ensure you have the required dependencies:
+The script is already included in your project. Just ensure you have the
+required dependencies:
 
 ```bash
 pnpm install @aws-sdk/client-s3
@@ -93,13 +95,13 @@ pnpm tsx --env-file=.env.local scripts/upload-bulk.ts --provider=cloudinary --dr
 
 ## CLI Options
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `--provider=<name>` | Upload to specific provider (`imagekit`, `cloudinary`, `aws`, `all`) | `all` |
-| `--path=<directory>` | Upload from specific directory | `public` |
-| `--dry-run` | Preview uploads without actually uploading | `false` |
-| `--verbose` | Show detailed output | `false` |
-| `--help`, `-h` | Show help message | - |
+| Option               | Description                                                          | Default  |
+| -------------------- | -------------------------------------------------------------------- | -------- |
+| `--provider=<name>`  | Upload to specific provider (`imagekit`, `cloudinary`, `aws`, `all`) | `all`    |
+| `--path=<directory>` | Upload from specific directory                                       | `public` |
+| `--dry-run`          | Preview uploads without actually uploading                           | `false`  |
+| `--verbose`          | Show detailed output                                                 | `false`  |
+| `--help`, `-h`       | Show help message                                                    | -        |
 
 ## Examples
 
@@ -110,6 +112,7 @@ pnpm upload:bulk
 ```
 
 Output:
+
 ```
 ════════════════════════════════════════════════════════════
   📦 Bulk Image Upload Tool
@@ -198,8 +201,10 @@ pnpm upload:bulk:aws
 
 ## How It Works
 
-1. **Initialization**: Script loads credentials from `.env.local` and initializes provider clients
-2. **Scanning**: Recursively scans the specified directory for supported image files
+1. **Initialization**: Script loads credentials from `.env.local` and
+   initializes provider clients
+2. **Scanning**: Recursively scans the specified directory for supported image
+   files
 3. **Upload**: Uploads each file to all configured providers with:
    - Rate limiting (200ms between providers, 500ms between files)
    - Error handling and retries
@@ -227,28 +232,35 @@ Built-in delays to avoid hitting API limits:
 
 - **Between providers**: 200ms delay
 - **Between files**: 500ms delay
-- **Retries**: Automatic retry with exponential backoff (if provider supports it)
+- **Retries**: Automatic retry with exponential backoff (if provider supports
+  it)
 
 ## Error Handling
 
 ### Common Errors
 
 1. **Missing Credentials**
+
    ```
    ⚠️  ImageKit credentials missing - skipping
    ```
+
    **Solution**: Add credentials to `.env.local`
 
 2. **File Too Large**
+
    ```
    ❌ File too large: 30.5MB (max 25MB)
    ```
+
    **Solution**: Reduce file size or use AWS S3 (5GB limit)
 
 3. **Network Error**
+
    ```
    ❌ Network connection failed
    ```
+
    **Solution**: Check internet connection and retry
 
 4. **Invalid Credentials**
@@ -268,7 +280,8 @@ Failed uploads are listed at the end:
   placeholder.gif (cloudinary): Network timeout
 ```
 
-You can retry failed uploads by running the command again (successfully uploaded files are skipped due to caching).
+You can retry failed uploads by running the command again (successfully uploaded
+files are skipped due to caching).
 
 ## Provider-Specific Notes
 
@@ -295,9 +308,11 @@ You can retry failed uploads by running the command again (successfully uploaded
 
 ## Security Considerations
 
-⚠️ **Never commit `.env.local` to version control** - it contains sensitive credentials.
+⚠️ **Never commit `.env.local` to version control** - it contains sensitive
+credentials.
 
 ✅ **Best Practices**:
+
 - Use IAM roles with minimal permissions for AWS
 - Rotate API keys regularly
 - Use separate credentials for development and production
@@ -334,6 +349,7 @@ file public/image.jpg
 ### Memory Issues
 
 For very large batches:
+
 ```bash
 # Increase Node.js memory limit
 NODE_OPTIONS="--max-old-space-size=4096" pnpm upload:bulk
@@ -341,11 +357,14 @@ NODE_OPTIONS="--max-old-space-size=4096" pnpm upload:bulk
 
 ## Integration with Seeding
 
-To automatically upload images during database seeding, the image service already uses these providers. The bulk upload tool is for **existing files** in `public/` that weren't uploaded during seeding.
+To automatically upload images during database seeding, the image service
+already uses these providers. The bulk upload tool is for **existing files** in
+`public/` that weren't uploaded during seeding.
 
 ## Performance Tips
 
-1. **Upload to one provider first** - Test with one provider before uploading to all
+1. **Upload to one provider first** - Test with one provider before uploading to
+   all
 2. **Use dry run** - Always preview before bulk uploads
 3. **Upload during off-peak hours** - Some providers have rate limits
 4. **Compress images first** - Use tools like `sharp` to optimize before upload
@@ -353,6 +372,7 @@ To automatically upload images during database seeding, the image service alread
 ## Monitoring
 
 Monitor your provider dashboards for:
+
 - Storage usage
 - Bandwidth consumption
 - API request counts
@@ -360,13 +380,15 @@ Monitor your provider dashboards for:
 
 ## Related Scripts
 
-- `pnpm db:seed` - Seed database with comics and chapters (includes image upload)
+- `pnpm db:seed` - Seed database with comics and chapters (includes image
+  upload)
 - `pnpm db:seed --skip-images` - Seed without images
 - Image service (`src/services/image.service.ts`) - Used by seeder
 
 ## Support
 
 For issues:
+
 1. Check provider status pages
 2. Verify credentials in `.env.local`
 3. Review error messages in output
@@ -374,4 +396,5 @@ For issues:
 
 ---
 
-**Note**: The first run may take longer as images are uploaded. Subsequent runs will be faster due to caching.
+**Note**: The first run may take longer as images are uploaded. Subsequent runs
+will be faster due to caching.

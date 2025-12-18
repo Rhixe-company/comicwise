@@ -31,7 +31,7 @@ export async function getSession(): Promise<Session | null> {
 /**
  * Get the currently logged-in user with full details from database
  */
-export async function getCurrentUser(): Promise<(typeof user.$inferSelect) | null> {
+export async function getCurrentUser(): Promise<typeof user.$inferSelect | null> {
   try {
     const session = await getSession();
 
@@ -105,7 +105,9 @@ export async function requireAuth(): Promise<typeof user.$inferSelect> {
  * Require specific role - throw error if not authorized
  * @param requiredRole
  */
-export async function requireRole(requiredRole: "admin" | "moderator"): Promise<typeof user.$inferSelect> {
+export async function requireRole(
+  requiredRole: "admin" | "moderator"
+): Promise<typeof user.$inferSelect> {
   const currentUser = await requireAuth();
   const hasRequiredRole = await hasRole(requiredRole);
 

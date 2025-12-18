@@ -2,9 +2,11 @@ import { db as database } from "@/database/db";
 import { author } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
-export async function createAuthor(
-  data: { name: string; bio?: string; image?: string }
-): Promise<typeof author.$inferSelect | undefined> {
+export async function createAuthor(data: {
+  name: string;
+  bio?: string;
+  image?: string;
+}): Promise<typeof author.$inferSelect | undefined> {
   const [newAuthor] = await database
     .insert(author)
     .values({

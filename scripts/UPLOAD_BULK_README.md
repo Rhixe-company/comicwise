@@ -2,23 +2,26 @@
 
 ## What It Does
 
-Uploads all images from `public/` (and subdirectories) to your configured cloud storage providers in one command.
+Uploads all images from `public/` (and subdirectories) to your configured cloud
+storage providers in one command.
 
 ## Setup (2 minutes)
 
 1. **Install AWS SDK** (only if using AWS S3):
+
    ```bash
    pnpm install @aws-sdk/client-s3
    ```
 
 2. **Add credentials to `.env.local`**:
+
    ```bash
    # ImageKit
    IMAGEKIT_PUBLIC_KEY=your_key
    IMAGEKIT_PRIVATE_KEY=your_secret
    IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_id
 
-   # Cloudinary  
+   # Cloudinary
    CLOUDINARY_CLOUD_NAME=your_cloud
    CLOUDINARY_API_KEY=your_key
    CLOUDINARY_API_SECRET=your_secret
@@ -51,16 +54,19 @@ pnpm upload:comics  # uploads public/comics only
 ## Common Use Cases
 
 ### Backup to multiple providers
+
 ```bash
 pnpm upload:bulk
 ```
 
 ### Move from local to cloud
+
 ```bash
 pnpm upload:bulk:imagekit
 ```
 
 ### Test before uploading
+
 ```bash
 pnpm upload:bulk:dry-run
 ```
@@ -98,24 +104,20 @@ pnpm upload:bulk:dry-run
 ## Features
 
 - ✅ Maintains folder structure
-- ✅ Rate limiting to avoid API limits  
+- ✅ Rate limiting to avoid API limits
 - ✅ Detailed progress and error reporting
 - ✅ Dry run mode for testing
 - ✅ Multi-provider support
 
 ## Troubleshooting
 
-**"Provider credentials missing"**
-→ Add credentials to `.env.local`
+**"Provider credentials missing"** → Add credentials to `.env.local`
 
-**"File too large"**
-→ ImageKit: 25MB limit, Cloudinary: 100MB, AWS: 5GB
+**"File too large"** → ImageKit: 25MB limit, Cloudinary: 100MB, AWS: 5GB
 
-**"Network error"**
-→ Check internet connection, retry
+**"Network error"** → Check internet connection, retry
 
-**Want more details?**
-→ See `docs/BULK_UPLOAD.md` for full documentation
+**Want more details?** → See `docs/BULK_UPLOAD.md` for full documentation
 
 ## Files
 

@@ -9,9 +9,10 @@ import { genre } from "@/database/schema";
  * @param data.name
  * @param data.description
  */
-export async function createGenre(
-  data: { name: string; description?: string | null }
-): Promise<typeof genre.$inferSelect | undefined> {
+export async function createGenre(data: {
+  name: string;
+  description?: string | null;
+}): Promise<typeof genre.$inferSelect | undefined> {
   const [newGenre] = await database
     .insert(genre)
     .values({
@@ -53,9 +54,7 @@ export async function updateGenre(
  *
  * @param genreId
  */
-export async function deleteGenre(
-  genreId: number
-): Promise<typeof genre.$inferSelect | undefined> {
+export async function deleteGenre(genreId: number): Promise<typeof genre.$inferSelect | undefined> {
   const [deletedGenre] = await database.delete(genre).where(eq(genre.id, genreId)).returning();
   return deletedGenre;
 }

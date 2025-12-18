@@ -20,9 +20,7 @@ interface CreateComicData {
  *
  * @param data
  */
-export async function createComic(
-  data: CreateComicData
-): Promise<typeof comic.$inferSelect> {
+export async function createComic(data: CreateComicData): Promise<typeof comic.$inferSelect> {
   const { genreIds, ...comicData } = data;
   const { slug: providedSlug, title } = comicData as { slug?: string; title: string };
   const slugModule = await import("lib/utils");
@@ -108,9 +106,7 @@ export async function updateComic(
  *
  * @param comicId
  */
-export async function deleteComic(
-  comicId: number
-): Promise<typeof comic.$inferSelect | undefined> {
+export async function deleteComic(comicId: number): Promise<typeof comic.$inferSelect | undefined> {
   await database.delete(chapter).where(eq(chapter.comicId, comicId));
 
   await database.delete(comicToGenre).where(eq(comicToGenre.comicId, comicId));

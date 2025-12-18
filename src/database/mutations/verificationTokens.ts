@@ -35,7 +35,9 @@ export async function deleteVerificationTokensByIdentifier(
     .returning();
 }
 
-export async function deleteExpiredVerificationTokens(): Promise<(typeof verificationToken.$inferSelect)[]> {
+export async function deleteExpiredVerificationTokens(): Promise<
+  (typeof verificationToken.$inferSelect)[]
+> {
   const now = new Date();
   return await database
     .delete(verificationToken)

@@ -616,20 +616,20 @@ pnpm lighthouse
 
 ## Script Categories Summary
 
-| Category | Scripts | Description |
-|----------|---------|-------------|
-| **Development** | 4 scripts | Dev server, debugging |
-| **Build** | 8 scripts | Production builds, analysis |
-| **Database** | 17 scripts | Schema, migrations, seeding |
-| **Redis** | 6 scripts | Cache management |
-| **Queue** | 6 scripts | Background jobs |
-| **Testing** | 20+ scripts | E2E, unit tests |
-| **Code Quality** | 13 scripts | Lint, format, types |
-| **CI/CD** | 6 scripts | Automation |
-| **Docker** | 12 scripts | Containers |
-| **Email** | 4 scripts | Email dev/test |
-| **Upload** | 7 scripts | File uploads |
-| **Utilities** | 10+ scripts | Misc tools |
+| Category         | Scripts     | Description                 |
+| ---------------- | ----------- | --------------------------- |
+| **Development**  | 4 scripts   | Dev server, debugging       |
+| **Build**        | 8 scripts   | Production builds, analysis |
+| **Database**     | 17 scripts  | Schema, migrations, seeding |
+| **Redis**        | 6 scripts   | Cache management            |
+| **Queue**        | 6 scripts   | Background jobs             |
+| **Testing**      | 20+ scripts | E2E, unit tests             |
+| **Code Quality** | 13 scripts  | Lint, format, types         |
+| **CI/CD**        | 6 scripts   | Automation                  |
+| **Docker**       | 12 scripts  | Containers                  |
+| **Email**        | 4 scripts   | Email dev/test              |
+| **Upload**       | 7 scripts   | File uploads                |
+| **Utilities**    | 10+ scripts | Misc tools                  |
 
 **Total: 100+ scripts** organized into logical categories.
 

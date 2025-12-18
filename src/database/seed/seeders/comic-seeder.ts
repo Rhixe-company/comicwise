@@ -64,7 +64,7 @@ export class ComicSeeder {
       const typeName =
         typeof comicData.type === "string"
           ? comicData.type
-          : comicData.type?.name ?? comicData.category!;
+          : (comicData.type?.name ?? comicData.category!);
       typeId = await this.metadataCache.getOrCreateType(typeName);
     }
 
@@ -184,7 +184,7 @@ export class ComicSeeder {
     } else if (comicData.images && comicData.images.length > 1) {
       for (let index = 1; index < comicData.images.length; index++) {
         const img = comicData.images[index];
-        const imageUrl = typeof img === "string" ? img : img?.url ?? "";
+        const imageUrl = typeof img === "string" ? img : (img?.url ?? "");
         if (imageUrl) {
           imagesToProcess.push(imageUrl);
         }

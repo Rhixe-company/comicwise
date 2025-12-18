@@ -29,46 +29,60 @@ pnpm test:ui                  # Interactive test UI
 ## 📦 Complete List (100+ Scripts)
 
 ### Development (4)
+
 - `dev`, `dev:debug`, `dev:https`, `dev:turbo`
 
 ### Build & Production (8)
+
 - `build`, `build:analyze`, `build:debug`, `build:profile`, `start`, `preview`
 
 ### Database (17)
-- `db:generate`, `db:migrate`, `db:push`, `db:studio`, `db:reset`, `db:seed` + variants
+
+- `db:generate`, `db:migrate`, `db:push`, `db:studio`, `db:reset`, `db:seed` +
+  variants
 
 ### Redis & Cache (6)
+
 - `redis:start`, `redis:cli`, `cache:clear`, `cache:stats`
 
 ### Queue & Jobs (6)
+
 - `queue:worker`, `queue:dashboard`, `qstash:test`, `workflow:test`
 
 ### Testing (20+)
+
 - `test`, `test:ui`, `test:unit`, + browser variants
 
 ### Code Quality (13)
+
 - `lint`, `lint:fix`, `format`, `type-check`, `validate`
 
 ### CI/CD (6)
+
 - `ci`, `ci:full`, `ci:build`, `ci:test`
 
 ### Docker (12)
+
 - `docker:up`, `docker:down`, `docker:dev`, `docker:prod`
 
 ### Upload (7)
+
 - `upload:bulk`, `upload:bulk:imagekit`, `upload:comics`
 
 ### Health & Monitoring (4)
+
 - `health:check`, `health:db`, `health:redis`, `health:all`
 
 ## 🔥 Common Workflows
 
 ### First Time Setup
+
 ```bash
 pnpm install && pnpm setup && pnpm dev
 ```
 
 ### Daily Development
+
 ```bash
 pnpm dev                    # Terminal 1: Dev server
 pnpm test:unit:watch        # Terminal 2: Tests
@@ -76,11 +90,13 @@ pnpm db:studio              # Terminal 3: Database GUI
 ```
 
 ### Before Commit
+
 ```bash
 pnpm validate && pnpm test:unit:run
 ```
 
 ### Database Management
+
 ```bash
 pnpm db:reset              # Quick reset
 pnpm db:seed --skip-images # Fast seed
@@ -88,6 +104,7 @@ pnpm db:backup             # Backup data
 ```
 
 ### Docker Development
+
 ```bash
 pnpm docker:dev            # Start all services
 pnpm redis:cli             # Access Redis
@@ -95,17 +112,20 @@ pnpm docker:logs:app       # View app logs
 ```
 
 ### Production Deploy
+
 ```bash
 pnpm validate && pnpm build && pnpm deploy:vercel
 ```
 
 ### Upload Images
+
 ```bash
 pnpm upload:bulk:dry-run   # Preview
 pnpm upload:bulk:imagekit  # Upload to ImageKit
 ```
 
 ### Clean & Reset
+
 ```bash
 pnpm clean:all             # Remove everything
 pnpm install               # Reinstall
@@ -114,20 +134,20 @@ pnpm db:reset:hard         # Full DB reset
 
 ## 🎯 Quick Actions
 
-| Need to... | Run |
-|------------|-----|
-| Start development | `pnpm dev` |
-| Run tests | `pnpm test:ui` |
-| Fix code issues | `pnpm lint:fix && pnpm format` |
-| Check everything | `pnpm validate` |
-| Reset database | `pnpm db:reset` |
-| View database | `pnpm db:studio` |
-| Upload images | `pnpm upload:bulk` |
-| Check health | `pnpm health:all` |
-| Start worker | `pnpm queue:worker` |
-| Clean cache | `pnpm cache:clear` |
-| Docker dev | `pnpm docker:dev` |
-| Build for prod | `pnpm build` |
+| Need to...        | Run                            |
+| ----------------- | ------------------------------ |
+| Start development | `pnpm dev`                     |
+| Run tests         | `pnpm test:ui`                 |
+| Fix code issues   | `pnpm lint:fix && pnpm format` |
+| Check everything  | `pnpm validate`                |
+| Reset database    | `pnpm db:reset`                |
+| View database     | `pnpm db:studio`               |
+| Upload images     | `pnpm upload:bulk`             |
+| Check health      | `pnpm health:all`              |
+| Start worker      | `pnpm queue:worker`            |
+| Clean cache       | `pnpm cache:clear`             |
+| Docker dev        | `pnpm docker:dev`              |
+| Build for prod    | `pnpm build`                   |
 
 ## 📚 Documentation
 

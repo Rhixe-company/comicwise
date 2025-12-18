@@ -170,9 +170,7 @@ interface ConditionFilters {
   maxViews?: number;
 }
 
-async function buildSearchConditions(
-  filters: ConditionFilters
-): Promise<SearchConditions | null> {
+async function buildSearchConditions(filters: ConditionFilters): Promise<SearchConditions | null> {
   const conditions: SearchConditions = {
     textSearch: [],
     filters: [],
@@ -192,7 +190,11 @@ async function buildSearchConditions(
   return conditions;
 }
 
-function addTextSearchCondition(conditions: SearchConditions, searchText?: string, searchMode?: string): void {
+function addTextSearchCondition(
+  conditions: SearchConditions,
+  searchText?: string,
+  searchMode?: string
+): void {
   if (!searchText) return;
 
   const tsquery = buildSearchQuery(searchText, searchMode || "websearch");
@@ -211,7 +213,9 @@ function addMetadataConditions(conditions: SearchConditions, filters: ConditionF
   }
 
   if (filters.status) {
-    conditions.filters.push(eq(comic.status, filters.status as typeof comic.status.enumValues[number]));
+    conditions.filters.push(
+      eq(comic.status, filters.status as (typeof comic.status.enumValues)[number])
+    );
   }
 
   if (filters.minRating) {
@@ -219,11 +223,15 @@ function addMetadataConditions(conditions: SearchConditions, filters: ConditionF
   }
 
   if (filters.authorName) {
-    conditions.filters.push(sql`LOWER(${author.name}) LIKE LOWER(${"%" + filters.authorName + "%"})`);
+    conditions.filters.push(
+      sql`LOWER(${author.name}) LIKE LOWER(${"%" + filters.authorName + "%"})`
+    );
   }
 
   if (filters.artistName) {
-    conditions.filters.push(sql`LOWER(${artist.name}) LIKE LOWER(${"%" + filters.artistName + "%"})`);
+    conditions.filters.push(
+      sql`LOWER(${artist.name}) LIKE LOWER(${"%" + filters.artistName + "%"})`
+    );
   }
 }
 
@@ -237,11 +245,15 @@ function addFilterConditions(conditions: SearchConditions, filters: ConditionFil
   }
 
   if (filters.publicationYearFrom) {
-    conditions.filters.push(gte(comic.publicationDate, new Date(`${filters.publicationYearFrom}-01-01`)));
+    conditions.filters.push(
+      gte(comic.publicationDate, new Date(`${filters.publicationYearFrom}-01-01`))
+    );
   }
 
   if (filters.publicationYearTo) {
-    conditions.filters.push(lte(comic.publicationDate, new Date(`${filters.publicationYearTo}-12-31`)));
+    conditions.filters.push(
+      lte(comic.publicationDate, new Date(`${filters.publicationYearTo}-12-31`))
+    );
   }
 }
 
@@ -269,7 +281,12 @@ async function addGenreCondition(
     return null; // No comics with these genres
   }
 
-  conditions.filters.push(inArray(comic.id, genreComics.map((c) => c.comicId)));
+  conditions.filters.push(
+    inArray(
+      comic.id,
+      genreComics.map((c) => c.comicId)
+    )
+  );
   return true;
 }
 

@@ -4,11 +4,16 @@
 // ═══════════════════════════════════════════════════
 
 import { env } from "@/app-config";
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 // Validate AWS S3 configuration
-if (!env.AWS_REGION || !env.AWS_ACCESS_KEY_ID || !env.AWS_SECRET_ACCESS_KEY || !env.AWS_S3_BUCKET_NAME) {
+if (
+  !env.AWS_REGION ||
+  !env.AWS_ACCESS_KEY_ID ||
+  !env.AWS_SECRET_ACCESS_KEY ||
+  !env.AWS_S3_BUCKET_NAME
+) {
   throw new Error(
     "AWS S3 configuration missing. Set AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_S3_BUCKET_NAME."
   );
@@ -26,18 +31,15 @@ const s3Client = new S3Client({
 export class S3Provider implements UploadProvider {
   private readonly bucketName = env.AWS_S3_BUCKET_NAME!;
   private readonly region = env.AWS_REGION!;
-  
+
   /**
    * Upload file to AWS S3 with improved error handling
    */
-  async upload(
-    file: File | Buffer,
-    options: UploadOptions = {}
-  ): Promise<UploadResult> {
+  async upload(file: File | Buffer, options: UploadOptions = {}): Promise<UploadResult> {
     try {
       let buffer: Buffer;
       let contentType: string = "application/octet-stream";
-      
+
       // Convert File to Buffer if needed
       if (typeof File !== "undefined" && file instanceof File) {
         const arrayBuffer = await file.arrayBuffer();
@@ -109,13 +111,19 @@ export class S3Provider implements UploadProvider {
       let errorMessage = "AWS S3 upload failed";
       if (error instanceof Error) {
         errorMessage = error.message;
-        
+
         // Check for common S3 errors
         if (errorMessage.includes("NoSuchBucket")) {
           errorMessage = "S3 bucket does not exist";
-        } else if (errorMessage.includes("AccessDenied") || errorMessage.includes("InvalidAccessKeyId")) {
+        } else if (
+          errorMessage.includes("AccessDenied") ||
+          errorMessage.includes("InvalidAccessKeyId")
+        ) {
           errorMessage = "AWS authentication failed - check credentials";
-        } else if (errorMessage.includes("NetworkingError") || errorMessage.includes("ECONNREFUSED")) {
+        } else if (
+          errorMessage.includes("NetworkingError") ||
+          errorMessage.includes("ECONNREFUSED")
+        ) {
           errorMessage = "Network connection failed";
         } else if (errorMessage.includes("EntityTooLarge")) {
           errorMessage = "File size exceeds S3 limits";

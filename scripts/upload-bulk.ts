@@ -2,12 +2,12 @@
 
 /**
  * Bulk Upload Script - Upload local files to configured image providers
- * 
+ *
  * Uploads all images from public directory to:
  * - ImageKit
  * - Cloudinary
  * - AWS S3
- * 
+ *
  * Usage:
  *   pnpm upload:bulk                    # Upload to all providers
  *   pnpm upload:bulk --provider=imagekit # Upload to specific provider
@@ -15,14 +15,13 @@
  *   pnpm upload:bulk --path=public/comics # Upload specific directory
  */
 
-import { readFileSync, readdirSync, statSync } from "fs";
-import { join, relative, extname, basename } from "path";
 import { env } from "@/app-config";
+import { readFileSync, readdirSync, statSync } from "fs";
+import { basename, extname, join, relative } from "path";
 
 // Import providers
-import { ImageKitProvider } from "@/services/upload/providers/imagekit";
 import { CloudinaryProvider } from "@/services/upload/providers/cloudinary";
-import { LocalProvider } from "@/services/upload/providers/local";
+import { ImageKitProvider } from "@/services/upload/providers/imagekit";
 
 interface UploadOptions {
   provider?: "imagekit" | "cloudinary" | "aws" | "all";
@@ -43,18 +42,18 @@ interface UploadResult {
 class BulkUploader {
   private results: UploadResult[] = [];
   private providers: Map<string, any> = new Map();
-  
+
   // Supported image extensions
   private readonly imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".avif"];
-  
+
   constructor(private options: UploadOptions) {}
-  
+
   /**
    * Initialize upload providers based on environment configuration
    */
   async initializeProviders(): Promise<void> {
     console.log("\n🔧 Initializing providers...\n");
-    
+
     // ImageKit
     if (this.shouldUseProvider("imagekit")) {
       if (env.IMAGEKIT_PUBLIC_KEY && env.IMAGEKIT_PRIVATE_KEY && env.IMAGEKIT_URL_ENDPOINT) {
@@ -64,7 +63,7 @@ class BulkUploader {
         console.warn("⚠️  ImageKit credentials missing - skipping");
       }
     }
-    
+
     // Cloudinary
     if (this.shouldUseProvider("cloudinary")) {
       if (env.CLOUDINARY_CLOUD_NAME && env.CLOUDINARY_API_KEY && env.CLOUDINARY_API_SECRET) {
@@ -74,10 +73,15 @@ class BulkUploader {
         console.warn("⚠️  Cloudinary credentials missing - skipping");
       }
     }
-    
+
     // AWS S3
     if (this.shouldUseProvider("aws")) {
-      if (env.AWS_REGION && env.AWS_ACCESS_KEY_ID && env.AWS_SECRET_ACCESS_KEY && env.AWS_S3_BUCKET_NAME) {
+      if (
+        env.AWS_REGION &&
+        env.AWS_ACCESS_KEY_ID &&
+        env.AWS_SECRET_ACCESS_KEY &&
+        env.AWS_S3_BUCKET_NAME
+      ) {
         // Dynamically import AWS provider if available
         try {
           const { S3Provider } = await import("@/services/upload/providers/s3");
@@ -90,14 +94,14 @@ class BulkUploader {
         console.warn("⚠️  AWS credentials missing - skipping");
       }
     }
-    
+
     if (this.providers.size === 0) {
       throw new Error("No providers configured. Set up credentials in .env.local");
     }
-    
+
     console.log(`\n📦 ${this.providers.size} provider(s) ready\n`);
   }
-  
+
   /**
    * Check if provider should be used based on options
    */
@@ -107,20 +111,20 @@ class BulkUploader {
     }
     return this.options.provider === provider;
   }
-  
+
   /**
    * Scan directory for image files
    */
   private scanDirectory(dir: string, baseDir: string = dir): string[] {
     const files: string[] = [];
-    
+
     try {
       const entries = readdirSync(dir);
-      
+
       for (const entry of entries) {
         const fullPath = join(dir, entry);
         const stat = statSync(fullPath);
-        
+
         if (stat.isDirectory()) {
           // Recursively scan subdirectories
           files.push(...this.scanDirectory(fullPath, baseDir));
@@ -135,10 +139,10 @@ class BulkUploader {
     } catch (error) {
       console.error(`Error scanning ${dir}:`, error);
     }
-    
+
     return files;
   }
-  
+
   /**
    * Upload single file to all configured providers
    */
@@ -148,28 +152,28 @@ class BulkUploader {
     const ext = extname(fileName);
     const fileBuffer = readFileSync(filePath);
     const fileSize = fileBuffer.length;
-    
+
     // Extract folder structure for organization
     const folderPath = relative(baseDir, join(filePath, ".."));
-    
+
     console.log(`\n📤 Uploading: ${relativePath} (${(fileSize / 1024).toFixed(2)} KB)`);
-    
+
     if (this.options.dryRun) {
       console.log("   [DRY RUN] Would upload to:", Array.from(this.providers.keys()).join(", "));
       return;
     }
-    
+
     // Upload to each provider
     for (const [providerName, provider] of this.providers) {
       try {
         console.log(`   → ${providerName}...`);
-        
+
         const result = await provider.upload(fileBuffer, {
           folder: folderPath || "uploads",
           filename: fileName.replace(ext, ""), // Remove extension, provider adds it
           tags: ["bulk-upload", "public-assets"],
         });
-        
+
         if (result.success) {
           console.log(`   ✅ ${providerName}: ${result.url}`);
           this.results.push({
@@ -200,78 +204,78 @@ class BulkUploader {
           size: fileSize,
         });
       }
-      
+
       // Small delay between providers to avoid rate limits
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
   }
-  
+
   /**
    * Main upload process
    */
   async run(): Promise<void> {
     const startTime = Date.now();
-    
+
     console.log("════════════════════════════════════════════════════════════");
     console.log("  📦 Bulk Image Upload Tool");
     console.log("════════════════════════════════════════════════════════════");
-    
+
     // Initialize providers
     await this.initializeProviders();
-    
+
     // Determine upload path
     const uploadPath = this.options.path || "public";
     const fullPath = join(process.cwd(), uploadPath);
-    
+
     console.log(`📂 Scanning: ${uploadPath}\n`);
-    
+
     // Scan for images
     const files = this.scanDirectory(fullPath, fullPath);
-    
+
     if (files.length === 0) {
       console.log("⚠️  No image files found");
       return;
     }
-    
+
     console.log(`📊 Found ${files.length} image file(s)\n`);
-    
+
     if (this.options.dryRun) {
       console.log("🔍 DRY RUN MODE - No files will be uploaded\n");
     }
-    
+
     // Upload files
     for (let i = 0; i < files.length; i++) {
       console.log(`\n[${i + 1}/${files.length}]`);
       await this.uploadFile(files[i], fullPath);
-      
+
       // Small delay between files
       if (i < files.length - 1) {
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
     }
-    
+
     // Print summary
     this.printSummary(startTime);
   }
-  
+
   /**
    * Print upload summary
    */
   private printSummary(startTime: number): void {
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-    
+
     console.log("\n════════════════════════════════════════════════════════════");
     console.log("  📊 Upload Summary");
     console.log("════════════════════════════════════════════════════════════\n");
-    
+
     // Group results by provider
     const byProvider = new Map<string, { success: number; failed: number; bytes: number }>();
-    
+
     for (const result of this.results) {
       if (!byProvider.has(result.provider)) {
         byProvider.set(result.provider, { success: 0, failed: 0, bytes: 0 });
       }
-      
+
       const stats = byProvider.get(result.provider)!;
       if (result.success) {
         stats.success++;
@@ -280,7 +284,7 @@ class BulkUploader {
         stats.failed++;
       }
     }
-    
+
     // Print per-provider stats
     for (const [provider, stats] of byProvider) {
       const totalSize = (stats.bytes / 1024 / 1024).toFixed(2);
@@ -290,23 +294,23 @@ class BulkUploader {
       console.log(`  📦 Size:    ${totalSize} MB`);
       console.log();
     }
-    
+
     // Overall stats
-    const totalSuccess = this.results.filter(r => r.success).length;
-    const totalFailed = this.results.filter(r => !r.success).length;
+    const totalSuccess = this.results.filter((r) => r.success).length;
+    const totalFailed = this.results.filter((r) => !r.success).length;
     const totalBytes = this.results.reduce((sum, r) => sum + r.size, 0);
     const totalSize = (totalBytes / 1024 / 1024).toFixed(2);
-    
+
     console.log("TOTAL:");
     console.log(`  ✅ Success: ${totalSuccess}`);
     console.log(`  ❌ Failed:  ${totalFailed}`);
     console.log(`  📦 Size:    ${totalSize} MB`);
     console.log(`  ⏱️  Time:    ${elapsed}s`);
-    
+
     console.log("\n════════════════════════════════════════════════════════════");
-    
+
     // Print failed uploads if any
-    const failed = this.results.filter(r => !r.success);
+    const failed = this.results.filter((r) => !r.success);
     if (failed.length > 0) {
       console.log("\n❌ Failed Uploads:\n");
       for (const result of failed) {
@@ -323,7 +327,7 @@ class BulkUploader {
 function parseArgs(): UploadOptions {
   const args = process.argv.slice(2);
   const options: UploadOptions = {};
-  
+
   for (const arg of args) {
     if (arg === "--dry-run") {
       options.dryRun = true;
@@ -344,7 +348,7 @@ function parseArgs(): UploadOptions {
       process.exit(0);
     }
   }
-  
+
   return options;
 }
 

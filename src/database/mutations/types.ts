@@ -9,9 +9,10 @@ import { type } from "@/database/schema";
  * @param data.name
  * @param data.description
  */
-export async function createType(
-  data: { name: string; description?: string | null }
-): Promise<typeof type.$inferSelect | undefined> {
+export async function createType(data: {
+  name: string;
+  description?: string | null;
+}): Promise<typeof type.$inferSelect | undefined> {
   const [newType] = await database
     .insert(type)
     .values({
@@ -53,9 +54,7 @@ export async function updateType(
  *
  * @param typeId
  */
-export async function deleteType(
-  typeId: number
-): Promise<typeof type.$inferSelect | undefined> {
+export async function deleteType(typeId: number): Promise<typeof type.$inferSelect | undefined> {
   const [deletedType] = await database.delete(type).where(eq(type.id, typeId)).returning();
   return deletedType;
 }

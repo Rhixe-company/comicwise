@@ -2,8 +2,8 @@
  * Chapter Seeder
  */
 
-import * as queries from "@/database/queries";
 import * as mutations from "@/database/mutations";
+import * as queries from "@/database/queries";
 import type { SeedConfig } from "@/database/seed/config";
 import { ProgressTracker } from "@/database/seed/logger";
 import { BatchProcessor } from "@/database/seed/utils/batch-processor";

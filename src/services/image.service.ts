@@ -122,7 +122,10 @@ export class ImageService {
           if (!response.ok) {
             // Don't retry on 404s or 403s
             if (response.status === 404 || response.status === 403) {
-              return this.createPlaceholderResult(url, `HTTP ${response.status}: ${response.statusText}`);
+              return this.createPlaceholderResult(
+                url,
+                `HTTP ${response.status}: ${response.statusText}`
+              );
             }
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
