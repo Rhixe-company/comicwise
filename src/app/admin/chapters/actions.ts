@@ -5,24 +5,26 @@
 
 "use server";
 
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { chapter, comic } from "@/database/schema";
 import { requireRole } from "@/lib/auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 
-const createChapterSchema = z.object({
-  comicId: z.coerce.number().int().positive("Comic ID is required"),
-  title: z
-    .string()
-    .min(1, "Title is required")
-    .max(255, "Title must not exceed 255 characters")
-    .trim(),
-  slug: z.string().min(1, "Slug is required").max(255).trim(),
-  chapterNumber: z.coerce.number().int().positive("Chapter number must be positive"),
-  releaseDate: z.coerce.date(),
-  views: z.coerce.number().int().nonnegative().default(0),
-});
+const createChapterSchema = z
+  .object({
+    comicId: z.coerce.number().int().positive("Comic ID is required"),
+    title: z
+      .string()
+      .min(1, "Title is required")
+      .max(255, "Title must not exceed 255 characters")
+      .trim(),
+    slug: z.string().min(1, "Slug is required").max(255).trim(),
+    chapterNumber: z.coerce.number().int().positive("Chapter number must be positive"),
+    releaseDate: z.coerce.date(),
+    views: z.coerce.number().int().nonnegative().default(0),
+  })
+  .strict();
 
 const updateChapterSchema = createChapterSchema.partial();
 

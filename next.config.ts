@@ -28,8 +28,6 @@ const nextConfig: NextConfig = {
       allowedOrigins: ["localhost:3000"],
     },
   },
-  // Enable cacheComponents for better performance. Admin routes were
-  // refactored to avoid top-level uncached server data access.
   cacheComponents: true,
   images: {
     remotePatterns: [
@@ -59,11 +57,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-
   devIndicators: {
     position: "bottom-right",
   },
-
   bundlePagesRouterDependencies: true,
   poweredByHeader: false,
   compress: true,

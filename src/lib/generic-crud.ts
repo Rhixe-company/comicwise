@@ -43,7 +43,7 @@ export async function createGenericEntity<TInput, TOutput>(
     validateFn(data: unknown): ValidationResult<TInput>;
     entityName: string;
   }
-) {
+): Promise<NextResponse> {
   try {
     const session = await auth();
     if (session?.user?.role !== "admin") {
@@ -97,7 +97,7 @@ export async function listGenericEntity<TFilters, TOutput>(
     validateFn(data: unknown): ValidationResult<TFilters>;
     entityName: string;
   }
-) {
+): Promise<NextResponse> {
   try {
     const searchParams = new URL(request.url).searchParams;
 
@@ -159,7 +159,7 @@ export async function getGenericEntity<TOutput>(
     validateFn(data: unknown): ValidationResult<{ id: number }>;
     entityName: string;
   }
-) {
+): Promise<NextResponse> {
   try {
     const validation = validateFn({ id: parseInt(id) });
 
@@ -208,7 +208,7 @@ export async function updateGenericEntity<TInput, TOutput>(
     entityName: string;
     requireAdmin?: boolean;
   }
-) {
+): Promise<NextResponse> {
   try {
     if (requireAdmin) {
       const session = await auth();
@@ -269,7 +269,7 @@ export async function deleteGenericEntity(
     validateFn(data: unknown): ValidationResult<{ id: number }>;
     entityName: string;
   }
-) {
+): Promise<NextResponse> {
   try {
     const session = await auth();
     if (session?.user?.role !== "admin") {

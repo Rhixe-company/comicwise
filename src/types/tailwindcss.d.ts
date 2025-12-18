@@ -3,6 +3,6 @@
 declare module "tailwindcss" {
   const value: any;
   export default value;
-  export const __any: any;
-  export function __call(...args: any[]): any;
+  export const any: any;
+  export function call(...arguments_: any[]): any;
 }

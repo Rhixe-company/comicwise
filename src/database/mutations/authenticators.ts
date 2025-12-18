@@ -1,4 +1,4 @@
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { authenticator } from "@/database/schema";
 import { and, eq } from "drizzle-orm";
 
@@ -15,7 +15,7 @@ export async function createAuthenticator(data: {
   credentialDeviceType: string;
   credentialBackedUp: boolean;
   transports?: string | null;
-}) {
+}): Promise<typeof authenticator.$inferSelect | undefined> {
   const [newAuthenticator] = await database.insert(authenticator).values(data).returning();
   return newAuthenticator;
 }
@@ -28,7 +28,7 @@ export async function updateAuthenticator(
     credentialBackedUp?: boolean;
     transports?: string | null;
   }
-) {
+): Promise<typeof authenticator.$inferSelect | undefined> {
   const [updatedAuthenticator] = await database
     .update(authenticator)
     .set(data)
@@ -37,7 +37,10 @@ export async function updateAuthenticator(
   return updatedAuthenticator;
 }
 
-export async function deleteAuthenticator(userId: string, credentialID: string) {
+export async function deleteAuthenticator(
+  userId: string,
+  credentialID: string
+): Promise<typeof authenticator.$inferSelect | undefined> {
   const [deletedAuthenticator] = await database
     .delete(authenticator)
     .where(and(eq(authenticator.userId, userId), eq(authenticator.credentialID, credentialID)))
@@ -45,6 +48,8 @@ export async function deleteAuthenticator(userId: string, credentialID: string) 
   return deletedAuthenticator;
 }
 
-export async function deleteAuthenticatorsByUserId(userId: string) {
+export async function deleteAuthenticatorsByUserId(
+  userId: string
+): Promise<(typeof authenticator.$inferSelect)[]> {
   return await database.delete(authenticator).where(eq(authenticator.userId, userId)).returning();
 }

@@ -9,7 +9,7 @@ import {
   zodToValidationResult,
 } from "@/app/api/lib/generic-crud";
 import { getTypeById } from "@/database/queries/types";
-import { typeIdSchema, updateTypeSchema } from "@/lib/validations/schemas";
+import { typeIdSchema, updateTypeSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { deleteType, updateType } from "src/database/mutations/types";
 

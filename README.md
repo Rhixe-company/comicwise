@@ -48,59 +48,9 @@
 - ☁️ **Image Upload** - ImageKit/Cloudinary integration
 - 🛡️ **Rate Limiting** - Upstash Redis protection
 - 🧪 **Playwright** - E2E testing suite
+- 🐳 **Docker Ready** - Production-ready containerization
 
-### 🐳 Docker & Deployment
-
-- Production-ready Docker setup
-- Multi-stage builds for optimal image size
-- Health checks and monitoring
-- Redis caching support
-- Development and production configurations
-
-### Compose helper scripts
-
-The `compose/` folder contains convenient helper scripts for local development
-and CI usage.
-
-- `compose/build.sh` / `compose/build.ps1` — build production or development
-  images.
-- `compose/deploy.sh` / `compose/deploy.ps1` — run docker-compose to deploy
-  services.
-- `compose/dev.sh` — convenience script to bring up DB/Redis for local
-  development.
-- `compose/lint.sh` — run `pnpm lint`.
-- `compose/format.sh` — run code formatter (`pnpm format`).
-- `compose/test.sh` — run the test suite (`pnpm test`).
-- `compose/clean.sh` — tear down compose resources and prune Docker cache.
-- `compose/health-check.sh` — poll the app health endpoint during
-  CI/deployments.
-
-Usage examples:
-
-```bash
-# Build (production):
-./compose/build.sh production
-
-# Start development DB/Redis services:
-./compose/dev.sh
-
-# Run lint/format/tests locally via the helper scripts:
-./compose/lint.sh
-./compose/format.sh
-./compose/test.sh
-
-# Clean up Docker artifacts:
-./compose/clean.sh
-```
-
-### ⚡ Performance & Security
-
-- Server-side rendering and static generation
-- API route protection with middleware
-- Rate limiting for sensitive operations
-- SQL injection prevention
-- XSS and CSRF protection
-- Environment variable validation with Zod
+---
 
 ## 📋 Prerequisites
 
@@ -109,88 +59,60 @@ Usage examples:
 - **PostgreSQL** 17+ (or use Docker)
 - **Docker** & **Docker Compose** (optional, for containerized setup)
 
+---
+
 ## 🚀 Quick Start
 
-### Local Development
+### Option 1: Docker Setup (Recommended)
 
-1. **Clone the repository**
+```bash
+# Clone the repository
+git clone <repository-url>
+cd comicwise
 
-   ```bash
-   git clone <repository-url>
-   cd comicwise
-   ```
+# Copy environment file
+cp .envs/.env.development .env.local
 
-2. **Install dependencies**
+# Start services
+docker-compose -f docker-compose.dev.yml up
 
-   ```bash
-   pnpm install
-   # or use make
-   make install
-   ```
+# In another terminal: initialize database
+docker-compose -f docker-compose.dev.yml exec app pnpm db:push
+docker-compose -f docker-compose.dev.yml exec app pnpm db:seed
 
-3. **Set up environment variables**
+# Open http://localhost:3000
+```
 
-   ```bash
-   cp .env.example .env.local
-   ```
+**Service URLs:**
 
-   Edit `.env.local` with your configuration:
-   - Database credentials
-   - NextAuth secret (generate with `openssl rand -base64 32`)
-   - Email server settings
-   - OAuth provider keys (optional)
+- 🌐 App: http://localhost:3000
+- 🗄️ PgAdmin: http://localhost:5051 (admin@example.com / admin)
+- 📊 PostgreSQL: localhost:5433 (user: dev / pass: dev123)
+- 🔴 Redis: localhost:6380
 
-4. **Start Docker services (optional)**
+### Option 2: Local Development
 
-   ```bash
-   make docker-dev
-   # or
-   docker compose -f docker-compose.dev.yml up -d
-   ```
+```bash
+# Clone and install
+git clone <repository-url>
+cd comicwise
+pnpm install
 
-5. **Set up database**
+# Set up environment
+cp .env.example .env.local
+# Edit .env.local with your configuration
 
-   ```bash
-   make db-push    # Push schema
-   make db-seed    # Seed sample data
-   # or combined
-   make db-reset
-   ```
+# Set up database
+pnpm db:push
+pnpm db:seed
 
-6. **Start development server**
+# Start development server
+pnpm dev
 
-   ```bash
-   make dev
-   # or
-   pnpm dev
-   ```
+# Open http://localhost:3000
+```
 
-7. **Open your browser** Navigate to
-   [http://localhost:3000](http://localhost:3000)
-
-### Docker Production Setup
-
-1. **Configure environment**
-
-   ```bash
-   cp .env.example .env
-   # Edit .env with production values
-   ```
-
-2. **Build and start containers**
-
-   ```bash
-   make docker-up
-   # or
-   docker compose up -d
-   ```
-
-3. **Test deployment**
-   ```bash
-   make test-docker
-   # or
-   bash test-docker.sh
-   ```
+---
 
 ## 📂 Project Structure
 
@@ -199,15 +121,6 @@ comicwise/
 ├── src/
 │   ├── app/                   # Next.js app directory
 │   │   ├── (auth)/           # Authentication pages
-│   │   │   ├── sign-in/
-│   │   │   ├── sign-out/
-│   │   │   ├── register/
-│   │   │   ├── forgot-password/
-│   │   │   ├── reset-password/
-│   │   │   ├── verify-email/
-│   │   │   ├── verify-request/
-│   │   │   ├── resend-verification/
-│   │   │   └── new-user/
 │   │   ├── (root)/           # Main application routes
 │   │   ├── admin/            # Admin dashboard
 │   │   └── api/              # API routes
@@ -215,36 +128,29 @@ comicwise/
 │   │   ├── ui/              # shadcn/ui components
 │   │   ├── blocks/          # Compound components
 │   │   └── emails/          # Email templates
-│   ├── lib/                  # Utilities and helpers
+│   ├── lib/                  # Utilities & helpers
 │   │   ├── actions/         # Server actions
-│   │   │   ├── auth.ts
-│   │   │   ├── workflow.ts
-│   │   │   └── ratelimit.ts
 │   │   ├── mutations.ts     # Database mutations
 │   │   ├── queries.ts       # Database queries
 │   │   ├── validator.ts     # Zod schemas
-│   │   ├── nodemailer.ts    # Email service
 │   │   ├── auth.ts          # NextAuth config
 │   │   └── seedHelpers.ts   # Database seeding
 │   ├── db/                   # Database layer
 │   │   ├── schema/          # Drizzle schemas
 │   │   └── client.ts        # Database client
 │   ├── app-config/          # App configuration
-│   │   ├── env.ts           # Environment validation
-│   │   └── index.ts         # App config
 │   ├── types/               # TypeScript types
 │   └── hooks/               # Custom React hooks
-├── compose/
-│   └── Dockerfile           # Production Dockerfile
+├── compose/                 # Docker helpers & scripts
 ├── drizzle/                 # Database migrations
 ├── public/                  # Static assets
-├── docker-compose.yml       # Production Docker setup
-├── docker-compose.dev.yml   # Development Docker setup
+├── docker-compose.yml       # Production setup
+├── docker-compose.dev.yml   # Development setup
 ├── Makefile                 # Development commands
-├── test-docker.sh          # Docker test script
 └── package.json            # Dependencies
-
 ```
+
+---
 
 ## 🛠️ Available Commands
 
@@ -283,31 +189,19 @@ make db-reset         # Reset and reseed
 make docker-up        # Start containers
 make docker-down      # Stop containers
 make docker-build     # Build images
-make docker-rebuild   # Rebuild everything
 make docker-dev       # Start dev containers
 make docker-clean     # Clean all Docker resources
 ```
 
-### Workflows
-
-```bash
-make setup            # Complete initial setup
-make dev-setup        # Setup with Docker
-make fresh-start      # Clean slate setup
-make ci               # Run CI pipeline
-make pre-commit       # Pre-commit checks
-```
-
-For a complete list of commands, run:
+For all commands:
 
 ```bash
 make help
 ```
 
-## 🗃️ Database Schema
+---
 
-The application uses a comprehensive database schema with the following
-entities:
+## 🗃️ Database Schema
 
 ### Authentication
 
@@ -334,25 +228,12 @@ entities:
 - **bookmarks** - User's saved comics with reading progress
 - **comments** - Chapter comments and discussions
 
-## 📧 Email Templates
-
-The application includes professionally designed email templates:
-
-- **Verification Email** - Account email verification
-- **Password Reset Email** - Password reset requests
-- **Welcome Email** - New user onboarding
-
-All templates are built with `@react-email/components` and support:
-
-- Responsive design
-- Dark mode compatibility
-- Accessible markup
-- Cross-client compatibility
+---
 
 ## 🔒 Security Features
 
 - **Environment Validation** - Zod-based env variable validation
-- **Rate Limiting** - Configurable rate limits for sensitive operations
+- **Rate Limiting** - Configurable limits for sensitive operations
 - **Password Hashing** - bcrypt with salt rounds
 - **SQL Injection Prevention** - Parameterized queries with Drizzle ORM
 - **CSRF Protection** - Built-in Next.js protection
@@ -360,18 +241,19 @@ All templates are built with `@react-email/components` and support:
 - **JWT Sessions** - Secure session management
 - **Input Validation** - Zod schemas for all user inputs
 
+---
+
 ## 🖼️ Image Upload & Optimization
 
-ComicWise supports flexible, production-grade image upload and optimization with
-a unified API and pluggable providers:
+ComicWise supports production-grade image handling with pluggable providers:
+
+**Supported Providers:**
 
 - **Cloudinary** (cloud)
 - **ImageKit** (cloud)
-- **Local** (filesystem, for development/testing)
+- **Local** (filesystem, for development)
 
-### Provider Configuration
-
-Set the provider in your environment:
+**Configuration:**
 
 ```env
 UPLOAD_PROVIDER=cloudinary   # or imagekit or local
@@ -385,112 +267,107 @@ CLOUDINARY_API_SECRET=your-api-secret
 IMAGEKIT_PUBLIC_KEY=your-public-key
 IMAGEKIT_PRIVATE_KEY=your-private-key
 IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your-id
-
-# Local (no extra config needed)
 ```
 
-### Usage Example
+**Usage:**
 
 ```typescript
 import { uploadImage, deleteImage, getImageUrl } from "@/services/upload";
 
-// Upload an image (Buffer or File)
+// Upload an image
 const result = await uploadImage(fileBuffer, {
   folder: "comic-covers",
   filename: "my-comic-cover",
-  tags: ["cover", "comicwise"],
-  transformation: {
-    width: 800,
-    height: 1200,
-    quality: 85,
-    format: "webp",
-  },
+  transformation: { width: 800, height: 1200, quality: 85 },
 });
 
 if (result.success) {
   console.log("Image URL:", result.url);
-  console.log("Thumbnail:", result.thumbnail);
-} else {
-  console.error("Upload failed:", result.error);
 }
 
-// Get optimized URL for display
+// Get optimized URL
 const optimizedUrl = await getImageUrl(result.publicId, {
   width: 400,
   quality: 80,
 });
 
-// Delete an image
+// Delete image
 await deleteImage(result.publicId);
 ```
 
-### Provider Features
+---
 
-| Feature          | Cloudinary | ImageKit | Local (dev) |
-| ---------------- | :--------: | :------: | :---------: |
-| Upload           |     ✅     |    ✅    |     ✅      |
-| Transform/Resize |     ✅     |    ✅    |     ✅      |
-| Format Convert   |     ✅     |    ✅    |     ✅      |
-| Thumbnail        |     ✅     |    ✅    |    ⚠️\*     |
-| Batch Upload     |     ✅     |    ✅    |     ✅      |
-| Delete           |     ✅     |    ✅    |     ✅      |
-| Responsive URLs  |     ✅     |    ✅    |     ✅      |
+## 📧 Email Templates
 
-\*Local provider does not generate separate thumbnails, but you can request
-resized images via transformation options.
+Professionally designed email templates using `@react-email/components`:
+
+- **Verification Email** - Account email verification
+- **Password Reset Email** - Password reset requests
+- **Welcome Email** - New user onboarding
+
+Features:
+
+- Responsive design
+- Dark mode support
+- Accessible markup
+- Cross-client compatibility
 
 ---
 
 ## 🔧 Configuration
 
-### App Configuration
-
-All app-wide settings are managed in `src/app-config/`:
-
-```typescript
-{
-  name: "ComicWise",
-  url: env.NEXT_PUBLIC_APP_URL,
-  pagination: {
-    defaultLimit: 12,
-    maxLimit: 100,
-  },
-  rateLimit: {
-    default: { requests: 10, window: 10 },
-    auth: { requests: 5, window: 900 },
-    email: { requests: 3, window: 3600 },
-  },
-  email: {
-    host: env.EMAIL_SERVER_HOST,
-    port: env.EMAIL_SERVER_PORT,
-    // ...
-  }
-}
-```
-
 ### Environment Variables
 
-Key environment variables:
+**Database:**
 
 ```env
-# Database
 DATABASE_URL=postgresql://user:pass@localhost:5432/comicwise
+```
 
-# Auth
-NEXTAUTH_SECRET=your-secret-key
+**Authentication:**
+
+```env
+NEXTAUTH_SECRET=your-secret-key  # Generate with: openssl rand -base64 32
 NEXTAUTH_URL=http://localhost:3000
+```
 
-# Email
+**Email:**
+
+```env
 EMAIL_SERVER_HOST=smtp.gmail.com
 EMAIL_SERVER_PORT=587
 EMAIL_SERVER_USER=your-email@gmail.com
 EMAIL_SERVER_PASSWORD=your-app-password
 EMAIL_FROM=noreply@comicwise.com
+```
 
-# Optional: OAuth
+**OAuth (Optional):**
+
+```env
 GOOGLE_CLIENT_ID=your-client-id
 GOOGLE_CLIENT_SECRET=your-client-secret
+GITHUB_ID=your-github-id
+GITHUB_SECRET=your-github-secret
 ```
+
+### App Configuration
+
+All app-wide settings are in `src/app-config/`:
+
+```typescript
+{
+  name: "ComicWise",
+  url: env.NEXT_PUBLIC_APP_URL,
+  pagination: { defaultLimit: 12, maxLimit: 100 },
+  rateLimit: {
+    default: { requests: 10, window: 10 },
+    auth: { requests: 5, window: 900 },
+    email: { requests: 3, window: 3600 },
+  },
+}
+```
+
+---
 
 ## 🧪 Testing
 
@@ -500,47 +377,48 @@ GOOGLE_CLIENT_SECRET=your-client-secret
 make test-docker
 ```
 
-This runs a comprehensive test suite including:
+Includes:
 
 - Container health checks
-- Database connectivity
-- Redis functionality
-- Application endpoints
+- Database connectivity tests
+- Redis functionality tests
+- Application endpoint tests
 - Resource usage monitoring
 
 ### Manual Testing
 
 ```bash
-# Type checking
-make type-check
-
-# Linting
-make lint
-
-# All quality checks
-make check-all
+make type-check    # TypeScript validation
+make lint          # Code linting
+make check-all     # All quality checks
 ```
+
+---
 
 ## 📚 Additional Documentation
 
-- [Quick Start Guide](./QUICKSTART.md) - Fast setup guide
-- [Implementation Guide](./IMPLEMENTATION_GUIDE.md) - Detailed implementation
-  notes
-- [Seed Data Guide](./SEED_README.md) - Database seeding instructions
-- [Project Audit](./PROJECT_AUDIT.md) - Architecture and decisions
-- [Task Completion](./TASK_COMPLETION.md) - Feature completion status
+- [ENVIRONMENT_DOCKER_SETUP_INDEX.md](ENVIRONMENT_DOCKER_SETUP_INDEX.md) -
+  Complete Docker & environment setup
+- [DOCKER_ENV_SETUP.md](DOCKER_ENV_SETUP.md) - Detailed environment
+  configuration
+- [CONFIG_FILE_INDEX.md](CONFIG_FILE_INDEX.md) - Configuration file reference
+- [.envs/README.md](.envs/README.md) - Environment variables guide
+
+---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome! Please:
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes
+4. Run checks: `make pre-commit`
+5. Commit: `git commit -m 'Add amazing feature'`
+6. Push: `git push origin feature/amazing-feature`
+7. Open a Pull Request
 
-### Code Standards
+**Code Standards:**
 
 - Follow the existing code style
 - Run `make pre-commit` before committing
@@ -548,10 +426,14 @@ Contributions are welcome! Please follow these steps:
 - Update documentation as needed
 - Add tests for new features
 
+---
+
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 for details.
+
+---
 
 ## 🙏 Acknowledgments
 
@@ -562,14 +444,18 @@ for details.
 - [Zod](https://zod.dev/) - Schema validation
 - [Tailwind CSS](https://tailwindcss.com/) - Styling
 - [React Email](https://react.email/) - Email templates
+- [PostgreSQL](https://www.postgresql.org/) - Database
+- [Docker](https://www.docker.com/) - Containerization
+
+---
 
 ## 📞 Support
-
-For support, please:
 
 - Open an issue on GitHub
 - Check existing documentation
 - Review closed issues for solutions
+
+---
 
 ## 🗺️ Roadmap
 

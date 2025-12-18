@@ -1,21 +1,42 @@
-import { database } from "@/database";
-import { artist } from "@/database/schema";
 import { asc, desc, eq, ilike } from "drizzle-orm";
 
+import { db as database } from "@/database/db";
+import { artist } from "@/database/schema";
+
+/**
+ *
+ * @param artistId
+ */
 export async function getArtistById(artistId: number) {
   return await database.query.artist.findFirst({
     where: eq(artist.id, artistId),
   });
 }
 
-export async function getArtists(params?: {
+// Seed helper: get artist by name
+export async function getArtistByName(name: string) {
+  return await database.query.artist.findFirst({
+    where: eq(artist.name, name),
+  });
+}
+
+/**
+ *
+ * @param parameters
+ * @param parameters.limit
+ * @param parameters.offset
+ * @param parameters.sortBy
+ * @param parameters.sortOrder
+ * @param parameters.search
+ */
+export async function getArtists(parameters?: {
   limit?: number;
   offset?: number;
   sortBy?: "name" | "createdAt";
   sortOrder?: "asc" | "desc";
   search?: string;
 }) {
-  const { limit = 10, offset = 0, sortBy = "name", sortOrder = "asc", search } = params || {};
+  const { limit = 10, offset = 0, sortBy = "name", sortOrder = "asc", search } = parameters || {};
 
   let query = database.select().from(artist).$dynamic();
 
@@ -35,8 +56,13 @@ export async function getArtists(params?: {
   return await query;
 }
 
-export async function getArtistCount(params?: { search?: string }) {
-  const { search } = params || {};
+/**
+ *
+ * @param parameters
+ * @param parameters.search
+ */
+export async function getArtistCount(parameters?: { search?: string }) {
+  const { search } = parameters || {};
 
   let query = database.select().from(artist).$dynamic();
 
@@ -49,6 +75,15 @@ export async function getArtistCount(params?: { search?: string }) {
 }
 
 // Wrapper function for API compatibility
+/**
+ *
+ * @param filters
+ * @param filters.search
+ * @param filters.page
+ * @param filters.limit
+ * @param filters.sortBy
+ * @param filters.sortOrder
+ */
 export async function getAllArtists(filters?: {
   search?: string;
   page?: number;
@@ -77,6 +112,9 @@ export async function getAllArtists(filters?: {
   };
 }
 
+/**
+ *
+ */
 export async function getArtistsForSelect() {
   return await database
     .select({ id: artist.id, name: artist.name })

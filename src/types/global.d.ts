@@ -9,7 +9,7 @@ import type { DefaultJWT } from "next-auth/jwt";
 // This lets code `import { database, tables, Database } from "database"`
 // receive accurate types derived from the real implementations without
 // causing duplicate-declaration issues.
-import type { Database as DBType, Schema as SchemaType } from "../database/db";
+import type { Database as DBType, Schema as SchemaType } from "src/database\db";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {

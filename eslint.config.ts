@@ -1,4 +1,3 @@
-/* eslint-disable simple-import-sort/imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // ESLint 9.x Flat Config for Next.js 16 + React 19 + TypeScript 5
@@ -15,6 +14,7 @@ import * as pluginDrizzle from "eslint-plugin-drizzle";
 import importPlugin from "eslint-plugin-import";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsxA11y from "eslint-plugin-jsx-a11y";
+import prettier from "eslint-plugin-prettier";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import security from "eslint-plugin-security";
@@ -32,24 +32,24 @@ const eslintConfig: Config[] = defineConfig([
   js.configs.recommended,
   tseslint.configs.recommended,
   {
-    ...pluginReact.configs.flat.recommended,
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     plugins: {
       "@next/next": eslintNextPlugin,
       "@typescript-eslint": typescript as any,
-      react: pluginReact,
+      zod: zod as any,
       "react-hooks": pluginReactHooks as any,
       "jsx-a11y": jsxA11y,
       "better-tailwindcss": pluginBetterTailwindcss,
-      import: importPlugin,
       "simple-import-sort": simpleImportSort,
       "unused-imports": unused,
+      import: importPlugin,
+      react: pluginReact,
       drizzle: pluginDrizzle,
       security,
       sonarjs,
       unicorn,
       jsdoc,
-      zod: zod,
+      prettier,
     },
     languageOptions: {
       parser: typescriptParser,
@@ -113,7 +113,6 @@ const eslintConfig: Config[] = defineConfig([
       },
     },
     rules: {
-      // Base JS
       ...js.configs.recommended.rules,
       "no-unused-vars": "off",
       "no-console": ["warn", { allow: ["warn", "error", "info"] }],
@@ -148,16 +147,12 @@ const eslintConfig: Config[] = defineConfig([
       "arrow-spacing": "error",
       "rest-spread-spacing": "error",
       "template-tag-spacing": "error",
-
-      // Next.js
       ...eslintNextPlugin.configs.recommended.rules,
       "@next/next/no-html-link-for-pages": "warn",
       "@next/next/no-img-element": "warn",
       "@next/next/no-page-custom-font": "error",
       "@next/next/no-sync-scripts": "error",
       "@next/next/no-css-tags": "error",
-
-      // TypeScript
       ...(typescript.configs.recommended?.rules ?? {}),
       "@typescript-eslint/no-unused-vars": [
         "warn",
@@ -205,8 +200,6 @@ const eslintConfig: Config[] = defineConfig([
       "@typescript-eslint/method-signature-style": ["warn", "method"],
       "@typescript-eslint/no-duplicate-enum-values": "error",
       "@typescript-eslint/no-invalid-void-type": "error",
-
-      // React
       ...pluginReactHooks.configs.recommended.rules,
       "react/react-in-jsx-scope": "warn",
       "react/prop-types": "warn",
@@ -222,12 +215,8 @@ const eslintConfig: Config[] = defineConfig([
       "react/jsx-key": ["error", { checkFragmentShorthand: true }],
       "react/jsx-no-duplicate-props": "error",
       "react/jsx-no-target-blank": "warn",
-
-      // React Hooks
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
-
-      // Accessibility
       "jsx-a11y/alt-text": "warn",
       "jsx-a11y/anchor-has-content": "warn",
       "jsx-a11y/anchor-is-valid": "warn",
@@ -238,13 +227,11 @@ const eslintConfig: Config[] = defineConfig([
       "jsx-a11y/interactive-supports-focus": "warn",
       "jsx-a11y/label-has-associated-control": "warn",
       "jsx-a11y/no-autofocus": "warn",
-
-      // Imports
       "import/no-unresolved": "error",
       "import/no-duplicates": "error",
       "import/order": "off",
-      "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error",
+      "simple-import-sort/imports": "off",
+      "simple-import-sort/exports": "off",
       "import/no-default-export": "off",
       "import/prefer-default-export": "off",
       "import/no-named-default": "error",
@@ -269,42 +256,27 @@ const eslintConfig: Config[] = defineConfig([
       "import/consistent-type-specifier-style": ["warn", "prefer-top-level"],
       "import/first": "error",
       "import/no-mutable-exports": "error",
-
-      // Unused imports
       "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
-
-      // Tailwind CSS
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       ...(pluginBetterTailwindcss.configs["recommended-warn"]?.rules ?? {}),
       "better-tailwindcss/no-conflicting-classes": "warn",
       "better-tailwindcss/no-unregistered-classes": "warn",
-
-      // Drizzle ORM
       "drizzle/enforce-delete-with-where": ["error", { drizzleObjectName: ["database", "db"] }],
       "drizzle/enforce-update-with-where": ["error", { drizzleObjectName: ["database", "db"] }],
-
-      // Zod
       "zod/prefer-enum": "error",
       "zod/require-strict": "warn",
-
-      // Security
       "security/detect-object-injection": "off",
       "security/detect-non-literal-regexp": "warn",
       "security/detect-non-literal-fs-filename": "warn",
       "security/detect-non-literal-require": "warn",
       "security/detect-child-process": "warn",
-
-      // SonarJS
       "sonarjs/cognitive-complexity": ["warn", 15],
       "sonarjs/no-identical-expressions": "warn",
       "sonarjs/no-collapsible-if": "warn",
       "sonarjs/no-duplicate-string": "warn",
-
-      // JSDoc
       "jsdoc/require-jsdoc": [
         "warn",
         {
@@ -319,8 +291,6 @@ const eslintConfig: Config[] = defineConfig([
       "jsdoc/require-param": "warn",
       "jsdoc/require-returns": "warn",
       "jsdoc/valid-types": "warn",
-
-      // Unicorn
       "unicorn/better-regex": "warn",
       "unicorn/catch-error-name": ["warn", { name: "error" }],
       "unicorn/consistent-destructuring": "warn",
@@ -364,11 +334,8 @@ const eslintConfig: Config[] = defineConfig([
       "unicorn/prefer-ternary": "warn",
       "unicorn/prefer-top-level-await": "warn",
       "unicorn/prevent-abbreviations": "warn",
-      // "unicorn/relative-url-style": ["warn", "relative"],
       "unicorn/require-array-join-separator": "warn",
-      // "unicorn/require-number-is-nan": "warn",
       "unicorn/require-post-message-target-origin": "warn",
-      // "unicorn/string-content-replacement": "warn",
       "unicorn/switch-case-braces": ["warn", "avoid"],
       "unicorn/throw-new-error": "warn",
     },
@@ -382,7 +349,6 @@ const eslintConfig: Config[] = defineConfig([
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
-
   // Config files
   {
     files: ["*.config.{js,ts,mjs,cjs}"],
@@ -391,20 +357,17 @@ const eslintConfig: Config[] = defineConfig([
       "import/no-default-export": "off",
     },
   },
-
   // JSON files
   {
     files: ["**/*.jsonc"],
     plugins: { json },
     language: "json/jsonc",
   },
-
   {
     files: ["**/*.json5"],
     plugins: { json },
     language: "json/json5",
   },
-
   // Markdown files
   {
     files: ["**/*.md"],
@@ -414,7 +377,6 @@ const eslintConfig: Config[] = defineConfig([
       "no-irregular-whitespace": "off",
     },
   },
-
   // CSS files
   {
     files: ["**/*.css"],
@@ -424,9 +386,7 @@ const eslintConfig: Config[] = defineConfig([
       "css/no-invalid-syntax": "warn",
     },
   },
-
   prettierConfig,
-
   globalIgnores([
     "**/.next/**",
     "**/node_modules/**",

@@ -1,4 +1,4 @@
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { genre, type } from "@/database/schema";
 import { asc, eq } from "drizzle-orm";
 

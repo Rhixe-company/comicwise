@@ -1,7 +1,19 @@
-import { database } from "@/database";
-import { chapter, chapterImage, comic } from "@/database/schema";
 import { and, asc, desc, eq, gt, lt } from "drizzle-orm";
 
+import { db as database } from "@/database/db";
+import { chapter, chapterImage, comic } from "@/database/schema";
+
+// Seed helper: find chapter by comic and chapter number
+export async function getChapterByComicAndNumber(comicId: number, chapterNumber: number) {
+  return await database.query.chapter.findFirst({
+    where: and(eq(chapter.comicId, comicId), eq(chapter.chapterNumber, chapterNumber)),
+  });
+}
+
+/**
+ *
+ * @param comicId
+ */
 export async function getChaptersByComicId(comicId: number) {
   return await database
     .select()
@@ -10,6 +22,10 @@ export async function getChaptersByComicId(comicId: number) {
     .orderBy(asc(chapter.chapterNumber));
 }
 
+/**
+ *
+ * @param chapterId
+ */
 export async function getChapter(chapterId: number) {
   const result = await database
     .select({
@@ -36,6 +52,10 @@ export async function getChapter(chapterId: number) {
   };
 }
 
+/**
+ *
+ * @param chapterId
+ */
 export async function getChapterImages(chapterId: number) {
   return await database
     .select()
@@ -44,6 +64,10 @@ export async function getChapterImages(chapterId: number) {
     .orderBy(asc(chapterImage.pageNumber));
 }
 
+/**
+ *
+ * @param currentChapterId
+ */
 export async function getNextChapter(currentChapterId: number) {
   const current = await database
     .select()
@@ -68,6 +92,10 @@ export async function getNextChapter(currentChapterId: number) {
   return next[0] || null;
 }
 
+/**
+ *
+ * @param currentChapterId
+ */
 export async function getPreviousChapter(currentChapterId: number) {
   const current = await database
     .select()
@@ -92,6 +120,10 @@ export async function getPreviousChapter(currentChapterId: number) {
   return previous[0] || null;
 }
 
+/**
+ *
+ * @param comicId
+ */
 export async function getFirstChapter(comicId: number) {
   const result = await database
     .select()
@@ -103,6 +135,10 @@ export async function getFirstChapter(comicId: number) {
   return result[0] || null;
 }
 
+/**
+ *
+ * @param comicId
+ */
 export async function getLatestChapter(comicId: number) {
   const result = await database
     .select()
@@ -115,6 +151,16 @@ export async function getLatestChapter(comicId: number) {
 }
 
 // Wrapper function for API compatibility
+/**
+ *
+ * @param filters
+ * @param filters.comicId
+ * @param filters.search
+ * @param filters.page
+ * @param filters.limit
+ * @param filters.sortBy
+ * @param filters.sortOrder
+ */
 export async function getAllChapters(filters?: {
   comicId?: number;
   search?: string;

@@ -1,8 +1,17 @@
-import { database } from "@/database";
-import { type } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
-export async function createType(data: { name: string; description?: string | null }) {
+import { db as database } from "@/database/db";
+import { type } from "@/database/schema";
+
+/**
+ *
+ * @param data
+ * @param data.name
+ * @param data.description
+ */
+export async function createType(
+  data: { name: string; description?: string | null }
+): Promise<typeof type.$inferSelect | undefined> {
   const [newType] = await database
     .insert(type)
     .values({
@@ -14,13 +23,20 @@ export async function createType(data: { name: string; description?: string | nu
   return newType;
 }
 
+/**
+ *
+ * @param typeId
+ * @param data
+ * @param data.name
+ * @param data.description
+ */
 export async function updateType(
   typeId: number,
   data: {
     name?: string;
     description?: string | null;
   }
-) {
+): Promise<typeof type.$inferSelect | undefined> {
   const cleanData: Partial<typeof type.$inferInsert> = {};
   if (data.name !== undefined) cleanData.name = data.name;
   if (data.description !== undefined) cleanData.description = data.description || null;
@@ -33,7 +49,13 @@ export async function updateType(
   return updatedType;
 }
 
-export async function deleteType(typeId: number) {
+/**
+ *
+ * @param typeId
+ */
+export async function deleteType(
+  typeId: number
+): Promise<typeof type.$inferSelect | undefined> {
   const [deletedType] = await database.delete(type).where(eq(type.id, typeId)).returning();
   return deletedType;
 }

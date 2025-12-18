@@ -2,7 +2,7 @@
 // USERS API - Full CRUD with Filtering & Pagination
 // ═══════════════════════════════════════════════════
 
-import { createUserSchema, userFilterSchema } from "@/lib/validations/schemas";
+import { createUserSchema, userFilterSchema } from "@/lib/validations";
 import { auth } from "auth";
 import bcrypt from "bcryptjs";
 import type { NextRequest } from "next/server";

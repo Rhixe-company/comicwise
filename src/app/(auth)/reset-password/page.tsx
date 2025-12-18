@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
-import { resetPasswordAction } from "@/lib/actions/auth/index";
-import type { ResetPasswordInput } from "@/lib/validations/schemas";
-import { resetPasswordSchema } from "@/lib/validations/schemas";
+import { resetPasswordAction } from "@/lib/actions/auth";
+import type { ResetPasswordInput } from "@/lib/validations";
+import { resetPasswordSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -33,7 +33,7 @@ function ResetPasswordForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParameters = useSearchParams();
 
   const {
     register,
@@ -49,17 +49,17 @@ function ResetPasswordForm() {
   });
 
   useEffect(() => {
-    const tokenParam = searchParams.get("token");
-    if (!tokenParam) {
+    const tokenParameter = searchParameters.get("token");
+    if (!tokenParameter) {
       toast.error("Invalid reset link");
       router.push("/forgot-password");
       return;
     }
     // Use startTransition to avoid cascading renders
     startTransition(() => {
-      setToken(tokenParam);
+      setToken(tokenParameter);
     });
-  }, [searchParams, router]);
+  }, [searchParameters, router]);
 
   const onSubmit = async (data: Omit<ResetPasswordInput, "token">) => {
     if (!token) {
@@ -83,8 +83,8 @@ function ResetPasswordForm() {
           setIsSuccess(true);
           toast.success("Password reset successfully!");
         }
-      } catch (err) {
-        console.error("Reset password error:", err);
+      } catch (error_) {
+        console.error("Reset password error:", error_);
         setError("An unexpected error occurred. Please try again.");
         toast.error("Failed to reset password");
       }
@@ -173,6 +173,9 @@ function ResetPasswordForm() {
   );
 }
 
+/**
+ *
+ */
 export default function ResetPasswordPage() {
   return (
     <Suspense

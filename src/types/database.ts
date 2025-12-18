@@ -165,6 +165,10 @@ export interface ArtistWithComics extends Artist {
 // FILTER & PAGINATION TYPES
 // ═══════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════
+// FILTER & PAGINATION TYPES
+// ═══════════════════════════════════════════════════
+
 export interface PaginationParameters {
   page?: number;
   limit?: number;
@@ -200,6 +204,55 @@ export interface ComicFilters {
   minRating?: number;
   sortBy?: "title" | "rating" | "views" | "publicationDate" | "createdAt" | "latest";
   sortOrder?: "asc" | "desc";
+}
+
+// ═══════════════════════════════════════════════════
+// SAMPLE QUERY TYPES (for queries.sample.ts)
+// ═══════════════════════════════════════════════════
+
+export interface ComicSearchResult {
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+  coverImage: string | null;
+  status: Comic["status"];
+  rating: string | null;
+  views: number;
+  author?: {
+    id: number;
+    name: string;
+  } | null;
+  artist?: {
+    id: number;
+    name: string;
+  } | null;
+  type?: {
+    id: number;
+    name: string;
+  } | null;
+}
+
+export interface ComicWithChapters extends Comic {
+  chapters: Chapter[];
+}
+
+export interface ChapterWithComic extends Chapter {
+  comic: Comic | null;
+}
+
+export interface CreateComicPayload {
+  title: string;
+  slug: string;
+  description: string;
+  coverImage: string | null;
+  status?: Comic["status"];
+  publicationDate: Date | string;
+  rating?: string;
+  authorId?: number | null;
+  artistId?: number | null;
+  typeId?: number | null;
+  genres?: number[];
 }
 
 export interface ChapterFilters {

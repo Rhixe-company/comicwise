@@ -1,17 +1,16 @@
 "use client";
 
-import type { ZoomProps } from "react-medium-image-zoom";
 import Zoom from "react-medium-image-zoom";
 import { cn } from "utils";
 
-export type ImageZoomProps = ZoomProps & {
+export type ImageZoomProps = any & {
   isZoomed?: boolean;
-  onZoomChange?: ZoomProps["onZoomChange"];
+  onZoomChange?: any;
   className?: string;
   backdropClassName?: string;
 };
 
-export const ImageZoom = ({ className, backdropClassName, ...props }: ImageZoomProps) => (
+export const ImageZoom = ({ className, backdropClassName, ...properties }: ImageZoomProps) => (
   <div
     className={cn(
       "relative",
@@ -100,7 +99,7 @@ export const ImageZoom = ({ className, backdropClassName, ...props }: ImageZoomP
         `,
         backdropClassName
       )}
-      {...(props as any)}
+      {...properties}
     />
   </div>
 );

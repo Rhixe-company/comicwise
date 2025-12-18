@@ -1,8 +1,17 @@
-import { database } from "@/database";
-import { genre } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
-export async function createGenre(data: { name: string; description?: string | null }) {
+import { db as database } from "@/database/db";
+import { genre } from "@/database/schema";
+
+/**
+ *
+ * @param data
+ * @param data.name
+ * @param data.description
+ */
+export async function createGenre(
+  data: { name: string; description?: string | null }
+): Promise<typeof genre.$inferSelect | undefined> {
   const [newGenre] = await database
     .insert(genre)
     .values({
@@ -14,13 +23,20 @@ export async function createGenre(data: { name: string; description?: string | n
   return newGenre;
 }
 
+/**
+ *
+ * @param genreId
+ * @param data
+ * @param data.name
+ * @param data.description
+ */
 export async function updateGenre(
   genreId: number,
   data: {
     name?: string;
     description?: string | null;
   }
-) {
+): Promise<typeof genre.$inferSelect | undefined> {
   const cleanData: Partial<typeof genre.$inferInsert> = {};
   if (data.name !== undefined) cleanData.name = data.name;
   if (data.description !== undefined) cleanData.description = data.description || null;
@@ -33,7 +49,13 @@ export async function updateGenre(
   return updatedGenre;
 }
 
-export async function deleteGenre(genreId: number) {
+/**
+ *
+ * @param genreId
+ */
+export async function deleteGenre(
+  genreId: number
+): Promise<typeof genre.$inferSelect | undefined> {
   const [deletedGenre] = await database.delete(genre).where(eq(genre.id, genreId)).returning();
   return deletedGenre;
 }

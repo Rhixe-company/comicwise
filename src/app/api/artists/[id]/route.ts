@@ -10,7 +10,7 @@ import {
 } from "@/app/api/lib/generic-crud";
 import { deleteArtist, updateArtist } from "@/database/mutations/artists";
 import { getArtistById } from "@/database/queries/artists";
-import { artistIdSchema, updateArtistSchema } from "@/lib/validations/schemas";
+import { artistIdSchema, updateArtistSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {

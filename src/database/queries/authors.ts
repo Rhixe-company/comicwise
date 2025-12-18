@@ -1,21 +1,42 @@
-import { database } from "@/database";
-import { author } from "@/database/schema";
 import { asc, desc, eq, ilike } from "drizzle-orm";
 
+import { db as database } from "@/database/db";
+import { author } from "@/database/schema";
+
+/**
+ *
+ * @param authorId
+ */
 export async function getAuthorById(authorId: number) {
   return await database.query.author.findFirst({
     where: eq(author.id, authorId),
   });
 }
 
-export async function getAuthors(params?: {
+// Seed helper: get author by name
+export async function getAuthorByName(name: string) {
+  return await database.query.author.findFirst({
+    where: eq(author.name, name),
+  });
+}
+
+/**
+ *
+ * @param parameters
+ * @param parameters.limit
+ * @param parameters.offset
+ * @param parameters.sortBy
+ * @param parameters.sortOrder
+ * @param parameters.search
+ */
+export async function getAuthors(parameters?: {
   limit?: number;
   offset?: number;
   sortBy?: "name" | "createdAt";
   sortOrder?: "asc" | "desc";
   search?: string;
 }) {
-  const { limit = 10, offset = 0, sortBy = "name", sortOrder = "asc", search } = params || {};
+  const { limit = 10, offset = 0, sortBy = "name", sortOrder = "asc", search } = parameters || {};
 
   let query = database.select().from(author).$dynamic();
 
@@ -35,8 +56,13 @@ export async function getAuthors(params?: {
   return await query;
 }
 
-export async function getAuthorCount(params?: { search?: string }) {
-  const { search } = params || {};
+/**
+ *
+ * @param parameters
+ * @param parameters.search
+ */
+export async function getAuthorCount(parameters?: { search?: string }) {
+  const { search } = parameters || {};
 
   let query = database.select().from(author).$dynamic();
 
@@ -49,6 +75,15 @@ export async function getAuthorCount(params?: { search?: string }) {
 }
 
 // Wrapper function for API compatibility
+/**
+ *
+ * @param filters
+ * @param filters.search
+ * @param filters.page
+ * @param filters.limit
+ * @param filters.sortBy
+ * @param filters.sortOrder
+ */
 export async function getAllAuthors(filters?: {
   search?: string;
   page?: number;
@@ -77,6 +112,9 @@ export async function getAllAuthors(filters?: {
   };
 }
 
+/**
+ *
+ */
 export async function getAuthorsForSelect() {
   return await database
     .select({ id: author.id, name: author.name })

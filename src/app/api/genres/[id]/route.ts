@@ -8,7 +8,7 @@ import {
   updateGenericEntity,
   zodToValidationResult,
 } from "@/lib/generic-crud";
-import { genreIdSchema, updateGenreSchema } from "@/lib/validations/schemas";
+import { genreIdSchema, updateGenreSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { deleteGenre, updateGenre } from "src/database/mutations/genres";
 import { getGenreById } from "src/database/queries/genres";

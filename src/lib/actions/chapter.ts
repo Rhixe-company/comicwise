@@ -5,7 +5,7 @@ import {
   updateChapter as updateChapterMutation,
 } from "@/database/mutations";
 import { getChapterImages as getChapterImagesMutation } from "@/database/queries";
-import type { createChapterSchema, updateChapterSchema } from "@/lib/validations/schemas";
+import type { createChapterSchema, updateChapterSchema } from "@/lib/validations";
 import { auth } from "auth";
 import { revalidatePath } from "next/cache";
 

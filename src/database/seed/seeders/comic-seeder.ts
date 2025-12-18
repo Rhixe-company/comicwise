@@ -2,33 +2,43 @@
  * Comic Seeder
  */
 
-import { database } from "@/database";
-import { comic, comicImage, comicToGenre } from "@/database/schema";
+import * as mutations from "@/database/mutations";
+import * as queries from "@/database/queries";
+import type { SeedConfig } from "@/database/seed/config";
 import { ProgressTracker } from "@/database/seed/logger";
 import { BatchProcessor } from "@/database/seed/utils/batch-processor";
 import { createSlug, normalizeDate } from "@/database/seed/utils/helpers";
 import type { MetadataCache } from "@/database/seed/utils/metadata-cache";
-import { eq } from "drizzle-orm";
-
-import type { SeedConfig } from "@/database/seed/config";
-import type { ComicSeed } from "@/lib/validations/seed";
+import type { ComicSeed } from "@/lib/validations";
 import { imageService } from "@/services/image.service";
 
+/**
+ *
+ */
 export class ComicSeeder {
   private metadataCache: MetadataCache;
   private options: SeedConfig["options"];
   private comicSlugCache = new Map<string, number>();
   private batchProcessor: BatchProcessor<ComicSeed, void>;
 
+  /**
+   *
+   * @param metadataCache
+   * @param options
+   */
   constructor(metadataCache: MetadataCache, options: SeedConfig["options"]) {
     this.metadataCache = metadataCache;
     this.options = options;
     this.batchProcessor = new BatchProcessor<ComicSeed, void>({
-      batchSize: 50,
-      concurrency: 3,
+      batchSize: 25, // Reduced from 50 to avoid overwhelming image service
+      concurrency: 2, // Reduced from 3 to prevent rate limiting
     });
   }
 
+  /**
+   *
+   * @param comics
+   */
   async seed(comics: ComicSeed[]): Promise<void> {
     const tracker = new ProgressTracker("Comics", comics.length);
 
@@ -45,20 +55,16 @@ export class ComicSeeder {
   }
 
   private async processComic(comicData: ComicSeed, tracker: ProgressTracker): Promise<void> {
-    const slug = comicData.slug || createSlug(comicData.title);
+    const slug = comicData.slug ?? createSlug(comicData.title);
 
-    // Check if comic exists
-    const existing = await database.query.comic.findFirst({
-      where: eq(comic.title, comicData.title),
-    });
+    const existing = await queries.getComicByTitle(comicData.title);
 
-    // Get or create metadata
     let typeId: number | null = null;
     if (comicData.type || comicData.category) {
       const typeName =
         typeof comicData.type === "string"
           ? comicData.type
-          : comicData.type?.name || comicData.category!;
+          : comicData.type?.name ?? comicData.category!;
       typeId = await this.metadataCache.getOrCreateType(typeName);
     }
 
@@ -76,26 +82,29 @@ export class ComicSeeder {
       artistId = await this.metadataCache.getOrCreateArtist(artistName);
     }
 
-    // Process cover image
-    let coverImage = existing?.coverImage || "/placeholder-comic.jpg";
+    let coverImage = existing?.coverImage ?? "/placeholder-comic.jpg";
     if (!this.options.skipImageDownload) {
-      if (comicData.image_urls && comicData.image_urls.length > 0) {
-        const result = await imageService.processImageUrl(
-          comicData.image_urls[0],
-          `comics/${slug}`
-        );
-        if (result) {
-          coverImage = result;
-        }
-      } else if (comicData.images && comicData.images.length > 0) {
-        const firstImage = comicData.images[0];
-        const imageUrl = typeof firstImage === "string" ? firstImage : firstImage?.url || "";
-        if (imageUrl) {
-          const result = await imageService.processImageUrl(imageUrl, `comics/${slug}`);
-          if (result) {
+      try {
+        if (comicData.image_urls && comicData.image_urls.length > 0) {
+          const result = await imageService.processImageUrl(
+            comicData.image_urls[0],
+            `comics/${slug}`
+          );
+          if (result && result !== "/placeholder-comic.jpg") {
             coverImage = result;
           }
+        } else if (comicData.images && comicData.images.length > 0) {
+          const firstImage = comicData.images[0];
+          const imageUrl = typeof firstImage === "string" ? firstImage : (firstImage?.url ?? "");
+          if (imageUrl) {
+            const result = await imageService.processImageUrl(imageUrl, `comics/${slug}`);
+            if (result && result !== "/placeholder-comic.jpg") {
+              coverImage = result;
+            }
+          }
         }
+      } catch (error) {
+        // Silently use placeholder - error already logged by imageService
       }
     }
 
@@ -106,50 +115,36 @@ export class ComicSeeder {
     let comicId: number;
 
     if (existing) {
-      // Update existing comic
-      await database
-        .update(comic)
-        .set({
-          description: (comicData.description || existing.description).slice(0, 5000),
-          slug,
-          coverImage,
-          status: comicStatus,
-          publicationDate: normalizeDate(
-            comicData.publicationDate || comicData.updated_at || comicData.updatedAt
-          ),
-          rating: comicData.rating?.toString() || existing.rating,
-          search_vector: existing.search_vector,
-          authorId: authorId || existing.authorId,
-          artistId: artistId || existing.artistId,
-          typeId: typeId || existing.typeId,
-          updatedAt: new Date(),
-        })
-        .where(eq(comic.id, existing.id));
+      const updated = await mutations.updateComic(existing.id, {
+        description: (comicData.description ?? existing.description).slice(0, 5000),
+        coverImage,
+        status: comicStatus,
+        publicationDate: normalizeDate(
+          comicData.publicationDate ?? comicData.updated_at ?? comicData.updatedAt
+        ),
+        authorId: authorId ?? undefined,
+        artistId: artistId ?? undefined,
+        typeId: typeId ?? undefined,
+      });
 
-      comicId = existing.id;
+      comicId = updated?.id ?? existing.id;
       this.comicSlugCache.set(slug, comicId);
       tracker.incrementUpdated(comicData.title);
     } else {
-      // Create new comic
-      const [created] = await database
-        .insert(comic)
-        .values({
-          slug,
-          title: comicData.title,
-          description: (comicData.description || "").slice(0, 5000), // Limit description length
-          coverImage,
-          status: comicStatus,
-          publicationDate: normalizeDate(
-            comicData.publicationDate || comicData.updated_at || comicData.updatedAt
-          ),
-          rating: comicData.rating?.toString() || "0",
-          views: 0,
-          search_vector: "",
-          authorId,
-          artistId,
-          typeId,
-        })
-        .returning();
+      const created = await mutations.createComic({
+        title: comicData.title,
+        slug,
+        description: (comicData.description ?? "").slice(0, 5000),
+        coverImage,
+        status: comicStatus,
+        publicationDate: normalizeDate(
+          comicData.publicationDate ?? comicData.updated_at ?? comicData.updatedAt
+        ),
+        authorId: authorId ?? undefined,
+        artistId: artistId ?? undefined,
+        typeId: typeId ?? undefined,
+        genreIds: [],
+      });
 
       if (!created) {
         throw new Error(`Failed to create comic: ${comicData.title}`);
@@ -158,16 +153,20 @@ export class ComicSeeder {
       comicId = created.id;
       this.comicSlugCache.set(slug, comicId);
       tracker.incrementCreated(comicData.title);
-    } // Process genres
+    }
+
     if (comicData.genres && comicData.genres.length > 0) {
+      const genreIds: number[] = [];
       for (const genreItem of comicData.genres) {
         const genreName = typeof genreItem === "string" ? genreItem : genreItem.name;
         const genreId = await this.metadataCache.getOrCreateGenre(genreName);
-        await database.insert(comicToGenre).values({ comicId, genreId }).onConflictDoNothing();
+        genreIds.push(genreId);
+      }
+      if (genreIds.length > 0) {
+        await mutations.updateComicGenres(comicId, genreIds);
       }
     }
 
-    // Process additional images
     if (!this.options.skipImageDownload) {
       await this.processAdditionalImages(comicData, comicId, slug);
     }
@@ -183,31 +182,36 @@ export class ComicSeeder {
     if (comicData.image_urls && comicData.image_urls.length > 1) {
       imagesToProcess.push(...comicData.image_urls.slice(1));
     } else if (comicData.images && comicData.images.length > 1) {
-      for (let i = 1; i < comicData.images.length; i++) {
-        const img = comicData.images[i];
-        const imageUrl = typeof img === "string" ? img : img?.url || "";
+      for (let index = 1; index < comicData.images.length; index++) {
+        const img = comicData.images[index];
+        const imageUrl = typeof img === "string" ? img : img?.url ?? "";
         if (imageUrl) {
           imagesToProcess.push(imageUrl);
         }
       }
     }
 
-    // Download images with concurrency control
-    for (let i = 0; i < imagesToProcess.length; i++) {
-      const result = await imageService.processImageUrl(imagesToProcess[i], `comics/${slug}`);
-      if (result) {
-        await database
-          .insert(comicImage)
-          .values({
+    for (let index = 0; index < imagesToProcess.length; index++) {
+      try {
+        const result = await imageService.processImageUrl(imagesToProcess[index], `comics/${slug}`);
+        if (result) {
+          await mutations.createComicImage({
             comicId,
             imageUrl: result,
-            imageOrder: i + 1,
-          })
-          .onConflictDoNothing();
+            imageOrder: index + 1,
+          });
+        }
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        console.warn(`Failed to process additional image for ${comicData.title}: ${errorMessage}`);
       }
     }
   }
 
+  /**
+   *
+   * @param slug
+   */
   getComicIdBySlug(slug: string): number | undefined {
     return this.comicSlugCache.get(slug);
   }

@@ -5,15 +5,15 @@
 // ═══════════════════════════════════════════════════
 
 import { appConfig } from "@/app-config";
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { comic, comicToGenre } from "@/database/schema";
 import { slugify } from "@/lib/utils";
 import type {
   ComicFilterInput,
   CreateComicInput,
   UpdateComicInput,
-} from "@/lib/validations/schemas";
-import { comicFilterSchema, createComicSchema, updateComicSchema } from "@/lib/validations/schemas";
+} from "@/lib/validations";
+import { comicFilterSchema, createComicSchema, updateComicSchema } from "@/lib/validations";
 import type { Genre } from "@/types/database-auto";
 import { and, desc, eq, like, sql, type SQL } from "drizzle-orm";
 import { revalidatePath } from "next/cache";

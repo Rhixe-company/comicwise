@@ -13,7 +13,7 @@ import {
   updateComicSchema,
   updateProfileSchema,
   verifyEmailSchema,
-} from "@/lib/validations/schemas";
+} from "@/lib/validations";
 import { describe, expect, it } from "vitest";
 
 // ═══════════════════════════════════════════════════

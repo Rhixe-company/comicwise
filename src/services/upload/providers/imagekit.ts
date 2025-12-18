@@ -26,7 +26,7 @@ const imagekit = new ImageKit({
 
 export class ImageKitProvider implements UploadProvider {
   /**
-   * Upload file to ImageKit
+   * Upload file to ImageKit with improved error handling
    */
   async upload(
     file: File | Buffer,
@@ -51,11 +51,24 @@ export class ImageKitProvider implements UploadProvider {
         };
       }
 
+      // Validate buffer size (ImageKit has limits)
+      const maxSize = 25 * 1024 * 1024; // 25MB limit
+      if (buffer.length > maxSize) {
+        return {
+          url: "",
+          publicId: "",
+          size: buffer.length,
+          format: "",
+          success: false,
+          error: `File too large: ${(buffer.length / 1024 / 1024).toFixed(2)}MB (max ${maxSize / 1024 / 1024}MB)`,
+        };
+      }
+
       // Prepare transformation options
       const transformation = options.transformation || undefined;
 
-      // Upload to ImageKit
-      const result = await imagekit.upload({
+      // Upload to ImageKit with timeout
+      const uploadPromise = imagekit.upload({
         file: buffer,
         fileName: options.filename || `image-${Date.now()}`,
         folder: options.folder || "/comicwise",
@@ -63,6 +76,13 @@ export class ImageKitProvider implements UploadProvider {
         useUniqueFileName: !options.filename,
         transformation,
       });
+
+      // Add timeout to upload
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Upload timeout after 60s")), 60000)
+      );
+
+      const result = await Promise.race([uploadPromise, timeoutPromise]);
 
       return {
         url: result.url,
@@ -75,13 +95,29 @@ export class ImageKitProvider implements UploadProvider {
         success: true,
       };
     } catch (error) {
+      // Extract meaningful error message
+      let errorMessage = "ImageKit upload failed";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+        // Check for common ImageKit errors
+        if (errorMessage.includes("timeout") || errorMessage.includes("ETIMEDOUT")) {
+          errorMessage = "Upload timeout - image may be too large or network is slow";
+        } else if (errorMessage.includes("ECONNREFUSED") || errorMessage.includes("ENOTFOUND")) {
+          errorMessage = "Network connection failed";
+        } else if (errorMessage.includes("401") || errorMessage.includes("Unauthorized")) {
+          errorMessage = "ImageKit authentication failed - check API keys";
+        } else if (errorMessage.includes("413") || errorMessage.includes("too large")) {
+          errorMessage = "File size exceeds ImageKit limits";
+        }
+      }
+
       return {
         url: "",
         publicId: "",
         size: 0,
         format: "",
         success: false,
-        error: error instanceof Error ? error.message : "ImageKit upload failed",
+        error: errorMessage,
       };
     }
   }

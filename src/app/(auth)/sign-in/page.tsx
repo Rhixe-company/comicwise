@@ -4,6 +4,15 @@
 // SIGN IN PAGE (Next.js 16 + React 19)
 // ═══════════════════════════════════════════════════
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,17 +26,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
-import type { SignInInput } from "@/lib/validations/schemas";
-import { signInSchema } from "@/lib/validations/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-
+import { signInAction } from "@/lib/actions/auth";
+import type { SignInInput } from "@/lib/validations";
+import { signInSchema } from "@/lib/validations";
+/**
+ *
+ */
 export default function SignInPage() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -50,22 +54,24 @@ export default function SignInPage() {
 
     startTransition(async () => {
       try {
-        const result = await signIn("credentials", {
-          email: data.email,
-          password: data.password,
-          redirect: false,
-        });
+        // const result = await signIn("credentials", {
+        //   email: data.email,
+        //   password: data.password,
+        //   redirect: false,
+        // });
+        const result = await signInAction(data.email, data.password);
 
-        if (result?.error) {
+        if (!result?.success) {
           setError("Invalid email or password. Please try again.");
           toast.error("Invalid credentials");
+          toast.error(`${result.error ?? "Failed to sign in"}`);
         } else {
           toast.success("Welcome back!");
           router.push("/");
           router.refresh();
         }
-      } catch (err) {
-        console.error("Sign in error:", err);
+      } catch (error_) {
+        console.error("Sign in error:", error_);
         setError("An unexpected error occurred. Please try again.");
         toast.error("Failed to sign in");
       }
@@ -180,11 +186,11 @@ export default function SignInPage() {
           <p className="text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
             <Link
-              href="/register"
+              href="/sign-up"
               className={`
-              text-primary
-              hover:underline
-            `}
+                text-primary
+                hover:underline
+              `}
             >
               Sign up
             </Link>

@@ -3,19 +3,18 @@
  * Exports auth handlers and sign-in/sign-out functions
  */
 
-import { authOptions } from "@/lib/authConfig";
+import { eq } from "drizzle-orm";
+import type { Session } from "next-auth";
 import NextAuth from "next-auth";
-
-export const { handlers, auth, signIn, signOut } = NextAuth(authOptions as any);
 
 /**
  * Server-side authentication helpers
  */
-
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
-import { eq } from "drizzle-orm";
-import type { Session } from "next-auth";
+import { authOptions } from "@/lib/auth-config";
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
 
 /**
  * Get the current user's session
@@ -32,7 +31,7 @@ export async function getSession(): Promise<Session | null> {
 /**
  * Get the currently logged-in user with full details from database
  */
-export async function getCurrentUser() {
+export async function getCurrentUser(): Promise<(typeof user.$inferSelect) | null> {
   try {
     const session = await getSession();
 
@@ -72,6 +71,7 @@ export async function isAuthenticated(): Promise<boolean> {
 
 /**
  * Check if user has specific role
+ * @param requiredRole
  */
 export async function hasRole(requiredRole: "admin" | "moderator" | "user"): Promise<boolean> {
   const currentUser = await getCurrentUser();
@@ -91,7 +91,7 @@ export async function hasRole(requiredRole: "admin" | "moderator" | "user"): Pro
 /**
  * Require authentication - throw error if not authenticated
  */
-export async function requireAuth() {
+export async function requireAuth(): Promise<typeof user.$inferSelect> {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
@@ -103,8 +103,9 @@ export async function requireAuth() {
 
 /**
  * Require specific role - throw error if not authorized
+ * @param requiredRole
  */
-export async function requireRole(requiredRole: "admin" | "moderator") {
+export async function requireRole(requiredRole: "admin" | "moderator"): Promise<typeof user.$inferSelect> {
   const currentUser = await requireAuth();
   const hasRequiredRole = await hasRole(requiredRole);
 

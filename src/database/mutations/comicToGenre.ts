@@ -1,8 +1,17 @@
-import { database } from "@/database";
-import { comicToGenre } from "@/database/schema";
 import { and, eq } from "drizzle-orm";
 
-export async function addGenreToComic(comicId: number, genreId: number) {
+import { db as database } from "@/database/db";
+import { comicToGenre } from "@/database/schema";
+
+/**
+ *
+ * @param comicId
+ * @param genreId
+ */
+export async function addGenreToComic(
+  comicId: number,
+  genreId: number
+): Promise<typeof comicToGenre.$inferSelect | undefined> {
   const [newRelation] = await database
     .insert(comicToGenre)
     .values({
@@ -13,7 +22,15 @@ export async function addGenreToComic(comicId: number, genreId: number) {
   return newRelation;
 }
 
-export async function addGenresToComic(comicId: number, genreIds: number[]) {
+/**
+ *
+ * @param comicId
+ * @param genreIds
+ */
+export async function addGenresToComic(
+  comicId: number,
+  genreIds: number[]
+): Promise<(typeof comicToGenre.$inferSelect)[]> {
   const relations = await database
     .insert(comicToGenre)
     .values(genreIds.map((genreId) => ({ comicId, genreId })))
@@ -21,7 +38,15 @@ export async function addGenresToComic(comicId: number, genreIds: number[]) {
   return relations;
 }
 
-export async function removeGenreFromComic(comicId: number, genreId: number) {
+/**
+ *
+ * @param comicId
+ * @param genreId
+ */
+export async function removeGenreFromComic(
+  comicId: number,
+  genreId: number
+): Promise<typeof comicToGenre.$inferSelect | undefined> {
   const [deletedRelation] = await database
     .delete(comicToGenre)
     .where(and(eq(comicToGenre.comicId, comicId), eq(comicToGenre.genreId, genreId)))
@@ -29,7 +54,13 @@ export async function removeGenreFromComic(comicId: number, genreId: number) {
   return deletedRelation;
 }
 
-export async function removeAllGenresFromComic(comicId: number) {
+/**
+ *
+ * @param comicId
+ */
+export async function removeAllGenresFromComic(
+  comicId: number
+): Promise<(typeof comicToGenre.$inferSelect)[]> {
   const deletedRelations = await database
     .delete(comicToGenre)
     .where(eq(comicToGenre.comicId, comicId))
@@ -37,7 +68,15 @@ export async function removeAllGenresFromComic(comicId: number) {
   return deletedRelations;
 }
 
-export async function updateComicGenres(comicId: number, genreIds: number[]) {
+/**
+ *
+ * @param comicId
+ * @param genreIds
+ */
+export async function updateComicGenres(
+  comicId: number,
+  genreIds: number[]
+): Promise<(typeof comicToGenre.$inferSelect)[]> {
   // Remove existing genres
   await database.delete(comicToGenre).where(eq(comicToGenre.comicId, comicId));
 

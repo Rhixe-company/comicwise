@@ -1,7 +1,12 @@
 {
+  // ═══════════════════════════════════════════════════════════════
+  // COMICWISE DEBUG CONFIGURATIONS
+  // Next.js 16 + Vitest + Playwright E2E Testing
+  // ═══════════════════════════════════════════════════════════════
+
   "compounds": [
     {
-      "name": "Dev + Node Attach",
+      "name": "Dev + Attach",
       "configurations": ["Next: Dev (pnpm)", "Attach to Process"]
     },
     {
@@ -13,7 +18,11 @@
       "configurations": ["Unit Tests (vitest)", "E2E Tests (playwright)"]
     }
   ],
+
   "configurations": [
+    // ═══════════════════════════════════════════════════════════════
+    // NEXT.JS DEV SERVER CONFIGURATIONS
+    // ═══════════════════════════════════════════════════════════════
     {
       "name": "Next: Dev (pnpm)",
       "type": "node",
@@ -48,6 +57,10 @@
       },
       "skipFiles": ["<node_internals>/**"]
     },
+
+    // ═══════════════════════════════════════════════════════════════
+    // DEBUGGER ATTACH CONFIGURATIONS
+    // ═══════════════════════════════════════════════════════════════
     {
       "name": "Attach to Next (9229)",
       "type": "node",
@@ -78,6 +91,10 @@
       "cwd": "${workspaceFolder}",
       "skipFiles": ["<node_internals>/**"]
     },
+
+    // ═══════════════════════════════════════════════════════════════
+    // TESTING CONFIGURATIONS
+    // ═══════════════════════════════════════════════════════════════
     {
       "name": "Unit Tests (vitest)",
       "type": "node",

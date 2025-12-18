@@ -1,4 +1,4 @@
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
@@ -8,7 +8,7 @@ export async function createUser(data: {
   password?: string;
   image?: string;
   role?: "user" | "admin" | "moderator";
-}) {
+}): Promise<typeof user.$inferSelect | undefined> {
   const [newUser] = await database
     .insert(user)
     .values({
@@ -33,7 +33,7 @@ export async function updateUser(
     role?: "user" | "admin" | "moderator";
     emailVerified?: Date;
   }
-) {
+): Promise<typeof user.$inferSelect | undefined> {
   const cleanData = {
     ...(data.name !== undefined && { name: data.name }),
     ...(data.email !== undefined && { email: data.email }),
@@ -50,7 +50,10 @@ export async function updateUser(
   return updatedUser;
 }
 
-export async function updateUserPassword(userId: string, password: string) {
+export async function updateUserPassword(
+  userId: string,
+  password: string
+): Promise<typeof user.$inferSelect | undefined> {
   const [updatedUser] = await database
     .update(user)
     .set({
@@ -62,12 +65,16 @@ export async function updateUserPassword(userId: string, password: string) {
   return updatedUser;
 }
 
-export async function deleteUser(userId: string) {
+export async function deleteUser(
+  userId: string
+): Promise<typeof user.$inferSelect | undefined> {
   const [deletedUser] = await database.delete(user).where(eq(user.id, userId)).returning();
   return deletedUser;
 }
 
-export async function verifyUserEmail(userId: string) {
+export async function verifyUserEmail(
+  userId: string
+): Promise<typeof user.$inferSelect | undefined> {
   const [updatedUser] = await database
     .update(user)
     .set({

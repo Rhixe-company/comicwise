@@ -1,8 +1,18 @@
-import { database } from "@/database";
-import { comment } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
-export async function createComment(data: { content: string; userId: string; chapterId: number }) {
+import { db as database } from "@/database/db";
+import { comment } from "@/database/schema";
+
+/**
+ *
+ * @param data
+ * @param data.content
+ * @param data.userId
+ * @param data.chapterId
+ */
+export async function createComment(
+  data: { content: string; userId: string; chapterId: number }
+): Promise<typeof comment.$inferSelect | undefined> {
   const [newComment] = await database
     .insert(comment)
     .values({
@@ -16,12 +26,18 @@ export async function createComment(data: { content: string; userId: string; cha
   return newComment;
 }
 
+/**
+ *
+ * @param commentId
+ * @param data
+ * @param data.content
+ */
 export async function updateComment(
   commentId: number,
   data: {
     content?: string;
   }
-) {
+): Promise<typeof comment.$inferSelect | undefined> {
   const [updatedComment] = await database
     .update(comment)
     .set({
@@ -33,7 +49,13 @@ export async function updateComment(
   return updatedComment;
 }
 
-export async function deleteComment(commentId: number) {
+/**
+ *
+ * @param commentId
+ */
+export async function deleteComment(
+  commentId: number
+): Promise<typeof comment.$inferSelect | undefined> {
   const [deletedComment] = await database
     .delete(comment)
     .where(eq(comment.id, commentId))

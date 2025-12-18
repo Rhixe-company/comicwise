@@ -5,7 +5,7 @@
 import { createAuthor } from "@/database/mutations/authors";
 import { getAllAuthors } from "@/database/queries/authors";
 import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/generic-crud";
-import { authorFilterSchema, createAuthorSchema } from "@/lib/validations/schemas";
+import { authorFilterSchema, createAuthorSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {

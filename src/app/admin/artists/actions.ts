@@ -5,17 +5,19 @@
 
 "use server";
 
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { artist } from "@/database/schema";
 import { requireRole } from "@/lib/auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 
-const createArtistSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(255),
-  bio: z.string().max(5000).optional(),
-  image: z.string().url("Invalid image URL").optional(),
-});
+const createArtistSchema = z
+  .object({
+    name: z.string().min(2, "Name must be at least 2 characters").max(255),
+    bio: z.string().max(5000).optional(),
+    image: z.string().url("Invalid image URL").optional(),
+  })
+  .strict();
 
 const updateArtistSchema = createArtistSchema.partial();
 

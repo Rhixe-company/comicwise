@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════
 
 import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/generic-crud";
-import { createTypeSchema, typeFilterSchema } from "@/lib/validations/schemas";
+import { createTypeSchema, typeFilterSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { createType } from "src/database/mutations/types";
 import { getAllTypes } from "src/database/queries/types";

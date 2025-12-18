@@ -1,4 +1,4 @@
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { type } from "@/database/schema";
 import { asc, desc, eq, ilike } from "drizzle-orm";
 
@@ -9,6 +9,13 @@ export async function getTypeById(typeId: number) {
 }
 
 export async function getTypeByName(name: string) {
+  return await database.query.type.findFirst({
+    where: eq(type.name, name),
+  });
+}
+
+// Seed helper: get or null for batch operations
+export async function getTypeByNameForSeed(name: string) {
   return await database.query.type.findFirst({
     where: eq(type.name, name),
   });

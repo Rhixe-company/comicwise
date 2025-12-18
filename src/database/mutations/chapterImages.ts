@@ -1,4 +1,4 @@
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { chapterImage } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
@@ -6,7 +6,7 @@ export async function createChapterImage(data: {
   chapterId: number;
   imageUrl: string;
   pageNumber: number;
-}) {
+}): Promise<typeof chapterImage.$inferSelect | undefined> {
   const [newImage] = await database
     .insert(chapterImage)
     .values({
@@ -25,7 +25,7 @@ export async function createChapterImages(
     imageUrl: string;
     pageNumber: number;
   }>
-) {
+): Promise<(typeof chapterImage.$inferSelect)[]> {
   const newImages = await database
     .insert(chapterImage)
     .values(
@@ -44,7 +44,7 @@ export async function updateChapterImage(
     imageUrl?: string;
     pageNumber?: number;
   }
-) {
+): Promise<typeof chapterImage.$inferSelect | undefined> {
   const [updatedImage] = await database
     .update(chapterImage)
     .set(data)
@@ -53,7 +53,9 @@ export async function updateChapterImage(
   return updatedImage;
 }
 
-export async function deleteChapterImage(imageId: number) {
+export async function deleteChapterImage(
+  imageId: number
+): Promise<typeof chapterImage.$inferSelect | undefined> {
   const [deletedImage] = await database
     .delete(chapterImage)
     .where(eq(chapterImage.id, imageId))
@@ -61,7 +63,9 @@ export async function deleteChapterImage(imageId: number) {
   return deletedImage;
 }
 
-export async function deleteChapterImages(chapterId: number) {
+export async function deleteChapterImages(
+  chapterId: number
+): Promise<(typeof chapterImage.$inferSelect)[]> {
   const deletedImages = await database
     .delete(chapterImage)
     .where(eq(chapterImage.chapterId, chapterId))

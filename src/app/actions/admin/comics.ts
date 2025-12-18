@@ -3,7 +3,7 @@
 import { db } from "@/database/db";
 import { comic, comicToGenre } from "@/database/schema";
 import { slugify } from "@/lib/utils";
-import { comicFormSchema, type ComicFormData } from "@/lib/validations/comic-form";
+import { comicFormSchema, type ComicFormData } from "@/lib/validations";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 

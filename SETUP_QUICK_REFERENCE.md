@@ -1,369 +1,370 @@
-# Setup.md Quick Reference Guide
+# 📖 SETUP.md - Quick Reference Guide
 
-**Use this guide to quickly navigate the comprehensive setup.md file**
+## Location
 
----
-
-## 🎯 Find What You Need
-
-### Want to Get Started Immediately?
-
-→ Go to **"Quick Start (5 minutes)"** section
-
-- Installs dependencies
-- Sets up environment
-- Starts development server
-
-### Want to Check Project Status?
-
-→ Go to **"Status Overview"** section
-
-- See what's complete ✅
-- See what needs work 🟡 ❌
-- Understand priorities
-
-### Want Clear Next Steps?
-
-→ Go to **"Prioritized Task List"** section
-
-- 15 major tasks organized by priority
-- Each with Goal, Acceptance, Time estimate
-- Copilot Chat prompt included
-
-### Want to Verify Everything Works?
-
-→ Go to **"Quick Verification"** section
-
-- Run 6 essential commands
-- Check all systems at once
-- Fix issues immediately
-
-### Need Common Commands?
-
-→ Go to **"Common Commands"** section
-
-- Development (pnpm dev, type-check, lint)
-- Database (seed, push, reset)
-- Docker (up, down, test)
-- Build & Deploy (build, preview, CI)
-
-### Want to Use Copilot Chat?
-
-→ Go to **"Using Copilot Chat"** section
-
-- Best practices for prompts
-- Example 6-step workflow
-- Copy-paste each task's prompt
-
-### Need to Know Branching Rules?
-
-→ Go to **"Branching Strategy"** section
-
-- Branch naming (p0/_, p1/_, enhancement/\*)
-- Commit message format with examples
-- Pre-merge checklist (8 items)
-
-### Looking for Troubleshooting?
-
-→ Go to **"Troubleshooting"** section
-
-- TypeScript errors
-- Build failures
-- Database issues
-- Docker problems
-
-### Want to Track Your Progress?
-
-→ Go to **"Progress Tracking"** section
-
-- 14 task checkboxes
-- Update as you complete items
-- Use for sprint planning
-
-### Need Help or Have Questions?
-
-→ Go to **"Getting Help"** section
-
-- Check documentation first
-- Review GitHub issues
-- Ask Copilot Chat
-
----
-
-## 📋 Task Quick Lookup
-
-### P0: Immediate (Do These First)
-
-| Task                     | Time   | Find               |
-| ------------------------ | ------ | ------------------ |
-| Repo Health & TypeScript | 30 min | Section: P0 Task 1 |
-| Database Setup & Schema  | 30 min | Section: P0 Task 2 |
-| Environment Variables    | 1 hour | Section: P0 Task 3 |
-
-### P1: High Priority (Next)
-
-| Task                      | Time    | Find               |
-| ------------------------- | ------- | ------------------ |
-| Auth Wiring (NextAuth v5) | 2-3 hrs | Section: P1 Task 4 |
-| Image Upload Integration  | 2-4 hrs | Section: P1 Task 5 |
-| Database Seeding          | 1-2 hrs | Section: P1 Task 6 |
-
-### P2: Medium Priority (After P1)
-
-| Task                     | Time    | Find                |
-| ------------------------ | ------- | ------------------- |
-| Email Notifications      | -       | Section: P2 Task 7  |
-| Admin Dashboard          | 4-8 hrs | Section: P2 Task 8  |
-| Full-Text Search         | 1-2 hrs | Section: P2 Task 9  |
-| Performance Optimization | 3-5 hrs | Section: P2 Task 10 |
-
-### P3: Low Priority (Polish)
-
-| Task                | Time | Find                |
-| ------------------- | ---- | ------------------- |
-| Testing Suite       | -    | Section: P3 Task 11 |
-| CI/CD Pipeline      | -    | Section: P3 Task 12 |
-| Docker & Deployment | -    | Section: P3 Task 13 |
-| Documentation       | -    | Section: P3 Task 14 |
-
-### Optional Enhancements
-
-| Task                    | Time     | Find                      |
-| ----------------------- | -------- | ------------------------- |
-| Enhanced Admin Features | Variable | Section: Optional Task 15 |
-
----
-
-## 🛠️ Commands by Use Case
-
-### I want to verify everything
-
-```bash
-pnpm install
-pnpm type-check
-pnpm lint
-pnpm format:check
-pnpm build
-pnpm validate  # All checks
+```
+C:\Users\Alexa\Desktop\SandBox\comicwise\SETUP.md
 ```
 
-→ See: "Quick Verification" section
+## File Information
 
-### I want to start development
+- **Size**: 15.41 KB
+- **Lines**: 722
+- **Words**: 2,053
+- **Sections**: 13
+- **Code Examples**: 50+
+- **Commands Documented**: 80+
+- **Troubleshooting Issues**: 7
+
+## Quick Navigation
+
+### For Experienced Developers (⚡ 5 minutes)
 
 ```bash
+# Jump to: "Quick Start (5 minutes)"
+# Commands provided:
+pnpm install
+cp .env.example .env.local
+docker run ... postgres:17-alpine
+pnpm db:push && pnpm db:seed
 pnpm dev
-# App at http://localhost:3000
 ```
 
-→ See: "Common Commands - Development"
+### For New Developers (📖 15-20 minutes)
 
-### I want to use Docker
-
-```bash
-docker-compose -f docker-compose.dev.yml up
-# Or
-make docker-dev
+```
+1. Read: System Requirements
+2. Follow: Detailed Setup (Steps 1-6)
+3. Reference: Environment Configuration
+4. Use: Development Commands
+5. Bookmark: Troubleshooting
 ```
 
-→ See: "Common Commands - Docker"
+### For Docker Users (🐳 10 minutes)
 
-### I want to seed the database
-
-```bash
-pnpm db:seed                 # Full seed
-pnpm db:seed --dry-run       # Preview
-pnpm db:seed --skip-images   # No images
+```
+1. Skip to: Docker Setup (Alternative)
+2. Run: docker compose up -d
+3. Execute: docker compose exec app pnpm db:seed
+4. Browse: http://localhost:3000
 ```
 
-→ See: "P1 Task 6 - Database Seeding"
+### For Windows WSL2 Users (💻 15 minutes)
 
-### I want to reset everything
+```
+1. Read: System Requirements → Windows (WSL2)
+2. Follow: Detailed Setup → Step 3 → Option C
+3. Continue with normal steps 4-6
+```
+
+## Document Structure
+
+```
+SETUP.md
+├── 📋 Table of Contents
+│   └── 7 main categories with links
+│
+├── 🔧 System Requirements (60 lines)
+│   ├── Minimum Requirements
+│   └── Recommended Tools
+│
+├── ⚡ Quick Start (5 minutes) (25 lines)
+│   └── One-command setup
+│
+├── 📖 Detailed Setup (150 lines)
+│   ├── Step 1: Clone & Install
+│   ├── Step 2: Environment Config
+│   ├── Step 3: Database Setup (3 options)
+│   ├── Step 4: Initialize Schema
+│   ├── Step 5: Seed Data
+│   └── Step 6: Start Dev Server
+│
+├── 🌍 Environment Configuration (100 lines)
+│   ├── Copy & Customize .env.local
+│   ├── Required Variables (5)
+│   ├── Optional Variables (25+)
+│   ├── AUTH_SECRET Generation
+│   └── Validation Details
+│
+├── 🗄️ Database (80 lines)
+│   ├── Schema Overview
+│   ├── Common Commands (8 cmds)
+│   ├── Drizzle Studio
+│   └── psql CLI Access
+│
+├── 🚀 Running the Application (60 lines)
+│   ├── Development Mode
+│   ├── Production Build
+│   ├── Linting & Type Checking
+│   └── Code Quality Validation
+│
+├── 📚 Development Commands (80 lines)
+│   ├── Dev Server (3 variants)
+│   ├── Testing (10+ commands)
+│   ├── Database (4+ commands)
+│   ├── Building & Analysis (4 commands)
+│   └── Utilities (6+ commands)
+│
+├── 🐳 Docker Setup (60 lines)
+│   ├── Full Stack Setup
+│   ├── Services Overview
+│   ├── Running Commands in Docker
+│   └── Building Custom Images
+│
+├── 🛠️ Troubleshooting (100 lines)
+│   ├── 7 Common Issues with Solutions
+│   ├── Getting Help
+│   └── Health Check Verification
+│
+├── 📝 First Time Setup Checklist (15 items)
+│   └── Verification list
+│
+├── 🎯 Next Steps (30 lines)
+│   ├── Explore Codebase
+│   ├── Run Tests
+│   ├── Read Documentation
+│   └── Make First Contribution
+│
+└── 📞 Support (10 lines)
+    └── Help Resources
+```
+
+## Command Reference (By Category)
+
+### Setup Commands
 
 ```bash
-make db-reset
-# Or
-pnpm clean
-pnpm install
-pnpm db:push
+pnpm install                  # Install dependencies
+cp .env.example .env.local    # Create env file
+pnpm db:push                  # Apply migrations
+pnpm db:seed                  # Seed sample data
+```
+
+### Development Commands
+
+```bash
+pnpm dev                      # Start dev server
+pnpm dev:debug               # With debugger
+pnpm type-check              # Type validation
+pnpm lint                    # ESLint check
+pnpm format                  # Code formatting
+```
+
+### Database Commands
+
+```bash
+pnpm db:studio               # Open explorer
+pnpm db:generate             # Generate migrations
+pnpm db:backup               # Create backup
+pnpm db:reset                # Full reset
+pnpm db:seed:dry-run        # Preview seed
+```
+
+### Testing Commands
+
+```bash
+pnpm test:unit:run          # Unit tests
+pnpm test                   # E2E tests
+pnpm test:headed            # E2E with browser
+```
+
+### Docker Commands
+
+```bash
+docker compose up -d         # Start services
+docker compose down          # Stop services
+docker compose exec app pnpm # Run command in container
+```
+
+## Environment Variables Summary
+
+### Required (Must Set)
+
+```env
+NODE_ENV=development
+DATABASE_URL=postgresql://...
+AUTH_SECRET=(32+ chars)
+AUTH_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### Optional (May Leave Empty)
+
+```env
+AUTH_GOOGLE_CLIENT_ID=
+AUTH_GOOGLE_CLIENT_SECRET=
+AUTH_GITHUB_CLIENT_ID=
+AUTH_GITHUB_CLIENT_SECRET=
+UPLOAD_PROVIDER=local
+REDIS_URL=
+EMAIL_SERVER_HOST=
+EMAIL_SERVER_PORT=
+```
+
+## Troubleshooting Quick Links
+
+| Issue                 | Location | Solution                           |
+| --------------------- | -------- | ---------------------------------- |
+| Missing DATABASE_URL  | Line 544 | Update .env.local                  |
+| Can't connect to DB   | Line 551 | Start PostgreSQL                   |
+| pnpm not found        | Line 559 | Install pnpm globally              |
+| TypeScript errors     | Line 566 | Clear cache & reinstall            |
+| Port 3000 in use      | Line 577 | Kill process or use different port |
+| AUTH_SECRET too short | Line 588 | Generate new secret                |
+| DB seed timeout       | Line 598 | Wait for DB & retry                |
+
+## Development Workflow
+
+### Daily Development
+
+```bash
+pnpm dev              # Start dev server
+# Make changes
+pnpm type-check       # Check types
+pnpm lint:fix         # Fix linting issues
+pnpm test:unit:run    # Run unit tests
+# Commit code
+```
+
+### Before Committing
+
+```bash
+pnpm validate         # Type-check + lint + format
+pnpm test:unit:run    # Unit tests
+git commit -m "feat:..." # Commit message
+```
+
+### Deploying
+
+```bash
+pnpm build            # Production build
+pnpm start            # Start production server
+# Or use Docker:
+docker compose up -d  # Start full stack
+```
+
+## Common Tasks
+
+### Add New Feature
+
+1. Create feature branch: `git checkout -b feature/your-feature`
+2. Make changes to `src/`
+3. Run validation: `pnpm validate`
+4. Test: `pnpm test:unit:run`
+5. Commit: `git commit -m "feat: description"`
+
+### Update Database Schema
+
+1. Edit `src/database/schema.ts`
+2. Generate migration: `pnpm db:generate`
+3. Apply migration: `pnpm db:push`
+4. Test in studio: `pnpm db:studio`
+
+### Seed Database with Sample Data
+
+```bash
+# Preview changes
+pnpm db:seed:dry-run
+
+# Apply with logging
+pnpm db:seed:verbose
+
+# Or just seed
 pnpm db:seed
 ```
 
-→ See: "Common Commands - Database"
-
-### I want to deploy
+### Debug TypeScript Issues
 
 ```bash
-pnpm build
-pnpm deploy:vercel           # Vercel
-# Or
-make docker-up               # Docker
+pnpm type-check                # Show all errors
+pnpm type-check:watch         # Watch mode
+# Or open IDE for inline checking
 ```
 
-→ See: "Common Commands - Build & Deploy"
+### Run E2E Tests
+
+```bash
+pnpm test                     # Run all tests
+pnpm test:headed             # See browser
+pnpm test:debug              # Debug mode
+pnpm test --project=chromium # Specific browser
+```
+
+## Key Files Referenced
+
+| File                     | Purpose                                |
+| ------------------------ | -------------------------------------- |
+| `.env.example`           | Environment template                   |
+| `.env.local`             | Your local configuration (create this) |
+| `package.json`           | Scripts and dependencies               |
+| `tsconfig.json`          | TypeScript configuration               |
+| `docker-compose.yml`     | Production Docker stack                |
+| `docker-compose.dev.yml` | Development Docker stack               |
+| `src/app-config/env.ts`  | Environment validation                 |
+| `src/database/schema.ts` | Database schema                        |
+| `drizzle.config.ts`      | Drizzle configuration                  |
+
+## Performance Tips
+
+### Development Speed
+
+- Use `pnpm dev` with Turbopack for fast refresh
+- Use `pnpm dev:debug` with breakpoints
+- Use `pnpm type-check:watch` in another terminal
+
+### Build Speed
+
+- Run `pnpm build:analyze` to check bundle size
+- Use `pnpm clean` before full rebuild
+- Check `.next` directory is not in git
+
+### Database Speed
+
+- Use indexes on frequently queried columns
+- Use `pnpm db:studio` to verify queries
+- Keep sample data reasonable size
+
+## Security Notes
+
+### AUTH_SECRET
+
+- ⚠️ MUST be 32+ characters
+- Generate with: `openssl rand -base64 32`
+- Never commit to git (use .env.local)
+- Different per environment
+
+### Environment Variables
+
+- ✅ Store in `.env.local` (not in git)
+- ✅ Use `.env.example` as template
+- ✅ Validate with Zod schemas
+- ✅ Check required vars at startup
+
+### Database
+
+- ✅ Use strong passwords in development
+- ✅ Rotate credentials in production
+- ✅ Use connection pooling
+- ✅ Keep backups (`pnpm db:backup`)
+
+## Getting Help
+
+### First Steps
+
+1. Check this SETUP.md document
+2. Search for your error in Troubleshooting
+3. Check `pnpm dev` output for detailed errors
+
+### If Still Stuck
+
+1. Check logs: `docker compose logs`
+2. Check database: `pnpm db:studio`
+3. Run validation: `pnpm validate`
+4. Ask on Discord/Slack
 
 ---
 
-## 📊 Status at a Glance
+**Last Updated**: December 15, 2025 **Status**: ✅ Complete and verified **Ready
+for**: Immediate use
 
-### What's Done ✅
-
-- Infrastructure (TypeScript, ESLint, Prettier)
-- Database (PostgreSQL + Drizzle ORM)
-- Authentication (NextAuth v5 + OAuth)
-- API & CRUD (All server actions)
-- Email System (Templates + queue)
-
-### What's In Progress 🟡
-
-- Testing (E2E exists, unit tests needed)
-- Image Upload (Framework ready, integration pending)
-- Admin Dashboard (Core pages exist, enhancements pending)
-- Search & Filter (Full-text search ready)
-- Performance (Caching strategies needed)
-
-### What to Work On Next
-
-1. Fix any TypeScript errors (P0)
-2. Complete auth wiring if not done (P1)
-3. Finish admin pages (P2)
-4. Add tests and polish (P3)
-
----
-
-## 🚀 Typical Workflow
-
-### Day 1: Setup
-
-1. Read Quick Start section
-2. Run Quick Verification commands
-3. Check Status Overview
-4. Understand project scope (5 min total)
-
-### Week 1: P0 Tasks
-
-1. Pick first P0 task
-2. Copy Copilot Chat prompt
-3. Let Copilot generate changes
-4. Review and apply
-5. Run verification commands
-6. Commit changes
-7. Move to next P0 task
-
-### Week 2-3: P1 Tasks
-
-1. Same workflow as P0
-2. Focus on high-priority features
-3. Ensure pre-merge checklist passes
-4. Open PRs for review
-
-### Week 4+: P2-P3 Tasks
-
-1. Continue prioritized workflow
-2. Track progress in checklist
-3. Plan optional enhancements
-
----
-
-## 📖 Reading Tips
-
-### First Time?
-
-- Read "Quick Start"
-- Skim "Status Overview"
-- Pick a P0 task
-- Go!
-
-### Deep Dive?
-
-- Read entire document
-- Understand all priorities
-- Plan your sprint
-- Create issues for each task
-
-### Quick Reference?
-
-- Bookmark this page (SETUP_QUICK_REFERENCE.md)
-- Use task lookup table
-- Copy commands directly
-- Run verification after changes
-
-### Need Automation?
-
-- Use "Using Copilot Chat" section
-- Follow "Example Workflow"
-- Copy each task's Copilot prompt
-- Review suggested changes
-
----
-
-## 🎯 Success Checklist
-
-After reading setup.md, you should be able to:
-
-- [ ] Describe the project status (what's done, what's not)
-- [ ] List the next 3 tasks in priority order
-- [ ] Run quick verification commands
-- [ ] Know how to use Copilot Chat prompts
-- [ ] Understand branching strategy
-- [ ] Know where to find help
-- [ ] Understand the pre-merge checklist
-- [ ] Have a plan for your first contribution
-
----
-
-## 📞 Quick Help
-
-### This seems overwhelming, where do I start?
-
-→ Go to "Quick Start" section, then pick a P0 task
-
-### I have an error, what do I do?
-
-→ Go to "Troubleshooting" section or "Getting Help" section
-
-### How do I contribute?
-
-→ Go to "Branching Strategy" section and "Pre-Merge Checklist"
-
-### What's the priority?
-
-→ Go to "Priority System" section and "Status Overview" table
-
-### I want to automate this
-
-→ Go to "Using Copilot Chat" section and copy the prompt for your task
-
-### I'm confused about something
-
-→ Check "Documentation Structure" for other files, or use Copilot Chat
-
----
-
-## 🔄 Keeping setup.md Updated
-
-As you work, keep it fresh:
-
-1. **After each completed task**: ✅ Check the box in "Progress Tracking"
-2. **After major changes**: 📝 Update "Status Overview" table
-3. **Weekly**: 🔄 Review "Progress Tracking" for sprint planning
-4. **Monthly**: 📚 Link any new documentation in "Documentation Structure"
-
----
-
-## 📌 Bookmarks (Add These)
-
-Pin these sections for quick access:
-
-- ⭐ Quick Start (5 min setup)
-- ⭐ Common Commands (daily use)
-- ⭐ Prioritized Task List (task selection)
-- ⭐ Using Copilot Chat (automation)
-- ⭐ Pre-Merge Checklist (before PRs)
-- ⭐ Troubleshooting (problem solving)
-- ⭐ Progress Tracking (team visibility)
-
----
-
-**Last Updated**: December 13, 2025  
-**Quick Reference Version**: 1.0
+See full SETUP.md for complete documentation.

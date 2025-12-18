@@ -18,19 +18,22 @@ import { NextResponse } from "next/server";
 // ═══════════════════════════════════════════════════
 
 // Protected routes that require authentication
-const protectedRoutes = ["/admin", "/profile", "/dashboard", "/bookmarks"] as const;
+const protectedRoutes = ["/admin","/admin/*", "/profile", "/bookmarks"] as const;
 
 // Auth routes that should redirect to home if already authenticated
 const authRoutes = [
-  "/(auth)/sign-in",
-  "/(auth)/sign-up",
-  "/(auth)/register",
   "/sign-in",
-  "/register",
+  "/sign-up",
+  "/sign-out",
+  "/forgot-password",
+  "/resend-verification",
+  "/reset-password",
+  "/verify-email",
+  "/verify-request"
 ] as const;
 
 // Admin-only routes
-const adminRoutes = ["/admin"] as const;
+const adminRoutes = ["/admin","/admin/*"] as const;
 
 // Public API routes that should bypass auth
 const publicApiRoutes = ["/api/health", "/api/webhooks"] as const;
@@ -90,7 +93,7 @@ export default auth((req: NextRequest & { auth?: Record<string, unknown> }) => {
 
   // Redirect to sign-in if accessing protected route without session
   if (isProtected && !isAuthenticated) {
-    const signInUrl = new URL("/(auth)/sign-in", req.url);
+    const signInUrl = new URL("/sign-in", req.url);
     signInUrl.searchParams.set("callbackUrl", encodeURIComponent(pathname));
     return NextResponse.redirect(signInUrl);
   }

@@ -1,8 +1,19 @@
-import { database } from "@/database";
-import { bookmark } from "@/database/schema";
 import { and, eq } from "drizzle-orm";
 
-export async function addBookmark(userId: string, comicId: number, chapterId?: number) {
+import { db as database } from "@/database/db";
+import { bookmark } from "@/database/schema";
+
+/**
+ *
+ * @param userId
+ * @param comicId
+ * @param chapterId
+ */
+export async function addBookmark(
+  userId: string,
+  comicId: number,
+  chapterId?: number
+): Promise<typeof bookmark.$inferSelect | undefined> {
   const [newBookmark] = await database
     .insert(bookmark)
     .values({
@@ -22,7 +33,15 @@ export async function addBookmark(userId: string, comicId: number, chapterId?: n
   return newBookmark;
 }
 
-export async function removeBookmark(userId: string, comicId: number) {
+/**
+ *
+ * @param userId
+ * @param comicId
+ */
+export async function removeBookmark(
+  userId: string,
+  comicId: number
+): Promise<typeof bookmark.$inferSelect | undefined> {
   const [deleted] = await database
     .delete(bookmark)
     .where(and(eq(bookmark.userId, userId), eq(bookmark.comicId, comicId)))
@@ -31,7 +50,17 @@ export async function removeBookmark(userId: string, comicId: number) {
   return deleted;
 }
 
-export async function updateReadingProgress(userId: string, comicId: number, chapterId: number) {
+/**
+ *
+ * @param userId
+ * @param comicId
+ * @param chapterId
+ */
+export async function updateReadingProgress(
+  userId: string,
+  comicId: number,
+  chapterId: number
+): Promise<typeof bookmark.$inferSelect | undefined> {
   const [updated] = await database
     .update(bookmark)
     .set({
@@ -44,7 +73,17 @@ export async function updateReadingProgress(userId: string, comicId: number, cha
   return updated;
 }
 
-export async function updateBookmarkNotes(userId: string, comicId: number, notes: string) {
+/**
+ *
+ * @param userId
+ * @param comicId
+ * @param notes
+ */
+export async function updateBookmarkNotes(
+  userId: string,
+  comicId: number,
+  notes: string
+): Promise<typeof bookmark.$inferSelect | undefined> {
   const [updated] = await database
     .update(bookmark)
     .set({

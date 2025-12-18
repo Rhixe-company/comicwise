@@ -5,16 +5,18 @@
 
 "use server";
 
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { genre } from "@/database/schema";
 import { requireRole } from "@/lib/auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 
-const createGenreSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(255).trim(),
-  description: z.string().max(5000).optional(),
-});
+const createGenreSchema = z
+  .object({
+    name: z.string().min(2, "Name must be at least 2 characters").max(255).trim(),
+    description: z.string().max(5000).optional(),
+  })
+  .strict();
 
 const updateGenreSchema = createGenreSchema.partial();
 

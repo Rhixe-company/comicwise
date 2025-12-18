@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { createComic } from "@/lib/actions/comics";
-import type { CreateComicInput } from "@/lib/validations/schemas";
+import type { CreateComicInput } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

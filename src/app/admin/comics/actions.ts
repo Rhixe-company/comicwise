@@ -5,29 +5,31 @@
 
 "use server";
 
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { comic, comicToGenre } from "@/database/schema";
 import { requireRole } from "@/lib/auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 
-const createComicSchema = z.object({
-  title: z
-    .string()
-    .min(1, "Title is required")
-    .max(255, "Title must not exceed 255 characters")
-    .trim(),
-  slug: z.string().min(1, "Slug is required").max(255).trim(),
-  description: z.string().min(10, "Description must be at least 10 characters").max(5000).trim(),
-  coverImage: z.string().url("Invalid cover image URL"),
-  status: z.enum(["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon"]).default("Ongoing"),
-  publicationDate: z.coerce.date(),
-  rating: z.coerce.number().min(0).max(10).optional().default(0),
-  authorId: z.coerce.number().int().positive().optional(),
-  artistId: z.coerce.number().int().positive().optional(),
-  typeId: z.coerce.number().int().positive().optional(),
-  genreIds: z.array(z.coerce.number().int().positive()).optional().default([]),
-});
+const createComicSchema = z
+  .object({
+    title: z
+      .string()
+      .min(1, "Title is required")
+      .max(255, "Title must not exceed 255 characters")
+      .trim(),
+    slug: z.string().min(1, "Slug is required").max(255).trim(),
+    description: z.string().min(10, "Description must be at least 10 characters").max(5000).trim(),
+    coverImage: z.string().url("Invalid cover image URL"),
+    status: z.enum(["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon"]).default("Ongoing"),
+    publicationDate: z.coerce.date(),
+    rating: z.coerce.number().min(0).max(10).optional().default(0),
+    authorId: z.coerce.number().int().positive().optional(),
+    artistId: z.coerce.number().int().positive().optional(),
+    typeId: z.coerce.number().int().positive().optional(),
+    genreIds: z.array(z.coerce.number().int().positive()).optional().default([]),
+  })
+  .strict();
 
 const updateComicSchema = createComicSchema.partial();
 

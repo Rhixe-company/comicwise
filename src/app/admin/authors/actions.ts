@@ -5,7 +5,7 @@
 
 "use server";
 
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { author } from "@/database/schema";
 import { requireRole } from "@/lib/auth";
 import { eq, inArray } from "drizzle-orm";
@@ -15,11 +15,13 @@ import { z } from "zod";
 // VALIDATION SCHEMAS
 // ═══════════════════════════════════════════════════════════════
 
-const createAuthorSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(255, "Name too long"),
-  bio: z.string().max(5000, "Bio too long").optional(),
-  image: z.string().url("Invalid image URL").optional(),
-});
+const createAuthorSchema = z
+  .object({
+    name: z.string().min(2, "Name must be at least 2 characters").max(255, "Name too long"),
+    bio: z.string().max(5000, "Bio too long").optional(),
+    image: z.string().url("Invalid image URL").optional(),
+  })
+  .strict();
 
 const updateAuthorSchema = createAuthorSchema.partial();
 

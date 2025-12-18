@@ -5,19 +5,19 @@
 // ═══════════════════════════════════════════════════
 
 import { appConfig } from "@/app-config";
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { chapter, chapterImage, comic } from "@/database/schema";
 import { slugify } from "@/lib/utils";
 import type {
   ChapterFilterInput,
   CreateChapterInput,
   UpdateChapterInput,
-} from "@/lib/validations/schemas";
+} from "@/lib/validations";
 import {
   chapterFilterSchema,
   createChapterSchema,
   updateChapterSchema,
-} from "@/lib/validations/schemas";
+} from "@/lib/validations";
 import { and, desc, eq, sql, type SQL } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 

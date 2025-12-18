@@ -1,12 +1,20 @@
-import { database } from "@/database";
-import { passwordResetToken } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
+import { db as database } from "@/database/db";
+import { passwordResetToken } from "@/database/schema";
+
+/**
+ *
+ * @param data
+ * @param data.email
+ * @param data.token
+ * @param data.expires
+ */
 export async function createPasswordResetToken(data: {
   email: string;
   token: string;
   expires: Date;
-}) {
+}): Promise<typeof passwordResetToken.$inferSelect | undefined> {
   const [newToken] = await database
     .insert(passwordResetToken)
     .values({
@@ -18,7 +26,13 @@ export async function createPasswordResetToken(data: {
   return newToken;
 }
 
-export async function deletePasswordResetToken(token: string) {
+/**
+ *
+ * @param token
+ */
+export async function deletePasswordResetToken(
+  token: string
+): Promise<typeof passwordResetToken.$inferSelect | undefined> {
   const [deletedToken] = await database
     .delete(passwordResetToken)
     .where(eq(passwordResetToken.token, token))
@@ -26,7 +40,13 @@ export async function deletePasswordResetToken(token: string) {
   return deletedToken;
 }
 
-export async function deletePasswordResetTokensByEmail(email: string) {
+/**
+ *
+ * @param email
+ */
+export async function deletePasswordResetTokensByEmail(
+  email: string
+): Promise<(typeof passwordResetToken.$inferSelect)[]> {
   const deletedTokens = await database
     .delete(passwordResetToken)
     .where(eq(passwordResetToken.email, email))

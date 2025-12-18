@@ -1,7 +1,8 @@
-import { env, isDevelopment } from "@/app-config";
+import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
+import { env, isDevelopment } from "@/app-config";
 // ═══════════════════════════════════════════════════
 // DATABASE CLIENT (Next.js 16.0.7 Optimized)
 // ═══════════════════════════════════════════════════
@@ -12,10 +13,7 @@ import postgres from "postgres";
 // - Edge-compatible configuration
 // - Connection caching for serverless environments
 // ═══════════════════════════════════════════════════
-
 import * as schema from "@/database/schema";
-
-import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 
 if (!env.DATABASE_URL) {
   console.warn("DATABASE_URL not set — database connections may fail in runtime.");
@@ -68,9 +66,6 @@ export { client };
 // ═══════════════════════════════════════════════════
 // TYPE EXPORTS
 // ═══════════════════════════════════════════════════
-
-export type Database = typeof db;
-export type Schema = typeof schema;
 
 // ═══════════════════════════════════════════════════
 // CONNECTION HELPERS

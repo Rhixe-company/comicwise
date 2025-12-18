@@ -2,7 +2,7 @@
 // COMMENT DETAIL API - Get, Update, Delete Single Comment
 // ═══════════════════════════════════════════════════
 
-import { commentIdSchema, updateCommentSchema } from "@/lib/validations/schemas";
+import { commentIdSchema, updateCommentSchema } from "@/lib/validations";
 import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";

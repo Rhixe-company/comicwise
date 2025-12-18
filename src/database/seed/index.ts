@@ -12,7 +12,7 @@
  */
 
 import { isDevelopment } from "@/app-config";
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import type { SeedConfig } from "@/database/seed/config";
 import { parseCLIArgs } from "@/database/seed/config";
 import { logger } from "@/database/seed/logger";

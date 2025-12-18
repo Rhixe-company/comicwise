@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════
 
 import { sendCommentNotificationEmail } from "@/lib/email";
-import { createCommentSchema } from "@/lib/validations/schemas";
+import { createCommentSchema } from "@/lib/validations";
 import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";

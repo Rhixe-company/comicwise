@@ -1,181 +1,271 @@
 {
+  // ═══════════════════════════════════════════════════════════════
+  // COMICWISE VSCODE TASKS
+  // Common development and build tasks
+  // ═══════════════════════════════════════════════════════════════
+
   "tasks": [
+    // ═══════════════════════════════════════════════════════════════
+    // SETUP & INSTALLATION
+    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "ESLint: Fix All",
+      "label": "Install Dependencies",
       "type": "shell",
-      "command": "pnpm lint:fix",
-      "group": "test",
-      "presentation": { "reveal": "always", "panel": "shared" },
-      "problemMatcher": ["$eslint-stylish"],
-      "isBackground": false
+      "command": "pnpm",
+      "args": ["install"],
+      "problemMatcher": ["$pnpm"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
+
+    // ═══════════════════════════════════════════════════════════════
+    // DEVELOPMENT
+    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "ESLint: Check Strict",
+      "label": "Start Dev Server",
       "type": "shell",
-      "command": "pnpm lint:strict",
-      "group": "test",
-      "presentation": { "reveal": "always", "panel": "shared" },
-      "problemMatcher": ["$eslint-stylish"],
-      "isBackground": false
-    },
-    {
-      "label": "ESLint: Format & Lint",
-      "type": "shell",
-      "command": "pnpm format && pnpm lint:fix",
-      "group": "test",
-      "presentation": { "reveal": "always", "panel": "shared" },
-      "problemMatcher": []
-    },
-    {
-      "label": "Format: Prettier",
-      "type": "shell",
-      "command": "pnpm format",
-      "presentation": { "reveal": "silent" },
-      "problemMatcher": []
-    },
-    {
-      "label": "Format: Check",
-      "type": "shell",
-      "command": "pnpm format:check",
-      "group": "test",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
-    },
-    {
-      "label": "Validate: Full Pipeline",
-      "type": "shell",
-      "command": "pnpm validate",
-      "group": "test",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": ["$tsc"]
-    },
-    {
-      "label": "TypeCheck: Strict",
-      "type": "shell",
-      "command": "pnpm type-check",
-      "group": "test",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": ["$tsc"]
-    },
-    {
-      "label": "TypeCheck: Watch",
-      "type": "shell",
-      "command": "pnpm type-check:watch",
-      "group": "test",
-      "presentation": { "reveal": "always" },
+      "command": "pnpm",
+      "args": ["dev"],
       "isBackground": true,
       "problemMatcher": {
         "pattern": {
-          "regexp": "^([^\\\\s].*)\\\\((\\\\d+),(\\\\d+)\\\\): (error) (TS\\\\d+): (.*)$",
-          "file": 1,
-          "location": 2,
-          "endLocation": 3,
-          "message": 6
+          "regexp": "^.*$"
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": "^\\\\s*$",
-          "endsPattern": "Found \\\\d+ error"
+          "beginsPattern": "^.*Local:.*",
+          "endsPattern": "^.*ready - started server.*"
         }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // LINTING & FORMATTING
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "Lint",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["lint"],
+      "problemMatcher": ["$eslint-stylish"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
       }
     },
     {
-      "label": "Spell Check: All Files",
+      "label": "Lint (Fix)",
       "type": "shell",
-      "command": "pnpm cspell",
-      "group": "test",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
+      "command": "pnpm",
+      "args": ["lint", "--fix"],
+      "problemMatcher": ["$eslint-stylish"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "Dev: Start",
+      "label": "Format",
       "type": "shell",
-      "command": "pnpm dev",
-      "group": "build",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": [],
-      "isBackground": true
+      "command": "pnpm",
+      "args": ["format"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "Dev: Debug",
+      "label": "Format Check",
       "type": "shell",
-      "command": "pnpm dev:debug",
-      "group": "build",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": [],
-      "isBackground": true
+      "command": "pnpm",
+      "args": ["format:check"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // TYPE CHECKING
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "Type Check",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["type-check"],
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // TESTING
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "Test (Unit)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["test:unit:run"],
+      "problemMatcher": ["$jest"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "Build: Prod",
+      "label": "Test (Unit Watch)",
       "type": "shell",
-      "command": "pnpm build",
-      "group": "build",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
+      "command": "pnpm",
+      "args": ["test:unit"],
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*$"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "Build: Analyze",
+      "label": "Test (E2E)",
       "type": "shell",
-      "command": "pnpm build:analyze",
-      "group": "build",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
+      "command": "pnpm",
+      "args": ["test"],
+      "problemMatcher": ["$jest"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // BUILDING
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["build"],
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // DATABASE
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "DB: Migrate",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["db:migrate"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "Test: Unit",
+      "label": "DB: Generate",
       "type": "shell",
-      "command": "pnpm test:unit:run",
-      "group": "test",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
+      "command": "pnpm",
+      "args": ["db:generate"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "Test: Unit Coverage",
+      "label": "DB: Seed",
       "type": "shell",
-      "command": "pnpm test:unit:coverage",
-      "group": "test",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
+      "command": "pnpm",
+      "args": ["db:seed"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "Test: E2E",
+      "label": "DB: Studio",
       "type": "shell",
-      "command": "pnpm test",
-      "group": "test",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
+      "command": "pnpm",
+      "args": ["db:studio"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // VALIDATION & CHECKS
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "Validate All",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["validate"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // DOCKER
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "Docker: Build",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": ["build"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "DB: Push Schema",
+      "label": "Docker: Up",
       "type": "shell",
-      "command": "pnpm db:push",
-      "group": "build",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
+      "command": "docker-compose",
+      "args": ["up", "-d"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "DB: Seed Data",
+      "label": "Docker: Down",
       "type": "shell",
-      "command": "pnpm db:seed",
-      "group": "build",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
+      "command": "docker-compose",
+      "args": ["down"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     },
     {
-      "label": "Setup: Clean Install",
+      "label": "Docker: Logs",
       "type": "shell",
-      "command": "pnpm setup:clean",
-      "group": "build",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
-    },
-    {
-      "label": "CI: Full Pipeline",
-      "type": "shell",
-      "command": "pnpm ci:full",
-      "group": "test",
-      "presentation": { "reveal": "always" },
-      "problemMatcher": []
+      "command": "docker-compose",
+      "args": ["logs", "-f"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     }
   ],
   "version": "2.0.0"

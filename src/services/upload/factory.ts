@@ -4,7 +4,7 @@
 
 import { env } from "@/app-config";
 
-import type { UploadProvider, UploadProviderType } from "./types";
+import type { UploadProvider, UploadProviderType } from "src/services/upload/types";
 
 /**
  * Get the upload provider instance based on environment configuration
@@ -38,9 +38,8 @@ export async function getUploadProvider(): Promise<UploadProvider> {
       return new LocalProvider();
     }
 
-    default: {
+    default:
       throw new Error(`Unknown upload provider: ${providerType}`);
-    }
   }
 }
 

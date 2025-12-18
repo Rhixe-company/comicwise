@@ -3,21 +3,27 @@
  */
 
 import { appConfig } from "@/app-config";
-import { database } from "@/database";
-import { user } from "@/database/schema";
+import * as queries from "@/database/queries";
 import { ProgressTracker } from "@/database/seed/logger";
 import { BatchProcessor } from "@/database/seed/utils/batch-processor";
 import { imageService } from "@/services/image.service";
+import * as mutations from "@/database/mutations";
 import bcrypt from "bcryptjs";
 
 import type { SeedConfig } from "@/database/seed/config";
-import type { UserSeed } from "@/lib/validations/seed";
-import { eq } from "drizzle-orm";
+import type { UserSeed } from "@/lib/validations";
 
+/**
+ *
+ */
 export class UserSeeder {
   private options: SeedConfig["options"];
   private batchProcessor: BatchProcessor<UserSeed, void>;
 
+  /**
+   *
+   * @param options
+   */
   constructor(options: SeedConfig["options"]) {
     this.options = options;
     this.batchProcessor = new BatchProcessor<UserSeed, void>({
@@ -26,6 +32,10 @@ export class UserSeeder {
     });
   }
 
+  /**
+   *
+   * @param users
+   */
   async seed(users: UserSeed[]): Promise<void> {
     const tracker = new ProgressTracker("Users", users.length);
 
@@ -41,12 +51,8 @@ export class UserSeeder {
   }
 
   private async processUser(userData: UserSeed, tracker: ProgressTracker): Promise<void> {
-    // Check if user exists
-    const existing = await database.query.user.findFirst({
-      where: eq(user.email, userData.email),
-    });
+    const existing = await queries.getUserByEmail(userData.email);
 
-    // Hash password if provided
     let hashedPassword: string | null = null;
     if (userData.password) {
       hashedPassword = await bcrypt.hash(userData.password, 10);
@@ -54,38 +60,26 @@ export class UserSeeder {
       hashedPassword = await bcrypt.hash(appConfig.customPassword, 10);
     }
 
-    // Process image
     let processedImage: string | null = null;
     if (userData.image && !this.options.skipImageDownload) {
       processedImage = await imageService.processImageUrl(userData.image, "avatars");
     }
 
     if (existing) {
-      // Update existing user
-      await database
-        .update(user)
-        .set({
-          name: userData.name,
-          image: processedImage || existing.image,
-          password: hashedPassword || existing.password,
-          role: userData.role || existing.role,
-          updatedAt: new Date(),
-        })
-        .where(eq(user.id, existing.id));
+      await mutations.updateUser(existing.id, {
+        name: userData.name,
+        image: processedImage || existing.image,
+        role: userData.role || existing.role,
+      });
 
       tracker.incrementUpdated(userData.email);
     } else {
-      // Create new user
-      await database.insert(user).values({
-        id: userData.id,
-        name: userData.name,
+      await mutations.createUser({
         email: userData.email,
-        emailVerified: userData.emailVerified || null,
-        image: processedImage,
-        password: hashedPassword,
+        name: userData.name,
+        password: hashedPassword || undefined,
+        image: processedImage || undefined,
         role: userData.role || "user",
-        createdAt: userData.createdAt || new Date(),
-        updatedAt: userData.updatedAt || new Date(),
       });
 
       tracker.incrementCreated(userData.email);

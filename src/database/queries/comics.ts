@@ -2,7 +2,13 @@ import { db as database } from "@/database/db";
 import { artist, author, chapter, comic, comicToGenre, genre, type } from "@/database/schema";
 import { and, asc, desc, eq, gte, inArray, like, or, sql, type SQL } from "drizzle-orm";
 
-import type { ComicFilters, ComicWithDetails, Genre, PaginatedResponse } from "src/types";
+import type { ComicFilters, ComicWithDetails, Genre, PaginatedResponse } from "@/types";
+
+export async function getComicByTitle(title: string) {
+  return await database.query.comic.findFirst({
+    where: eq(comic.title, title),
+  });
+}
 
 export async function getAllComics(
   filters: ComicFilters = {}

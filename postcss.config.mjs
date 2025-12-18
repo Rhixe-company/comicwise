@@ -50,7 +50,7 @@ const config = {
       ? {
           cssnano: {
             preset: [
-              "advanced",
+              "default",
               {
                 discardComments: {
                   removeAll: true,

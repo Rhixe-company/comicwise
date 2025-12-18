@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { resendVerificationEmailAction } from "@/lib/actions/auth/index";
-import type { ResendVerificationEmailInput } from "@/lib/validations/schemas";
-import { resendVerificationEmailSchema } from "@/lib/validations/schemas";
+import { resendVerificationEmailAction } from "@/lib/actions/auth";
+import type { ResendVerificationEmailInput } from "@/lib/validations";
+import { resendVerificationEmailSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Mail } from "lucide-react";
 import Link from "next/link";

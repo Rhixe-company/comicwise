@@ -1,45 +1,100 @@
 {
   "recommendations": [
-    "stateful.runme",
+    // ═══════════════════════════════════════════════════════════════
+    // CORE DEVELOPMENT TOOLS
+    // ═══════════════════════════════════════════════════════════════
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "bradlc.vscode-tailwindcss",
-    "eamodio.gitlens",
-    "ms-azuretools.vscode-docker",
     "ms-vscode.vscode-typescript-next",
-    "orta.vscode-jest",
-    "streetsidesoftware.code-spell-checker",
-    "usernamehw.errorlens",
-    "formulahendry.auto-rename-tag",
+    "stateful.runme",
+
+    // ═══════════════════════════════════════════════════════════════
+    // FRONTEND FRAMEWORKS & STYLING
+    // ═══════════════════════════════════════════════════════════════
+    "bradlc.vscode-tailwindcss",
     "dsznajder.es7-react-js-snippets",
     "burkeholland.simple-react-snippets",
-    "yoavbls.pretty-ts-errors",
+
+    // ═══════════════════════════════════════════════════════════════
+    // DATABASE & ORM
+    // ═══════════════════════════════════════════════════════════════
     "drizzle-team.drizzle-vscode",
     "cweijan.vscode-postgresql-client2",
-    "christian-kohler.path-intellisense",
-    "christian-kohler.npm-intellisense",
-    "gruntfuggly.todo-tree",
-    "aaron-bond.better-comments",
-    "wayou.vscode-todo-highlight",
+
+    // ═══════════════════════════════════════════════════════════════
+    // TESTING & DEBUGGING
+    // ═══════════════════════════════════════════════════════════════
+    "orta.vscode-jest",
+    "vitest.explorer",
+    "ms-playwright.playwright",
+
+    // ═══════════════════════════════════════════════════════════════
+    // GIT & VERSION CONTROL
+    // ═══════════════════════════════════════════════════════════════
+    "eamodio.gitlens",
     "mhutchie.git-graph",
     "donjayamanne.githistory",
-    "humao.rest-client",
-    "ms-playwright.playwright",
-    "vitest.explorer",
+
+    // ═══════════════════════════════════════════════════════════════
+    // CODE QUALITY & FORMATTING
+    // ═══════════════════════════════════════════════════════════════
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+    "yoavbls.pretty-ts-errors",
+    "aaron-bond.better-comments",
+    "wayou.vscode-todo-highlight",
+    "gruntfuggly.todo-tree",
+
+    // ═══════════════════════════════════════════════════════════════
+    // PRODUCTIVITY & SNIPPETS
+    // ═══════════════════════════════════════════════════════════════
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "christian-kohler.npm-intellisense",
+    "editorconfig.editorconfig",
+
+    // ═══════════════════════════════════════════════════════════════
+    // DOCKER & CONTAINERS
+    // ═══════════════════════════════════════════════════════════════
+    "ms-azuretools.vscode-docker",
     "ms-vscode-remote.remote-containers",
+
+    // ═══════════════════════════════════════════════════════════════
+    // API & REST TOOLS
+    // ═══════════════════════════════════════════════════════════════
+    "humao.rest-client",
+    "graphql.vscode-graphql",
+
+    // ═══════════════════════════════════════════════════════════════
+    // DOCUMENTATION & MARKDOWN
+    // ═══════════════════════════════════════════════════════════════
+    "yzhang.markdown-all-in-one",
+    "bierner.markdown-mermaid",
+
+    // ═══════════════════════════════════════════════════════════════
+    // CONFIGURATION FILES
+    // ═══════════════════════════════════════════════════════════════
+    "redhat.vscode-yaml",
+    "tamasfe.even-better-toml",
+    "mikestead.dotenv",
+
+    // ═══════════════════════════════════════════════════════════════
+    // UI & THEMES
+    // ═══════════════════════════════════════════════════════════════
     "pkief.material-icon-theme",
     "antfu.icons-carbon",
     "oderwat.indent-rainbow",
     "naumovs.color-highlight",
-    "mikestead.dotenv",
-    "editorconfig.editorconfig",
+
+    // ═══════════════════════════════════════════════════════════════
+    // GITHUB INTEGRATION
+    // ═══════════════════════════════════════════════════════════════
     "github.copilot",
     "github.copilot-chat",
-    "graphql.vscode-graphql",
-    "bierner.markdown-mermaid",
-    "yzhang.markdown-all-in-one",
-    "redhat.vscode-yaml",
-    "tamasfe.even-better-toml",
+
+    // ═══════════════════════════════════════════════════════════════
+    // SHELL & SCRIPTING
+    // ═══════════════════════════════════════════════════════════════
     "ms-vscode.powershell"
   ],
   "unwantedRecommendations": [

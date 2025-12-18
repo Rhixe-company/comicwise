@@ -2,7 +2,7 @@
 // USER DETAIL API - Get, Update, Delete Single User
 // ═══════════════════════════════════════════════════
 
-import { updateUserSchema, userIdSchema } from "@/lib/validations/schemas";
+import { updateUserSchema, userIdSchema } from "@/lib/validations";
 import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";

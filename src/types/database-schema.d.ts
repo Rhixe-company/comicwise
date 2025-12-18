@@ -27,7 +27,7 @@ import type {
   users as UsersType,
   user as UserType,
   verificationToken as VerificationTokenType,
-} from "../database/schema";
+} from "src/database\schema";
 
 declare module "database/schema" {
   export const users: typeof UsersType;

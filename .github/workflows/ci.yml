@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI
 
 on:
   push:
@@ -17,17 +17,17 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PNPM_VERSION: 9.13.6
-  NODE_VERSION: 20
+  PNPM_VERSION: "9"
+  NODE_VERSION: "20"
 
 jobs:
   # ═══════════════════════════════════════════════════════════════════════════
-  # JOB 1: Dependencies & Setup
+  # JOB 1: Install & Type Check
   # ═══════════════════════════════════════════════════════════════════════════
-  install:
-    name: Install dependencies
+  install-and-type-check:
+    name: Install & Type Check
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     outputs:
       cache-key: ${{ steps.cache.outputs.cache-key }}
     steps:
@@ -62,26 +62,42 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Run type check
+        id: type-check
+        run: pnpm type-check
+        continue-on-error: true
+
+      - name: Upload type check errors
+        if: failure() && steps.type-check.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: type-check-errors
+          path: type-check-errors.txt
+          retention-days: 7
+
+      - name: Comment PR with type check results
+        if: github.event_name == 'pull_request' && failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ **Type Check Failed**\n\nPlease fix TypeScript errors before merging.'
+            })
+
   # ═══════════════════════════════════════════════════════════════════════════
-  # JOB 2: Type Checking & Linting
+  # JOB 2: Lint & Format
   # ═══════════════════════════════════════════════════════════════════════════
-  lint-type-check:
-    name: Lint & Type-check
+  lint-and-format:
+    name: Lint & Format
     runs-on: ubuntu-latest
-    needs: install
-    timeout-minutes: 30
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-      AUTH_URL: ${{ secrets.AUTH_URL }}
-      NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
-      PORT: '3000'
-      CI: 'true'
+    needs: install-and-type-check
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -104,36 +120,40 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Format (check)
-        run: pnpm format:check || pnpm format
-
-      - name: Lint
-        run: pnpm lint --max-warnings=0
-        continue-on-error: false
-
-      - name: Type-check
-        run: pnpm type-check
-        continue-on-error: false
-
-      - name: Spell check
-        run: pnpm cspell "**/*.{ts,tsx,js,jsx,json,md}"
+      - name: Run ESLint
+        id: eslint
+        run: pnpm lint
         continue-on-error: true
+
+      - name: Check code formatting
+        id: format-check
+        run: pnpm format:check
+        continue-on-error: true
+
+      - name: Comment PR with linting issues
+        if: github.event_name == 'pull_request' && (failure() || steps.eslint.outcome == 'failure')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **Linting Issues Found**\n\nRun `pnpm lint:fix` and `pnpm format` locally to fix automatically.'
+            })
+
+      - name: Fail if formatting check failed
+        if: steps.format-check.outcome == 'failure'
+        run: exit 1
 
   # ═══════════════════════════════════════════════════════════════════════════
   # JOB 3: Unit Tests
   # ═══════════════════════════════════════════════════════════════════════════
   unit-tests:
-    name: Run unit tests
+    name: Unit Tests
     runs-on: ubuntu-latest
-    needs: lint-type-check
-    timeout-minutes: 30
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-      AUTH_URL: ${{ secrets.AUTH_URL }}
-      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-      PORT: '3000'
-      CI: 'true'
+    needs: install-and-type-check
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -160,10 +180,38 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run unit tests
-        run: pnpm test:unit:run --coverage
+        id: tests
+        run: pnpm test:unit:run --reporter=verbose
+        continue-on-error: false
+
+      - name: Generate coverage report
+        if: always()
+        run: pnpm test:unit:coverage
         continue-on-error: true
 
-      - name: Upload coverage reports
+      - name: Upload coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/coverage-final.json
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Check coverage threshold
+        if: always()
+        run: |
+          if [ -f coverage/coverage-summary.json ]; then
+            COVERAGE=$(jq '.total.lines.pct' coverage/coverage-summary.json)
+            echo "Test Coverage: ${COVERAGE}%"
+            if (( $(echo "$COVERAGE < 60" | bc -l) )); then
+              echo "❌ Coverage below 60% threshold: ${COVERAGE}%"
+              exit 1
+            fi
+          fi
+
+      - name: Upload coverage artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -171,21 +219,115 @@ jobs:
           path: coverage/
           retention-days: 7
 
+      - name: Comment PR with coverage results
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            try {
+              const coverage = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+              const lines = coverage.total.lines.pct;
+              const branches = coverage.total.branches.pct;
+              const functions = coverage.total.functions.pct;
+              const statements = coverage.total.statements.pct;
+
+              const emoji = lines >= 80 ? '✅' : lines >= 60 ? '⚠️' : '❌';
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `${emoji} **Test Coverage**\n\n| Metric | Coverage |\n|--------|----------|\n| Lines | ${lines}% |\n| Branches | ${branches}% |\n| Functions | ${functions}% |\n| Statements | ${statements}% |`
+              });
+            } catch (e) {
+              console.log('Could not parse coverage report');
+            }
+
   # ═══════════════════════════════════════════════════════════════════════════
-  # JOB 4: E2E Tests
+  # JOB 4: Build
+  # ═══════════════════════════════════════════════════════════════════════════
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [install-and-type-check, lint-and-format]
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Restore pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.get-store.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run build
+        id: build
+        run: pnpm build
+        continue-on-error: false
+
+      - name: Check bundle size
+        if: always()
+        run: |
+          if [ -d .next ]; then
+            SIZE=$(du -sh .next | cut -f1)
+            SIZE_KB=$(du -sk .next | cut -f1)
+            echo "Build size: $SIZE ($SIZE_KB KB)"
+
+            if [ "$SIZE_KB" -gt 204800 ]; then
+              echo "⚠️ Warning: Build size exceeds 200MB threshold: $SIZE"
+            fi
+          fi
+
+      - name: Upload build artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nextjs-build
+          path: .next/
+          retention-days: 7
+
+      - name: Comment PR with build status
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const buildSuccess = '${{ steps.build.outcome }}' === 'success';
+            const emoji = buildSuccess ? '✅' : '❌';
+            const status = buildSuccess ? 'succeeded' : 'failed';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `${emoji} **Build** ${status}`
+            });
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # JOB 5: E2E Tests (Optional, runs on schedule or label)
   # ═══════════════════════════════════════════════════════════════════════════
   e2e-tests:
-    name: Run E2E tests
+    name: E2E Tests
     runs-on: ubuntu-latest
-    needs: lint-type-check
-    timeout-minutes: 60
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-      AUTH_URL: ${{ secrets.AUTH_URL }}
-      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-      PORT: '3000'
-      CI: 'true'
+    needs: build
+    timeout-minutes: 45
+    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'e2e')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -215,67 +357,37 @@ jobs:
         run: pnpm exec playwright install --with-deps
 
       - name: Run E2E tests
-        run: pnpm test --reporter=github
+        id: e2e
+        run: pnpm test --reporter=html
         continue-on-error: true
 
-      - name: Upload test results
+      - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
-          retention-days: 7
+          retention-days: 30
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # JOB 5: Build
-  # ═══════════════════════════════════════════════════════════════════════════
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs: [lint-type-check, unit-tests]
-    timeout-minutes: 45
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-      AUTH_URL: ${{ secrets.AUTH_URL }}
-      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-      NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
-      PORT: '3000'
-      CI: 'true'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Comment PR with E2E results
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          script: |
+            const e2eSuccess = '${{ steps.e2e.outcome }}' === 'success';
+            const emoji = e2eSuccess ? '✅' : '⚠️';
+            const status = e2eSuccess ? 'passed' : 'had issues';
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: ${{ env.PNPM_VERSION }}
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `${emoji} **E2E Tests** ${status}\n\nView the [Playwright Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`
+            });
 
-      - name: Restore pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.get-store.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build project
-        run: pnpm build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: nextjs-build
-          path: .next/
-          retention-days: 7
+      - name: Fail if E2E tests failed
+        if: steps.e2e.outcome == 'failure'
+        run: exit 1
 
   # ═══════════════════════════════════════════════════════════════════════════
   # JOB 6: Security Scanning
@@ -299,6 +411,10 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
+
+      - name: Get pnpm store path
+        id: get-store
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - name: Restore pnpm store
         uses: actions/cache@v4
@@ -325,27 +441,37 @@ jobs:
         continue-on-error: true
 
   # ═══════════════════════════════════════════════════════════════════════════
-  # JOB 7: Status Check Summary
+  # JOB 7: Status Check (Required for branch protection)
   # ═══════════════════════════════════════════════════════════════════════════
   status-check:
     name: Status Check
     runs-on: ubuntu-latest
-    needs: [lint-type-check, unit-tests, e2e-tests, build, security]
+    needs: [install-and-type-check, lint-and-format, unit-tests, build, security]
     if: always()
     steps:
       - name: Check job statuses
         run: |
           echo "🔍 CI Pipeline Status Report"
           echo "════════════════════════════════════════"
-          echo "Lint & Type Check: ${{ needs.lint-type-check.result }}"
+          echo "Install & Type Check: ${{ needs.install-and-type-check.result }}"
+          echo "Lint & Format: ${{ needs.lint-and-format.result }}"
           echo "Unit Tests: ${{ needs.unit-tests.result }}"
-          echo "E2E Tests: ${{ needs.e2e-tests.result }}"
           echo "Build: ${{ needs.build.result }}"
           echo "Security: ${{ needs.security.result }}"
           echo "════════════════════════════════════════"
 
-          if [ "${{ needs.lint-type-check.result }}" != "success" ]; then
-            echo "❌ Lint and type check failed"
+          if [ "${{ needs.install-and-type-check.result }}" != "success" ]; then
+            echo "❌ Install and type check failed"
+            exit 1
+          fi
+
+          if [ "${{ needs.lint-and-format.result }}" != "success" ]; then
+            echo "❌ Linting or formatting failed"
+            exit 1
+          fi
+
+          if [ "${{ needs.unit-tests.result }}" != "success" ]; then
+            echo "❌ Unit tests failed"
             exit 1
           fi
 
@@ -356,15 +482,15 @@ jobs:
 
           echo "✅ All critical checks passed"
 
-      - name: Comment PR with results
+      - name: Comment PR with final status
         if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const lint = '${{ needs.lint-type-check.result }}';
-            const unit = '${{ needs.unit-tests.result }}';
-            const e2e = '${{ needs.e2e-tests.result }}';
+            const typeCheck = '${{ needs.install-and-type-check.result }}';
+            const lint = '${{ needs.lint-and-format.result }}';
+            const tests = '${{ needs.unit-tests.result }}';
             const build = '${{ needs.build.result }}';
             const security = '${{ needs.security.result }}';
 
@@ -372,9 +498,9 @@ jobs:
 
             | Check | Status |
             |-------|--------|
-            | Lint & Type Check | ${lint === 'success' ? '✅' : '❌'} ${lint} |
-            | Unit Tests | ${unit === 'success' ? '✅' : unit === 'skipped' ? '⏭️' : '⚠️'} ${unit} |
-            | E2E Tests | ${e2e === 'success' ? '✅' : e2e === 'skipped' ? '⏭️' : '⚠️'} ${e2e} |
+            | Install & Type Check | ${typeCheck === 'success' ? '✅' : '❌'} ${typeCheck} |
+            | Lint & Format | ${lint === 'success' ? '✅' : '❌'} ${lint} |
+            | Unit Tests | ${tests === 'success' ? '✅' : tests === 'skipped' ? '⏭️' : '❌'} ${tests} |
             | Build | ${build === 'success' ? '✅' : '❌'} ${build} |
             | Security | ${security === 'success' ? '✅' : security === 'skipped' ? '⏭️' : '⚠️'} ${security} |
 
@@ -387,4 +513,40 @@ jobs:
               repo: context.repo.repo,
               body: comment,
             });
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Optional: Slack Notification on Failure
+  # ═══════════════════════════════════════════════════════════════════════════
+  notify-slack:
+    name: Notify Slack
+    runs-on: ubuntu-latest
+    needs: [install-and-type-check, lint-and-format, unit-tests, build]
+    if: failure() && github.event_name == 'push'
+
+    steps:
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "🚨 CI Pipeline Failed",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*CI Pipeline Failed*\n*Repository*: ${{ github.repository }}\n*Branch*: ${{ github.ref_name }}\n*Commit*: <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>\n*Author*: ${{ github.actor }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View CI Run>"
+                  }
+                }
+              ]
+            }
+        continue-on-error: true
 

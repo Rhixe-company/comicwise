@@ -1,6 +1,7 @@
-import { database } from "@/database";
-import { chapter, chapterImage } from "@/database/schema";
 import { eq, sql } from "drizzle-orm";
+
+import { db as database } from "@/database/db";
+import { chapter, chapterImage } from "@/database/schema";
 
 interface CreateChapterData {
   title: string;
@@ -10,7 +11,13 @@ interface CreateChapterData {
   slug?: string;
 }
 
-export async function createChapter(data: CreateChapterData) {
+/**
+ *
+ * @param data
+ */
+export async function createChapter(
+  data: CreateChapterData
+): Promise<typeof chapter.$inferSelect | undefined> {
   const { slug: providedSlug, title } = data as { slug?: string; title: string };
   const slugModule = await import("lib/utils");
   const slugify = slugModule.slugify;
@@ -34,7 +41,15 @@ interface UpdateChapterData {
   releaseDate?: Date;
 }
 
-export async function updateChapter(chapterId: number, data: UpdateChapterData) {
+/**
+ *
+ * @param chapterId
+ * @param data
+ */
+export async function updateChapter(
+  chapterId: number,
+  data: UpdateChapterData
+): Promise<typeof chapter.$inferSelect | undefined> {
   const [updated] = await database
     .update(chapter)
     .set(data)
@@ -44,7 +59,13 @@ export async function updateChapter(chapterId: number, data: UpdateChapterData) 
   return updated;
 }
 
-export async function deleteChapter(chapterId: number) {
+/**
+ *
+ * @param chapterId
+ */
+export async function deleteChapter(
+  chapterId: number
+): Promise<typeof chapter.$inferSelect | undefined> {
   await database.delete(chapterImage).where(eq(chapterImage.chapterId, chapterId));
 
   const [deleted] = await database.delete(chapter).where(eq(chapter.id, chapterId)).returning();
@@ -52,7 +73,13 @@ export async function deleteChapter(chapterId: number) {
   return deleted;
 }
 
-export async function incrementChapterViews(chapterId: number) {
+/**
+ *
+ * @param chapterId
+ */
+export async function incrementChapterViews(
+  chapterId: number
+): Promise<typeof chapter.$inferSelect | undefined> {
   const [updated] = await database
     .update(chapter)
     .set({
@@ -70,12 +97,21 @@ interface AddChapterImageData {
   pageNumber: number;
 }
 
+/**
+ *
+ * @param data
+ */
 export async function addChapterImage(data: AddChapterImageData) {
   const [newImage] = await database.insert(chapterImage).values(data).returning();
 
   return newImage;
 }
 
+/**
+ *
+ * @param chapterId
+ * @param imageUrls
+ */
 export async function addChapterImages(chapterId: number, imageUrls: string[]) {
   const images = imageUrls.map((url, index) => ({
     chapterId,
@@ -86,6 +122,10 @@ export async function addChapterImages(chapterId: number, imageUrls: string[]) {
   return await database.insert(chapterImage).values(images).returning();
 }
 
+/**
+ *
+ * @param imageId
+ */
 export async function deleteChapterImage(imageId: number) {
   const [deleted] = await database
     .delete(chapterImage)

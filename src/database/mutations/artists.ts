@@ -1,8 +1,18 @@
-import { database } from "@/database";
-import { artist } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
-export async function createArtist(data: { name: string; bio?: string; image?: string }) {
+import { db as database } from "@/database/db";
+import { artist } from "@/database/schema";
+
+/**
+ *
+ * @param data
+ * @param data.name
+ * @param data.bio
+ * @param data.image
+ */
+export async function createArtist(
+  data: { name: string; bio?: string; image?: string }
+): Promise<typeof artist.$inferSelect | undefined> {
   const [newArtist] = await database
     .insert(artist)
     .values({
@@ -15,6 +25,14 @@ export async function createArtist(data: { name: string; bio?: string; image?: s
   return newArtist;
 }
 
+/**
+ *
+ * @param artistId
+ * @param data
+ * @param data.name
+ * @param data.bio
+ * @param data.image
+ */
 export async function updateArtist(
   artistId: number,
   data: {
@@ -22,7 +40,7 @@ export async function updateArtist(
     bio?: string | null;
     image?: string | null;
   }
-) {
+): Promise<typeof artist.$inferSelect | undefined> {
   const cleanData = {
     ...(data.name !== undefined && { name: data.name }),
     ...(data.bio !== undefined && { bio: data.bio || null }),
@@ -36,7 +54,13 @@ export async function updateArtist(
   return updatedArtist;
 }
 
-export async function deleteArtist(artistId: number) {
+/**
+ *
+ * @param artistId
+ */
+export async function deleteArtist(
+  artistId: number
+): Promise<typeof artist.$inferSelect | undefined> {
   const [deletedArtist] = await database.delete(artist).where(eq(artist.id, artistId)).returning();
   return deletedArtist;
 }

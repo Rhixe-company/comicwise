@@ -1,11 +1,27 @@
-import { database } from "@/database";
-import { account } from "@/database/schema";
 import { and, eq } from "drizzle-orm";
+
+import { db as database } from "@/database/db";
+import { account } from "@/database/schema";
 
 // ═══════════════════════════════════════════════════
 // ACCOUNT MUTATIONS
 // ═══════════════════════════════════════════════════
 
+/**
+ *
+ * @param data
+ * @param data.userId
+ * @param data.type
+ * @param data.provider
+ * @param data.providerAccountId
+ * @param data.refresh_token
+ * @param data.access_token
+ * @param data.expires_at
+ * @param data.token_type
+ * @param data.scope
+ * @param data.id_token
+ * @param data.session_state
+ */
 export async function createAccount(data: {
   userId: string;
   type: string;
@@ -18,11 +34,24 @@ export async function createAccount(data: {
   scope?: string | null;
   id_token?: string | null;
   session_state?: string | null;
-}) {
+}): Promise<typeof account.$inferSelect | undefined> {
   const [newAccount] = await database.insert(account).values(data).returning();
   return newAccount;
 }
 
+/**
+ *
+ * @param provider
+ * @param providerAccountId
+ * @param data
+ * @param data.refresh_token
+ * @param data.access_token
+ * @param data.expires_at
+ * @param data.token_type
+ * @param data.scope
+ * @param data.id_token
+ * @param data.session_state
+ */
 export async function updateAccount(
   provider: string,
   providerAccountId: string,
@@ -35,7 +64,7 @@ export async function updateAccount(
     id_token?: string | null;
     session_state?: string | null;
   }
-) {
+): Promise<typeof account.$inferSelect | undefined> {
   const [updatedAccount] = await database
     .update(account)
     .set(data)
@@ -44,7 +73,15 @@ export async function updateAccount(
   return updatedAccount;
 }
 
-export async function deleteAccount(provider: string, providerAccountId: string) {
+/**
+ *
+ * @param provider
+ * @param providerAccountId
+ */
+export async function deleteAccount(
+  provider: string,
+  providerAccountId: string
+): Promise<typeof account.$inferSelect | undefined> {
   const [deletedAccount] = await database
     .delete(account)
     .where(and(eq(account.provider, provider), eq(account.providerAccountId, providerAccountId)))
@@ -52,6 +89,12 @@ export async function deleteAccount(provider: string, providerAccountId: string)
   return deletedAccount;
 }
 
-export async function deleteAccountsByUserId(userId: string) {
+/**
+ *
+ * @param userId
+ */
+export async function deleteAccountsByUserId(
+  userId: string
+): Promise<(typeof account.$inferSelect)[]> {
   return await database.delete(account).where(eq(account.userId, userId)).returning();
 }

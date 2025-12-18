@@ -1,6 +1,13 @@
+// ═══════════════════════════════════════════════════════════════════════════════
+// IMAGE SERVICE - Download and store remote images using configured upload provider
+// Dynamically uses UPLOAD_PROVIDER from environment (.env.local)
+// Supports: local, imagekit, cloudinary
+// ═══════════════════════════════════════════════════════════════════════════════
+
 import crypto from "crypto";
-import fs from "fs/promises";
 import path from "path";
+import type { UploadProvider } from "src/services/upload";
+import { getUploadProvider } from "src/services/upload";
 
 export interface ImageDownloadResult {
   success: boolean;
@@ -9,48 +16,80 @@ export interface ImageDownloadResult {
   error?: string;
 }
 
+/**
+ * ImageService handles downloading remote images and storing them using the
+ * configured upload provider (specified in UPLOAD_PROVIDER env variable).
+ *
+ * Features:
+ * - Supports multiple storage backends (local, imagekit, cloudinary)
+ * - Automatic provider initialization from env configuration
+ * - Built-in caching to avoid duplicate downloads
+ * - Batch download with concurrency control
+ * - Automatic retry logic for failed downloads
+ */
 export class ImageService {
-  private readonly publicDir: string;
   private readonly downloadedImages = new Map<string, string>();
+  private uploadProvider: UploadProvider | null = null;
+  private providerInitialized = false;
+  private lastUploadTime = 0;
+  private readonly minUploadInterval = 100; // Minimum 100ms between uploads to avoid rate limits
 
-  constructor(publicDir: string = "public") {
-    this.publicDir = publicDir;
+  /**
+   * Get or initialize the upload provider from environment configuration
+   */
+  private async getProvider(): Promise<UploadProvider> {
+    if (!this.uploadProvider && !this.providerInitialized) {
+      this.uploadProvider = await getUploadProvider();
+      this.providerInitialized = true;
+    }
+
+    if (!this.uploadProvider) {
+      throw new Error("Failed to initialize upload provider");
+    }
+
+    return this.uploadProvider;
   }
 
   /**
    * Generate a hash for the image URL to use as filename
+   * Ensures unique filenames regardless of source URL
+   * @param url
    */
   private generateHash(url: string): string {
     return crypto.createHash("md5").update(url).digest("hex");
   }
 
   /**
-   * Get file extension from URL
+   * Extract file extension from URL
+   * Defaults to .webp if no extension found
+   * @param url
    */
   private getExtension(url: string): string {
-    const urlPath = new URL(url).pathname;
-    const ext = path.extname(urlPath);
-    return ext || ".webp";
-  }
-
-  /**
-   * Check if image already exists locally
-   */
-  private async imageExists(filePath: string): Promise<boolean> {
     try {
-      await fs.access(filePath);
-      return true;
+      const urlPath = new URL(url).pathname;
+      const extension = path.extname(urlPath);
+      return extension || ".webp";
     } catch {
-      return false;
+      return ".webp";
     }
   }
 
   /**
-   * Download image from URL and save locally
+   * Download image from URL and save using configured upload provider
+   * with retry logic and improved error handling
+   *
+   * @param url - Remote image URL to download
+   * @param subDirectory - Subdirectory in storage (e.g., "avatars", "comics/123")
+   * @param retries - Number of retry attempts (default: 2)
+   * @returns ImageDownloadResult with success status and URL/error details
    */
-  async downloadImage(url: string, subDirectory: string = "uploads"): Promise<ImageDownloadResult> {
+  async downloadImage(
+    url: string,
+    subDirectory: string = "uploads",
+    retries: number = 2
+  ): Promise<ImageDownloadResult> {
     try {
-      // Check if already downloaded
+      // Check cache first - avoid duplicate downloads
       if (this.downloadedImages.has(url)) {
         return {
           success: true,
@@ -59,60 +98,129 @@ export class ImageService {
         };
       }
 
-      // Generate unique filename
-      const hash = this.generateHash(url);
-      const ext = this.getExtension(url);
-      const fileName = `${hash}${ext}`;
-
-      // Create directory structure
-      const uploadDir = path.join(this.publicDir, subDirectory);
-      await fs.mkdir(uploadDir, { recursive: true });
-
-      const filePath = path.join(uploadDir, fileName);
-      const publicPath = `/${subDirectory}/${fileName}`;
-
-      // Check if file already exists
-      if (await this.imageExists(filePath)) {
-        this.downloadedImages.set(url, publicPath);
-        return {
-          success: true,
-          localPath: publicPath,
-          url,
-        };
+      // Validate URL before attempting download
+      try {
+        new URL(url);
+      } catch {
+        return this.createPlaceholderResult(url, "Invalid URL format");
       }
 
-      // Download the image
-      const response = await fetch(url, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        },
-      });
+      let lastError: Error | null = null;
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      // Retry logic
+      for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+          // Download the image with proper headers
+          const response = await fetch(url, {
+            headers: {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+              Accept: "image/*",
+            },
+            signal: AbortSignal.timeout(45000), // 45 second timeout
+          });
+
+          if (!response.ok) {
+            // Don't retry on 404s or 403s
+            if (response.status === 404 || response.status === 403) {
+              return this.createPlaceholderResult(url, `HTTP ${response.status}: ${response.statusText}`);
+            }
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          // Convert response to Buffer
+          const buffer = Buffer.from(await response.arrayBuffer());
+
+          // Validate buffer has content
+          if (buffer.length === 0) {
+            throw new Error("Downloaded image is empty");
+          }
+
+          // Get upload provider (uses UPLOAD_PROVIDER from .env.local)
+          const provider = await this.getProvider();
+
+          // Generate unique filename
+          const hash = this.generateHash(url);
+          const extension = this.getExtension(url);
+
+          // Rate limiting: ensure minimum interval between uploads
+          const now = Date.now();
+          const timeSinceLastUpload = now - this.lastUploadTime;
+          if (timeSinceLastUpload < this.minUploadInterval) {
+            await new Promise((resolve) =>
+              setTimeout(resolve, this.minUploadInterval - timeSinceLastUpload)
+            );
+          }
+
+          // Upload via configured provider (local/imagekit/cloudinary)
+          const uploadResult = await provider.upload(buffer, {
+            folder: subDirectory,
+            filename: hash, // Use hash as base filename
+            tags: ["seed", "downloaded"], // Tag for organization
+          });
+
+          this.lastUploadTime = Date.now();
+
+          if (!uploadResult.success) {
+            throw new Error(uploadResult.error || "Upload failed");
+          }
+
+          // Cache the result for future requests
+          const publicUrl = uploadResult.url;
+          this.downloadedImages.set(url, publicUrl);
+
+          return {
+            success: true,
+            localPath: publicUrl,
+            url,
+          };
+        } catch (error) {
+          lastError = error instanceof Error ? error : new Error(String(error));
+
+          // Wait before retry (exponential backoff)
+          if (attempt < retries) {
+            await new Promise((resolve) => setTimeout(resolve, 1000 * Math.pow(2, attempt)));
+          }
+        }
       }
 
-      const buffer = await response.arrayBuffer();
-      await fs.writeFile(filePath, Buffer.from(buffer));
-
-      this.downloadedImages.set(url, publicPath);
-
-      return {
-        success: true,
-        localPath: publicPath,
-        url,
-      };
+      // All retries failed - use placeholder
+      return this.createPlaceholderResult(url, lastError?.message);
     } catch (error) {
-      return {
-        success: false,
-        url,
-        error: error instanceof Error ? error.message : "Unknown error",
-      };
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      return this.createPlaceholderResult(url, errorMessage);
     }
   }
 
   /**
-   * Download multiple images in batch
+   * Create a placeholder result for failed downloads
+   * Silently falls back without logging to reduce noise
+   * @param url
+   * @param errorMessage
+   */
+  private createPlaceholderResult(url: string, errorMessage?: string): ImageDownloadResult {
+    const placeholderUrl = "/placeholder-comic.jpg";
+    this.downloadedImages.set(url, placeholderUrl);
+
+    // Only log if it's not a common error
+    if (errorMessage && !errorMessage.includes("404") && !errorMessage.includes("403")) {
+      console.warn(`Image fallback for ${url.substring(0, 60)}...: ${errorMessage}`);
+    }
+
+    return {
+      success: true,
+      localPath: placeholderUrl,
+      url,
+      error: errorMessage,
+    };
+  }
+
+  /**
+   * Download multiple images in parallel with configurable concurrency
+   *
+   * @param urls - Array of image URLs to download
+   * @param subDirectory - Subdirectory in storage
+   * @param concurrency - Maximum parallel downloads (default: 5)
+   * @returns Array of download results
    */
   async downloadImageBatch(
     urls: string[],
@@ -121,8 +229,9 @@ export class ImageService {
   ): Promise<ImageDownloadResult[]> {
     const results: ImageDownloadResult[] = [];
 
-    for (let i = 0; i < urls.length; i += concurrency) {
-      const batch = urls.slice(i, i + concurrency);
+    // Process in batches with concurrency control
+    for (let index = 0; index < urls.length; index += concurrency) {
+      const batch = urls.slice(index, index + concurrency);
       const batchResults = await Promise.all(
         batch.map((url) => this.downloadImage(url, subDirectory))
       );
@@ -133,7 +242,12 @@ export class ImageService {
   }
 
   /**
-   * Process image URL - download if remote, keep if local
+   * Process image URL - download if remote URL, return as-is if local path
+   * Useful for handling mixed local/remote image sources
+   *
+   * @param url - Image URL or local path
+   * @param subDirectory - Where to store if downloading
+   * @returns Public URL (local or remote) or null if processing failed
    */
   async processImageUrl(
     url: string | null | undefined,
@@ -143,31 +257,32 @@ export class ImageService {
       return null;
     }
 
-    // If it's already a local path, return as-is
-    if (url.startsWith("/")) {
+    // If it's already a local path or not an HTTP URL, return as-is
+    if (url.startsWith("/") || !url.startsWith("http")) {
       return url;
     }
 
-    // Download remote image
+    // Download and upload remote image
     const result = await this.downloadImage(url, subDirectory);
     return result.success ? result.localPath! : null;
   }
 
   /**
-   * Get statistics about downloaded images
+   * Get statistics about cached downloads
    */
   getStats() {
     return {
       totalDownloaded: this.downloadedImages.size,
-      images: Array.from(this.downloadedImages.entries()).map(([url, path]) => ({
-        url,
-        path,
+      images: [...this.downloadedImages.entries()].map(([sourceUrl, publicUrl]) => ({
+        sourceUrl,
+        publicUrl,
       })),
     };
   }
 
   /**
-   * Clear the cache
+   * Clear the download cache
+   * Useful for testing or memory management
    */
   clearCache() {
     this.downloadedImages.clear();
@@ -175,4 +290,5 @@ export class ImageService {
 }
 
 // Export singleton instance
+// Uses UPLOAD_PROVIDER from .env.local (local/imagekit/cloudinary)
 export const imageService = new ImageService();

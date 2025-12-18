@@ -135,17 +135,17 @@ export interface UploadConstraints {
 export const UPLOAD_CONSTRAINTS: Record<UploadType, UploadConstraints> = {
   "comic-cover": {
     maxSizeMB: 10,
-    allowedMimeTypes: ["image/jpeg", "image/png", "image/webp"],
+    allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"],
     allowMultiple: false,
   },
   "chapter-image": {
     maxSizeMB: 10,
-    allowedMimeTypes: ["image/jpeg", "image/png", "image/webp"],
+    allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"],
     allowMultiple: true,
   },
   avatar: {
     maxSizeMB: 5,
-    allowedMimeTypes: ["image/jpeg", "image/png", "image/webp"],
+    allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"],
     allowMultiple: false,
   },
   general: {

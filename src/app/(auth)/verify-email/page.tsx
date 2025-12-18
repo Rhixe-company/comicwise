@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { verifyEmailAction } from "@/lib/actions/auth/index";
+import { verifyEmailAction } from "@/lib/actions/auth";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -22,11 +22,11 @@ import { Suspense, useEffect, useState } from "react";
 function VerifyEmailContent() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [errorMessage, setErrorMessage] = useState("");
-  const searchParams = useSearchParams();
+  const searchParameters = useSearchParams();
 
   useEffect(() => {
     const verifyEmail = async () => {
-      const token = searchParams.get("token");
+      const token = searchParameters.get("token");
 
       if (!token) {
         setStatus("error");
@@ -43,25 +43,21 @@ function VerifyEmailContent() {
         } else {
           setStatus("success");
         }
-      } catch (err) {
-        console.error("Email verification error:", err);
+      } catch (error) {
+        console.error("Email verification error:", error);
         setStatus("error");
         setErrorMessage("An unexpected error occurred. Please try again.");
       }
     };
 
     verifyEmail();
-  }, [searchParams]);
+  }, [searchParameters]);
 
   if (status === "loading") {
     return (
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <div
-            className={`
-            mx-auto mb-2 flex h-12 w-12 items-center justify-center
-          `}
-          >
+          <div className={`mx-auto mb-2 flex h-12 w-12 items-center justify-center`}>
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold">Verifying Email</CardTitle>
@@ -134,6 +130,9 @@ function VerifyEmailContent() {
   );
 }
 
+/**
+ *
+ */
 export default function VerifyEmailPage() {
   return (
     <Suspense

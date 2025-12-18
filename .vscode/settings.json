@@ -21,74 +21,68 @@
     "editor.defaultFormatter": "yzhang.markdown-all-in-one",
     "editor.wordWrap": "on"
   },
-
   "[powershell]": {
     "editor.defaultFormatter": "ms-vscode.powershell"
   },
-  // ═══════════════════════════════════════════════════
-  // LANGUAGE-SPECIFIC SETTINGS
-  // ═══════════════════════════════════════════════════
+
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // ═══════════════════════════════════════════════════════════════
+  // LANGUAGE-SPECIFIC FORMATTERS
+  // ═══════════════════════════════════════════════════════════════
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  // ═══════════════════════════════════════════════════
-  // BETTER COMMENTS CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  // ═══════════════════════════════════════════════════════════════
+  // BETTER COMMENTS
+  // ═══════════════════════════════════════════════════════════════
   "better-comments.tags": [
     {
       "tag": "!",
       "color": "#FF2D00",
       "strikethrough": false,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
+      "bold": false
     },
     {
       "tag": "?",
       "color": "#3498DB",
       "strikethrough": false,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
+      "bold": false
     },
     {
       "tag": "//",
       "color": "#474747",
       "strikethrough": true,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
+      "bold": false
     },
     {
       "tag": "todo",
       "color": "#FF8C00",
       "strikethrough": false,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
+      "bold": false
     },
     {
       "tag": "*",
       "color": "#98C379",
       "strikethrough": false,
-      "underline": false,
-      "backgroundColor": "transparent",
-      "bold": false,
-      "italic": false
+      "bold": false
     }
   ],
 
+  // ═══════════════════════════════════════════════════════════════
+  // OTHER
+  // ═══════════════════════════════════════════════════════════════
   "breadcrumbs.enabled": true,
-  // ═══════════════════════════════════════════════════
-  // CSPELL CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  // CSPELL (Spell Checker)
+  // ═══════════════════════════════════════════════════════════════
   "cSpell.words": [
     "comicwise",
     "drizzle",
@@ -124,9 +118,11 @@
 
   "chat.agent.maxRequests": 1000,
   "chat.mcp.gallery.enabled": true,
+
   "editor.acceptSuggestionOnCommitCharacter": true,
   "editor.acceptSuggestionOnEnter": "on",
   "editor.accessibilitySupport": "off",
+
   "editor.bracketPairColorization.enabled": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
@@ -136,9 +132,14 @@
   },
   "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
-  // ═══════════════════════════════════════════════════
-  // EDITOR CONFIGURATION (Next.js 16.0.7 + React 19 Optimized)
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  // COMICWISE VSCODE SETTINGS
+  // Next.js 16 + React 19 + TypeScript + Tailwind CSS + Drizzle ORM
+  // ═══════════════════════════════════════════════════════════════
+
+  // ═══════════════════════════════════════════════════════════════
+  // EDITOR CORE
+  // ═══════════════════════════════════════════════════════════════
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.detectIndentation": false,
   "editor.fontFamily": "Fira Code, Cascadia Code, JetBrains Mono, Consolas, 'Courier New', monospace",
@@ -146,7 +147,6 @@
   "editor.fontSize": 14,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "editor.formatOnType": false,
   "editor.guides.bracketPairs": "active",
   "editor.guides.highlightActiveIndentation": true,
   "editor.guides.indentation": true,
@@ -165,10 +165,8 @@
     "comments": false,
     "other": true
   },
-
   "editor.rename.enablePreview": true,
-
-  "editor.renderControlCharacters": false,
+  "editor.renameOnType": false,
   "editor.renderWhitespace": "boundary",
   "editor.rulers": [80, 120],
   "editor.semanticHighlighting.enabled": true,
@@ -182,18 +180,18 @@
   "editor.unicodeHighlight.invisibleCharacters": true,
   "editor.wordBasedSuggestions": "matchingDocuments",
   "editor.wordWrap": "on",
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
   // EMMET CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
   "emmet.includeLanguages": {
     "javascript": "javascriptreact",
     "typescript": "typescriptreact"
   },
   "emmet.triggerExpansionOnTab": true,
 
-  // ═══════════════════════════════════════════════════
-  // ERROR LENS CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  // ERROR LENS
+  // ═══════════════════════════════════════════════════════════════
   "errorLens.enabledDiagnosticLevels": ["error", "warning"],
   "errorLens.excludeBySource": ["cSpell"],
 
@@ -208,9 +206,9 @@
     "typescript",
     "typescriptreact"
   ],
-  // ═══════════════════════════════════════════════════
-  // ESLINT CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  // ESLINT CONFIGURATION (Flat Config Support)
+  // ═══════════════════════════════════════════════════════════════
   "eslint.useFlatConfig": true,
   "eslint.validate": [
     "javascript",
@@ -218,13 +216,14 @@
     "typescript",
     "typescriptreact"
   ],
-  // ═══════════════════════════════════════════════════
-  // FILE ASSOCIATIONS
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  // FILE ASSOCIATIONS & EXCLUSIONS
+  // ═══════════════════════════════════════════════════════════════
   "files.associations": {
     "*.css": "tailwindcss",
     "*.ts": "typescript",
-    "*.tsx": "typescriptreact"
+    "*.tsx": "typescriptreact",
+    "*.env*": "dotenv"
   },
   "files.exclude": {
     "**/.git": true,
@@ -233,23 +232,26 @@
     "**/.next": true
   },
   "files.insertFinalNewline": true,
-
   "files.trimTrailingWhitespace": true,
+
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
     "**/node_modules/**": true,
     "**/.next/**": true,
-    "**/dist/**": true
+    "**/dist/**": true,
+    "**/build/**": true
   },
-
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
   // GIT CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
 
+  // ═══════════════════════════════════════════════════════════════
+  // GITHUB COPILOT
+  // ═══════════════════════════════════════════════════════════════
   "github.copilot.enable": {
     "*": true,
     "plaintext": true,
@@ -259,31 +261,31 @@
   "github.copilot.nextEditSuggestions.enabled": true,
   "javascript.preferences.importModuleSpecifier": "non-relative",
 
-  "javascript.suggest.autoImports": true,
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
   // JAVASCRIPT CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  "javascript.suggest.autoImports": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "makefile.configureOnOpen": true,
+  // ═══════════════════════════════════════════════════════════════
+  // PATH INTELLISENSE
+  // ═══════════════════════════════════════════════════════════════
   "path-intellisense.autoSlashAfterDirectory": true,
   "path-intellisense.extensionOnImport": true,
-
-  // ═══════════════════════════════════════════════════
-  // PATH INTELLISENSE CONFIGURATION
-  // ═══════════════════════════════════════════════════
   "path-intellisense.mappings": {
     "@": "${workspaceFolder}/src"
   },
-  // ═══════════════════════════════════════════════════
+
+  // ═══════════════════════════════════════════════════════════════
   // PRETTIER CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
   "prettier.requireConfig": true,
   "prettier.useEditorConfig": false,
 
   "redhat.telemetry.enabled": true,
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
   // SEARCH CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
   "search.exclude": {
     "**/node_modules": true,
     "**/dist": true,
@@ -293,25 +295,24 @@
     "**/yarn.lock": true
   },
 
+  // ═══════════════════════════════════════════════════════════════
+  // TAILWIND CSS CONFIGURATION
+  // ═══════════════════════════════════════════════════════════════
   "tailwindCSS.emmetCompletions": true,
-
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
-  // ═══════════════════════════════════════════════════
-  // TAILWIND CSS CONFIGURATION
-  // ═══════════════════════════════════════════════════
-  "tailwindCSS.experimental.configFile": null,
+
   "tailwindCSS.includeLanguages": {
     "typescript": "javascript",
     "typescriptreact": "javascript"
   },
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.cursorStyle": "line",
-  // ═══════════════════════════════════════════════════
-  // TERMINAL CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  // TERMINAL
+  // ═══════════════════════════════════════════════════════════════
   "terminal.integrated.defaultProfile.windows": "PowerShell",
   "terminal.integrated.fontFamily": "Cascadia Code, Consolas",
   "terminal.integrated.fontSize": 13,
@@ -321,13 +322,13 @@
     }
   },
   "terminal.integrated.scrollback": 10000,
-
   "terminal.integrated.shellIntegration.enabled": true,
   "terminal.integrated.stickyScroll.enabled": false,
+
   "terminal.integrated.suggest.enabled": true,
-  // ═══════════════════════════════════════════════════
-  // TODO TREE CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  // TODO TREE
+  // ═══════════════════════════════════════════════════════════════
   "todo-tree.general.tags": ["TODO", "FIXME", "BUG", "HACK", "NOTE", "XXX"],
   "todo-tree.highlights.defaultHighlight": {
     "gutterIcon": true
@@ -335,8 +336,8 @@
 
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.inlayHints.enumMemberValues.enabled": true,
-  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
 
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
   "typescript.inlayHints.parameterNames.enabled": "literals",
   "typescript.inlayHints.parameterTypes.enabled": true,
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
@@ -347,9 +348,9 @@
   "typescript.suggest.autoImports": true,
   "typescript.suggest.completeFunctionCalls": true,
   "typescript.suggest.paths": true,
-  // ═══════════════════════════════════════════════════
-  // TYPESCRIPT CONFIGURATION (React 19 + Next.js 16)
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  // TYPESCRIPT CONFIGURATION
+  // ═══════════════════════════════════════════════════════════════
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "workbench.colorCustomizations": {
@@ -359,9 +360,9 @@
   "workbench.editor.enablePreview": false,
   "workbench.editor.highlightModifiedTabs": true,
   "workbench.editor.labelFormat": "short",
-  // ═══════════════════════════════════════════════════
-  // WORKBENCH CONFIGURATION
-  // ═══════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════
+  // WORKBENCH
+  // ═══════════════════════════════════════════════════════════════
   "workbench.iconTheme": "material-icon-theme",
   "workbench.productIconTheme": "icons-carbon",
   "workbench.startupEditor": "welcomePageInEmptyWorkbench",

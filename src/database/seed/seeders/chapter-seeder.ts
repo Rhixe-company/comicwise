@@ -2,27 +2,26 @@
  * Chapter Seeder
  */
 
-import { database } from "@/database";
-import { chapter, comic } from "@/database/schema";
+import * as queries from "@/database/queries";
+import * as mutations from "@/database/mutations";
+import type { SeedConfig } from "@/database/seed/config";
 import { ProgressTracker } from "@/database/seed/logger";
 import { BatchProcessor } from "@/database/seed/utils/batch-processor";
 import { createSlug, extractChapterNumber, normalizeDate } from "@/database/seed/utils/helpers";
-import { and, eq } from "drizzle-orm";
-
-import type { SeedConfig } from "@/database/seed/config";
-import type { ChapterSeed } from "@/lib/validations/seed";
+import type { ChapterSeed } from "@/lib/validations";
 import { imageService } from "@/services/image.service";
 
 export class ChapterSeeder {
   private options: SeedConfig["options"];
   private comicCache = new Map<string, number>();
+  private chapterCache = new Map<string, number>();
   private batchProcessor: BatchProcessor<ChapterSeed, void>;
 
   constructor(options: SeedConfig["options"]) {
     this.options = options;
     this.batchProcessor = new BatchProcessor<ChapterSeed, void>({
-      batchSize: 100,
-      concurrency: 5,
+      batchSize: 50, // Reduced from 100
+      concurrency: 2, // Reduced from 5 to prevent rate limiting
     });
   }
 
@@ -33,7 +32,7 @@ export class ChapterSeeder {
       try {
         await this.processChapter(chapterData, tracker);
       } catch (error) {
-        tracker.incrementError(`${chapterData.chaptername || chapterData.title}: ${error}`);
+        tracker.incrementError(`${chapterData.chaptername ?? chapterData.title}: ${error}`);
       }
     });
 
@@ -41,90 +40,102 @@ export class ChapterSeeder {
   }
 
   private async processChapter(chapterData: ChapterSeed, tracker: ProgressTracker): Promise<void> {
-    // Get comic ID
     const comicId = await this.getComicId(chapterData);
     if (!comicId) {
       tracker.incrementSkipped("Comic not found");
       return;
     }
 
-    const chapterTitle = chapterData.chaptername || chapterData.title || "Untitled Chapter";
+    const chapterTitle = chapterData.chaptername ?? chapterData.title ?? "Untitled Chapter";
     const chapterNumber = extractChapterNumber(chapterTitle);
     const chapterSlug = createSlug(chapterTitle);
 
-    // Check if chapter exists
-    const existing = await database.query.chapter.findFirst({
-      where: and(eq(chapter.comicId, comicId), eq(chapter.chapterNumber, chapterNumber)),
-    });
+    const existing = await queries.getChapterByComicAndNumber(comicId, chapterNumber);
 
-    // Process page images
     const pageImages: string[] = [];
     if (!this.options.skipImageDownload && chapterData.images) {
       const comicSlug = await this.getComicSlug(comicId);
 
-      for (let i = 0; i < chapterData.images.length; i++) {
-        const img = chapterData.images[i];
-        const imageUrl = typeof img === "string" ? img : img?.url || "";
+      for (let index = 0; index < chapterData.images.length; index++) {
+        const img = chapterData.images[index];
+        const imageUrl = typeof img === "string" ? img : (img?.url ?? "");
         if (imageUrl) {
-          const result = await imageService.processImageUrl(
-            imageUrl,
-            `comics/${comicSlug}/${chapterSlug}`
-          );
-          if (result) {
-            pageImages.push(result);
+          try {
+            const result = await imageService.processImageUrl(
+              imageUrl,
+              `comics/${comicSlug}/${chapterSlug}`
+            );
+            if (result && result !== "/placeholder-comic.jpg") {
+              pageImages.push(result);
+            }
+          } catch (error) {
+            // Silently skip - error already logged by imageService
           }
         }
       }
     }
 
     const chapterReleaseDate = normalizeDate(
-      chapterData.releaseDate || chapterData.updated_at || chapterData.updatedAt
+      chapterData.releaseDate ?? chapterData.updated_at ?? chapterData.updatedAt
     );
 
     if (existing) {
-      // Update existing chapter
-      await database
-        .update(chapter)
-        .set({
-          title: chapterTitle,
-          slug: createSlug(chapterTitle),
-          releaseDate: chapterReleaseDate,
-        })
-        .where(eq(chapter.id, existing.id));
+      await mutations.updateChapter(existing.id, {
+        title: chapterTitle,
+        releaseDate: chapterReleaseDate,
+      });
 
       tracker.incrementUpdated(chapterTitle);
+
+      if (pageImages.length > 0) {
+        await mutations.createChapterImages(
+          pageImages.map((imageUrl, index) => ({
+            chapterId: existing.id,
+            imageUrl,
+            pageNumber: index + 1,
+          }))
+        );
+      }
     } else {
-      // Create new chapter
-      await database.insert(chapter).values({
+      const created = await mutations.createChapter({
         comicId,
         chapterNumber,
         title: chapterTitle,
         slug: chapterSlug,
         releaseDate: chapterReleaseDate,
-        views: 0,
       });
 
       tracker.incrementCreated(chapterTitle);
+
+      const cacheKey = `${comicId}-${chapterNumber}`;
+      if (created) {
+        this.chapterCache.set(cacheKey, created.id);
+      }
+
+      if (created && pageImages.length > 0) {
+        await mutations.createChapterImages(
+          pageImages.map((imageUrl, index) => ({
+            chapterId: created.id,
+            imageUrl,
+            pageNumber: index + 1,
+          }))
+        );
+      }
     }
   }
 
   private async getComicId(chapterData: ChapterSeed): Promise<number | null> {
-    // Extract comic title from different field names
-    const comicTitle = chapterData.comictitle || "";
+    const comicTitle = chapterData.comictitle ?? "";
 
     if (!comicTitle) {
       return null;
     }
 
-    // Check cache first
     if (this.comicCache.has(comicTitle)) {
-      return this.comicCache.get(comicTitle) || null;
+      return this.comicCache.get(comicTitle) ?? null;
     }
 
-    // Query database
-    const comicRecord = await database.query.comic.findFirst({
-      where: eq(comic.title, comicTitle),
-    });
+    const comicRecord = await queries.getComicByTitle(comicTitle);
 
     if (comicRecord) {
       this.comicCache.set(comicTitle, comicRecord.id);
@@ -135,9 +146,7 @@ export class ChapterSeeder {
   }
 
   private async getComicSlug(comicId: number): Promise<string> {
-    const comicRecord = await database.query.comic.findFirst({
-      where: eq(comic.id, comicId),
-    });
+    const comicRecord = await queries.getComic(comicId);
 
     if (!comicRecord) {
       return "unknown";

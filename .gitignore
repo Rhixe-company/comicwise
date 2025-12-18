@@ -1,53 +1,11 @@
-# Node
-node_modules/
-.next/
-out/
-dist/
-build/
-.turbo/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Env
-.env
-.env.local
-.env.*.local
-.env.test
-.env.production
-
-# OS
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# VSCode
-.vscode/*
-!.vscode/settings.json
-
-# Mac
-.AppleDouble
-.LSOverride
-
-# Docker
-docker-compose.override.yml
-docker-compose.*.local.yml
-
-# Coverage
-coverage/
 # ═══════════════════════════════════════════════════
 # ComicWise - Optimized .gitignore
 # ═══════════════════════════════════════════════════
-# Last Updated: December 6, 2025
+# Last Updated: December 15, 2025
 # For: Node.js, Next.js 16, TypeScript, PostgreSQL
 # ═══════════════════════════════════════════════════
 
-# ═══════════════════════════════════════════════════
 # Dependencies
-# ═══════════════════════════════════════════════════
 node_modules/
 npm-debug.log*
 yarn-debug.log*
@@ -64,45 +22,29 @@ lerna-debug.log*
 !.yarn/sdks
 !.yarn/versions
 
-# ═══════════════════════════════════════════════════
-# Next.js
-# ═══════════════════════════════════════════════════
+# Next.js & Build
 .next/
 out/
 dist/
 build/
 .turbo/
 .cache/
-
-# ═══════════════════════════════════════════════════
-# TypeScript
-# ═══════════════════════════════════════════════════
 *.tsbuildinfo
 next-env.d.ts
 *.d.ts.map
 tsconfig.tsbuildinfo
 
-# ═══════════════════════════════════════════════════
 # Environment Variables
-# ═══════════════════════════════════════════════════
 .env
 .env.local
-.env.development
+.env.*.local
 .env.development.local
-.env.test
 .env.test.local
-.env.production
 .env.production.local
-.env*.local
-*.env
-
-# Keep example env
 !.env.example
 !.env.sample
 
-# ═══════════════════════════════════════════════════
-# Testing
-# ═══════════════════════════════════════════════════
+# Testing & Coverage
 coverage/
 *.lcov
 .nyc_output/
@@ -115,18 +57,14 @@ playwright/.auth/
 .playwright/
 __tests__/__snapshots__/
 
-# ═══════════════════════════════════════════════════
 # Deployment
-# ═══════════════════════════════════════════════════
 .vercel
 .netlify
 .firebase
 .serverless/
 .fusion/
 
-# ═══════════════════════════════════════════════════
 # Database
-# ═══════════════════════════════════════════════════
 *.db
 *.sqlite
 *.sqlite3
@@ -134,21 +72,14 @@ __tests__/__snapshots__/
 .postgres-data/
 postgres-data/
 drizzle-data/
+dev.db
+dev-*.db
 
-# ═══════════════════════════════════════════════════
 # Logs
-# ═══════════════════════════════════════════════════
 logs/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-# ═══════════════════════════════════════════════════
-# OS Files - macOS
-# ═══════════════════════════════════════════════════
+# OS Files
 .DS_Store
 .DS_Store?
 ._*
@@ -169,31 +100,14 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
-
-# ═══════════════════════════════════════════════════
-# OS Files - Linux
-# ═══════════════════════════════════════════════════
 *~
 .fuse_hidden*
 .directory
 .Trash-*
 .nfs*
-
-# ═══════════════════════════════════════════════════
-# OS Files - Windows
-# ═══════════════════════════════════════════════════
-[Tt]humbs.db
-[Tt]humbs.db:encryptable
-ehthumbs.db
-ehthumbs_vista.db
 *.stackdump
-[Dd]esktop.ini
-$RECYCLE.BIN/
-*.lnk
 
-# ═══════════════════════════════════════════════════
-# IDEs - VSCode
-# ═══════════════════════════════════════════════════
+# IDEs & Editors
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -201,15 +115,8 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 .history/
-*.code-workspace
-
-# Local History for Visual Studio Code
-.history/
 .ionide/
-
-# ═══════════════════════════════════════════════════
-# IDEs - JetBrains (WebStorm, IntelliJ, etc.)
-# ═══════════════════════════════════════════════════
+*.code-workspace
 .idea/
 *.iml
 *.ipr
@@ -220,31 +127,19 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-
-# ═══════════════════════════════════════════════════
-# IDEs - Sublime Text
-# ═══════════════════════════════════════════════════
 *.sublime-workspace
 *.sublime-project
-
-# ═══════════════════════════════════════════════════
-# IDEs - Vim
-# ═══════════════════════════════════════════════════
 [._]*.s[a-v][a-z]
 [._]*.sw[a-p]
 [._]s[a-rt-v][a-z]
 [._]ss[a-gi-z]
-[._]sw[a-p]
 Session.vim
 Sessionx.vim
 .netrwhist
-*~
 tags
 [._]*.un~
 
-# ═══════════════════════════════════════════════════
-# Certificates & Keys
-# ═══════════════════════════════════════════════════
+# Security
 *.pem
 *.key
 *.cert
@@ -252,26 +147,17 @@ tags
 *.p12
 *.pfx
 
-# ═══════════════════════════════════════════════════
 # Docker
-# ═══════════════════════════════════════════════════
 docker-compose.override.yml
-.dockerignore
+docker-compose.*.local.yml
 
-# ═══════════════════════════════════════════════════
-# Temporary Files
-# ═══════════════════════════════════════════════════
+# Temporary & Archive
 *.tmp
 *.temp
 *.swp
 *.swo
 *.bak
 *.backup
-*~
-
-# ═══════════════════════════════════════════════════
-# Archive Files
-# ═══════════════════════════════════════════════════
 *.zip
 *.tar
 *.tar.gz
@@ -279,36 +165,20 @@ docker-compose.override.yml
 *.rar
 *.7z
 
-# ═══════════════════════════════════════════════════
 # Project Specific
-# ═══════════════════════════════════════════════════
-# Uploads directory (if storing locally)
 public/uploads/
 uploads/
-
-# Generated files
-*.generated.*
-
-# Backup files
-*.backup.*
 backup/
-
-# Development database files
-dev.db
-dev-*.db
-
-# Local scripts
+*.generated.*
+*.backup.*
 local-*.sh
 local-*.ps1
 
-# ═══════════════════════════════════════════════════
-# Misc
-# ═══════════════════════════════════════════════════
+# Cache & Tools
 .pnpm-store/
 .eslintcache
 .stylelintcache
 .prettiercache
 .npmrc
 .yarnrc
-.yarn/
 .pnp.*

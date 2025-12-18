@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════
 
 import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/generic-crud";
-import { createGenreSchema, genreFilterSchema } from "@/lib/validations/schemas";
+import { createGenreSchema, genreFilterSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { createGenre } from "src/database/mutations/genres";
 import { getAllGenres } from "src/database/queries/genres";

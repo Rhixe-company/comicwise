@@ -3,7 +3,7 @@
 import { appConfig, checkRateLimit } from "@/app-config";
 import * as mutations from "@/database/mutations";
 import { error } from "@/lib/actions/utils";
-import { createTypeSchema, updateTypeSchema } from "@/lib/validator";
+import { createTypeSchema, updateTypeSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import type { ActionResponse } from "src/types";
 import z from "zod";

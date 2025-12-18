@@ -5,7 +5,7 @@ import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
 import { error } from "@/lib/actions/utils";
 import { sendPasswordResetEmail, sendWelcomeEmail } from "@/lib/nodemailer";
-import { signUpSchema } from "@/lib/validator";
+import { signUpSchema } from "@/lib/validations";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { revalidatePath } from "next/cache";

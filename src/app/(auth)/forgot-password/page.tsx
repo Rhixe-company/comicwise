@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { forgotPasswordAction } from "@/lib/actions/auth/index";
-import type { ForgotPasswordInput } from "@/lib/validations/schemas";
-import { forgotPasswordSchema } from "@/lib/validations/schemas";
+import { forgotPasswordAction } from "@/lib/actions/auth";
+import type { ForgotPasswordInput } from "@/lib/validations";
+import { forgotPasswordSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import Link from "next/link";

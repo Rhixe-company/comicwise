@@ -1,4 +1,4 @@
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { genre } from "@/database/schema";
 import { asc, desc, eq, ilike } from "drizzle-orm";
 
@@ -9,6 +9,13 @@ export async function getGenreById(genreId: number) {
 }
 
 export async function getGenreByName(name: string) {
+  return await database.query.genre.findFirst({
+    where: eq(genre.name, name),
+  });
+}
+
+// Seed helper: get or null for batch operations
+export async function getGenreByNameForSeed(name: string) {
   return await database.query.genre.findFirst({
     where: eq(genre.name, name),
   });

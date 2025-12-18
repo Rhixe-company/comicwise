@@ -1,6 +1,7 @@
-import { database } from "@/database";
-import { chapter, comic, comicToGenre } from "@/database/schema";
 import { eq, sql } from "drizzle-orm";
+
+import { db as database } from "@/database/db";
+import { chapter, comic, comicToGenre } from "@/database/schema";
 
 interface CreateComicData {
   title: string;
@@ -15,7 +16,13 @@ interface CreateComicData {
   slug?: string;
 }
 
-export async function createComic(data: CreateComicData) {
+/**
+ *
+ * @param data
+ */
+export async function createComic(
+  data: CreateComicData
+): Promise<typeof comic.$inferSelect> {
   const { genreIds, ...comicData } = data;
   const { slug: providedSlug, title } = comicData as { slug?: string; title: string };
   const slugModule = await import("lib/utils");
@@ -61,7 +68,15 @@ interface UpdateComicData {
   genreIds?: number[];
 }
 
-export async function updateComic(comicId: number, data: UpdateComicData) {
+/**
+ *
+ * @param comicId
+ * @param data
+ */
+export async function updateComic(
+  comicId: number,
+  data: UpdateComicData
+): Promise<typeof comic.$inferSelect | undefined> {
   const { genreIds, ...updateData } = data;
 
   const [updatedComic] = await database
@@ -89,7 +104,13 @@ export async function updateComic(comicId: number, data: UpdateComicData) {
   return updatedComic;
 }
 
-export async function deleteComic(comicId: number) {
+/**
+ *
+ * @param comicId
+ */
+export async function deleteComic(
+  comicId: number
+): Promise<typeof comic.$inferSelect | undefined> {
   await database.delete(chapter).where(eq(chapter.comicId, comicId));
 
   await database.delete(comicToGenre).where(eq(comicToGenre.comicId, comicId));
@@ -99,7 +120,13 @@ export async function deleteComic(comicId: number) {
   return deletedComic;
 }
 
-export async function incrementViews(comicId: number) {
+/**
+ *
+ * @param comicId
+ */
+export async function incrementViews(
+  comicId: number
+): Promise<typeof comic.$inferSelect | undefined> {
   const [updated] = await database
     .update(comic)
     .set({
@@ -111,7 +138,15 @@ export async function incrementViews(comicId: number) {
   return updated;
 }
 
-export async function updateComicRating(comicId: number, newRating: number) {
+/**
+ *
+ * @param comicId
+ * @param newRating
+ */
+export async function updateComicRating(
+  comicId: number,
+  newRating: number
+): Promise<typeof comic.$inferSelect | undefined> {
   const [updated] = await database
     .update(comic)
     .set({

@@ -1,11 +1,12 @@
 /**
  * Metadata Cache
  * Caches metadata entities to reduce database queries
+ * Uses @/database/queries for read operations and direct insert for creation
  */
 
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { artist, author, genre, type as typeTable } from "@/database/schema";
-import { eq } from "drizzle-orm";
+import * as queries from "@/database/queries";
 
 export class MetadataCache {
   private typeCache = new Map<string, number>();
@@ -18,9 +19,7 @@ export class MetadataCache {
       return this.typeCache.get(name)!;
     }
 
-    const existing = await database.query.type.findFirst({
-      where: eq(typeTable.name, name),
-    });
+    const existing = await queries.getTypeByName(name);
 
     if (existing) {
       this.typeCache.set(name, existing.id);
@@ -39,9 +38,7 @@ export class MetadataCache {
     }
 
     // Conflict occurred, refetch
-    const refetch = await database.query.type.findFirst({
-      where: eq(typeTable.name, name),
-    });
+    const refetch = await queries.getTypeByName(name);
 
     if (refetch) {
       this.typeCache.set(name, refetch.id);
@@ -56,9 +53,7 @@ export class MetadataCache {
       return this.authorCache.get(name)!;
     }
 
-    const existing = await database.query.author.findFirst({
-      where: eq(author.name, name),
-    });
+    const existing = await queries.getAuthorByName(name);
 
     if (existing) {
       this.authorCache.set(name, existing.id);
@@ -76,9 +71,7 @@ export class MetadataCache {
       return created.id;
     }
 
-    const refetch = await database.query.author.findFirst({
-      where: eq(author.name, name),
-    });
+    const refetch = await queries.getAuthorByName(name);
 
     if (refetch) {
       this.authorCache.set(name, refetch.id);
@@ -93,9 +86,7 @@ export class MetadataCache {
       return this.artistCache.get(name)!;
     }
 
-    const existing = await database.query.artist.findFirst({
-      where: eq(artist.name, name),
-    });
+    const existing = await queries.getArtistByName(name);
 
     if (existing) {
       this.artistCache.set(name, existing.id);
@@ -113,9 +104,7 @@ export class MetadataCache {
       return created.id;
     }
 
-    const refetch = await database.query.artist.findFirst({
-      where: eq(artist.name, name),
-    });
+    const refetch = await queries.getArtistByName(name);
 
     if (refetch) {
       this.artistCache.set(name, refetch.id);
@@ -130,9 +119,7 @@ export class MetadataCache {
       return this.genreCache.get(name)!;
     }
 
-    const existing = await database.query.genre.findFirst({
-      where: eq(genre.name, name),
-    });
+    const existing = await queries.getGenreByName(name);
 
     if (existing) {
       this.genreCache.set(name, existing.id);
@@ -150,9 +137,7 @@ export class MetadataCache {
       return created.id;
     }
 
-    const refetch = await database.query.genre.findFirst({
-      where: eq(genre.name, name),
-    });
+    const refetch = await queries.getGenreByName(name);
 
     if (refetch) {
       this.genreCache.set(name, refetch.id);

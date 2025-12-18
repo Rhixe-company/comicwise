@@ -20,6 +20,7 @@ export * from "@/database/queries/authors";
 export * from "@/database/queries/chapterImages";
 export {
   getChapter,
+  getChapterByComicAndNumber,
   getChaptersByComicId,
   getFirstChapter,
   getLatestChapter,

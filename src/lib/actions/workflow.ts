@@ -1,7 +1,7 @@
 "use server";
 
 import { appConfig } from "@/app-config";
-import { database } from "@/database";
+import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
 import { error } from "@/lib/actions/utils";
 import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "@/lib/nodemailer";
@@ -11,7 +11,7 @@ import {
   resetPasswordSchema,
   signUpSchema,
   verifyEmailSchema,
-} from "@/lib/validator";
+} from "@/lib/validations";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import type { ActionResponse } from "src/types";

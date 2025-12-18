@@ -3,7 +3,7 @@
 // Next.js 16.0.7 Optimized
 // ═══════════════════════════════════════════════════
 
-import { getUploadProvider } from "./factory";
+import { getUploadProvider } from "src/services/upload/factory";
 
 export interface UploadOptions {
   folder?: string;
@@ -39,12 +39,17 @@ export {
   getConfiguredProvider,
   getUploadProvider,
   isProviderAvailable,
-} from "./factory";
+} from "src/services/upload/factory";
 
 // ═══════════════════════════════════════════════════
 // HELPER FUNCTIONS
 // ═══════════════════════════════════════════════════
 
+/**
+ *
+ * @param file
+ * @param options
+ */
 export async function uploadImage(
   file: File | Buffer,
   options?: UploadOptions
@@ -53,11 +58,20 @@ export async function uploadImage(
   return provider.upload(file, options);
 }
 
+/**
+ *
+ * @param publicId
+ */
 export async function deleteImage(publicId: string): Promise<boolean> {
   const provider = await getUploadProvider();
   return provider.delete(publicId);
 }
 
+/**
+ *
+ * @param publicId
+ * @param transformation
+ */
 export async function getImageUrl(
   publicId: string,
   transformation?: Record<string, unknown>
@@ -76,4 +90,4 @@ export type {
   UploadConstraints,
   UploadProviderType,
   UploadType,
-} from "./types";
+} from "src/services/upload/types";
