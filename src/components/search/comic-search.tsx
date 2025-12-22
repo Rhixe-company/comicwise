@@ -5,9 +5,9 @@
 
 "use client";
 
-import { cn } from 'utils';
 import { Clock, SearchIcon, TrendingUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { cn } from "utils";
 
 interface SearchResult {
   id: number;

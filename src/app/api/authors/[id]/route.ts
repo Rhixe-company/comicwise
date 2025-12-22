@@ -2,14 +2,14 @@
 // AUTHOR DETAIL API
 // ═══════════════════════════════════════════════════
 
+import { deleteAuthor, updateAuthor } from "#mutations/authors";
+import { getAuthorById } from "#queries/authors";
 import {
   deleteGenericEntity,
   getGenericEntity,
   updateGenericEntity,
   zodToValidationResult,
 } from "@/app/api/lib/generic-crud";
-import { deleteAuthor, updateAuthor } from '#mutations/authors';
-import { getAuthorById } from '#queries/authors';
 import { authorIdSchema, updateAuthorSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 

@@ -9,16 +9,10 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
+import { resendVerificationEmailAction } from "#actions/auth";
+import { Button } from "#ui/button";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "#ui/card";
 import { AuthForm, EmailField } from "@/components/auth";
-import { Button } from '#ui/button';
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '#ui/card';
-import { resendVerificationEmailAction } from '#actions/auth';
 import type { ResendVerificationEmailInput } from "@/lib/validations";
 import { resendVerificationEmailSchema } from "@/lib/validations";
 

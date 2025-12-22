@@ -2,7 +2,7 @@
 // CHAPTER ACTIONS - UNIT TESTS
 // ═══════════════════════════════════════════════════
 
-import { createChapter, getChapterImages, updateChapter } from '#actions/chapter';
+import { createChapter, getChapterImages, updateChapter } from "#actions/chapter";
 import * as authLib from "auth";
 import * as mutations from "src/database/mutations";
 import * as queries from "src/database/queries";

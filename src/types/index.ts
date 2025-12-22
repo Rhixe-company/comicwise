@@ -2,14 +2,26 @@
 // TYPES INDEX - Centralized Type Exports (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-// Database Types
-export * from "src/types/database";
+// API Types
+export * from "./api";
+export * from "./dto";
 
+// System Types
+export * from "./cache";
+export * from "./cli";
+export * from "./monitoring";
+export * from "./queue";
+export * from "./upload";
+
+// Database Types
+export * from "./database";
+export { ApiError as DatabaseApiError } from "./database";
 // Internal Types
-export * from "src/types/internal";
+export * from "./internal";
 
 // Note: globals.d.ts is automatically included by TypeScript
-// Don't re-export to avoid duplicates
+// Re-export commonly used types for convenience
+export type { ActionResponse, ApiResponse } from "./api";
 
 // ═══════════════════════════════════════════════════
 // COMMON UTILITY TYPES
@@ -54,4 +66,3 @@ export type Exact<T, Shape> = T extends Shape
     ? T
     : never
   : never;
-

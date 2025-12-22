@@ -49,6 +49,7 @@
     "clean": "rimraf .next out dist build .turbo coverage .react-email",
     "clean:all": "pnpm clean && rimraf node_modules pnpm-lock.yaml",
     "clean:cache": "rimraf .next/cache",
+    "cleanup:project": "tsx scripts/cleanup-project.ts",
     "clear-stub": "ts-stub --clear",
     "codemod:replace-upload": "jscodeshift -t scripts/codemods/replace-upload-with-hook.jscodeshift.js --extensions=ts,tsx src/app",
     "cspell": "cspell \"**/*.{ts,tsx,js,jsx,json,md}\"",
@@ -101,6 +102,7 @@
     "email:test": "tsx --env-file=.env.local scripts/test-email.ts",
     "find-deadcode": "ts-prune",
     "find-unused": "tsx scripts/find-unused.ts",
+    "fix:all": "tsx scripts/fix-all-errors.ts",
     "format": "prettier --config .prettierrc.ts --write \"**/*.{ts,tsx,js,jsx,mjs,mts,cjs,cts,json,css,md}\"",
     "format:check": "prettier --config .prettierrc.ts --check \"**/*.{ts,tsx,js,jsx,mjs,mts,cjs,cts,json,css,md}\"",
     "health:all": "pnpm health:db && pnpm health:redis",
@@ -185,9 +187,7 @@
     "upload:test": "tsx --env-file=.env.local scripts/test-upload.ts",
     "validate": "pnpm type-check && pnpm lint:strict && pnpm format:check",
     "validate:quick": "pnpm type-check && pnpm lint",
-    "workflow:test": "tsx --env-file=.env.local scripts/test-workflow.ts",
-    "cleanup:project": "tsx scripts/cleanup-project.ts",
-    "fix:all": "tsx scripts/fix-all-errors.ts"
+    "workflow:test": "tsx --env-file=.env.local scripts/test-workflow.ts"
   },
   "dependencies": {
     "@auth/core": "^0.34.3",

@@ -3,7 +3,7 @@
 // Next.js 16.0.7 + Cloudinary Integration
 // ═══════════════════════════════════════════════════
 
-import { env } from 'appConfig';
+import { env } from "appConfig";
 import { v2 as cloudinary } from "cloudinary";
 
 import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";

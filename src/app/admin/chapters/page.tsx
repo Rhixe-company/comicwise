@@ -1,6 +1,6 @@
+import { chapter, comic } from "#schema";
+import { Button } from "#ui/button";
 import { DataTable } from "@/components/admin/DataTable";
-import { Button } from '#ui/button';
-import { chapter, comic } from '#schema';
 import { db } from "@/database/db";
 import { eq } from "drizzle-orm";
 import { Plus } from "lucide-react";

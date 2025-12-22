@@ -1,6 +1,6 @@
-import { env } from 'appConfig';
 import type { SendEmailParams } from "@/lib/email";
 import { sendEmail } from "@/lib/email";
+import { env } from "appConfig";
 import type { Job } from "bullmq";
 import { Queue, Worker } from "bullmq";
 import IORedis from "ioredis";

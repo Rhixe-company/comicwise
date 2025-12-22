@@ -1,4 +1,4 @@
-import appConfig, { checkRateLimit, env } from 'appConfig';
+import appConfig, { env } from "appConfig";
 import nodemailer from "nodemailer";
 
 import type { MailOptions, Transporter } from "nodemailer";

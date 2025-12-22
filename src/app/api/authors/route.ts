@@ -2,9 +2,9 @@
 // AUTHORS API - Full CRUD
 // ═══════════════════════════════════════════════════
 
-import { createAuthor } from '#mutations/authors';
-import { getAllAuthors } from '#queries/authors';
-import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/generic-crud";
+import { createAuthor } from "#mutations/authors";
+import { getAllAuthors } from "#queries/authors";
+import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/genericCrud";
 import { authorFilterSchema, createAuthorSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 

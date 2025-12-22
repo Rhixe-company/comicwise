@@ -36,11 +36,11 @@ declare module "@/app-config" {
   export function checkRateLimit(
     identifier: string,
     options?: { limit?: number; window?: string }
-  ): Promise<{ 
-    success: boolean; 
+  ): Promise<{
+    success: boolean;
     allowed: boolean;
-    limit: number; 
-    remaining: number; 
+    limit: number;
+    remaining: number;
     reset: number;
   }>;
 
@@ -115,5 +115,3 @@ declare module "@/app-config" {
 
   export default appConfig;
 }
-
-

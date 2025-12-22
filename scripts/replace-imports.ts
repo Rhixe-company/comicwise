@@ -34,54 +34,91 @@ if (isDryRun) console.log("⚠️  DRY RUN MODE - No files will be modified\n");
  */
 const patterns = [
   // Fix relative imports to use path aliases
-  { from: /from ["'](?:\.{2}\/){3}components\/ui\/(.*?)["']/g, to: "from '#ui/$1'" },
+  { from: /from ["'](?:\.{2}\/){3,}components\/ui\/(.*?)["']/g, to: "from '#ui/$1'" },
   { from: /from ["']\.\.\/\.\.\/components\/ui\/(.*?)["']/g, to: "from '#ui/$1'" },
   { from: /from ["']\.\.\/components\/ui\/(.*?)["']/g, to: "from '#ui/$1'" },
 
-  { from: /from ["'](?:\.{2}\/){3}components\/(.*?)["']/g, to: "from '#components/$1'" },
+  { from: /from ["'](?:\.{2}\/){3,}components\/emails\/(.*?)["']/g, to: "from '#emails/$1'" },
+  { from: /from ["']\.\.\/\.\.\/components\/emails\/(.*?)["']/g, to: "from '#emails/$1'" },
+  { from: /from ["']\.\.\/components\/emails\/(.*?)["']/g, to: "from '#emails/$1'" },
+
+  { from: /from ["'](?:\.{2}\/){3,}components\/layout\/(.*?)["']/g, to: "from '#layout/$1'" },
+  { from: /from ["']\.\.\/\.\.\/components\/layout\/(.*?)["']/g, to: "from '#layout/$1'" },
+  { from: /from ["']\.\.\/components\/layout\/(.*?)["']/g, to: "from '#layout/$1'" },
+
+  { from: /from ["'](?:\.{2}\/){3,}components\/(.*?)["']/g, to: "from '#components/$1'" },
   { from: /from ["']\.\.\/\.\.\/components\/(.*?)["']/g, to: "from '#components/$1'" },
   { from: /from ["']\.\.\/components\/(.*?)["']/g, to: "from '#components/$1'" },
 
-  { from: /from ["'](?:\.{2}\/){3}lib\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
+  { from: /from ["'](?:\.{2}\/){3,}actions\/(.*?)["']/g, to: "from '#actions/$1'" },
+  { from: /from ["']\.\.\/\.\.\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
+  { from: /from ["']\.\.\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
+
+  { from: /from ["'](?:\.{2}\/){3,}lib\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
   { from: /from ["']\.\.\/\.\.\/lib\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
   { from: /from ["']\.\.\/lib\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
 
-  { from: /from ["'](?:\.{2}\/){3}lib\/(.*?)["']/g, to: "from '#lib/$1'" },
+  { from: /from ["'](?:\.{2}\/){3,}lib\/dto\/(.*?)["']/g, to: "from '#dto/$1'" },
+  { from: /from ["']\.\.\/\.\.\/lib\/dto\/(.*?)["']/g, to: "from '#dto/$1'" },
+  { from: /from ["']\.\.\/lib\/dto\/(.*?)["']/g, to: "from '#dto/$1'" },
+
+  { from: /from ["'](?:\.{2}\/){3,}lib\/(.*?)["']/g, to: "from '#lib/$1'" },
   { from: /from ["']\.\.\/\.\.\/lib\/(.*?)["']/g, to: "from '#lib/$1'" },
   { from: /from ["']\.\.\/lib\/(.*?)["']/g, to: "from '#lib/$1'" },
 
-  { from: /from ["'](?:\.{2}\/){3}database\/(.*?)["']/g, to: "from '#database/$1'" },
+  { from: /from ["'](?:\.{2}\/){3,}database\/(.*?)["']/g, to: "from '#database/$1'" },
   { from: /from ["']\.\.\/\.\.\/database\/(.*?)["']/g, to: "from '#database/$1'" },
   { from: /from ["']\.\.\/database\/(.*?)["']/g, to: "from '#database/$1'" },
 
-  { from: /from ["'](?:\.{2}\/){3}ho{2}ks\/(.*?)["']/g, to: "from '#hooks/$1'" },
+  { from: /from ["'](?:\.{2}\/){3,}hooks\/(.*?)["']/g, to: "from '#hooks/$1'" },
   { from: /from ["']\.\.\/\.\.\/hooks\/(.*?)["']/g, to: "from '#hooks/$1'" },
   { from: /from ["']\.\.\/hooks\/(.*?)["']/g, to: "from '#hooks/$1'" },
+
+  { from: /from ["'](?:\.{2}\/){3,}services\/(.*?)["']/g, to: "from '#services/$1'" },
+  { from: /from ["']\.\.\/\.\.\/services\/(.*?)["']/g, to: "from '#services/$1'" },
+  { from: /from ["']\.\.\/services\/(.*?)["']/g, to: "from '#services/$1'" },
 
   // Fix old style imports to new style
   { from: /from ["']@\/components\/ui\/(.*?)["']/g, to: "from '#ui/$1'" },
   { from: /from ["']@\/components\/emails\/(.*?)["']/g, to: "from '#emails/$1'" },
   { from: /from ["']@\/components\/layout\/(.*?)["']/g, to: "from '#layout/$1'" },
   { from: /from ["']@\/lib\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
+  { from: /from ["']@\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
+  { from: /from ["']@\/lib\/dto\/(.*?)["']/g, to: "from '#dto/$1'" },
   { from: /from ["']@\/lib\/validations\/(.*?)["']/g, to: "from '#validations/$1'" },
   { from: /from ["']@\/database\/queries\/(.*?)["']/g, to: "from '#queries/$1'" },
   { from: /from ["']@\/database\/mutations\/(.*?)["']/g, to: "from '#mutations/$1'" },
   { from: /from ["']@\/database\/schema["']/g, to: "from '#schema'" },
+  { from: /from ["']@\/services\/(.*?)["']/g, to: "from '#services/$1'" },
 
   // Normalize special imports
   { from: /from ["']@\/app-config["']/g, to: "from 'appConfig'" },
   { from: /from ["']src\/app-config["']/g, to: "from 'appConfig'" },
-  { from: /from ["']\.\.\/app-config["']/g, to: "from 'appConfig'" },
-  { from: /from ["']\.\.\/\.\.\/app-config["']/g, to: "from 'appConfig'" },
+  { from: /from ["'](?:\.{2}\/)+app-config["']/g, to: "from 'appConfig'" },
 
+  { from: /from ["']@\/database\/db["']/g, to: "from 'db'" },
   { from: /from ["']src\/database\/db["']/g, to: "from 'db'" },
-  { from: /from ["']database\/db["']/g, to: "from 'db'" },
+  { from: /from ["'](?:\.{2}\/)+database\/db["']/g, to: "from 'db'" },
 
   { from: /from ["']@\/lib\/utils["']/g, to: "from 'utils'" },
   { from: /from ["']src\/lib\/utils["']/g, to: "from 'utils'" },
+  { from: /from ["'](?:\.{2}\/)+lib\/utils["']/g, to: "from 'utils'" },
 
+  { from: /from ["']@\/lib\/auth-config["']/g, to: "from 'auth'" },
   { from: /from ["']@\/lib\/auth["']/g, to: "from 'auth'" },
+  { from: /from ["']src\/lib\/auth-config["']/g, to: "from 'auth'" },
   { from: /from ["']src\/lib\/auth["']/g, to: "from 'auth'" },
+
+  // Fix src/types imports
+  { from: /from ["']src\/types["']/g, to: "from 'types'" },
+  { from: /from ["'](?:\.{2}\/)+types["']/g, to: "from 'types'" },
+
+  // Export patterns
+  { from: /export \* from ["'](?:\.{2}\/)+types\/(.*?)["']/g, to: 'export * from "./$1"' },
+  {
+    from: /export type \{ (.*?) \} from ["']src\/types["']/g,
+    to: 'export type { $1 } from "types"',
+  },
 ];
 
 /**

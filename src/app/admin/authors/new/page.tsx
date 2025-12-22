@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from '#ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#ui/card';
+import { Button } from "#ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
 import {
   Form,
   FormControl,
@@ -10,9 +10,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '#ui/form';
-import { Input } from '#ui/input';
-import { Textarea } from '#ui/textarea';
+} from "#ui/form";
+import { Input } from "#ui/input";
+import { Textarea } from "#ui/textarea";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";

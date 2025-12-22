@@ -4,15 +4,15 @@
 // COMICS CRUD SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import appConfig from 'appConfig';
+import { comic, comicToGenre } from "#schema";
 import { db as database } from "@/database/db";
-import { comic, comicToGenre } from '#schema';
-import { slugify } from 'utils';
 import type { ComicFilterInput, CreateComicInput, UpdateComicInput } from "@/lib/validations";
 import { comicFilterSchema, createComicSchema, updateComicSchema } from "@/lib/validations";
 import type { Genre } from "@/types/database-auto";
+import appConfig from "appConfig";
 import { and, desc, eq, like, sql, type SQL } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { slugify } from "utils";
 
 type ParsedCreateComic = CreateComicInput & { slug?: string };
 type ParsedUpdateComic = UpdateComicInput & { slug?: string };

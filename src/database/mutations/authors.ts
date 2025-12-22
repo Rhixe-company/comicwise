@@ -1,5 +1,5 @@
+import { author } from "#schema";
 import { db as database } from "@/database/db";
-import { author } from '#schema';
 import { eq } from "drizzle-orm";
 
 export async function createAuthor(data: {

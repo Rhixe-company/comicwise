@@ -11,12 +11,12 @@
  * - Image download caching
  */
 
-import { isDevelopment } from 'appConfig';
 import { db as database } from "@/database/db";
 import type { SeedConfig } from "@/database/seed/config";
 import { parseCLIArgs } from "@/database/seed/config";
 import { logger } from "@/database/seed/logger";
 import { SeedOrchestrator } from "@/database/seed/orchestrator";
+import { isDevelopment } from "appConfig";
 import { sql } from "drizzle-orm";
 
 async function seed(config: SeedConfig) {

@@ -4,16 +4,9 @@
 // VERIFY EMAIL PAGE (Next.js 16 + React 19)
 // ═══════════════════════════════════════════════════
 
-import { Button } from '#ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '#ui/card';
-import { verifyEmailAction } from '#actions/auth';
+import { verifyEmailAction } from "#actions/auth";
+import { Button } from "#ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "#ui/card";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";

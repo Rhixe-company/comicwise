@@ -2,7 +2,7 @@ import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { env, isDevelopment } from 'appConfig';
+import { env, isDevelopment } from "appConfig";
 // ═══════════════════════════════════════════════════
 // DATABASE CLIENT (Next.js 16.0.7 Optimized)
 // ═══════════════════════════════════════════════════
@@ -13,7 +13,7 @@ import { env, isDevelopment } from 'appConfig';
 // - Edge-compatible configuration
 // - Connection caching for serverless environments
 // ═══════════════════════════════════════════════════
-import * as schema from '#schema';
+import * as schema from "#schema";
 
 if (!env.DATABASE_URL) {
   console.warn("DATABASE_URL not set — database connections may fail in runtime.");

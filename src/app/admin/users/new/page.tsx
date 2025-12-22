@@ -1,17 +1,10 @@
 "use client";
 
-import { Button } from '#ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#ui/card';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '#ui/form';
-import { Input } from '#ui/input';
-import { registerUser } from '#actions/users';
+import { registerUser } from "#actions/users";
+import { Button } from "#ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "#ui/form";
+import { Input } from "#ui/input";
 import { signUpSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";

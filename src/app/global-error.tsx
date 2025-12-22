@@ -1,6 +1,6 @@
 "use client";
 
-import { isDevelopment } from 'appConfig';
+import { isDevelopment } from "appConfig";
 import { AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";

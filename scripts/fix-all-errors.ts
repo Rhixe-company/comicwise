@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
-import { execSync } from "child_process";
 import chalk from "chalk";
+import { execSync } from "child_process";
 import ora from "ora";
 
 interface FixResult {
@@ -10,10 +10,7 @@ interface FixResult {
   output: string;
 }
 
-async function runCommand(
-  command: string,
-  description: string
-): Promise<FixResult> {
+async function runCommand(command: string, description: string): Promise<FixResult> {
   const spinner = ora(description).start();
 
   try {
@@ -116,24 +113,16 @@ async function main() {
         ? chalk.red("✗")
         : chalk.yellow("⚠");
 
-    console.log(
-      `${status} ${name}: ${result.errors} errors, ${result.warnings} warnings`
-    );
+    console.log(`${status} ${name}: ${result.errors} errors, ${result.warnings} warnings`);
   }
 
-  console.log(
-    chalk.bold.cyan(
-      `\nTotal: ${totalErrors} errors, ${totalWarnings} warnings\n`
-    )
-  );
+  console.log(chalk.bold.cyan(`\nTotal: ${totalErrors} errors, ${totalWarnings} warnings\n`));
 
   if (allPassed && totalWarnings === 0) {
     console.log(chalk.bold.green("✨ All checks passed!\n"));
     process.exit(0);
   } else if (totalErrors === 0) {
-    console.log(
-      chalk.bold.yellow("⚠ All errors fixed, but warnings remain\n")
-    );
+    console.log(chalk.bold.yellow("⚠ All errors fixed, but warnings remain\n"));
     process.exit(0);
   } else {
     console.log(chalk.bold.red("❌ Some errors could not be auto-fixed\n"));

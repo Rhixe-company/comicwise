@@ -1,5 +1,4 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -8,5 +7,6 @@
       "@/app-config": ["./app-config.ts"]
     }
   },
+  "extends": "./tsconfig.json",
   "include": ["scripts/**/*", "cli/**/*"]
 }

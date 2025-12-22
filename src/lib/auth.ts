@@ -10,9 +10,9 @@ import NextAuth from "next-auth";
 /**
  * Server-side authentication helpers
  */
+import { user } from "#schema";
 import { db as database } from "@/database/db";
-import { user } from '#schema';
-import { authOptions } from "@/lib/auth-config";
+import { authOptions } from "@/lib/authConfig";
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
 

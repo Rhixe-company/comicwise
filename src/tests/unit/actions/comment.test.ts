@@ -2,12 +2,12 @@
 // COMMENT ACTIONS - UNIT TESTS
 // ═══════════════════════════════════════════════════
 
-import { createComment, deleteComment, updateComment } from '#actions/comments';
+import { createComment, deleteComment, updateComment } from "#actions/comments";
 import * as mutations from "src/database/mutations";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { checkRateLimit } from 'appConfig';
+import { checkRateLimit } from "appConfig";
 
 // Mock dependencies
 vi.mock("mutations");

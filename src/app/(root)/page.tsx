@@ -1,6 +1,6 @@
+import { Button } from "#ui/button";
+import { Skeleton } from "#ui/skeleton";
 import { ComicCard } from "@/components/ComicCard";
-import { Button } from '#ui/button';
-import { Skeleton } from '#ui/skeleton';
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";

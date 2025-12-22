@@ -5,9 +5,9 @@
 
 "use server";
 
+import { artist } from "#schema";
 import { db as database } from "@/database/db";
-import { artist } from '#schema';
-import { requireRole } from 'auth';
+import { requireRole } from "auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 

@@ -1,6 +1,6 @@
-import { env } from 'appConfig';
+import { Button } from "#ui/button";
 import { DataTable } from "@/components/admin/DataTable";
-import { Button } from '#ui/button';
+import { env } from "appConfig";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";

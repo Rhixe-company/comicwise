@@ -12,28 +12,28 @@ export async function health(options: any) {
     {
       name: "TypeScript Config",
       check: () => fs.existsSync("tsconfig.json"),
-      status: true
+      status: true,
     },
     {
       name: "Environment Variables",
       check: () => fs.existsSync(".env.local"),
-      status: true
+      status: true,
     },
     {
       name: "Node Modules",
       check: () => fs.existsSync("node_modules"),
-      status: true
+      status: true,
     },
     {
       name: "Database Config",
       check: () => fs.existsSync("drizzle.config.ts"),
-      status: true
+      status: true,
     },
     {
       name: "Next.js Config",
       check: () => fs.existsSync("next.config.ts"),
-      status: true
-    }
+      status: true,
+    },
   ];
 
   for (const check of checks) {

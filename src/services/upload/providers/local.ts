@@ -77,7 +77,9 @@ export class LocalProvider implements UploadProvider {
         : path.extname(originalName) || ".jpg";
       // If filename already has extension, use as-is; otherwise append extension
       const filename = options.filename
-        ? (path.extname(options.filename) ? options.filename : `${options.filename}${ext}`)
+        ? path.extname(options.filename)
+          ? options.filename
+          : `${options.filename}${ext}`
         : `${hash}${ext}`;
 
       // Create directory structure

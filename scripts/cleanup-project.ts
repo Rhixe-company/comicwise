@@ -1,8 +1,8 @@
 #!/usr/bin/env tsx
-import fs from "fs-extra";
-import path from "path";
 import chalk from "chalk";
+import fs from "fs-extra";
 import ora from "ora";
+import path from "path";
 
 interface CleanupConfig {
   rootDir: string;
@@ -118,9 +118,7 @@ async function cleanupUnusedFiles() {
       }
     }
 
-    spinner.succeed(
-      chalk.green(`✓ Cleanup complete! Removed ${cleaned} files.`)
-    );
+    spinner.succeed(chalk.green(`✓ Cleanup complete! Removed ${cleaned} files.`));
   } catch (error) {
     spinner.fail(chalk.red("✗ Cleanup failed"));
     console.error(error);
@@ -137,9 +135,7 @@ async function optimizeFolderStructure() {
 
     const keepDocs = ["README.md", "LICENSE"];
     const allFiles = await fs.readdir(config.rootDir);
-    const mdFiles = allFiles.filter(
-      (f) => f.endsWith(".md") && !keepDocs.includes(f)
-    );
+    const mdFiles = allFiles.filter((f) => f.endsWith(".md") && !keepDocs.includes(f));
 
     for (const mdFile of mdFiles) {
       const sourcePath = path.join(config.rootDir, mdFile);
@@ -149,9 +145,7 @@ async function optimizeFolderStructure() {
       }
     }
 
-    spinner.succeed(
-      chalk.green(`✓ Moved ${mdFiles.length} docs to docs/ folder`)
-    );
+    spinner.succeed(chalk.green(`✓ Moved ${mdFiles.length} docs to docs/ folder`));
   } catch (error) {
     spinner.fail(chalk.red("✗ Folder optimization failed"));
     console.error(error);

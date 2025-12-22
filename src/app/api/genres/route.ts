@@ -2,7 +2,7 @@
 // GENRES API - Full CRUD
 // ═══════════════════════════════════════════════════
 
-import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/generic-crud";
+import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/genericCrud";
 import { createGenreSchema, genreFilterSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { createGenre } from "src/database/mutations/genres";

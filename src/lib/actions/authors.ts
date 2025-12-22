@@ -1,17 +1,19 @@
 "use server";
 
-import appConfig, { checkRateLimit } from 'appConfig';
+import { error } from "#actions/utils";
 import * as mutations from "@/database/mutations";
-import { error } from '#actions/utils';
 import { createAuthorSchema, updateAuthorSchema } from "@/lib/validations";
-import { revalidatePath } from "next/cache";
 import type { ActionResponse } from "@/types";
+import appConfig, { checkRateLimit } from "appConfig";
+import { revalidatePath } from "next/cache";
 import z from "zod";
 
 export async function createAuthor(formData: FormData): Promise<ActionResponse<{ id: number }>> {
   try {
     // Rate limiting
-    const rateLimit = await checkRateLimit("create:author", { limit: appConfig.rateLimit.default });
+    const rateLimit = await checkRateLimit("create:author", {
+      limit: appConfig.rateLimit.default.requests,
+    });
     if (!rateLimit.allowed) {
       return error("Too many requests. Please try again later.");
     }

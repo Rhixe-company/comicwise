@@ -10,10 +10,10 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
+import { registerUserAction } from "#actions/auth";
+import { Button } from "#ui/button";
+import { Separator } from "#ui/separator";
 import { AuthForm, EmailField, NameField, PasswordField } from "@/components/auth";
-import { Button } from '#ui/button';
-import { Separator } from '#ui/separator';
-import { registerUserAction } from '#actions/auth';
 import type { SignUpInput } from "@/lib/validations";
 import { signUpSchema } from "@/lib/validations";
 

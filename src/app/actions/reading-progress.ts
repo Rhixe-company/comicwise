@@ -1,8 +1,8 @@
 "use server";
 
-import { chapter, comic, readingProgress } from '#schema';
-import { auth } from "auth";
+import { chapter, comic, readingProgress } from "#schema";
 import { db } from "@/database/db";
+import { auth } from "auth";
 import { and, desc, eq, lt } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 

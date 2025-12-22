@@ -1,4 +1,3 @@
-import appConfig, { checkRateLimit } from 'appConfig';
 import {
   Body,
   Button,
@@ -11,6 +10,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import appConfig from "appConfig";
 
 interface VerificationEmailProps {
   name: string;

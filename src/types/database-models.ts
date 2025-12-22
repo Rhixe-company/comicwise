@@ -5,14 +5,7 @@
 
 import type { InferSelectModel } from "drizzle-orm";
 
-import type {
-  chapter,
-  comic,
-  comicToGenre,
-  comment,
-  readingProgress,
-  user,
-} from '#schema';
+import type { chapter, comic, comicToGenre, comment, readingProgress, user } from "#schema";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // BASE MODEL TYPES (Inferred from Schema)

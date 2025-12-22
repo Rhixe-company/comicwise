@@ -2,7 +2,6 @@
 // IMAGE UPLOAD API - ImageKit Integration
 // ═══════════════════════════════════════════════════
 
-import appConfig, { checkRateLimit } from 'appConfig';
 import {
   fileToBuffer,
   generateUniqueFileName,
@@ -12,6 +11,7 @@ import {
   uploadImage,
   validateImageFile,
 } from "@/lib/imagekit";
+import appConfig from "appConfig";
 import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";

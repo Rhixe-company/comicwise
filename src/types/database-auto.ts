@@ -1,6 +1,6 @@
 import type { InferModel } from "drizzle-orm";
 
-import type * as schema from '#schema';
+import type * as schema from "#schema";
 
 // Per-table model types (read / insert)
 export type Users = InferModel<typeof schema.users>;

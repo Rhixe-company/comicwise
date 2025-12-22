@@ -4,9 +4,9 @@
 // COMPREHENSIVE WORKFLOW SYSTEM (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import appConfig from 'appConfig';
 import emailService, { sendEmail } from "@/lib/email";
 import { checkRateLimit } from "@/lib/ratelimit";
+import appConfig from "appConfig";
 import { z } from "zod";
 
 // ═══════════════════════════════════════════════════
@@ -77,7 +77,9 @@ export async function executeWorkflow(payload: WorkflowPayload) {
 
     // Rate limiting for email workflows
     const rateLimitKey = `workflow:${validatedPayload.recipientEmail}`;
-    const rateLimitResult = await checkRateLimit(rateLimitKey, { limit: appConfig.rateLimit.email });
+    const rateLimitResult = await checkRateLimit(rateLimitKey, {
+      limit: appConfig.rateLimit.email,
+    });
 
     if (!rateLimitResult.allowed) {
       console.warn(`Rate limit exceeded for workflow: ${validatedPayload.type}`);
@@ -225,7 +227,8 @@ async function sendNewChapterNotification(payload: WorkflowPayload) {
     userName: recipientName || "Comic Reader",
     userEmail: recipientEmail,
     comicTitle: data["comicTitle"] as string,
-    comicCoverUrl: (data["comicCoverUrl"] as string) || "https://comicwise.app/placeholder-cover.jpg",
+    comicCoverUrl:
+      (data["comicCoverUrl"] as string) || "https://comicwise.app/placeholder-cover.jpg",
     chapterNumber: data["chapterNumber"] as number,
     chapterTitle: data["chapterTitle"] as string,
     chapterSlug: data["chapterSlug"] as string,

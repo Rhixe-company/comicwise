@@ -186,6 +186,7 @@ node bin/comicwise.mjs
 ```
 
 **CLI Features:**
+
 - 📂 Categorized scripts (Development, Database, Testing, etc.)
 - 🔍 Interactive search and filtering
 - 📖 Built-in documentation for every command
@@ -195,6 +196,7 @@ node bin/comicwise.mjs
 ### 📋 Script Categories
 
 #### Development
+
 ```bash
 pnpm dev              # Start dev server (Turbopack)
 pnpm dev:debug        # Start with Node.js inspector
@@ -205,6 +207,7 @@ pnpm preview          # Build and preview
 ```
 
 #### Code Quality
+
 ```bash
 pnpm validate         # Run all checks (type, lint, format)
 pnpm type-check       # TypeScript validation
@@ -215,6 +218,7 @@ pnpm check-all        # Complete validation suite
 ```
 
 #### Database
+
 ```bash
 pnpm db:push          # Push schema to database
 pnpm db:studio        # Open Drizzle Studio
@@ -225,6 +229,7 @@ pnpm db:backup        # Create database backup
 ```
 
 #### Image Upload & Management
+
 ```bash
 pnpm upload:bulk              # Bulk upload images
 pnpm upload:bulk:cloudinary   # Upload to Cloudinary
@@ -236,6 +241,7 @@ pnpm upload:test              # Test upload service
 ```
 
 #### Cache & Redis
+
 ```bash
 pnpm cache:clear      # Clear all cache
 pnpm cache:stats      # View cache statistics
@@ -246,6 +252,7 @@ pnpm redis:stop       # Stop Redis container
 ```
 
 #### Queue & Background Jobs
+
 ```bash
 pnpm queue:worker     # Start queue worker
 pnpm queue:stats      # View queue statistics
@@ -255,6 +262,7 @@ pnpm qstash:test      # Test QStash workflow
 ```
 
 #### System Health & Monitoring
+
 ```bash
 pnpm health:check     # Complete health check
 pnpm health:db        # Check database connection
@@ -263,6 +271,7 @@ pnpm health:all       # Run all health checks
 ```
 
 #### Testing
+
 ```bash
 pnpm test             # Run Playwright E2E tests
 pnpm test:unit        # Run Vitest unit tests
@@ -273,6 +282,7 @@ pnpm test:all         # Run all test suites
 ```
 
 #### Docker
+
 ```bash
 pnpm docker:dev       # Start dev containers
 pnpm docker:prod      # Start production containers
@@ -285,6 +295,7 @@ pnpm docker:test      # Run Docker health tests
 ```
 
 #### Project Utilities
+
 ```bash
 pnpm setup            # Initial project setup
 pnpm setup:docker     # Setup with Docker
@@ -296,6 +307,7 @@ pnpm update-deps      # Update dependencies
 ### 🔧 Custom Script System
 
 #### Priority-Based Task Execution
+
 ```bash
 pnpm priority:list      # List all tasks by priority
 pnpm priority:run:p0    # Run critical (P0) tasks
@@ -305,11 +317,13 @@ pnpm priority:complete  # Mark tasks as complete
 ```
 
 #### Workflow Management
+
 ```bash
 pnpm workflow:test      # Test workflow execution
 ```
 
 #### Import Optimization
+
 ```bash
 pnpm imports:optimize   # Optimize all imports
 pnpm imports:check      # Check import paths (dry-run)
@@ -332,6 +346,7 @@ alias cws='pnpm db:seed'
 ### 📚 CLI Documentation
 
 Every script includes:
+
 - Description of what it does
 - Required environment variables
 - Usage examples
@@ -339,6 +354,7 @@ Every script includes:
 - Troubleshooting tips
 
 Access documentation:
+
 ```bash
 pnpm cli --help          # General help
 pnpm cli search <term>   # Search for commands
@@ -608,6 +624,7 @@ for details.
 ComicWise includes a comprehensive theming system with:
 
 ### Features
+
 - 🌓 **Dark/Light Mode** - Seamless theme switching
 - 🎨 **Custom Themes** - Create and apply custom color schemes
 - 💾 **Theme Persistence** - Saves user preferences
@@ -621,7 +638,7 @@ import { useTheme } from "next-themes";
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  
+
   return (
     <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
       Toggle Theme
@@ -681,6 +698,7 @@ module.exports = {
 ComicWise includes pre-configured CI/CD workflows:
 
 #### Continuous Integration
+
 ```yaml
 # .github/workflows/ci.yml
 - Type checking
@@ -691,6 +709,7 @@ ComicWise includes pre-configured CI/CD workflows:
 ```
 
 #### Deployment
+
 ```yaml
 # .github/workflows/deploy.yml
 - Docker image building
@@ -702,6 +721,7 @@ ComicWise includes pre-configured CI/CD workflows:
 ### Pre-commit Hooks
 
 Automatic code quality checks:
+
 ```bash
 # Configured via Husky
 - ESLint
@@ -711,6 +731,7 @@ Automatic code quality checks:
 ```
 
 ### CI Health Tracking
+
 ```bash
 pnpm ci              # Run CI checks locally
 pnpm ci:full         # Complete CI suite
@@ -722,22 +743,26 @@ pnpm ci:test         # Run CI tests
 ## 📘 Complete Documentation
 
 ### Getting Started
+
 - [Quick Start Guide](docs/SETUP.md)
 - [Docker Setup](docs/DOCKER_ENV_SETUP.md)
 - [Environment Configuration](docs/CONFIG_FILE_INDEX.md)
 
 ### Development
+
 - [CLI Reference](docs/CLI_REFERENCE.md)
 - [Workflow Chaining](docs/WORKFLOW_CHAINING.md)
 - [Error Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Pro Tips & Shortcuts](docs/PRO_TIPS.md)
 
 ### Deployment
+
 - [Production Deployment](docs/DEPLOYMENT.md)
 - [CI/CD Templates](docs/CICD_TEMPLATES.md)
 - [Environment Variables](.envs/README.md)
 
 ### Architecture
+
 - [Project Structure](docs/ARCHITECTURE.md)
 - [Database Schema](docs/DATABASE.md)
 - [API Reference](docs/API.md)
@@ -766,6 +791,7 @@ pnpm cli scaffold crud <resource>
 ```
 
 ### Template Features
+
 - Pre-configured TypeScript types
 - Built-in error handling
 - Validation schemas
@@ -777,11 +803,13 @@ pnpm cli scaffold crud <resource>
 ## 🗺️ Roadmap
 
 ### In Progress
+
 - [ ] Advanced analytics dashboard
 - [ ] Real-time notifications with WebSockets
 - [ ] AI-powered comic recommendations
 
 ### Planned
+
 - [ ] Mobile app (React Native)
 - [ ] Advanced search with Elasticsearch
 - [ ] Social features (follow, activity feed)
@@ -792,6 +820,7 @@ pnpm cli scaffold crud <resource>
 - [ ] Micro-frontends architecture
 
 ### Completed ✅
+
 - [x] Docker containerization
 - [x] CLI system with 100+ scripts
 - [x] Bulk image upload
@@ -806,6 +835,7 @@ pnpm cli scaffold crud <resource>
 ## 🎯 Performance
 
 ### Optimizations
+
 - ⚡ **Next.js 16 Turbopack** - Lightning-fast builds
 - 🗜️ **Image Optimization** - Automatic WebP conversion
 - 📦 **Code Splitting** - Route-based chunking
@@ -814,6 +844,7 @@ pnpm cli scaffold crud <resource>
 - 🎨 **CSS-in-JS** - Zero runtime overhead with Tailwind
 
 ### Benchmarks
+
 - Lighthouse Score: 95+
 - First Contentful Paint: < 1.5s
 - Time to Interactive: < 3s

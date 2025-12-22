@@ -1,4 +1,4 @@
-import { env } from 'appConfig';
+import { env } from "appConfig";
 
 export async function proxyFetch(path: string, init?: RequestInit) {
   const base = env.AUTH_URL ?? env.NEXT_PUBLIC_APP_URL ?? `http://localhost:${env.PORT ?? 3000}`;

@@ -1,8 +1,8 @@
-import { Button } from '#ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#ui/card';
-import { Input } from '#ui/input';
-import { Textarea } from '#ui/textarea';
-import { deleteType, updateType } from '#actions/types';
+import { deleteType, updateType } from "#actions/types";
+import { Button } from "#ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
+import { Input } from "#ui/input";
+import { Textarea } from "#ui/textarea";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

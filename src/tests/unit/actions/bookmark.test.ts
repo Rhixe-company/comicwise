@@ -2,7 +2,7 @@
 // BOOKMARK ACTIONS - UNIT TESTS
 // ═══════════════════════════════════════════════════
 
-import { addBookmark, getBookmarks, removeBookmark, updateProgress } from '#actions/bookmark';
+import { addBookmark, getBookmarks, removeBookmark, updateProgress } from "#actions/bookmark";
 import * as authLib from "auth";
 import * as mutations from "src/database/mutations";
 import * as queries from "src/database/queries";

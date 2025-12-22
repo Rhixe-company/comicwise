@@ -1,0 +1,30 @@
+Dont Create A summary or explanation, just tasks.
+Read And understand this project, @.md, @.txt, @.ts, @.tsx, @.mjs, @.json , @.mts, @.json @.yml   @.ps1 @.sh @Dockerfile files, the package manager pnpm, and the overall structure of the project. After fully understanding the project,
+Create an Optimized @src/types/* file that defines all types and interfaces for this project to ensure type safety and consistency across the codebase and update all my project types to the new types.
+Setup custom paths in @/tsconfig.json for better module resolution and cleaner imports throughout the project.
+Optimize @/scripts/replace-imports.ts to ensure all import and export paths are updated according to the new custom paths defined in @/tsconfig.json.
+Optimize all scripts at @package.json and all powershell and bash scripts in @/scripts to ensure they follow best practices and are efficient.
+Refactor and update all  @.ts, @.tsx files and functions to   use CamelCase change filename if needed ensure all fields in @src/database/schema.ts uses CamelCase update all needed files and functions Optimize all files with "use server" by creating an enhanced dto version at @src/actions updating all usage to the dto files and   deleting old files
+What do you recommend, completely implement all your recommendations for this project with the following features:
+Easy project scaffolding with templates
+Use 100+ organized scripts with clear categories
+Bulk upload images to multiple cloud providers
+Monitor system health with built-in checks
+Manage cache with Redis commands
+Run queue workers for background jobs
+Use shell aliases for lightning-fast commands
+Track CI health with automated workflows
+Reference complete docs for any command - Tab completion for all scripts
+Workflow chaining examples
+Error troubleshooting guides
+Pro tips and shortcuts
+CI/CD templates
+Complete onboarding guide
+Tab completion for all scripts
+Workflow chaining examples
+Error troubleshooting guides
+Pro tips and shortcuts
+CI/CD templates
+Complete onboarding guide
+Perform a cleanup of @src by deleting unused files and optimizing the folder structure for better maintainability.
+Finally fix all type-check lint errors and warnings

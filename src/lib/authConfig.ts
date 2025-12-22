@@ -1,0 +1,168 @@
+import * as bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
+import type { User as AuthUser, Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+
+import { user as userTable } from "#schema";
+import { db as database } from "@/database/db";
+import { DrizzleAdapter } from "@/lib/authAdapter";
+import appConfig from "appConfig";
+
+export const authOptions = {
+  session: {
+    strategy: "jwt" as const,
+    maxAge: appConfig.session.maxAge,
+    updateAge: appConfig.session.updateAge,
+  },
+  adapter: DrizzleAdapter(database),
+  pages: {
+    signIn: "/sign-in",
+    error: "/sign-in",
+  },
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "your@email.com" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials): Promise<AuthUser | null> {
+        if (!credentials) return null;
+
+        const email = String(credentials.email ?? "");
+        const password = String(credentials.password ?? "");
+
+        if (!email || !password) {
+          throw new Error("Invalid credentials");
+        }
+
+        const userRecord = await database.query.user.findFirst({
+          where: eq(userTable.email, email),
+        });
+
+        if (!userRecord) {
+          throw new Error("No user found with this email");
+        }
+
+        if (!userRecord.password) {
+          throw new Error("This account was created with OAuth. Use Google Sign-in");
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, userRecord.password);
+
+        if (!isPasswordValid) {
+          throw new Error("Invalid password");
+        }
+
+        if (!userRecord.emailVerified && appConfig.features.emailVerification) {
+          throw new Error("Please verify your email before signing in");
+        }
+
+        return {
+          id: userRecord.id,
+          email: userRecord.email,
+          name: userRecord.name,
+          image: userRecord.image,
+        };
+      },
+    }),
+    ...(appConfig.auth.providers.google &&
+    process.env.AUTH_GOOGLE_CLIENT_ID &&
+    process.env.AUTH_GOOGLE_CLIENT_SECRET
+      ? [
+          GoogleProvider({
+            clientId: process.env.AUTH_GOOGLE_CLIENT_ID,
+            clientSecret: process.env.AUTH_GOOGLE_CLIENT_SECRET,
+            allowDangerousEmailAccountLinking: true,
+          }),
+        ]
+      : []),
+  ],
+  callbacks: {
+    async signIn({ user, account }: { user: AuthUser | undefined; account: any }) {
+      if (account?.provider === "credentials") {
+        return true;
+      }
+
+      if (account?.provider === "google" && user?.email) {
+        // Auto-create user on Google sign-in
+        const existingUser = await database.query.user.findFirst({
+          where: eq(userTable.email, user.email),
+        });
+
+        if (!existingUser) {
+          await database.insert(userTable).values({
+            email: user.email,
+            name: user.name,
+            image: user.image,
+            emailVerified: new Date(),
+            role: "user",
+          });
+        }
+
+        return true;
+      }
+
+      return false;
+    },
+
+    async jwt({
+      token,
+      user,
+      trigger,
+      session,
+    }: {
+      token: JWT;
+      user?: AuthUser;
+      trigger?: string;
+      session?: unknown;
+    }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+        token.picture = user.image;
+      }
+
+      if (trigger === "update" && session) {
+        const sessionData = session as Record<string, unknown>;
+        token = { ...token, ...sessionData };
+      }
+
+      return token;
+    },
+
+    async session({ session, token }: { session: Session; token: JWT }) {
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.name = token.name;
+        session.user.image = token.picture;
+      }
+
+      return session;
+    },
+
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+  },
+  events: {
+    async signIn({ user }: { user: AuthUser }) {
+      console.log(`✅ User signed in: ${user.email}`);
+    },
+    async signOut() {
+      console.log("👋 User signed out");
+    },
+    async error({ error }: { error: unknown }) {
+      console.error("❌ Auth error:", error);
+    },
+  },
+  secret: appConfig.auth.secret,
+} as const;
+
+export default authOptions;

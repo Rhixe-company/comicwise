@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
 
+import { comicToGenre } from "#schema";
 import { db as database } from "@/database/db";
-import { comicToGenre } from '#schema';
 
 /**
  *

@@ -4,9 +4,8 @@
 // AUTH SERVER ACTIONS (Next.js 16 + Rate Limiting + Emails)
 // ═══════════════════════════════════════════════════
 
-import appConfig, { checkRateLimit } from 'appConfig';
+import { passwordResetToken, user, verificationToken } from "#schema";
 import { db as database } from "@/database/db";
-import { passwordResetToken, user, verificationToken } from '#schema';
 import {
   sendAccountUpdatedEmail,
   sendPasswordResetEmail,
@@ -27,6 +26,7 @@ import {
   signUpSchema,
   verifyEmailSchema,
 } from "@/lib/validations";
+import appConfig, { checkRateLimit } from "appConfig";
 import { signIn, signOut } from "auth";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
@@ -57,7 +57,7 @@ async function getClientIP(): Promise<string> {
 }
 
 async function checkAuthRateLimit(identifier: string): Promise<boolean> {
-  const rateLimit = await checkRateLimit(identifier, { limit: appConfig.rateLimit.auth });
+  const rateLimit = await checkRateLimit(identifier, { limit: appConfig.rateLimit.auth.requests });
   return rateLimit.allowed;
 }
 

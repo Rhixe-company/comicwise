@@ -376,6 +376,13 @@
   "typescript.inlayHints.parameterTypes.enabled": true,
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
   "typescript.inlayHints.variableTypes.enabled": true,
+  // ═══════════════════════════════════════════════════════════════
+  // PROJECT-SPECIFIC SETTINGS
+  // ═══════════════════════════════════════════════════════════════
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "**/node_modules/@types/node/**",
+    "**/.next/**"
+  ],
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.includePackageJsonAutoImports": "on",
   "typescript.preferences.preferTypeOnlyAutoImports": true,
@@ -387,14 +394,7 @@
   // ═══════════════════════════════════════════════════════════════
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  
-  // ═══════════════════════════════════════════════════════════════
-  // PROJECT-SPECIFIC SETTINGS
-  // ═══════════════════════════════════════════════════════════════
-  "typescript.preferences.autoImportFileExcludePatterns": [
-    "**/node_modules/@types/node/**",
-    "**/.next/**"
-  ],
+
   "workbench.colorCustomizations": {
     "editorRuler.foreground": "#2e3440"
   },

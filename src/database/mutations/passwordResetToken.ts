@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
+import { passwordResetToken } from "#schema";
 import { db as database } from "@/database/db";
-import { passwordResetToken } from '#schema';
 
 /**
  *
