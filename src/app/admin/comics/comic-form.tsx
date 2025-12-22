@@ -1,11 +1,11 @@
-import { createComic } from "#actions/comics";
+import { createComic } from "#dto/comicsDto";
 import { Button } from "#ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
 import { Input } from "#ui/input";
 import { Label } from "#ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "#ui/select";
 import { Textarea } from "#ui/textarea";
-import type { CreateComicInput } from "@/lib/validations";
+import type { CreateComicInput } from '#lib/validations';
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

@@ -5,4 +5,8 @@
  * Centralized exports for authors server actions
  */
 
-export * from "../actions/authors";
+export {
+  createAuthor,
+  updateAuthor,
+  deleteAuthor,
+} from '#actions/authors';

@@ -5,4 +5,13 @@
  * Centralized exports for auth server actions
  */
 
-export * from "../actions/auth";
+export {
+  registerUserAction,
+  verifyEmailAction,
+  resendVerificationEmailAction,
+  forgotPasswordAction,
+  resetPasswordAction,
+  signInAction,
+  signOutAction,
+  type AuthActionResponse,
+} from '#actions/auth';

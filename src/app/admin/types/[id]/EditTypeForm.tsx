@@ -1,4 +1,4 @@
-import { deleteType, updateType } from "#actions/types";
+import { deleteType, updateType } from "#dto/typesDto";
 import { Button } from "#ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
 import { Input } from "#ui/input";

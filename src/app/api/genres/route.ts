@@ -2,11 +2,11 @@
 // GENRES API - Full CRUD
 // ═══════════════════════════════════════════════════
 
-import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/genericCrud";
-import { createGenreSchema, genreFilterSchema } from "@/lib/validations";
+import { createGenericEntity, listGenericEntity, zodToValidationResult } from '#lib/genericCrud';
+import { createGenreSchema, genreFilterSchema } from '#lib/validations';
 import type { NextRequest } from "next/server";
-import { createGenre } from "src/database/mutations/genres";
-import { getAllGenres } from "src/database/queries/genres";
+import { createGenre } from "#mutations/genres";
+import { getAllGenres } from "#queries/genres";
 
 export async function GET(request: NextRequest) {
   return listGenericEntity(request, {

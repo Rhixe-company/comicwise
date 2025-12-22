@@ -1,4 +1,4 @@
-import { deleteUser, updateUser } from "#actions/users";
+import { deleteUser, updateUser } from "#dto/usersDto";
 import { Button } from "#ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
 import { Input } from "#ui/input";

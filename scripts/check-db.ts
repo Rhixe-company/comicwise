@@ -13,9 +13,10 @@ async function checkDatabase() {
     const result = await db.execute(sql`SELECT version()`);
     console.log("✅ Database connected");
 
-    // Access the result properly for drizzle-orm
-    if (result && result.rows && result.rows.length > 0) {
-      const row = result.rows[0] as Record<string, unknown>;
+    // Handle drizzle-orm result
+    const rows = Array.isArray(result) ? result : [];
+    if (rows.length > 0) {
+      const row = rows[0] as Record<string, unknown>;
       console.log("📊 Version:", row.version || "Unknown");
     }
 

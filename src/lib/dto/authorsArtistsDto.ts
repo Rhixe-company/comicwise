@@ -5,4 +5,4 @@
  * Centralized exports for authorsArtists server actions
  */
 
-export * from "../actions/authorsArtists";
+export * from '#actions/authorsArtists';

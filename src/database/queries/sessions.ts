@@ -1,5 +1,5 @@
 import { session } from "#schema";
-import { db as database } from "@/database/db";
+import { db as database } from '#database/db';
 import { and, eq, gt } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════

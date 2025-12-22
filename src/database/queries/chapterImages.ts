@@ -1,7 +1,7 @@
 import { asc, eq } from "drizzle-orm";
 
 import { chapterImage } from "#schema";
-import { db as database } from "@/database/db";
+import { db as database } from '#database/db';
 
 /**
  *

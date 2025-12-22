@@ -4,7 +4,7 @@
 
 import { deleteChapter, updateChapter } from "#mutations/chapters";
 import { getChapter } from "#queries/chapters";
-import { chapterIdSchema, updateChapterSchema } from "@/lib/validations";
+import { chapterIdSchema, updateChapterSchema } from '#lib/validations';
 import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";

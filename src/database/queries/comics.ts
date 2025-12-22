@@ -1,8 +1,8 @@
 import { artist, author, chapter, comic, comicToGenre, genre, type } from "#schema";
-import { db as database } from "@/database/db";
+import { db as database } from '#database/db';
 import { and, asc, desc, eq, gte, inArray, like, or, sql, type SQL } from "drizzle-orm";
 
-import type { ComicFilters, ComicWithDetails, Genre, PaginatedResponse } from "@/types";
+import type { ComicFilters, ComicWithDetails, Genre, PaginatedResponse } from "types";
 
 export async function getComicByTitle(title: string) {
   return await database.query.comic.findFirst({
@@ -118,25 +118,17 @@ export async function getAllComics(
   }
 
   const totalResult = await totalQuery;
-  const total = (totalResult[0]?.count as number) || 0;
+  const total = Number((totalResult[0]?.count as number) || 0);
 
   return {
     data: results as unknown as ComicWithDetails[],
     pagination: {
       page,
-      limit,
-      total,
+      pageSize: limit,
+      totalItems: total,
       totalPages: Math.ceil(total / limit),
-      hasMore: page < Math.ceil(total / limit),
-      hasPrevious: page > 1,
-    },
-    meta: {
-      page,
-      limit,
-      total,
-      totalPages: Math.ceil(total / limit),
-      hasMore: page < Math.ceil(total / limit),
-      hasPrevious: page > 1,
+      hasNextPage: page < Math.ceil(total / limit),
+      hasPrevPage: page > 1,
     },
   };
 }

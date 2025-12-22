@@ -16,10 +16,10 @@ function createTransporter(): Transporter {
       port: appConfig.email.port,
       secure: appConfig.email.secure,
       auth:
-        appConfig.email.auth && appConfig.email.auth.user && appConfig.email.auth.pass
+        appConfig.email.user && appConfig.email.password
           ? {
-              user: appConfig.email.auth.user,
-              pass: appConfig.email.auth.pass,
+              user: appConfig.email.user,
+              pass: appConfig.email.password,
             }
           : undefined,
     });

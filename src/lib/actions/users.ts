@@ -1,11 +1,11 @@
 "use server";
 
 import { error } from "#actions/utils";
-import * as mutations from "@/database/mutations";
-import * as queries from "@/database/queries";
-import { sendPasswordResetEmail, sendWelcomeEmail } from "@/lib/nodemailer";
-import { signUpSchema } from "@/lib/validations";
-import type { ActionResponse } from "@/types";
+import * as mutations from '#database/mutations';
+import * as queries from '#database/queries';
+import { sendPasswordResetEmail, sendWelcomeEmail } from '#lib/nodemailer';
+import { signUpSchema } from '#lib/validations';
+import type { ActionResponse } from "types";
 import appConfig, { checkRateLimit } from "appConfig";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
@@ -25,7 +25,10 @@ export async function registerUser(formData: FormData): Promise<ActionResponse<{
   try {
     // Rate limiting
     const email = formData.get("email") as string;
-    const rateLimit = checkRateLimit(`register:${email}`, appConfig.rateLimit.auth);
+    const rateLimit = await checkRateLimit(`register:${email}`, {
+      limit: appConfig.rateLimit.auth.requests,
+      window: "30s"
+    });
     if (!rateLimit.allowed) {
       return error("Too many registration attempts. Please try again later.");
     }
@@ -106,7 +109,10 @@ export async function deleteUser(userId: string): Promise<ActionResponse> {
 export async function requestPasswordReset(email: string): Promise<ActionResponse> {
   try {
     // Rate limiting
-    const rateLimit = checkRateLimit(`password-reset:${email}`, appConfig.rateLimit.email);
+    const rateLimit = await checkRateLimit(`password-reset:${email}`, {
+      limit: appConfig.rateLimit.email.requests,
+      window: "60s"
+    });
     if (!rateLimit.allowed) {
       return error("Too many password reset requests. Please try again later.");
     }

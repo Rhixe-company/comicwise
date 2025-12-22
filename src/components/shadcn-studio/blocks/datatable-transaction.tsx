@@ -27,7 +27,7 @@ import {
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } from "ui/pagination";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "ui/table";
 
-import { usePagination } from "src/hooks/use-pagination";
+import { usePagination } from "#hooks/use-pagination";
 
 export interface Item {
   id: string;

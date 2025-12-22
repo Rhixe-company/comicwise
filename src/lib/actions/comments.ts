@@ -1,8 +1,8 @@
 "use server";
 
 import { error } from "#actions/utils";
-import * as mutations from "@/database/mutations";
-import type { ActionResponse } from "@/types";
+import * as mutations from '#database/mutations';
+import type { ActionResponse } from "types";
 import appConfig, { checkRateLimit } from "appConfig";
 import { revalidatePath } from "next/cache";
 import z from "zod";

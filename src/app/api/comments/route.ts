@@ -2,13 +2,13 @@
 // COMMENTS API - Full CRUD with Email Notifications
 // ═══════════════════════════════════════════════════
 
-import { sendCommentNotificationEmail } from "@/lib/email";
-import { createCommentSchema } from "@/lib/validations";
+import { sendCommentNotificationEmail } from '#lib/email';
+import { createCommentSchema } from '#lib/validations';
 import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { createComment } from "src/database/mutations/comments";
-import { getCommentsByChapter } from "src/database/queries/comments";
+import { createComment } from "#mutations/comments";
+import { getCommentsByChapter } from "#queries/comments";
 
 // ═══════════════════════════════════════════════════
 // GET - List Comments with Filtering

@@ -2,8 +2,8 @@
 // AUTH ACTIONS - UNIT TESTS
 // ═══════════════════════════════════════════════════
 
-import { signInAction, signOutAction } from "#actions/auth";
-import * as ratelimitLib from "@/lib/ratelimit";
+import { signInAction, signOutAction } from "#dto/authDto";
+import * as ratelimitLib from '#lib/ratelimit';
 import * as authLib from "auth";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";

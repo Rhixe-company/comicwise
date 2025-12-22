@@ -6,8 +6,8 @@
 
 import crypto from "crypto";
 import path from "path";
-import type { UploadProvider } from "src/services/upload";
-import { getUploadProvider } from "src/services/upload";
+import type { UploadProvider } from "#services/upload";
+import { getUploadProvider } from "#services/upload";
 
 export interface ImageDownloadResult {
   success: boolean;

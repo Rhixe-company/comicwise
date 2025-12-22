@@ -10,12 +10,12 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import { registerUserAction } from "#actions/auth";
+import { registerUserAction } from "#dto/authDto";
 import { Button } from "#ui/button";
 import { Separator } from "#ui/separator";
-import { AuthForm, EmailField, NameField, PasswordField } from "@/components/auth";
-import type { SignUpInput } from "@/lib/validations";
-import { signUpSchema } from "@/lib/validations";
+import { AuthForm, EmailField, NameField, PasswordField } from '#components/auth';
+import type { SignUpInput } from '#lib/validations';
+import { signUpSchema } from '#lib/validations';
 
 const SignUp = () => {
   const [isPending, startTransition] = useTransition();

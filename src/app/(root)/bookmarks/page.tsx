@@ -1,7 +1,7 @@
 import { Badge } from "#ui/badge";
 import { Button } from "#ui/button";
-import { ComicCard } from "@/components/ComicCard";
-import { getUserBookmarks } from "@/database/queries";
+import { ComicCard } from '#components/ComicCard';
+import { getUserBookmarks } from '#database/queries';
 import { auth } from "auth";
 import { BookmarkX } from "lucide-react";
 import Link from "next/link";

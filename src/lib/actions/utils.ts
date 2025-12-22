@@ -2,7 +2,7 @@
 // ACTION UTILITIES (Next.js 16 Optimized)
 // ═══════════════════════════════════════════════════
 
-import type { ActionResponse } from "@/types";
+import type { ActionResponse } from "types";
 
 /**
  * Create a successful action response

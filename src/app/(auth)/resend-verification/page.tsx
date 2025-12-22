@@ -9,12 +9,12 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import { resendVerificationEmailAction } from "#actions/auth";
+import { resendVerificationEmailAction } from "#dto/authDto";
 import { Button } from "#ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "#ui/card";
-import { AuthForm, EmailField } from "@/components/auth";
-import type { ResendVerificationEmailInput } from "@/lib/validations";
-import { resendVerificationEmailSchema } from "@/lib/validations";
+import { AuthForm, EmailField } from '#components/auth';
+import type { ResendVerificationEmailInput } from '#lib/validations';
+import { resendVerificationEmailSchema } from '#lib/validations';
 
 export default function ResendVerificationPage() {
   const [isPending, startTransition] = useTransition();

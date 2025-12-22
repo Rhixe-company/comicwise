@@ -9,7 +9,7 @@ const rateLimitMap = new Map<string, RateLimitRecord>();
 
 export interface RateLimitConfig {
   limit?: number;
-  window?: string;
+  window?: string | number; // Support both string format and numeric seconds
 }
 
 export async function checkRateLimit(
@@ -23,7 +23,9 @@ export async function checkRateLimit(
   reset: number;
 }> {
   const requests = config.limit || appConfig.rateLimit.default.requests;
-  const windowSeconds = config.window ? parseWindow(config.window) : 60;
+  const windowSeconds = config.window 
+    ? (typeof config.window === 'string' ? parseWindow(config.window) : config.window)
+    : 60;
   const now = Date.now();
   const windowMs = windowSeconds * 1000;
   const record = rateLimitMap.get(identifier);

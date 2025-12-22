@@ -3,7 +3,7 @@
 // Next.js 16.0.7 Optimized
 // ═══════════════════════════════════════════════════
 
-import { getUploadProvider } from "src/services/upload/factory";
+import { getUploadProvider } from "#services/upload/factory";
 
 export interface UploadOptions {
   folder?: string;
@@ -39,7 +39,7 @@ export {
   getConfiguredProvider,
   getUploadProvider,
   isProviderAvailable,
-} from "src/services/upload/factory";
+} from "#services/upload/factory";
 
 // ═══════════════════════════════════════════════════
 // HELPER FUNCTIONS
@@ -90,4 +90,4 @@ export type {
   UploadConstraints,
   UploadProviderType,
   UploadType,
-} from "src/services/upload/types";
+} from "#services/upload/types";

@@ -3,7 +3,7 @@
 import { Eye, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import type { Comic } from "src/types";
+import type { Comic } from "types";
 import { Badge } from "ui/badge";
 import { Card, CardContent, CardFooter } from "ui/card";
 

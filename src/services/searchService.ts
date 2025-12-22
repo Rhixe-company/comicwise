@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════
 
 import { artist, author, comic, comicToGenre, type as comicType } from "#schema";
-import { db } from "@/database/db";
+import { db } from '#database/db';
 import { and, asc, desc, eq, ilike, or, sql, type SQL } from "drizzle-orm";
 // ═══════════════════════════════════════════════════
 // TYPE DEFINITIONS
@@ -65,7 +65,7 @@ export async function fullTextSearch(
 
     // Full-text search condition
     if (tsQuery) {
-      conditions.push(sql`search_vector @@ to_tsquery('english', ${tsQuery})` as SQL<unknown>);
+      conditions.push(sql`searchVector @@ to_tsquery('english', ${tsQuery})` as SQL<unknown>);
     }
 
     // Status filter
@@ -126,7 +126,7 @@ export async function fullTextSearch(
       default:
         // Rank by relevance if search query provided
         if (tsQuery) {
-          orderBy = sql`ts_rank(search_vector, to_tsquery('english', ${tsQuery})) DESC`;
+          orderBy = sql`ts_rank(searchVector, to_tsquery('english', ${tsQuery})) DESC`;
         } else {
           orderBy = desc(comic.createdAt);
         }
@@ -147,7 +147,7 @@ export async function fullTextSearch(
         publicationDate: comic.publicationDate,
         // Include relevance rank if searching
         rank: tsQuery
-          ? sql<number>`ts_rank(search_vector, to_tsquery('english', ${tsQuery}))`
+          ? sql<number>`ts_rank(searchVector, to_tsquery('english', ${tsQuery}))`
           : sql<number>`0`,
         author: {
           id: author.id,

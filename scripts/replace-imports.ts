@@ -1,183 +1,418 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  * IMPORT PATH OPTIMIZER - ComicWise
  * ═══════════════════════════════════════════════════════════════════════════
- *
- * Automatically updates import statements to use optimized TypeScript paths
- * defined in tsconfig.json for cleaner and more maintainable imports.
- *
+ * 
+ * Automatically replaces relative imports with path aliases defined in tsconfig.json
+ * 
  * @usage pnpm tsx scripts/replace-imports.ts [--dry-run] [--verbose]
+ * @example pnpm tsx scripts/replace-imports.ts --verbose
  */
 
-import fs from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { globSync } from "glob";
-import { dirname, relative, resolve } from "path";
-import { fileURLToPath } from "url";
+import chalk from "chalk";
 
-const filename = fileURLToPath(import.meta.url);
-const baseDirname = dirname(filename);
-const repoRoot = resolve(baseDirname, "..");
+// ═══════════════════════════════════════════════════
+// CONFIGURATION
+// ═══════════════════════════════════════════════════
 
-// CLI flags
-const isDryRun = process.argv.includes("--dry-run");
-const isVerbose = process.argv.includes("--verbose");
+const args = process.argv.slice(2);
+const DRY_RUN = args.includes("--dry-run");
+const VERBOSE = args.includes("--verbose");
 
-console.log("━".repeat(80));
-console.log("🔄 Import Path Optimizer");
-console.log("━".repeat(80));
-if (isDryRun) console.log("⚠️  DRY RUN MODE - No files will be modified\n");
+// Files to process
+const FILES_TO_PROCESS = [
+  "src/**/*.ts",
+  "src/**/*.tsx",
+];
+
+// Files to exclude
+const EXCLUDE_PATTERNS = [
+  "**/node_modules/**",
+  "**/.next/**",
+  "**/dist/**",
+  "**/build/**",
+  "**/coverage/**",
+];
 
 /**
  * Import replacement patterns
  * Order matters: More specific patterns should come first
  */
-const patterns = [
-  // Fix relative imports to use path aliases
-  { from: /from ["'](?:\.{2}\/){3,}components\/ui\/(.*?)["']/g, to: "from '#ui/$1'" },
-  { from: /from ["']\.\.\/\.\.\/components\/ui\/(.*?)["']/g, to: "from '#ui/$1'" },
-  { from: /from ["']\.\.\/components\/ui\/(.*?)["']/g, to: "from '#ui/$1'" },
+interface Pattern {
+  from: RegExp;
+  to: string;
+  category: string;
+}
 
-  { from: /from ["'](?:\.{2}\/){3,}components\/emails\/(.*?)["']/g, to: "from '#emails/$1'" },
-  { from: /from ["']\.\.\/\.\.\/components\/emails\/(.*?)["']/g, to: "from '#emails/$1'" },
-  { from: /from ["']\.\.\/components\/emails\/(.*?)["']/g, to: "from '#emails/$1'" },
-
-  { from: /from ["'](?:\.{2}\/){3,}components\/layout\/(.*?)["']/g, to: "from '#layout/$1'" },
-  { from: /from ["']\.\.\/\.\.\/components\/layout\/(.*?)["']/g, to: "from '#layout/$1'" },
-  { from: /from ["']\.\.\/components\/layout\/(.*?)["']/g, to: "from '#layout/$1'" },
-
-  { from: /from ["'](?:\.{2}\/){3,}components\/(.*?)["']/g, to: "from '#components/$1'" },
-  { from: /from ["']\.\.\/\.\.\/components\/(.*?)["']/g, to: "from '#components/$1'" },
-  { from: /from ["']\.\.\/components\/(.*?)["']/g, to: "from '#components/$1'" },
-
-  { from: /from ["'](?:\.{2}\/){3,}actions\/(.*?)["']/g, to: "from '#actions/$1'" },
-  { from: /from ["']\.\.\/\.\.\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
-  { from: /from ["']\.\.\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
-
-  { from: /from ["'](?:\.{2}\/){3,}lib\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
-  { from: /from ["']\.\.\/\.\.\/lib\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
-  { from: /from ["']\.\.\/lib\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
-
-  { from: /from ["'](?:\.{2}\/){3,}lib\/dto\/(.*?)["']/g, to: "from '#dto/$1'" },
-  { from: /from ["']\.\.\/\.\.\/lib\/dto\/(.*?)["']/g, to: "from '#dto/$1'" },
-  { from: /from ["']\.\.\/lib\/dto\/(.*?)["']/g, to: "from '#dto/$1'" },
-
-  { from: /from ["'](?:\.{2}\/){3,}lib\/(.*?)["']/g, to: "from '#lib/$1'" },
-  { from: /from ["']\.\.\/\.\.\/lib\/(.*?)["']/g, to: "from '#lib/$1'" },
-  { from: /from ["']\.\.\/lib\/(.*?)["']/g, to: "from '#lib/$1'" },
-
-  { from: /from ["'](?:\.{2}\/){3,}database\/(.*?)["']/g, to: "from '#database/$1'" },
-  { from: /from ["']\.\.\/\.\.\/database\/(.*?)["']/g, to: "from '#database/$1'" },
-  { from: /from ["']\.\.\/database\/(.*?)["']/g, to: "from '#database/$1'" },
-
-  { from: /from ["'](?:\.{2}\/){3,}hooks\/(.*?)["']/g, to: "from '#hooks/$1'" },
-  { from: /from ["']\.\.\/\.\.\/hooks\/(.*?)["']/g, to: "from '#hooks/$1'" },
-  { from: /from ["']\.\.\/hooks\/(.*?)["']/g, to: "from '#hooks/$1'" },
-
-  { from: /from ["'](?:\.{2}\/){3,}services\/(.*?)["']/g, to: "from '#services/$1'" },
-  { from: /from ["']\.\.\/\.\.\/services\/(.*?)["']/g, to: "from '#services/$1'" },
-  { from: /from ["']\.\.\/services\/(.*?)["']/g, to: "from '#services/$1'" },
-
-  // Fix old style imports to new style
-  { from: /from ["']@\/components\/ui\/(.*?)["']/g, to: "from '#ui/$1'" },
-  { from: /from ["']@\/components\/emails\/(.*?)["']/g, to: "from '#emails/$1'" },
-  { from: /from ["']@\/components\/layout\/(.*?)["']/g, to: "from '#layout/$1'" },
-  { from: /from ["']@\/lib\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
-  { from: /from ["']@\/actions\/(.*?)["']/g, to: "from '#actions/$1'" },
-  { from: /from ["']@\/lib\/dto\/(.*?)["']/g, to: "from '#dto/$1'" },
-  { from: /from ["']@\/lib\/validations\/(.*?)["']/g, to: "from '#validations/$1'" },
-  { from: /from ["']@\/database\/queries\/(.*?)["']/g, to: "from '#queries/$1'" },
-  { from: /from ["']@\/database\/mutations\/(.*?)["']/g, to: "from '#mutations/$1'" },
-  { from: /from ["']@\/database\/schema["']/g, to: "from '#schema'" },
-  { from: /from ["']@\/services\/(.*?)["']/g, to: "from '#services/$1'" },
-
-  // Normalize special imports
-  { from: /from ["']@\/app-config["']/g, to: "from 'appConfig'" },
-  { from: /from ["']src\/app-config["']/g, to: "from 'appConfig'" },
-  { from: /from ["'](?:\.{2}\/)+app-config["']/g, to: "from 'appConfig'" },
-
-  { from: /from ["']@\/database\/db["']/g, to: "from 'db'" },
-  { from: /from ["']src\/database\/db["']/g, to: "from 'db'" },
-  { from: /from ["'](?:\.{2}\/)+database\/db["']/g, to: "from 'db'" },
-
-  { from: /from ["']@\/lib\/utils["']/g, to: "from 'utils'" },
-  { from: /from ["']src\/lib\/utils["']/g, to: "from 'utils'" },
-  { from: /from ["'](?:\.{2}\/)+lib\/utils["']/g, to: "from 'utils'" },
-
-  { from: /from ["']@\/lib\/auth-config["']/g, to: "from 'auth'" },
-  { from: /from ["']@\/lib\/auth["']/g, to: "from 'auth'" },
-  { from: /from ["']src\/lib\/auth-config["']/g, to: "from 'auth'" },
-  { from: /from ["']src\/lib\/auth["']/g, to: "from 'auth'" },
-
-  // Fix src/types imports
-  { from: /from ["']src\/types["']/g, to: "from 'types'" },
-  { from: /from ["'](?:\.{2}\/)+types["']/g, to: "from 'types'" },
-
-  // Export patterns
-  { from: /export \* from ["'](?:\.{2}\/)+types\/(.*?)["']/g, to: 'export * from "./$1"' },
-  {
-    from: /export type \{ (.*?) \} from ["']src\/types["']/g,
-    to: 'export type { $1 } from "types"',
+const IMPORT_PATTERNS: Pattern[] = [
+  // ═══════════════════════════════════════════════════
+  // COMPONENTS
+  // ═══════════════════════════════════════════════════
+  
+  // UI Components
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/ui\/([^"']+)["']/g, 
+    to: 'from "#ui/$1"',
+    category: "UI Components"
+  },
+  
+  // Admin Components
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/admin\/([^"']+)["']/g, 
+    to: 'from "#admin/$1"',
+    category: "Admin Components"
+  },
+  
+  // Layout Components
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/layout\/([^"']+)["']/g, 
+    to: 'from "#layout/$1"',
+    category: "Layout Components"
+  },
+  
+  // Email Components
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/emails\/([^"']+)["']/g, 
+    to: 'from "#emails/$1"',
+    category: "Email Components"
+  },
+  
+  // General Components
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/([^"']+)["']/g, 
+    to: 'from "#components/$1"',
+    category: "Components"
+  },
+  
+  // ═══════════════════════════════════════════════════
+  // LIBRARY & ACTIONS
+  // ═══════════════════════════════════════════════════
+  
+  // DTOs
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/dto\/([^"']+)["']/g, 
+    to: 'from "#dto/$1"',
+    category: "DTOs"
+  },
+  
+  // Actions
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/actions\/([^"']+)["']/g, 
+    to: 'from "#actions/$1"',
+    category: "Actions"
+  },
+  
+  // Validations
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/validations\/([^"']+)["']/g, 
+    to: 'from "#validations/$1"',
+    category: "Validations"
+  },
+  
+  // Lib Email
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/email\/([^"']+)["']/g, 
+    to: 'from "#lib/email/$1"',
+    category: "Email Lib"
+  },
+  
+  // Utils
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/utils\/([^"']+)["']/g, 
+    to: 'from "#utils/$1"',
+    category: "Utils"
+  },
+  
+  // General Lib
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/([^"']+)["']/g, 
+    to: 'from "#lib/$1"',
+    category: "Library"
+  },
+  
+  // ═══════════════════════════════════════════════════
+  // DATABASE
+  // ═══════════════════════════════════════════════════
+  
+  // Queries
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/queries\/([^"']+)["']/g, 
+    to: 'from "#queries/$1"',
+    category: "Queries"
+  },
+  
+  // Mutations
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/mutations\/([^"']+)["']/g, 
+    to: 'from "#mutations/$1"',
+    category: "Mutations"
+  },
+  
+  // Schema (special case - no extension)
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/schema["']/g, 
+    to: 'from "#schema"',
+    category: "Schema"
+  },
+  
+  // Database utils
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/([^"']+)["']/g, 
+    to: 'from "#database/$1"',
+    category: "Database"
+  },
+  
+  // ═══════════════════════════════════════════════════
+  // HOOKS & TYPES
+  // ═══════════════════════════════════════════════════
+  
+  // Hooks
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?hooks\/([^"']+)["']/g, 
+    to: 'from "#hooks/$1"',
+    category: "Hooks"
+  },
+  
+  // Types
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?types\/([^"']+)["']/g, 
+    to: 'from "#types/$1"',
+    category: "Types"
+  },
+  
+  // ═══════════════════════════════════════════════════
+  // SERVICES & STORES
+  // ═══════════════════════════════════════════════════
+  
+  // Services
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?services\/([^"']+)["']/g, 
+    to: 'from "#services/$1"',
+    category: "Services"
+  },
+  
+  // Stores
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?stores\/([^"']+)["']/g, 
+    to: 'from "#stores/$1"',
+    category: "Stores"
+  },
+  
+  // ═══════════════════════════════════════════════════
+  // ASSETS & STYLES
+  // ═══════════════════════════════════════════════════
+  
+  // Styles
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?styles\/([^"']+)["']/g, 
+    to: 'from "#styles/$1"',
+    category: "Styles"
+  },
+  
+  // Assets
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?assets\/([^"']+)["']/g, 
+    to: 'from "#assets/$1"',
+    category: "Assets"
+  },
+  
+  // Public
+  { 
+    from: /from ["'](?:\.\.\/)*public\/([^"']+)["']/g, 
+    to: 'from "#public/$1"',
+    category: "Public"
+  },
+  
+  // Tests
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?tests\/([^"']+)["']/g, 
+    to: 'from "#tests/$1"',
+    category: "Tests"
+  },
+  
+  // ═══════════════════════════════════════════════════
+  // SPECIAL SHORT ALIASES
+  // ═══════════════════════════════════════════════════
+  
+  // Auth files
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/auth["']/g, 
+    to: 'from "auth"',
+    category: "Auth"
+  },
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/authConfig["']/g, 
+    to: 'from "authConfig"',
+    category: "Auth Config"
+  },
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/authAdapter["']/g, 
+    to: 'from "authAdapter"',
+    category: "Auth Adapter"
+  },
+  
+  // Database
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/db["']/g, 
+    to: 'from "db"',
+    category: "DB Connection"
+  },
+  
+  // Utils
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/utils["']/g, 
+    to: 'from "utils"',
+    category: "Utils Main"
+  },
+  
+  // Types index
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?types["']/g, 
+    to: 'from "types"',
+    category: "Types Index"
+  },
+  
+  // App config (root level)
+  { 
+    from: /from ["'](?:\.\.\/)*app-config["']/g, 
+    to: 'from "appConfig"',
+    category: "App Config"
+  },
+  
+  // Redis (root level)
+  { 
+    from: /from ["'](?:\.\.\/)*redis["']/g, 
+    to: 'from "redis"',
+    category: "Redis"
+  },
+  
+  // Env
+  { 
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/env["']/g, 
+    to: 'from "env"',
+    category: "Environment"
   },
 ];
 
 /**
- * Files to process
+ * Export replacement patterns
  */
-const fileGlob = "src/**/*.{ts,tsx,js,jsx,mts}";
-const ignore = [
-  "node_modules/**",
-  ".next/**",
-  "dist/**",
-  "out/**",
-  "build/**",
-  "coverage/**",
-  "**/*.d.ts",
+const EXPORT_PATTERNS: Pattern[] = [
+  { 
+    from: /export \* from ["'](?:\.\.\/)+types\/([^"']+)["']/g, 
+    to: 'export * from "./$1"',
+    category: "Type Exports"
+  },
+  { 
+    from: /export type \{ ([^}]+) \} from ["'](?:\.\.\/)*(?:src\/)?types["']/g, 
+    to: 'export type { $1 } from "types"',
+    category: "Type Exports"
+  },
 ];
 
-console.log("📂 Scanning files...");
-const files = globSync(fileGlob, { cwd: repoRoot, absolute: true, ignore });
-console.log(`   Found ${files.length} files to process\n`);
+// ═══════════════════════════════════════════════════
+// MAIN EXECUTION
+// ═══════════════════════════════════════════════════
 
-let changed = 0;
+console.log(chalk.cyan("\n╔══════════════════════════════════════════════════════════════╗"));
+console.log(chalk.cyan("║          Import Path Optimizer - ComicWise                   ║"));
+console.log(chalk.cyan("╚══════════════════════════════════════════════════════════════╝\n"));
+
+if (DRY_RUN) {
+  console.log(chalk.yellow("🔍 DRY RUN MODE - No files will be modified\n"));
+}
+
+// Get all files to process
+const files = globSync(FILES_TO_PROCESS, {
+  ignore: EXCLUDE_PATTERNS,
+});
+
+console.log(chalk.blue(`📁 Found ${files.length} files to process\n`));
+
+let filesModified = 0;
 let totalReplacements = 0;
+const replacementsByCategory = new Map<string, number>();
 
+// Process each file
 for (const file of files) {
-  let source = fs.readFileSync(file, "utf8");
-  const original = source;
+  let content = readFileSync(file, "utf8");
+  const originalContent = content;
   let fileReplacements = 0;
-
-  patterns.forEach(({ from, to }) => {
-    const matches = source.match(from);
+  
+  // Apply import patterns
+  for (const pattern of IMPORT_PATTERNS) {
+    const matches = content.match(pattern.from);
     if (matches) {
-      fileReplacements += matches.length;
-      source = source.replace(from, to);
+      content = content.replace(pattern.from, pattern.to);
+      const count = matches.length;
+      fileReplacements += count;
+      
+      const categoryCount = replacementsByCategory.get(pattern.category) || 0;
+      replacementsByCategory.set(pattern.category, categoryCount + count);
     }
-  });
-
-  if (source !== original) {
-    if (!isDryRun) {
-      fs.writeFileSync(file, source, "utf8");
+  }
+  
+  // Apply export patterns
+  for (const pattern of EXPORT_PATTERNS) {
+    const matches = content.match(pattern.from);
+    if (matches) {
+      content = content.replace(pattern.from, pattern.to);
+      const count = matches.length;
+      fileReplacements += count;
+      
+      const categoryCount = replacementsByCategory.get(pattern.category) || 0;
+      replacementsByCategory.set(pattern.category, categoryCount + count);
     }
-    changed++;
+  }
+  
+  // Update file if changed
+  if (content !== originalContent) {
+    if (!DRY_RUN) {
+      writeFileSync(file, content, "utf8");
+    }
+    
+    filesModified++;
     totalReplacements += fileReplacements;
-
-    const relativePath = relative(repoRoot, file);
-    console.log(`✓ ${relativePath}`);
-    if (isVerbose) {
-      console.log(`  ${fileReplacements} replacement(s)`);
+    
+    if (VERBOSE) {
+      console.log(chalk.green(`✓ ${file}`));
+      console.log(chalk.gray(`  ${fileReplacements} replacement(s)\n`));
     }
   }
 }
 
-console.log("\n" + "━".repeat(80));
-console.log("📊 Summary");
-console.log("━".repeat(80));
-console.log(`Files processed: ${files.length}`);
-console.log(`Files modified: ${changed}`);
-console.log(`Total replacements: ${totalReplacements}`);
-if (isDryRun) {
-  console.log("\n⚠️  DRY RUN - No files were actually modified");
-  console.log("   Run without --dry-run to apply changes");
+// ═══════════════════════════════════════════════════
+// SUMMARY
+// ═══════════════════════════════════════════════════
+
+console.log(chalk.cyan("\n╔══════════════════════════════════════════════════════════════╗"));
+console.log(chalk.cyan("║                        Summary                                ║"));
+console.log(chalk.cyan("╚══════════════════════════════════════════════════════════════╝\n"));
+
+console.log(chalk.yellow("Files processed:"), files.length);
+console.log(chalk.yellow("Files modified:"), filesModified);
+console.log(chalk.yellow("Total replacements:"), totalReplacements);
+
+if (replacementsByCategory.size > 0) {
+  console.log(chalk.yellow("\nReplacements by category:"));
+  const sortedCategories = Array.from(replacementsByCategory.entries())
+    .sort((a, b) => b[1] - a[1]);
+  
+  for (const [category, count] of sortedCategories) {
+    console.log(chalk.gray(`  ${category.padEnd(25)} ${count}`));
+  }
 }
-console.log("━".repeat(80));
+
+console.log(chalk.cyan("\n╔══════════════════════════════════════════════════════════════╗"));
+console.log(chalk.cyan("╚══════════════════════════════════════════════════════════════╝\n"));
+
+if (DRY_RUN) {
+  console.log(chalk.yellow("ℹ️  This was a dry run. Run without --dry-run to apply changes.\n"));
+} else {
+  console.log(chalk.green("✅ Import optimization complete!\n"));
+}
+
+process.exit(0);

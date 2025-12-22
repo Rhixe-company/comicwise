@@ -2,8 +2,8 @@
 // COMMENT ACTIONS - UNIT TESTS
 // ═══════════════════════════════════════════════════
 
-import { createComment, deleteComment, updateComment } from "#actions/comments";
-import * as mutations from "src/database/mutations";
+import { createComment, deleteComment, updateComment } from "#dto/commentsDto";
+import * as mutations from "#database/mutations";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

@@ -6,8 +6,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 import { user as userTable } from "#schema";
-import { db as database } from "@/database/db";
-import { DrizzleAdapter } from "@/lib/authAdapter";
+import { db as database } from '#database/db';
+import { DrizzleAdapter } from '#lib/authAdapter';
 import appConfig from "appConfig";
 
 export const authOptions = {
@@ -63,9 +63,11 @@ export const authOptions = {
         return {
           id: userRecord.id,
           email: userRecord.email,
-          name: userRecord.name,
-          image: userRecord.image,
-        };
+          name: userRecord.name ?? "",
+          image: userRecord.image ?? null,
+          role: (userRecord.role ?? "user") as "user" | "admin" | "moderator",
+          emailVerified: userRecord.emailVerified,
+        } as unknown as AuthUser;
       },
     }),
     ...(appConfig.auth.providers.google &&
@@ -81,12 +83,14 @@ export const authOptions = {
       : []),
   ],
   callbacks: {
-    async signIn({ user, account }: { user: AuthUser | undefined; account: any }) {
-      if (account?.provider === "credentials") {
+    async signIn({ user, account }: { user: AuthUser | undefined; account?: any }) {
+      if (!account) return false;
+      
+      if (account.provider === "credentials") {
         return true;
       }
 
-      if (account?.provider === "google" && user?.email) {
+      if (account.provider === "google" && user?.email) {
         // Auto-create user on Google sign-in
         const existingUser = await database.query.user.findFirst({
           where: eq(userTable.email, user.email),
@@ -120,10 +124,10 @@ export const authOptions = {
       session?: unknown;
     }) {
       if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
-        token.picture = user.image;
+        token.id = user.id ?? "";
+        token.email = user.email ?? "";
+        token.name = user.name ?? "";
+        token.picture = user.image ?? null;
       }
 
       if (trigger === "update" && session) {
@@ -135,11 +139,11 @@ export const authOptions = {
     },
 
     async session({ session, token }: { session: Session; token: JWT }) {
-      if (session.user) {
-        session.user.id = token.id;
-        session.user.email = token.email;
-        session.user.name = token.name;
-        session.user.image = token.picture;
+      if (session.user && token.id) {
+        session.user.id = String(token.id);
+        session.user.email = String(token.email ?? "");
+        session.user.name = String(token.name ?? "");
+        session.user.image = (token.picture as string) ?? null;
       }
 
       return session;

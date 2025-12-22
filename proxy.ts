@@ -68,7 +68,7 @@ function matchRoute(pathname: string, routes: readonly string[]): boolean {
 // MIDDLEWARE HANDLER
 // ═══════════════════════════════════════════════════
 
-export default auth((req: NextRequest & { auth?: Record<string, unknown> }) => {
+export default auth((req) => {
   const { pathname } = req.nextUrl;
   const isAuthenticated = !!req.auth;
 
@@ -108,7 +108,7 @@ export default auth((req: NextRequest & { auth?: Record<string, unknown> }) => {
   // ═══════════════════════════════════════════════════
 
   if (isAdminRoute) {
-    const authRecord = req.auth as Record<string, unknown> | undefined;
+    const authRecord = req.auth as unknown as Record<string, unknown> | undefined;
     const userRole = (authRecord?.user as Record<string, unknown> | undefined)?.role as
       | string
       | undefined;

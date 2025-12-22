@@ -2,12 +2,12 @@
 // COMMENT DETAIL API - Get, Update, Delete Single Comment
 // ═══════════════════════════════════════════════════
 
-import { commentIdSchema, updateCommentSchema } from "@/lib/validations";
+import { commentIdSchema, updateCommentSchema } from '#lib/validations';
 import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { deleteComment, updateComment } from "src/database/mutations/comments";
-import { getCommentById } from "src/database/queries/comments";
+import { deleteComment, updateComment } from "#mutations/comments";
+import { getCommentById } from "#queries/comments";
 
 // ═══════════════════════════════════════════════════
 // GET - Get Comment by ID

@@ -2,11 +2,11 @@
 // ADVANCED SEARCH SERVICE - Full-Text Search with PostgreSQL (REFACTORED)
 // ═══════════════════════════════════════════════════
 
-import { db } from "@/database/db";
+import { db } from '#database/db';
 import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
-import { artist, author, comic, comicToGenre, genre, type } from "src/database/schema";
+import { artist, author, comic, comicToGenre, genre, type } from "#schema";
 
-import type { ComicFilters } from "src/types";
+import type { ComicFilters } from "types";
 
 // ═══════════════════════════════════════════════════
 // TYPES
@@ -204,9 +204,9 @@ function addTextSearchCondition(
   const tsquery = buildSearchQuery(searchText, searchMode || "websearch");
   conditions.textSearch.push(
     or(
-      sql`${comic.search_vector} @@ to_tsquery('english', ${tsquery})`,
-      sql`${author.search_vector} @@ to_tsquery('english', ${tsquery})`,
-      sql`${artist.search_vector} @@ to_tsquery('english', ${tsquery})`
+      sql`${comic.searchVector} @@ to_tsquery('english', ${tsquery})`,
+      sql`${author.searchVector} @@ to_tsquery('english', ${tsquery})`,
+      sql`${artist.searchVector} @@ to_tsquery('english', ${tsquery})`
     )
   );
 }
@@ -320,7 +320,7 @@ async function resolveGenreIds(genreIds?: number[], genreNames?: string[]): Prom
 function buildBaseQuery(searchText?: string, searchMode?: string) {
   const relevanceScore =
     searchText && searchMode
-      ? sql<number>`ts_rank(${comic.search_vector}, to_tsquery('english', ${buildSearchQuery(searchText, searchMode)}))`
+      ? sql<number>`ts_rank(${comic.searchVector}, to_tsquery('english', ${buildSearchQuery(searchText, searchMode)}))`
       : sql<number>`1`;
 
   return db
@@ -505,22 +505,22 @@ export async function getSearchSuggestions(
     db
       .select({ title: comic.title })
       .from(comic)
-      .where(sql`${comic.search_vector} @@ to_tsquery('english', ${tsquery})`)
-      .orderBy(desc(sql`ts_rank(${comic.search_vector}, to_tsquery('english', ${tsquery}))`))
+      .where(sql`${comic.searchVector} @@ to_tsquery('english', ${tsquery})`)
+      .orderBy(desc(sql`ts_rank(${comic.searchVector}, to_tsquery('english', ${tsquery}))`))
       .limit(limit),
 
     db
       .select({ name: author.name })
       .from(author)
-      .where(sql`${author.search_vector} @@ to_tsquery('english', ${tsquery})`)
-      .orderBy(desc(sql`ts_rank(${author.search_vector}, to_tsquery('english', ${tsquery}))`))
+      .where(sql`${author.searchVector} @@ to_tsquery('english', ${tsquery})`)
+      .orderBy(desc(sql`ts_rank(${author.searchVector}, to_tsquery('english', ${tsquery}))`))
       .limit(limit),
 
     db
       .select({ name: artist.name })
       .from(artist)
-      .where(sql`${artist.search_vector} @@ to_tsquery('english', ${tsquery})`)
-      .orderBy(desc(sql`ts_rank(${artist.search_vector}, to_tsquery('english', ${tsquery}))`))
+      .where(sql`${artist.searchVector} @@ to_tsquery('english', ${tsquery})`)
+      .orderBy(desc(sql`ts_rank(${artist.searchVector}, to_tsquery('english', ${tsquery}))`))
       .limit(limit),
   ]);
 

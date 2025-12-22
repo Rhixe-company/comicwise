@@ -4,8 +4,8 @@
 // COMPREHENSIVE WORKFLOW SYSTEM (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import emailService, { sendEmail } from "@/lib/email";
-import { checkRateLimit } from "@/lib/ratelimit";
+import emailService, { sendEmail } from '#lib/email';
+import { checkRateLimit } from '#lib/ratelimit';
 import appConfig from "appConfig";
 import { z } from "zod";
 
@@ -78,7 +78,8 @@ export async function executeWorkflow(payload: WorkflowPayload) {
     // Rate limiting for email workflows
     const rateLimitKey = `workflow:${validatedPayload.recipientEmail}`;
     const rateLimitResult = await checkRateLimit(rateLimitKey, {
-      limit: appConfig.rateLimit.email,
+      limit: appConfig.rateLimit.email.requests,
+      window: appConfig.rateLimit.email.window
     });
 
     if (!rateLimitResult.allowed) {
@@ -86,7 +87,7 @@ export async function executeWorkflow(payload: WorkflowPayload) {
       return {
         success: false,
         error: "Rate limit exceeded. Please try again later.",
-        retryAfter: new Date(rateLimitResult.resetAt),
+        retryAfter: new Date(rateLimitResult.reset),
       };
     }
 

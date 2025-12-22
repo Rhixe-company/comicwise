@@ -12,7 +12,7 @@ import { render } from "@react-email/components";
 import appConfig, { isDevelopment } from "appConfig";
 import nodemailer from "nodemailer";
 
-import type { SendEmailOptions } from "@/types";
+import type { SendEmailOptions } from "types";
 
 // ═══════════════════════════════════════════════════
 // NODEMAILER TRANSPORTER SETUP
@@ -22,10 +22,10 @@ const transporter = nodemailer.createTransport({
   host: appConfig.email.host,
   port: appConfig.email.port,
   secure: appConfig.email.secure,
-  auth: {
-    user: appConfig.email.auth.user,
-    pass: appConfig.email.auth.pass,
-  },
+  auth: appConfig.email.user && appConfig.email.password ? {
+    user: appConfig.email.user,
+    pass: appConfig.email.password,
+  } : undefined,
 });
 
 // Verify transporter configuration
@@ -318,7 +318,6 @@ export async function sendBulkEmails(
         to: recipientEmail,
         subject: emailOptions.subject,
         html: emailOptions.html,
-        text: emailOptions.text,
       });
     })
   );

@@ -101,13 +101,13 @@ export const account = pgTable(
     type: text("type").notNull(),
     provider: text("provider").notNull(),
     providerAccountId: text("providerAccountId").notNull(),
-    refresh_token: text("refresh_token"),
-    access_token: text("access_token"),
-    expires_at: integer("expires_at"),
-    token_type: text("token_type"),
+    refreshToken: text("refresh_token"),
+    accessToken: text("access_token"),
+    expiresAt: integer("expires_at"),
+    tokenType: text("token_type"),
     scope: text("scope"),
-    id_token: text("id_token"),
-    session_state: text("session_state"),
+    idToken: text("id_token"),
+    sessionState: text("session_state"),
   },
   (table) => ({
     pk: primaryKey({ columns: [table.provider, table.providerAccountId] }),
@@ -179,7 +179,7 @@ export const author = pgTable("author", {
   bio: text("bio"),
   image: text("image"),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-  search_vector: text("search_vector"),
+  searchVector: text("search_vector"),
 });
 
 export const artist = pgTable("artist", {
@@ -188,7 +188,7 @@ export const artist = pgTable("artist", {
   bio: text("bio"),
   image: text("image"),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-  search_vector: text("search_vector"),
+  searchVector: text("search_vector"),
 });
 
 export const genre = pgTable("genre", {
@@ -215,7 +215,7 @@ export const comic = pgTable(
     typeId: integer("typeId").references(() => type.id),
     createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
-    search_vector: text("search_vector"),
+    searchVector: text("search_vector"),
   },
   (table) => [
     index("comic_slug_idx").on(table.slug),

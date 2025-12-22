@@ -5,4 +5,10 @@
  * Centralized exports for users server actions
  */
 
-export * from "../actions/users";
+export {
+  registerUser,
+  updateUser,
+  deleteUser,
+  requestPasswordReset,
+  resetPassword,
+} from '#actions/users';

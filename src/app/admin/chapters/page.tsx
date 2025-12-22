@@ -1,7 +1,7 @@
 import { chapter, comic } from "#schema";
 import { Button } from "#ui/button";
-import { DataTable } from "@/components/admin/DataTable";
-import { db } from "@/database/db";
+import { DataTable } from '#admin/DataTable';
+import { db } from '#database/db';
 import { eq } from "drizzle-orm";
 import { Plus } from "lucide-react";
 import Link from "next/link";

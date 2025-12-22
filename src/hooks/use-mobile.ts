@@ -1,2 +1,2 @@
 export * from "./useMobile";
-export { useMobile as default } from "./useMobile";
+export { useIsMobile as default } from "./useMobile";

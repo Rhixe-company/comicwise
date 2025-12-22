@@ -371,6 +371,7 @@
     "prettier-plugin-packagejson": "^2.5.20",
     "prettier-plugin-sort-json": "^4.1.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "redis": "^5.10.0",
     "rimraf": "^6.1.2",
     "shadcn": "^3.6.1",
     "tailwindcss": "^4.1.18",

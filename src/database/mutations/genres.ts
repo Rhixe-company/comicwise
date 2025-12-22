@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
 import { genre } from "#schema";
-import { db as database } from "@/database/db";
+import { db as database } from '#database/db';
 
 /**
  *

@@ -6,7 +6,7 @@ import { Label } from "#ui/label";
 import { auth } from "auth";
 import { BookMarked, Mail, User } from "lucide-react";
 import { redirect } from "next/navigation";
-import { getBookmarkCount } from "src/database/queries";
+import { getBookmarkCount } from "#database/queries";
 
 export const metadata = {
   title: "Profile - ComicWise",

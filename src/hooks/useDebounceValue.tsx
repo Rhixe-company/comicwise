@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { DebouncedState } from "src/hooks/use-debounce-callback";
-import { useDebounceCallback } from "src/hooks/use-debounce-callback";
+import type { DebouncedState } from "#hooks/use-debounce-callback";
+import { useDebounceCallback } from "#hooks/use-debounce-callback";
 
 interface UseDebounceValueOptions<T> {
   leading?: boolean;

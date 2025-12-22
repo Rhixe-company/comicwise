@@ -2,7 +2,7 @@ import { createHash } from "crypto";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { cache, CACHE_TTL } from "@/lib/cache";
+import { cache, CACHE_TTL } from '#lib/cache';
 
 /**
  * Cache middleware configuration

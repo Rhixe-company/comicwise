@@ -5,4 +5,4 @@
  * Centralized exports for bookmark server actions
  */
 
-export * from "../actions/bookmark";
+export * from '#actions/bookmark';

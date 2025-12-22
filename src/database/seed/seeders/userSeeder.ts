@@ -2,16 +2,16 @@
  * User Seeder
  */
 
-import * as mutations from "@/database/mutations";
-import * as queries from "@/database/queries";
-import { ProgressTracker } from "@/database/seed/logger";
-import { BatchProcessor } from "@/database/seed/utils/batchProcessor";
-import { imageService } from "@/services/imageService";
+import * as mutations from '#database/mutations';
+import * as queries from '#database/queries';
+import { ProgressTracker } from '#database/seed/logger';
+import { BatchProcessor } from '#database/seed/utils/batchProcessor';
+import { imageService } from '#services/imageService';
 import appConfig from "appConfig";
 import bcrypt from "bcryptjs";
 
-import type { SeedConfig } from "@/database/seed/config";
-import type { UserSeed } from "@/lib/validations";
+import type { SeedConfig } from '#database/seed/config';
+import type { UserSeed } from '#lib/validations';
 
 /**
  *

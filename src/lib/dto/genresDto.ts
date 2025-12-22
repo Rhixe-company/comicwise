@@ -5,4 +5,4 @@
  * Centralized exports for genres server actions
  */
 
-export * from "../actions/genres";
+export { createGenre, deleteGenre, updateGenre } from "#actions/genres";

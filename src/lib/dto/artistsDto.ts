@@ -5,4 +5,8 @@
  * Centralized exports for artists server actions
  */
 
-export * from "../actions/artists";
+export {
+  createArtist,
+  updateArtist,
+  deleteArtist,
+} from '#actions/artists';

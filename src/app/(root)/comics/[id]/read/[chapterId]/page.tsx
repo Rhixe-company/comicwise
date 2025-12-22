@@ -1,6 +1,6 @@
-import { ChapterReader } from "@/components/ChapterReader";
-import { incrementChapterViews } from "@/database/mutations";
-import { getChapter, getNextChapter, getPreviousChapter } from "@/database/queries";
+import { ChapterReader } from '#components/ChapterReader';
+import { incrementChapterViews } from '#database/mutations';
+import { getChapter, getNextChapter, getPreviousChapter } from '#database/queries';
 import { notFound } from "next/navigation";
 
 interface PageProps {

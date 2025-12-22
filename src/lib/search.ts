@@ -2,10 +2,10 @@
 // ADVANCED SEARCH SERVICE - Full-Text Search with PostgreSQL
 // ═══════════════════════════════════════════════════
 
-import { db } from "@/database/db";
+import { db } from '#database/db';
 import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
-import { artist, author, comic, comicToGenre, genre, type } from "src/database/schema";
-import type { ComicFilters } from "src/types";
+import { artist, author, comic, comicToGenre, genre, type } from "#schema";
+import type { ComicFilters } from "types";
 
 // ═══════════════════════════════════════════════════
 // TYPES
@@ -119,7 +119,7 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
       // Calculate relevance score for full-text search
       relevanceScore:
         searchQuery || search
-          ? sql<number>`ts_rank(${comic.search_vector}, to_tsquery('english', ${buildSearchQuery(searchQuery || search || "", searchMode)}))`
+          ? sql<number>`ts_rank(${comic.searchVector}, to_tsquery('english', ${buildSearchQuery(searchQuery || search || "", searchMode)}))`
           : sql<number>`1`,
     })
     .from(comic)
@@ -135,9 +135,9 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
     const tsquery = buildSearchQuery(searchQuery || search || "", searchMode);
     conditions.push(
       or(
-        sql`${comic.search_vector} @@ to_tsquery('english', ${tsquery})`,
-        sql`${author.search_vector} @@ to_tsquery('english', ${tsquery})`,
-        sql`${artist.search_vector} @@ to_tsquery('english', ${tsquery})`
+        sql`${comic.searchVector} @@ to_tsquery('english', ${tsquery})`,
+        sql`${author.searchVector} @@ to_tsquery('english', ${tsquery})`,
+        sql`${artist.searchVector} @@ to_tsquery('english', ${tsquery})`
       )
     );
   }
@@ -430,24 +430,24 @@ export async function getSearchSuggestions(
   const comicSuggestions = await db
     .select({ title: comic.title })
     .from(comic)
-    .where(sql`${comic.search_vector} @@ to_tsquery('english', ${tsquery})`)
-    .orderBy(desc(sql`ts_rank(${comic.search_vector}, to_tsquery('english', ${tsquery}))`))
+    .where(sql`${comic.searchVector} @@ to_tsquery('english', ${tsquery})`)
+    .orderBy(desc(sql`ts_rank(${comic.searchVector}, to_tsquery('english', ${tsquery}))`))
     .limit(limit);
 
   // Get author suggestions
   const authorSuggestions = await db
     .select({ name: author.name })
     .from(author)
-    .where(sql`${author.search_vector} @@ to_tsquery('english', ${tsquery})`)
-    .orderBy(desc(sql`ts_rank(${author.search_vector}, to_tsquery('english', ${tsquery}))`))
+    .where(sql`${author.searchVector} @@ to_tsquery('english', ${tsquery})`)
+    .orderBy(desc(sql`ts_rank(${author.searchVector}, to_tsquery('english', ${tsquery}))`))
     .limit(limit);
 
   // Get artist suggestions
   const artistSuggestions = await db
     .select({ name: artist.name })
     .from(artist)
-    .where(sql`${artist.search_vector} @@ to_tsquery('english', ${tsquery})`)
-    .orderBy(desc(sql`ts_rank(${artist.search_vector}, to_tsquery('english', ${tsquery}))`))
+    .where(sql`${artist.searchVector} @@ to_tsquery('english', ${tsquery})`)
+    .orderBy(desc(sql`ts_rank(${artist.searchVector}, to_tsquery('english', ${tsquery}))`))
     .limit(limit);
 
   return {

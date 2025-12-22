@@ -1,5 +1,5 @@
 import { Button } from "#ui/button";
-import { DataTable } from "@/components/admin/DataTable";
+import { DataTable } from '#admin/DataTable';
 import { env } from "appConfig";
 import { Plus } from "lucide-react";
 import Link from "next/link";

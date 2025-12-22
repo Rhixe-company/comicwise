@@ -1,7 +1,7 @@
 import { eq, sql } from "drizzle-orm";
 
 import { chapter, comic, comicToGenre } from "#schema";
-import { db as database } from "@/database/db";
+import { db as database } from '#database/db';
 
 interface CreateComicData {
   title: string;

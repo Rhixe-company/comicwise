@@ -2,26 +2,39 @@
 // TYPES INDEX - Centralized Type Exports (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-// API Types
+// Core Types
 export * from "./api";
 export * from "./dto";
+export * from "./actions";
+export * from "./schema";
+export * from "./forms";
+export * from "./components";
 
 // System Types
 export * from "./cache";
 export * from "./cli";
 export * from "./monitoring";
 export * from "./queue";
-export * from "./upload";
+export type { UploadProvider, UploadResult } from "./upload";
 
-// Database Types
-export * from "./database";
-export { ApiError as DatabaseApiError } from "./database";
+// Database Types (avoid duplicate exports with schema)
+export type {
+  ComicFilters,
+  ComicWithDetails,
+  ComicWithRelations,
+  ChapterWithRelations,
+  UserWithRelations,
+  PaginatedResponse as DatabasePaginatedResponse,
+} from "./database";
+
 // Internal Types
 export * from "./internal";
 
 // Note: globals.d.ts is automatically included by TypeScript
 // Re-export commonly used types for convenience
 export type { ActionResponse, ApiResponse } from "./api";
+export type { User, Comic, Chapter, Author, Artist, Genre } from "./schema";
+export type { ActionResult, PaginatedResponse } from "./actions";
 
 // ═══════════════════════════════════════════════════
 // COMMON UTILITY TYPES
@@ -66,3 +79,24 @@ export type Exact<T, Shape> = T extends Shape
     ? T
     : never
   : never;
+
+// ═══════════════════════════════════════════════════
+// HELPER TYPES
+// ═══════════════════════════════════════════════════
+
+export type StrictOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type StrictPick<T, K extends keyof T> = Pick<T, K>;
+
+export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (k: infer I) => void
+  ? I
+  : never;
+
+export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T, Keys>> &
+  {
+    [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>;
+  }[Keys];
+
+export type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T, Keys>> &
+  {
+    [K in Keys]: Required<Pick<T, K>> & Partial<Record<Exclude<Keys, K>, never>>;
+  }[Keys];

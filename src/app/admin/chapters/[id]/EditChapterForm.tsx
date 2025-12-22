@@ -1,4 +1,4 @@
-import { deleteChapter, updateChapter } from "#actions/chapters";
+import { deleteChapter, updateChapter } from "#dto/chaptersDto";
 import { Button } from "#ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
 import { Input } from "#ui/input";

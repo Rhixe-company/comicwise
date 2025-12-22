@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
 
 import { account } from "#schema";
-import { db as database } from "@/database/db";
+import { db as database } from '#database/db';
 
 // ═══════════════════════════════════════════════════
 // ACCOUNT MUTATIONS
@@ -14,26 +14,26 @@ import { db as database } from "@/database/db";
  * @param data.type
  * @param data.provider
  * @param data.providerAccountId
- * @param data.refresh_token
- * @param data.access_token
- * @param data.expires_at
- * @param data.token_type
+ * @param data.refreshToken
+ * @param data.accessToken
+ * @param data.expiresAt
+ * @param data.tokenType
  * @param data.scope
- * @param data.id_token
- * @param data.session_state
+ * @param data.idToken
+ * @param data.sessionState
  */
 export async function createAccount(data: {
   userId: string;
   type: string;
   provider: string;
   providerAccountId: string;
-  refresh_token?: string | null;
-  access_token?: string | null;
-  expires_at?: number | null;
-  token_type?: string | null;
+  refreshToken?: string | null;
+  accessToken?: string | null;
+  expiresAt?: number | null;
+  tokenType?: string | null;
   scope?: string | null;
-  id_token?: string | null;
-  session_state?: string | null;
+  idToken?: string | null;
+  sessionState?: string | null;
 }): Promise<typeof account.$inferSelect | undefined> {
   const [newAccount] = await database.insert(account).values(data).returning();
   return newAccount;
@@ -44,25 +44,25 @@ export async function createAccount(data: {
  * @param provider
  * @param providerAccountId
  * @param data
- * @param data.refresh_token
- * @param data.access_token
- * @param data.expires_at
- * @param data.token_type
+ * @param data.refreshToken
+ * @param data.accessToken
+ * @param data.expiresAt
+ * @param data.tokenType
  * @param data.scope
- * @param data.id_token
- * @param data.session_state
+ * @param data.idToken
+ * @param data.sessionState
  */
 export async function updateAccount(
   provider: string,
   providerAccountId: string,
   data: {
-    refresh_token?: string | null;
-    access_token?: string | null;
-    expires_at?: number | null;
-    token_type?: string | null;
+    refreshToken?: string | null;
+    accessToken?: string | null;
+    expiresAt?: number | null;
+    tokenType?: string | null;
     scope?: string | null;
-    id_token?: string | null;
-    session_state?: string | null;
+    idToken?: string | null;
+    sessionState?: string | null;
   }
 ): Promise<typeof account.$inferSelect | undefined> {
   const [updatedAccount] = await database

@@ -5,4 +5,14 @@
  * Centralized exports for comics server actions
  */
 
-export * from "../actions/comics";
+export {
+  createComic,
+  updateComic,
+  deleteComic,
+  getComicById,
+  listComics,
+  assignGenresToComic,
+  getComicGenres,
+  getPopularComics,
+  getLatestComics,
+} from '#actions/comics';

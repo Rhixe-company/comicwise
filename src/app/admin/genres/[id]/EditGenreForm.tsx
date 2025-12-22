@@ -1,4 +1,4 @@
-import { deleteGenre, updateGenre } from "#actions/genres";
+import { deleteGenre, updateGenre } from "#dto/genresDto";
 import { Button } from "#ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
 import { Input } from "#ui/input";

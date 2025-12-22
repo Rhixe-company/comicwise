@@ -5,21 +5,21 @@
 // ═══════════════════════════════════════════════════
 
 import { artist, author } from "#schema";
-import { db as database } from "@/database/db";
+import { db as database } from '#database/db';
 import type {
   CreateArtistInput,
   CreateAuthorInput,
   PaginationInput,
   UpdateArtistInput,
   UpdateAuthorInput,
-} from "@/lib/validations";
+} from '#lib/validations';
 import {
   createArtistSchema,
   createAuthorSchema,
   paginationSchema,
   updateArtistSchema,
   updateAuthorSchema,
-} from "@/lib/validations";
+} from '#lib/validations';
 import appConfig from "appConfig";
 import { asc, eq, like, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";

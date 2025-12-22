@@ -6,7 +6,7 @@
 "use server";
 
 import { genre } from "#schema";
-import { db as database } from "@/database/db";
+import { db as database } from '#database/db';
 import { requireRole } from "auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";

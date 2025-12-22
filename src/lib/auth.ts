@@ -1,20 +1,15 @@
 /**
- * NextAuth v5 configuration with Drizzle adapter
- * Exports auth handlers and sign-in/sign-out functions
+ * Server-side authentication helpers
  */
-
 import { eq } from "drizzle-orm";
 import type { Session } from "next-auth";
 import NextAuth from "next-auth";
-
-/**
- * Server-side authentication helpers
- */
 import { user } from "#schema";
-import { db as database } from "@/database/db";
-import { authOptions } from "@/lib/authConfig";
+import { db as database } from '#database/db';
+import { authOptions } from '#lib/authConfig';
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
+// Type assertion to satisfy NextAuth's strict typing
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions as any);
 
 /**
  * Get the current user's session

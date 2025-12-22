@@ -13,7 +13,7 @@ import {
 } from "#ui/form";
 import { Input } from "#ui/input";
 import { Textarea } from "#ui/textarea";
-import { useImageUpload } from "@/hooks/useImageUpload";
+import { useImageUpload } from '#hooks/useImageUpload';
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

@@ -5,27 +5,27 @@
 // ═══════════════════════════════════════════════════
 
 import { passwordResetToken, user, verificationToken } from "#schema";
-import { db as database } from "@/database/db";
+import { db as database } from '#database/db';
 import {
   sendAccountUpdatedEmail,
   sendPasswordResetEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
-} from "@/lib/email";
+} from '#lib/email';
 import type {
   ForgotPasswordInput,
   ResendVerificationEmailInput,
   ResetPasswordInput,
   SignUpInput,
   VerifyEmailInput,
-} from "@/lib/validations";
+} from '#lib/validations';
 import {
   forgotPasswordSchema,
   resendVerificationEmailSchema,
   resetPasswordSchema,
   signUpSchema,
   verifyEmailSchema,
-} from "@/lib/validations";
+} from '#lib/validations';
 import appConfig, { checkRateLimit } from "appConfig";
 import { signIn, signOut } from "auth";
 import bcrypt from "bcryptjs";

@@ -4,12 +4,12 @@
 
 import { createComic, deleteComic, getComicById, getComics, updateComic } from "#actions/comic";
 import * as authLib from "auth";
-import * as mutations from "src/database/mutations";
-import * as queries from "src/database/queries";
+import * as mutations from "#database/mutations";
+import * as queries from "#database/queries";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { ComicFilters } from "src/types";
+import type { ComicFilters } from "types";
 
 // Removed unused import
 // Mock dependencies

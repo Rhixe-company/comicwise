@@ -1,7 +1,7 @@
 "use client";
 
 import type { RefObject } from "react";
-import { useEventListener } from "src/hooks/use-event-listener";
+import { useEventListener } from "#hooks/use-event-listener";
 
 type EventType = "mousedown" | "mouseup" | "touchstart" | "touchend" | "focusin" | "focusout";
 
