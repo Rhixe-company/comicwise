@@ -6,9 +6,9 @@
  */
 
 export {
-  registerUser,
-  updateUser,
   deleteUser,
+  registerUser,
   requestPasswordReset,
   resetPassword,
-} from '#actions/users';
+  updateUser,
+} from "#actions/users";

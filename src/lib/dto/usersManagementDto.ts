@@ -5,4 +5,4 @@
  * Centralized exports for usersManagement server actions
  */
 
-export * from '#actions/usersManagement';
+export * from "#actions/usersManagement";

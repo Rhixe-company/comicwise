@@ -3,15 +3,15 @@
  * Coordinates the seeding process
  */
 
-import type { SeedConfig } from '#database/seed/config';
-import { logger } from '#database/seed/logger';
-import { ChapterSeeder } from '#database/seed/seeders/chapterSeeder';
-import { ComicSeeder } from '#database/seed/seeders/comicSeeder';
-import { UserSeeder } from '#database/seed/seeders/userSeeder';
-import { fileUtils } from '#database/seed/utils/fileUtils';
-import { deduplicateByKey, normalizeDate } from '#database/seed/utils/helpers';
-import { MetadataCache } from '#database/seed/utils/metadataCache';
-import { chapterArraySchema, comicArraySchema, userArraySchema } from '#lib/validations';
+import type { SeedConfig } from "#database/seed/config";
+import { logger } from "#database/seed/logger";
+import { ChapterSeeder } from "#database/seed/seeders/chapterSeeder";
+import { ComicSeeder } from "#database/seed/seeders/comicSeeder";
+import { UserSeeder } from "#database/seed/seeders/userSeeder";
+import { fileUtils } from "#database/seed/utils/fileUtils";
+import { deduplicateByKey, normalizeDate } from "#database/seed/utils/helpers";
+import { MetadataCache } from "#database/seed/utils/metadataCache";
+import { chapterArraySchema, comicArraySchema, userArraySchema } from "#lib/validations";
 
 interface RawComic {
   status?: string;

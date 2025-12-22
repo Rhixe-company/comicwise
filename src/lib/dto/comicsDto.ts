@@ -6,13 +6,13 @@
  */
 
 export {
+  assignGenresToComic,
   createComic,
-  updateComic,
   deleteComic,
   getComicById,
-  listComics,
-  assignGenresToComic,
   getComicGenres,
-  getPopularComics,
   getLatestComics,
-} from '#actions/comics';
+  getPopularComics,
+  listComics,
+  updateComic,
+} from "#actions/comics";

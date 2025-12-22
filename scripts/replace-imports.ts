@@ -3,16 +3,16 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * IMPORT PATH OPTIMIZER - ComicWise
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Automatically replaces relative imports with path aliases defined in tsconfig.json
- * 
+ *
  * @usage pnpm tsx scripts/replace-imports.ts [--dry-run] [--verbose]
  * @example pnpm tsx scripts/replace-imports.ts --verbose
  */
 
+import chalk from "chalk";
 import { readFileSync, writeFileSync } from "fs";
 import { globSync } from "glob";
-import chalk from "chalk";
 
 // ═══════════════════════════════════════════════════
 // CONFIGURATION
@@ -23,10 +23,7 @@ const DRY_RUN = args.includes("--dry-run");
 const VERBOSE = args.includes("--verbose");
 
 // Files to process
-const FILES_TO_PROCESS = [
-  "src/**/*.ts",
-  "src/**/*.tsx",
-];
+const FILES_TO_PROCESS = ["src/**/*.ts", "src/**/*.tsx"];
 
 // Files to exclude
 const EXCLUDE_PATTERNS = [
@@ -51,249 +48,249 @@ const IMPORT_PATTERNS: Pattern[] = [
   // ═══════════════════════════════════════════════════
   // COMPONENTS
   // ═══════════════════════════════════════════════════
-  
+
   // UI Components
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/ui\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/ui\/([^"']+)["']/g,
     to: 'from "#ui/$1"',
-    category: "UI Components"
+    category: "UI Components",
   },
-  
+
   // Admin Components
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/admin\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/admin\/([^"']+)["']/g,
     to: 'from "#admin/$1"',
-    category: "Admin Components"
+    category: "Admin Components",
   },
-  
+
   // Layout Components
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/layout\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/layout\/([^"']+)["']/g,
     to: 'from "#layout/$1"',
-    category: "Layout Components"
+    category: "Layout Components",
   },
-  
+
   // Email Components
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/emails\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/emails\/([^"']+)["']/g,
     to: 'from "#emails/$1"',
-    category: "Email Components"
+    category: "Email Components",
   },
-  
+
   // General Components
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/([^"']+)["']/g,
     to: 'from "#components/$1"',
-    category: "Components"
+    category: "Components",
   },
-  
+
   // ═══════════════════════════════════════════════════
   // LIBRARY & ACTIONS
   // ═══════════════════════════════════════════════════
-  
+
   // DTOs
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/dto\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/dto\/([^"']+)["']/g,
     to: 'from "#dto/$1"',
-    category: "DTOs"
+    category: "DTOs",
   },
-  
+
   // Actions
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/actions\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/actions\/([^"']+)["']/g,
     to: 'from "#actions/$1"',
-    category: "Actions"
+    category: "Actions",
   },
-  
+
   // Validations
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/validations\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/validations\/([^"']+)["']/g,
     to: 'from "#validations/$1"',
-    category: "Validations"
+    category: "Validations",
   },
-  
+
   // Lib Email
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/email\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/email\/([^"']+)["']/g,
     to: 'from "#lib/email/$1"',
-    category: "Email Lib"
+    category: "Email Lib",
   },
-  
+
   // Utils
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/utils\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/utils\/([^"']+)["']/g,
     to: 'from "#utils/$1"',
-    category: "Utils"
+    category: "Utils",
   },
-  
+
   // General Lib
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/([^"']+)["']/g,
     to: 'from "#lib/$1"',
-    category: "Library"
+    category: "Library",
   },
-  
+
   // ═══════════════════════════════════════════════════
   // DATABASE
   // ═══════════════════════════════════════════════════
-  
+
   // Queries
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/queries\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/queries\/([^"']+)["']/g,
     to: 'from "#queries/$1"',
-    category: "Queries"
+    category: "Queries",
   },
-  
+
   // Mutations
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/mutations\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/mutations\/([^"']+)["']/g,
     to: 'from "#mutations/$1"',
-    category: "Mutations"
+    category: "Mutations",
   },
-  
+
   // Schema (special case - no extension)
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/schema["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/schema["']/g,
     to: 'from "#schema"',
-    category: "Schema"
+    category: "Schema",
   },
-  
+
   // Database utils
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/([^"']+)["']/g,
     to: 'from "#database/$1"',
-    category: "Database"
+    category: "Database",
   },
-  
+
   // ═══════════════════════════════════════════════════
   // HOOKS & TYPES
   // ═══════════════════════════════════════════════════
-  
+
   // Hooks
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?hooks\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?hooks\/([^"']+)["']/g,
     to: 'from "#hooks/$1"',
-    category: "Hooks"
+    category: "Hooks",
   },
-  
+
   // Types
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?types\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?types\/([^"']+)["']/g,
     to: 'from "#types/$1"',
-    category: "Types"
+    category: "Types",
   },
-  
+
   // ═══════════════════════════════════════════════════
   // SERVICES & STORES
   // ═══════════════════════════════════════════════════
-  
+
   // Services
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?services\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?services\/([^"']+)["']/g,
     to: 'from "#services/$1"',
-    category: "Services"
+    category: "Services",
   },
-  
+
   // Stores
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?stores\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?stores\/([^"']+)["']/g,
     to: 'from "#stores/$1"',
-    category: "Stores"
+    category: "Stores",
   },
-  
+
   // ═══════════════════════════════════════════════════
   // ASSETS & STYLES
   // ═══════════════════════════════════════════════════
-  
+
   // Styles
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?styles\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?styles\/([^"']+)["']/g,
     to: 'from "#styles/$1"',
-    category: "Styles"
+    category: "Styles",
   },
-  
+
   // Assets
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?assets\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?assets\/([^"']+)["']/g,
     to: 'from "#assets/$1"',
-    category: "Assets"
+    category: "Assets",
   },
-  
+
   // Public
-  { 
-    from: /from ["'](?:\.\.\/)*public\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*public\/([^"']+)["']/g,
     to: 'from "#public/$1"',
-    category: "Public"
+    category: "Public",
   },
-  
+
   // Tests
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?tests\/([^"']+)["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?tests\/([^"']+)["']/g,
     to: 'from "#tests/$1"',
-    category: "Tests"
+    category: "Tests",
   },
-  
+
   // ═══════════════════════════════════════════════════
   // SPECIAL SHORT ALIASES
   // ═══════════════════════════════════════════════════
-  
+
   // Auth files
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/auth["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/auth["']/g,
     to: 'from "auth"',
-    category: "Auth"
+    category: "Auth",
   },
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/authConfig["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/authConfig["']/g,
     to: 'from "authConfig"',
-    category: "Auth Config"
+    category: "Auth Config",
   },
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/authAdapter["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/authAdapter["']/g,
     to: 'from "authAdapter"',
-    category: "Auth Adapter"
+    category: "Auth Adapter",
   },
-  
+
   // Database
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/db["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/db["']/g,
     to: 'from "db"',
-    category: "DB Connection"
+    category: "DB Connection",
   },
-  
+
   // Utils
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/utils["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/utils["']/g,
     to: 'from "utils"',
-    category: "Utils Main"
+    category: "Utils Main",
   },
-  
+
   // Types index
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?types["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?types["']/g,
     to: 'from "types"',
-    category: "Types Index"
+    category: "Types Index",
   },
-  
+
   // App config (root level)
-  { 
-    from: /from ["'](?:\.\.\/)*app-config["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*app-config["']/g,
     to: 'from "appConfig"',
-    category: "App Config"
+    category: "App Config",
   },
-  
+
   // Redis (root level)
-  { 
-    from: /from ["'](?:\.\.\/)*redis["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*redis["']/g,
     to: 'from "redis"',
-    category: "Redis"
+    category: "Redis",
   },
-  
+
   // Env
-  { 
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/env["']/g, 
+  {
+    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/env["']/g,
     to: 'from "env"',
-    category: "Environment"
+    category: "Environment",
   },
 ];
 
@@ -301,15 +298,15 @@ const IMPORT_PATTERNS: Pattern[] = [
  * Export replacement patterns
  */
 const EXPORT_PATTERNS: Pattern[] = [
-  { 
-    from: /export \* from ["'](?:\.\.\/)+types\/([^"']+)["']/g, 
+  {
+    from: /export \* from ["'](?:\.\.\/)+types\/([^"']+)["']/g,
     to: 'export * from "./$1"',
-    category: "Type Exports"
+    category: "Type Exports",
   },
-  { 
-    from: /export type \{ ([^}]+) \} from ["'](?:\.\.\/)*(?:src\/)?types["']/g, 
+  {
+    from: /export type \{ ([^}]+) \} from ["'](?:\.\.\/)*(?:src\/)?types["']/g,
     to: 'export type { $1 } from "types"',
-    category: "Type Exports"
+    category: "Type Exports",
   },
 ];
 
@@ -341,7 +338,7 @@ for (const file of files) {
   let content = readFileSync(file, "utf8");
   const originalContent = content;
   let fileReplacements = 0;
-  
+
   // Apply import patterns
   for (const pattern of IMPORT_PATTERNS) {
     const matches = content.match(pattern.from);
@@ -349,12 +346,12 @@ for (const file of files) {
       content = content.replace(pattern.from, pattern.to);
       const count = matches.length;
       fileReplacements += count;
-      
+
       const categoryCount = replacementsByCategory.get(pattern.category) || 0;
       replacementsByCategory.set(pattern.category, categoryCount + count);
     }
   }
-  
+
   // Apply export patterns
   for (const pattern of EXPORT_PATTERNS) {
     const matches = content.match(pattern.from);
@@ -362,21 +359,21 @@ for (const file of files) {
       content = content.replace(pattern.from, pattern.to);
       const count = matches.length;
       fileReplacements += count;
-      
+
       const categoryCount = replacementsByCategory.get(pattern.category) || 0;
       replacementsByCategory.set(pattern.category, categoryCount + count);
     }
   }
-  
+
   // Update file if changed
   if (content !== originalContent) {
     if (!DRY_RUN) {
       writeFileSync(file, content, "utf8");
     }
-    
+
     filesModified++;
     totalReplacements += fileReplacements;
-    
+
     if (VERBOSE) {
       console.log(chalk.green(`✓ ${file}`));
       console.log(chalk.gray(`  ${fileReplacements} replacement(s)\n`));
@@ -398,9 +395,8 @@ console.log(chalk.yellow("Total replacements:"), totalReplacements);
 
 if (replacementsByCategory.size > 0) {
   console.log(chalk.yellow("\nReplacements by category:"));
-  const sortedCategories = Array.from(replacementsByCategory.entries())
-    .sort((a, b) => b[1] - a[1]);
-  
+  const sortedCategories = Array.from(replacementsByCategory.entries()).sort((a, b) => b[1] - a[1]);
+
   for (const [category, count] of sortedCategories) {
     console.log(chalk.gray(`  ${category.padEnd(25)} ${count}`));
   }

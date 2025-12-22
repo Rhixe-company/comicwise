@@ -1,5 +1,5 @@
+import { db as database } from "#database/db";
 import { comment } from "#schema";
-import { db as database } from '#database/db';
 import { asc, desc, eq } from "drizzle-orm";
 
 export async function getCommentById(commentId: number) {

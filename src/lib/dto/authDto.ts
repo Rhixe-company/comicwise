@@ -6,12 +6,12 @@
  */
 
 export {
-  registerUserAction,
-  verifyEmailAction,
-  resendVerificationEmailAction,
   forgotPasswordAction,
+  registerUserAction,
+  resendVerificationEmailAction,
   resetPasswordAction,
   signInAction,
   signOutAction,
+  verifyEmailAction,
   type AuthActionResponse,
-} from '#actions/auth';
+} from "#actions/auth";

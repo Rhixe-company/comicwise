@@ -70,9 +70,14 @@ export type ValidationResult<T> = ValidatedInput<T>;
 
 export type CreateAction<TInput, TOutput> = (input: TInput) => ActionResult<TOutput>;
 export type ReadAction<TOutput> = (id: string | number) => ActionResult<TOutput>;
-export type UpdateAction<TInput, TOutput> = (id: string | number, input: TInput) => ActionResult<TOutput>;
+export type UpdateAction<TInput, TOutput> = (
+  id: string | number,
+  input: TInput
+) => ActionResult<TOutput>;
 export type DeleteAction = (id: string | number) => ActionResult<void>;
-export type ListAction<TOutput, TFilters = unknown> = (filters?: TFilters) => ActionResult<TOutput[]>;
+export type ListAction<TOutput, TFilters = unknown> = (
+  filters?: TFilters
+) => ActionResult<TOutput[]>;
 
 // ═══════════════════════════════════════════════════
 // AUTH ACTION TYPES

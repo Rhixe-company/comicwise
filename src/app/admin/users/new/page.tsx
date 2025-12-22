@@ -1,11 +1,11 @@
 "use client";
 
 import { registerUser } from "#dto/usersDto";
+import { signUpSchema } from "#lib/validations";
 import { Button } from "#ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "#ui/form";
 import { Input } from "#ui/input";
-import { signUpSchema } from '#lib/validations';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";

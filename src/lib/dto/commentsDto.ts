@@ -5,4 +5,4 @@
  * Centralized exports for comments server actions
  */
 
-export * from '#actions/comments';
+export * from "#actions/comments";

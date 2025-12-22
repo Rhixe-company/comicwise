@@ -3,15 +3,15 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * AUTOMATED FIX SCRIPT - ComicWise
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Automatically fixes common type errors and import issues
- * 
+ *
  * @usage pnpm tsx scripts/auto-fix-all.ts
  */
 
-import { readFileSync, writeFileSync, existsSync } from "fs";
-import { globSync } from "glob";
 import chalk from "chalk";
+import { existsSync, readFileSync, writeFileSync } from "fs";
+import { globSync } from "glob";
 
 console.log(chalk.cyan("\n╔══════════════════════════════════════════════════════════════╗"));
 console.log(chalk.cyan("║          Auto-Fix All Issues - ComicWise                      ║"));
@@ -87,7 +87,7 @@ for (const file of useMobileFiles) {
     /import\s*\{\s*useMobile\s*\}\s*from\s*["']\.\/useMobile["']/g,
     'import { useIsMobile } from "./useMobile"'
   );
-  
+
   content = content.replace(
     /import\s*\{\s*useMobile\s*\}\s*from\s*["']#hooks\/useMobile["']/g,
     'import { useIsMobile } from "#hooks/useMobile"'
@@ -145,7 +145,7 @@ const rateLimitFiles = ["src/lib/actions/users.ts", "src/lib/actions/workflow.ts
 
 for (const file of rateLimitFiles) {
   if (!existsSync(file)) continue;
-  
+
   let content = readFileSync(file, "utf8");
   const original = content;
 
@@ -173,7 +173,7 @@ console.log(chalk.cyan("╚═════════════════�
 
 console.log(chalk.yellow("Fixes Applied:"));
 if (fixes.length > 0) {
-  fixes.forEach(fix => console.log(chalk.gray(`  ${fix}`)));
+  fixes.forEach((fix) => console.log(chalk.gray(`  ${fix}`)));
 } else {
   console.log(chalk.gray("  No fixes needed - all good!"));
 }

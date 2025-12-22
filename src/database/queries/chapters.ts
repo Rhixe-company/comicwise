@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, gt, lt } from "drizzle-orm";
 
+import { db as database } from "#database/db";
 import { chapter, chapterImage, comic } from "#schema";
-import { db as database } from '#database/db';
 
 // Seed helper: find chapter by comic and chapter number
 export async function getChapterByComicAndNumber(comicId: number, chapterNumber: number) {

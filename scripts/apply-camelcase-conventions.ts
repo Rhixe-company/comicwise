@@ -3,20 +3,20 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * CAMELCASE CONVENTION OPTIMIZER - ComicWise
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Applies camelCase conventions across the entire project:
  * - Updates ESLint config with camelCase rules
  * - Converts database schema fields to camelCase
  * - Creates DTOs for all "use server" actions
  * - Renames files and functions to camelCase
  * - Updates all imports and references
- * 
+ *
  * @usage pnpm tsx scripts/apply-camelcase-conventions.ts [--dry-run]
  */
 
+import chalk from "chalk";
 import * as fs from "fs";
 import * as path from "path";
-import chalk from "chalk";
 
 // ═══════════════════════════════════════════════════
 // CONFIGURATION
@@ -54,27 +54,87 @@ const stats: Stats = {
 
 const fileRenames: FileRename[] = [
   // Actions
-  { from: "src/lib/actions/users-management.ts", to: "src/lib/actions/usersManagement.ts", category: "Actions" },
-  { from: "src/lib/actions/authors-artists.ts", to: "src/lib/actions/authorsArtists.ts", category: "Actions" },
-  { from: "src/lib/actions/bookmarks-comments.ts", to: "src/lib/actions/bookmarksComments.ts", category: "Actions" },
-  { from: "src/lib/actions/genres-types.ts", to: "src/lib/actions/genresTypes.ts", category: "Actions" },
+  {
+    from: "src/lib/actions/users-management.ts",
+    to: "src/lib/actions/usersManagement.ts",
+    category: "Actions",
+  },
+  {
+    from: "src/lib/actions/authors-artists.ts",
+    to: "src/lib/actions/authorsArtists.ts",
+    category: "Actions",
+  },
+  {
+    from: "src/lib/actions/bookmarks-comments.ts",
+    to: "src/lib/actions/bookmarksComments.ts",
+    category: "Actions",
+  },
+  {
+    from: "src/lib/actions/genres-types.ts",
+    to: "src/lib/actions/genresTypes.ts",
+    category: "Actions",
+  },
 
   // Services
-  { from: "src/services/cache.service.ts", to: "src/services/cacheService.ts", category: "Services" },
-  { from: "src/services/image.service.ts", to: "src/services/imageService.ts", category: "Services" },
-  { from: "src/services/rate-limit.service.ts", to: "src/services/rateLimitService.ts", category: "Services" },
-  { from: "src/services/reading-progress.service.ts", to: "src/services/readingProgressService.ts", category: "Services" },
-  { from: "src/services/search.service.ts", to: "src/services/searchService.ts", category: "Services" },
+  {
+    from: "src/services/cache.service.ts",
+    to: "src/services/cacheService.ts",
+    category: "Services",
+  },
+  {
+    from: "src/services/image.service.ts",
+    to: "src/services/imageService.ts",
+    category: "Services",
+  },
+  {
+    from: "src/services/rate-limit.service.ts",
+    to: "src/services/rateLimitService.ts",
+    category: "Services",
+  },
+  {
+    from: "src/services/reading-progress.service.ts",
+    to: "src/services/readingProgressService.ts",
+    category: "Services",
+  },
+  {
+    from: "src/services/search.service.ts",
+    to: "src/services/searchService.ts",
+    category: "Services",
+  },
 
   // Seeders
-  { from: "src/database/seed/seeders/user-seeder.ts", to: "src/database/seed/seeders/userSeeder.ts", category: "Seeders" },
-  { from: "src/database/seed/seeders/comic-seeder.ts", to: "src/database/seed/seeders/comicSeeder.ts", category: "Seeders" },
-  { from: "src/database/seed/seeders/chapter-seeder.ts", to: "src/database/seed/seeders/chapterSeeder.ts", category: "Seeders" },
+  {
+    from: "src/database/seed/seeders/user-seeder.ts",
+    to: "src/database/seed/seeders/userSeeder.ts",
+    category: "Seeders",
+  },
+  {
+    from: "src/database/seed/seeders/comic-seeder.ts",
+    to: "src/database/seed/seeders/comicSeeder.ts",
+    category: "Seeders",
+  },
+  {
+    from: "src/database/seed/seeders/chapter-seeder.ts",
+    to: "src/database/seed/seeders/chapterSeeder.ts",
+    category: "Seeders",
+  },
 
   // Utils
-  { from: "src/database/seed/utils/file-utils.ts", to: "src/database/seed/utils/fileUtils.ts", category: "Utils" },
-  { from: "src/database/seed/utils/metadata-cache.ts", to: "src/database/seed/utils/metadataCache.ts", category: "Utils" },
-  { from: "src/database/seed/utils/batch-processor.ts", to: "src/database/seed/utils/batchProcessor.ts", category: "Utils" },
+  {
+    from: "src/database/seed/utils/file-utils.ts",
+    to: "src/database/seed/utils/fileUtils.ts",
+    category: "Utils",
+  },
+  {
+    from: "src/database/seed/utils/metadata-cache.ts",
+    to: "src/database/seed/utils/metadataCache.ts",
+    category: "Utils",
+  },
+  {
+    from: "src/database/seed/utils/batch-processor.ts",
+    to: "src/database/seed/utils/batchProcessor.ts",
+    category: "Utils",
+  },
 
   // Lib
   { from: "src/lib/auth-config.ts", to: "src/lib/authConfig.ts", category: "Lib" },
@@ -85,23 +145,59 @@ const fileRenames: FileRename[] = [
   { from: "src/lib/search-refactored.ts", to: "src/lib/searchRefactored.ts", category: "Lib" },
 
   // Validations
-  { from: "src/lib/validations/comic-form.ts", to: "src/lib/validations/comicForm.ts", category: "Validations" },
+  {
+    from: "src/lib/validations/comic-form.ts",
+    to: "src/lib/validations/comicForm.ts",
+    category: "Validations",
+  },
 
   // Hooks
   { from: "src/hooks/use-boolean.tsx", to: "src/hooks/useBoolean.tsx", category: "Hooks" },
-  { from: "src/hooks/use-copy-to-clipboard.tsx", to: "src/hooks/useCopyToClipboard.tsx", category: "Hooks" },
+  {
+    from: "src/hooks/use-copy-to-clipboard.tsx",
+    to: "src/hooks/useCopyToClipboard.tsx",
+    category: "Hooks",
+  },
   { from: "src/hooks/use-dark-mode.tsx", to: "src/hooks/useDarkMode.tsx", category: "Hooks" },
   { from: "src/hooks/use-debounce.ts", to: "src/hooks/useDebounce.ts", category: "Hooks" },
-  { from: "src/hooks/use-debounce-callback.tsx", to: "src/hooks/useDebounceCallback.tsx", category: "Hooks" },
-  { from: "src/hooks/use-debounce-value.tsx", to: "src/hooks/useDebounceValue.tsx", category: "Hooks" },
-  { from: "src/hooks/use-event-callback.tsx", to: "src/hooks/useEventCallback.tsx", category: "Hooks" },
-  { from: "src/hooks/use-event-listener.ts", to: "src/hooks/useEventListener.ts", category: "Hooks" },
-  { from: "src/hooks/use-isomorphic-layout-effect.ts", to: "src/hooks/useIsomorphicLayoutEffect.ts", category: "Hooks" },
-  { from: "src/hooks/use-isomorphic-layout-effect.tsx", to: "src/hooks/useIsomorphicLayoutEffect.tsx", category: "Hooks" },
+  {
+    from: "src/hooks/use-debounce-callback.tsx",
+    to: "src/hooks/useDebounceCallback.tsx",
+    category: "Hooks",
+  },
+  {
+    from: "src/hooks/use-debounce-value.tsx",
+    to: "src/hooks/useDebounceValue.tsx",
+    category: "Hooks",
+  },
+  {
+    from: "src/hooks/use-event-callback.tsx",
+    to: "src/hooks/useEventCallback.tsx",
+    category: "Hooks",
+  },
+  {
+    from: "src/hooks/use-event-listener.ts",
+    to: "src/hooks/useEventListener.ts",
+    category: "Hooks",
+  },
+  {
+    from: "src/hooks/use-isomorphic-layout-effect.ts",
+    to: "src/hooks/useIsomorphicLayoutEffect.ts",
+    category: "Hooks",
+  },
+  {
+    from: "src/hooks/use-isomorphic-layout-effect.tsx",
+    to: "src/hooks/useIsomorphicLayoutEffect.tsx",
+    category: "Hooks",
+  },
   { from: "src/hooks/use-local-storage.ts", to: "src/hooks/useLocalStorage.ts", category: "Hooks" },
   { from: "src/hooks/use-media-query.ts", to: "src/hooks/useMediaQuery.ts", category: "Hooks" },
   { from: "src/hooks/use-mobile.ts", to: "src/hooks/useMobile.ts", category: "Hooks" },
-  { from: "src/hooks/use-on-click-outside.tsx", to: "src/hooks/useOnClickOutside.tsx", category: "Hooks" },
+  {
+    from: "src/hooks/use-on-click-outside.tsx",
+    to: "src/hooks/useOnClickOutside.tsx",
+    category: "Hooks",
+  },
   { from: "src/hooks/use-pagination.ts", to: "src/hooks/usePagination.ts", category: "Hooks" },
   { from: "src/hooks/use-toast.ts", to: "src/hooks/useToast.ts", category: "Hooks" },
   { from: "src/hooks/use-unmount.tsx", to: "src/hooks/useUnmount.tsx", category: "Hooks" },
@@ -111,12 +207,36 @@ const fileRenames: FileRename[] = [
   { from: "src/stores/ui.store.ts", to: "src/stores/uiStore.ts", category: "Stores" },
 
   // Components
-  { from: "src/components/auth/auth-form.tsx", to: "src/components/auth/authForm.tsx", category: "Components" },
-  { from: "src/components/auth/email-field.tsx", to: "src/components/auth/emailField.tsx", category: "Components" },
-  { from: "src/components/auth/name-field.tsx", to: "src/components/auth/nameField.tsx", category: "Components" },
-  { from: "src/components/auth/password-field.tsx", to: "src/components/auth/passwordField.tsx", category: "Components" },
-  { from: "src/components/admin/comic-form.tsx", to: "src/components/admin/comicForm.tsx", category: "Components" },
-  { from: "src/components/admin/comic-form-enhanced.tsx", to: "src/components/admin/comicFormEnhanced.tsx", category: "Components" },
+  {
+    from: "src/components/auth/auth-form.tsx",
+    to: "src/components/auth/authForm.tsx",
+    category: "Components",
+  },
+  {
+    from: "src/components/auth/email-field.tsx",
+    to: "src/components/auth/emailField.tsx",
+    category: "Components",
+  },
+  {
+    from: "src/components/auth/name-field.tsx",
+    to: "src/components/auth/nameField.tsx",
+    category: "Components",
+  },
+  {
+    from: "src/components/auth/password-field.tsx",
+    to: "src/components/auth/passwordField.tsx",
+    category: "Components",
+  },
+  {
+    from: "src/components/admin/comic-form.tsx",
+    to: "src/components/admin/comicForm.tsx",
+    category: "Components",
+  },
+  {
+    from: "src/components/admin/comic-form-enhanced.tsx",
+    to: "src/components/admin/comicFormEnhanced.tsx",
+    category: "Components",
+  },
 ];
 
 // ═══════════════════════════════════════════════════
@@ -163,7 +283,7 @@ if (DRY_RUN) {
 
 async function updateEslintConfig() {
   const eslintPath = path.join(process.cwd(), "eslint.config.ts");
-  
+
   if (!fs.existsSync(eslintPath)) {
     console.log(chalk.yellow("  ⚠️  ESLint config not found, skipping"));
     return;
@@ -205,17 +325,17 @@ async function updateEslintConfig() {
 
 async function updateDatabaseSchema() {
   const schemaPath = path.join(srcDir, "database", "schema.ts");
-  
+
   if (!fs.existsSync(schemaPath)) {
     console.log(chalk.yellow("  ⚠️  Schema file not found, skipping"));
     return;
   }
 
   const content = fs.readFileSync(schemaPath, "utf-8");
-  
+
   // Check if already using camelCase
   const usesCamelCase = content.includes("createdAt:") && content.includes("updatedAt:");
-  
+
   if (usesCamelCase) {
     console.log(chalk.green("  ✓ Schema already uses camelCase"));
   } else {
@@ -252,13 +372,13 @@ async function renameFiles() {
         if (!fs.existsSync(targetDir)) {
           fs.mkdirSync(targetDir, { recursive: true });
         }
-        
+
         fs.renameSync(fromPath, toPath);
         stats.filesRenamed++;
-        
+
         const category = rename.category || "Other";
         categoryCounts.set(category, (categoryCounts.get(category) || 0) + 1);
-        
+
         console.log(chalk.green(`  ✓ ${path.basename(rename.from)} → ${path.basename(rename.to)}`));
       }
     } catch (error) {
@@ -291,10 +411,14 @@ async function updateAllImports() {
       for (const rename of fileRenames) {
         // Create import patterns
         const patterns = [
-          { old: rename.from.replace(/^src\//, "@/").replace(/\.(ts|tsx)$/, ""), 
-            new: rename.to.replace(/^src\//, "@/").replace(/\.(ts|tsx)$/, "") },
-          { old: rename.from.replace(/^src\//, "#/").replace(/\.(ts|tsx)$/, ""), 
-            new: rename.to.replace(/^src\//, "#/").replace(/\.(ts|tsx)$/, "") },
+          {
+            old: rename.from.replace(/^src\//, "@/").replace(/\.(ts|tsx)$/, ""),
+            new: rename.to.replace(/^src\//, "@/").replace(/\.(ts|tsx)$/, ""),
+          },
+          {
+            old: rename.from.replace(/^src\//, "#/").replace(/\.(ts|tsx)$/, ""),
+            new: rename.to.replace(/^src\//, "#/").replace(/\.(ts|tsx)$/, ""),
+          },
         ];
 
         for (const pattern of patterns) {
@@ -311,7 +435,9 @@ async function updateAllImports() {
         fs.writeFileSync(file, content, "utf-8");
         stats.importsUpdated++;
         if (VERBOSE) {
-          console.log(chalk.green(`  ✓ ${path.relative(process.cwd(), file)} (${changeCount} changes)`));
+          console.log(
+            chalk.green(`  ✓ ${path.relative(process.cwd(), file)} (${changeCount} changes)`)
+          );
         }
       } else if (updated && DRY_RUN) {
         updatedFiles++;

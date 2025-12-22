@@ -23,8 +23,10 @@ export async function checkRateLimit(
   reset: number;
 }> {
   const requests = config.limit || appConfig.rateLimit.default.requests;
-  const windowSeconds = config.window 
-    ? (typeof config.window === 'string' ? parseWindow(config.window) : config.window)
+  const windowSeconds = config.window
+    ? typeof config.window === "string"
+      ? parseWindow(config.window)
+      : config.window
     : 60;
   const now = Date.now();
   const windowMs = windowSeconds * 1000;

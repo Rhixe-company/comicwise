@@ -1,8 +1,8 @@
 "use server";
 
+import { db } from "#database/db";
+import { comicFormSchema, type ComicFormData } from "#lib/validations";
 import { comic, comicToGenre } from "#schema";
-import { db } from '#database/db';
-import { comicFormSchema, type ComicFormData } from '#lib/validations';
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { slugify } from "utils";

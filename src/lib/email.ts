@@ -22,10 +22,13 @@ const transporter = nodemailer.createTransport({
   host: appConfig.email.host,
   port: appConfig.email.port,
   secure: appConfig.email.secure,
-  auth: appConfig.email.user && appConfig.email.password ? {
-    user: appConfig.email.user,
-    pass: appConfig.email.password,
-  } : undefined,
+  auth:
+    appConfig.email.user && appConfig.email.password
+      ? {
+          user: appConfig.email.user,
+          pass: appConfig.email.password,
+        }
+      : undefined,
 });
 
 // Verify transporter configuration

@@ -1,10 +1,10 @@
+import { BookmarkButton } from "#components/BookmarkButton";
+import { ComicCard } from "#components/ComicCard";
+import { getComic, getRecommendedComics } from "#database/queries";
 import { Badge } from "#ui/badge";
 import { Button } from "#ui/button";
 import { Card, CardContent } from "#ui/card";
 import { Skeleton } from "#ui/skeleton";
-import { BookmarkButton } from '#components/BookmarkButton';
-import { ComicCard } from '#components/ComicCard';
-import { getComic, getRecommendedComics } from '#database/queries';
 import { BookOpen, Calendar, Eye, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

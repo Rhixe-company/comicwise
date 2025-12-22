@@ -3,12 +3,12 @@
 // ═══════════════════════════════════════════════════
 
 // Core Types
-export * from "./api";
-export * from "./dto";
 export * from "./actions";
-export * from "./schema";
-export * from "./forms";
+export * from "./api";
 export * from "./components";
+export * from "./dto";
+export * from "./forms";
+export * from "./schema";
 
 // System Types
 export * from "./cache";
@@ -19,12 +19,12 @@ export type { UploadProvider, UploadResult } from "./upload";
 
 // Database Types (avoid duplicate exports with schema)
 export type {
+  ChapterWithRelations,
   ComicFilters,
   ComicWithDetails,
   ComicWithRelations,
-  ChapterWithRelations,
-  UserWithRelations,
   PaginatedResponse as DatabasePaginatedResponse,
+  UserWithRelations,
 } from "./database";
 
 // Internal Types
@@ -32,9 +32,9 @@ export * from "./internal";
 
 // Note: globals.d.ts is automatically included by TypeScript
 // Re-export commonly used types for convenience
-export type { ActionResponse, ApiResponse } from "./api";
-export type { User, Comic, Chapter, Author, Artist, Genre } from "./schema";
 export type { ActionResult, PaginatedResponse } from "./actions";
+export type { ActionResponse, ApiResponse } from "./api";
+export type { Artist, Author, Chapter, Comic, Genre, User } from "./schema";
 
 // ═══════════════════════════════════════════════════
 // COMMON UTILITY TYPES
@@ -87,7 +87,9 @@ export type Exact<T, Shape> = T extends Shape
 export type StrictOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type StrictPick<T, K extends keyof T> = Pick<T, K>;
 
-export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (k: infer I) => void
+export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (
+  k: infer I
+) => void
   ? I
   : never;
 

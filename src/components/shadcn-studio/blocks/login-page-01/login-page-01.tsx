@@ -2,9 +2,9 @@ import { Button } from "ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
 import { Separator } from "ui/separator";
 
-import LoginForm from '#components/shadcn-studio/blocks/login-page-01/login-form';
-import Logo from '#components/shadcn-studio/logo';
 import AuthBackgroundShape from "#assets/svg/auth-background-shape";
+import LoginForm from "#components/shadcn-studio/blocks/login-page-01/login-form";
+import Logo from "#components/shadcn-studio/logo";
 
 const Login = () => {
   return (

@@ -2,7 +2,7 @@
 // COMPONENT TYPES - React Component Prop Types
 // ═══════════════════════════════════════════════════
 
-import type { ReactNode, ComponentPropsWithoutRef, ElementType } from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 
 // ═══════════════════════════════════════════════════
 // BASE COMPONENT PROPS

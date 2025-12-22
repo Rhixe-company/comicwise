@@ -1,20 +1,20 @@
 "use server";
 
 import { error } from "#actions/utils";
-import { passwordResetToken, user, verificationToken } from "#schema";
-import { db as database } from '#database/db';
-import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from '#lib/nodemailer';
-import { checkRateLimit } from '#lib/ratelimit';
+import { db as database } from "#database/db";
+import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "#lib/nodemailer";
+import { checkRateLimit } from "#lib/ratelimit";
 import {
   forgotPasswordSchema,
   resetPasswordSchema,
   signUpSchema,
   verifyEmailSchema,
-} from '#lib/validations';
-import type { ActionResponse } from "types";
+} from "#lib/validations";
+import { passwordResetToken, user, verificationToken } from "#schema";
 import appConfig from "appConfig";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
+import type { ActionResponse } from "types";
 import { z } from "zod";
 
 export async function registerWorkflow(formData: FormData): Promise<ActionResponse> {
@@ -28,7 +28,7 @@ export async function registerWorkflow(formData: FormData): Promise<ActionRespon
     // Rate limiting
     const rateLimit = await checkRateLimit(`register:${data.email}`, {
       limit: appConfig.rateLimit.auth.requests,
-      window: appConfig.rateLimit.auth.window
+      window: appConfig.rateLimit.auth.window,
     });
     if (!rateLimit.allowed) {
       return error("Too many registration attempts. Please try again later.");
@@ -93,7 +93,7 @@ export async function forgotPasswordWorkflow(formData: FormData): Promise<Action
     // Rate limiting
     const rateLimit = await checkRateLimit(`reset:${data.email}`, {
       limit: appConfig.rateLimit.email.requests,
-      window: appConfig.rateLimit.email.window
+      window: appConfig.rateLimit.email.window,
     });
     if (!rateLimit.allowed) {
       return error("Too many reset attempts. Please try again later.");
@@ -215,7 +215,7 @@ export async function resendVerificationEmail(email: string): Promise<ActionResp
     // Rate limiting
     const rateLimit = await checkRateLimit(`resend:${email}`, {
       limit: appConfig.rateLimit.email.requests,
-      window: appConfig.rateLimit.email.window
+      window: appConfig.rateLimit.email.window,
     });
     if (!rateLimit.allowed) {
       return error("Too many requests. Please try again later.");

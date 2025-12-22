@@ -2,6 +2,7 @@
 // AUTHOR DETAIL API
 // ═══════════════════════════════════════════════════
 
+import { authorIdSchema, updateAuthorSchema } from "#lib/validations";
 import { deleteAuthor, updateAuthor } from "#mutations/authors";
 import { getAuthorById } from "#queries/authors";
 import {
@@ -10,7 +11,6 @@ import {
   updateGenericEntity,
   zodToValidationResult,
 } from "@/app/api/lib/generic-crud";
-import { authorIdSchema, updateAuthorSchema } from '#lib/validations';
 import type { NextRequest } from "next/server";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {

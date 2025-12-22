@@ -5,9 +5,9 @@ import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
+import { db as database } from "#database/db";
+import { DrizzleAdapter } from "#lib/authAdapter";
 import { user as userTable } from "#schema";
-import { db as database } from '#database/db';
-import { DrizzleAdapter } from '#lib/authAdapter';
 import appConfig from "appConfig";
 
 export const authOptions = {
@@ -85,7 +85,7 @@ export const authOptions = {
   callbacks: {
     async signIn({ user, account }: { user: AuthUser | undefined; account?: any }) {
       if (!account) return false;
-      
+
       if (account.provider === "credentials") {
         return true;
       }

@@ -25,6 +25,7 @@ pnpm dev
 ## 🏗️ Project Overview
 
 ComicWise is a modern comic reading platform built with:
+
 - **Next.js 16** with App Router & React 19
 - **TypeScript 5** with strict type safety
 - **Drizzle ORM** with PostgreSQL
@@ -93,7 +94,7 @@ import type {
   Comic,
   Chapter,
   ActionResult,
-  PaginatedResponse
+  PaginatedResponse,
 } from "types";
 ```
 
@@ -103,14 +104,14 @@ Custom paths configured in `tsconfig.json`:
 
 ```typescript
 // Primary aliases (recommended)
-import { Button } from "#ui/button"
-import { getComics } from "#dto/comicsDto"
-import { db } from "db"
-import { auth } from "auth"
-import type { User } from "types"
+import { Button } from "#ui/button";
+import { getComics } from "#dto/comicsDto";
+import { db } from "db";
+import { auth } from "auth";
+import type { User } from "types";
 
 // Legacy @ alias (still works)
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 ```
 
 ## 🎯 Scripts & CLI
@@ -120,6 +121,7 @@ import { Button } from "@/components/ui/button"
 Use the enhanced CLI wrapper for all commands:
 
 **PowerShell (Windows):**
+
 ```powershell
 .\scripts\cw.ps1 db:push
 .\scripts\cw.ps1 upload:bulk --provider cloudinary
@@ -127,6 +129,7 @@ Use the enhanced CLI wrapper for all commands:
 ```
 
 **Bash (Mac/Linux):**
+
 ```bash
 ./scripts/cw.sh db:push
 ./scripts/cw.sh cache:clear
@@ -136,6 +139,7 @@ Use the enhanced CLI wrapper for all commands:
 ### Command Categories
 
 #### Database Commands
+
 ```bash
 db:push              # Push schema changes
 db:pull              # Pull schema from database
@@ -149,6 +153,7 @@ db:restore <file>    # Restore from backup
 ```
 
 #### Cache Commands
+
 ```bash
 cache:clear          # Clear all caches
 cache:stats          # Show cache statistics
@@ -157,6 +162,7 @@ redis:flush          # Flush all Redis data
 ```
 
 #### Queue Commands
+
 ```bash
 queue:worker         # Start background worker
 queue:stats          # Show queue statistics
@@ -165,6 +171,7 @@ queue:dashboard      # Open Bull Board UI
 ```
 
 #### Upload Commands
+
 ```bash
 upload:bulk                          # Bulk upload (default provider)
 upload:bulk --provider cloudinary    # Upload to Cloudinary
@@ -174,6 +181,7 @@ upload:test                          # Test upload configuration
 ```
 
 #### Health Check Commands
+
 ```bash
 health:all           # Run all health checks
 health:db            # Check database connection
@@ -181,6 +189,7 @@ health:redis         # Check Redis connection
 ```
 
 #### Development Commands
+
 ```bash
 dev                  # Start development server
 build                # Build for production
@@ -192,6 +201,7 @@ type-check           # TypeScript type checking
 ```
 
 #### Testing Commands
+
 ```bash
 test                 # Run all E2E tests
 test:unit            # Run unit tests
@@ -203,6 +213,7 @@ test:firefox         # Test in Firefox only
 ```
 
 #### Docker Commands
+
 ```bash
 docker:up            # Start containers
 docker:down          # Stop containers
@@ -213,6 +224,7 @@ docker:clean         # Remove volumes
 ```
 
 #### Utility Commands
+
 ```bash
 clean                # Clean build artifacts
 clean:all            # Clean everything including node_modules
@@ -222,6 +234,7 @@ fix                  # Auto-fix all issues
 ```
 
 #### Priority System
+
 ```bash
 priority:list        # List all priority tasks
 priority:status      # Show completion status
@@ -356,13 +369,16 @@ AWS_S3_BUCKET=your-bucket-name
 ## 📚 Key Features
 
 ### 1. Enhanced Type Safety
+
 - Comprehensive type system in `src/types/`
 - Strict TypeScript configuration
 - Type-safe database queries with Drizzle
 - Validated server actions with Zod
 
 ### 2. Server Actions with DTOs
+
 All server actions have been migrated to enhanced DTO files:
+
 - `#dto/comicsDto` - Comic CRUD operations
 - `#dto/chaptersDto` - Chapter management
 - `#dto/authDto` - Authentication
@@ -370,29 +386,35 @@ All server actions have been migrated to enhanced DTO files:
 - And more...
 
 ### 3. Optimized Import Paths
+
 - Use `#` prefix for consistency
 - Short aliases for common imports
 - Automatic import optimization
 
 ### 4. Bulk Upload System
+
 Upload images to multiple providers:
+
 ```bash
 pnpm upload:bulk --provider cloudinary --path ./comics
 pnpm upload:bulk --provider imagekit --dry-run
 ```
 
 ### 5. Background Jobs
+
 - Email sending
 - Image processing
 - Database cleanup
 - Notifications
 
 ### 6. Caching Strategy
+
 - Redis caching for comics, chapters
 - Static page caching
 - API response caching
 
 ### 7. Comprehensive Testing
+
 - Unit tests with Vitest
 - E2E tests with Playwright
 - Component testing

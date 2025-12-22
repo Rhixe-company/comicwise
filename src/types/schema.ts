@@ -2,8 +2,8 @@
 // SCHEMA TYPES - Database Schema Type Definitions
 // ═══════════════════════════════════════════════════
 
-import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
 import type * as schema from "#schema";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════
 // USER & AUTH TYPES
@@ -75,8 +75,8 @@ export type InsertReadingProgress = InferInsertModel<typeof schema.readingProgre
 // ENUM TYPES
 // ═══════════════════════════════════════════════════
 
-export type UserRole = typeof schema.userRole.enumValues[number];
-export type ComicStatus = typeof schema.comicStatus.enumValues[number];
+export type UserRole = (typeof schema.userRole.enumValues)[number];
+export type ComicStatus = (typeof schema.comicStatus.enumValues)[number];
 
 // ═══════════════════════════════════════════════════
 // EXTENDED TYPES WITH RELATIONS
@@ -117,7 +117,10 @@ export type ReadingProgressWithRelations = ReadingProgress & {
 // UTILITY TYPES FOR FORMS
 // ═══════════════════════════════════════════════════
 
-export type CreateComicInput = Omit<InsertComic, "id" | "createdAt" | "updatedAt" | "views" | "rating">;
+export type CreateComicInput = Omit<
+  InsertComic,
+  "id" | "createdAt" | "updatedAt" | "views" | "rating"
+>;
 export type UpdateComicInput = Partial<CreateComicInput> & { id: number };
 
 export type CreateChapterInput = Omit<InsertChapter, "id" | "createdAt" | "views">;
@@ -139,10 +142,17 @@ export type CreateTypeInput = Omit<InsertType, "id" | "createdAt">;
 export type UpdateTypeInput = Partial<CreateTypeInput> & { id: number };
 
 export type CreateCommentInput = Omit<InsertComment, "id" | "createdAt" | "updatedAt">;
-export type UpdateCommentInput = Partial<Omit<CreateCommentInput, "userId" | "chapterId">> & { id: number };
+export type UpdateCommentInput = Partial<Omit<CreateCommentInput, "userId" | "chapterId">> & {
+  id: number;
+};
 
 export type CreateBookmarkInput = Omit<InsertBookmark, "createdAt" | "updatedAt">;
 export type UpdateBookmarkInput = Partial<Omit<CreateBookmarkInput, "userId" | "comicId">>;
 
-export type CreateReadingProgressInput = Omit<InsertReadingProgress, "id" | "createdAt" | "updatedAt" | "lastReadAt">;
-export type UpdateReadingProgressInput = Partial<Omit<CreateReadingProgressInput, "userId" | "comicId">> & { id: number };
+export type CreateReadingProgressInput = Omit<
+  InsertReadingProgress,
+  "id" | "createdAt" | "updatedAt" | "lastReadAt"
+>;
+export type UpdateReadingProgressInput = Partial<
+  Omit<CreateReadingProgressInput, "userId" | "comicId">
+> & { id: number };

@@ -1,11 +1,11 @@
 "use client";
 
+import { ComicsTable } from "#admin/ComicsTable";
+import { useToast } from "#hooks/useToast";
 import { Button } from "#ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "#ui/card";
 import { Input } from "#ui/input";
 import { bulkDeleteComics, deleteComic } from "@/app/admin/comics/actions";
-import { ComicsTable } from '#admin/ComicsTable';
-import { useToast } from '#hooks/useToast';
 import { Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";

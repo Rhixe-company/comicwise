@@ -6,14 +6,14 @@
  */
 
 export {
-  createChapter,
-  updateChapter,
-  deleteChapter,
-  getChapterById,
-  listChapters,
-  getChaptersByComic,
   addChapterImages,
-  getChapterImages,
-  getLatestChapters,
+  createChapter,
+  deleteChapter,
   getAdjacentChapters,
-} from '#actions/chapters';
+  getChapterById,
+  getChapterImages,
+  getChaptersByComic,
+  getLatestChapters,
+  listChapters,
+  updateChapter,
+} from "#actions/chapters";

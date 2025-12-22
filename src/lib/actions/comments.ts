@@ -1,10 +1,10 @@
 "use server";
 
 import { error } from "#actions/utils";
-import * as mutations from '#database/mutations';
-import type { ActionResponse } from "types";
+import * as mutations from "#database/mutations";
 import appConfig, { checkRateLimit } from "appConfig";
 import { revalidatePath } from "next/cache";
+import type { ActionResponse } from "types";
 import z from "zod";
 
 const commentSchema = z

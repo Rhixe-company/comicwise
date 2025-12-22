@@ -1,5 +1,5 @@
-import { DataTable } from '#admin/DataTable';
-import { db } from '#database/db';
+import { DataTable } from "#admin/DataTable";
+import { db } from "#database/db";
 import { Suspense } from "react";
 import { user } from "src/database";
 

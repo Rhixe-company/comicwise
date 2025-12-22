@@ -5,4 +5,4 @@
  * Centralized exports for bookmarksComments server actions
  */
 
-export * from '#actions/bookmarksComments';
+export * from "#actions/bookmarksComments";

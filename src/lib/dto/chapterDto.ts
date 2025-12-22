@@ -5,4 +5,4 @@
  * Centralized exports for chapter server actions
  */
 
-export * from '#actions/chapter';
+export * from "#actions/chapter";

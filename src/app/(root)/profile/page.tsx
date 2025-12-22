@@ -1,3 +1,4 @@
+import { getBookmarkCount } from "#database/queries";
 import { Avatar, AvatarFallback, AvatarImage } from "#ui/avatar";
 import { Button } from "#ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "#ui/card";
@@ -6,7 +7,6 @@ import { Label } from "#ui/label";
 import { auth } from "auth";
 import { BookMarked, Mail, User } from "lucide-react";
 import { redirect } from "next/navigation";
-import { getBookmarkCount } from "#database/queries";
 
 export const metadata = {
   title: "Profile - ComicWise",

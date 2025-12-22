@@ -5,8 +5,4 @@
  * Centralized exports for types server actions
  */
 
-export {
-  createType,
-  updateType,
-  deleteType,
-} from '#actions/types';
+export { createType, deleteType, updateType } from "#actions/types";

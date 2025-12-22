@@ -1,6 +1,6 @@
 "use client";
 
-import { useBookmarkStore } from '#stores/bookmarkStore';
+import { useBookmarkStore } from "#stores/bookmarkStore";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";

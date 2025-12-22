@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useRef } from "react";
 import { useIsomorphicLayoutEffect } from "#hooks/use-isomorphic-layout-effect";
+import { useCallback, useRef } from "react";
 
 /**
  * Custom hook that creates a memoized event callback that's safe to call during rendering.

@@ -1,12 +1,12 @@
 /**
  * Server-side authentication helpers
  */
+import { db as database } from "#database/db";
+import { authOptions } from "#lib/authConfig";
+import { user } from "#schema";
 import { eq } from "drizzle-orm";
 import type { Session } from "next-auth";
 import NextAuth from "next-auth";
-import { user } from "#schema";
-import { db as database } from '#database/db';
-import { authOptions } from '#lib/authConfig';
 
 // Type assertion to satisfy NextAuth's strict typing
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions as any);

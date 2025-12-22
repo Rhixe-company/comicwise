@@ -5,8 +5,4 @@
  * Centralized exports for authors server actions
  */
 
-export {
-  createAuthor,
-  updateAuthor,
-  deleteAuthor,
-} from '#actions/authors';
+export { createAuthor, deleteAuthor, updateAuthor } from "#actions/authors";

@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "ui/dropdown-menu";
 
-import Logo from '#components/shadcn-studio/logo';
+import Logo from "#components/shadcn-studio/logo";
 
 type NavigationItem = {
   title: string;

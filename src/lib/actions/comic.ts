@@ -4,9 +4,9 @@ import {
   createComic as createComicMutation,
   deleteComic as deleteComicMutation,
   updateComic as updateComicMutation,
-} from '#database/mutations';
-import { getAllComics, getComic } from '#database/queries';
-import type { createComicSchema, updateComicSchema } from '#lib/validations';
+} from "#database/mutations";
+import { getAllComics, getComic } from "#database/queries";
+import type { createComicSchema, updateComicSchema } from "#lib/validations";
 import { auth } from "auth";
 import { revalidatePath } from "next/cache";
 import type { ComicFilters } from "types";

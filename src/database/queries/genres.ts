@@ -1,5 +1,5 @@
+import { db as database } from "#database/db";
 import { genre } from "#schema";
-import { db as database } from '#database/db';
 import { asc, desc, eq, ilike } from "drizzle-orm";
 
 export async function getGenreById(genreId: number) {

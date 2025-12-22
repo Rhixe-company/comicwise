@@ -5,4 +5,4 @@
  * Centralized exports for comic server actions
  */
 
-export * from '#actions/comic';
+export * from "#actions/comic";

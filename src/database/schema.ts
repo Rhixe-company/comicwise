@@ -342,7 +342,7 @@ export const comment = pgTable(
 );
 
 export const readingProgress = pgTable(
-  "reading_progress",
+  "readingProgress",
   {
     id: serial("id").primaryKey(),
     userId: text("user_id")
@@ -364,10 +364,10 @@ export const readingProgress = pgTable(
     updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
   },
   (table) => [
-    index("reading_progress_user_id_idx").on(table.userId),
-    index("reading_progress_comic_id_idx").on(table.comicId),
-    index("reading_progress_chapter_id_idx").on(table.chapterId),
-    index("reading_progress_last_read_idx").on(table.lastReadAt),
-    index("reading_progress_user_comic_idx").on(table.userId, table.comicId),
+    index("readingProgress_user_id_idx").on(table.userId),
+    index("readingProgress_comic_id_idx").on(table.comicId),
+    index("readingProgress_chapter_id_idx").on(table.chapterId),
+    index("readingProgress_last_read_idx").on(table.lastReadAt),
+    index("readingProgress_user_comic_idx").on(table.userId, table.comicId),
   ]
 );

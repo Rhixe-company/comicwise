@@ -10,7 +10,7 @@ import {
   uploadComicCover,
   uploadImage,
   validateImageFile,
-} from '#lib/imagekit';
+} from "#lib/imagekit";
 import appConfig from "appConfig";
 import { auth } from "auth";
 import type { NextRequest } from "next/server";

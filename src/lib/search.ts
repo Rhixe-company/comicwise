@@ -2,9 +2,9 @@
 // ADVANCED SEARCH SERVICE - Full-Text Search with PostgreSQL
 // ═══════════════════════════════════════════════════
 
-import { db } from '#database/db';
-import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
+import { db } from "#database/db";
 import { artist, author, comic, comicToGenre, genre, type } from "#schema";
+import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
 import type { ComicFilters } from "types";
 
 // ═══════════════════════════════════════════════════

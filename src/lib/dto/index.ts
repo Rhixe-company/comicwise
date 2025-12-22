@@ -11,22 +11,20 @@ export * from "./authorsDto";
 export * from "./bookmarkDto";
 export {
   createComment as createBookmarkComment,
-  updateComment as updateBookmarkComment,
   deleteComment as deleteBookmarkComment,
+  updateComment as updateBookmarkComment,
 } from "./bookmarksCommentsDto";
 export * from "./chaptersDto";
 export * from "./comicsDto";
 export * from "./commentsDto";
 export {
-  createGenre as createGenreType,
-  updateGenre as updateGenreType,
-  deleteGenre as deleteGenreType,
   createType as createContentType,
-  updateType as updateContentType,
+  createGenre as createGenreType,
   deleteType as deleteContentType,
+  deleteGenre as deleteGenreType,
+  updateType as updateContentType,
+  updateGenre as updateGenreType,
 } from "./genresTypesDto";
-export * from "./typesDto";
-export * from "./usersDto";
 export * from "./typesDto";
 export * from "./usersDto";
 export * from "./usersManagementDto";

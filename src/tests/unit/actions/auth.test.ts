@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════
 
 import { signInAction, signOutAction } from "#dto/authDto";
-import * as ratelimitLib from '#lib/ratelimit';
+import * as ratelimitLib from "#lib/ratelimit";
 import * as authLib from "auth";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
