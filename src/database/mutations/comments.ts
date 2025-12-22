@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
 import { db as database } from "@/database/db";
-import { comment } from "@/database/schema";
+import { comment } from '#schema';
 
 /**
  *

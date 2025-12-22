@@ -193,7 +193,7 @@ export class ComicSeeder {
 
     for (let index = 0; index < imagesToProcess.length; index++) {
       try {
-        const result = await imageService.processImageUrl(imagesToProcess[index], `comics/${slug}`);
+        const result = await imageService.processImageUrl(imagesToProcess[index], `uploads/comics/${slug}`);
         if (result) {
           await mutations.createComicImage({
             comicId,

@@ -157,7 +157,7 @@ export class ImageService {
           // Upload via configured provider (local/imagekit/cloudinary)
           const uploadResult = await provider.upload(buffer, {
             folder: subDirectory,
-            filename: hash, // Use hash as base filename
+            filename: `${hash}${extension}`, // Include original extension
             tags: ["seed", "downloaded"], // Tag for organization
           });
 

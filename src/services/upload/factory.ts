@@ -2,7 +2,7 @@
 // UPLOAD PROVIDER FACTORY - Provider selection and instantiation
 // ═══════════════════════════════════════════════════════════════════════════
 
-import { env } from "@/app-config";
+import { env } from 'appConfig';
 
 import type { UploadProvider, UploadProviderType } from "src/services/upload/types";
 
@@ -48,7 +48,7 @@ export async function getUploadProvider(): Promise<UploadProvider> {
  * @returns The provider type from environment
  */
 export function getConfiguredProvider(): UploadProviderType {
-  return env.UPLOAD_PROVIDER;
+  return (env.UPLOAD_PROVIDER || "local") as UploadProviderType;
 }
 
 /**

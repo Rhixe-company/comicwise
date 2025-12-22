@@ -1,4 +1,4 @@
-import { appConfig } from "@/app-config";
+import appConfig from "appConfig";
 
 interface RateLimitRecord {
   count: number;
@@ -8,16 +8,24 @@ interface RateLimitRecord {
 const rateLimitMap = new Map<string, RateLimitRecord>();
 
 export interface RateLimitConfig {
-  requests: number;
-  window: number; // seconds
+  limit?: number;
+  window?: string;
 }
 
-export function checkRateLimit(
+export async function checkRateLimit(
   identifier: string,
-  config: RateLimitConfig = appConfig.rateLimit.default
-): { allowed: boolean; remaining: number; resetAt: number } {
+  config: RateLimitConfig = {}
+): Promise<{
+  allowed: boolean;
+  success: boolean;
+  limit: number;
+  remaining: number;
+  reset: number;
+}> {
+  const requests = config.limit || appConfig.rateLimit.default.requests;
+  const windowSeconds = config.window ? parseWindow(config.window) : 60;
   const now = Date.now();
-  const windowMs = config.window * 1000;
+  const windowMs = windowSeconds * 1000;
   const record = rateLimitMap.get(identifier);
 
   if (!record || now > record.resetTime) {
@@ -25,25 +33,52 @@ export function checkRateLimit(
     rateLimitMap.set(identifier, { count: 1, resetTime });
     return {
       allowed: true,
-      remaining: config.requests - 1,
-      resetAt: resetTime,
+      success: true,
+      limit: requests,
+      remaining: requests - 1,
+      reset: resetTime,
     };
   }
 
-  if (record.count >= config.requests) {
+  if (record.count >= requests) {
     return {
       allowed: false,
+      success: false,
+      limit: requests,
       remaining: 0,
-      resetAt: record.resetTime,
+      reset: record.resetTime,
     };
   }
 
   record.count++;
   return {
     allowed: true,
-    remaining: config.requests - record.count,
-    resetAt: record.resetTime,
+    success: true,
+    limit: requests,
+    remaining: requests - record.count,
+    reset: record.resetTime,
   };
+}
+
+function parseWindow(window: string): number {
+  const match = window.match(/^(\d+)([smhd])$/);
+  if (!match) return 60;
+
+  const value = parseInt(match[1]);
+  const unit = match[2];
+
+  switch (unit) {
+    case "s":
+      return value;
+    case "m":
+      return value * 60;
+    case "h":
+      return value * 3600;
+    case "d":
+      return value * 86400;
+    default:
+      return 60;
+  }
 }
 
 export function clearRateLimit(identifier: string): void {

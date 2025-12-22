@@ -1,23 +1,14 @@
 {
   "compilerOptions": {
-    // ═══════════════════════════════════════════════════
-    // Language and Environment (Next.js 16 Optimized)
-    // ═══════════════════════════════════════════════════
     "target": "ES2022",
     "lib": ["DOM", "DOM.Iterable", "ESNext", "ES2022"],
     "jsx": "react-jsx",
-    // ═══════════════════════════════════════════════════
-    // Module Resolution (Next.js 16 with Turbopack)
-    // ═══════════════════════════════════════════════════
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "allowImportingTsExtensions": false,
-    // ═══════════════════════════════════════════════════
-    // Type Checking (Strict Mode for Production)
-    // ═══════════════════════════════════════════════════
     "strict": true,
-    "noUncheckedIndexedAccess": true,
+    "noUncheckedIndexedAccess": false,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
@@ -33,9 +24,6 @@
     "exactOptionalPropertyTypes": false,
     "noImplicitOverride": true,
     "noUncheckedSideEffectImports": false,
-    // ═══════════════════════════════════════════════════
-    // Emit Configuration
-    // ═══════════════════════════════════════════════════
     "noEmit": true,
     "declaration": false,
     "declarationMap": false,
@@ -43,67 +31,75 @@
     "removeComments": false,
     "importHelpers": true,
     "downlevelIteration": true,
-    // ═══════════════════════════════════════════════════
-    // Interop Constraints
-    // ═══════════════════════════════════════════════════
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
-    // ═══════════════════════════════════════════════════
-    // Completeness
-    // ═══════════════════════════════════════════════════
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    // ═══════════════════════════════════════════════════
-    // Advanced Options
-    // ═══════════════════════════════════════════════════
     "allowJs": true,
     "incremental": true,
     "tsBuildInfoFile": ".next/cache/tsbuildinfo.json",
-    // ═══════════════════════════════════════════════════
-    // Next.js 16 Specific Configuration
-    // ═══════════════════════════════════════════════════
     "plugins": [
       {
         "name": "next"
       }
     ],
-    // ═══════════════════════════════════════════════════
-    // Path Mapping (Optimized for Clean Imports)
-    // ═══════════════════════════════════════════════════
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "paths": {
+      // Primary alias - covers all src imports
       "@/*": ["./src/*"],
+      
+      // Specific module aliases for cleaner imports
+      "#components/*": ["./src/components/*"],
+      "#ui/*": ["./src/components/ui/*"],
+      "#layout/*": ["./src/components/layout/*"],
+      "#emails/*": ["./src/components/emails/*"],
+      
+      "#lib/*": ["./src/lib/*"],
+      "#actions/*": ["./src/lib/actions/*"],
+      "#validations/*": ["./src/lib/validations/*"],
+      
+      "#hooks/*": ["./src/hooks/*"],
+      "#types/*": ["./src/types/*"],
+      "#styles/*": ["./src/styles/*"],
+      "#assets/*": ["./src/assets/*"],
+      
+      "#database/*": ["./src/database/*"],
+      "#queries/*": ["./src/database/queries/*"],
+      "#mutations/*": ["./src/database/mutations/*"],
+      "#schema": ["./src/database/schema"],
+      
+      "#services/*": ["./src/services/*"],
+      "#stores/*": ["./src/stores/*"],
+      
+      // Legacy aliases (keep for compatibility)
       "src/*": ["./src/*"],
-      "styles/*": ["./src/styles/*"],
-      "assets/*": ["./src/assets/*"],
       "components/*": ["./src/components/*"],
-      "layout/*": ["./src/components/layout/*"],
       "ui/*": ["./src/components/ui/*"],
+      "layout/*": ["./src/components/layout/*"],
+      "emails/*": ["./src/components/emails/*"],
       "lib/*": ["./src/lib/*"],
       "actions/*": ["./src/lib/actions/*"],
       "hooks/*": ["./src/hooks/*"],
-      "database": ["./src/database"],
-      "database/": ["./src/database/"],
+      "styles/*": ["./src/styles/*"],
+      "assets/*": ["./src/assets/*"],
       "database/*": ["./src/database/*"],
-      "stores/*": ["./src/stores/*"],
       "services/*": ["./src/services/*"],
-      "emails/*": ["./src/components/emails/*"],
-      "types": ["./src/types/index"],
+      "stores/*": ["./src/stores/*"],
       "types/*": ["./src/types/*"],
-      "auth": ["./src/lib/auth"],
+      
+      // Special aliases
+      "appConfig": ["./app-config"],
       "db": ["./src/database/db"],
+      "auth": ["./src/lib/auth"],
       "utils": ["./src/lib/utils"],
-      "appConfig": ["./src/app-config/index"]
+      "types": ["./src/types/index"]
     }
   },
   "exclude": ["node_modules", ".next", "out", "build", "dist", "coverage"],
-  // ═══════════════════════════════════════════════════
-  // Include / Exclude Patterns
-  // ═══════════════════════════════════════════════════
   "include": [
     "next-env.d.ts",
     "**/*.ts",

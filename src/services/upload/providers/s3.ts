@@ -3,7 +3,7 @@
 // Next.js 16.0.7 + AWS S3 Integration
 // ═══════════════════════════════════════════════════
 
-import { env } from "@/app-config";
+import { env } from 'appConfig';
 import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
@@ -99,8 +99,8 @@ export class S3Provider implements UploadProvider {
       return {
         url,
         publicId: key,
-        width: undefined,
-        height: undefined,
+        width: undefined as any,
+        height: undefined as any,
         format: extension.replace(".", ""),
         size: buffer.length,
         thumbnail: url, // S3 doesn't auto-generate thumbnails
@@ -162,7 +162,7 @@ export class S3Provider implements UploadProvider {
   /**
    * Get URL for S3 object
    */
-  getUrl(publicId: string, transformation?: Record<string, unknown>): string {
+  getUrl(publicId: string, _transformation?: Record<string, unknown>): string {
     // S3 doesn't support URL transformations natively
     // For transformations, you'd need CloudFront + Lambda@Edge or similar
     return `https://${this.bucketName}.s3.${this.region}.amazonaws.com/${publicId}`;

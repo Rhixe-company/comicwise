@@ -2,7 +2,7 @@
 // IMAGEKIT SERVICE - Image Upload & Management
 // ═══════════════════════════════════════════════════
 
-import { appConfig } from "@/app-config";
+import appConfig, { checkRateLimit } from 'appConfig';
 import ImageKit from "imagekit";
 
 // ═══════════════════════════════════════════════════
@@ -12,7 +12,7 @@ import ImageKit from "imagekit";
 let imagekit: ImageKit | null = null;
 
 export function getImageKitInstance(): ImageKit {
-  if (!appConfig.upload.imageKit.enabled) {
+  if (!appConfig.upload.imageKit) {
     throw new Error("ImageKit is not configured. Please set IMAGEKIT environment variables.");
   }
 

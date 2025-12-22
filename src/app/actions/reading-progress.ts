@@ -1,9 +1,10 @@
 "use server";
 
+import { chapter, comic, readingProgress } from '#schema';
 import { auth } from "auth";
+import { db } from "@/database/db";
 import { and, desc, eq, lt } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { chapter, comic, database, readingProgress } from "src/database";
 
 export interface SaveProgressData {
   comicId: number;
@@ -28,6 +29,7 @@ export interface ReadingHistory {
 
 /**
  * Save reading progress for a chapter
+ * @param data
  */
 export async function saveReadingProgress(data: SaveProgressData) {
   try {
@@ -43,7 +45,7 @@ export async function saveReadingProgress(data: SaveProgressData) {
     const completedAt = progressPercent >= 95 ? new Date() : null;
 
     // Check if progress exists
-    const existing = await database
+    const existing = await db
       .select()
       .from(readingProgress)
       .where(
@@ -56,7 +58,7 @@ export async function saveReadingProgress(data: SaveProgressData) {
 
     if (existing.length > 0 && existing[0]) {
       // Update existing progress
-      await database
+      await db
         .update(readingProgress)
         .set({
           pageNumber: data.pageNumber,
@@ -70,7 +72,7 @@ export async function saveReadingProgress(data: SaveProgressData) {
         .where(eq(readingProgress.id, existing[0].id));
     } else {
       // Create new progress
-      await database.insert(readingProgress).values({
+      await db.insert(readingProgress).values({
         userId: session.user.id,
         comicId: data.comicId,
         chapterId: data.chapterId,
@@ -96,6 +98,7 @@ export async function saveReadingProgress(data: SaveProgressData) {
 
 /**
  * Get reading progress for a chapter
+ * @param chapterId
  */
 export async function getReadingProgress(chapterId: number) {
   try {
@@ -104,7 +107,7 @@ export async function getReadingProgress(chapterId: number) {
       return { success: false, error: "Unauthorized" };
     }
 
-    const progress = await database
+    const progress = await db
       .select()
       .from(readingProgress)
       .where(
@@ -124,6 +127,7 @@ export async function getReadingProgress(chapterId: number) {
 
 /**
  * Get reading history for user
+ * @param limit
  */
 export async function getReadingHistory(
   limit = 20
@@ -134,7 +138,7 @@ export async function getReadingHistory(
       return { success: false, error: "Unauthorized" };
     }
 
-    const history = await database
+    const history = await db
       .select({
         id: readingProgress.id,
         chapterId: readingProgress.chapterId,
@@ -179,6 +183,7 @@ export async function getReadingHistory(
 
 /**
  * Get continue reading list (comics with progress)
+ * @param limit
  */
 export async function getContinueReading(limit = 10) {
   try {
@@ -188,7 +193,7 @@ export async function getContinueReading(limit = 10) {
     }
 
     // Get latest progress for each comic (not completed)
-    const progress = await database
+    const progress = await db
       .select({
         id: readingProgress.id,
         comicId: readingProgress.comicId,
@@ -221,6 +226,7 @@ export async function getContinueReading(limit = 10) {
 
 /**
  * Delete reading progress
+ * @param progressId
  */
 export async function deleteReadingProgress(progressId: number) {
   try {
@@ -229,7 +235,7 @@ export async function deleteReadingProgress(progressId: number) {
       return { success: false, error: "Unauthorized" };
     }
 
-    await database
+    await db
       .delete(readingProgress)
       .where(and(eq(readingProgress.id, progressId), eq(readingProgress.userId, session.user.id)));
 

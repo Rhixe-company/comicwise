@@ -7,8 +7,8 @@ import {
   removeBookmark,
   updateBookmarkNotes,
   updateReadingProgress,
-} from "@/database/mutations/bookmarks";
-import { getUserBookmarks } from "@/database/queries/bookmarks";
+} from '#mutations/bookmarks';
+import { getUserBookmarks } from '#queries/bookmarks';
 import { createBookmarkSchema, updateBookmarkSchema } from "@/lib/validations";
 import { auth } from "auth";
 import type { NextRequest } from "next/server";

@@ -7,8 +7,8 @@ import {
   createChapterImages,
   deleteChapterImage,
   updateChapterImage,
-} from "@/database/mutations/chapterImages";
-import { getChapterImages } from "@/database/queries/chapterImages";
+} from '#mutations/chapterImages';
+import { getChapterImages } from '#queries/chapterImages';
 import {
   batchCreateChapterImagesSchema,
   batchDeleteSchema,

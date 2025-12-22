@@ -12,7 +12,7 @@ import type {
   comment,
   readingProgress,
   user,
-} from "@/database/schema";
+} from '#schema';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // BASE MODEL TYPES (Inferred from Schema)

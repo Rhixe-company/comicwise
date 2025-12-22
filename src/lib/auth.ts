@@ -11,7 +11,7 @@ import NextAuth from "next-auth";
  * Server-side authentication helpers
  */
 import { db as database } from "@/database/db";
-import { user } from "@/database/schema";
+import { user } from '#schema';
 import { authOptions } from "@/lib/auth-config";
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);

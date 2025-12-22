@@ -2,7 +2,7 @@
 // IMAGE UPLOAD API - ImageKit Integration
 // ═══════════════════════════════════════════════════
 
-import { appConfig } from "@/app-config";
+import appConfig, { checkRateLimit } from 'appConfig';
 import {
   fileToBuffer,
   generateUniqueFileName,

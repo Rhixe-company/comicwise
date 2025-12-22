@@ -4,8 +4,8 @@
  * Checks all system health indicators
  */
 
-import { env } from "@/app-config";
-import { db } from "@/database/db";
+import { env } from "appConfig";
+import { db } from "db";
 import { sql } from "drizzle-orm";
 import IORedis from "ioredis";
 

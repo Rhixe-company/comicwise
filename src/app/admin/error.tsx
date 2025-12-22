@@ -1,7 +1,7 @@
 "use client";
 
-import { isDevelopment } from "@/app-config";
-import { Button } from "@/components/ui/button";
+import { isDevelopment } from 'appConfig';
+import { Button } from '#ui/button';
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";

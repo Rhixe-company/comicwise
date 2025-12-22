@@ -38,6 +38,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "ik.imagekit.io" },
       { protocol: "https", hostname: "gg.asuracomic.net" },
       { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "localhost" },
+      { protocol: "http", hostname: "localhost" },
       {
         protocol: "https",
         hostname: "**",

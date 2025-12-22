@@ -1,4 +1,4 @@
-import { env } from "@/app-config";
+import { env } from 'appConfig';
 import { createCacheClient } from "src/lib/cache";
 /**
  * Redis Cache Service

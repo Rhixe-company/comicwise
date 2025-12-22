@@ -4,7 +4,7 @@
  * Clears Redis cache with options
  */
 
-import { env } from "@/app-config";
+import { env } from "appConfig";
 import IORedis from "ioredis";
 
 const redis = new IORedis({

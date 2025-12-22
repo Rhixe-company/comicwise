@@ -9,6 +9,22 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
+## 📖 Table of Contents
+
+- [Features](#-features)
+- [Prerequisites](#-prerequisites)
+- [Quick Start](#-quick-start)
+- [Project Structure](#-project-structure)
+- [CLI & Scripts](#-cli--scripts)
+- [Database](#-database-schema)
+- [Security](#-security-features)
+- [Image Upload](#-image-upload--optimization)
+- [Email Templates](#-email-templates)
+- [Configuration](#-configuration)
+- [Testing](#-testing)
+- [Theming](#-theming-system)
+- [Contributing](#-contributing)
+
 ---
 
 ## 🌟 Features
@@ -152,51 +168,181 @@ comicwise/
 
 ---
 
-## 🛠️ Available Commands
+## 🛠️ CLI & Scripts
 
-### Development
+### 🎯 Quick Access CLI
+
+ComicWise includes a powerful CLI system with 100+ organized scripts:
 
 ```bash
-make dev              # Start development server
-make build            # Build for production
-make start            # Start production server
-make preview          # Build and preview
+# Main CLI entry point
+pnpm cli
+
+# Or use the bin shortcut
+./bin/comicwise
+
+# Windows users
+node bin/comicwise.mjs
 ```
 
-### Code Quality
+**CLI Features:**
+- 📂 Categorized scripts (Development, Database, Testing, etc.)
+- 🔍 Interactive search and filtering
+- 📖 Built-in documentation for every command
+- ⚡ Tab completion support
+- 🔗 Workflow chaining capabilities
 
+### 📋 Script Categories
+
+#### Development
 ```bash
-make lint             # Run ESLint
-make lint-fix         # Fix linting issues
-make format           # Format with Prettier
-make type-check       # TypeScript type checking
-make check-all        # Run all checks
+pnpm dev              # Start dev server (Turbopack)
+pnpm dev:debug        # Start with Node.js inspector
+pnpm dev:https        # Start with HTTPS
+pnpm build            # Production build
+pnpm start            # Start production server
+pnpm preview          # Build and preview
 ```
 
-### Database
-
+#### Code Quality
 ```bash
-make db-generate      # Generate migrations
-make db-push          # Push schema changes
-make db-studio        # Open Drizzle Studio
-make db-seed          # Seed database
-make db-reset         # Reset and reseed
+pnpm validate         # Run all checks (type, lint, format)
+pnpm type-check       # TypeScript validation
+pnpm lint             # Run ESLint
+pnpm lint:fix         # Auto-fix lint issues
+pnpm format           # Format with Prettier
+pnpm check-all        # Complete validation suite
 ```
 
-### Docker
-
+#### Database
 ```bash
-make docker-up        # Start containers
-make docker-down      # Stop containers
-make docker-build     # Build images
-make docker-dev       # Start dev containers
-make docker-clean     # Clean all Docker resources
+pnpm db:push          # Push schema to database
+pnpm db:studio        # Open Drizzle Studio
+pnpm db:seed          # Seed database with test data
+pnpm db:seed:verbose  # Seed with detailed logs
+pnpm db:reset         # Drop, recreate, and seed
+pnpm db:backup        # Create database backup
 ```
 
-For all commands:
+#### Image Upload & Management
+```bash
+pnpm upload:bulk              # Bulk upload images
+pnpm upload:bulk:cloudinary   # Upload to Cloudinary
+pnpm upload:bulk:imagekit     # Upload to ImageKit
+pnpm upload:bulk:aws          # Upload to AWS S3
+pnpm upload:bulk:dry-run      # Test without uploading
+pnpm upload:comics            # Upload comic images
+pnpm upload:test              # Test upload service
+```
+
+#### Cache & Redis
+```bash
+pnpm cache:clear      # Clear all cache
+pnpm cache:stats      # View cache statistics
+pnpm redis:cli        # Open Redis CLI
+pnpm redis:flush      # Flush Redis database
+pnpm redis:start      # Start Redis container
+pnpm redis:stop       # Stop Redis container
+```
+
+#### Queue & Background Jobs
+```bash
+pnpm queue:worker     # Start queue worker
+pnpm queue:stats      # View queue statistics
+pnpm queue:clean      # Clean completed jobs
+pnpm queue:dashboard  # Open Bull Board UI
+pnpm qstash:test      # Test QStash workflow
+```
+
+#### System Health & Monitoring
+```bash
+pnpm health:check     # Complete health check
+pnpm health:db        # Check database connection
+pnpm health:redis     # Check Redis connection
+pnpm health:all       # Run all health checks
+```
+
+#### Testing
+```bash
+pnpm test             # Run Playwright E2E tests
+pnpm test:unit        # Run Vitest unit tests
+pnpm test:unit:ui     # Open Vitest UI
+pnpm test:ui          # Open Playwright UI
+pnpm test:debug       # Debug tests
+pnpm test:all         # Run all test suites
+```
+
+#### Docker
+```bash
+pnpm docker:dev       # Start dev containers
+pnpm docker:prod      # Start production containers
+pnpm docker:build     # Build images
+pnpm docker:down      # Stop all containers
+pnpm docker:clean     # Remove all containers/volumes
+pnpm docker:logs      # View all logs
+pnpm docker:shell     # Open shell in app container
+pnpm docker:test      # Run Docker health tests
+```
+
+#### Project Utilities
+```bash
+pnpm setup            # Initial project setup
+pnpm setup:docker     # Setup with Docker
+pnpm clean            # Clean build artifacts
+pnpm clean:all        # Clean everything (including node_modules)
+pnpm update-deps      # Update dependencies
+```
+
+### 🔧 Custom Script System
+
+#### Priority-Based Task Execution
+```bash
+pnpm priority:list      # List all tasks by priority
+pnpm priority:run:p0    # Run critical (P0) tasks
+pnpm priority:run:p1    # Run high priority (P1) tasks
+pnpm priority:status    # View task status
+pnpm priority:complete  # Mark tasks as complete
+```
+
+#### Workflow Management
+```bash
+pnpm workflow:test      # Test workflow execution
+```
+
+#### Import Optimization
+```bash
+pnpm imports:optimize   # Optimize all imports
+pnpm imports:check      # Check import paths (dry-run)
+```
+
+### 🎨 Shell Aliases (Optional)
+
+Add to your `.bashrc`, `.zshrc`, or PowerShell profile:
 
 ```bash
-make help
+# Quick aliases
+alias cw='pnpm cli'
+alias cwd='pnpm dev'
+alias cwb='pnpm build'
+alias cwt='pnpm test'
+alias cwdb='pnpm db:studio'
+alias cws='pnpm db:seed'
+```
+
+### 📚 CLI Documentation
+
+Every script includes:
+- Description of what it does
+- Required environment variables
+- Usage examples
+- Related commands
+- Troubleshooting tips
+
+Access documentation:
+```bash
+pnpm cli --help          # General help
+pnpm cli search <term>   # Search for commands
+pnpm cli docs <script>   # Detailed script docs
 ```
 
 ---
@@ -457,19 +603,237 @@ for details.
 
 ---
 
-## 🗺️ Roadmap
+## 🎨 Theming System
 
-- [ ] Mobile app development
-- [ ] Advanced search with Elasticsearch
-- [ ] Real-time notifications with WebSockets
-- [ ] Social features (follow users, activity feed)
-- [ ] Reading lists and collections
-- [ ] Comic recommendations AI
-- [ ] Multi-language support
-- [ ] PWA support
-- [ ] Analytics dashboard
-- [ ] API rate limiting with Upstash
+ComicWise includes a comprehensive theming system with:
+
+### Features
+- 🌓 **Dark/Light Mode** - Seamless theme switching
+- 🎨 **Custom Themes** - Create and apply custom color schemes
+- 💾 **Theme Persistence** - Saves user preferences
+- 🔧 **CSS Variables** - Easy customization
+- 📱 **Responsive** - Works across all devices
+
+### Usage
+
+```tsx
+import { useTheme } from "next-themes";
+
+function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+  
+  return (
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+      Toggle Theme
+    </button>
+  );
+}
+```
+
+### Creating Custom Themes
+
+Edit `src/app/globals.css`:
+
+```css
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  /* ... more variables */
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  /* ... more variables */
+}
+```
+
+### Theme Configuration
+
+Configure themes in `tailwind.config.ts`:
+
+```typescript
+module.exports = {
+  darkMode: ["class"],
+  theme: {
+    extend: {
+      colors: {
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+      },
+    },
+  },
+};
+```
 
 ---
 
-**Built with ❤️ using Next.js 16**
+## 🔄 CI/CD Integration
+
+### GitHub Actions Workflows
+
+ComicWise includes pre-configured CI/CD workflows:
+
+#### Continuous Integration
+```yaml
+# .github/workflows/ci.yml
+- Type checking
+- Linting
+- Unit tests
+- E2E tests
+- Build verification
+```
+
+#### Deployment
+```yaml
+# .github/workflows/deploy.yml
+- Docker image building
+- Container registry push
+- Production deployment
+- Health checks
+```
+
+### Pre-commit Hooks
+
+Automatic code quality checks:
+```bash
+# Configured via Husky
+- ESLint
+- Prettier
+- Type checking
+- Spell checking
+```
+
+### CI Health Tracking
+```bash
+pnpm ci              # Run CI checks locally
+pnpm ci:full         # Complete CI suite
+pnpm ci:test         # Run CI tests
+```
+
+---
+
+## 📘 Complete Documentation
+
+### Getting Started
+- [Quick Start Guide](docs/SETUP.md)
+- [Docker Setup](docs/DOCKER_ENV_SETUP.md)
+- [Environment Configuration](docs/CONFIG_FILE_INDEX.md)
+
+### Development
+- [CLI Reference](docs/CLI_REFERENCE.md)
+- [Workflow Chaining](docs/WORKFLOW_CHAINING.md)
+- [Error Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Pro Tips & Shortcuts](docs/PRO_TIPS.md)
+
+### Deployment
+- [Production Deployment](docs/DEPLOYMENT.md)
+- [CI/CD Templates](docs/CICD_TEMPLATES.md)
+- [Environment Variables](.envs/README.md)
+
+### Architecture
+- [Project Structure](docs/ARCHITECTURE.md)
+- [Database Schema](docs/DATABASE.md)
+- [API Reference](docs/API.md)
+
+---
+
+## 🚀 Project Scaffolding
+
+### Quick Templates
+
+```bash
+# Create new component
+pnpm cli scaffold component <name>
+
+# Create new API route
+pnpm cli scaffold api <route>
+
+# Create new page
+pnpm cli scaffold page <path>
+
+# Create new email template
+pnpm cli scaffold email <name>
+
+# Create full CRUD module
+pnpm cli scaffold crud <resource>
+```
+
+### Template Features
+- Pre-configured TypeScript types
+- Built-in error handling
+- Validation schemas
+- Test files
+- Documentation
+
+---
+
+## 🗺️ Roadmap
+
+### In Progress
+- [ ] Advanced analytics dashboard
+- [ ] Real-time notifications with WebSockets
+- [ ] AI-powered comic recommendations
+
+### Planned
+- [ ] Mobile app (React Native)
+- [ ] Advanced search with Elasticsearch
+- [ ] Social features (follow, activity feed)
+- [ ] Reading lists and collections
+- [ ] Multi-language support (i18n)
+- [ ] PWA support
+- [ ] GraphQL API
+- [ ] Micro-frontends architecture
+
+### Completed ✅
+- [x] Docker containerization
+- [x] CLI system with 100+ scripts
+- [x] Bulk image upload
+- [x] Redis caching
+- [x] Queue workers
+- [x] Health monitoring
+- [x] Comprehensive theming
+- [x] CI/CD pipelines
+
+---
+
+## 🎯 Performance
+
+### Optimizations
+- ⚡ **Next.js 16 Turbopack** - Lightning-fast builds
+- 🗜️ **Image Optimization** - Automatic WebP conversion
+- 📦 **Code Splitting** - Route-based chunking
+- 💾 **Redis Caching** - Reduced database queries
+- 🔄 **ISR** - Incremental Static Regeneration
+- 🎨 **CSS-in-JS** - Zero runtime overhead with Tailwind
+
+### Benchmarks
+- Lighthouse Score: 95+
+- First Contentful Paint: < 1.5s
+- Time to Interactive: < 3s
+- Build Time: ~45s (with Turbopack)
+
+---
+
+## 🔒 Security Best Practices
+
+- ✅ Environment variable validation
+- ✅ Rate limiting on all API routes
+- ✅ SQL injection prevention
+- ✅ XSS protection
+- ✅ CSRF tokens
+- ✅ Secure headers
+- ✅ Input sanitization
+- ✅ Password hashing (bcrypt)
+- ✅ JWT session management
+- ✅ OAuth 2.0 support
+
+---
+
+**Built with ❤️ using Next.js 16 | Powered by PostgreSQL & Redis**

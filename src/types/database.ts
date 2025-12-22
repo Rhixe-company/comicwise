@@ -21,7 +21,7 @@ import type {
   session,
   user,
   verificationToken,
-} from "@/database/schema";
+} from '#schema';
 
 // ═══════════════════════════════════════════════════
 // TABLE TYPES (Inferred from Drizzle Schema)

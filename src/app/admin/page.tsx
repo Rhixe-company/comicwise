@@ -1,6 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { bookmark, chapter, comic, comment, database, user } from "@/database";
+import { Button } from '#ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '#ui/card';
+import { bookmark, chapter, comic, comment, user } from "@/database";
+import { db } from "@/database/db";
 import { desc, sql } from "drizzle-orm";
 import { BookMarked, BookOpen, BookPlus, Eye, FileText, Plus, UserPlus, Users } from "lucide-react";
 import Link from "next/link";
@@ -36,9 +37,9 @@ function QuickActions() {
       <CardContent>
         <div
           className={`
-          grid gap-4
-          md:grid-cols-3
-        `}
+            grid gap-4
+            md:grid-cols-3
+          `}
         >
           {quickActions.map((action) => {
             const Icon = action.icon;
@@ -67,23 +68,23 @@ function QuickActions() {
 
 async function StatsGrid() {
   const [usersCount, comicsCount, chaptersCount, bookmarksCount, totalViews] = await Promise.all([
-    database
+    db
       .select({ count: sql<number>`count(*)::int` })
       .from(user)
       .then((r: any) => r[0]?.count || 0),
-    database
+    db
       .select({ count: sql<number>`count(*)::int` })
       .from(comic)
       .then((r: any) => r[0]?.count || 0),
-    database
+    db
       .select({ count: sql<number>`count(*)::int` })
       .from(chapter)
       .then((r: any) => r[0]?.count || 0),
-    database
+    db
       .select({ count: sql<number>`count(*)::int` })
       .from(bookmark)
       .then((r: any) => r[0]?.count || 0),
-    database
+    db
       .select({ total: sql<number>`sum(views)::int` })
       .from(comic)
       .then((r: any) => r[0]?.total || 0),
@@ -125,10 +126,10 @@ async function StatsGrid() {
   return (
     <div
       className={`
-      grid gap-4
-      md:grid-cols-2
-      lg:grid-cols-5
-    `}
+        grid gap-4
+        md:grid-cols-2
+        lg:grid-cols-5
+      `}
     >
       {stats.map((stat) => {
         const Icon = stat.icon;
@@ -136,8 +137,8 @@ async function StatsGrid() {
           <Card key={stat.title}>
             <CardHeader
               className={`
-              flex flex-row items-center justify-between space-y-0 pb-2
-            `}
+                flex flex-row items-center justify-between space-y-0 pb-2
+              `}
             >
               <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
               <Icon className="h-4 w-4 text-muted-foreground" />
@@ -154,7 +155,7 @@ async function StatsGrid() {
 }
 
 async function RecentComics() {
-  const recentComics = await database
+  const recentComics = await db
     .select({
       id: comic.id,
       title: comic.title,
@@ -185,9 +186,9 @@ async function RecentComics() {
                 <Link
                   href={`/admin/comics/${c.id}`}
                   className={`
-                  font-medium
-                  hover:underline
-                `}
+                    font-medium
+                    hover:underline
+                  `}
                 >
                   {c.title}
                 </Link>
@@ -210,7 +211,7 @@ async function RecentComics() {
 }
 
 async function RecentUsers() {
-  const recentUsers = await database
+  const recentUsers = await db
     .select({
       id: user.id,
       name: user.name,
@@ -258,7 +259,7 @@ async function RecentUsers() {
 }
 
 async function RecentChapters() {
-  const recentChapters = await database
+  const recentChapters = await db
     .select({
       id: chapter.id,
       title: chapter.title,
@@ -289,9 +290,9 @@ async function RecentChapters() {
                 <Link
                   href={`/admin/chapters/${ch.id}`}
                   className={`
-                  font-medium
-                  hover:underline
-                `}
+                    font-medium
+                    hover:underline
+                  `}
                 >
                   Ch. {ch.chapterNumber}: {ch.title}
                 </Link>
@@ -312,7 +313,7 @@ async function RecentChapters() {
 }
 
 async function RecentComments() {
-  const recentComments = await database
+  const recentComments = await db
     .select({
       id: comment.id,
       content: comment.content,
@@ -357,6 +358,9 @@ async function RecentComments() {
   );
 }
 
+/**
+ *
+ */
 export default function AdminDashboard() {
   return (
     <div className="space-y-6">
@@ -369,10 +373,10 @@ export default function AdminDashboard() {
         fallback={
           <div
             className={`
-          grid gap-4
-          md:grid-cols-2
-          lg:grid-cols-5
-        `}
+              grid gap-4
+              md:grid-cols-2
+              lg:grid-cols-5
+            `}
           >
             Loading stats...
           </div>
@@ -388,10 +392,10 @@ export default function AdminDashboard() {
       {/* Recent Activity */}
       <div
         className={`
-        grid gap-4
-        md:grid-cols-2
-        lg:grid-cols-2
-      `}
+          grid gap-4
+          md:grid-cols-2
+          lg:grid-cols-2
+        `}
       >
         <Suspense fallback={<div>Loading recent comics...</div>}>
           <RecentComics />

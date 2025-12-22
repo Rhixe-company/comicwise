@@ -4,9 +4,9 @@
 // GENRES & TYPES CRUD SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import { appConfig } from "@/app-config";
+import appConfig from 'appConfig';
 import { db as database } from "@/database/db";
-import { type as comicType, genre } from "@/database/schema";
+import { type as comicType, genre } from '#schema';
 import type {
   CreateGenreInput,
   CreateTypeInput,

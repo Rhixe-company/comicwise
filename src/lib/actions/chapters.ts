@@ -4,10 +4,10 @@
 // CHAPTERS CRUD SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import { appConfig } from "@/app-config";
+import appConfig from 'appConfig';
 import { db as database } from "@/database/db";
-import { chapter, chapterImage, comic } from "@/database/schema";
-import { slugify } from "@/lib/utils";
+import { chapter, chapterImage, comic } from '#schema';
+import { slugify } from 'utils';
 import type { ChapterFilterInput, CreateChapterInput, UpdateChapterInput } from "@/lib/validations";
 import { chapterFilterSchema, createChapterSchema, updateChapterSchema } from "@/lib/validations";
 import { and, desc, eq, sql, type SQL } from "drizzle-orm";

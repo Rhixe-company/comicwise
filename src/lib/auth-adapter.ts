@@ -1,7 +1,7 @@
 import { DrizzleAdapter as NextAuthDrizzleAdapter } from "@auth/drizzle-adapter";
 import type { Adapter } from "next-auth/adapters";
 
-import { account, session, user, verificationToken } from "@/database/schema";
+import { account, session, user, verificationToken } from '#schema';
 import type { Database } from "@/types/database-auto";
 
 /**

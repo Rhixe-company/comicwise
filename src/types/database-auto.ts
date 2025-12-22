@@ -1,6 +1,6 @@
 import type { InferModel } from "drizzle-orm";
 
-import type * as schema from "@/database/schema";
+import type * as schema from '#schema';
 
 // Per-table model types (read / insert)
 export type Users = InferModel<typeof schema.users>;
@@ -67,7 +67,7 @@ export type ReadingProgress = InferModel<typeof schema.readingProgress>;
 export type NewReadingProgress = InferModel<typeof schema.readingProgress, "insert">;
 
 // Re-export Database and Schema types for opt-in usage
-export type Database = import("db").Database;
+export type Database = typeof import("database/db");
 export type Schema = typeof import("database/schema");
 
 // Convenience mapping of table names to model types

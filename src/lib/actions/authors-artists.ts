@@ -4,9 +4,9 @@
 // AUTHORS & ARTISTS CRUD SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import { appConfig } from "@/app-config";
+import appConfig from 'appConfig';
 import { db as database } from "@/database/db";
-import { artist, author } from "@/database/schema";
+import { artist, author } from '#schema';
 import type {
   CreateArtistInput,
   CreateAuthorInput,

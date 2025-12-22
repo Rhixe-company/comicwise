@@ -2,7 +2,7 @@
  * User Seeder
  */
 
-import { appConfig } from "@/app-config";
+import appConfig, { checkRateLimit } from 'appConfig';
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
 import { ProgressTracker } from "@/database/seed/logger";

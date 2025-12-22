@@ -2,7 +2,7 @@ import type { InferSelectModel } from "drizzle-orm";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/database/db";
-import { comicImage } from "@/database/schema";
+import { comicImage } from '#schema';
 
 /**
  *

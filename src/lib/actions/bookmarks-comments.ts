@@ -4,9 +4,9 @@
 // BOOKMARKS & COMMENTS SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import { appConfig } from "@/app-config";
+import appConfig from 'appConfig';
 import { db as database } from "@/database/db";
-import { bookmark, comment } from "@/database/schema";
+import { bookmark, comment } from '#schema';
 import type {
   CreateBookmarkInput,
   CreateCommentInput,

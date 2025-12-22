@@ -1,7 +1,7 @@
 "use client";
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from '#ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#ui/card';
 import {
   Form,
   FormControl,
@@ -10,17 +10,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '#ui/form';
+import { Input } from '#ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
+} from '#ui/select';
+import { Switch } from '#ui/switch';
+import { Textarea } from '#ui/textarea';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

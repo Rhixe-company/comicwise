@@ -1,15 +1,15 @@
 "use server";
 
-import { appConfig, checkRateLimit } from "@/app-config";
+import appConfig, { checkRateLimit } from 'appConfig';
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
-import { error } from "@/lib/actions/utils";
+import { error } from '#actions/utils';
 import { sendPasswordResetEmail, sendWelcomeEmail } from "@/lib/nodemailer";
 import { signUpSchema } from "@/lib/validations";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { revalidatePath } from "next/cache";
-import type { ActionResponse } from "src/types";
+import type { ActionResponse } from "@/types";
 import { z } from "zod";
 
 const updateUserAdminSchema = z

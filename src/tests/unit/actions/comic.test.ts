@@ -8,7 +8,7 @@ import {
   getComicById,
   getComics,
   updateComic,
-} from "@/lib/actions/comic";
+} from '#actions/comic';
 import * as authLib from "auth";
 import * as mutations from "src/database/mutations";
 import * as queries from "src/database/queries";

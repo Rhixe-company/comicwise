@@ -1,7 +1,8 @@
 "use server";
 
-import { chapter, comic, database, readingProgress } from "@/database";
+import { chapter, comic, readingProgress } from "@/database";
 import { cacheKeys, cacheService, cacheTTL } from "@/services/cache.service";
+import { db } from "@/database/db";
 import { and, desc, eq, lt, sql } from "drizzle-orm";
 
 export interface ReadingProgressData {
@@ -34,9 +35,13 @@ export interface ReadingStats {
   pagesRead: number;
 }
 
+/**
+ *
+ */
 export class ReadingProgressService {
   /**
    * Save reading progress for a chapter
+   * @param data
    */
   async saveProgress(data: ReadingProgressData): Promise<void> {
     try {
@@ -44,7 +49,7 @@ export class ReadingProgressService {
       const completedAt = progressPercent >= 95 ? new Date() : null;
 
       // Check if progress exists
-      const existing = await database
+      const existing = await db
         .select()
         .from(readingProgress)
         .where(
@@ -55,32 +60,30 @@ export class ReadingProgressService {
         )
         .limit(1);
 
-      if (existing.length > 0 && existing[0]) {
-        await database
-          .update(readingProgress)
-          .set({
+      await (existing.length > 0 && existing[0]
+        ? db
+            .update(readingProgress)
+            .set({
+              pageNumber: data.pageNumber,
+              scrollPosition: data.scrollPosition,
+              totalPages: data.totalPages,
+              progressPercent,
+              completedAt: completedAt || existing[0].completedAt,
+              lastReadAt: new Date(),
+              updatedAt: new Date(),
+            })
+            .where(eq(readingProgress.id, existing[0].id))
+        : db.insert(readingProgress).values({
+            userId: data.userId,
+            chapterId: data.chapterId,
+            comicId: data.comicId,
             pageNumber: data.pageNumber,
             scrollPosition: data.scrollPosition,
             totalPages: data.totalPages,
             progressPercent,
-            completedAt: completedAt || existing[0].completedAt,
+            completedAt,
             lastReadAt: new Date(),
-            updatedAt: new Date(),
-          })
-          .where(eq(readingProgress.id, existing[0].id));
-      } else {
-        await database.insert(readingProgress).values({
-          userId: data.userId,
-          chapterId: data.chapterId,
-          comicId: data.comicId,
-          pageNumber: data.pageNumber,
-          scrollPosition: data.scrollPosition,
-          totalPages: data.totalPages,
-          progressPercent,
-          completedAt,
-          lastReadAt: new Date(),
-        });
-      }
+          }));
 
       await cacheService.delete(cacheKeys.userReadingProgress(data.userId, data.comicId));
       await cacheService.delete(cacheKeys.userReadingHistory(data.userId));
@@ -92,10 +95,12 @@ export class ReadingProgressService {
 
   /**
    * Get reading progress for a chapter
+   * @param userId
+   * @param chapterId
    */
   async getProgress(userId: string, chapterId: number) {
     try {
-      const progress = await database
+      const progress = await db
         .select()
         .from(readingProgress)
         .where(and(eq(readingProgress.userId, userId), eq(readingProgress.chapterId, chapterId)))
@@ -110,13 +115,15 @@ export class ReadingProgressService {
 
   /**
    * Get reading progress for a comic
+   * @param userId
+   * @param comicId
    */
   async getComicProgress(userId: string, comicId: number) {
     try {
       return await cacheService.getOrSet(
         cacheKeys.userReadingProgress(userId, comicId),
         async () => {
-          const progress = await database
+          const progress = await db
             .select()
             .from(readingProgress)
             .where(and(eq(readingProgress.userId, userId), eq(readingProgress.comicId, comicId)))
@@ -135,13 +142,15 @@ export class ReadingProgressService {
 
   /**
    * Get reading history for user
+   * @param userId
+   * @param limit
    */
   async getHistory(userId: string, limit = 20): Promise<ReadingHistory[]> {
     try {
       return await cacheService.getOrSet(
         cacheKeys.userReadingHistory(userId),
         async () => {
-          const history = await database
+          const history = await db
             .select({
               id: readingProgress.id,
               chapterId: readingProgress.chapterId,
@@ -184,10 +193,12 @@ export class ReadingProgressService {
 
   /**
    * Get continue reading list
+   * @param userId
+   * @param limit
    */
   async getContinueReading(userId: string, limit = 10) {
     try {
-      return await database
+      return await db
         .select({
           id: readingProgress.id,
           chapterId: readingProgress.chapterId,
@@ -213,10 +224,12 @@ export class ReadingProgressService {
 
   /**
    * Get completed chapters
+   * @param userId
+   * @param limit
    */
   async getCompletedChapters(userId: string, limit = 20) {
     try {
-      return await database
+      return await db
         .select()
         .from(readingProgress)
         .where(
@@ -232,10 +245,12 @@ export class ReadingProgressService {
 
   /**
    * Delete reading progress
+   * @param userId
+   * @param progressId
    */
   async deleteProgress(userId: string, progressId: number): Promise<boolean> {
     try {
-      const progress = await database
+      const progress = await db
         .select()
         .from(readingProgress)
         .where(eq(readingProgress.id, progressId))
@@ -245,7 +260,7 @@ export class ReadingProgressService {
         return false;
       }
 
-      await database.delete(readingProgress).where(eq(readingProgress.id, progressId));
+      await db.delete(readingProgress).where(eq(readingProgress.id, progressId));
 
       await cacheService.delete(cacheKeys.userReadingProgress(userId, progress[0].comicId));
       await cacheService.delete(cacheKeys.userReadingHistory(userId));
@@ -259,10 +274,12 @@ export class ReadingProgressService {
 
   /**
    * Clear all progress for a comic
+   * @param userId
+   * @param comicId
    */
   async clearComicProgress(userId: string, comicId: number): Promise<void> {
     try {
-      await database
+      await db
         .delete(readingProgress)
         .where(and(eq(readingProgress.userId, userId), eq(readingProgress.comicId, comicId)));
 
@@ -276,10 +293,11 @@ export class ReadingProgressService {
 
   /**
    * Get reading statistics
+   * @param userId
    */
   async getStats(userId: string): Promise<ReadingStats> {
     try {
-      const stats = await database
+      const stats = await db
         .select({
           totalComics: sql<number>`COUNT(DISTINCT ${readingProgress.comicId})`,
           totalChapters: sql<number>`COUNT(DISTINCT ${readingProgress.chapterId})`,

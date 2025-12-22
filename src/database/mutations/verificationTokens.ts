@@ -1,5 +1,5 @@
 import { db as database } from "@/database/db";
-import { verificationToken } from "@/database/schema";
+import { verificationToken } from '#schema';
 import { and, eq, lt } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════

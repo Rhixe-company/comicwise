@@ -8,13 +8,13 @@ dotenv.config();
 
 // Get DATABASE_URL with fallback to NEON_DATABASE_URL
 const getDatabaseUrl = (): string => {
-  let url = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
+  let url = process.env.DATABASE_URL ?? process.env.NEON_DATABASE_URL;
 
   if (!url) {
     try {
       // Try to read validated env from the project's env helper (if present)
       // Prefer dynamic import for compatibility and type safety
-      const environmentModule = import("./src/app-config/env") as {
+      const environmentModule = import("app-config") as {
         env?: { DATABASE_URL?: string };
       };
       if (environmentModule?.env?.DATABASE_URL) {

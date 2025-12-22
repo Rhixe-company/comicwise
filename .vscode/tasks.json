@@ -266,6 +266,73 @@
         "reveal": "always",
         "panel": "shared"
       }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // CACHE & REDIS
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "Cache: Clear",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["cache:clear"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Cache: Stats",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["cache:stats"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // QUEUE & WORKERS
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "Queue: Worker",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["queue:worker"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // HEALTH CHECKS
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "Health: Check",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["health:check"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // CLI TOOLS
+    // ═══════════════════════════════════════════════════════════════
+    {
+      "label": "CLI: Scaffold",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["cli:scaffold"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
     }
   ],
   "version": "2.0.0"

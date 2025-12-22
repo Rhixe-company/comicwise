@@ -3,7 +3,6 @@
 // Next.js 16.0.7 + Local File System Storage
 // ═══════════════════════════════════════════════════
 
-import { env } from "@/app-config";
 import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
@@ -76,7 +75,10 @@ export class LocalProvider implements UploadProvider {
       const ext = options.transformation?.format
         ? `.${options.transformation.format}`
         : path.extname(originalName) || ".jpg";
-      const filename = options.filename ? `${options.filename}${ext}` : `${hash}${ext}`;
+      // If filename already has extension, use as-is; otherwise append extension
+      const filename = options.filename
+        ? (path.extname(options.filename) ? options.filename : `${options.filename}${ext}`)
+        : `${hash}${ext}`;
 
       // Create directory structure
       const folder = options.folder || "general";
@@ -90,9 +92,9 @@ export class LocalProvider implements UploadProvider {
       // Get file stats
       const stats = await fs.stat(filePath);
 
-      // Construct public URL
-      const publicId = path.join(folder, filename);
-      const url = `${env.NEXT_PUBLIC_APP_URL}${this.publicPath}/${publicId}`;
+      // Construct public URL with forward slashes (relative path)
+      const publicId = `${folder}/${filename}`;
+      const url = `${this.publicPath}/${publicId}`;
 
       return {
         url,
@@ -131,7 +133,7 @@ export class LocalProvider implements UploadProvider {
    * Get URL for local file
    */
   getUrl(publicId: string, _transformation?: Record<string, unknown>): string {
-    return `${env.NEXT_PUBLIC_APP_URL}${this.publicPath}/${publicId}`;
+    return `${this.publicPath}/${publicId}`;
   }
 
   /**

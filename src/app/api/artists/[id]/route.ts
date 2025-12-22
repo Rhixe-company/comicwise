@@ -8,8 +8,8 @@ import {
   updateGenericEntity,
   zodToValidationResult,
 } from "@/app/api/lib/generic-crud";
-import { deleteArtist, updateArtist } from "@/database/mutations/artists";
-import { getArtistById } from "@/database/queries/artists";
+import { deleteArtist, updateArtist } from '#mutations/artists';
+import { getArtistById } from '#queries/artists';
 import { artistIdSchema, updateArtistSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 

@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
 import { db as database } from "@/database/db";
-import { session } from "@/database/schema";
+import { session } from '#schema';
 
 // ═══════════════════════════════════════════════════
 // SESSION MUTATIONS

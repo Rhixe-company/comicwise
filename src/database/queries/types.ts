@@ -1,5 +1,5 @@
 import { db as database } from "@/database/db";
-import { type } from "@/database/schema";
+import { type } from '#schema';
 import { asc, desc, eq, ilike } from "drizzle-orm";
 
 export async function getTypeById(typeId: number) {

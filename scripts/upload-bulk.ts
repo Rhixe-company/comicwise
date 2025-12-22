@@ -15,7 +15,7 @@
  *   pnpm upload:bulk --path=public/comics # Upload specific directory
  */
 
-import { env } from "@/app-config";
+import { env } from "appConfig";
 import { readFileSync, readdirSync, statSync } from "fs";
 import { basename, extname, join, relative } from "path";
 
@@ -246,7 +246,7 @@ class BulkUploader {
     // Upload files
     for (let i = 0; i < files.length; i++) {
       console.log(`\n[${i + 1}/${files.length}]`);
-      await this.uploadFile(files[i], fullPath);
+      await this.uploadFile(files[i]!, fullPath);
 
       // Small delay between files
       if (i < files.length - 1) {
@@ -367,26 +367,26 @@ Usage:
 Options:
   --provider=<name>    Upload to specific provider (imagekit, cloudinary, aws, all)
                        Default: all
-  
+
   --path=<directory>   Upload from specific directory
                        Default: public
-  
+
   --dry-run           Preview uploads without actually uploading
-  
+
   --verbose           Show detailed output
-  
+
   --help, -h          Show this help message
 
 Examples:
   # Upload all public images to all providers
   pnpm upload:bulk
-  
+
   # Upload only to ImageKit
   pnpm upload:bulk --provider=imagekit
-  
+
   # Upload specific directory
   pnpm upload:bulk --path=public/comics
-  
+
   # Dry run to preview
   pnpm upload:bulk --dry-run
 
@@ -395,12 +395,12 @@ Environment Variables Required:
     - IMAGEKIT_PUBLIC_KEY
     - IMAGEKIT_PRIVATE_KEY
     - IMAGEKIT_URL_ENDPOINT
-  
+
   Cloudinary:
     - CLOUDINARY_CLOUD_NAME
     - CLOUDINARY_API_KEY
     - CLOUDINARY_API_SECRET
-  
+
   AWS S3:
     - AWS_REGION
     - AWS_ACCESS_KEY_ID
@@ -427,7 +427,7 @@ async function main() {
 }
 
 // Run if executed directly
-if (import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}`) {
+if (import.meta.url === `file://${process.argv[1]!.replace(/\\/g, "/")}`) {
   main();
 }
 

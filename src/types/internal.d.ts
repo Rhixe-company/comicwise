@@ -1,39 +1,26 @@
-// Internal module aliases and common global types
-
-declare module "appConfig" {
-  import type { Env } from "src/app-config/env";
-
-  const appConfig: any;
-  const env: Env;
-  const isDevelopment: boolean;
-  const isProduction: boolean;
-  function checkRateLimit(...args: any[]): any;
-  function clearRateLimit(...args: any[]): any;
-  function getRateLimitStatus(...args: any[]): any;
-  export {
-    appConfig,
-    checkRateLimit,
-    clearRateLimit,
-    env,
-    getRateLimitStatus,
-    isDevelopment,
-    isProduction,
-  };
+// Internal types for actions and API
+export interface ActionResult<T = unknown> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  errors?: Record<string, string[]>;
 }
 
-declare module "db" {
-  const db: any;
-  export type Database = any;
-  export const db: any;
-  export default db;
+export type ActionResponse<T = unknown> = ActionResult<T>;
+
+export interface ApiResponse<T = unknown> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  message?: string;
 }
 
-declare module "database/schema" {
-  const content: any;
-  export = content;
-}
-
-declare module "lib/*" {
-  const content: any;
-  export default content;
+export interface SendEmailOptions {
+  to: string;
+  subject: string;
+  html: string;
+  from?: string;
+  replyTo?: string;
+  cc?: string | string[];
+  bcc?: string | string[];
 }

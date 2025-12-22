@@ -1,5 +1,5 @@
 import { db as database } from "@/database/db";
-import { comicImage } from "@/database/schema";
+import { comicImage } from '#schema';
 import { asc, eq } from "drizzle-orm";
 
 export async function getComicImageById(imageId: number) {

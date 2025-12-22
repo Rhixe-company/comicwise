@@ -152,6 +152,6 @@ export class ChapterSeeder {
       return "unknown";
     }
 
-    return createSlug(comicRecord.title);
+    return comicRecord.slug ?? createSlug(comicRecord.title);
   }
 }

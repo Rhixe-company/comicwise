@@ -1,16 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from '#ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#ui/card';
+import { Input } from '#ui/input';
+import { Label } from '#ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { createComic } from "@/lib/actions/comics";
+} from '#ui/select';
+import { Textarea } from '#ui/textarea';
+import { createComic } from '#actions/comics';
 import type { CreateComicInput } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

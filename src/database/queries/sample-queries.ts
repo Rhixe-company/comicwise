@@ -13,7 +13,7 @@ import {
   comment,
   readingProgress,
   user,
-} from "@/database/schema";
+} from '#schema';
 import type {
   ChapterWithComments,
   ComicDetails,

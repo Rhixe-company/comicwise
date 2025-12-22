@@ -5,7 +5,7 @@
 
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from 'utils';
 import { Clock, SearchIcon, TrendingUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 

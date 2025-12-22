@@ -2,9 +2,9 @@
 
 import { bulkDeleteComics, deleteComic } from "@/app/admin/comics/actions";
 import { ComicsTable } from "@/components/admin/ComicsTable";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Button } from '#ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '#ui/card';
+import { Input } from '#ui/input';
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Search } from "lucide-react";
 import Link from "next/link";

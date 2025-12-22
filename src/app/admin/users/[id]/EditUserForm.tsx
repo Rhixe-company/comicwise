@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { deleteUser, updateUser } from "@/lib/actions/users";
+import { Button } from '#ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#ui/card';
+import { Input } from '#ui/input';
+import { deleteUser, updateUser } from '#actions/users';
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

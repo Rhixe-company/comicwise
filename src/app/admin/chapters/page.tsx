@@ -1,13 +1,14 @@
 import { DataTable } from "@/components/admin/DataTable";
-import { Button } from "@/components/ui/button";
-import { chapter, comic, database } from "@/database";
+import { Button } from '#ui/button';
+import { chapter, comic } from '#schema';
+import { db } from "@/database/db";
 import { eq } from "drizzle-orm";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
 async function ChaptersTable() {
-  const chapters = await database
+  const chapters = await db
     .select({
       id: chapter.id,
       chapterNumber: chapter.chapterNumber,
@@ -68,6 +69,9 @@ function ChaptersHeader() {
   );
 }
 
+/**
+ *
+ */
 export default function ChaptersPage() {
   return (
     <div className="space-y-6">

@@ -6,8 +6,8 @@
 "use server";
 
 import { db as database } from "@/database/db";
-import { comic, comicToGenre } from "@/database/schema";
-import { requireRole } from "@/lib/auth";
+import { comic, comicToGenre } from '#schema';
+import { requireRole } from 'auth';
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 

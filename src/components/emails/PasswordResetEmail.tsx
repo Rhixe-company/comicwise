@@ -1,4 +1,4 @@
-import { appConfig } from "@/app-config";
+import appConfig, { checkRateLimit } from 'appConfig';
 import {
   Body,
   Button,

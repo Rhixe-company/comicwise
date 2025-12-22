@@ -1,9 +1,10 @@
 import { DataTable } from "@/components/admin/DataTable";
+import { db } from "@/database/db";
 import { Suspense } from "react";
-import { database, user } from "src/database";
+import { user } from "src/database";
 
 async function UsersTable() {
-  const users = await database.select().from(user);
+  const users = await db.select().from(user);
 
   const columns = [
     {
@@ -40,6 +41,9 @@ function UsersHeader() {
   );
 }
 
+/**
+ *
+ */
 export default function AdminUsersPage() {
   return (
     <div className="space-y-6">

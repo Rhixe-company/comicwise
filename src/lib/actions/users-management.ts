@@ -4,9 +4,9 @@
 // USERS MANAGEMENT SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import { appConfig } from "@/app-config";
+import appConfig from 'appConfig';
 import { db as database } from "@/database/db";
-import { user } from "@/database/schema";
+import { user } from '#schema';
 import { sendAccountUpdatedEmail, sendWelcomeEmail } from "@/lib/email";
 import type { CreateUserInput, UpdateUserInput, UserFilterInput } from "@/lib/validations";
 import { createUserSchema, updateUserSchema, userFilterSchema } from "@/lib/validations";

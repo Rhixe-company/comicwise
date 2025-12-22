@@ -4,31 +4,18 @@
 // SIGN IN PAGE (Next.js 16 + React 19)
 // ═══════════════════════════════════════════════════
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PasswordInput } from "@/components/ui/password-input";
-import { signInAction } from "@/lib/actions/auth";
+import { AuthForm, EmailField, PasswordField } from "@/components/auth";
+import { Button } from '#ui/button';
+import { signInAction } from '#actions/auth';
 import type { SignInInput } from "@/lib/validations";
 import { signInSchema } from "@/lib/validations";
+
 /**
  *
  */
@@ -37,28 +24,11 @@ export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<SignInInput>({
-    resolver: zodResolver(signInSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
   const onSubmit = async (data: SignInInput) => {
     setError(null);
 
     startTransition(async () => {
       try {
-        // const result = await signIn("credentials", {
-        //   email: data.email,
-        //   password: data.password,
-        //   redirect: false,
-        // });
         const result = await signInAction(data.email, data.password);
 
         if (!result?.success) {
@@ -88,66 +58,18 @@ export default function SignInPage() {
     });
   };
 
-  const isLoading = isSubmitting || isPending;
-
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
-        <CardDescription>Enter your credentials to access your account</CardDescription>
-      </CardHeader>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <CardContent className="space-y-4">
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="name@example.com"
-              autoComplete="email"
-              disabled={isLoading}
-              {...register("email")}
-            />
-            {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <Link
-                href="/forgot-password"
-                className={`
-                  text-sm text-muted-foreground underline-offset-4
-                  hover:text-primary hover:underline
-                `}
-                tabIndex={-1}
-              >
-                Forgot password?
-              </Link>
-            </div>
-            <PasswordInput
-              id="password"
-              autoComplete="current-password"
-              disabled={isLoading}
-              {...register("password")}
-            />
-            {errors.password && (
-              <p className="text-sm text-destructive">{errors.password.message}</p>
-            )}
-          </div>
-        </CardContent>
-        <CardFooter className="flex-col space-y-4">
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Sign In
-          </Button>
-
+    <AuthForm
+      title="Sign In"
+      description="Enter your credentials to access your account"
+      schema={signInSchema}
+      defaultValues={{ email: "", password: "" }}
+      onSubmit={onSubmit}
+      error={error}
+      isLoading={isPending}
+      submitLabel="Sign In"
+      footer={
+        <>
           <div className="relative w-full">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
@@ -161,7 +83,7 @@ export default function SignInPage() {
             variant="outline"
             className="w-full"
             onClick={handleGoogleSignIn}
-            disabled={isLoading}
+            disabled={isPending}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
@@ -195,8 +117,26 @@ export default function SignInPage() {
               Sign up
             </Link>
           </p>
-        </CardFooter>
-      </form>
-    </Card>
+        </>
+      }
+    >
+      <EmailField disabled={isPending} />
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium">Password</span>
+          <Link
+            href="/forgot-password"
+            className={`
+              text-sm text-muted-foreground underline-offset-4
+              hover:text-primary hover:underline
+            `}
+            tabIndex={-1}
+          >
+            Forgot password?
+          </Link>
+        </div>
+        <PasswordField disabled={isPending} />
+      </div>
+    </AuthForm>
   );
 }

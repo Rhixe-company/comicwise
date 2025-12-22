@@ -4,9 +4,9 @@
 // AUTH SERVER ACTIONS (Next.js 16 + Rate Limiting + Emails)
 // ═══════════════════════════════════════════════════
 
-import { appConfig, checkRateLimit } from "@/app-config";
+import appConfig, { checkRateLimit } from 'appConfig';
 import { db as database } from "@/database/db";
-import { passwordResetToken, user, verificationToken } from "@/database/schema";
+import { passwordResetToken, user, verificationToken } from '#schema';
 import {
   sendAccountUpdatedEmail,
   sendPasswordResetEmail,
@@ -57,7 +57,7 @@ async function getClientIP(): Promise<string> {
 }
 
 async function checkAuthRateLimit(identifier: string): Promise<boolean> {
-  const rateLimit = checkRateLimit(identifier, appConfig.rateLimit.auth);
+  const rateLimit = await checkRateLimit(identifier, { limit: appConfig.rateLimit.auth });
   return rateLimit.allowed;
 }
 

@@ -1,5 +1,5 @@
 import { db as database } from "@/database/db";
-import { genre, type } from "@/database/schema";
+import { genre, type } from '#schema';
 import { asc, eq } from "drizzle-orm";
 
 export async function getAllTypes() {

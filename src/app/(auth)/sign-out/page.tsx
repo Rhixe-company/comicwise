@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { signOutAction } from "@/lib/actions/auth";
+import { Card, CardDescription, CardHeader, CardTitle } from '#ui/card';
+import { signOutAction } from '#actions/auth';
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

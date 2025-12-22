@@ -1,6 +1,6 @@
 import { ComicCard } from "@/components/ComicCard";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '#ui/badge';
+import { Button } from '#ui/button';
 import { getUserBookmarks } from "@/database/queries";
 import { auth } from "auth";
 import { BookmarkX } from "lucide-react";

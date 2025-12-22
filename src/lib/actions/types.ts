@@ -1,17 +1,17 @@
 "use server";
 
-import { appConfig, checkRateLimit } from "@/app-config";
+import appConfig, { checkRateLimit } from 'appConfig';
 import * as mutations from "@/database/mutations";
-import { error } from "@/lib/actions/utils";
+import { error } from '#actions/utils';
 import { createTypeSchema, updateTypeSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
-import type { ActionResponse } from "src/types";
+import type { ActionResponse } from "@/types";
 import z from "zod";
 
 export async function createType(formData: FormData): Promise<ActionResponse<{ id: number }>> {
   try {
     // Rate limiting
-    const rateLimit = checkRateLimit("create:type", appConfig.rateLimit.default);
+    const rateLimit = await checkRateLimit("create:type", { limit: appConfig.rateLimit.default });
     if (!rateLimit.allowed) {
       return error("Too many requests. Please try again later.");
     }

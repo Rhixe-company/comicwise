@@ -2,10 +2,9 @@
 // ADVANCED SEARCH SERVICE - Full-Text Search with PostgreSQL
 // ═══════════════════════════════════════════════════
 
+import { db } from "@/database/db";
 import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
-import { database } from "src/database";
 import { artist, author, comic, comicToGenre, genre, type } from "src/database/schema";
-
 import type { ComicFilters } from "src/types";
 
 // ═══════════════════════════════════════════════════
@@ -74,6 +73,7 @@ export interface SearchResponse {
 
 /**
  * Perform advanced full-text search on comics
+ * @param filters
  */
 export async function searchComics(filters: AdvancedSearchFilters = {}): Promise<SearchResponse> {
   const {
@@ -98,7 +98,7 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
   } = filters;
 
   // Build the base query
-  let baseQuery = database
+  let baseQuery = db
     .select({
       id: comic.id,
       title: comic.title,
@@ -190,19 +190,19 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
     let genreComics;
 
     if (genreIds && genreIds.length > 0) {
-      genreComics = await database
+      genreComics = await db
         .selectDistinct({ comicId: comicToGenre.comicId })
         .from(comicToGenre)
         .where(inArray(comicToGenre.genreId, genreIds));
     } else if (genreNames && genreNames.length > 0) {
-      const genresResult = await database
+      const genresResult = await db
         .select({ id: genre.id })
         .from(genre)
         .where(or(...genreNames.map((name) => sql`LOWER(${genre.name}) = LOWER(${name})`)));
 
       const foundGenreIds = genresResult.map((g) => g.id);
       if (foundGenreIds.length > 0) {
-        genreComics = await database
+        genreComics = await db
           .selectDistinct({ comicId: comicToGenre.comicId })
           .from(comicToGenre)
           .where(inArray(comicToGenre.genreId, foundGenreIds));
@@ -227,12 +227,7 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
   }
 
   // Apply sorting
-  const sortedQuery = applySorting(
-    baseQuery as any,
-    sortBy,
-    sortOrder,
-    searchQuery || search
-  ) as any;
+  const sortedQuery = applySorting(baseQuery, sortBy, sortOrder, searchQuery || search) as any;
 
   // Apply pagination
   const offset = (page - 1) * limit;
@@ -257,20 +252,18 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
     authorName: (result.authorName as string | null) || null,
     artistName: (result.artistName as string | null) || null,
     typeName: (result.typeName as string | null) || null,
-    genres: (genresMap?.[result.id] || []) as string[],
+    genres: genresMap?.[result.id] || [],
     relevanceScore: (result.relevanceScore as number) || undefined,
     publicationDate: result.publicationDate
       ? new Date(
-          (result.publicationDate as any).getTime
-            ? (result.publicationDate as Date)
-            : result.publicationDate
+          result.publicationDate.getTime ? (result.publicationDate as Date) : result.publicationDate
         )
       : new Date(),
     createdAt: result.createdAt
-      ? new Date((result.createdAt as any).getTime ? (result.createdAt as Date) : result.createdAt)
+      ? new Date(result.createdAt.getTime ? (result.createdAt as Date) : result.createdAt)
       : new Date(),
     updatedAt: result.updatedAt
-      ? new Date((result.updatedAt as any).getTime ? (result.updatedAt as Date) : result.updatedAt)
+      ? new Date(result.updatedAt.getTime ? (result.updatedAt as Date) : result.updatedAt)
       : new Date(),
   }));
 
@@ -291,9 +284,11 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
 
 /**
  * Build tsquery string based on search mode
+ * @param query
+ * @param mode
  */
 function buildSearchQuery(query: string, mode: string): string {
-  const cleanQuery = query.trim().replace(/[^\w\s]/g, " ");
+  const cleanQuery = query.trim().replaceAll(/[^\s\w]/g, " ");
 
   switch (mode) {
     case "phrase":
@@ -317,6 +312,10 @@ function buildSearchQuery(query: string, mode: string): string {
 
 /**
  * Apply sorting to the query
+ * @param query
+ * @param sortBy
+ * @param sortOrder
+ * @param hasSearchQuery
  */
 function applySorting(
   query: unknown,
@@ -358,9 +357,10 @@ function applySorting(
 
 /**
  * Get total count of search results
+ * @param conditions
  */
 async function getSearchTotalCount(conditions: unknown[]): Promise<number> {
-  let countQuery = database
+  let countQuery = db
     .select({ count: sql<number>`count(DISTINCT ${comic.id})::int` })
     .from(comic)
     .leftJoin(author, eq(comic.authorId, author.id))
@@ -378,13 +378,14 @@ async function getSearchTotalCount(conditions: unknown[]): Promise<number> {
 
 /**
  * Fetch genres for multiple comics
+ * @param comicIds
  */
 async function getComicGenres(comicIds: number[]): Promise<Record<number, string[]>> {
   if (comicIds.length === 0) {
     return {};
   }
 
-  const genresResult = await database
+  const genresResult = await db
     .select({
       comicId: comicToGenre.comicId,
       genreName: genre.name,
@@ -412,6 +413,8 @@ async function getComicGenres(comicIds: number[]): Promise<Record<number, string
 
 /**
  * Get search suggestions based on partial query
+ * @param query
+ * @param limit
  */
 export async function getSearchSuggestions(
   query: string,
@@ -424,7 +427,7 @@ export async function getSearchSuggestions(
   const tsquery = buildSearchQuery(query, "websearch");
 
   // Get comic title suggestions
-  const comicSuggestions = await database
+  const comicSuggestions = await db
     .select({ title: comic.title })
     .from(comic)
     .where(sql`${comic.search_vector} @@ to_tsquery('english', ${tsquery})`)
@@ -432,7 +435,7 @@ export async function getSearchSuggestions(
     .limit(limit);
 
   // Get author suggestions
-  const authorSuggestions = await database
+  const authorSuggestions = await db
     .select({ name: author.name })
     .from(author)
     .where(sql`${author.search_vector} @@ to_tsquery('english', ${tsquery})`)
@@ -440,7 +443,7 @@ export async function getSearchSuggestions(
     .limit(limit);
 
   // Get artist suggestions
-  const artistSuggestions = await database
+  const artistSuggestions = await db
     .select({ name: artist.name })
     .from(artist)
     .where(sql`${artist.search_vector} @@ to_tsquery('english', ${tsquery})`)
@@ -460,11 +463,12 @@ export async function getSearchSuggestions(
 
 /**
  * Get popular search terms
+ * @param limit
  */
 export async function getPopularSearches(limit: number = 10): Promise<string[]> {
   // This would typically come from a search analytics table
   // For now, return top-rated comics as suggestions
-  const topComics = await database
+  const topComics = await db
     .select({ title: comic.title })
     .from(comic)
     .orderBy(desc(comic.rating), desc(comic.views))
@@ -475,6 +479,8 @@ export async function getPopularSearches(limit: number = 10): Promise<string[]> 
 
 /**
  * Get trending comics based on recent views
+ * @param days
+ * @param limit
  */
 export async function getTrendingComics(
   days: number = 7,
@@ -483,7 +489,7 @@ export async function getTrendingComics(
   const since = new Date();
   since.setDate(since.getDate() - days);
 
-  const results = await database
+  const results = await db
     .select({
       id: comic.id,
       title: comic.title,

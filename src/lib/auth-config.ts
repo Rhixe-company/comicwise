@@ -5,10 +5,10 @@ import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-import { appConfig } from "@/app-config";
-import { db as database } from "@/database/db";
-import { user as userTable } from "@/database/schema";
+import { user as userTable } from '#schema';
 import { DrizzleAdapter } from "@/lib/auth-adapter";
+import appConfig from 'appConfig';
+import { db as database } from "@/database/db";
 
 export const authOptions = {
   session: {

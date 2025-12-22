@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
 
 import { db as database } from "@/database/db";
-import { account } from "@/database/schema";
+import { account } from '#schema';
 
 // ═══════════════════════════════════════════════════
 // ACCOUNT MUTATIONS

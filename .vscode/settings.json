@@ -113,7 +113,24 @@
     "esbenp",
     "dbaeumer",
     "bradlc",
-    "streetsidesoftware"
+    "streetsidesoftware",
+    "postgres",
+    "postgresql",
+    "upstash",
+    "bullmq",
+    "ioredis",
+    "dotenv",
+    "valibot",
+    "playwright",
+    "vitest",
+    "turborepo",
+    "dockerfile",
+    "dockerignore",
+    "envfile",
+    "typegen",
+    "seeder",
+    "slugify",
+    "nuxt"
   ],
 
   "chat.agent.maxRequests": 1000,
@@ -273,7 +290,24 @@
   "path-intellisense.autoSlashAfterDirectory": true,
   "path-intellisense.extensionOnImport": true,
   "path-intellisense.mappings": {
-    "@": "${workspaceFolder}/src"
+    "@": "${workspaceFolder}/src",
+    "#components": "${workspaceFolder}/src/components",
+    "#ui": "${workspaceFolder}/src/components/ui",
+    "#layout": "${workspaceFolder}/src/components/layout",
+    "#emails": "${workspaceFolder}/src/components/emails",
+    "#lib": "${workspaceFolder}/src/lib",
+    "#actions": "${workspaceFolder}/src/lib/actions",
+    "#validations": "${workspaceFolder}/src/lib/validations",
+    "#hooks": "${workspaceFolder}/src/hooks",
+    "#types": "${workspaceFolder}/src/types",
+    "#styles": "${workspaceFolder}/src/styles",
+    "#assets": "${workspaceFolder}/src/assets",
+    "#database": "${workspaceFolder}/src/database",
+    "#queries": "${workspaceFolder}/src/database/queries",
+    "#mutations": "${workspaceFolder}/src/database/mutations",
+    "#schema": "${workspaceFolder}/src/database/schema",
+    "#services": "${workspaceFolder}/src/services",
+    "#stores": "${workspaceFolder}/src/stores"
   },
 
   // ═══════════════════════════════════════════════════════════════
@@ -353,6 +387,14 @@
   // ═══════════════════════════════════════════════════════════════
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.updateImportsOnFileMove.enabled": "always",
+  
+  // ═══════════════════════════════════════════════════════════════
+  // PROJECT-SPECIFIC SETTINGS
+  // ═══════════════════════════════════════════════════════════════
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "**/node_modules/@types/node/**",
+    "**/.next/**"
+  ],
   "workbench.colorCustomizations": {
     "editorRuler.foreground": "#2e3440"
   },

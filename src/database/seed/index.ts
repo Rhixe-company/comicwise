@@ -11,7 +11,7 @@
  * - Image download caching
  */
 
-import { isDevelopment } from "@/app-config";
+import { isDevelopment } from 'appConfig';
 import { db as database } from "@/database/db";
 import type { SeedConfig } from "@/database/seed/config";
 import { parseCLIArgs } from "@/database/seed/config";

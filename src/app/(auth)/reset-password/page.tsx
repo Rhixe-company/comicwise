@@ -4,28 +4,24 @@
 // RESET PASSWORD PAGE (Next.js 16 + React 19)
 // ═══════════════════════════════════════════════════
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
+import { CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState, useTransition } from "react";
+import { toast } from "sonner";
+
+import { AuthForm, PasswordField } from "@/components/auth";
+import { Button } from '#ui/button';
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { PasswordInput } from "@/components/ui/password-input";
-import { resetPasswordAction } from "@/lib/actions/auth";
+} from '#ui/card';
+import { resetPasswordAction } from '#actions/auth';
 import type { ResetPasswordInput } from "@/lib/validations";
 import { resetPasswordSchema } from "@/lib/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Loader2 } from "lucide-react";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 function ResetPasswordForm() {
   const [isPending, startTransition] = useTransition();
@@ -35,19 +31,6 @@ function ResetPasswordForm() {
   const router = useRouter();
   const searchParameters = useSearchParams();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<ResetPasswordInput>({
-    resolver: zodResolver(resetPasswordSchema),
-    defaultValues: {
-      token: "",
-      password: "",
-      confirmPassword: "",
-    },
-  });
-
   useEffect(() => {
     const tokenParameter = searchParameters.get("token");
     if (!tokenParameter) {
@@ -55,7 +38,6 @@ function ResetPasswordForm() {
       router.push("/forgot-password");
       return;
     }
-    // Use startTransition to avoid cascading renders
     startTransition(() => {
       setToken(tokenParameter);
     });
@@ -91,8 +73,6 @@ function ResetPasswordForm() {
     });
   };
 
-  const isLoading = isSubmitting || isPending;
-
   if (isSuccess) {
     return (
       <Card className="w-full max-w-md">
@@ -120,56 +100,30 @@ function ResetPasswordForm() {
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Reset Password</CardTitle>
-        <CardDescription>Enter your new password below</CardDescription>
-      </CardHeader>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <CardContent className="space-y-4">
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          <div className="space-y-2">
-            <Label htmlFor="password">New Password</Label>
-            <PasswordInput
-              id="password"
-              autoComplete="new-password"
-              disabled={isLoading}
-              {...register("password")}
-            />
-            {errors.password && (
-              <p className="text-sm text-destructive">{errors.password.message}</p>
-            )}
-            <p className="text-xs text-muted-foreground">
-              Must be at least 8 characters with uppercase, lowercase, and number
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <PasswordInput
-              id="confirmPassword"
-              autoComplete="new-password"
-              disabled={isLoading}
-              {...register("confirmPassword")}
-            />
-            {errors.confirmPassword && (
-              <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
-            )}
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button type="submit" className="w-full" disabled={isLoading || !token}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Reset Password
-          </Button>
-        </CardFooter>
-      </form>
-    </Card>
+    <AuthForm
+      title="Reset Password"
+      description="Enter your new password below"
+      schema={resetPasswordSchema.omit({ token: true })}
+      defaultValues={{ password: "", confirmPassword: "" }}
+      onSubmit={onSubmit}
+      error={error}
+      isLoading={isPending || !token}
+      submitLabel="Reset Password"
+    >
+      <PasswordField
+        name="password"
+        label="New Password"
+        autoComplete="new-password"
+        disabled={isPending || !token}
+        helperText="Must be at least 8 characters with uppercase, lowercase, and number"
+      />
+      <PasswordField
+        name="confirmPassword"
+        label="Confirm Password"
+        autoComplete="new-password"
+        disabled={isPending || !token}
+      />
+    </AuthForm>
   );
 }
 

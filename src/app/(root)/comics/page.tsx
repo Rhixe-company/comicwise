@@ -1,9 +1,9 @@
 import { ComicCard } from "@/components/ComicCard";
 import { Filters } from "@/components/Filters";
 import { Pagination } from "@/components/Pagination";
-import { Skeleton } from "@/components/ui/skeleton";
-import { getAllComics } from "@/database/queries/comics";
-import { getAllGenres, getAllTypes } from "@/lib/actions/genres-types";
+import { Skeleton } from '#ui/skeleton';
+import { getAllComics } from '#queries/comics';
+import { getAllGenres, getAllTypes } from '#actions/genres-types';
 import { Suspense } from "react";
 
 import type { Metadata } from "next";

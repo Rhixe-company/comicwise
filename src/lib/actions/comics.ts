@@ -4,10 +4,10 @@
 // COMICS CRUD SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import { appConfig } from "@/app-config";
+import appConfig from 'appConfig';
 import { db as database } from "@/database/db";
-import { comic, comicToGenre } from "@/database/schema";
-import { slugify } from "@/lib/utils";
+import { comic, comicToGenre } from '#schema';
+import { slugify } from 'utils';
 import type { ComicFilterInput, CreateComicInput, UpdateComicInput } from "@/lib/validations";
 import { comicFilterSchema, createComicSchema, updateComicSchema } from "@/lib/validations";
 import type { Genre } from "@/types/database-auto";
