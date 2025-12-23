@@ -19,7 +19,10 @@ export default async function EditGenreForm({ params }: { params: { id: string }
   const genre = await res.json();
 
   async function handleUpdate(formData: FormData) {
-    const result = await updateGenre(id, formData);
+    const result = await updateGenre(id, {
+      name: formData.get("name") as string,
+      description: formData.get("description") as string | undefined,
+    });
     if (result.success) {
       revalidatePath("/admin/genres");
       redirect("/admin/genres");

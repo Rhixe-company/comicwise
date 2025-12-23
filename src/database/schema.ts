@@ -13,13 +13,14 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+// Legacy tables (kept for backward compatibility)
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   email: varchar("email", { length: 320 }).notNull(),
   name: text("name"),
   passwordHash: text("password_hash"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export const comics = pgTable("comics", {
@@ -27,15 +28,15 @@ export const comics = pgTable("comics", {
   title: varchar("title", { length: 512 }).notNull(),
   slug: varchar("slug", { length: 512 }).notNull(),
   description: text("description"),
-  authorId: integer("author_id").references(() => users.id),
+  authorId: integer("authorId").references(() => users.id),
   published: boolean("published").default(false).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export const chapters = pgTable("chapters", {
   id: serial("id").primaryKey(),
-  comicId: integer("comic_id")
+  comicId: integer("comicId")
     .references(() => comics.id)
     .notNull(),
   title: varchar("title", { length: 512 }).notNull(),
@@ -43,8 +44,8 @@ export const chapters = pgTable("chapters", {
   content: text("content"),
   number: integer("number").notNull(),
   published: boolean("published").default(false).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 // ═══════════════════════════════════════════════════
@@ -86,10 +87,10 @@ export const user = pgTable(
     image: text("image"),
     password: text("password"),
     role: userRole("role").default("user").notNull(),
-    createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
-  (table) => [index("user_email_idx").on(table.email), index("user_role_idx").on(table.role)]
+  (table) => [index("userEmailIdx").on(table.email), index("userRoleIdx").on(table.role)]
 );
 
 export const account = pgTable(
@@ -170,7 +171,7 @@ export const type = pgTable("type", {
   id: serial("id").primaryKey(),
   name: text("name").notNull().unique(),
   description: text("description"),
-  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
 });
 
 export const author = pgTable("author", {
@@ -178,8 +179,8 @@ export const author = pgTable("author", {
   name: text("name").notNull(),
   bio: text("bio"),
   image: text("image"),
-  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-  searchVector: text("search_vector"),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+  searchVector: text("searchVector"),
 });
 
 export const artist = pgTable("artist", {
@@ -187,15 +188,15 @@ export const artist = pgTable("artist", {
   name: text("name").notNull(),
   bio: text("bio"),
   image: text("image"),
-  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-  searchVector: text("search_vector"),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+  searchVector: text("searchVector"),
 });
 
 export const genre = pgTable("genre", {
   id: serial("id").primaryKey(),
   name: text("name").notNull().unique(),
   description: text("description"),
-  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
 });
 
 export const comic = pgTable(
@@ -213,20 +214,20 @@ export const comic = pgTable(
     authorId: integer("authorId").references(() => author.id),
     artistId: integer("artistId").references(() => artist.id),
     typeId: integer("typeId").references(() => type.id),
-    createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
-    searchVector: text("search_vector"),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
+    searchVector: text("searchVector"),
   },
   (table) => [
-    index("comic_slug_idx").on(table.slug),
-    index("comic_title_idx").on(table.title),
-    index("comic_status_idx").on(table.status),
-    index("comic_rating_idx").on(table.rating),
-    index("comic_views_idx").on(table.views),
-    index("comic_author_idx").on(table.authorId),
-    index("comic_artist_idx").on(table.artistId),
-    index("comic_type_idx").on(table.typeId),
-    index("comic_created_at_idx").on(table.createdAt),
+    index("comicSlugIdx").on(table.slug),
+    index("comicTitleIdx").on(table.title),
+    index("comicStatusIdx").on(table.status),
+    index("comicRatingIdx").on(table.rating),
+    index("comicViewsIdx").on(table.views),
+    index("comicAuthorIdx").on(table.authorId),
+    index("comicArtistIdx").on(table.artistId),
+    index("comicTypeIdx").on(table.typeId),
+    index("comicCreatedAtIdx").on(table.createdAt),
   ]
 );
 
@@ -236,57 +237,57 @@ export const chapter = pgTable(
     id: serial("id").primaryKey(),
     slug: text("slug").notNull(),
     title: text("title").notNull(),
-    chapterNumber: integer("chapter_number").notNull(),
-    releaseDate: timestamp("release_date", { mode: "date" }).notNull(),
-    comicId: integer("comic_id")
+    chapterNumber: integer("chapterNumber").notNull(),
+    releaseDate: timestamp("releaseDate", { mode: "date" }).notNull(),
+    comicId: integer("comicId")
       .references(() => comic.id, { onDelete: "cascade" })
       .notNull(),
     views: integer("views").default(0).notNull(),
-    createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
   },
   (table) => [
-    index("chapter_slug_idx").on(table.slug),
-    index("chapter_comic_id_idx").on(table.comicId),
-    index("chapter_number_idx").on(table.chapterNumber),
-    index("chapter_release_date_idx").on(table.releaseDate),
-    index("chapter_comic_chapter_idx").on(table.comicId, table.chapterNumber),
+    index("chapterSlugIdx").on(table.slug),
+    index("chapterComicIdIdx").on(table.comicId),
+    index("chapterNumberIdx").on(table.chapterNumber),
+    index("chapterReleaseDateIdx").on(table.releaseDate),
+    index("chapterComicChapterIdx").on(table.comicId, table.chapterNumber),
   ]
 );
 
 export const comicImage = pgTable("comicImage", {
   id: serial("id").primaryKey(),
-  comicId: integer("comic_id")
+  comicId: integer("comicId")
     .references(() => comic.id, { onDelete: "cascade" })
     .notNull(),
   imageUrl: text("imageUrl").notNull(),
   imageOrder: integer("imageOrder").notNull(),
-  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
 });
 
 export const chapterImage = pgTable(
   "chapterImage",
   {
     id: serial("id").primaryKey(),
-    chapterId: integer("chapter_id")
+    chapterId: integer("chapterId")
       .references(() => chapter.id, { onDelete: "cascade" })
       .notNull(),
     imageUrl: text("imageUrl").notNull(),
     pageNumber: integer("pageNumber").notNull(),
-    createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
   },
   (table) => [
-    index("chapter_image_chapter_id_idx").on(table.chapterId),
-    index("chapter_image_page_number_idx").on(table.pageNumber),
+    index("chapterImageChapterIdIdx").on(table.chapterId),
+    index("chapterImagePageNumberIdx").on(table.pageNumber),
   ]
 );
 
 export const comicToGenre = pgTable(
   "comicToGenre",
   {
-    comicId: integer("comic_id")
+    comicId: integer("comicId")
       .references(() => comic.id, { onDelete: "cascade" })
       .notNull(),
-    genreId: integer("genre_id")
+    genreId: integer("genreId")
       .references(() => genre.id, { onDelete: "cascade" })
       .notNull(),
   },
@@ -302,21 +303,21 @@ export const comicToGenre = pgTable(
 export const bookmark = pgTable(
   "bookmark",
   {
-    userId: text("user_id")
+    userId: text("userId")
       .references(() => user.id, { onDelete: "cascade" })
       .notNull(),
-    comicId: integer("comic_id")
+    comicId: integer("comicId")
       .references(() => comic.id, { onDelete: "cascade" })
       .notNull(),
-    lastReadChapterId: integer("last_read_chapter_id").references(() => chapter.id),
+    lastReadChapterId: integer("lastReadChapterId").references(() => chapter.id),
     notes: text("notes"),
-    createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
   (table) => [
     primaryKey({ columns: [table.userId, table.comicId] }),
-    index("bookmark_user_id_idx").on(table.userId),
-    index("bookmark_comic_id_idx").on(table.comicId),
+    index("bookmarkUserIdIdx").on(table.userId),
+    index("bookmarkComicIdIdx").on(table.comicId),
   ]
 );
 
@@ -325,19 +326,19 @@ export const comment = pgTable(
   {
     id: serial("id").primaryKey(),
     content: text("content").notNull(),
-    userId: text("user_id")
+    userId: text("userId")
       .references(() => user.id, { onDelete: "cascade" })
       .notNull(),
-    chapterId: integer("chapter_id")
+    chapterId: integer("chapterId")
       .references(() => chapter.id, { onDelete: "cascade" })
       .notNull(),
-    createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
   (table) => [
-    index("comment_user_id_idx").on(table.userId),
-    index("comment_chapter_id_idx").on(table.chapterId),
-    index("comment_created_at_idx").on(table.createdAt),
+    index("commentUserIdIdx").on(table.userId),
+    index("commentChapterIdIdx").on(table.chapterId),
+    index("commentCreatedAtIdx").on(table.createdAt),
   ]
 );
 
@@ -345,29 +346,29 @@ export const readingProgress = pgTable(
   "readingProgress",
   {
     id: serial("id").primaryKey(),
-    userId: text("user_id")
+    userId: text("userId")
       .references(() => user.id, { onDelete: "cascade" })
       .notNull(),
-    comicId: integer("comic_id")
+    comicId: integer("comicId")
       .references(() => comic.id, { onDelete: "cascade" })
       .notNull(),
-    chapterId: integer("chapter_id")
+    chapterId: integer("chapterId")
       .references(() => chapter.id, { onDelete: "cascade" })
       .notNull(),
-    pageNumber: integer("page_number").default(0).notNull(),
-    scrollPosition: integer("scroll_position").default(0).notNull(),
-    totalPages: integer("total_pages").default(0).notNull(),
-    progressPercent: integer("progress_percent").default(0).notNull(),
-    completedAt: timestamp("completed_at", { mode: "date" }),
-    lastReadAt: timestamp("last_read_at", { mode: "date" }).defaultNow().notNull(),
-    createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+    pageNumber: integer("pageNumber").default(0).notNull(),
+    scrollPosition: integer("scrollPosition").default(0).notNull(),
+    totalPages: integer("totalPages").default(0).notNull(),
+    progressPercent: integer("progressPercent").default(0).notNull(),
+    completedAt: timestamp("completedAt", { mode: "date" }),
+    lastReadAt: timestamp("lastReadAt", { mode: "date" }).defaultNow().notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
   (table) => [
-    index("readingProgress_user_id_idx").on(table.userId),
-    index("readingProgress_comic_id_idx").on(table.comicId),
-    index("readingProgress_chapter_id_idx").on(table.chapterId),
-    index("readingProgress_last_read_idx").on(table.lastReadAt),
-    index("readingProgress_user_comic_idx").on(table.userId, table.comicId),
+    index("readingProgressUserIdIdx").on(table.userId),
+    index("readingProgressComicIdIdx").on(table.comicId),
+    index("readingProgressChapterIdIdx").on(table.chapterId),
+    index("readingProgressLastReadIdx").on(table.lastReadAt),
+    index("readingProgressUserComicIdx").on(table.userId, table.comicId),
   ]
 );

@@ -3,15 +3,15 @@
  * Handles all database operations for genres
  */
 
-import { db } from '#database/db';
-import { genre } from '#schema';
-import { logger } from '#lib/logger';
-import { asc, eq } from 'drizzle-orm';
-import type { Genre } from '#types/database-auto';
+import { db } from "#database/db";
+import { logger } from "#lib/logger";
+import { genre } from "#schema";
+import type { Genre } from "#types/database-auto";
+import { asc, eq } from "drizzle-orm";
 
 export class GenreDal {
   private static instance: GenreDal;
-  private logger = logger.child({ context: 'GenreDal' });
+  private logger = logger.child({ context: "GenreDal" });
 
   private constructor() {}
 
@@ -24,69 +24,70 @@ export class GenreDal {
 
   async create(data: typeof genre.$inferInsert): Promise<Genre | undefined> {
     try {
-      this.logger.debug({ data }, 'Creating genre');
+      this.logger.debug({ data }, "Creating genre");
       const [newGenre] = await db.insert(genre).values(data).returning();
-      this.logger.info({ genreId: newGenre?.id }, 'Genre created successfully');
+      this.logger.info({ genreId: newGenre?.id }, "Genre created successfully");
       return newGenre;
     } catch (error) {
-      this.logger.error({ error, data }, 'Failed to create genre');
+      this.logger.error({ error, data }, "Failed to create genre");
       throw error;
     }
   }
 
-  async findById(id: string): Promise<Genre | undefined> {
+  async findById(id: number): Promise<Genre | undefined> {
     try {
-      this.logger.debug({ id }, 'Finding genre by ID');
+      this.logger.debug({ id }, "Finding genre by ID");
       const [result] = await db.select().from(genre).where(eq(genre.id, id));
       return result;
     } catch (error) {
-      this.logger.error({ error, id }, 'Failed to find genre by ID');
+      this.logger.error({ error, id }, "Failed to find genre by ID");
       throw error;
     }
   }
 
   async findBySlug(slug: string): Promise<Genre | undefined> {
     try {
-      this.logger.debug({ slug }, 'Finding genre by slug');
-      const [result] = await db.select().from(genre).where(eq(genre.slug, slug));
+      this.logger.debug({ slug }, "Finding genre by slug");
+      // Note: Genre schema doesn't have a slug field - use name instead
+      const [result] = await db.select().from(genre).where(eq(genre.name, slug));
       return result;
     } catch (error) {
-      this.logger.error({ error, slug }, 'Failed to find genre by slug');
+      this.logger.error({ error, slug }, "Failed to find genre by slug");
       throw error;
     }
   }
 
-  async update(id: string, data: Partial<typeof genre.$inferInsert>): Promise<Genre | undefined> {
+  async update(id: number, data: Partial<typeof genre.$inferInsert>): Promise<Genre | undefined> {
     try {
-      this.logger.debug({ id, data }, 'Updating genre');
+      this.logger.debug({ id, data }, "Updating genre");
       const [updated] = await db.update(genre).set(data).where(eq(genre.id, id)).returning();
-      this.logger.info({ genreId: id }, 'Genre updated successfully');
+      this.logger.info({ genreId: id }, "Genre updated successfully");
       return updated;
     } catch (error) {
-      this.logger.error({ error, id, data }, 'Failed to update genre');
+      this.logger.error({ error, id, data }, "Failed to update genre");
       throw error;
     }
   }
 
-  async delete(id: string): Promise<Genre | undefined> {
+  async delete(id: number): Promise<Genre | undefined> {
     try {
-      this.logger.debug({ id }, 'Deleting genre');
+      this.logger.debug({ id }, "Deleting genre");
       const [deleted] = await db.delete(genre).where(eq(genre.id, id)).returning();
-      this.logger.info({ genreId: id }, 'Genre deleted successfully');
+      this.logger.info({ genreId: id }, "Genre deleted successfully");
       return deleted;
     } catch (error) {
-      this.logger.error({ error, id }, 'Failed to delete genre');
+      this.logger.error({ error, id }, "Failed to delete genre");
       throw error;
     }
   }
 
   async list(): Promise<Genre[]> {
     try {
-      this.logger.debug('Listing all genres');
+      this.logger.debug("Listing all genres");
       const results = await db.select().from(genre).orderBy(asc(genre.name));
       return results;
     } catch (error) {
-      this.logger.error({ error }, 'Failed to list genres');
+      this.logger.error({ error }, "Failed to list genres");
       throw error;
     }
   }

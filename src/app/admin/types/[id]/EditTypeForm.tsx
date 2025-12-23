@@ -19,7 +19,10 @@ export default async function EditTypeForm({ params }: { params: { id: string } 
   const type = await res.json();
 
   async function handleUpdate(formData: FormData) {
-    const result = await updateType(id, formData);
+    const result = await updateType(id, {
+      name: formData.get("name") as string,
+      description: formData.get("description") as string | undefined,
+    });
     if (result.success) {
       revalidatePath("/admin/types");
       redirect("/admin/types");

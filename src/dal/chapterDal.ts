@@ -3,15 +3,15 @@
  * Handles all database operations for chapters
  */
 
-import { db } from '#database/db';
-import { chapter } from '#schema';
-import { logger } from '#lib/logger';
-import { and, asc, desc, eq } from 'drizzle-orm';
-import type { Chapter } from '#types/database-auto';
+import { db } from "#database/db";
+import { logger } from "#lib/logger";
+import { chapter } from "#schema";
+import type { Chapter } from "#types/database-auto";
+import { and, asc, desc, eq } from "drizzle-orm";
 
 export class ChapterDal {
   private static instance: ChapterDal;
-  private logger = logger.child({ context: 'ChapterDal' });
+  private logger = logger.child({ context: "ChapterDal" });
 
   private constructor() {}
 
@@ -24,105 +24,108 @@ export class ChapterDal {
 
   async create(data: typeof chapter.$inferInsert): Promise<Chapter | undefined> {
     try {
-      this.logger.debug({ data }, 'Creating chapter');
+      this.logger.debug({ data }, "Creating chapter");
       const [newChapter] = await db.insert(chapter).values(data).returning();
-      this.logger.info({ chapterId: newChapter?.id }, 'Chapter created successfully');
+      this.logger.info({ chapterId: newChapter?.id }, "Chapter created successfully");
       return newChapter;
     } catch (error) {
-      this.logger.error({ error, data }, 'Failed to create chapter');
+      this.logger.error({ error, data }, "Failed to create chapter");
       throw error;
     }
   }
 
-  async findById(id: string): Promise<Chapter | undefined> {
+  async findById(id: number): Promise<Chapter | undefined> {
     try {
-      this.logger.debug({ id }, 'Finding chapter by ID');
+      this.logger.debug({ id }, "Finding chapter by ID");
       const [result] = await db.select().from(chapter).where(eq(chapter.id, id));
       return result;
     } catch (error) {
-      this.logger.error({ error, id }, 'Failed to find chapter by ID');
+      this.logger.error({ error, id }, "Failed to find chapter by ID");
       throw error;
     }
   }
 
-  async findByComicId(comicId: string, order: 'asc' | 'desc' = 'asc'): Promise<Chapter[]> {
+  async findByComicId(comicId: number, order: "asc" | "desc" = "asc"): Promise<Chapter[]> {
     try {
-      this.logger.debug({ comicId, order }, 'Finding chapters by comic ID');
-      const orderFn = order === 'asc' ? asc : desc;
+      this.logger.debug({ comicId, order }, "Finding chapters by comic ID");
+      const orderFn = order === "asc" ? asc : desc;
       const results = await db
         .select()
         .from(chapter)
         .where(eq(chapter.comicId, comicId))
-        .orderBy(orderFn(chapter.number));
+        .orderBy(orderFn(chapter.chapterNumber));
       return results;
     } catch (error) {
-      this.logger.error({ error, comicId }, 'Failed to find chapters by comic ID');
+      this.logger.error({ error, comicId }, "Failed to find chapters by comic ID");
       throw error;
     }
   }
 
-  async findBySlug(comicId: string, slug: string): Promise<Chapter | undefined> {
+  async findBySlug(comicId: number, slug: string): Promise<Chapter | undefined> {
     try {
-      this.logger.debug({ comicId, slug }, 'Finding chapter by slug');
+      this.logger.debug({ comicId, slug }, "Finding chapter by slug");
       const [result] = await db
         .select()
         .from(chapter)
         .where(and(eq(chapter.comicId, comicId), eq(chapter.slug, slug)));
       return result;
     } catch (error) {
-      this.logger.error({ error, comicId, slug }, 'Failed to find chapter by slug');
+      this.logger.error({ error, comicId, slug }, "Failed to find chapter by slug");
       throw error;
     }
   }
 
-  async update(id: string, data: Partial<typeof chapter.$inferInsert>): Promise<Chapter | undefined> {
+  async update(
+    id: number,
+    data: Partial<typeof chapter.$inferInsert>
+  ): Promise<Chapter | undefined> {
     try {
-      this.logger.debug({ id, data }, 'Updating chapter');
+      this.logger.debug({ id, data }, "Updating chapter");
       const [updated] = await db.update(chapter).set(data).where(eq(chapter.id, id)).returning();
-      this.logger.info({ chapterId: id }, 'Chapter updated successfully');
+      this.logger.info({ chapterId: id }, "Chapter updated successfully");
       return updated;
     } catch (error) {
-      this.logger.error({ error, id, data }, 'Failed to update chapter');
+      this.logger.error({ error, id, data }, "Failed to update chapter");
       throw error;
     }
   }
 
-  async delete(id: string): Promise<Chapter | undefined> {
+  async delete(id: number): Promise<Chapter | undefined> {
     try {
-      this.logger.debug({ id }, 'Deleting chapter');
+      this.logger.debug({ id }, "Deleting chapter");
       const [deleted] = await db.delete(chapter).where(eq(chapter.id, id)).returning();
-      this.logger.info({ chapterId: id }, 'Chapter deleted successfully');
+      this.logger.info({ chapterId: id }, "Chapter deleted successfully");
       return deleted;
     } catch (error) {
-      this.logger.error({ error, id }, 'Failed to delete chapter');
+      this.logger.error({ error, id }, "Failed to delete chapter");
       throw error;
     }
   }
 
-  async getNextChapter(comicId: string, currentNumber: number): Promise<Chapter | undefined> {
+  async getNextChapter(comicId: number, currentNumber: number): Promise<Chapter | undefined> {
     try {
-      this.logger.debug({ comicId, currentNumber }, 'Getting next chapter');
+      this.logger.debug({ comicId, currentNumber }, "Getting next chapter");
       const [result] = await db
         .select()
         .from(chapter)
-        .where(and(eq(chapter.comicId, comicId), eq(chapter.number, currentNumber + 1)));
+        .where(and(eq(chapter.comicId, comicId), eq(chapter.chapterNumber, currentNumber + 1)));
       return result;
     } catch (error) {
-      this.logger.error({ error, comicId, currentNumber }, 'Failed to get next chapter');
+      this.logger.error({ error, comicId, currentNumber }, "Failed to get next chapter");
       throw error;
     }
   }
 
-  async getPreviousChapter(comicId: string, currentNumber: number): Promise<Chapter | undefined> {
+  async getPreviousChapter(comicId: number, currentNumber: number): Promise<Chapter | undefined> {
     try {
-      this.logger.debug({ comicId, currentNumber }, 'Getting previous chapter');
+      this.logger.debug({ comicId, currentNumber }, "Getting previous chapter");
       const [result] = await db
         .select()
         .from(chapter)
-        .where(and(eq(chapter.comicId, comicId), eq(chapter.number, currentNumber - 1)));
+        .where(and(eq(chapter.comicId, comicId), eq(chapter.chapterNumber, currentNumber - 1)));
       return result;
     } catch (error) {
-      this.logger.error({ error, comicId, currentNumber }, 'Failed to get previous chapter');
+      this.logger.error({ error, comicId, currentNumber }, "Failed to get previous chapter");
       throw error;
     }
   }

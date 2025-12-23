@@ -2,11 +2,12 @@
  * Central export for all Data Access Layer modules
  */
 
-export { userDal, UserDal } from './userDal';
-export { comicDal, ComicDal } from './comicDal';
-export { chapterDal, ChapterDal } from './chapterDal';
-export { authorDal, AuthorDal } from './authorDal';
-export { artistDal, ArtistDal } from './artistDal';
-export { genreDal, GenreDal } from './genreDal';
-export { commentDal, CommentDal } from './commentDal';
-export { bookmarkDal, BookmarkDal } from './bookmarkDal';
+export { ArtistDal, artistDal } from "./artistDal";
+export { AuthorDal, authorDal } from "./authorDal";
+export { BookmarkDal, bookmarkDal } from "./bookmarkDal";
+export { ChapterDal, chapterDal } from "./chapterDal";
+export { ComicDal, comicDal } from "./comicDal";
+export { CommentDal, commentDal } from "./commentDal";
+export { GenreDal, genreDal } from "./genreDal";
+export { TypeDal, typeDal } from "./typeDal";
+export { UserDal, userDal } from "./userDal";

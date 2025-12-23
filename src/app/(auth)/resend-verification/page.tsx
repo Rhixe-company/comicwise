@@ -10,7 +10,7 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { AuthForm, EmailField } from "#components/auth";
-import { resendVerificationEmailAction } from "#dto/authDto";
+import { resendVerificationEmailAction } from "@/dto/authDto";
 import type { ResendVerificationEmailInput } from "#lib/validations";
 import { resendVerificationEmailSchema } from "#lib/validations";
 import { Button } from "#ui/button";

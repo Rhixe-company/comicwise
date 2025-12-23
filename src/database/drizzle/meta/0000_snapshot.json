@@ -1,5 +1,5 @@
 {
-  "id": "5cff58e7-7c12-4d84-a4eb-6c6d06cdbc93",
+  "id": "2d7912df-160d-45a1-b494-6d4da26e994d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -133,15 +133,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "search_vector": {
-          "name": "search_vector",
+        "searchVector": {
+          "name": "searchVector",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -274,15 +274,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "search_vector": {
-          "name": "search_vector",
+        "searchVector": {
+          "name": "searchVector",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -300,20 +300,20 @@
       "name": "bookmark",
       "schema": "",
       "columns": {
-        "user_id": {
-          "name": "user_id",
+        "userId": {
+          "name": "userId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "comic_id": {
-          "name": "comic_id",
+        "comicId": {
+          "name": "comicId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "last_read_chapter_id": {
-          "name": "last_read_chapter_id",
+        "lastReadChapterId": {
+          "name": "lastReadChapterId",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -324,15 +324,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -340,11 +340,11 @@
         }
       },
       "indexes": {
-        "bookmark_user_id_idx": {
-          "name": "bookmark_user_id_idx",
+        "bookmarkUserIdIdx": {
+          "name": "bookmarkUserIdIdx",
           "columns": [
             {
-              "expression": "user_id",
+              "expression": "userId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -355,11 +355,11 @@
           "method": "btree",
           "with": {}
         },
-        "bookmark_comic_id_idx": {
-          "name": "bookmark_comic_id_idx",
+        "bookmarkComicIdIdx": {
+          "name": "bookmarkComicIdIdx",
           "columns": [
             {
-              "expression": "comic_id",
+              "expression": "comicId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -372,12 +372,12 @@
         }
       },
       "foreignKeys": {
-        "bookmark_user_id_user_id_fk": {
-          "name": "bookmark_user_id_user_id_fk",
+        "bookmark_userId_user_id_fk": {
+          "name": "bookmark_userId_user_id_fk",
           "tableFrom": "bookmark",
           "tableTo": "user",
           "columnsFrom": [
-            "user_id"
+            "userId"
           ],
           "columnsTo": [
             "id"
@@ -385,12 +385,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "bookmark_comic_id_comic_id_fk": {
-          "name": "bookmark_comic_id_comic_id_fk",
+        "bookmark_comicId_comic_id_fk": {
+          "name": "bookmark_comicId_comic_id_fk",
           "tableFrom": "bookmark",
           "tableTo": "comic",
           "columnsFrom": [
-            "comic_id"
+            "comicId"
           ],
           "columnsTo": [
             "id"
@@ -398,12 +398,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "bookmark_last_read_chapter_id_chapter_id_fk": {
-          "name": "bookmark_last_read_chapter_id_chapter_id_fk",
+        "bookmark_lastReadChapterId_chapter_id_fk": {
+          "name": "bookmark_lastReadChapterId_chapter_id_fk",
           "tableFrom": "bookmark",
           "tableTo": "chapter",
           "columnsFrom": [
-            "last_read_chapter_id"
+            "lastReadChapterId"
           ],
           "columnsTo": [
             "id"
@@ -413,11 +413,11 @@
         }
       },
       "compositePrimaryKeys": {
-        "bookmark_user_id_comic_id_pk": {
-          "name": "bookmark_user_id_comic_id_pk",
+        "bookmark_userId_comicId_pk": {
+          "name": "bookmark_userId_comicId_pk",
           "columns": [
-            "user_id",
-            "comic_id"
+            "userId",
+            "comicId"
           ]
         }
       },
@@ -448,20 +448,20 @@
           "primaryKey": false,
           "notNull": true
         },
-        "chapter_number": {
-          "name": "chapter_number",
+        "chapterNumber": {
+          "name": "chapterNumber",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "release_date": {
-          "name": "release_date",
+        "releaseDate": {
+          "name": "releaseDate",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true
         },
-        "comic_id": {
-          "name": "comic_id",
+        "comicId": {
+          "name": "comicId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -473,8 +473,8 @@
           "notNull": true,
           "default": 0
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -482,8 +482,8 @@
         }
       },
       "indexes": {
-        "chapter_slug_idx": {
-          "name": "chapter_slug_idx",
+        "chapterSlugIdx": {
+          "name": "chapterSlugIdx",
           "columns": [
             {
               "expression": "slug",
@@ -497,11 +497,11 @@
           "method": "btree",
           "with": {}
         },
-        "chapter_comic_id_idx": {
-          "name": "chapter_comic_id_idx",
+        "chapterComicIdIdx": {
+          "name": "chapterComicIdIdx",
           "columns": [
             {
-              "expression": "comic_id",
+              "expression": "comicId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -512,11 +512,11 @@
           "method": "btree",
           "with": {}
         },
-        "chapter_number_idx": {
-          "name": "chapter_number_idx",
+        "chapterNumberIdx": {
+          "name": "chapterNumberIdx",
           "columns": [
             {
-              "expression": "chapter_number",
+              "expression": "chapterNumber",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -527,11 +527,11 @@
           "method": "btree",
           "with": {}
         },
-        "chapter_release_date_idx": {
-          "name": "chapter_release_date_idx",
+        "chapterReleaseDateIdx": {
+          "name": "chapterReleaseDateIdx",
           "columns": [
             {
-              "expression": "release_date",
+              "expression": "releaseDate",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -542,17 +542,17 @@
           "method": "btree",
           "with": {}
         },
-        "chapter_comic_chapter_idx": {
-          "name": "chapter_comic_chapter_idx",
+        "chapterComicChapterIdx": {
+          "name": "chapterComicChapterIdx",
           "columns": [
             {
-              "expression": "comic_id",
+              "expression": "comicId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             },
             {
-              "expression": "chapter_number",
+              "expression": "chapterNumber",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -565,12 +565,12 @@
         }
       },
       "foreignKeys": {
-        "chapter_comic_id_comic_id_fk": {
-          "name": "chapter_comic_id_comic_id_fk",
+        "chapter_comicId_comic_id_fk": {
+          "name": "chapter_comicId_comic_id_fk",
           "tableFrom": "chapter",
           "tableTo": "comic",
           "columnsFrom": [
-            "comic_id"
+            "comicId"
           ],
           "columnsTo": [
             "id"
@@ -595,8 +595,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "chapter_id": {
-          "name": "chapter_id",
+        "chapterId": {
+          "name": "chapterId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -613,8 +613,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -622,11 +622,11 @@
         }
       },
       "indexes": {
-        "chapter_image_chapter_id_idx": {
-          "name": "chapter_image_chapter_id_idx",
+        "chapterImageChapterIdIdx": {
+          "name": "chapterImageChapterIdIdx",
           "columns": [
             {
-              "expression": "chapter_id",
+              "expression": "chapterId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -637,8 +637,8 @@
           "method": "btree",
           "with": {}
         },
-        "chapter_image_page_number_idx": {
-          "name": "chapter_image_page_number_idx",
+        "chapterImagePageNumberIdx": {
+          "name": "chapterImagePageNumberIdx",
           "columns": [
             {
               "expression": "pageNumber",
@@ -654,12 +654,12 @@
         }
       },
       "foreignKeys": {
-        "chapterImage_chapter_id_chapter_id_fk": {
-          "name": "chapterImage_chapter_id_chapter_id_fk",
+        "chapterImage_chapterId_chapter_id_fk": {
+          "name": "chapterImage_chapterId_chapter_id_fk",
           "tableFrom": "chapterImage",
           "tableTo": "chapter",
           "columnsFrom": [
-            "chapter_id"
+            "chapterId"
           ],
           "columnsTo": [
             "id"
@@ -684,8 +684,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "comic_id": {
-          "name": "comic_id",
+        "comicId": {
+          "name": "comicId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -721,15 +721,15 @@
           "notNull": true,
           "default": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -738,12 +738,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "chapters_comic_id_comics_id_fk": {
-          "name": "chapters_comic_id_comics_id_fk",
+        "chapters_comicId_comics_id_fk": {
+          "name": "chapters_comicId_comics_id_fk",
           "tableFrom": "chapters",
           "tableTo": "comics",
           "columnsFrom": [
-            "comic_id"
+            "comicId"
           ],
           "columnsTo": [
             "id"
@@ -838,30 +838,30 @@
           "primaryKey": false,
           "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "search_vector": {
-          "name": "search_vector",
+        "searchVector": {
+          "name": "searchVector",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {
-        "comic_slug_idx": {
-          "name": "comic_slug_idx",
+        "comicSlugIdx": {
+          "name": "comicSlugIdx",
           "columns": [
             {
               "expression": "slug",
@@ -875,8 +875,8 @@
           "method": "btree",
           "with": {}
         },
-        "comic_title_idx": {
-          "name": "comic_title_idx",
+        "comicTitleIdx": {
+          "name": "comicTitleIdx",
           "columns": [
             {
               "expression": "title",
@@ -890,8 +890,8 @@
           "method": "btree",
           "with": {}
         },
-        "comic_status_idx": {
-          "name": "comic_status_idx",
+        "comicStatusIdx": {
+          "name": "comicStatusIdx",
           "columns": [
             {
               "expression": "status",
@@ -905,8 +905,8 @@
           "method": "btree",
           "with": {}
         },
-        "comic_rating_idx": {
-          "name": "comic_rating_idx",
+        "comicRatingIdx": {
+          "name": "comicRatingIdx",
           "columns": [
             {
               "expression": "rating",
@@ -920,8 +920,8 @@
           "method": "btree",
           "with": {}
         },
-        "comic_views_idx": {
-          "name": "comic_views_idx",
+        "comicViewsIdx": {
+          "name": "comicViewsIdx",
           "columns": [
             {
               "expression": "views",
@@ -935,8 +935,8 @@
           "method": "btree",
           "with": {}
         },
-        "comic_author_idx": {
-          "name": "comic_author_idx",
+        "comicAuthorIdx": {
+          "name": "comicAuthorIdx",
           "columns": [
             {
               "expression": "authorId",
@@ -950,8 +950,8 @@
           "method": "btree",
           "with": {}
         },
-        "comic_artist_idx": {
-          "name": "comic_artist_idx",
+        "comicArtistIdx": {
+          "name": "comicArtistIdx",
           "columns": [
             {
               "expression": "artistId",
@@ -965,8 +965,8 @@
           "method": "btree",
           "with": {}
         },
-        "comic_type_idx": {
-          "name": "comic_type_idx",
+        "comicTypeIdx": {
+          "name": "comicTypeIdx",
           "columns": [
             {
               "expression": "typeId",
@@ -980,11 +980,11 @@
           "method": "btree",
           "with": {}
         },
-        "comic_created_at_idx": {
-          "name": "comic_created_at_idx",
+        "comicCreatedAtIdx": {
+          "name": "comicCreatedAtIdx",
           "columns": [
             {
-              "expression": "created_at",
+              "expression": "createdAt",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1068,8 +1068,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "comic_id": {
-          "name": "comic_id",
+        "comicId": {
+          "name": "comicId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -1086,8 +1086,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -1096,12 +1096,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "comicImage_comic_id_comic_id_fk": {
-          "name": "comicImage_comic_id_comic_id_fk",
+        "comicImage_comicId_comic_id_fk": {
+          "name": "comicImage_comicId_comic_id_fk",
           "tableFrom": "comicImage",
           "tableTo": "comic",
           "columnsFrom": [
-            "comic_id"
+            "comicId"
           ],
           "columnsTo": [
             "id"
@@ -1120,14 +1120,14 @@
       "name": "comicToGenre",
       "schema": "",
       "columns": {
-        "comic_id": {
-          "name": "comic_id",
+        "comicId": {
+          "name": "comicId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "genre_id": {
-          "name": "genre_id",
+        "genreId": {
+          "name": "genreId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -1135,12 +1135,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "comicToGenre_comic_id_comic_id_fk": {
-          "name": "comicToGenre_comic_id_comic_id_fk",
+        "comicToGenre_comicId_comic_id_fk": {
+          "name": "comicToGenre_comicId_comic_id_fk",
           "tableFrom": "comicToGenre",
           "tableTo": "comic",
           "columnsFrom": [
-            "comic_id"
+            "comicId"
           ],
           "columnsTo": [
             "id"
@@ -1148,12 +1148,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "comicToGenre_genre_id_genre_id_fk": {
-          "name": "comicToGenre_genre_id_genre_id_fk",
+        "comicToGenre_genreId_genre_id_fk": {
+          "name": "comicToGenre_genreId_genre_id_fk",
           "tableFrom": "comicToGenre",
           "tableTo": "genre",
           "columnsFrom": [
-            "genre_id"
+            "genreId"
           ],
           "columnsTo": [
             "id"
@@ -1163,11 +1163,11 @@
         }
       },
       "compositePrimaryKeys": {
-        "comicToGenre_comic_id_genre_id_pk": {
-          "name": "comicToGenre_comic_id_genre_id_pk",
+        "comicToGenre_comicId_genreId_pk": {
+          "name": "comicToGenre_comicId_genreId_pk",
           "columns": [
-            "comic_id",
-            "genre_id"
+            "comicId",
+            "genreId"
           ]
         }
       },
@@ -1204,8 +1204,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "author_id": {
-          "name": "author_id",
+        "authorId": {
+          "name": "authorId",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -1217,15 +1217,15 @@
           "notNull": true,
           "default": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -1234,12 +1234,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "comics_author_id_users_id_fk": {
-          "name": "comics_author_id_users_id_fk",
+        "comics_authorId_users_id_fk": {
+          "name": "comics_authorId_users_id_fk",
           "tableFrom": "comics",
           "tableTo": "users",
           "columnsFrom": [
-            "author_id"
+            "authorId"
           ],
           "columnsTo": [
             "id"
@@ -1270,27 +1270,27 @@
           "primaryKey": false,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
+        "userId": {
+          "name": "userId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "chapter_id": {
-          "name": "chapter_id",
+        "chapterId": {
+          "name": "chapterId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -1298,11 +1298,11 @@
         }
       },
       "indexes": {
-        "comment_user_id_idx": {
-          "name": "comment_user_id_idx",
+        "commentUserIdIdx": {
+          "name": "commentUserIdIdx",
           "columns": [
             {
-              "expression": "user_id",
+              "expression": "userId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1313,11 +1313,11 @@
           "method": "btree",
           "with": {}
         },
-        "comment_chapter_id_idx": {
-          "name": "comment_chapter_id_idx",
+        "commentChapterIdIdx": {
+          "name": "commentChapterIdIdx",
           "columns": [
             {
-              "expression": "chapter_id",
+              "expression": "chapterId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1328,11 +1328,11 @@
           "method": "btree",
           "with": {}
         },
-        "comment_created_at_idx": {
-          "name": "comment_created_at_idx",
+        "commentCreatedAtIdx": {
+          "name": "commentCreatedAtIdx",
           "columns": [
             {
-              "expression": "created_at",
+              "expression": "createdAt",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1345,12 +1345,12 @@
         }
       },
       "foreignKeys": {
-        "comment_user_id_user_id_fk": {
-          "name": "comment_user_id_user_id_fk",
+        "comment_userId_user_id_fk": {
+          "name": "comment_userId_user_id_fk",
           "tableFrom": "comment",
           "tableTo": "user",
           "columnsFrom": [
-            "user_id"
+            "userId"
           ],
           "columnsTo": [
             "id"
@@ -1358,12 +1358,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "comment_chapter_id_chapter_id_fk": {
-          "name": "comment_chapter_id_chapter_id_fk",
+        "comment_chapterId_chapter_id_fk": {
+          "name": "comment_chapterId_chapter_id_fk",
           "tableFrom": "comment",
           "tableTo": "chapter",
           "columnsFrom": [
-            "chapter_id"
+            "chapterId"
           ],
           "columnsTo": [
             "id"
@@ -1400,8 +1400,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -1469,8 +1469,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.reading_progress": {
-      "name": "reading_progress",
+    "public.readingProgress": {
+      "name": "readingProgress",
       "schema": "",
       "columns": {
         "id": {
@@ -1479,74 +1479,74 @@
           "primaryKey": true,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
+        "userId": {
+          "name": "userId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "comic_id": {
-          "name": "comic_id",
+        "comicId": {
+          "name": "comicId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "chapter_id": {
-          "name": "chapter_id",
+        "chapterId": {
+          "name": "chapterId",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "page_number": {
-          "name": "page_number",
+        "pageNumber": {
+          "name": "pageNumber",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "default": 0
         },
-        "scroll_position": {
-          "name": "scroll_position",
+        "scrollPosition": {
+          "name": "scrollPosition",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "default": 0
         },
-        "total_pages": {
-          "name": "total_pages",
+        "totalPages": {
+          "name": "totalPages",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "default": 0
         },
-        "progress_percent": {
-          "name": "progress_percent",
+        "progressPercent": {
+          "name": "progressPercent",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "default": 0
         },
-        "completed_at": {
-          "name": "completed_at",
+        "completedAt": {
+          "name": "completedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         },
-        "last_read_at": {
-          "name": "last_read_at",
+        "lastReadAt": {
+          "name": "lastReadAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -1554,11 +1554,11 @@
         }
       },
       "indexes": {
-        "reading_progress_user_id_idx": {
-          "name": "reading_progress_user_id_idx",
+        "readingProgressUserIdIdx": {
+          "name": "readingProgressUserIdIdx",
           "columns": [
             {
-              "expression": "user_id",
+              "expression": "userId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1569,11 +1569,11 @@
           "method": "btree",
           "with": {}
         },
-        "reading_progress_comic_id_idx": {
-          "name": "reading_progress_comic_id_idx",
+        "readingProgressComicIdIdx": {
+          "name": "readingProgressComicIdIdx",
           "columns": [
             {
-              "expression": "comic_id",
+              "expression": "comicId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1584,11 +1584,11 @@
           "method": "btree",
           "with": {}
         },
-        "reading_progress_chapter_id_idx": {
-          "name": "reading_progress_chapter_id_idx",
+        "readingProgressChapterIdIdx": {
+          "name": "readingProgressChapterIdIdx",
           "columns": [
             {
-              "expression": "chapter_id",
+              "expression": "chapterId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1599,11 +1599,11 @@
           "method": "btree",
           "with": {}
         },
-        "reading_progress_last_read_idx": {
-          "name": "reading_progress_last_read_idx",
+        "readingProgressLastReadIdx": {
+          "name": "readingProgressLastReadIdx",
           "columns": [
             {
-              "expression": "last_read_at",
+              "expression": "lastReadAt",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1614,17 +1614,17 @@
           "method": "btree",
           "with": {}
         },
-        "reading_progress_user_comic_idx": {
-          "name": "reading_progress_user_comic_idx",
+        "readingProgressUserComicIdx": {
+          "name": "readingProgressUserComicIdx",
           "columns": [
             {
-              "expression": "user_id",
+              "expression": "userId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             },
             {
-              "expression": "comic_id",
+              "expression": "comicId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1637,12 +1637,12 @@
         }
       },
       "foreignKeys": {
-        "reading_progress_user_id_user_id_fk": {
-          "name": "reading_progress_user_id_user_id_fk",
-          "tableFrom": "reading_progress",
+        "readingProgress_userId_user_id_fk": {
+          "name": "readingProgress_userId_user_id_fk",
+          "tableFrom": "readingProgress",
           "tableTo": "user",
           "columnsFrom": [
-            "user_id"
+            "userId"
           ],
           "columnsTo": [
             "id"
@@ -1650,12 +1650,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "reading_progress_comic_id_comic_id_fk": {
-          "name": "reading_progress_comic_id_comic_id_fk",
-          "tableFrom": "reading_progress",
+        "readingProgress_comicId_comic_id_fk": {
+          "name": "readingProgress_comicId_comic_id_fk",
+          "tableFrom": "readingProgress",
           "tableTo": "comic",
           "columnsFrom": [
-            "comic_id"
+            "comicId"
           ],
           "columnsTo": [
             "id"
@@ -1663,12 +1663,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "reading_progress_chapter_id_chapter_id_fk": {
-          "name": "reading_progress_chapter_id_chapter_id_fk",
-          "tableFrom": "reading_progress",
+        "readingProgress_chapterId_chapter_id_fk": {
+          "name": "readingProgress_chapterId_chapter_id_fk",
+          "tableFrom": "readingProgress",
           "tableTo": "chapter",
           "columnsFrom": [
-            "chapter_id"
+            "chapterId"
           ],
           "columnsTo": [
             "id"
@@ -1750,8 +1750,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -1822,15 +1822,15 @@
           "notNull": true,
           "default": "'user'"
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -1838,8 +1838,8 @@
         }
       },
       "indexes": {
-        "user_email_idx": {
-          "name": "user_email_idx",
+        "userEmailIdx": {
+          "name": "userEmailIdx",
           "columns": [
             {
               "expression": "email",
@@ -1853,8 +1853,8 @@
           "method": "btree",
           "with": {}
         },
-        "user_role_idx": {
-          "name": "user_role_idx",
+        "userRoleIdx": {
+          "name": "userRoleIdx",
           "columns": [
             {
               "expression": "role",
@@ -1912,15 +1912,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,

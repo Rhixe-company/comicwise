@@ -1,10 +1,10 @@
-import pino from 'pino';
+import pino from "pino";
 
-const isDevelopment = process.env.NODE_ENV === 'development';
-const isProduction = process.env.NODE_ENV === 'production';
+const isDevelopment = process.env.NODE_ENV === "development";
+const isProduction = process.env.NODE_ENV === "production";
 
 export const logger = pino({
-  level: process.env.LOG_LEVEL || (isDevelopment ? 'debug' : 'info'),
+  level: process.env.LOG_LEVEL || (isDevelopment ? "debug" : "info"),
   formatters: {
     level: (label) => {
       return { level: label.toUpperCase() };
@@ -13,11 +13,11 @@ export const logger = pino({
   timestamp: pino.stdTimeFunctions.isoTime,
   ...(isDevelopment && {
     transport: {
-      target: 'pino-pretty',
+      target: "pino-pretty",
       options: {
         colorize: true,
-        translateTime: 'HH:MM:ss Z',
-        ignore: 'pid,hostname',
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
         singleLine: false,
       },
     },

@@ -33,14 +33,14 @@ export default function NewUserPage() {
   const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
     setIsLoading(true);
     try {
-      const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("email", values.email);
-      formData.append("password", values.password);
+      const result = await registerUser({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        role: "user",
+      });
 
-      const result = await registerUser(formData);
-
-      if (result.error) {
+      if (!result.success) {
         toast.error(result.error);
       } else {
         toast.success("User created successfully");

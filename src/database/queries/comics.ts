@@ -1,15 +1,25 @@
+import type { ComicWithDetails } from "#/types/database";
 import { db as database } from "#database/db";
 import { artist, author, chapter, comic, comicToGenre, genre, type } from "#schema";
-import { and, asc, desc, eq, gte, inArray, like, or, sql, type SQL } from "drizzle-orm";
+import type { SQL } from "drizzle-orm";
+import { and, asc, desc, eq, gte, inArray, like, or, sql } from "drizzle-orm";
 
-import type { ComicFilters, ComicWithDetails, Genre, PaginatedResponse } from "types";
+import type { ComicFilters, Genre, PaginatedResponse } from "types";
 
+/**
+ *
+ * @param title
+ */
 export async function getComicByTitle(title: string) {
   return await database.query.comic.findFirst({
     where: eq(comic.title, title),
   });
 }
 
+/**
+ *
+ * @param filters
+ */
 export async function getAllComics(
   filters: ComicFilters = {}
 ): Promise<PaginatedResponse<ComicWithDetails>> {
@@ -62,15 +72,15 @@ export async function getAllComics(
   }
 
   if (typeId) {
-    conditions.push(eq(comic.typeId, typeId) as SQL<unknown>);
+    conditions.push(eq(comic.typeId, typeId));
   }
 
   if (status) {
-    conditions.push(eq(comic.status, status) as SQL<unknown>);
+    conditions.push(eq(comic.status, status));
   }
 
   if (minRating) {
-    conditions.push(gte(comic.rating, minRating.toString()) as SQL<unknown>);
+    conditions.push(gte(comic.rating, minRating.toString()));
   }
 
   if (genreIds && genreIds.length > 0) {
@@ -81,12 +91,12 @@ export async function getAllComics(
 
     const comicIds = comicsWithGenres.map((c) => c.comicId);
     if (comicIds.length > 0) {
-      conditions.push(inArray(comic.id, comicIds) as SQL<unknown>);
+      conditions.push(inArray(comic.id, comicIds));
     }
   }
 
   if (conditions.length > 0) {
-    query = query.where(and(...(conditions as SQL<unknown>[])));
+    query = query.where(and(...conditions));
   }
 
   switch (sortBy) {
@@ -118,7 +128,7 @@ export async function getAllComics(
   }
 
   const totalResult = await totalQuery;
-  const total = Number((totalResult[0]?.count as number) || 0);
+  const total = Number(totalResult[0]?.count || 0);
 
   return {
     data: results as unknown as ComicWithDetails[],
@@ -133,6 +143,10 @@ export async function getAllComics(
   };
 }
 
+/**
+ *
+ * @param comicId
+ */
 export async function getComic(comicId: number): Promise<ComicWithDetails | null> {
   const result = await database
     .select({
@@ -174,6 +188,11 @@ export async function getComic(comicId: number): Promise<ComicWithDetails | null
   } as ComicWithDetails;
 }
 
+/**
+ *
+ * @param comicId
+ * @param limit
+ */
 export async function getRecommendedComics(comicId: number, limit: number = 6) {
   const currentComic = await database.select().from(comic).where(eq(comic.id, comicId)).limit(1);
 
@@ -197,6 +216,11 @@ export async function getRecommendedComics(comicId: number, limit: number = 6) {
   return recommended;
 }
 
+/**
+ *
+ * @param query
+ * @param limit
+ */
 export async function searchComics(query: string, limit: number = 10) {
   if (!query || query.trim().length === 0) return [];
 
@@ -226,6 +250,11 @@ export async function searchComics(query: string, limit: number = 10) {
   return results;
 }
 
+/**
+ *
+ * @param typeId
+ * @param limit
+ */
 export async function getComicsByType(typeId: number, limit: number = 12) {
   return await database
     .select()
@@ -235,6 +264,10 @@ export async function getComicsByType(typeId: number, limit: number = 12) {
     .limit(limit);
 }
 
+/**
+ *
+ * @param limit
+ */
 export async function getLatestComics(limit: number = 12) {
   return await database
     .select({
@@ -250,6 +283,10 @@ export async function getLatestComics(limit: number = 12) {
     .limit(limit);
 }
 
+/**
+ *
+ * @param limit
+ */
 export async function getPopularComics(limit: number = 12) {
   return await database
     .select({

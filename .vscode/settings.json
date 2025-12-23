@@ -133,7 +133,7 @@
     "nuxt"
   ],
 
-  "chat.agent.maxRequests": 1000,
+  "chat.agent.maxRequests": 10000,
   "chat.mcp.gallery.enabled": true,
 
   "editor.acceptSuggestionOnCommitCharacter": true,
@@ -183,7 +183,6 @@
     "other": true
   },
   "editor.rename.enablePreview": true,
-  "editor.renameOnType": false,
   "editor.renderWhitespace": "boundary",
   "editor.rulers": [80, 120],
   "editor.semanticHighlighting.enabled": true,
@@ -212,9 +211,8 @@
   "errorLens.enabledDiagnosticLevels": ["error", "warning"],
   "errorLens.excludeBySource": ["cSpell"],
 
-  "eslint.alwaysShowStatus": true,
   "eslint.codeActionsOnSave.mode": "all",
-  "eslint.format.enable": false,
+  "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
 
   "eslint.probe": [

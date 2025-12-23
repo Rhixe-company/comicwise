@@ -11,7 +11,7 @@ import { Suspense, useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { AuthForm, PasswordField } from "#components/auth";
-import { resetPasswordAction } from "#dto/authDto";
+import { resetPasswordAction } from "@/dto/authDto";
 import type { ResetPasswordInput } from "#lib/validations";
 import { resetPasswordSchema } from "#lib/validations";
 import { Button } from "#ui/button";

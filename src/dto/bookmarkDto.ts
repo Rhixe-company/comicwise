@@ -1,39 +1,35 @@
 /**
- * Bookmark Data Transfer Objects
+ * Bookmark DTOs
+ * Data Transfer Objects for bookmark operations
  */
 
-import type { Bookmark } from '#types/database-auto';
-import type { ComicCardDto } from './comicDto';
+import type { bookmark } from "#schema";
 
-export interface BookmarkDto {
-  id: string;
-  userId: string;
-  comicId: string;
-  createdAt: Date;
-}
+export type BookmarkDto = typeof bookmark.$inferSelect;
+export type CreateBookmarkDto = typeof bookmark.$inferInsert;
+export type UpdateBookmarkDto = Partial<CreateBookmarkDto>;
 
-export interface BookmarkDetailDto extends BookmarkDto {
-  comic?: ComicCardDto;
-}
+export type BookmarkListDto = {
+  bookmarks: BookmarkDto[];
+  total: number;
+  page: number;
+  limit: number;
+};
 
-export class BookmarkDtoMapper {
-  static toDto(bookmark: Bookmark): BookmarkDto {
-    return {
-      id: bookmark.id,
-      userId: bookmark.userId,
-      comicId: bookmark.comicId,
-      createdAt: bookmark.createdAt,
+export type BookmarkWithComicDto = BookmarkDto & {
+  comic?: {
+    id: number;
+    title: string;
+    slug: string;
+    coverImage: string;
+    author?: {
+      id: number;
+      name: string;
     };
-  }
-
-  static toDetailDto(bookmark: Bookmark, comic?: ComicCardDto): BookmarkDetailDto {
-    return {
-      ...BookmarkDtoMapper.toDto(bookmark),
-      comic,
-    };
-  }
-
-  static toDtoList(bookmarks: Bookmark[]): BookmarkDto[] {
-    return bookmarks.map(BookmarkDtoMapper.toDto);
-  }
-}
+  };
+  lastReadChapter?: {
+    id: number;
+    title: string;
+    chapterNumber: number;
+  };
+};

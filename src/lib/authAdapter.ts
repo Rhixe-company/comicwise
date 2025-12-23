@@ -10,9 +10,9 @@ import { account, session, user, verificationToken } from "#schema";
  */
 export function DrizzleAdapter(database: any): Adapter {
   return NextAuthDrizzleAdapter(database, {
-    usersTable: user,
-    accountsTable: account,
-    sessionsTable: session,
-    verificationTokensTable: verificationToken,
+    usersTable: user as any,
+    accountsTable: account as any,
+    sessionsTable: session as any,
+    verificationTokensTable: verificationToken as any,
   }) as Adapter;
 }

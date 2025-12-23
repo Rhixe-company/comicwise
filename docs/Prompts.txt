@@ -1,11 +1,25 @@
 Dont Create A summary or explanation, just complete all tasks.
 Read And understand this project, @.md, @.txt, @.ts, @.tsx, @.mjs, @.json , @.mts, @.json @.yml   @.ps1 @.sh @Dockerfile files, the package manager pnpm, and the overall structure of the project. After fully understanding the project,
+Take into consideration Sorry, you have been rate-limited Please wait a moment before trying again Learn More Server Error: Sorry, you have exceeded your Copilot token usage Please review our Terms of Service. Error Code: rate_limited while running all future tasks dont create summary until  tasks are completed successfully the package manager is pnpm  and the system is windows
+Review the Prettier config in @prettier.config.ts and verify:
+1. All required Prettier plugins are properly installed and configured:
+Review the Postcss config in @postcss.config.mjs and verify:
+1. All required PostCSS plugins are properly installed and configured:
+Review the ESLint config in @eslint.config.ts and verify:
+1. All ESLint plugins are properly installed and configured:
+2. Each plugin has rules configured in the main config block
+3. There are no redundant or conflicting rules
+4. The config adheres to best practices for performance and maintainability
+Report any missing plugins or configuration gaps with a maximum patch.
+Install any missing packages.
+Update all  any types to  use a generic type  infer types from usage or infer its types from usage
+Fix all linting errors manually and ensure the code adheres to the defined ESLint rules
 Create an Optimized @src/types/* file that defines all types and interfaces for this project to ensure type safety and consistency across the codebase and update all my project types to the new types.
 Setup custom paths in @/tsconfig.json for better module resolution and cleaner imports throughout the project.
 Optimize @/scripts/replace-imports.ts to ensure all import and export paths are updated according to the new custom paths defined in @/tsconfig.json.
 Optimize all scripts at @package.json and all powershell and bash scripts in @/scripts to ensure they follow best practices and are efficient.
 Refactor and update all  @.ts, @.tsx files and functions to   use CamelCase change filename if needed ensure all fields in @src/database/schema.ts uses CamelCase update all needed files and functions Optimize all files with "use server" by creating an enhanced dto version at @src/actions updating all usage to the dto files and   deleting all old files
-Create a comprehensive @/src/dal/*Dal.ts  @/src/dot/*Dot.ts    files to handle data access and data object transformations respectively, ensuring separation of concerns and maintainability  Reference @src/lib/actions/*.ts @src/lib/dto/*.ts  @src/lib/*.ts all usage to the dto files and   deleting all old files.
+Refactor and update all @/src/dal/*Dal.ts  @/src/dot/*Dot.ts    files to handle data access and data object transformations respectively, ensuring separation of concerns and maintainability  Reference @src/lib/actions/*.ts  @src/lib/*.ts all usage to the dto files and   update cleanup scripts to handle duplecate files and functions then run it.
 Implement a robust logging mechanism across the project using a popular logging library like Winston or Pino to capture important events, errors, and debug information.
 Integrate environment variable management using a library like dotenv or convict to handle configuration settings securely and efficiently.
 What do you recommend, completely implement all your recommendations for this project with the following features:

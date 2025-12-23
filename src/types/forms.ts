@@ -202,6 +202,6 @@ export interface FormState<T = unknown> {
 }
 
 export type FormAction<TInput, TOutput = void> = (
-  prevState: FormState<TOutput>,
+  previousState: FormState<TOutput>,
   formData: FormData | TInput
 ) => Promise<FormState<TOutput>>;

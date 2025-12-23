@@ -10,7 +10,7 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { AuthForm, EmailField } from "#components/auth";
-import { forgotPasswordAction } from "#dto/authDto";
+import { forgotPasswordAction } from "@/dto/authDto";
 import type { ForgotPasswordInput } from "#lib/validations";
 import { forgotPasswordSchema } from "#lib/validations";
 import { Button } from "#ui/button";

@@ -24,7 +24,13 @@ export default async function EditUserForm({ params }: { params: { id: string } 
 
   async function handleUpdate(formData: FormData) {
     // convert emailVerified boolean to date server-side is handled in updateUser action
-    const result = await updateUser(id, formData);
+    const result = await updateUser(id, {
+      name: formData.get("name") as string | undefined,
+      email: formData.get("email") as string | undefined,
+      role: formData.get("role") as "user" | "admin" | "moderator" | undefined,
+      image: formData.get("image") as string | undefined,
+      emailVerified: formData.get("emailVerified") === "true" ? new Date() : undefined,
+    });
     if (result.success) {
       revalidatePath("/admin/users");
       revalidatePath(`/admin/users/${id}`);

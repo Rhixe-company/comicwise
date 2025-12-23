@@ -37,37 +37,22 @@ export interface ApiMeta {
   cursor?: string;
 }
 
-/**
- * Pagination parameters
- */
-export interface PaginationParams {
-  page?: number;
-  perPage?: number;
-  cursor?: string;
-}
+// /**
+//  * Pagination parameters
+//  */
+// export interface PaginationParams {
+//   page?: number;
+//   perPage?: number;
+//   cursor?: string;
+// }
 
-/**
- * Sort parameters
- */
-export interface SortParams {
-  sortBy?: string;
-  sortOrder?: "asc" | "desc";
-}
-
-/**
- * Filter parameters
- */
-export interface FilterParams {
-  [key: string]: string | number | boolean | string[] | number[] | undefined;
-}
-
-/**
- * Search parameters
- */
-export interface SearchParams extends PaginationParams, SortParams, FilterParams {
-  q?: string;
-  query?: string;
-}
+// /**
+//  * Sort parameters
+//  */
+// export interface SortParams {
+//   sortBy?: string;
+//   sortOrder?: "asc" | "desc";
+// }
 
 /**
  * API Error response
