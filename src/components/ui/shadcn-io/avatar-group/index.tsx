@@ -114,7 +114,7 @@ function AvatarStackItem({ children, index, size, className }: AvatarStackItemPr
 type AvatarGroupTooltipProps = TooltipContentProps;
 
 function AvatarGroupTooltip(props: AvatarGroupTooltipProps) {
-  return <TooltipContent {...(props as any)} />;
+  return <TooltipContent {...(props as Record<string, unknown>)} />;
 }
 
 type AvatarGroupVariant = "motion" | "css" | "stack";
@@ -154,7 +154,7 @@ function AvatarGroup({
           animate && "hover:space-x-0 [&>*]:transition-all",
           className
         )}
-        {...(props as any)}
+        {...(props as Record<string, unknown>)}
       >
         {Children.map(children, (child, index) => {
           if (!child) {
@@ -182,7 +182,7 @@ function AvatarGroup({
           variant === "motion" && "flex-row -space-x-2 h-8",
           className
         )}
-        {...(props as any)}
+        {...(props as Record<string, unknown>)}
       >
         {children?.map((child, index) => {
           const zIndex = invertOverlap ? React.Children.count(children) - index : index;

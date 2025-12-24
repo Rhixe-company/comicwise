@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { readdir } from 'fs/promises';
-import { join, extname } from 'path';
+import { readdir } from "fs/promises";
+import { extname, join } from "path";
 // import { uploadToCloudinary } from '../src/lib/cloudinary';
 
 interface UploadResult {
@@ -12,9 +12,9 @@ interface UploadResult {
 async function uploadToProvider(filePath: string, provider: string): Promise<UploadResult> {
   try {
     let url: string;
-    
+
     switch (provider) {
-      case 'cloudinary':
+      case "cloudinary":
         // url = await uploadToCloudinary(filePath);
         url = `https://cloudinary.com/uploaded/${filePath}`;
         break;
@@ -27,25 +27,25 @@ async function uploadToProvider(filePath: string, provider: string): Promise<Upl
   } catch (error) {
     return {
       file: filePath,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }
 
 async function main() {
   const sourceDir = process.argv[2];
-  const provider = process.argv[3] || 'cloudinary';
+  const provider = process.argv[3] || "cloudinary";
 
   if (!sourceDir) {
-    console.error('❌ Usage: pnpm upload <directory> [provider]');
+    console.error("❌ Usage: pnpm upload <directory> [provider]");
     process.exit(1);
   }
 
   console.log(`📤 Uploading images from ${sourceDir} to ${provider}...\n`);
 
   const files = await readdir(sourceDir);
-  const imageFiles = files.filter(f => 
-    ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(extname(f).toLowerCase())
+  const imageFiles = files.filter((f) =>
+    [".jpg", ".jpeg", ".png", ".gif", ".webp"].includes(extname(f).toLowerCase())
   );
 
   console.log(`Found ${imageFiles.length} images\n`);
@@ -59,13 +59,13 @@ async function main() {
     results.push(result);
     completed++;
 
-    const icon = result.error ? '❌' : '✅';
+    const icon = result.error ? "❌" : "✅";
     console.log(`${icon} [${completed}/${imageFiles.length}] ${file}`);
     if (result.url) console.log(`   ${result.url}`);
     if (result.error) console.log(`   Error: ${result.error}`);
   }
 
-  const successful = results.filter(r => !r.error).length;
+  const successful = results.filter((r) => !r.error).length;
   console.log(`\n✅ Uploaded ${successful}/${imageFiles.length} images successfully`);
 }
 

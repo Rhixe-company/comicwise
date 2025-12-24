@@ -116,7 +116,7 @@ export const MiniCalendar = ({
         `,
           className
         )}
-        {...(props as any)}
+        {...(props as Record<string, unknown>)}
       >
         {children}
       </div>
@@ -146,7 +146,7 @@ export const MiniCalendarNavigation = ({
 
   if (asChild) {
     return (
-      <Slot.Root onClick={handleClick} {...(props as any)}>
+      <Slot.Root onClick={handleClick} {...(props as Record<string, unknown>)}>
         {children}
       </Slot.Root>
     );
@@ -158,7 +158,7 @@ export const MiniCalendarNavigation = ({
       size={asChild ? undefined : "icon"}
       type="button"
       variant={asChild ? undefined : "ghost"}
-      {...(props as any)}
+      {...(props as Record<string, unknown>)}
     >
       {children ?? <Icon className="size-4" />}
     </Button>
@@ -174,7 +174,7 @@ export const MiniCalendarDays = ({ className, children, ...props }: MiniCalendar
   const days = getDays(startDate, dayCount);
 
   return (
-    <div className={cn("flex items-center gap-1", className)} {...(props as any)}>
+    <div className={cn("flex items-center gap-1", className)} {...(props as Record<string, unknown>)}>
       {days.map((date) => children(date))}
     </div>
   );
@@ -201,7 +201,7 @@ export const MiniCalendarDay = ({ date, className, ...props }: MiniCalendarDayPr
       size="sm"
       type="button"
       variant={isSelected ? "default" : "ghost"}
-      {...(props as any)}
+      {...(props as Record<string, unknown>)}
     >
       <span
         className={cn(

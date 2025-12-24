@@ -99,7 +99,7 @@ export type CardItemProps = {
   rotateX?: number | string;
   rotateY?: number | string;
   rotateZ?: number | string;
-} & Record<string, any>;
+} & Record<string, unknown>;
 
 export const CardItem = ({
   as: Tag = "div",
@@ -113,7 +113,7 @@ export const CardItem = ({
   rotateZ = 0,
   ...rest
 }: CardItemProps) => {
-  const ref = useRef<any>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [isMouseEntered] = useMouseEnter();
 
   const handleAnimations = React.useCallback(() => {
@@ -129,7 +129,7 @@ export const CardItem = ({
     handleAnimations();
   }, [handleAnimations]);
 
-  const elementProps: any = {
+  const elementProps: Record<string, unknown> = {
     className: cn("w-fit transition duration-200 ease-linear", className),
     ...rest,
   };

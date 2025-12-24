@@ -6,7 +6,9 @@ import * as mutations from "#database/mutations";
 import * as queries from "#database/queries";
 import { ProgressTracker } from "#database/seed/logger";
 import { BatchProcessor } from "#database/seed/utils/batchProcessor";
+import { validateArray } from "#database/seed/utils/helpers";
 import { imageService } from "#services/imageService";
+import { userSeedSchema } from "#validations/index";
 import appConfig from "appConfig";
 import bcrypt from "bcryptjs";
 
@@ -37,9 +39,12 @@ export class UserSeeder {
    * @param users
    */
   async seed(users: UserSeed[]): Promise<void> {
-    const tracker = new ProgressTracker("Users", users.length);
+    // Validate data before processing
+    const validatedUsers = validateArray(users, userSeedSchema);
 
-    await this.batchProcessor.process(users, async (userData) => {
+    const tracker = new ProgressTracker("Users", validatedUsers.length);
+
+    await this.batchProcessor.process(validatedUsers, async (userData) => {
       try {
         await this.processUser(userData, tracker);
       } catch (error) {

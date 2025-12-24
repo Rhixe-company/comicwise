@@ -73,7 +73,7 @@ export default async function EditChapterForm({ params }: { params: { id: string
                 className="w-full rounded border px-3 py-2"
               >
                 <option value="">Select a comic</option>
-                {comics.map((c: any) => (
+                {comics.map((c) => (
                   <option key={c.id} value={String(c.id)}>
                     {c.title}
                   </option>
@@ -153,7 +153,7 @@ export default async function EditChapterForm({ params }: { params: { id: string
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => (window as any).history.back()}
+                  onClick={() => window.history.back()}
                 >
                   Cancel
                 </Button>

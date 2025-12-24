@@ -8,23 +8,23 @@ async function UsersTable() {
 
   const columns = [
     {
-      accessorKey: "id",
+      accessorKey: "id" as const,
       header: "ID",
     },
     {
-      accessorKey: "name",
+      accessorKey: "name" as const,
       header: "Name",
     },
     {
-      accessorKey: "email",
+      accessorKey: "email" as const,
       header: "Email",
     },
     {
-      accessorKey: "role",
+      accessorKey: "role" as const,
       header: "Role",
     },
     {
-      accessorKey: "createdAt",
+      accessorKey: "createdAt" as const,
       header: "Created At",
     },
   ];

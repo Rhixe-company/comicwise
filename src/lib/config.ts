@@ -86,7 +86,11 @@ export const config = {
 
   // Upload providers
   upload: {
-    provider: (process.env.UPLOAD_PROVIDER || "local") as "local" | "imagekit" | "cloudinary" | "aws",
+    provider: (process.env.UPLOAD_PROVIDER || "local") as
+      | "local"
+      | "imagekit"
+      | "cloudinary"
+      | "aws",
     maxFileSize: 10 * 1024 * 1024, // 10MB
     allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"],
 

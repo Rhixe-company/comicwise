@@ -7,10 +7,12 @@ import * as queries from "#database/queries";
 import type { SeedConfig } from "#database/seed/config";
 import { ProgressTracker } from "#database/seed/logger";
 import { BatchProcessor } from "#database/seed/utils/batchProcessor";
-import { createSlug, normalizeDate } from "#database/seed/utils/helpers";
+import { createSlug, normalizeDate, validateArray } from "#database/seed/utils/helpers";
 import type { MetadataCache } from "#database/seed/utils/metadataCache";
 import type { ComicSeed } from "#lib/validations";
 import { imageService } from "#services/imageService";
+import type { ComicStatus } from "#types/database";
+import { comicSeedSchema } from "#validations/index";
 
 /**
  *
@@ -40,9 +42,12 @@ export class ComicSeeder {
    * @param comics
    */
   async seed(comics: ComicSeed[]): Promise<void> {
-    const tracker = new ProgressTracker("Comics", comics.length);
+    // Validate data before processing
+    const validatedComics = validateArray(comics, comicSeedSchema);
 
-    await this.batchProcessor.process(comics, async (comicData) => {
+    const tracker = new ProgressTracker("Comics", validatedComics.length);
+
+    await this.batchProcessor.process(validatedComics, async (comicData) => {
       try {
         await this.processComic(comicData, tracker);
       } catch (error) {
@@ -108,15 +113,15 @@ export class ComicSeeder {
       }
     }
 
-    const validStatuses = ["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon"];
-    const comicStatus =
-      comicData.status && validStatuses.includes(comicData.status) ? comicData.status : "Ongoing";
+    const validStatuses: ComicStatus[] = ["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon"];
+    const comicStatus: ComicStatus =
+      comicData.status && validStatuses.includes(comicData.status as ComicStatus) ? (comicData.status as ComicStatus) : "Ongoing";
 
     let comicId: number;
 
     if (existing) {
       const updated = await mutations.updateComic(existing.id, {
-        description: (comicData.description ?? existing.description).slice(0, 5000),
+        description: (comicData.description ?? existing.description ?? "").slice(0, 5000),
         coverImage,
         status: comicStatus,
         publicationDate: normalizeDate(

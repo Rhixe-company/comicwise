@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import type { UseFormReturn } from "react-hook-form";
+import type { DefaultValues, FieldValues, Path, UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Button } from "ui/button";
+import { Button } from "#ui/button";
 import {
   Form,
   FormControl,
@@ -14,11 +15,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "ui/form";
-import { Input } from "ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "ui/select";
-import { Switch } from "ui/switch";
-import { Textarea } from "ui/textarea";
+} from "#ui/form";
+import { Input } from "#ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "#ui/select";
+import { Switch } from "#ui/switch";
+import { Textarea } from "#ui/textarea";
 
 import type { z } from "zod";
 
@@ -33,7 +34,7 @@ export type FieldType =
   | "date"
   | "file";
 
-export interface FormFieldConfig<T extends z.ZodType<any>> {
+export interface FormFieldConfig<T extends z.ZodTypeAny> {
   name: keyof z.infer<T>;
   label: string;
   type: FieldType;
@@ -44,7 +45,7 @@ export interface FormFieldConfig<T extends z.ZodType<any>> {
   required?: boolean;
 }
 
-interface BaseFormProps<T extends z.ZodType<any>> {
+interface BaseFormProps<T extends z.ZodTypeAny> {
   schema: T;
   fields: FormFieldConfig<T>[];
   defaultValues: Partial<z.infer<T>>;
@@ -54,7 +55,7 @@ interface BaseFormProps<T extends z.ZodType<any>> {
   className?: string;
 }
 
-export function BaseForm<T extends z.ZodType<any>>({
+export function BaseForm<T extends z.ZodTypeAny>({
   schema,
   fields,
   defaultValues,
@@ -63,12 +64,12 @@ export function BaseForm<T extends z.ZodType<any>>({
   isLoading = false,
   className = "",
 }: BaseFormProps<T>) {
-  type FormValues = z.output<T>;
+  type FormValues = z.infer<T>;
 
+  // @ts-expect-error - zodResolver type compatibility issue with react-hook-form generics
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema as any) as any,
-
-    defaultValues: defaultValues as any,
+    resolver: zodResolver(schema),
+    defaultValues: defaultValues as DefaultValues<FormValues>,
   });
 
   const handleSubmit = async (values: FormValues) => {
@@ -82,7 +83,7 @@ export function BaseForm<T extends z.ZodType<any>>({
   };
 
   const renderField = (field: FormFieldConfig<T>, formInstance: UseFormReturn<FormValues>) => {
-    const fieldName = field.name as any;
+    const fieldName = String(field.name) as Path<FormValues>;
 
     switch (field.type) {
       case "textarea":

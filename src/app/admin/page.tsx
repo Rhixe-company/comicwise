@@ -71,23 +71,23 @@ async function StatsGrid() {
     db
       .select({ count: sql<number>`count(*)::int` })
       .from(user)
-      .then((r: any) => r[0]?.count || 0),
+      .then((r) => r[0]?.count || 0),
     db
       .select({ count: sql<number>`count(*)::int` })
       .from(comic)
-      .then((r: any) => r[0]?.count || 0),
+      .then((r) => r[0]?.count || 0),
     db
       .select({ count: sql<number>`count(*)::int` })
       .from(chapter)
-      .then((r: any) => r[0]?.count || 0),
+      .then((r) => r[0]?.count || 0),
     db
       .select({ count: sql<number>`count(*)::int` })
       .from(bookmark)
-      .then((r: any) => r[0]?.count || 0),
+      .then((r) => r[0]?.count || 0),
     db
       .select({ total: sql<number>`sum(views)::int` })
       .from(comic)
-      .then((r: any) => r[0]?.total || 0),
+      .then((r) => r[0]?.total || 0),
   ]);
 
   const stats = [
@@ -174,7 +174,7 @@ async function RecentComics() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {recentComics.map((c: any) => (
+          {recentComics.map((c) => (
             <div
               key={c.id}
               className={`
@@ -230,7 +230,7 @@ async function RecentUsers() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {recentUsers.map((u: any) => (
+          {recentUsers.map((u) => (
             <div
               key={u.id}
               className={`
@@ -278,7 +278,7 @@ async function RecentChapters() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {recentChapters.map((ch: any) => (
+          {recentChapters.map((ch) => (
             <div
               key={ch.id}
               className={`
@@ -332,7 +332,7 @@ async function RecentComments() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {recentComments.map((cm: any) => (
+          {recentComments.map((cm) => (
             <div
               key={cm.id}
               className={`

@@ -177,7 +177,7 @@ async function RecommendedComics({ comicId }: { comicId: number }) {
         md:grid-cols-4
       `}
       >
-        {recommended.map((comic: any) => (
+        {recommended.map((comic) => (
           <ComicCard key={comic.id} comic={comic} authorName={null} typeName={comic.typeName} />
         ))}
       </div>

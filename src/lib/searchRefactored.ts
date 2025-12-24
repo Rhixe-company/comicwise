@@ -12,17 +12,36 @@ import type { ComicFilters } from "types";
 // TYPES
 // ═══════════════════════════════════════════════════
 
-export interface AdvancedSearchFilters extends ComicFilters {
+export interface AdvancedSearchFilters {
+  // Search
   query?: string;
   searchMode?: "simple" | "phrase" | "websearch";
+  search?: string;
+  
+  // Filters
+  genres?: string[];
+  genreIds?: number[];
+  genreNames?: string[];
+  types?: string[];
+  typeId?: number;
+  status?: "ongoing" | "completed" | "hiatus" | "cancelled";
+  
+  // Author/Artist
   authorName?: string;
   artistName?: string;
-  genreNames?: string[];
+  
+  // Date/Year
+  publicationYear?: number;
   publicationYearFrom?: number;
   publicationYearTo?: number;
+  
+  // Rating/Views
+  minRating?: number;
   minViews?: number;
   maxViews?: number;
-  sortBy?: "title" | "rating" | "views" | "publicationDate" | "createdAt" | "latest";
+  
+  // Sorting & Pagination
+  sortBy?: "title" | "rating" | "views" | "latest" | "createdAt" | "publicationDate" | "relevance";
   sortOrder?: "asc" | "desc";
   page?: number;
   limit?: number;
@@ -133,15 +152,16 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
     query = query.where(and(...(conditions.all as Parameters<typeof and>)));
   }
 
-  const sortedQuery = applySorting(query, sortBy, sortOrder, !!searchText) as any;
+  const sortedQuery = applySorting(query, sortBy, sortOrder, !!searchText);
   const offset = (page - 1) * limit;
-  const results = await sortedQuery.limit(limit).offset(offset);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const results = await (sortedQuery as any).limit(limit).offset(offset);
 
   const total = await getSearchTotalCount(conditions.all);
-  const comicIds = results.map((r: any) => r.id);
+  const comicIds = results.map((r) => r.id);
   const genresMap = await getComicGenres(comicIds);
 
-  const enrichedResults = results.map((result: any) => enrichSearchResult(result, genresMap));
+  const enrichedResults = results.map((result) => enrichSearchResult(result, genresMap));
 
   return {
     results: enrichedResults,
@@ -356,6 +376,7 @@ function applySorting(
   hasSearchQuery: boolean
 ): unknown {
   const isDesc = sortOrder === "desc";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const q = query as any;
 
   switch (sortBy) {
@@ -390,29 +411,32 @@ function applySorting(
 // RESULT ENRICHMENT
 // ═══════════════════════════════════════════════════
 
-function enrichSearchResult(result: any, genresMap: Record<number, string[]>): SearchResult {
+function enrichSearchResult(result: unknown, genresMap: Record<number, string[]>): SearchResult {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const r = result as any;
   return {
-    id: result.id,
-    title: (result.title as string) || "",
-    description: (result.description as string) || "",
-    coverImage: (result.coverImage as string) || "",
-    status: (result.status as string) || "",
-    rating: (result.rating as string) || "",
-    views: typeof result.views === "number" ? result.views : Number(result.views) || 0,
-    authorName: (result.authorName as string | null) || null,
-    artistName: (result.artistName as string | null) || null,
-    typeName: (result.typeName as string | null) || null,
-    genres: genresMap?.[result.id] || [],
-    relevanceScore: (result.relevanceScore as number) || undefined,
-    publicationDate: parseDate(result.publicationDate),
-    createdAt: parseDate(result.createdAt),
-    updatedAt: parseDate(result.updatedAt),
+    id: Number(r.id) || 0,
+    title: (r.title as string) || "",
+    description: (r.description as string) || "",
+    coverImage: (r.coverImage as string) || "",
+    status: (r.status as string) || "",
+    rating: (r.rating as string) || "",
+    views: typeof r.views === "number" ? r.views : Number(r.views) || 0,
+    authorName: (r.authorName as string | null) || null,
+    artistName: (r.artistName as string | null) || null,
+    typeName: (r.typeName as string | null) || null,
+    genres: genresMap[Number(r.id)] || [],
+    relevanceScore: (r.relevanceScore as number) || undefined,
+    publicationDate: parseDate(r.publicationDate),
+    createdAt: parseDate(r.createdAt),
+    updatedAt: parseDate(r.updatedAt),
   };
 }
 
-function parseDate(date: any): Date {
+function parseDate(date: unknown): Date {
   if (!date) return new Date();
-  return date.getTime ? (date as Date) : new Date(date);
+  if (date instanceof Date) return date;
+  return new Date(date as string | number);
 }
 
 // ═══════════════════════════════════════════════════
@@ -448,6 +472,7 @@ async function getSearchTotalCount(conditions: unknown[]): Promise<number> {
     .$dynamic();
 
   if (conditions.length > 0) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     countQuery = countQuery.where(and(...(conditions as any)));
   }
 
@@ -585,8 +610,8 @@ export async function getTrendingComics(
     .orderBy(desc(comic.views))
     .limit(limit);
 
-  const comicIds = results.map((r: { id: number }) => r.id);
+  const comicIds = results.map((r) => r.id);
   const genresMap = await getComicGenres(comicIds);
 
-  return results.map((result: any) => enrichSearchResult(result, genresMap));
+  return results.map((result) => enrichSearchResult(result, genresMap));
 }

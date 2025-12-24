@@ -6,7 +6,7 @@
 import { db } from "#database/db";
 import { logger } from "#lib/logger";
 import { artist } from "#schema";
-import type { Artist } from "#types/database-auto";
+import type { Artist } from "#types/database";
 import { desc, eq, like } from "drizzle-orm";
 
 export class ArtistDal {

@@ -1,35 +1,35 @@
 // ═══════════════════════════════════════════════════
-// TYPES INDEX - Centralized Type Exports (Next.js 16)
+// TYPES INDEX - Centralized Type Exports
+// ═══════════════════════════════════════════════════
+// Single source of truth for all type imports
+
+// ═══════════════════════════════════════════════════
+// CORE & UTILITIES
 // ═══════════════════════════════════════════════════
 
-// Core Types
-export * from "./actions";
-export * from "./api";
-export * from "./components";
-export * from "./core";
-export * from "./forms";
+export * from "./Core"; // BaseEntity, TimestampedEntity, etc.
+export * from "./Utility"; // Nullable, Prettify, DeepPartial, etc.
 
-// System Types
-export * from "./cache";
-export * from "./cli";
-export * from "./monitoring";
-export * from "./queue";
-export type { UploadProvider, UploadResult } from "./upload";
+// ═══════════════════════════════════════════════════
+// DATABASE (All models, relations, filters, inputs)
+// ═══════════════════════════════════════════════════
 
-// Internal Types
-export * from "./internal";
+export * from "./database"; // All database types (consolidated)
 
-// Re-export commonly used types for convenience
-export type { ActionResult, PaginatedResponse } from "./actions";
-export type { ActionResponse, ApiResponse } from "./api";
-export type {
-  Artist,
-  Author,
-  Chapter,
-  ChapterWithRelations,
-  Comic,
-  ComicWithRelations,
-  Genre,
-  User,
-  UserWithRelations,
-} from "./core";
+// ═══════════════════════════════════════════════════
+// APPLICATION LAYER
+// ═══════════════════════════════════════════════════
+
+export * from "./actions"; // Server actions
+export * from "./Api"; // API responses
+export * from "./components"; // Component props
+export * from "./forms"; // Form types
+
+// ═══════════════════════════════════════════════════
+// INFRASTRUCTURE
+// ═══════════════════════════════════════════════════
+
+// export * from "./cache";       // Cache types
+// export * from "./monitoring";  // Monitoring types
+// export * from "./queue";       // Queue types
+// export * from "./upload";      // Upload types

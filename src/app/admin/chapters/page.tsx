@@ -24,32 +24,32 @@ async function ChaptersTable() {
 
   const columns = [
     {
-      accessorKey: "id",
+      accessorKey: "id" as const,
       header: "ID",
     },
     {
-      accessorKey: "comicTitle",
+      accessorKey: "comicTitle" as const,
       header: "Comic",
     },
     {
-      accessorKey: "chapterNumber",
+      accessorKey: "chapterNumber" as const,
       header: "Chapter #",
     },
     {
-      accessorKey: "title",
+      accessorKey: "title" as const,
       header: "Title",
     },
     {
-      accessorKey: "views",
+      accessorKey: "views" as const,
       header: "Views",
     },
     {
-      accessorKey: "releaseDate",
+      accessorKey: "releaseDate" as const,
       header: "Release Date",
     },
-  ];
+  ] as const;
 
-  return <DataTable columns={columns} data={chapters} />;
+  return <DataTable columns={[...columns]} data={chapters} />;
 }
 
 function ChaptersHeader() {

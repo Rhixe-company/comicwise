@@ -22,7 +22,7 @@ async function LatestComics() {
       lg:grid-cols-4
     `}
     >
-      {comics.map((comic: any) => (
+      {comics.map((comic) => (
         <ComicCard key={comic.id} comic={comic} authorName={null} typeName={null} />
       ))}
     </div>
@@ -40,7 +40,7 @@ async function PopularComics() {
       lg:grid-cols-4
     `}
     >
-      {comics.map((comic: any) => (
+      {comics.map((comic) => (
         <ComicCard key={comic.id} comic={comic} authorName={null} typeName={null} />
       ))}
     </div>

@@ -6,7 +6,7 @@ import { getAllComics } from "#queries/comics";
 import { Skeleton } from "#ui/skeleton";
 import { Suspense } from "react";
 
-import type { ComicFilters } from "#types/database";
+import type { ComicFilters, ComicStatus } from "#types/database";
 import type { Metadata } from "next";
 
 interface Type {
@@ -40,7 +40,7 @@ async function ComicsGrid({
     typeId: searchParams.type ? Number(searchParams.type) : undefined,
     status:
       typeof searchParams.status === "string"
-        ? (searchParams.status as "Ongoing" | "Completed" | "Hiatus" | "Dropped" | "Coming Soon")
+        ? (searchParams.status as ComicStatus)
         : undefined,
     sortBy: sortByParam as "latest" | "rating" | "title" | "views",
     page: searchParams.page ? Number(searchParams.page) : 1,
@@ -67,7 +67,7 @@ async function ComicsGrid({
         lg:grid-cols-4
       `}
       >
-        {comics.map((comic: any) => (
+        {comics.map((comic) => (
           <ComicCard
             key={comic.id}
             comic={comic}

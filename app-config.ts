@@ -102,13 +102,13 @@ const environmentSchema = z.object({
 // TYPE EXPORTS
 // ═══════════════════════════════════════════════════
 
-export type Env = z.infer<typeof environmentSchema>;
+export type Environment = z.infer<typeof environmentSchema>;
 
 // ═══════════════════════════════════════════════════
 // ENVIRONMENT VALIDATION
 // ═══════════════════════════════════════════════════
 
-function validateEnvironment(): Env {
+function validateEnvironment(): Environment {
   try {
     // Parse with fallback support for legacy SMTP variables
     const parsedEnvironment = environmentSchema.parse({
@@ -178,7 +178,7 @@ export const env = validateEnvironment();
  * Check if a specific environment variable is set
  * @param key
  */
-export function hasEnv(key: keyof Env): boolean {
+export function hasEnvironment(key: keyof Environment): boolean {
   return !!env[key];
 }
 
@@ -187,8 +187,11 @@ export function hasEnv(key: keyof Env): boolean {
  * @param key
  * @param defaultValue
  */
-export function getEnv<K extends keyof Env>(key: K, defaultValue?: Env[K]): Env[K] {
-  return env[key] ?? (defaultValue as Env[K]);
+export function getEnv<K extends keyof Environment>(
+  key: K,
+  defaultValue?: Environment[K]
+): Environment[K] {
+  return env[key] ?? (defaultValue as Environment[K]);
 }
 
 /**
@@ -270,8 +273,8 @@ const appConfig = {
     sessionMaxAge: 30 * 24 * 60 * 60, // 30 days
     providers: {
       credentials: true,
-      google: hasEnv("AUTH_GOOGLE_CLIENT_ID"),
-      github: hasEnv("AUTH_GITHUB_CLIENT_ID"),
+      google: hasEnvironment("AUTH_GOOGLE_CLIENT_ID"),
+      github: hasEnvironment("AUTH_GITHUB_CLIENT_ID"),
     },
   },
 
@@ -330,13 +333,13 @@ const appConfig = {
       publicKey: env.IMAGEKIT_PUBLIC_KEY ?? "",
       privateKey: env.IMAGEKIT_PRIVATE_KEY ?? "",
       urlEndpoint: env.IMAGEKIT_URL_ENDPOINT ?? "",
-      enabled: hasEnv("IMAGEKIT_PUBLIC_KEY"),
+      enabled: hasEnvironment("IMAGEKIT_PUBLIC_KEY"),
     },
     cloudinary: {
       cloudName: env.CLOUDINARY_CLOUD_NAME ?? "",
       apiKey: env.CLOUDINARY_API_KEY ?? "",
       apiSecret: env.CLOUDINARY_API_SECRET ?? "",
-      enabled: hasEnv("CLOUDINARY_CLOUD_NAME"),
+      enabled: hasEnvironment("CLOUDINARY_CLOUD_NAME"),
     },
   },
 
@@ -348,7 +351,7 @@ const appConfig = {
     currentSigningKey: env.QSTASH_CURRENT_SIGNING_KEY ?? "",
     nextSigningKey: env.QSTASH_NEXT_SIGNING_KEY ?? "",
     url: env.QSTASH_URL ?? "",
-    enabled: hasEnv("QSTASH_TOKEN"),
+    enabled: hasEnvironment("QSTASH_TOKEN"),
   },
 
   // ═══════════════════════════════════════════════════
@@ -357,7 +360,7 @@ const appConfig = {
   redis: {
     url: env.UPSTASH_REDIS_REST_URL ?? "",
     token: env.UPSTASH_REDIS_REST_TOKEN ?? "",
-    enabled: hasEnv("UPSTASH_REDIS_REST_URL"),
+    enabled: hasEnvironment("UPSTASH_REDIS_REST_URL"),
   },
 
   // ═══════════════════════════════════════════════════
@@ -380,10 +383,10 @@ const appConfig = {
     ratings: true,
     email: !!(env.EMAIL_SERVER_USER && env.EMAIL_SERVER_PASSWORD),
     emailVerification: true,
-    oauth: hasEnv("AUTH_GOOGLE_CLIENT_ID") ?? hasEnv("AUTH_GITHUB_CLIENT_ID"),
-    backgroundJobs: hasEnv("QSTASH_TOKEN"),
-    rateLimiting: hasEnv("UPSTASH_REDIS_REST_URL"),
-    imageUpload: hasEnv("IMAGEKIT_PUBLIC_KEY") ?? hasEnv("CLOUDINARY_CLOUD_NAME"),
+    oauth: hasEnvironment("AUTH_GOOGLE_CLIENT_ID") ?? hasEnvironment("AUTH_GITHUB_CLIENT_ID"),
+    backgroundJobs: hasEnvironment("QSTASH_TOKEN"),
+    rateLimiting: hasEnvironment("UPSTASH_REDIS_REST_URL"),
+    imageUpload: hasEnvironment("IMAGEKIT_PUBLIC_KEY") ?? hasEnvironment("CLOUDINARY_CLOUD_NAME"),
   },
   customPassword: env.CUSTOM_PASSWORD ?? "",
 } as const;

@@ -57,6 +57,7 @@ export function ComicForm({
   });
 
   const form = useForm<z.infer<typeof comicFormSchema>>({
+    // @ts-expect-error - zodResolver type compatibility issue with react-hook-form
     resolver: zodResolver(comicFormSchema),
     defaultValues: {
       title: initialData?.title || "",
@@ -72,7 +73,7 @@ export function ComicForm({
       typeId: initialData?.typeId ? String(initialData.typeId) : "",
       genreIds: initialData?.genreIds || [],
     },
-  } as any);
+  });
 
   async function handleFormSubmit(data: z.infer<typeof comicFormSchema>) {
     try {
@@ -129,7 +130,7 @@ export function ComicForm({
                     </Alert>
                   )}
 
-                  <input
+                  <Input
                     ref={fileInputRef}
                     type="file"
                     accept="image/*"
@@ -156,7 +157,6 @@ export function ComicForm({
                     )}
                   </Button>
 
-                  {/* @ts-ignore - react-hook-form type inference issue */}
                   <FormField
                     control={form.control}
                     name="coverImage"
@@ -181,7 +181,6 @@ export function ComicForm({
               <CardTitle>Basic Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* @ts-ignore - react-hook-form type inference issue */}
               <FormField
                 control={form.control}
                 name="title"
@@ -196,7 +195,6 @@ export function ComicForm({
                 )}
               />
 
-              {/* @ts-ignore - react-hook-form type inference issue */}
               <FormField
                 control={form.control}
                 name="slug"
@@ -212,7 +210,6 @@ export function ComicForm({
                 )}
               />
 
-              {/* @ts-ignore - react-hook-form type inference issue */}
               <FormField
                 control={form.control}
                 name="description"
@@ -235,7 +232,6 @@ export function ComicForm({
               <CardTitle>Publication Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* @ts-ignore - react-hook-form type inference issue */}
               <FormField
                 control={form.control}
                 name="status"
@@ -261,7 +257,6 @@ export function ComicForm({
                 )}
               />
 
-              {/* @ts-ignore - react-hook-form type inference issue */}
               <FormField
                 control={form.control}
                 name="publicationDate"
@@ -295,7 +290,6 @@ export function ComicForm({
               <CardDescription>Connect author, artist, and type to this comic</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* @ts-ignore - react-hook-form type inference issue */}
               <FormField
                 control={form.control}
                 name="authorId"
@@ -310,7 +304,6 @@ export function ComicForm({
                 )}
               />
 
-              {/* @ts-ignore - react-hook-form type inference issue */}
               <FormField
                 control={form.control}
                 name="artistId"
@@ -325,7 +318,6 @@ export function ComicForm({
                 )}
               />
 
-              {/* @ts-ignore - react-hook-form type inference issue */}
               <FormField
                 control={form.control}
                 name="typeId"

@@ -6,7 +6,7 @@
 import { db } from "#database/db";
 import { logger } from "#lib/logger";
 import { genre } from "#schema";
-import type { Genre } from "#types/database-auto";
+import type { Genre } from "#types/database";
 import { asc, eq } from "drizzle-orm";
 
 export class GenreDal {

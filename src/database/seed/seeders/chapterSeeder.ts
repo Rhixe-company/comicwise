@@ -7,9 +7,15 @@ import * as queries from "#database/queries";
 import type { SeedConfig } from "#database/seed/config";
 import { ProgressTracker } from "#database/seed/logger";
 import { BatchProcessor } from "#database/seed/utils/batchProcessor";
-import { createSlug, extractChapterNumber, normalizeDate } from "#database/seed/utils/helpers";
+import {
+  createSlug,
+  extractChapterNumber,
+  normalizeDate,
+  validateArray,
+} from "#database/seed/utils/helpers";
 import type { ChapterSeed } from "#lib/validations";
 import { imageService } from "#services/imageService";
+import { chapterSeedSchema } from "#validations/index";
 
 export class ChapterSeeder {
   private options: SeedConfig["options"];
@@ -26,9 +32,12 @@ export class ChapterSeeder {
   }
 
   async seed(chapters: ChapterSeed[]): Promise<void> {
-    const tracker = new ProgressTracker("Chapters", chapters.length);
+    // Validate data before processing
+    const validatedChapters = validateArray(chapters, chapterSeedSchema);
 
-    await this.batchProcessor.process(chapters, async (chapterData) => {
+    const tracker = new ProgressTracker("Chapters", validatedChapters.length);
+
+    await this.batchProcessor.process(validatedChapters, async (chapterData) => {
       try {
         await this.processChapter(chapterData, tracker);
       } catch (error) {

@@ -194,7 +194,7 @@ export async function uploadMultipleImages(
 export async function deleteImage(fileId: string): Promise<DeleteResult> {
   try {
     const ik = getImageKitInstance();
-    await (ik.deleteFile as any)(fileId);
+    await (ik.deleteFile as unknown)(fileId);
 
     return { success: true };
   } catch (error) {
@@ -699,6 +699,8 @@ export async function getImageMetadata(fileId: string): Promise<{
   try {
     const ik: ImageKit = getImageKitInstance();
     const metadataResult = await ik.getFileMetadata(fileId);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const meta = metadataResult as any;
     const details: {
       width: number;
       height: number;
@@ -707,19 +709,12 @@ export async function getImageMetadata(fileId: string): Promise<{
       hasAlpha: boolean;
       isAnimated?: boolean;
     } = {
-      width: typeof (metadataResult as any).width === "number" ? (metadataResult as any).width : 0,
-      height:
-        typeof (metadataResult as any).height === "number" ? (metadataResult as any).height : 0,
-      format:
-        typeof (metadataResult as any).format === "string"
-          ? (metadataResult as any).format
-          : "unknown",
-      size: typeof (metadataResult as any).size === "number" ? (metadataResult as any).size : 0,
-      hasAlpha:
-        typeof (metadataResult as any).hasAlpha === "boolean"
-          ? (metadataResult as any).hasAlpha
-          : false,
-      isAnimated: (metadataResult as any).isAnimated,
+      width: typeof meta.width === "number" ? meta.width : 0,
+      height: typeof meta.height === "number" ? meta.height : 0,
+      format: typeof meta.format === "string" ? meta.format : "unknown",
+      size: typeof meta.size === "number" ? meta.size : 0,
+      hasAlpha: typeof meta.hasAlpha === "boolean" ? meta.hasAlpha : false,
+      isAnimated: meta.isAnimated,
     };
 
     return {

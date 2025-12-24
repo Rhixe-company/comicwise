@@ -5,7 +5,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-class FileUtils {
+export class FileUtils {
   /**
    * Read and parse a JSON file
    */

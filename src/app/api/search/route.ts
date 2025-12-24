@@ -2,13 +2,13 @@
 // SEARCH API ROUTE - Advanced Comic Search
 // ═══════════════════════════════════════════════════
 
-import type { AdvancedSearchFilters } from "#lib/search";
+import type { AdvancedSearchFilters } from "#lib/searchRefactored";
 import {
   getPopularSearches,
   getSearchSuggestions,
   getTrendingComics,
   searchComics,
-} from "#lib/search";
+} from "#lib/searchRefactored";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
@@ -63,7 +63,7 @@ async function handleSearch(searchParams: URLSearchParams) {
     search: searchParams.get("search") || undefined,
     searchMode: (searchParams.get("mode") as "simple" | "phrase" | "websearch") || "websearch",
     typeId: searchParams.get("typeId") ? parseInt(searchParams.get("typeId")!) : undefined,
-    status: searchParams.get("status") as any, // allow string or Comic["status"]
+    status: searchParams.get("status") as "ongoing" | "completed" | "hiatus" | "cancelled" | undefined,
     minRating: searchParams.get("minRating")
       ? parseFloat(searchParams.get("minRating")!)
       : undefined,
@@ -83,7 +83,7 @@ async function handleSearch(searchParams: URLSearchParams) {
       : undefined,
     minViews: searchParams.get("minViews") ? parseInt(searchParams.get("minViews")!) : undefined,
     maxViews: searchParams.get("maxViews") ? parseInt(searchParams.get("maxViews")!) : undefined,
-    sortBy: (searchParams.get("sortBy") as any) || "relevance",
+    sortBy: (searchParams.get("sortBy") as "title" | "rating" | "views" | "publicationDate" | "createdAt" | "latest" | "relevance") || "relevance",
     sortOrder: (searchParams.get("sortOrder") as "asc" | "desc") || "desc",
     page: searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1,
     limit: searchParams.get("limit") ? parseInt(searchParams.get("limit")!) : 12,

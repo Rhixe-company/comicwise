@@ -125,7 +125,7 @@ export default async function EditArtistForm({ params }: { params: { id: string 
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => (window as any).history.back()}
+                  onClick={() => window.history.back()}
                 >
                   Cancel
                 </Button>

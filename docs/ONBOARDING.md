@@ -13,6 +13,7 @@ Welcome to ComicWise! This guide will help you get started quickly.
 ## Installation
 
 ### 1. Clone and Install
+
 ```bash
 git clone <repository-url>
 cd comicwise
@@ -20,11 +21,13 @@ pnpm install
 ```
 
 ### 2. Environment Setup
+
 ```bash
 cp .env.example .env
 ```
 
 Edit `.env` with your configuration:
+
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/comicwise
 REDIS_URL=redis://localhost:6379
@@ -33,6 +36,7 @@ NEXTAUTH_URL=http://localhost:3000
 ```
 
 ### 3. Database Setup
+
 ```bash
 # Push schema to database
 pnpm db:push
@@ -42,11 +46,13 @@ pnpm db:seed
 ```
 
 ### 4. Verify Installation
+
 ```bash
 pnpm health
 ```
 
 ### 5. Start Development
+
 ```bash
 pnpm dev
 ```
@@ -73,37 +79,45 @@ comicwise/
 ## Key Concepts
 
 ### Data Access Layer (DAL)
-All database operations go through DAL classes:
-```typescript
-import { UserDal } from '@/dal/UserDal';
 
-const user = await UserDal.getById('123');
+All database operations go through DAL classes:
+
+```typescript
+import { UserDal } from "@/dal/UserDal";
+
+const user = await UserDal.getById("123");
 ```
 
 ### Data Transfer Objects (DTO)
+
 Use DTOs for data validation and transformation:
+
 ```typescript
-import { UserDto } from '@/dto/UserDto';
+import { UserDto } from "@/dto/UserDto";
 
 const userData = UserDto.create({
-  email: 'user@example.com',
-  name: 'John Doe'
+  email: "user@example.com",
+  name: "John Doe",
 });
 ```
 
 ### Logging
-Use the centralized logger:
-```typescript
-import { logger } from '@/lib/logger';
 
-logger.info('User logged in', { userId: '123' });
-logger.error('Error occurred', error);
+Use the centralized logger:
+
+```typescript
+import { logger } from "@/lib/logger";
+
+logger.info("User logged in", { userId: "123" });
+logger.error("Error occurred", error);
 ```
 
 ### Environment Variables
+
 Access via centralized config:
+
 ```typescript
-import { env } from '@/lib/env';
+import { env } from "@/lib/env";
 
 const dbUrl = env.DATABASE_URL;
 ```
@@ -111,6 +125,7 @@ const dbUrl = env.DATABASE_URL;
 ## Daily Workflow
 
 ### Starting Work
+
 ```bash
 # Pull latest changes
 git pull
@@ -126,6 +141,7 @@ pnpm dev
 ```
 
 ### Before Committing
+
 ```bash
 # Format code
 pnpm format
@@ -143,21 +159,25 @@ pnpm test
 ### Creating New Features
 
 #### 1. Create Component
+
 ```bash
 pnpm scaffold component MyComponent
 ```
 
 #### 2. Create Page
+
 ```bash
 pnpm scaffold page my-page
 ```
 
 #### 3. Create API Route
+
 ```bash
 pnpm scaffold api my-endpoint
 ```
 
 #### 4. Create DAL
+
 ```bash
 pnpm scaffold dal MyModel
 ```
@@ -203,16 +223,19 @@ pnpm upload ./public/images cloudinary
 ## Debugging
 
 ### Enable Debug Logs
+
 ```env
 LOG_LEVEL=debug
 ```
 
 ### View Logs
+
 ```bash
 tail -f logs/app.log
 ```
 
 ### Database Issues
+
 ```bash
 # Reset database
 pnpm db:push
@@ -227,16 +250,19 @@ pnpm db:studio
 ## Testing
 
 ### Unit Tests
+
 ```bash
 pnpm test
 ```
 
 ### E2E Tests
+
 ```bash
 pnpm test:e2e
 ```
 
 ### Test Coverage
+
 ```bash
 pnpm test --coverage
 ```
@@ -244,16 +270,19 @@ pnpm test --coverage
 ## Deployment
 
 ### Build for Production
+
 ```bash
 pnpm build
 ```
 
 ### Run Production Server
+
 ```bash
 pnpm start
 ```
 
 ### Docker Deployment
+
 ```bash
 docker-compose up -d
 ```

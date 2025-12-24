@@ -6,7 +6,7 @@
 import { db } from "#database/db";
 import { logger } from "#lib/logger";
 import { type as typeTable } from "#schema";
-import type { Type } from "#types/database-auto";
+import type { Type } from "#types/database";
 import { asc, eq } from "drizzle-orm";
 
 export class TypeDal {
@@ -56,10 +56,17 @@ export class TypeDal {
     }
   }
 
-  async update(id: number, data: Partial<typeof typeTable.$inferInsert>): Promise<Type | undefined> {
+  async update(
+    id: number,
+    data: Partial<typeof typeTable.$inferInsert>
+  ): Promise<Type | undefined> {
     try {
       this.logger.debug({ id, data }, "Updating type");
-      const [updated] = await db.update(typeTable).set(data).where(eq(typeTable.id, id)).returning();
+      const [updated] = await db
+        .update(typeTable)
+        .set(data)
+        .where(eq(typeTable.id, id))
+        .returning();
       this.logger.info({ typeId: id }, "Type updated successfully");
       return updated;
     } catch (error) {

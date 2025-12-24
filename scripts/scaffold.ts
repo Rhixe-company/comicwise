@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { mkdir, writeFile } from 'fs/promises';
-import { join } from 'path';
+import { mkdir, writeFile } from "fs/promises";
+import { join } from "path";
 
 const templates = {
   page: (name: string) => `import type { Metadata } from 'next';
@@ -123,7 +123,7 @@ export class ${name}Dal {
     }
   }
 }
-`
+`,
 };
 
 async function main() {
@@ -159,24 +159,24 @@ Examples:
 
   let targetPath: string;
   switch (type) {
-    case 'page':
-      targetPath = join('src', 'app', name.toLowerCase(), 'page.tsx');
+    case "page":
+      targetPath = join("src", "app", name.toLowerCase(), "page.tsx");
       break;
-    case 'component':
-      targetPath = join('src', 'components', `${name}.tsx`);
+    case "component":
+      targetPath = join("src", "components", `${name}.tsx`);
       break;
-    case 'api':
-      targetPath = join('src', 'app', 'api', name.toLowerCase(), 'route.ts');
+    case "api":
+      targetPath = join("src", "app", "api", name.toLowerCase(), "route.ts");
       break;
-    case 'dal':
-      targetPath = join('src', 'dal', `${name}Dal.ts`);
+    case "dal":
+      targetPath = join("src", "dal", `${name}Dal.ts`);
       break;
     default:
-      targetPath = join('src', `${name}.ts`);
+      targetPath = join("src", `${name}.ts`);
   }
 
   const fullPath = join(process.cwd(), targetPath);
-  await mkdir(join(fullPath, '..'), { recursive: true });
+  await mkdir(join(fullPath, ".."), { recursive: true });
   await writeFile(fullPath, template(name));
 
   console.log(`✅ Created ${type}: ${targetPath}`);

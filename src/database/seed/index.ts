@@ -1,29 +1,30 @@
 #!/usr/bin/env tsx
 
 /**
- * Database Seeding System
+ * Database Seeding System - Main Entry Point
  *
- * Optimized seeding with:
- * - Batch processing with configurable concurrency
- * - Transaction support for data consistency
+ * Uses seedHelpers.ts for optimized seeding with:
+ * - Batch processing with Zod validation
  * - Progress tracking and detailed logging
  * - Selective seeding with CLI flags
- * - Image download caching
+ * - Dynamic data loading from JSON files
  */
 
-import { db as database } from "#database/db";
-import type { SeedConfig } from "#database/seed/config";
 import { parseCLIArgs } from "#database/seed/config";
 import { logger } from "#database/seed/logger";
-import { SeedOrchestrator } from "#database/seed/orchestrator";
-import { isDevelopment } from "appConfig";
+import type { SeedOptions } from "#lib/seedHelpers";
+import { seedAll, seedChapters, seedComics, seedUsers } from "#lib/seedHelpers";
+import { db as database } from "db";
 import { sql } from "drizzle-orm";
 
-async function seed(config: SeedConfig) {
+async function seed() {
   const startTime = Date.now();
 
   try {
-    logger.header("Database Seeding System");
+    // Parse CLI config
+    const config = parseCLIArgs(process.argv.slice(2));
+
+    logger.header("Database Seeding System (seedHelpers)");
     logger.section("Initializing");
 
     // Test database connection
@@ -31,11 +32,47 @@ async function seed(config: SeedConfig) {
     await database.execute(sql`SELECT 1`);
     logger.success("Database connection established\n");
 
-    // Initialize orchestrator
-    const orchestrator = new SeedOrchestrator(config);
+    // Prepare seed options
+    const options: SeedOptions = {
+      batchSize: config.options.batchSize,
+      verbose: config.options.verbose,
+      dryRun: config.options.dryRun,
+      skipValidation: false,
+    };
 
-    // Run seeding process
-    await orchestrator.run();
+    // Run seeding based on enabled entities
+    const { enabled } = config;
+
+    if (enabled.users && enabled.comics && enabled.chapters) {
+      // Seed all
+      logger.info("Seeding all entities...\n");
+      await seedAll(options);
+    } else {
+      // Selective seeding
+      if (enabled.users) {
+        logger.section("Seeding Users");
+        const result = await seedUsers(options);
+        logger.success(
+          `Users: ${result.inserted} inserted, ${result.skipped} skipped (${result.duration}ms)\n`
+        );
+      }
+
+      if (enabled.comics) {
+        logger.section("Seeding Comics");
+        const result = await seedComics(options);
+        logger.success(
+          `Comics: ${result.inserted} inserted, ${result.skipped} skipped (${result.duration}ms)\n`
+        );
+      }
+
+      if (enabled.chapters) {
+        logger.section("Seeding Chapters");
+        const result = await seedChapters(options);
+        logger.success(
+          `Chapters: ${result.inserted} inserted, ${result.skipped} skipped (${result.duration}ms)\n`
+        );
+      }
+    }
 
     // Complete
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
@@ -50,9 +87,7 @@ async function seed(config: SeedConfig) {
 
     if (error instanceof Error) {
       logger.error(`Error: ${error.message}`);
-      if (isDevelopment) {
-        logger.error(`Stack: ${error.stack}`);
-      }
+      logger.error(`Stack: ${error.stack}`);
     } else {
       logger.error(`Unknown error: ${String(error)}`);
     }
@@ -62,6 +97,5 @@ async function seed(config: SeedConfig) {
   }
 }
 
-// Parse CLI arguments and run
-const config = parseCLIArgs(process.argv.slice(2));
-seed(config);
+// Run
+seed();

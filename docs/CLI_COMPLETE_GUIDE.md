@@ -30,11 +30,13 @@ pnpm cw help
 ## Database Commands
 
 ### `db:push` - Push Schema Changes
+
 ```bash
 pnpm db:push
 # or
 cw db push
 ```
+
 Pushes local schema changes to the database without migrations.
 
 **Use case:** Development and rapid prototyping
@@ -42,6 +44,7 @@ Pushes local schema changes to the database without migrations.
 ---
 
 ### `db:seed` - Seed Database
+
 ```bash
 pnpm db:seed
 # With options:
@@ -52,6 +55,7 @@ pnpm db:seed -- --dry-run
 ```
 
 **Options:**
+
 - `--verbose`: Show detailed output
 - `--comics-only`: Seed only comics
 - `--chapters-only`: Seed only chapters
@@ -62,33 +66,41 @@ pnpm db:seed -- --dry-run
 ---
 
 ### `db:studio` - Open Drizzle Studio
+
 ```bash
 pnpm db:studio
 ```
+
 Opens visual database browser at http://localhost:4983
 
 ---
 
 ### `db:reset` - Reset Database
+
 ```bash
 pnpm db:reset
 ```
+
 ⚠️ **Warning:** Drops all tables and reseeds data
 
 ---
 
 ### `db:generate` - Generate Migrations
+
 ```bash
 pnpm db:generate
 ```
+
 Creates migration files from schema changes
 
 ---
 
 ### `db:migrate` - Run Migrations
+
 ```bash
 pnpm db:migrate
 ```
+
 Applies pending migrations to database
 
 ---
@@ -96,22 +108,27 @@ Applies pending migrations to database
 ## Cache Commands
 
 ### `cache:clear` - Clear All Cache
+
 ```bash
 pnpm cache:clear
 # or
 cw cache clear
 ```
+
 Clears Redis cache and Next.js cache
 
 ---
 
 ### `cache:stats` - Show Cache Statistics
+
 ```bash
 pnpm cache:stats
 ```
+
 Displays cache hit/miss ratios and memory usage
 
 **Output:**
+
 ```
 Cache Statistics
 ├── Keys: 1,234
@@ -125,6 +142,7 @@ Cache Statistics
 ## Health Commands
 
 ### `health:check` - System Health Check
+
 ```bash
 pnpm health:check
 # or
@@ -132,6 +150,7 @@ cw health check
 ```
 
 **Checks:**
+
 - ✅ Database connectivity
 - ✅ Redis connectivity
 - ✅ Disk space
@@ -141,25 +160,31 @@ cw health check
 ---
 
 ### `health:db` - Database Health
+
 ```bash
 pnpm health:db
 ```
+
 Verifies database connection and query performance
 
 ---
 
 ### `health:redis` - Redis Health
+
 ```bash
 pnpm health:redis
 ```
+
 Tests Redis connection and latency
 
 ---
 
 ### `health:all` - Complete Health Audit
+
 ```bash
 pnpm health:all
 ```
+
 Runs all health checks and generates report
 
 ---
@@ -167,10 +192,13 @@ Runs all health checks and generates report
 ## Queue Commands
 
 ### `queue:worker` - Start Queue Worker
+
 ```bash
 pnpm queue:worker
 ```
+
 Starts background job processor for:
+
 - Email notifications
 - Image processing
 - Data exports
@@ -179,11 +207,13 @@ Starts background job processor for:
 ---
 
 ### `queue:stats` - Queue Statistics
+
 ```bash
 pnpm queue:stats
 ```
 
 **Output:**
+
 ```
 Queue Statistics
 ├── Active Jobs: 3
@@ -196,9 +226,11 @@ Queue Statistics
 ---
 
 ### `queue:clean` - Clean Failed Jobs
+
 ```bash
 pnpm queue:clean
 ```
+
 Removes failed and completed jobs from queue
 
 ---
@@ -206,6 +238,7 @@ Removes failed and completed jobs from queue
 ## Upload Commands
 
 ### `upload:bulk` - Bulk Upload Images
+
 ```bash
 # Upload to default provider
 pnpm upload:bulk
@@ -223,6 +256,7 @@ pnpm upload:bulk -- --dry-run
 ```
 
 **Providers:**
+
 - `local`: Local file system
 - `imagekit`: ImageKit CDN
 - `cloudinary`: Cloudinary
@@ -231,9 +265,11 @@ pnpm upload:bulk -- --dry-run
 ---
 
 ### `upload:test` - Test Upload Provider
+
 ```bash
 pnpm upload:test
 ```
+
 Uploads test image to verify provider configuration
 
 ---
@@ -241,10 +277,13 @@ Uploads test image to verify provider configuration
 ## Scaffold Commands
 
 ### `scaffold` - Interactive Scaffolding
+
 ```bash
 pnpm scaffold
 ```
+
 Interactive wizard for creating:
+
 - New pages
 - API routes
 - Components
@@ -254,6 +293,7 @@ Interactive wizard for creating:
 ---
 
 ### Create Specific Items
+
 ```bash
 # Create page
 pnpm scaffold -- --type=page --name=about
@@ -270,10 +310,13 @@ pnpm scaffold -- --type=component --name=Header
 ## CI/CD Commands
 
 ### `ci` - Run CI Checks
+
 ```bash
 pnpm ci
 ```
+
 Runs complete CI pipeline:
+
 1. Type checking
 2. Linting
 3. Unit tests
@@ -282,25 +325,31 @@ Runs complete CI pipeline:
 ---
 
 ### `ci:lint` - Lint Only
+
 ```bash
 pnpm ci:lint
 ```
+
 Runs ESLint with strict rules (zero warnings)
 
 ---
 
 ### `ci:test` - Tests with Coverage
+
 ```bash
 pnpm ci:test
 ```
+
 Runs tests and generates HTML/JSON reports
 
 ---
 
 ### `ci:build` - Production Build
+
 ```bash
 pnpm ci:build
 ```
+
 Creates optimized production build
 
 ---
@@ -308,6 +357,7 @@ Creates optimized production build
 ## Development Workflows
 
 ### Standard Development Flow
+
 ```bash
 # 1. Install dependencies
 pnpm install
@@ -323,6 +373,7 @@ pnpm dev
 ---
 
 ### Feature Development Flow
+
 ```bash
 # 1. Create feature branch
 git checkout -b feature/new-feature
@@ -347,6 +398,7 @@ git commit -m "feat: add new feature"
 ---
 
 ### Pre-deployment Checklist
+
 ```bash
 # 1. Run full validation
 pnpm validate
@@ -371,6 +423,7 @@ pnpm ci:full
 ### Common Issues
 
 #### Database Connection Errors
+
 ```bash
 # Check database status
 pnpm health:db
@@ -384,6 +437,7 @@ pnpm db:reset
 ---
 
 #### Redis Connection Errors
+
 ```bash
 # Check Redis status
 pnpm health:redis
@@ -397,6 +451,7 @@ docker run -p 6379:6379 redis:alpine
 ---
 
 #### Build Errors
+
 ```bash
 # Clean and rebuild
 pnpm clean
@@ -412,6 +467,7 @@ pnpm lint:fix
 ---
 
 #### Import Path Issues
+
 ```bash
 # Optimize import paths
 pnpm imports:optimize
@@ -425,6 +481,7 @@ pnpm imports:check
 ## Keyboard Shortcuts
 
 ### VS Code Integration
+
 ```json
 // .vscode/tasks.json
 {
@@ -450,6 +507,7 @@ pnpm imports:check
 ## Shell Aliases
 
 ### PowerShell
+
 ```powershell
 # Add to $PROFILE
 function dev { pnpm dev }
@@ -459,6 +517,7 @@ function lint { pnpm lint }
 ```
 
 ### Bash/Zsh
+
 ```bash
 # Add to ~/.bashrc or ~/.zshrc
 alias dev="pnpm dev"
@@ -472,6 +531,7 @@ alias lint="pnpm lint"
 ## Advanced Usage
 
 ### Chaining Commands
+
 ```bash
 # Clean, install, setup
 pnpm clean && pnpm install && pnpm setup
@@ -486,6 +546,7 @@ pnpm db:reset && pnpm db:seed -- --verbose
 ---
 
 ### Environment-Specific Commands
+
 ```bash
 # Development
 NODE_ENV=development pnpm dev
@@ -500,6 +561,7 @@ NODE_ENV=test pnpm test
 ---
 
 ### Debug Mode
+
 ```bash
 # Debug Next.js
 pnpm dev:debug
@@ -516,16 +578,19 @@ LOG_LEVEL=debug pnpm dev
 ## Performance Tips
 
 1. **Use Turbo mode** (enabled by default)
+
    ```bash
    pnpm dev --turbopack
    ```
 
 2. **Run tests in parallel**
+
    ```bash
    pnpm test --parallel
    ```
 
 3. **Cache ESLint results**
+
    ```bash
    pnpm lint:cache
    ```
@@ -540,12 +605,14 @@ LOG_LEVEL=debug pnpm dev
 ## Getting Help
 
 ### CLI Help
+
 ```bash
 pnpm cw help
 cw help
 ```
 
 ### Script Documentation
+
 ```bash
 # View script source
 cat scripts/[script-name].ts
@@ -555,6 +622,7 @@ cat package.json | grep "scripts"
 ```
 
 ### Community Support
+
 - GitHub Issues
 - Discord Community
 - Documentation: /docs

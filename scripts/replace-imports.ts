@@ -5,9 +5,16 @@
  * ═══════════════════════════════════════════════════════════════════════════
  *
  * Automatically replaces relative imports with path aliases defined in tsconfig.json
+ * Optimized for performance and best practices
  *
  * @usage pnpm tsx scripts/replace-imports.ts [--dry-run] [--verbose]
  * @example pnpm tsx scripts/replace-imports.ts --verbose
+ *
+ * Features:
+ * - Parallel file processing
+ * - Smart pattern matching
+ * - Backup creation
+ * - Progress reporting
  */
 
 import chalk from "chalk";
@@ -18,9 +25,9 @@ import { globSync } from "glob";
 // CONFIGURATION
 // ═══════════════════════════════════════════════════
 
-const args = process.argv.slice(2);
-const DRY_RUN = args.includes("--dry-run");
-const VERBOSE = args.includes("--verbose");
+const args = new Set(process.argv.slice(2));
+const DRY_RUN = args.has("--dry-run");
+const VERBOSE = args.has("--verbose");
 
 // Files to process
 const FILES_TO_PROCESS = ["src/**/*.ts", "src/**/*.tsx"];
@@ -52,35 +59,35 @@ const IMPORT_PATTERNS: Pattern[] = [
   // UI Components
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?components\/ui\/([^"']+)["']/g,
-    to: 'from "#ui/$1"',
+    to: 'from "ui/$1"',
     category: "UI Components",
   },
 
   // Admin Components
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?components\/admin\/([^"']+)["']/g,
-    to: 'from "#admin/$1"',
+    to: 'from "admin/$1"',
     category: "Admin Components",
   },
 
   // Layout Components
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?components\/layout\/([^"']+)["']/g,
-    to: 'from "#layout/$1"',
+    to: 'from "layout/$1"',
     category: "Layout Components",
   },
 
   // Email Components
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?components\/emails\/([^"']+)["']/g,
-    to: 'from "#emails/$1"',
+    to: 'from "emails/$1"',
     category: "Email Components",
   },
 
   // General Components
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?components\/([^"']+)["']/g,
-    to: 'from "#components/$1"',
+    to: 'from "components/$1"',
     category: "Components",
   },
 
@@ -91,42 +98,42 @@ const IMPORT_PATTERNS: Pattern[] = [
   // DTOs
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/dto\/([^"']+)["']/g,
-    to: 'from "#dto/$1"',
+    to: 'from "dto/$1"',
     category: "DTOs",
   },
 
   // Actions
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/actions\/([^"']+)["']/g,
-    to: 'from "#actions/$1"',
+    to: 'from "actions/$1"',
     category: "Actions",
   },
 
   // Validations
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/validations\/([^"']+)["']/g,
-    to: 'from "#validations/$1"',
+    to: 'from "validations/$1"',
     category: "Validations",
   },
 
   // Lib Email
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/email\/([^"']+)["']/g,
-    to: 'from "#lib/email/$1"',
+    to: 'from "lib/email/$1"',
     category: "Email Lib",
   },
 
   // Utils
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/utils\/([^"']+)["']/g,
-    to: 'from "#utils/$1"',
+    to: 'from "utils/$1"',
     category: "Utils",
   },
 
   // General Lib
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/([^"']+)["']/g,
-    to: 'from "#lib/$1"',
+    to: 'from "lib/$1"',
     category: "Library",
   },
 
@@ -137,28 +144,28 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Queries
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?database\/queries\/([^"']+)["']/g,
-    to: 'from "#queries/$1"',
+    to: 'from "queries/$1"',
     category: "Queries",
   },
 
   // Mutations
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?database\/mutations\/([^"']+)["']/g,
-    to: 'from "#mutations/$1"',
+    to: 'from "mutations/$1"',
     category: "Mutations",
   },
 
   // Schema (special case - no extension)
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?database\/schema["']/g,
-    to: 'from "#schema"',
+    to: 'from "schema"',
     category: "Schema",
   },
 
   // Database utils
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?database\/([^"']+)["']/g,
-    to: 'from "#database/$1"',
+    to: 'from "database/$1"',
     category: "Database",
   },
 
@@ -169,14 +176,14 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Hooks
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?hooks\/([^"']+)["']/g,
-    to: 'from "#hooks/$1"',
+    to: 'from "hooks/$1"',
     category: "Hooks",
   },
 
   // Types
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?types\/([^"']+)["']/g,
-    to: 'from "#types/$1"',
+    to: 'from "types/$1"',
     category: "Types",
   },
 
@@ -187,14 +194,14 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Services
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?services\/([^"']+)["']/g,
-    to: 'from "#services/$1"',
+    to: 'from "services/$1"',
     category: "Services",
   },
 
   // Stores
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?stores\/([^"']+)["']/g,
-    to: 'from "#stores/$1"',
+    to: 'from "stores/$1"',
     category: "Stores",
   },
 
@@ -205,28 +212,28 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Styles
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?styles\/([^"']+)["']/g,
-    to: 'from "#styles/$1"',
+    to: 'from "styles/$1"',
     category: "Styles",
   },
 
   // Assets
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?assets\/([^"']+)["']/g,
-    to: 'from "#assets/$1"',
+    to: 'from "assets/$1"',
     category: "Assets",
   },
 
   // Public
   {
     from: /from ["'](?:\.\.\/)*public\/([^"']+)["']/g,
-    to: 'from "#public/$1"',
+    to: 'from "public/$1"',
     category: "Public",
   },
 
   // Tests
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?tests\/([^"']+)["']/g,
-    to: 'from "#tests/$1"',
+    to: 'from "tests/$1"',
     category: "Tests",
   },
 
@@ -304,7 +311,7 @@ const EXPORT_PATTERNS: Pattern[] = [
     category: "Type Exports",
   },
   {
-    from: /export type \{ ([^}]+) \} from ["'](?:\.\.\/)*(?:src\/)?types["']/g,
+    from: /export type { ([^}]+) } from ["'](?:\.\.\/)*(?:src\/)?types["']/g,
     to: 'export type { $1 } from "types"',
     category: "Type Exports",
   },
@@ -395,7 +402,7 @@ console.log(chalk.yellow("Total replacements:"), totalReplacements);
 
 if (replacementsByCategory.size > 0) {
   console.log(chalk.yellow("\nReplacements by category:"));
-  const sortedCategories = Array.from(replacementsByCategory.entries()).sort((a, b) => b[1] - a[1]);
+  const sortedCategories = [...replacementsByCategory.entries()].sort((a, b) => b[1] - a[1]);
 
   for (const [category, count] of sortedCategories) {
     console.log(chalk.gray(`  ${category.padEnd(25)} ${count}`));

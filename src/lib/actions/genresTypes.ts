@@ -192,7 +192,7 @@ export async function listGenres(input?: PaginationInput & { search?: string }) 
 export async function getAllGenres() {
   try {
     const results = await database.query.genre.findMany({
-      orderBy: (genres: { name: any }, { asc }: any) => [asc(genres.name)],
+      orderBy: (genres, { asc }) => [asc(genres.name)],
     });
 
     return { success: true, data: results };
@@ -369,7 +369,7 @@ export async function listTypes(input?: PaginationInput & { search?: string }) {
 export async function getAllTypes() {
   try {
     const results = await database.query.type.findMany({
-      orderBy: (types: { name: any }, { asc }: any) => [asc(types.name)],
+      orderBy: (types, { asc }) => [asc(types.name)],
     });
 
     return { success: true, data: results };

@@ -325,7 +325,10 @@ async function cleanBuildArtifacts() {
   }
 }
 
-async function generateCleanupReport(duplicateFiles: string[], duplicateFunctions: Array<[string, string[]]>) {
+async function generateCleanupReport(
+  duplicateFiles: string[],
+  duplicateFunctions: Array<[string, string[]]>
+) {
   const reportPath = path.join(config.rootDir, "docs", "CLEANUP_REPORT.md");
 
   let report = `# Project Cleanup Report\n\n`;

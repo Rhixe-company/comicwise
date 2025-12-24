@@ -85,7 +85,7 @@ export const RelativeTime = ({
         timeFormatOptions,
       }}
     >
-      <div className={cn("grid gap-2", _className)} {...(props as any)} />
+      <div className={cn("grid gap-2", _className)} {...(props as Record<string, unknown>)} />
     </RelativeTimeContext.Provider>
   );
 };
@@ -108,7 +108,7 @@ export const RelativeTimeZone = ({ zone, className, ...props }: RelativeTimeZone
   <RelativeTimeZoneContext.Provider value={{ zone }}>
     <div
       className={cn("flex items-center justify-between gap-1.5 text-xs", className)}
-      {...(props as any)}
+      {...(props as Record<string, unknown>)}
     />
   </RelativeTimeZoneContext.Provider>
 );
@@ -121,7 +121,7 @@ export const RelativeTimeZoneDisplay = ({ className, ...props }: RelativeTimeZon
   const display = formatTime(time, zone, timeFormatOptions);
 
   return (
-    <div className={cn("pl-8 text-muted-foreground tabular-nums", className)} {...(props as any)}>
+    <div className={cn("pl-8 text-muted-foreground tabular-nums", className)} {...(props as Record<string, unknown>)}>
       {display}
     </div>
   );
@@ -135,7 +135,7 @@ export const RelativeTimeZoneDate = ({ className, ...props }: RelativeTimeZoneDa
   const display = formatDate(time, zone, dateFormatOptions);
 
   return (
-    <div className={className} {...(props as any)}>
+    <div className={className} {...(props as Record<string, unknown>)}>
       {display}
     </div>
   );
@@ -152,6 +152,6 @@ export const RelativeTimeZoneLabel = ({ className, ...props }: RelativeTimeZoneL
       `,
       className
     )}
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   />
 );

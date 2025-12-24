@@ -17,12 +17,12 @@ interface ControlFunctions {
   isPending(): boolean;
 }
 
-export type DebouncedState<T extends (...args: any) => ReturnType<T>> = ((
+export type DebouncedState<T extends (...args: never[]) => unknown> = ((
   ...args: Parameters<T>
 ) => ReturnType<T> | undefined) &
   ControlFunctions;
 
-export function useDebounceCallback<T extends (...args: any) => ReturnType<T>>(
+export function useDebounceCallback<T extends (...args: never[]) => unknown>(
   func: T,
   delay = 500,
   options?: DebounceOptions

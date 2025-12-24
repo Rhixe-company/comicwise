@@ -16,7 +16,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 export interface AuthFormProperties<T extends FieldValues> {
   title: string;
   description: string;
-  schema: ZodType<T, unknown, any>;
+  schema: ZodType<T>;
   defaultValues: DefaultValues<T>;
   onSubmit(data: T, form: UseFormReturn<T>): Promise<void> | void;
   children: ReactNode;
@@ -56,12 +56,14 @@ export function AuthForm<T extends FieldValues>({
   className,
 }: AuthFormProperties<T>) {
   const [internalError, setInternalError] = useState<string | null>(null);
+  // @ts-expect-error - zodResolver type compatibility issue with react-hook-form
   const form = useForm<T>({
     resolver: zodResolver(schema),
     defaultValues,
   });
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async (data: T) => {
+    // @ts-expect-error - Type compatibility with generic form
     await onSubmit(data, form);
   };
 

@@ -23,7 +23,7 @@ export const Announcement = ({
       className
     )}
     variant={variant}
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   />
 );
 
@@ -39,12 +39,12 @@ export const AnnouncementTag = ({ className, ...props }: AnnouncementTagProps) =
       "group-[.announcement-themed]:bg-background/60",
       className
     )}
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   />
 );
 
 export type AnnouncementTitleProps = HTMLAttributes<HTMLDivElement>;
 
 export const AnnouncementTitle = ({ className, ...props }: AnnouncementTitleProps) => (
-  <div className={cn("flex items-center gap-1 truncate py-1", className)} {...(props as any)} />
+  <div className={cn("flex items-center gap-1 truncate py-1", className)} {...(props as Record<string, unknown>)} />
 );

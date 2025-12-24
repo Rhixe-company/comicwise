@@ -5,15 +5,15 @@ import { cn } from "utils";
 type SpinnerVariantProps = Omit<SpinnerProps, "variant">;
 
 const Default = ({ className, ...props }: SpinnerVariantProps) => (
-  <LoaderIcon className={cn("animate-spin", className)} {...(props as any)} />
+  <LoaderIcon className={cn("animate-spin", className)} {...(props as Record<string, unknown>)} />
 );
 
 const Circle = ({ className, ...props }: SpinnerVariantProps) => (
-  <LoaderCircleIcon className={cn("animate-spin", className)} {...(props as any)} />
+  <LoaderCircleIcon className={cn("animate-spin", className)} {...(props as Record<string, unknown>)} />
 );
 
 const Pinwheel = ({ className, ...props }: SpinnerVariantProps) => (
-  <LoaderPinwheelIcon className={cn("animate-spin", className)} {...(props as any)} />
+  <LoaderPinwheelIcon className={cn("animate-spin", className)} {...(props as Record<string, unknown>)} />
 );
 
 const CircleFilled = ({ className, size = 24, ...props }: SpinnerVariantProps) => (
@@ -22,13 +22,13 @@ const CircleFilled = ({ className, size = 24, ...props }: SpinnerVariantProps) =
       <LoaderCircleIcon
         className={cn("animate-spin", className, "text-foreground opacity-20")}
         size={size}
-        {...(props as any)}
+        {...(props as Record<string, unknown>)}
       />
     </div>
     <LoaderCircleIcon
       className={cn("relative animate-spin", className)}
       size={size}
-      {...(props as any)}
+      {...(props as Record<string, unknown>)}
     />
   </div>
 );
@@ -40,7 +40,7 @@ const Ellipsis = ({ size = 24, ...props }: SpinnerVariantProps) => {
       viewBox="0 0 24 24"
       width={size}
       xmlns="http://www.w3.org/2000/svg"
-      {...(props as any)}
+      {...(props as Record<string, unknown>)}
     >
       <title>Loading...</title>
       <circle cx="4" cy="12" fill="currentColor" r="2">
@@ -86,7 +86,7 @@ const Ring = ({ size = 24, ...props }: SpinnerVariantProps) => (
     viewBox="0 0 44 44"
     width={size}
     xmlns="http://www.w3.org/2000/svg"
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   >
     <title>Loading...</title>
     <g fill="none" fillRule="evenodd" strokeWidth="2">
@@ -144,7 +144,7 @@ const Bars = ({ size = 24, ...props }: SpinnerVariantProps) => (
     viewBox="0 0 24 24"
     width={size}
     xmlns="http://www.w3.org/2000/svg"
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   >
     <title>Loading...</title>
     <style>{`
@@ -197,7 +197,7 @@ const Infinite = ({ size = 24, ...props }: SpinnerVariantProps) => (
     viewBox="0 0 100 100"
     width={size}
     xmlns="http://www.w3.org/2000/svg"
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   >
     <title>Loading...</title>
     <path
@@ -238,20 +238,20 @@ export type SpinnerProps = LucideProps & {
 export const Spinner = ({ variant, ...props }: SpinnerProps) => {
   switch (variant) {
     case "circle":
-      return <Circle {...(props as any)} />;
+      return <Circle {...(props as Record<string, unknown>)} />;
     case "pinwheel":
-      return <Pinwheel {...(props as any)} />;
+      return <Pinwheel {...(props as Record<string, unknown>)} />;
     case "circle-filled":
-      return <CircleFilled {...(props as any)} />;
+      return <CircleFilled {...(props as Record<string, unknown>)} />;
     case "ellipsis":
-      return <Ellipsis {...(props as any)} />;
+      return <Ellipsis {...(props as Record<string, unknown>)} />;
     case "ring":
-      return <Ring {...(props as any)} />;
+      return <Ring {...(props as Record<string, unknown>)} />;
     case "bars":
-      return <Bars {...(props as any)} />;
+      return <Bars {...(props as Record<string, unknown>)} />;
     case "infinite":
-      return <Infinite {...(props as any)} />;
+      return <Infinite {...(props as Record<string, unknown>)} />;
     default:
-      return <Default {...(props as any)} />;
+      return <Default {...(props as Record<string, unknown>)} />;
   }
 };

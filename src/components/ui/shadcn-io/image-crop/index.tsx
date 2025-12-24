@@ -244,14 +244,14 @@ export const ImageCropApply = ({
 
   if (asChild) {
     return (
-      <Slot.Root onClick={handleClick} {...(props as any)}>
+      <Slot.Root onClick={handleClick} {...(props as Record<string, unknown>)}>
         {children}
       </Slot.Root>
     );
   }
 
   return (
-    <Button onClick={handleClick} size="icon" variant="ghost" {...(props as any)}>
+    <Button onClick={handleClick} size="icon" variant="ghost" {...(props as Record<string, unknown>)}>
       {children ?? <CropIcon className="size-4" />}
     </Button>
   );
@@ -276,14 +276,14 @@ export const ImageCropReset = ({
 
   if (asChild) {
     return (
-      <Slot.Root onClick={handleClick} {...(props as any)}>
+      <Slot.Root onClick={handleClick} {...(props as Record<string, unknown>)}>
         {children}
       </Slot.Root>
     );
   }
 
   return (
-    <Button onClick={handleClick} size="icon" variant="ghost" {...(props as any)}>
+    <Button onClick={handleClick} size="icon" variant="ghost" {...(props as Record<string, unknown>)}>
       {children ?? <RotateCcwIcon className="size-4" />}
     </Button>
   );
@@ -313,7 +313,7 @@ export const Cropper = ({
     onChange={onChange}
     onComplete={onComplete}
     onCrop={onCrop}
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   >
     <ImageCropContent className={className} style={style} />
   </ImageCrop>

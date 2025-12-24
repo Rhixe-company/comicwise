@@ -17,16 +17,16 @@ import { Download, Filter, X } from "lucide-react";
 import Papa from "papaparse";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button } from "ui/button";
-import { Checkbox } from "ui/checkbox";
+import { Button } from "#ui/button";
+import { Checkbox } from "#ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "ui/dropdown-menu";
-import { Input } from "ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "ui/table";
+} from "#ui/DropdownMenu";
+import { Input } from "#ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "#ui/table";
 
 interface EnhancedDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

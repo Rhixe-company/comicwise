@@ -258,7 +258,7 @@ export async function listUsers(input?: UserFilterInput) {
     const total = countResult?.count || 0;
 
     // Get users (without passwords) with ordering
-    let usersQuery: any = database
+    let usersQuery = database
       .select({
         id: user.id,
         name: user.name,
@@ -270,25 +270,18 @@ export async function listUsers(input?: UserFilterInput) {
         updatedAt: user.updatedAt,
       })
       .from(user)
-      .where(whereClause);
+      .where(whereClause)
+      .$dynamic();
 
     // Apply ordering
     if (sortBy === "name") {
-      usersQuery = usersQuery.orderBy((cols: any) =>
-        sortOrder === "desc" ? desc(cols.name) : asc(cols.name)
-      );
+      usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.name) : asc(user.name));
     } else if (sortBy === "email") {
-      usersQuery = usersQuery.orderBy((cols: any) =>
-        sortOrder === "desc" ? desc(cols.email) : asc(cols.email)
-      );
+      usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.email) : asc(user.email));
     } else if (sortBy === "role") {
-      usersQuery = usersQuery.orderBy((cols: any) =>
-        sortOrder === "desc" ? desc(cols.role) : asc(cols.role)
-      );
+      usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.role) : asc(user.role));
     } else {
-      usersQuery = usersQuery.orderBy((cols: any) =>
-        sortOrder === "desc" ? desc(cols.createdAt) : asc(cols.createdAt)
-      );
+      usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.createdAt) : asc(user.createdAt));
     }
 
     const results = await usersQuery.limit(limit).offset(offset);

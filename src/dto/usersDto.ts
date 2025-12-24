@@ -26,4 +26,8 @@ export type UserWithBookmarksDto = UserDto & {
 
 export type SafeUserDto = Omit<UserDto, "password">;
 
-export { createUserAdmin as registerUser, deleteUserAdmin as deleteUser, updateUserAdmin as updateUser } from "#lib/actions/usersManagement";
+export {
+  deleteUserAdmin as deleteUser,
+  createUserAdmin as registerUser,
+  updateUserAdmin as updateUser,
+} from "#lib/actions/usersManagement";

@@ -754,7 +754,21 @@ export const comicSeedSchema = z
       ])
       .optional(),
     rating: z.coerce.number().min(0).max(10).optional(),
-    status: z.enum(["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon"]).default("Ongoing"),
+    status: z
+      .string()
+      .default("Ongoing")
+      .transform((val) => {
+        const statusMap: Record<string, string> = {
+          ongoing: "Ongoing",
+          hiatus: "Hiatus",
+          completed: "Completed",
+          dropped: "Dropped",
+          "coming soon": "Coming Soon",
+          coming_soon: "Coming Soon",
+        };
+        const normalized = val.toLowerCase();
+        return statusMap[normalized] || "Ongoing";
+      }),
     category: z.string().optional(),
     type: z
       .union([
@@ -778,8 +792,14 @@ export const comicSeedSchema = z
         ])
       )
       .default([]),
-    updated_at: z.coerce.date().optional(),
-    updatedAt: z.coerce.date().optional(),
+    updated_at: z
+      .union([z.string(), z.date()])
+      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .optional(),
+    updatedAt: z
+      .union([z.string(), z.date()])
+      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .optional(),
     url: z.string().url().optional(),
     image_urls: z.array(z.string().url()).optional(),
     images: z
@@ -795,11 +815,14 @@ export const comicSeedSchema = z
       )
       .optional(),
     numchapters: z.number().optional(),
-    publicationDate: z.coerce.date().optional(),
+    publicationDate: z
+      .union([z.string(), z.date()])
+      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .optional(),
     coverImage: z.string().optional(),
     spider: z.string().optional(),
   })
-  .strict();
+  .passthrough();
 
 export const comicArraySchema = z.array(comicSeedSchema);
 
@@ -815,10 +838,19 @@ export const chapterSeedSchema = z
     chaptertitle: z.string().optional(),
     chaptername: z.string().optional(),
     chapterslug: z.string().optional(),
-    updated_at: z.coerce.date().optional(),
-    updatedAt: z.coerce.date().optional(),
+    updated_at: z
+      .union([z.string(), z.date()])
+      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .optional(),
+    updatedAt: z
+      .union([z.string(), z.date()])
+      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .optional(),
     spider: z.string().optional(),
-    releaseDate: z.coerce.date().optional(),
+    releaseDate: z
+      .union([z.string(), z.date()])
+      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .optional(),
     comic: z
       .union([
         z
@@ -851,7 +883,7 @@ export const chapterSeedSchema = z
       )
       .optional(),
   })
-  .strict();
+  .passthrough();
 
 export const chapterArraySchema = z.array(chapterSeedSchema);
 

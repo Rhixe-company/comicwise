@@ -27,7 +27,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   const body = await request.json();
 
   return updateGenericEntity(id, body, {
-    updateFn: async (idVal, data) => updateAuthor(Number(idVal), data as any),
+    updateFn: async (idVal, data) => updateAuthor(Number(idVal), data as { name?: string; bio?: string | null; image?: string | null }),
     idValidateFn: zodToValidationResult(authorIdSchema),
     dataValidateFn: zodToValidationResult(updateAuthorSchema),
     entityName: "author",

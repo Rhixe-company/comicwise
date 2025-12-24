@@ -16,8 +16,8 @@ export type GenresTypesWithCountsDto = {
   types: Array<TypeDto & { comicCount: number }>;
 };
 
-export type { GenreDto, TypeDto };
 export type { CreateGenreDto, UpdateGenreDto } from "./genresDto";
 export type { CreateTypeDto, UpdateTypeDto } from "./typesDto";
+export type { GenreDto, TypeDto };
 
 export { getAllGenres, getAllTypes } from "#lib/actions/genresTypes";

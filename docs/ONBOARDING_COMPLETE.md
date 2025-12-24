@@ -58,6 +58,7 @@ pnpm install
 ```
 
 This will:
+
 - Install all npm packages
 - Set up Git hooks with Husky
 - Generate Drizzle types
@@ -73,6 +74,7 @@ code .env.local  # or your preferred editor
 ```
 
 **Minimum Required Variables:**
+
 ```env
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/comicwise_dev
 AUTH_SECRET=your-32-character-secret-here
@@ -226,6 +228,7 @@ pnpm validate
 ✅ Tests pass: `pnpm test:unit:run`
 
 Or run all at once:
+
 ```bash
 pnpm validate && pnpm test:unit:run
 ```
@@ -318,6 +321,7 @@ comicwise/
 ### Tech Stack
 
 **Frontend:**
+
 - Next.js 16 (App Router)
 - React 19
 - TypeScript 5
@@ -325,17 +329,20 @@ comicwise/
 - Radix UI
 
 **Backend:**
+
 - PostgreSQL 17 (Database)
 - Drizzle ORM
 - NextAuth.js (Auth)
 - Zod (Validation)
 
 **DevOps:**
+
 - Docker
 - GitHub Actions
 - Vercel (Deployment)
 
 **Tools:**
+
 - ESLint + Prettier
 - Vitest + Playwright
 - Husky (Git hooks)
@@ -347,6 +354,7 @@ comicwise/
 ### Code Style
 
 1. **Use TypeScript strictly**
+
    ```typescript
    // ✅ Good
    const user: User = await getUser(id);
@@ -356,16 +364,18 @@ comicwise/
    ```
 
 2. **Use server actions for mutations**
+
    ```typescript
    // src/lib/actions/comic.ts
    "use server";
-   
+
    export async function createComic(data: ComicFormData) {
      // validation, database, revalidation
    }
    ```
 
 3. **Use path aliases**
+
    ```typescript
    // ✅ Good
    import { Button } from "#ui/button";

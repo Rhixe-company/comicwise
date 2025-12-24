@@ -8,7 +8,7 @@ import { db as database } from "#database/db";
 import type { ComicFilterInput, CreateComicInput, UpdateComicInput } from "#lib/validations";
 import { comicFilterSchema, createComicSchema, updateComicSchema } from "#lib/validations";
 import { comic, comicToGenre } from "#schema";
-import type { Genre } from "#types/database-auto";
+import type { Genre } from "#types/database";
 import appConfig from "appConfig";
 import { and, desc, eq, like, sql, type SQL } from "drizzle-orm";
 import { revalidatePath } from "next/cache";

@@ -61,7 +61,7 @@ export default async function BookmarksPage() {
         lg:grid-cols-4
       `}
       >
-        {bookmarks.map(({ bookmark, comic, chapter }: any) => {
+        {bookmarks.map(({ bookmark, comic, chapter }) => {
           if (!comic) return null;
 
           return (

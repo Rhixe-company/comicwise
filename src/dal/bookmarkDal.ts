@@ -6,7 +6,7 @@
 import { db } from "#database/db";
 import { logger } from "#lib/logger";
 import { bookmark } from "#schema";
-import type { Bookmark } from "#types/database-auto";
+import type { Bookmark } from "#types/database";
 import { and, desc, eq } from "drizzle-orm";
 
 export class BookmarkDal {
@@ -26,7 +26,10 @@ export class BookmarkDal {
     try {
       this.logger.debug({ data }, "Creating bookmark");
       const [newBookmark] = await db.insert(bookmark).values(data).returning();
-      this.logger.info({ userId: newBookmark?.userId, comicId: newBookmark?.comicId }, "Bookmark created successfully");
+      this.logger.info(
+        { userId: newBookmark?.userId, comicId: newBookmark?.comicId },
+        "Bookmark created successfully"
+      );
       return newBookmark;
     } catch (error) {
       this.logger.error({ error, data }, "Failed to create bookmark");

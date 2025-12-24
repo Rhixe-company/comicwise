@@ -1,0 +1,4 @@
+
+> comicwise@0.1.0 lint C:\Users\Alexa\Desktop\SandBox\comicwise
+> eslint .
+

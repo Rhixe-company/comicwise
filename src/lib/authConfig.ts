@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import type { User as AuthUser, Session } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 import { db as database } from "#database/db";
@@ -20,6 +21,9 @@ export const authOptions = {
   pages: {
     signIn: "/sign-in",
     error: "/sign-in",
+    newUser: "/sign-up",
+    signOut: "/sign-out",
+    verifyRequest: "/verify-request",
   },
   providers: [
     CredentialsProvider({
@@ -65,7 +69,7 @@ export const authOptions = {
           email: userRecord.email,
           name: userRecord.name ?? "",
           image: userRecord.image ?? null,
-          role: (userRecord.role ?? "user") as "user" | "admin" | "moderator",
+          role: userRecord.role ?? "user",
           emailVerified: userRecord.emailVerified,
         } as unknown as AuthUser;
       },
@@ -81,9 +85,26 @@ export const authOptions = {
           }),
         ]
       : []),
+    ...(appConfig.auth.providers.github &&
+    process.env.AUTH_GITHUB_CLIENT_ID &&
+    process.env.AUTH_GITHUB_CLIENT_SECRET
+      ? [
+          GithubProvider({
+            clientId: process.env.AUTH_GITHUB_CLIENT_ID,
+            clientSecret: process.env.AUTH_GITHUB_CLIENT_SECRET,
+            allowDangerousEmailAccountLinking: true,
+          }),
+        ]
+      : []),
   ],
   callbacks: {
-    async signIn({ user, account }: { user: AuthUser | undefined; account?: any }) {
+    async signIn({
+      user,
+      account,
+    }: {
+      user: AuthUser | undefined;
+      account?: Record<string, unknown>;
+    }) {
       if (!account) return false;
 
       if (account.provider === "credentials") {

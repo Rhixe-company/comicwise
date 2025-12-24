@@ -18,7 +18,7 @@ export const Pill = ({
   <Badge
     className={cn("gap-2 rounded-full px-3 py-1.5 font-normal", className)}
     variant={variant}
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   />
 );
 
@@ -28,7 +28,7 @@ export type PillAvatarProps = ComponentProps<typeof AvatarImage> & {
 
 export const PillAvatar = ({ fallback, className, ...props }: PillAvatarProps) => (
   <Avatar className={cn("-ml-1 h-4 w-4", className)}>
-    <AvatarImage {...(props as any)} />
+    <AvatarImage {...(props as Record<string, unknown>)} />
     <AvatarFallback>{fallback}</AvatarFallback>
   </Avatar>
 );
@@ -46,7 +46,7 @@ export const PillButton = ({ className, ...props }: PillButtonProps) => (
     )}
     size="icon"
     variant="ghost"
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   />
 );
 
@@ -58,7 +58,7 @@ export interface PillStatusProps {
 export const PillStatus = ({ children, className, ...props }: PillStatusProps) => (
   <div
     className={cn("flex items-center gap-2 border-r pr-2 font-medium", className)}
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   >
     {children}
   </div>
@@ -120,7 +120,7 @@ export interface PillIconProps {
 }
 
 export const PillIcon = ({ icon: Icon, className, ...props }: PillIconProps) => (
-  <Icon className={cn("size-3 text-muted-foreground", className)} size={12} {...(props as any)} />
+  <Icon className={cn("size-3 text-muted-foreground", className)} size={12} {...(props as Record<string, unknown>)} />
 );
 
 export interface PillAvatarGroupProps {
@@ -137,7 +137,7 @@ export const PillAvatarGroup = ({ children, className, ...props }: PillAvatarGro
       `,
       className
     )}
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   >
     {children}
   </div>

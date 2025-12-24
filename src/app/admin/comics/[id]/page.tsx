@@ -1,6 +1,6 @@
 import { ComicForm } from "#admin/ComicForm";
 import { useConfirmDialog } from "#admin/ConfirmDialog";
-import { getComicById } from "#queries/admin-comics";
+import { getComicById } from "#queries/adminComics";
 import { Button } from "#ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
 import { deleteComicAction, updateComicAction } from "@/app/actions/admin/comics";

@@ -13,7 +13,6 @@
       "type": "shell",
       "command": "pnpm",
       "args": ["install"],
-      "problemMatcher": ["$pnpm"],
       "presentation": {
         "reveal": "always",
         "panel": "shared"
@@ -114,7 +113,6 @@
       "type": "shell",
       "command": "pnpm",
       "args": ["test:unit:run"],
-      "problemMatcher": ["$jest"],
       "presentation": {
         "reveal": "always",
         "panel": "shared"
@@ -141,7 +139,6 @@
       "type": "shell",
       "command": "pnpm",
       "args": ["test"],
-      "problemMatcher": ["$jest"],
       "presentation": {
         "reveal": "always",
         "panel": "shared"

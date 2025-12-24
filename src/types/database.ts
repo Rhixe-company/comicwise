@@ -1,431 +1,176 @@
 // ═══════════════════════════════════════════════════
-// DATABASE TYPES & SCHEMAS (Next.js 16 Optimized)
+// DATABASE TYPES - Single Source of Truth
 // ═══════════════════════════════════════════════════
+// All database types, relations, and filters in one place
 
-import type {
-  account,
-  artist,
-  authenticator,
-  author,
-  bookmark,
-  chapter,
-  chapterImage,
-  comic,
-  comicImage,
-  comicToGenre,
-  type as comicType,
-  comment,
-  genre,
-  passwordResetToken,
-  readingProgress,
-  session,
-  user,
-  verificationToken,
-} from "#schema";
+import type * as schema from "#schema";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════
-// TABLE TYPES (Inferred from Drizzle Schema)
+// BASE MODELS (Select & Insert)
 // ═══════════════════════════════════════════════════
 
-export type User = typeof user.$inferSelect;
-export type NewUser = typeof user.$inferInsert;
+// User & Auth
+export type User = InferSelectModel<typeof schema.user>;
+export type InsertUser = InferInsertModel<typeof schema.user>;
+export type Account = InferSelectModel<typeof schema.account>;
+export type InsertAccount = InferInsertModel<typeof schema.account>;
+export type Session = InferSelectModel<typeof schema.session>;
+export type InsertSession = InferInsertModel<typeof schema.session>;
+export type VerificationToken = InferSelectModel<typeof schema.verificationToken>;
+export type InsertVerificationToken = InferInsertModel<typeof schema.verificationToken>;
+export type Authenticator = InferSelectModel<typeof schema.authenticator>;
+export type InsertAuthenticator = InferInsertModel<typeof schema.authenticator>;
+export type PasswordResetToken = InferSelectModel<typeof schema.passwordResetToken>;
+export type InsertPasswordResetToken = InferInsertModel<typeof schema.passwordResetToken>;
 
-export type Account = typeof account.$inferSelect;
-export type NewAccount = typeof account.$inferInsert;
+// Content Metadata
+export type Author = InferSelectModel<typeof schema.author>;
+export type InsertAuthor = InferInsertModel<typeof schema.author>;
+export type Artist = InferSelectModel<typeof schema.artist>;
+export type InsertArtist = InferInsertModel<typeof schema.artist>;
+export type Genre = InferSelectModel<typeof schema.genre>;
+export type InsertGenre = InferInsertModel<typeof schema.genre>;
+export type Type = InferSelectModel<typeof schema.type>;
+export type InsertType = InferInsertModel<typeof schema.type>;
 
-export type Session = typeof session.$inferSelect;
-export type NewSession = typeof session.$inferInsert;
+// Core Content
+export type Comic = InferSelectModel<typeof schema.comic>;
+export type InsertComic = InferInsertModel<typeof schema.comic>;
+export type Chapter = InferSelectModel<typeof schema.chapter>;
+export type InsertChapter = InferInsertModel<typeof schema.chapter>;
+export type ComicImage = InferSelectModel<typeof schema.comicImage>;
+export type InsertComicImage = InferInsertModel<typeof schema.comicImage>;
+export type ChapterImage = InferSelectModel<typeof schema.chapterImage>;
+export type InsertChapterImage = InferInsertModel<typeof schema.chapterImage>;
+export type ComicToGenre = InferSelectModel<typeof schema.comicToGenre>;
+export type InsertComicToGenre = InferInsertModel<typeof schema.comicToGenre>;
 
-export type VerificationToken = typeof verificationToken.$inferSelect;
-export type NewVerificationToken = typeof verificationToken.$inferInsert;
-
-export type Authenticator = typeof authenticator.$inferSelect;
-export type NewAuthenticator = typeof authenticator.$inferInsert;
-
-export type PasswordResetToken = typeof passwordResetToken.$inferSelect;
-export type NewPasswordResetToken = typeof passwordResetToken.$inferInsert;
-
-export type Comic = typeof comic.$inferSelect;
-export type NewComic = typeof comic.$inferInsert;
-
-export type Chapter = typeof chapter.$inferSelect;
-export type NewChapter = typeof chapter.$inferInsert;
-
-export type ComicImage = typeof comicImage.$inferSelect;
-export type NewComicImage = typeof comicImage.$inferInsert;
-
-export type ChapterImage = typeof chapterImage.$inferSelect;
-export type NewChapterImage = typeof chapterImage.$inferInsert;
-
-export type Genre = typeof genre.$inferSelect;
-export type NewGenre = typeof genre.$inferInsert;
-
-export type ComicType = typeof comicType.$inferSelect;
-export type NewComicType = typeof comicType.$inferInsert;
-
-export type Author = typeof author.$inferSelect;
-export type NewAuthor = typeof author.$inferInsert;
-
-export type Artist = typeof artist.$inferSelect;
-export type NewArtist = typeof artist.$inferInsert;
-
-export type Bookmark = typeof bookmark.$inferSelect;
-export type NewBookmark = typeof bookmark.$inferInsert;
-
-export type Comment = typeof comment.$inferSelect;
-export type NewComment = typeof comment.$inferInsert;
-
-export type ComicToGenre = typeof comicToGenre.$inferSelect;
-export type NewComicToGenre = typeof comicToGenre.$inferInsert;
+// User Interactions
+export type Bookmark = InferSelectModel<typeof schema.bookmark>;
+export type InsertBookmark = InferInsertModel<typeof schema.bookmark>;
+export type Comment = InferSelectModel<typeof schema.comment>;
+export type InsertComment = InferInsertModel<typeof schema.comment>;
+export type ReadingProgress = InferSelectModel<typeof schema.readingProgress>;
+export type InsertReadingProgress = InferInsertModel<typeof schema.readingProgress>;
 
 // ═══════════════════════════════════════════════════
-// ENHANCED TYPES WITH RELATIONS
+// ENUMS
 // ═══════════════════════════════════════════════════
 
-export interface ComicWithRelations extends Comic {
+export type UserRole = (typeof schema.userRole.enumValues)[number];
+export type ComicStatus = (typeof schema.comicStatus.enumValues)[number];
+
+// ═══════════════════════════════════════════════════
+// RELATIONS (With Relations Pattern)
+// ═══════════════════════════════════════════════════
+
+export type ComicWithRelations = Comic & {
   author?: Author | null;
+  authorName?: string | null;
   artist?: Artist | null;
-  type?: ComicType | null;
+  artistName?: string | null;
+  type?: Type | null;
+  typeName?: string | null;
   genres?: Genre[];
   chapters?: Chapter[];
-  bookmarks?: Bookmark[];
   images?: ComicImage[];
-  _count?: {
-    chapters: number;
-    bookmarks: number;
-    comments: number;
-  };
-}
+};
 
-// Alias for compatibility
-export type ComicWithDetails = ComicWithRelations;
-
-export interface ChapterWithRelations extends Chapter {
+export type ChapterWithRelations = Chapter & {
   comic?: Comic;
   images?: ChapterImage[];
-  comments?: Comment[];
-  _count?: {
-    comments: number;
-  };
-}
+};
 
-export interface UserWithRelations extends User {
+export type UserWithRelations = User & {
   bookmarks?: Bookmark[];
   comments?: Comment[];
-  accounts?: Account[];
-  sessions?: Session[];
-  _count?: {
-    bookmarks: number;
-    comments: number;
-  };
-}
+  readingProgress?: ReadingProgress[];
+};
 
-export interface CommentWithRelations extends Comment {
+export type BookmarkWithRelations = Bookmark & {
+  user?: User;
+  comic?: Comic;
+  lastReadChapter?: Chapter | null;
+};
+
+export type CommentWithRelations = Comment & {
   user?: User;
   chapter?: Chapter;
-}
+};
 
-export interface BookmarkWithRelations extends Bookmark {
-  user?: User;
-  comic?: ComicWithRelations;
-  lastReadChapter?: Chapter | null;
-}
-
-export type ReadingProgress = typeof readingProgress.$inferSelect;
-export type NewReadingProgress = typeof readingProgress.$inferInsert;
-
-export interface ReadingProgressWithRelations extends ReadingProgress {
+export type ReadingProgressWithRelations = ReadingProgress & {
   user?: User;
   comic?: Comic;
   chapter?: Chapter;
-}
-
-export interface GenreWithComics extends Genre {
-  comics?: Comic[];
-  _count?: {
-    comics: number;
-  };
-}
-
-export interface AuthorWithComics extends Author {
-  comics?: Comic[];
-  _count?: {
-    comics: number;
-  };
-}
-
-export interface ArtistWithComics extends Artist {
-  comics?: Comic[];
-  _count?: {
-    comics: number;
-  };
-}
+};
 
 // ═══════════════════════════════════════════════════
-// FILTER & PAGINATION TYPES
+// SPECIALIZED VIEWS (Use ComicWithRelations as base)
 // ═══════════════════════════════════════════════════
 
+// ComicWithDetails is an alias for ComicWithRelations
+export type ComicWithDetails = ComicWithRelations;
+
+// Partial views for specific use cases
+export type ComicWithChapters = Pick<ComicWithRelations, keyof Comic | "chapters">;
+export type ComicSearchResult = Pick<ComicWithRelations, keyof Comic | "author" | "artist" | "type" | "genres">;
+export type ChapterWithComments = Chapter & { comments?: Comment[] };
+export type UserWithStats = User & {
+  bookmarkCount?: number;
+  commentCount?: number;
+  readingProgressCount?: number;
+};
+
 // ═══════════════════════════════════════════════════
-// FILTER & PAGINATION TYPES
+// FILTERS & QUERIES
 // ═══════════════════════════════════════════════════
-
-export interface PaginationParameters {
-  page?: number;
-  limit?: number;
-  offset?: number;
-}
-
-export interface PaginationMeta {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-  hasMore: boolean;
-  hasPrevious: boolean;
-}
-
-export interface PaginatedResponse<T> {
-  data: T[];
-  // Preferred name for pagination metadata
-  meta: PaginationMeta;
-  // Backwards-compatible alias used across the codebase
-  pagination: PaginationMeta;
-}
 
 export interface ComicFilters {
+  status?: ComicStatus;
+  authorId?: number;
+  artistId?: number;
+  typeId?: number;
+  genreIds?: number[];
+  minRating?: number;
+  maxRating?: number;
+  search?: string;
+  published?: boolean;
+  sortBy?: "latest" | "rating" | "title" | "views";
   page?: number;
   limit?: number;
-  search?: string;
-  status?: Comic["status"];
-  genreIds?: number[];
-  typeId?: number;
-  authorId?: number;
-  artistId?: number;
-  minRating?: number;
-  sortBy?: "title" | "rating" | "views" | "publicationDate" | "createdAt" | "latest";
-  sortOrder?: "asc" | "desc";
 }
 
 // ═══════════════════════════════════════════════════
-// SAMPLE QUERY TYPES (for queries.sample.ts)
+// FORM INPUT TYPES (Using Omit pattern)
 // ═══════════════════════════════════════════════════
 
-export interface ComicSearchResult {
-  id: number;
-  title: string;
-  slug: string;
-  description: string | null;
-  coverImage: string | null;
-  status: Comic["status"];
-  rating: string | null;
-  views: number;
-  author?: {
-    id: number;
-    name: string;
-  } | null;
-  artist?: {
-    id: number;
-    name: string;
-  } | null;
-  type?: {
-    id: number;
-    name: string;
-  } | null;
-}
+export type CreateComicInput = Omit<InsertComic, "id" | "createdAt" | "updatedAt" | "views" | "rating">;
+export type UpdateComicInput = Partial<CreateComicInput> & { id: number };
 
-export interface ComicWithChapters extends Comic {
-  chapters: Chapter[];
-}
+export type CreateChapterInput = Omit<InsertChapter, "id" | "createdAt" | "views">;
+export type UpdateChapterInput = Partial<CreateChapterInput> & { id: number };
 
-export interface ChapterWithComic extends Chapter {
-  comic: Comic | null;
-}
+export type CreateUserInput = Omit<InsertUser, "id" | "createdAt" | "updatedAt" | "emailVerified">;
+export type UpdateUserInput = Partial<CreateUserInput> & { id: string };
 
-export interface CreateComicPayload {
-  title: string;
-  slug: string;
-  description: string;
-  coverImage: string | null;
-  status?: Comic["status"];
-  publicationDate: Date | string;
-  rating?: string;
-  authorId?: number | null;
-  artistId?: number | null;
-  typeId?: number | null;
-  genres?: number[];
-}
+export type CreateAuthorInput = Omit<InsertAuthor, "id" | "createdAt" | "search_vector">;
+export type UpdateAuthorInput = Partial<CreateAuthorInput> & { id: number };
 
-export interface ChapterFilters {
-  comicId?: number;
-  search?: string;
-  sortBy?: "chapterNumber" | "releaseDate" | "views";
-  sortOrder?: "asc" | "desc";
-}
+export type CreateArtistInput = Omit<InsertArtist, "id" | "createdAt" | "search_vector">;
+export type UpdateArtistInput = Partial<CreateArtistInput> & { id: number };
 
-export interface UserFilters {
-  search?: string;
-  role?: User["role"];
-  sortBy?: "name" | "email" | "createdAt";
-  sortOrder?: "asc" | "desc";
-}
+export type CreateGenreInput = Omit<InsertGenre, "id" | "createdAt">;
+export type UpdateGenreInput = Partial<CreateGenreInput> & { id: number };
 
-export interface CommentFilters {
-  chapterId?: number;
-  userId?: string;
-  search?: string;
-  sortBy?: "createdAt";
-  sortOrder?: "asc" | "desc";
-}
+export type CreateTypeInput = Omit<InsertType, "id" | "createdAt">;
+export type UpdateTypeInput = Partial<CreateTypeInput> & { id: number };
 
-// ═══════════════════════════════════════════════════
-// FORM & VALIDATION TYPES
-// ═══════════════════════════════════════════════════
+export type CreateCommentInput = Omit<InsertComment, "id" | "createdAt" | "updatedAt">;
+export type UpdateCommentInput = Partial<Omit<CreateCommentInput, "userId" | "chapterId">> & { id: number };
 
-export interface ComicFormData {
-  title: string;
-  description: string;
-  coverImage: string;
-  status: Comic["status"];
-  publicationDate: Date | string;
-  authorId?: number;
-  artistId?: number;
-  typeId?: number;
-  genreIds: number[];
-}
+export type CreateBookmarkInput = Omit<InsertBookmark, "createdAt" | "updatedAt">;
+export type UpdateBookmarkInput = Partial<Omit<CreateBookmarkInput, "userId" | "comicId">>;
 
-export interface ChapterFormData {
-  title: string;
-  chapterNumber: number;
-  releaseDate: Date | string;
-  comicId: number;
-  images: Array<{
-    imageUrl: string;
-    pageNumber: number;
-  }>;
-}
-
-export interface UserFormData {
-  name?: string;
-  email: string;
-  password?: string;
-  role?: User["role"];
-  image?: string;
-}
-
-export interface GenreFormData {
-  name: string;
-  description?: string;
-}
-
-export interface AuthorFormData {
-  name: string;
-  bio?: string;
-  image?: string;
-}
-
-export interface ArtistFormData {
-  name: string;
-  bio?: string;
-  image?: string;
-}
-
-export interface ComicTypeFormData {
-  name: string;
-  description?: string;
-}
-
-export interface CommentFormData {
-  content: string;
-  chapterId: number;
-  userId: string;
-}
-
-export interface BookmarkFormData {
-  comicId: number;
-  userId: string;
-  lastReadChapterId?: number;
-  notes?: string;
-}
-
-// ═══════════════════════════════════════════════════
-// API RESPONSE TYPES
-// ═══════════════════════════════════════════════════
-
-export interface ApiResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-}
-
-export interface ApiError {
-  success: false;
-  error: string;
-  message?: string;
-  statusCode?: number;
-}
-
-export interface ApiSuccess<T = unknown> {
-  success: true;
-  data: T;
-  message?: string;
-}
-
-// ═══════════════════════════════════════════════════
-// SEARCH & AUTOCOMPLETE TYPES
-// ═══════════════════════════════════════════════════
-
-export interface SearchResult<T> {
-  results: T[];
-  total: number;
-  query: string;
-}
-
-export interface AutocompleteOption {
-  id: number | string;
-  label: string;
-  value: string;
-  image?: string;
-  metadata?: Record<string, unknown>;
-}
-
-// ═══════════════════════════════════════════════════
-// STATISTICS & ANALYTICS TYPES
-// ═══════════════════════════════════════════════════
-
-export interface ComicStats {
-  totalComics: number;
-  totalChapters: number;
-  totalViews: number;
-  totalBookmarks: number;
-  totalComments: number;
-  averageRating: number;
-  comicsByStatus: Record<Comic["status"], number>;
-  comicsByGenre: Array<{ genre: string; count: number }>;
-  topComics: ComicWithRelations[];
-  recentComics: ComicWithRelations[];
-}
-
-export interface UserStats {
-  totalUsers: number;
-  usersByRole: Record<User["role"], number>;
-  recentUsers: User[];
-  activeUsers: User[];
-}
-
-export interface DashboardStats {
-  comics: ComicStats;
-  users: UserStats;
-  recentActivity: Array<{
-    type: "comment" | "bookmark" | "comic" | "chapter";
-    id: number | string;
-    title: string;
-    user?: string;
-    timestamp: Date;
-  }>;
-}
-
-// ═══════════════════════════════════════════════════
-// NOTE: All types are already exported via 'export type'
-// declarations above. No need for duplicate exports.
-// ═══════════════════════════════════════════════════
+export type CreateReadingProgressInput = Omit<InsertReadingProgress, "id" | "createdAt" | "updatedAt" | "lastReadAt">;
+export type UpdateReadingProgressInput = Partial<Omit<CreateReadingProgressInput, "userId" | "comicId">> & { id: number };

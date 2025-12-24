@@ -76,8 +76,8 @@ const eslintRules = {
   "key-spacing": "error",
   "keyword-spacing": "error",
   quotes: ["error", "double", { avoidEscape: true, allowTemplateLiterals: true }],
-  semi: ["error", "never"],
-  "arrow-parens": ["error", "always"],
+  semi: "off", // Handled by Prettier
+  "arrow-parens": "off", // Handled by Prettier
   "arrow-spacing": "error",
   "rest-spread-spacing": "error",
   "template-tag-spacing": "error",
@@ -208,17 +208,7 @@ const eslintRules = {
   "sonarjs/no-identical-expressions": "warn",
   "sonarjs/no-collapsible-if": "warn",
   "sonarjs/no-duplicate-string": "warn",
-  "jsdoc/require-jsdoc": [
-    "warn",
-    {
-      publicOnly: true,
-      require: {
-        FunctionDeclaration: true,
-        MethodDefinition: true,
-        ClassDeclaration: true,
-      },
-    },
-  ],
+  "jsdoc/require-jsdoc": "off", // Too verbose for modern TypeScript projects
   "jsdoc/require-param": "warn",
   "jsdoc/require-returns": "warn",
   "jsdoc/valid-types": "warn",
@@ -226,7 +216,21 @@ const eslintRules = {
   "unicorn/catch-error-name": ["warn", { name: "error" }],
   "unicorn/consistent-destructuring": "warn",
   "unicorn/escape-case": "warn",
-  "unicorn/filename-case": ["warn", { case: "kebabCase" }],
+  "unicorn/filename-case": [
+    "warn",
+    {
+      cases: {
+        kebabCase: true,
+        pascalCase: true,
+        camelCase: true,
+      },
+      ignore: [
+        "^[A-Z].*\\.tsx?$", // React components (PascalCase)
+        "^use[A-Z].*\\.tsx?$", // React hooks (camelCase with 'use' prefix)
+        "README\\.md$",
+      ],
+    },
+  ],
   "unicorn/new-for-builtins": "warn",
   "unicorn/no-array-callback-reference": "warn",
   "unicorn/no-array-method-this-argument": "warn",
@@ -264,7 +268,38 @@ const eslintRules = {
   "unicorn/prefer-switch": "warn",
   "unicorn/prefer-ternary": "warn",
   "unicorn/prefer-top-level-await": "warn",
-  "unicorn/prevent-abbreviations": "warn",
+  "unicorn/prevent-abbreviations": [
+    "warn",
+    {
+      allowList: {
+        props: true,
+        Props: true,
+        ref: true,
+        Ref: true,
+        params: true,
+        Params: true,
+        args: true,
+        Args: true,
+        env: true,
+        Env: true,
+        db: true,
+        DB: true,
+        req: true,
+        res: true,
+        ctx: true,
+        fn: true,
+        src: true,
+        dest: true,
+        prev: true,
+        curr: true,
+        acc: true,
+        i: true,
+        j: true,
+        k: true,
+        err: true,
+      },
+    },
+  ],
   "unicorn/require-array-join-separator": "warn",
   "unicorn/require-post-message-target-origin": "warn",
   "unicorn/switch-case-braces": ["warn", "avoid"],
@@ -350,7 +385,6 @@ const eslintConfig: Config[] = defineConfig([
       ...eslintNextPlugin.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
       ...(pluginBetterTailwindcss.configs["recommended-warn"]?.rules ?? {}),
-      ...(pluginBetterTailwindcss.configs["recommended-error"]?.rules ?? {}),
       ...(eslintRules as any),
     },
   },
@@ -365,10 +399,41 @@ const eslintConfig: Config[] = defineConfig([
   },
   // Config files
   {
-    files: ["*.config.{js,ts,mjs,cjs}"],
+    files: ["*.config.{js,ts,mjs,cjs}", "next.config.ts", "tailwind.config.ts"],
     rules: {
       "@typescript-eslint/no-var-requires": "warn",
       "import/no-default-export": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "unicorn/prevent-abbreviations": "off",
+    },
+  },
+
+  // Next.js app directory - allow default exports
+  {
+    files: [
+      "src/app/**/page.tsx",
+      "src/app/**/layout.tsx",
+      "src/app/**/loading.tsx",
+      "src/app/**/error.tsx",
+      "src/app/**/not-found.tsx",
+      "src/app/**/template.tsx",
+      "src/app/**/default.tsx",
+      "src/app/**/route.ts",
+    ],
+    rules: {
+      "import/no-default-export": "off",
+      "import/prefer-default-export": "error",
+    },
+  },
+
+  // Scripts - relaxed rules
+  {
+    files: ["scripts/**/*.{ts,mts,cts,js,mjs,cjs}"],
+    rules: {
+      "no-console": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "unicorn/prevent-abbreviations": "off",
+      "@typescript-eslint/no-var-requires": "off",
     },
   },
   // JSON files

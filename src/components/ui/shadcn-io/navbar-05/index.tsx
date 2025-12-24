@@ -13,14 +13,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "ui/navigation-menu";
-import { Popover, PopoverContent, PopoverTrigger } from "ui/popover";
+} from "@/components/ui/navigation-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "utils";
 
 // Simple logo component for the navbar
@@ -32,7 +32,7 @@ const Logo = (props: React.SVGAttributes<SVGElement>) => {
       viewBox="0 0 324 323"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      {...(props as any)}
+      {...(props as Record<string, unknown>)}
     >
       <rect
         x="88.1023"
@@ -69,7 +69,7 @@ const HamburgerIcon = ({ className, ...props }: React.SVGAttributes<SVGElement>)
     strokeLinecap="round"
     strokeLinejoin="round"
     xmlns="http://www.w3.org/2000/svg"
-    {...(props as any)}
+    {...(props as Record<string, unknown>)}
   >
     <path
       d="M4 12L20 12"
@@ -324,7 +324,7 @@ export const Navbar05 = React.forwardRef<HTMLElement, Navbar05Props>(
           `,
           className
         )}
-        {...(props as any)}
+        {...(props as Record<string, unknown>)}
       >
         <div
           className={`

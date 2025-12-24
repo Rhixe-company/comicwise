@@ -9,21 +9,42 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
+## 🚀 Quick Start
+
+\`\`\`bash
+# Clone and setup
+git clone <repository-url>
+cd comicwise
+pnpm install
+
+# Configure environment
+cp .env.example .env.local
+# Edit .env.local with your settings
+
+# Setup database
+pnpm db:push
+pnpm db:seed
+
+# Start development
+pnpm dev
+\`\`\`
+
+Visit [http://localhost:3000](http://localhost:3000)
+
+📖 **New to the project?** Start with our [Complete Setup Guide](docs/Setup.md)
+
 ## 📖 Table of Contents
 
 - [Features](#-features)
 - [Prerequisites](#-prerequisites)
-- [Quick Start](#-quick-start)
+- [Installation](#-installation)
+- [Documentation](#-documentation)
 - [Project Structure](#-project-structure)
-- [CLI & Scripts](#-cli--scripts)
-- [Database](#-database-schema)
-- [Security](#-security-features)
-- [Image Upload](#-image-upload--optimization)
-- [Email Templates](#-email-templates)
-- [Configuration](#-configuration)
+- [Development](#-development)
 - [Testing](#-testing)
-- [Theming](#-theming-system)
+- [Deployment](#-deployment)
 - [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
@@ -70,63 +91,71 @@
 
 ## 📋 Prerequisites
 
-- **Node.js** 22+ (with Corepack enabled)
-- **pnpm** 9+ (or enable with `corepack enable`)
-- **PostgreSQL** 17+ (or use Docker)
-- **Docker** & **Docker Compose** (optional, for containerized setup)
+### Required
+
+- **Node.js** 22+ with Corepack enabled
+- **pnpm** 9+ (\`corepack enable\`)
+- **PostgreSQL** 17+ (or Docker)
+
+### Optional
+
+- **Docker** & **Docker Compose** (recommended)
+- **Redis** (for caching)
+- **Git** (latest version)
+
+### System Requirements
+
+- **OS**: Windows 10+, macOS 10.15+, Linux
+- **RAM**: 8GB minimum, 16GB recommended  
+- **Storage**: 5GB free space
 
 ---
 
-## 🚀 Quick Start
+## 📦 Installation
 
-### Option 1: Docker Setup (Recommended)
+### Option 1: Docker (Recommended)
 
-```bash
-# Clone the repository
-git clone <repository-url>
-cd comicwise
+\`\`\`bash
+# Start all services (PostgreSQL, Redis, App)
+docker-compose -f docker-compose.dev.yml up -d
 
-# Copy environment file
-cp .envs/.env.development .env.local
+# Initialize database
+docker-compose exec app pnpm db:push
+docker-compose exec app pnpm db:seed
 
-# Start services
-docker-compose -f docker-compose.dev.yml up
-
-# In another terminal: initialize database
-docker-compose -f docker-compose.dev.yml exec app pnpm db:push
-docker-compose -f docker-compose.dev.yml exec app pnpm db:seed
-
-# Open http://localhost:3000
-```
-
-**Service URLs:**
-
-- 🌐 App: http://localhost:3000
-- 🗄️ PgAdmin: http://localhost:5051 (admin@example.com / admin)
-- 📊 PostgreSQL: localhost:5433 (user: dev / pass: dev123)
-- 🔴 Redis: localhost:6380
+# Access services:
+# - App: http://localhost:3000
+# - PgAdmin: http://localhost:5051
+# - Database: localhost:5433
+\`\`\`
 
 ### Option 2: Local Development
 
-```bash
-# Clone and install
-git clone <repository-url>
-cd comicwise
+\`\`\`bash
+# 1. Install dependencies
 pnpm install
 
-# Set up environment
+# 2. Configure environment
 cp .env.example .env.local
-# Edit .env.local with your configuration
+# Edit .env.local with your settings
 
-# Set up database
+# 3. Setup database
 pnpm db:push
 pnpm db:seed
 
-# Start development server
+# 4. Start development server
 pnpm dev
+\`\`\`
 
-# Open http://localhost:3000
-```
+---
+
+## 📚 Documentation
+
+- **[Complete Setup Guide](docs/Setup.md)** - Comprehensive setup instructions
+- **[CLI Reference](docs/CLI_GUIDE.md)** - All available commands
+- **[API Documentation](docs/API.md)** - API routes and usage
+- **[Docker Guide](docs/DOCKER_DEPLOYMENT.md)** - Docker deployment
+- **[Contributing Guide](#-contributing)** - How to contribute
 
 ---
 

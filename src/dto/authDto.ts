@@ -3,7 +3,6 @@
  * Data Transfer Objects for authentication operations
  */
 
-import type { z } from "zod";
 import type { user } from "#schema";
 
 export type UserDto = typeof user.$inferSelect;
@@ -48,10 +47,10 @@ export type SessionDto = {
 
 export {
   forgotPassword as forgotPasswordAction,
+  registerUserAction,
   resendVerificationEmailAction,
   resetPassword as resetPasswordAction,
   signInAction,
-  registerUserAction,
   verifyEmail as verifyEmailAction,
 } from "#lib/actions/auth";
 export { signOut as signOutAction } from "auth";

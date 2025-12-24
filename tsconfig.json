@@ -49,108 +49,38 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "paths": {
-      // ═══════════════════════════════════════════════════
-      // PRIMARY ALIASES (# prefix for consistency)
-      // ═══════════════════════════════════════════════════
-
-      // Core
-      "#/*": ["./src/*"],
-
-      // Components
-      "#components/*": ["./src/components/*"],
-      "#ui/*": ["./src/components/ui/*"],
-      "#layout/*": ["./src/components/layout/*"],
-      "#emails/*": ["./src/components/emails/*"],
-      "#admin/*": ["./src/components/admin/*"],
-
-      // Library
-      "#lib/*": ["./src/lib/*"],
-      "#dto/*": ["./src/lib/dto/*"],
-      "#actions/*": ["./src/lib/actions/*"],
-      "#validations/*": ["./src/lib/validations/*"],
-      "#utils/*": ["./src/lib/utils/*"],
-
-      // DAL & DTO (new architecture)
-      "#dal": ["./src/dal"],
-      "#dal/*": ["./src/dal/*"],
-      "#dto": ["./src/dto"],
-      "#dto/*": ["./src/dto/*"],
-
-      // Hooks & Types
-      "#hooks/*": ["./src/hooks/*"],
-      "#types/*": ["./src/types/*"],
-
-      // Database
-      "#database/*": ["./src/database/*"],
-      "#db/*": ["./src/database/*"],
-      "#queries/*": ["./src/database/queries/*"],
-      "#mutations/*": ["./src/database/mutations/*"],
-      "#schema": ["./src/database/schema.ts"],
-
-      // Services & Stores
-      "#services/*": ["./src/services/*"],
-      "#stores/*": ["./src/stores/*"],
-
-      // Assets & Styles
-      "#styles/*": ["./src/styles/*"],
-      "#assets/*": ["./src/assets/*"],
-      "#public/*": ["./public/*"],
-
-      // Tests
-      "#tests/*": ["./src/tests/*"],
-
-      // ═══════════════════════════════════════════════════
-      // SHORT ALIASES (no prefix for common imports)
-      // ═══════════════════════════════════════════════════
-
+      "admin": ["./src/components/admin/*"],
+      "lib": ["./src/lib/*"],
+      "actions": ["./src/lib/actions/*"],
+      "validations": ["./src/lib/validations/*"],
+      "dal": ["./src/dal/*"],
+      "dto": ["./src/dto/*"],
+      "hooks": ["./src/hooks/*"],
+      "types": ["./src/types/*"],
+      "database": ["./src/database/*"],
+      "queries": ["./src/database/queries/*"],
+      "mutations": ["./src/database/mutations/*"],
+      "schema": ["./src/database/schema.ts"],
+      "services": ["./src/services/*"],
+      "stores": ["./src/stores/*"],
+      "styles": ["./src/styles/*"],
+      "assets": ["./src/assets/*"],
+      "public": ["./public/*"],
+      "tests": ["./src/tests/*"],
       "auth": ["./src/lib/auth.ts"],
       "authConfig": ["./src/lib/authConfig.ts"],
       "authAdapter": ["./src/lib/authAdapter.ts"],
-
       "db": ["./src/database/db.ts"],
-      "schema": ["./src/database/schema.ts"],
-
       "utils": ["./src/lib/utils.ts"],
       "cn": ["./src/lib/utils.ts"],
-
-      "types": ["./src/types/index.ts"],
       "appConfig": ["./app-config.ts"],
-
       "redis": ["./redis.ts"],
       "env": ["./src/lib/env.ts"],
-
-      // ═══════════════════════════════════════════════════
-      // BACKWARDS COMPATIBILITY (@/ prefix)
-      // ═══════════════════════════════════════════════════
-
-      "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
-      "@/lib/*": ["./src/lib/*"],
-      "@/hooks/*": ["./src/hooks/*"],
-      "@/types/*": ["./src/types/*"],
-      "@/database/*": ["./src/database/*"],
-      "@/services/*": ["./src/services/*"],
-      "@/stores/*": ["./src/stores/*"],
-      "@/styles/*": ["./src/styles/*"],
-      "@/assets/*": ["./src/assets/*"],
-
-      // ═══════════════════════════════════════════════════
-      // LEGACY ALIASES (maintain for gradual migration)
-      // ═══════════════════════════════════════════════════
-
-      "src/*": ["./src/*"],
-      "components/*": ["./src/components/*"],
-      "ui/*": ["./src/components/ui/*"],
-      "layout/*": ["./src/components/layout/*"],
-      "emails/*": ["./src/components/emails/*"],
-      "lib/*": ["./src/lib/*"],
-      "actions/*": ["./src/lib/actions/*"],
-      "hooks/*": ["./src/hooks/*"],
-      "database/*": ["./src/database/*"],
-      "services/*": ["./src/services/*"],
-      "stores/*": ["./src/stores/*"],
-      "styles/*": ["./src/styles/*"],
-      "assets/*": ["./src/assets/*"]
+      "@": ["./src/*"],
+      "src": ["./src/*"],
+      "ui": ["./src/components/ui/*"],
+      "layout": ["./src/components/layout/*"],
+      "emails": ["./src/components/emails/*"]
     }
   },
   "exclude": ["node_modules", ".next", "out", "build", "dist", "coverage"],
@@ -169,6 +99,8 @@
     "src/**/*",
     "tests/**/*",
     ".next/dev/types/**/*.ts",
-    ".prettierrc.ts"
+    ".prettierrc.ts",
+    "scripts/**/*",
+    "cli/**/*"
   ]
 }

@@ -3,7 +3,7 @@
 import { MoreHorizontal, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "ui/button";
+import { Button } from "#ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,24 +11,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "ui/dropdown-menu";
-import { Input } from "ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "ui/table";
+} from "#ui/DropdownMenu";
+import { Input } from "#ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "#ui/table";
 
-interface Column {
-  accessorKey: string;
+interface Column<T = Record<string, unknown>> {
+  accessorKey: keyof T & string;
   header: string;
 }
 
-interface DataTableProps {
-  columns: Column[];
-
-  data: any[];
-  onEdit?(id: number): void;
-  onDelete?(id: number): void;
+interface DataTableProps<T extends Record<string, unknown> = Record<string, unknown>> {
+  columns: Column<T>[];
+  data: T[];
+  onEdit?(id: number | string): void;
+  onDelete?(id: number | string): void;
 }
 
-export function DataTable({ columns, data, onDelete }: DataTableProps) {
+export function DataTable<T extends Record<string, unknown> & { id: number | string }>({ columns, data, onDelete }: DataTableProps<T>) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredData = data.filter((item) =>
@@ -63,7 +62,7 @@ export function DataTable({ columns, data, onDelete }: DataTableProps) {
               filteredData.map((row) => (
                 <TableRow key={row.id}>
                   {columns.map((column) => (
-                    <TableCell key={column.accessorKey}>{row[column.accessorKey]}</TableCell>
+                    <TableCell key={column.accessorKey}>{String(row[column.accessorKey] ?? '')}</TableCell>
                   ))}
                   <TableCell>
                     <DropdownMenu>

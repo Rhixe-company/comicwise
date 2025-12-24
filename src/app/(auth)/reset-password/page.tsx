@@ -11,11 +11,11 @@ import { Suspense, useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { AuthForm, PasswordField } from "#components/auth";
-import { resetPasswordAction } from "@/dto/authDto";
 import type { ResetPasswordInput } from "#lib/validations";
 import { resetPasswordSchema } from "#lib/validations";
 import { Button } from "#ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "#ui/card";
+import { resetPasswordAction } from "@/dto/authDto";
 
 function ResetPasswordForm() {
   const [isPending, startTransition] = useTransition();
