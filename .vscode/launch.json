@@ -1,30 +1,37 @@
 {
-  // ═══════════════════════════════════════════════════════════════
-  // COMICWISE DEBUG CONFIGURATIONS
-  // Next.js 16 + Vitest + Playwright E2E Testing
-  // ═══════════════════════════════════════════════════════════════
-
+  "version": "0.2.0",
   "compounds": [
     {
-      "name": "Dev + Attach",
-      "configurations": ["Next: Dev (pnpm)", "Attach to Process"]
+      "name": "Full Stack Dev",
+      "configurations": ["Next: Dev Server", "Attach to Process"],
+      "presentation": {
+        "hidden": false,
+        "group": "development",
+        "order": 1
+      }
     },
     {
-      "name": "Dev (inspect) + Attach",
-      "configurations": ["Next: Dev (inspect)", "Attach to Next (9229)"]
+      "name": "Dev + Debug",
+      "configurations": ["Next: Dev with Inspect", "Attach to Next (9229)"],
+      "presentation": {
+        "hidden": false,
+        "group": "development",
+        "order": 2
+      }
     },
     {
       "name": "Full Test Suite",
-      "configurations": ["Unit Tests (vitest)", "E2E Tests (playwright)"]
+      "configurations": ["Vitest Unit Tests", "Playwright E2E"],
+      "presentation": {
+        "hidden": false,
+        "group": "testing",
+        "order": 1
+      }
     }
   ],
-
   "configurations": [
-    // ═══════════════════════════════════════════════════════════════
-    // NEXT.JS DEV SERVER CONFIGURATIONS
-    // ═══════════════════════════════════════════════════════════════
     {
-      "name": "Next: Dev (pnpm)",
+      "name": "Next: Dev Server",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
@@ -35,32 +42,65 @@
       "env": {
         "NODE_OPTIONS": "--enable-source-maps"
       },
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "development",
+        "order": 1
+      }
     },
     {
-      "name": "Next: Dev (inspect)",
+      "name": "Next: Dev with Inspect",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "pwsh",
-      "runtimeArgs": [
-        "-NoProfile",
-        "-ExecutionPolicy",
-        "Bypass",
-        "-Command",
-        "pnpm dev -- --inspect=0.0.0.0:9229"
-      ],
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev:debug"],
       "console": "integratedTerminal",
       "autoAttachChildProcesses": true,
       "env": {
         "NODE_OPTIONS": "--enable-source-maps --inspect=9229"
       },
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "development",
+        "order": 2
+      }
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // DEBUGGER ATTACH CONFIGURATIONS
-    // ═══════════════════════════════════════════════════════════════
+    {
+      "name": "Next: Build",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["build"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "build",
+        "order": 1
+      }
+    },
+    {
+      "name": "Next: Start Production",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["start"],
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "production",
+        "order": 1
+      }
+    },
     {
       "name": "Attach to Next (9229)",
       "type": "node",
@@ -70,18 +110,12 @@
       "localRoot": "${workspaceFolder}",
       "remoteRoot": "${workspaceFolder}",
       "restart": true,
-      "skipFiles": ["<node_internals>/**"]
-    },
-    {
-      "name": "Attach to Node (8888)",
-      "type": "node",
-      "request": "attach",
-      "port": 8888,
-      "address": "localhost",
-      "localRoot": "${workspaceFolder}",
-      "remoteRoot": "${workspaceFolder}",
-      "restart": true,
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "attach",
+        "order": 1
+      }
     },
     {
       "name": "Attach to Process",
@@ -89,42 +123,144 @@
       "request": "attach",
       "processId": "${command:PickProcess}",
       "cwd": "${workspaceFolder}",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "attach",
+        "order": 2
+      }
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // TESTING CONFIGURATIONS
-    // ═══════════════════════════════════════════════════════════════
     {
-      "name": "Unit Tests (vitest)",
+      "name": "Vitest Unit Tests",
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
       "args": ["run"],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "testing",
+        "order": 1
+      }
     },
     {
-      "name": "Unit Tests (vitest watch)",
+      "name": "Vitest Watch Mode",
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
       "args": ["watch"],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "testing",
+        "order": 2
+      }
     },
     {
-      "name": "E2E Tests (playwright)",
+      "name": "Vitest Current File",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["run", "${relativeFile}"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "testing",
+        "order": 3
+      }
+    },
+    {
+      "name": "Playwright E2E",
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
       "args": ["test"],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "testing",
+        "order": 4
+      }
+    },
+    {
+      "name": "Playwright Debug",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
+      "args": ["test", "--debug"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "testing",
+        "order": 5
+      }
+    },
+    {
+      "name": "Playwright UI Mode",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
+      "args": ["test", "--ui"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "presentation": {
+        "hidden": false,
+        "group": "testing",
+        "order": 6
+      }
+    },
+    {
+      "name": "TypeScript: Check",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["type-check"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "validation",
+        "order": 1
+      }
+    },
+    {
+      "name": "ESLint: Check",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["lint"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "validation",
+        "order": 2
+      }
+    },
+    {
+      "name": "Database: Studio",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["db:studio"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "database",
+        "order": 1
+      }
     }
-  ],
-  "version": "0.2.0"
+  ]
 }

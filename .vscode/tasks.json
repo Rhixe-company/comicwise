@@ -1,33 +1,33 @@
 {
-  // ═══════════════════════════════════════════════════════════════
-  // COMICWISE VSCODE TASKS
-  // Common development and build tasks
-  // ═══════════════════════════════════════════════════════════════
-
+  "version": "2.0.0",
   "tasks": [
-    // ═══════════════════════════════════════════════════════════════
-    // SETUP & INSTALLATION
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Install Dependencies",
+      "label": "📦 Install Dependencies",
       "type": "shell",
       "command": "pnpm",
       "args": ["install"],
+      "group": {
+        "kind": "none"
+      },
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "setup"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // DEVELOPMENT
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Start Dev Server",
+      "label": "🚀 Dev Server",
       "type": "shell",
       "command": "pnpm",
       "args": ["dev"],
       "isBackground": true,
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
       "problemMatcher": {
         "pattern": {
           "regexp": "^.*$"
@@ -40,86 +40,175 @@
       },
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "development"
       }
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // LINTING & FORMATTING
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Lint",
+      "label": "🔍 Type Check",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["type-check"],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "validation"
+      }
+    },
+    {
+      "label": "🔍 Type Check (Watch)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["type-check:watch"],
+      "isBackground": true,
+      "problemMatcher": ["$tsc-watch"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "validation"
+      }
+    },
+    {
+      "label": "🎨 Lint",
       "type": "shell",
       "command": "pnpm",
       "args": ["lint"],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
       "problemMatcher": ["$eslint-stylish"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "validation"
       }
     },
     {
-      "label": "Lint (Fix)",
+      "label": "🎨 Lint (Fix)",
       "type": "shell",
       "command": "pnpm",
-      "args": ["lint", "--fix"],
+      "args": ["lint:fix"],
       "problemMatcher": ["$eslint-stylish"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "validation"
       }
     },
     {
-      "label": "Format",
+      "label": "💅 Format",
       "type": "shell",
       "command": "pnpm",
       "args": ["format"],
       "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
+        "reveal": "silent",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "validation"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "Format Check",
+      "label": "💅 Format Check",
       "type": "shell",
       "command": "pnpm",
       "args": ["format:check"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "validation"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // TYPE CHECKING
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Type Check",
+      "label": "✅ Validate All",
       "type": "shell",
       "command": "pnpm",
-      "args": ["type-check"],
+      "args": ["validate"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "validation"
+      },
+      "problemMatcher": ["$tsc", "$eslint-stylish"]
+    },
+    {
+      "label": "🏗️ Build",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["build"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
       "problemMatcher": ["$tsc"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "build"
       }
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // TESTING
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Test (Unit)",
+      "label": "🏗️ Build (Analyze)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["build:analyze"],
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "build"
+      }
+    },
+    {
+      "label": "🧪 Test (Unit)",
       "type": "shell",
       "command": "pnpm",
       "args": ["test:unit:run"],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "testing"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "Test (Unit Watch)",
+      "label": "🧪 Test (Unit Watch)",
       "type": "shell",
       "command": "pnpm",
       "args": ["test:unit"],
@@ -131,206 +220,253 @@
       },
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "testing"
       }
     },
     {
-      "label": "Test (E2E)",
+      "label": "🧪 Test (E2E)",
       "type": "shell",
       "command": "pnpm",
       "args": ["test"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "testing"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // BUILDING
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Build",
+      "label": "🧪 Test (E2E UI)",
       "type": "shell",
       "command": "pnpm",
-      "args": ["build"],
-      "problemMatcher": ["$tsc"],
+      "args": ["test:ui"],
+      "isBackground": true,
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "testing"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // DATABASE
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "DB: Migrate",
+      "label": "🗄️ Database: Migrate",
       "type": "shell",
       "command": "pnpm",
       "args": ["db:migrate"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "database"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "DB: Generate",
+      "label": "🗄️ Database: Generate",
       "type": "shell",
       "command": "pnpm",
       "args": ["db:generate"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "database"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "DB: Seed",
+      "label": "🗄️ Database: Push",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["db:push"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "database"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🗄️ Database: Seed",
       "type": "shell",
       "command": "pnpm",
       "args": ["db:seed"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "database"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "DB: Studio",
+      "label": "🗄️ Database: Studio",
       "type": "shell",
       "command": "pnpm",
       "args": ["db:studio"],
       "isBackground": true,
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "database"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // VALIDATION & CHECKS
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Validate All",
+      "label": "🗄️ Database: Reset",
       "type": "shell",
       "command": "pnpm",
-      "args": ["validate"],
+      "args": ["db:reset"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "database"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // DOCKER
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Docker: Build",
+      "label": "🐳 Docker: Build",
       "type": "shell",
-      "command": "docker-compose",
-      "args": ["build"],
+      "command": "docker",
+      "args": ["compose", "build"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "docker"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "Docker: Up",
+      "label": "🐳 Docker: Up",
       "type": "shell",
-      "command": "docker-compose",
-      "args": ["up", "-d"],
+      "command": "docker",
+      "args": ["compose", "up", "-d"],
       "isBackground": true,
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "docker"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "Docker: Down",
+      "label": "🐳 Docker: Down",
       "type": "shell",
-      "command": "docker-compose",
-      "args": ["down"],
+      "command": "docker",
+      "args": ["compose", "down"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "docker"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "Docker: Logs",
+      "label": "🐳 Docker: Logs",
       "type": "shell",
-      "command": "docker-compose",
-      "args": ["logs", "-f"],
+      "command": "docker",
+      "args": ["compose", "logs", "-f"],
       "isBackground": true,
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "docker"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // CACHE & REDIS
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Cache: Clear",
+      "label": "🔄 Cache: Clear",
       "type": "shell",
       "command": "pnpm",
       "args": ["cache:clear"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "cache"
+      },
+      "problemMatcher": []
     },
     {
-      "label": "Cache: Stats",
+      "label": "🔄 Cache: Stats",
       "type": "shell",
       "command": "pnpm",
       "args": ["cache:stats"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "cache"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // QUEUE & WORKERS
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Queue: Worker",
+      "label": "🏥 Health: Check All",
       "type": "shell",
       "command": "pnpm",
-      "args": ["queue:worker"],
-      "isBackground": true,
+      "args": ["health:all"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "health"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // HEALTH CHECKS
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "Health: Check",
+      "label": "🧹 Clean",
       "type": "shell",
       "command": "pnpm",
-      "args": ["health:check"],
+      "args": ["clean"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "cleanup"
+      },
+      "problemMatcher": []
     },
-
-    // ═══════════════════════════════════════════════════════════════
-    // CLI TOOLS
-    // ═══════════════════════════════════════════════════════════════
     {
-      "label": "CLI: Scaffold",
+      "label": "🧹 Clean All",
       "type": "shell",
       "command": "pnpm",
-      "args": ["cli:scaffold"],
+      "args": ["clean:all"],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
-      }
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "cleanup"
+      },
+      "problemMatcher": []
     }
-  ],
-  "version": "2.0.0"
+  ]
 }

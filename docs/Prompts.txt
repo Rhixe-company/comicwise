@@ -12,8 +12,8 @@ Optimize and Validate if exists rename file to end with .backup and create an en
 Tasks:
 1 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version @eslint.config.ts to ensure it follows best practices and is properly configured for this project.
 2 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version @src/types/*.d.ts @src/types/*.ts  files with  all declarations, reference, modules, types and interfaces for this project to ensure type safety and consistency across the codebase and update all my project types to the new types delete all old or unused types files.
-3 - Update all  any types to  the correct specific types or update function to be generic with the correct specific types in all @.ts and @.tsx files across the project for better type safety and code quality.
-4 - Setup custom paths in @/tsconfig.json for better module resolution and cleaner imports throughout the project.
+3 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version of  all  any types to  the correct specific types or update function to be generic with the correct specific types in all @.ts and @.tsx files across the project for better type safety and code quality.
+4 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version of custom paths in @/tsconfig.json for better module resolution and cleaner imports throughout the project.
 5 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version @/scripts/replace-imports.ts to ensure all import and export paths are updated according to the new custom paths  defined in @/tsconfig.json.
 6 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version all scripts at @package.json and all powershell and bash scripts in @/scripts to ensure they follow best practices
 7 - Refactor and update all  @.ts, @.tsx files and functions to   use CamelCase change filename to use CamelCase where applicable for better readability and consistency.
