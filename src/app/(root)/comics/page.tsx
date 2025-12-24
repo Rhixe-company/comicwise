@@ -39,9 +39,7 @@ async function ComicsGrid({
     search: typeof searchParams.search === "string" ? searchParams.search : undefined,
     typeId: searchParams.type ? Number(searchParams.type) : undefined,
     status:
-      typeof searchParams.status === "string"
-        ? (searchParams.status as ComicStatus)
-        : undefined,
+      typeof searchParams.status === "string" ? (searchParams.status as ComicStatus) : undefined,
     sortBy: sortByParam as "latest" | "rating" | "title" | "views",
     page: searchParams.page ? Number(searchParams.page) : 1,
     limit: 12,

@@ -3,18 +3,18 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * TYPE CONSOLIDATION SCRIPT - ComicWise
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Consolidates and optimizes TypeScript type definitions
  * - Removes duplicate type declarations
  * - Identifies unused type files
  * - Validates type exports
  * - Creates optimized type index
- * 
+ *
  * @usage pnpm tsx scripts/consolidate-types.ts [--dry-run] [--verbose]
  */
 
 import chalk from "chalk";
-import { readFileSync, writeFileSync, existsSync, unlinkSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { globSync } from "glob";
 import path from "path";
 

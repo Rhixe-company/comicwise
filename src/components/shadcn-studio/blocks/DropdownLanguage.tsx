@@ -87,4 +87,3 @@ const LanguageDropdown = ({ defaultOpen, align, trigger }: Props) => {
 };
 
 export default LanguageDropdown;
-

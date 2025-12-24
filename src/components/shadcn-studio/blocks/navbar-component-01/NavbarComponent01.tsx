@@ -102,4 +102,3 @@ const Navbar = ({ navigationData }: { navigationData: NavigationItem }) => {
 };
 
 export default Navbar;
-

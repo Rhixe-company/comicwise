@@ -68,4 +68,8 @@ export type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 // ADVANCED TYPE MANIPULATION
 // ═══════════════════════════════════════════════════
 
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
+export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I
+) => void
+  ? I
+  : never;

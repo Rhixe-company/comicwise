@@ -6,8 +6,6 @@ import { db } from "#database/db";
 import { artist, author, comic, comicToGenre, genre, type } from "#schema";
 import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
 
-import type { ComicFilters } from "types";
-
 // ═══════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════
@@ -17,7 +15,7 @@ export interface AdvancedSearchFilters {
   query?: string;
   searchMode?: "simple" | "phrase" | "websearch";
   search?: string;
-  
+
   // Filters
   genres?: string[];
   genreIds?: number[];
@@ -25,21 +23,21 @@ export interface AdvancedSearchFilters {
   types?: string[];
   typeId?: number;
   status?: "ongoing" | "completed" | "hiatus" | "cancelled";
-  
+
   // Author/Artist
   authorName?: string;
   artistName?: string;
-  
+
   // Date/Year
   publicationYear?: number;
   publicationYearFrom?: number;
   publicationYearTo?: number;
-  
+
   // Rating/Views
   minRating?: number;
   minViews?: number;
   maxViews?: number;
-  
+
   // Sorting & Pagination
   sortBy?: "title" | "rating" | "views" | "latest" | "createdAt" | "publicationDate" | "relevance";
   sortOrder?: "asc" | "desc";

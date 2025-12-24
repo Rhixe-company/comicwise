@@ -174,7 +174,10 @@ export const MiniCalendarDays = ({ className, children, ...props }: MiniCalendar
   const days = getDays(startDate, dayCount);
 
   return (
-    <div className={cn("flex items-center gap-1", className)} {...(props as Record<string, unknown>)}>
+    <div
+      className={cn("flex items-center gap-1", className)}
+      {...(props as Record<string, unknown>)}
+    >
       {days.map((date) => children(date))}
     </div>
   );

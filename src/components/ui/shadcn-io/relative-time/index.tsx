@@ -121,7 +121,10 @@ export const RelativeTimeZoneDisplay = ({ className, ...props }: RelativeTimeZon
   const display = formatTime(time, zone, timeFormatOptions);
 
   return (
-    <div className={cn("pl-8 text-muted-foreground tabular-nums", className)} {...(props as Record<string, unknown>)}>
+    <div
+      className={cn("pl-8 text-muted-foreground tabular-nums", className)}
+      {...(props as Record<string, unknown>)}
+    >
       {display}
     </div>
   );

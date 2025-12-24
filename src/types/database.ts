@@ -114,7 +114,10 @@ export type ComicWithDetails = ComicWithRelations;
 
 // Partial views for specific use cases
 export type ComicWithChapters = Pick<ComicWithRelations, keyof Comic | "chapters">;
-export type ComicSearchResult = Pick<ComicWithRelations, keyof Comic | "author" | "artist" | "type" | "genres">;
+export type ComicSearchResult = Pick<
+  ComicWithRelations,
+  keyof Comic | "author" | "artist" | "type" | "genres"
+>;
 export type ChapterWithComments = Chapter & { comments?: Comment[] };
 export type UserWithStats = User & {
   bookmarkCount?: number;
@@ -145,7 +148,10 @@ export interface ComicFilters {
 // FORM INPUT TYPES (Using Omit pattern)
 // ═══════════════════════════════════════════════════
 
-export type CreateComicInput = Omit<InsertComic, "id" | "createdAt" | "updatedAt" | "views" | "rating">;
+export type CreateComicInput = Omit<
+  InsertComic,
+  "id" | "createdAt" | "updatedAt" | "views" | "rating"
+>;
 export type UpdateComicInput = Partial<CreateComicInput> & { id: number };
 
 export type CreateChapterInput = Omit<InsertChapter, "id" | "createdAt" | "views">;
@@ -167,10 +173,17 @@ export type CreateTypeInput = Omit<InsertType, "id" | "createdAt">;
 export type UpdateTypeInput = Partial<CreateTypeInput> & { id: number };
 
 export type CreateCommentInput = Omit<InsertComment, "id" | "createdAt" | "updatedAt">;
-export type UpdateCommentInput = Partial<Omit<CreateCommentInput, "userId" | "chapterId">> & { id: number };
+export type UpdateCommentInput = Partial<Omit<CreateCommentInput, "userId" | "chapterId">> & {
+  id: number;
+};
 
 export type CreateBookmarkInput = Omit<InsertBookmark, "createdAt" | "updatedAt">;
 export type UpdateBookmarkInput = Partial<Omit<CreateBookmarkInput, "userId" | "comicId">>;
 
-export type CreateReadingProgressInput = Omit<InsertReadingProgress, "id" | "createdAt" | "updatedAt" | "lastReadAt">;
-export type UpdateReadingProgressInput = Partial<Omit<CreateReadingProgressInput, "userId" | "comicId">> & { id: number };
+export type CreateReadingProgressInput = Omit<
+  InsertReadingProgress,
+  "id" | "createdAt" | "updatedAt" | "lastReadAt"
+>;
+export type UpdateReadingProgressInput = Partial<
+  Omit<CreateReadingProgressInput, "userId" | "comicId">
+> & { id: number };

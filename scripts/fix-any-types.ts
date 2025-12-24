@@ -3,13 +3,12 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * ANY TYPE FIXER - ComicWise
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Automatically fixes 'any' types with proper TypeScript types
- * 
+ *
  * @usage pnpm tsx scripts/fix-any-types.ts [--dry-run] [--fix]
  */
 
-import { execSync } from "child_process";
 import { readFileSync, writeFileSync } from "fs";
 import { globSync } from "glob";
 

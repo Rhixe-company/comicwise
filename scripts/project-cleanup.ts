@@ -3,19 +3,18 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * PROJECT CLEANUP & REFACTORING - ComicWise
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Performs comprehensive cleanup:
  * - Removes duplicate files
  * - Removes unused files
  * - Optimizes folder structure
  * - Identifies orphaned code
- * 
+ *
  * @usage pnpm tsx scripts/project-cleanup.ts [--dry-run] [--aggressive]
  */
 
-import { execSync } from "child_process";
 import chalk from "chalk";
-import { readFileSync, unlinkSync, existsSync, statSync } from "fs";
+import { statSync, unlinkSync } from "fs";
 import { globSync } from "glob";
 import path from "path";
 
@@ -148,7 +147,7 @@ console.log(chalk.yellow("Large files:"), result.largeFiles.length);
 
 if (!DRY_RUN && result.oldReports.length > 0) {
   console.log(chalk.yellow("\n🗑️  Cleaning up old report files...\n"));
-  
+
   for (const file of result.oldReports) {
     try {
       unlinkSync(file);
@@ -180,7 +179,8 @@ if (result.largeFiles.length > 0) {
 }
 
 console.log(chalk.yellow("📂 Suggested Folder Structure (Next.js 15+):"));
-console.log(chalk.gray(`
+console.log(
+  chalk.gray(`
 src/
   ├── app/                   # App Router
   │   ├── (auth)/           # Route groups
@@ -203,7 +203,8 @@ src/
   ├── hooks/               # React hooks
   ├── services/            # External services
   └── stores/              # State management
-`));
+`)
+);
 
 if (DRY_RUN) {
   console.log(chalk.yellow("\n🔍 This was a dry run. Run without --dry-run to apply cleanup.\n"));

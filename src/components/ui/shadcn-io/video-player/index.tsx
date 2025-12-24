@@ -74,7 +74,10 @@ export const VideoPlayerSeekBackwardButton = ({
   className,
   ...props
 }: VideoPlayerSeekBackwardButtonProps) => (
-  <MediaSeekBackwardButton className={cn("p-2.5", className)} {...(props as Record<string, unknown>)} />
+  <MediaSeekBackwardButton
+    className={cn("p-2.5", className)}
+    {...(props as Record<string, unknown>)}
+  />
 );
 
 export type VideoPlayerSeekForwardButtonProps = ComponentProps<typeof MediaSeekForwardButton>;
@@ -83,7 +86,10 @@ export const VideoPlayerSeekForwardButton = ({
   className,
   ...props
 }: VideoPlayerSeekForwardButtonProps) => (
-  <MediaSeekForwardButton className={cn("p-2.5", className)} {...(props as Record<string, unknown>)} />
+  <MediaSeekForwardButton
+    className={cn("p-2.5", className)}
+    {...(props as Record<string, unknown>)}
+  />
 );
 
 export type VideoPlayerMuteButtonProps = ComponentProps<typeof MediaMuteButton>;

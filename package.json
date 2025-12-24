@@ -10,22 +10,17 @@
     "build:analyze": "cross-env ANALYZE=true next build",
     "build:debug": "next build --debug",
     "build:standalone": "cross-env NEXT_OUTPUT_MODE=standalone next build",
-    
     "cache:clear": "tsx --env-file=.env.local scripts/clear-cache.ts",
     "cache:stats": "tsx --env-file=.env.local scripts/cache-stats.ts",
-    
     "check-updates": "pnpm dlx npm-check-updates --deep -i && pnpm dlx update-browserslist-db@latest",
-    
     "ci": "pnpm validate && pnpm test:unit:run",
     "ci:build": "pnpm build",
     "ci:full": "pnpm validate && pnpm test:unit:run && pnpm test && pnpm build",
     "ci:lint": "pnpm lint:strict",
     "ci:test": "pnpm test --reporter=json --reporter=html",
-    
     "clean": "rimraf .next out dist build .turbo coverage .react-email",
     "clean:all": "pnpm clean && rimraf node_modules pnpm-lock.yaml",
     "clean:cache": "rimraf .next/cache",
-    
     "cleanup": "tsx scripts/cleanup-comprehensive.ts",
     "cleanup:dry-run": "tsx scripts/cleanup-comprehensive.ts --dry-run",
     "db:check": "drizzle-kit check --config drizzle.config.ts",
@@ -220,7 +215,7 @@
     "react-image-crop": "^11.0.10",
     "react-medium-image-zoom": "^5.4.0",
     "react-resizable-panels": "^4.0.15",
-    "recharts": "3.6.0",
+    "recharts": "2.15.4",
     "server-only": "^0.0.1",
     "sharp": "^0.34.5",
     "slugify": "^1.6.6",

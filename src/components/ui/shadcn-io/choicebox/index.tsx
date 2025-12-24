@@ -1,10 +1,10 @@
 "use client";
 
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { CircleIcon } from "lucide-react";
 import { RadioGroup as RadioGroupPrimitive } from "radix-ui";
 import type { ComponentProps, HTMLAttributes } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioGroup } from "@/components/ui/radio-group";
 import { cn } from "utils";
 
 export type ChoiceboxProps = ComponentProps<typeof RadioGroup>;
@@ -48,7 +48,10 @@ export const ChoiceboxItemHeader = ({ className, ...props }: ComponentProps<type
 export type ChoiceboxItemTitleProps = ComponentProps<typeof CardTitle>;
 
 export const ChoiceboxItemTitle = ({ className, ...props }: ChoiceboxItemTitleProps) => (
-  <CardTitle className={cn("flex items-center gap-2 text-sm", className)} {...(props as Record<string, unknown>)} />
+  <CardTitle
+    className={cn("flex items-center gap-2 text-sm", className)}
+    {...(props as Record<string, unknown>)}
+  />
 );
 
 export type ChoiceboxItemSubtitleProps = HTMLAttributes<HTMLSpanElement>;

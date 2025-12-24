@@ -281,7 +281,9 @@ export async function listUsers(input?: UserFilterInput) {
     } else if (sortBy === "role") {
       usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.role) : asc(user.role));
     } else {
-      usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.createdAt) : asc(user.createdAt));
+      usersQuery = usersQuery.orderBy(
+        sortOrder === "desc" ? desc(user.createdAt) : asc(user.createdAt)
+      );
     }
 
     const results = await usersQuery.limit(limit).offset(offset);

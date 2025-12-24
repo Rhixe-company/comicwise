@@ -12,22 +12,24 @@
 ## 🚀 Quick Start
 
 \`\`\`bash
+
 # Clone and setup
-git clone <repository-url>
-cd comicwise
-pnpm install
+
+git clone <repository-url> cd comicwise pnpm install
 
 # Configure environment
+
 cp .env.example .env.local
+
 # Edit .env.local with your settings
 
 # Setup database
-pnpm db:push
-pnpm db:seed
+
+pnpm db:push pnpm db:seed
 
 # Start development
-pnpm dev
-\`\`\`
+
+pnpm dev \`\`\`
 
 Visit [http://localhost:3000](http://localhost:3000)
 
@@ -106,7 +108,7 @@ Visit [http://localhost:3000](http://localhost:3000)
 ### System Requirements
 
 - **OS**: Windows 10+, macOS 10.15+, Linux
-- **RAM**: 8GB minimum, 16GB recommended  
+- **RAM**: 8GB minimum, 16GB recommended
 - **Storage**: 5GB free space
 
 ---
@@ -116,36 +118,46 @@ Visit [http://localhost:3000](http://localhost:3000)
 ### Option 1: Docker (Recommended)
 
 \`\`\`bash
+
 # Start all services (PostgreSQL, Redis, App)
+
 docker-compose -f docker-compose.dev.yml up -d
 
 # Initialize database
-docker-compose exec app pnpm db:push
-docker-compose exec app pnpm db:seed
+
+docker-compose exec app pnpm db:push docker-compose exec app pnpm db:seed
 
 # Access services:
+
 # - App: http://localhost:3000
+
 # - PgAdmin: http://localhost:5051
+
 # - Database: localhost:5433
+
 \`\`\`
 
 ### Option 2: Local Development
 
 \`\`\`bash
+
 # 1. Install dependencies
+
 pnpm install
 
 # 2. Configure environment
+
 cp .env.example .env.local
+
 # Edit .env.local with your settings
 
 # 3. Setup database
-pnpm db:push
-pnpm db:seed
+
+pnpm db:push pnpm db:seed
 
 # 4. Start development server
-pnpm dev
-\`\`\`
+
+pnpm dev \`\`\`
 
 ---
 

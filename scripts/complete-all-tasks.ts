@@ -3,14 +3,14 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * MASTER OPTIMIZATION SCRIPT - Complete Project Transformation
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * This comprehensive script executes all 15 optimization tasks for the ComicWise project.
  * It handles ESLint, TypeScript, imports, scaffolding, documentation, and cleanup.
- * 
+ *
  * @version 3.0.0
  * @author ComicWise Optimization Team
  * @date 2025-12-24
- * 
+ *
  * Tasks:
  * 1. Validate and optimize ESLint configuration
  * 2. Validate and optimize type definitions
@@ -88,13 +88,13 @@ function logTask(taskNum: number, name: string): void {
 async function task1_validateEslint(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(1, "Validate and Optimize ESLint Configuration");
-  
+
   const spinner = ora("Validating ESLint configuration...").start();
-  
+
   try {
     const eslintPath = path.join(PROJECT_ROOT, "eslint.config.ts");
     const config = await fs.readFile(eslintPath, "utf-8");
-    
+
     // Check for proper structure
     const checks = [
       { test: config.includes("typescript-eslint"), msg: "TypeScript ESLint integration" },
@@ -102,10 +102,10 @@ async function task1_validateEslint(): Promise<TaskResult> {
       { test: config.includes("eslint-plugin-react"), msg: "React plugin" },
       { test: config.includes("eslint-config-prettier"), msg: "Prettier integration" },
     ];
-    
+
     const passed = checks.filter((c) => c.test).length;
     spinner.succeed(`ESLint validated: ${passed}/${checks.length} checks passed`);
-    
+
     return {
       id: 1,
       name: "ESLint Validation",
@@ -132,25 +132,25 @@ async function task1_validateEslint(): Promise<TaskResult> {
 async function task2_validateTypes(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(2, "Validate and Optimize Type Definitions");
-  
+
   const spinner = ora("Scanning type files...").start();
-  
+
   try {
     const typeFiles = globSync("src/types/**/*.{ts,d.ts}", {
       ignore: ["**/node_modules/**"],
     });
-    
+
     spinner.text = `Found ${typeFiles.length} type files, analyzing...`;
-    
+
     // Check for duplicate type definitions
     const typeIndex = path.join(PROJECT_ROOT, "src/types/index.ts");
     const content = await fs.readFile(typeIndex, "utf-8");
-    
+
     const hasProperExports = content.includes("export type");
     const hasWildcards = content.includes("export * from");
-    
+
     spinner.succeed(`Type system validated: ${typeFiles.length} files analyzed`);
-    
+
     return {
       id: 2,
       name: "Type Validation",
@@ -181,12 +181,12 @@ async function task2_validateTypes(): Promise<TaskResult> {
 async function task3_replaceAnyTypes(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(3, "Replace Any Types with Generics");
-  
+
   const spinner = ora("Scanning for any types...").start();
-  
+
   try {
     const result = exec("pnpm exec tsx scripts/update-any-types.ts");
-    
+
     if (result.success) {
       spinner.succeed("Any types analyzed and script ready");
       return {
@@ -225,17 +225,17 @@ async function task3_replaceAnyTypes(): Promise<TaskResult> {
 async function task4_verifyCustomPaths(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(4, "Verify Custom Paths in tsconfig.json");
-  
+
   const spinner = ora("Checking tsconfig paths...").start();
-  
+
   try {
     const tsconfigPath = path.join(PROJECT_ROOT, "tsconfig.json");
     const tsconfig = await fs.readJSON(tsconfigPath);
-    
+
     const pathCount = Object.keys(tsconfig.compilerOptions?.paths || {}).length;
-    
+
     spinner.succeed(`Custom paths verified: ${pathCount} aliases configured`);
-    
+
     return {
       id: 4,
       name: "Custom Paths Verification",
@@ -262,14 +262,14 @@ async function task4_verifyCustomPaths(): Promise<TaskResult> {
 async function task5_optimizeImports(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(5, "Optimize Import Paths");
-  
+
   const spinner = ora("Analyzing import paths...").start();
-  
+
   try {
     const result = exec("pnpm exec tsx scripts/replace-imports.ts --dry-run");
-    
+
     spinner.succeed("Import paths analyzed (dry-run completed)");
-    
+
     return {
       id: 5,
       name: "Import Optimization",
@@ -296,19 +296,21 @@ async function task5_optimizeImports(): Promise<TaskResult> {
 async function task6_validateScripts(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(6, "Validate All Scripts");
-  
+
   const spinner = ora("Validating package.json scripts...").start();
-  
+
   try {
     const packageJson = await fs.readJSON(path.join(PROJECT_ROOT, "package.json"));
     const scriptCount = Object.keys(packageJson.scripts || {}).length;
-    
+
     const scriptFiles = globSync("scripts/**/*.{ts,ps1,sh}", {
       ignore: ["**/node_modules/**"],
     });
-    
-    spinner.succeed(`Scripts validated: ${scriptCount} npm scripts, ${scriptFiles.length} script files`);
-    
+
+    spinner.succeed(
+      `Scripts validated: ${scriptCount} npm scripts, ${scriptFiles.length} script files`
+    );
+
     return {
       id: 6,
       name: "Scripts Validation",
@@ -335,17 +337,19 @@ async function task6_validateScripts(): Promise<TaskResult> {
 async function task7_analyzeCamelCase(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(7, "Analyze CamelCase Compliance");
-  
+
   const spinner = ora("Analyzing file naming conventions...").start();
-  
+
   try {
     const tsFiles = globSync("src/**/*.{ts,tsx}", {
       ignore: ["**/node_modules/**", "**/.next/**"],
     });
-    
+
     // Next.js follows specific conventions, not strict camelCase
-    spinner.succeed(`File naming analyzed: ${tsFiles.length} files (following Next.js conventions)`);
-    
+    spinner.succeed(
+      `File naming analyzed: ${tsFiles.length} files (following Next.js conventions)`
+    );
+
     return {
       id: 7,
       name: "CamelCase Analysis",
@@ -372,13 +376,13 @@ async function task7_analyzeCamelCase(): Promise<TaskResult> {
 async function task8_verifyScaffolding(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(8, "Verify Project Scaffolding");
-  
+
   const spinner = ora("Checking scaffolding system...").start();
-  
+
   try {
     const scaffoldScript = path.join(PROJECT_ROOT, "scripts/scaffold-enhanced.ts");
     const exists = await fs.pathExists(scaffoldScript);
-    
+
     if (exists) {
       spinner.succeed("Scaffolding system verified and ready");
       return {
@@ -417,17 +421,17 @@ async function task8_verifyScaffolding(): Promise<TaskResult> {
 async function task9_verifyAliases(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(9, "Verify Shell Aliases");
-  
+
   const spinner = ora("Checking shell aliases...").start();
-  
+
   try {
     const aliasScript = path.join(PROJECT_ROOT, "scripts/cw-aliases-enhanced.ps1");
     const exists = await fs.pathExists(aliasScript);
-    
+
     if (exists) {
       const content = await fs.readFile(aliasScript, "utf-8");
       const aliasCount = (content.match(/function cw-/g) || []).length;
-      
+
       spinner.succeed(`Shell aliases verified: ${aliasCount} aliases available`);
       return {
         id: 9,
@@ -465,14 +469,14 @@ async function task9_verifyAliases(): Promise<TaskResult> {
 async function task10_analyzeStructure(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(10, "Analyze and Optimize Folder Structure");
-  
+
   const spinner = ora("Analyzing project structure...").start();
-  
+
   try {
     const result = exec("pnpm exec tsx scripts/analyze-structure.ts --dry-run");
-    
+
     spinner.succeed("Structure analysis completed");
-    
+
     return {
       id: 10,
       name: "Structure Analysis",
@@ -499,19 +503,19 @@ async function task10_analyzeStructure(): Promise<TaskResult> {
 async function task11_fixErrors(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(11, "Fix Type-Check and Linting Errors");
-  
+
   const spinner = ora("Running type-check...").start();
-  
+
   try {
     spinner.text = "Checking for type errors...";
     const typeCheck = exec("pnpm type-check");
-    
+
     spinner.text = "Running linter...";
     const lint = exec("pnpm lint:fix");
-    
+
     const typeErrors = !typeCheck.success;
     const lintIssues = !lint.success;
-    
+
     if (typeErrors || lintIssues) {
       spinner.warn(`Found issues - Type errors: ${typeErrors}, Lint issues: ${lintIssues}`);
       return {
@@ -551,15 +555,15 @@ async function task11_fixErrors(): Promise<TaskResult> {
 async function task12_consolidateDocs(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(12, "Consolidate Documentation");
-  
+
   const spinner = ora("Consolidating documentation...").start();
-  
+
   try {
     const docsDir = path.join(PROJECT_ROOT, "docs");
     await fs.ensureDir(docsDir);
-    
+
     const promptFile = path.join(docsDir, "Prompt.txt");
-    
+
     const consolidatedDoc = `# ComicWise - Complete Setup Guide
 
 **Last Updated**: ${new Date().toISOString()}
@@ -619,11 +623,11 @@ pnpm deploy:vercel
 ---
 Generated by ComicWise Optimization System
 `;
-    
+
     await fs.writeFile(promptFile, consolidatedDoc);
-    
+
     spinner.succeed("Documentation consolidated successfully");
-    
+
     return {
       id: 12,
       name: "Documentation Consolidation",
@@ -650,12 +654,12 @@ Generated by ComicWise Optimization System
 async function task13_createReadme(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(13, "Create Comprehensive README");
-  
+
   const spinner = ora("Generating README.md...").start();
-  
+
   try {
     const readmePath = path.join(PROJECT_ROOT, "README.md");
-    
+
     const readme = `# ComicWise 📚
 
 > A modern, production-ready comic reading platform built with Next.js 16, React 19, and TypeScript 5
@@ -894,13 +898,13 @@ MIT License - see [LICENSE](LICENSE) file
 
 **Built with ❤️ by the ComicWise team**
 
-**Status**: ✅ Production Ready | **Version**: 3.0.0 | **Last Updated**: ${new Date().toISOString().split('T')[0]}
+**Status**: ✅ Production Ready | **Version**: 3.0.0 | **Last Updated**: ${new Date().toISOString().split("T")[0]}
 `;
-    
+
     await fs.writeFile(readmePath, readme);
-    
+
     spinner.succeed("Comprehensive README.md created");
-    
+
     return {
       id: 13,
       name: "README Creation",
@@ -927,14 +931,14 @@ MIT License - see [LICENSE](LICENSE) file
 async function task14_generateReport(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(14, "Generate Final Comprehensive Report");
-  
+
   const spinner = ora("Generating final report...").start();
-  
+
   try {
     const successCount = results.filter((r) => r.status === "success").length;
     const failedCount = results.filter((r) => r.status === "failed").length;
     const totalDuration = results.reduce((sum, r) => sum + r.duration, 0);
-    
+
     const report = `# ComicWise - Complete Optimization Report
 
 **Date**: ${new Date().toISOString()}
@@ -1048,12 +1052,12 @@ The project is fully optimized and ready for continued development and productio
 **Status**: ✅ All Tasks Completed
 **Version**: 3.0.0
 `;
-    
+
     const reportPath = path.join(PROJECT_ROOT, "COMPLETE_OPTIMIZATION_REPORT.md");
     await fs.writeFile(reportPath, report);
-    
+
     spinner.succeed("Final report generated successfully");
-    
+
     return {
       id: 14,
       name: "Final Report Generation",
@@ -1080,21 +1084,21 @@ The project is fully optimized and ready for continued development and productio
 async function task15_finalValidation(): Promise<TaskResult> {
   const startTime = Date.now();
   logTask(15, "Final Validation and Testing");
-  
+
   const spinner = ora("Running final validations...").start();
-  
+
   try {
     spinner.text = "Running type-check...";
     const typeCheck = exec("pnpm type-check");
-    
+
     spinner.text = "Running linter...";
     const lint = exec("pnpm lint");
-    
+
     spinner.text = "Checking build...";
     const build = exec("pnpm build");
-    
+
     const allPassed = typeCheck.success && lint.success && build.success;
-    
+
     if (allPassed) {
       spinner.succeed("All validations passed ✅");
       return {
@@ -1137,16 +1141,20 @@ async function task15_finalValidation(): Promise<TaskResult> {
 
 async function main(): Promise<void> {
   console.clear();
-  console.log(chalk.cyan.bold("\n╔═══════════════════════════════════════════════════════════════╗"));
+  console.log(
+    chalk.cyan.bold("\n╔═══════════════════════════════════════════════════════════════╗")
+  );
   console.log(chalk.cyan.bold("║    ComicWise - Complete Project Optimization v3.0.0          ║"));
-  console.log(chalk.cyan.bold("╚═══════════════════════════════════════════════════════════════╝\n"));
-  
+  console.log(
+    chalk.cyan.bold("╚═══════════════════════════════════════════════════════════════╝\n")
+  );
+
   if (DRY_RUN) {
     console.log(chalk.yellow("🔍 DRY RUN MODE - No changes will be made\n"));
   }
-  
+
   const globalStart = Date.now();
-  
+
   // Execute all tasks
   const tasks = [
     task1_validateEslint,
@@ -1165,7 +1173,7 @@ async function main(): Promise<void> {
     task14_generateReport,
     task15_finalValidation,
   ];
-  
+
   for (const task of tasks) {
     try {
       const result = await task();
@@ -1175,21 +1183,25 @@ async function main(): Promise<void> {
       console.error(chalk.red(`\nCritical error in task: ${error}\n`));
     }
   }
-  
+
   const totalDuration = Date.now() - globalStart;
-  
+
   // Print Summary
-  console.log(chalk.cyan.bold("\n╔═══════════════════════════════════════════════════════════════╗"));
+  console.log(
+    chalk.cyan.bold("\n╔═══════════════════════════════════════════════════════════════╗")
+  );
   console.log(chalk.cyan.bold("║                    EXECUTION SUMMARY                          ║"));
-  console.log(chalk.cyan.bold("╚═══════════════════════════════════════════════════════════════╝\n"));
-  
+  console.log(
+    chalk.cyan.bold("╚═══════════════════════════════════════════════════════════════╝\n")
+  );
+
   const successful = results.filter((r) => r.status === "success").length;
   const failed = results.filter((r) => r.status === "failed").length;
-  
+
   console.log(chalk.green(`✅ Successful: ${successful}/${results.length}`));
   console.log(chalk.red(`❌ Failed: ${failed}/${results.length}`));
   console.log(chalk.yellow(`⏱️  Total Time: ${(totalDuration / 1000).toFixed(2)}s\n`));
-  
+
   if (failed === 0) {
     console.log(chalk.green.bold("🎉 ALL TASKS COMPLETED SUCCESSFULLY!\n"));
     console.log(chalk.cyan("📄 Check COMPLETE_OPTIMIZATION_REPORT.md for details\n"));
@@ -1199,7 +1211,7 @@ async function main(): Promise<void> {
     console.log(chalk.yellow.bold(`⚠️  ${failed} task(s) need attention\n`));
     console.log(chalk.cyan("📄 Check COMPLETE_OPTIMIZATION_REPORT.md for details\n"));
   }
-  
+
   console.log(chalk.green("✨ Project optimization complete!\n"));
 }
 

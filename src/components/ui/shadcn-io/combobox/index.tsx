@@ -194,19 +194,27 @@ export const ComboboxInput = ({
 
 export type ComboboxListProps = ComponentProps<typeof CommandList>;
 
-export const ComboboxList = (props: ComboboxListProps) => <CommandList {...(props as Record<string, unknown>)} />;
+export const ComboboxList = (props: ComboboxListProps) => (
+  <CommandList {...(props as Record<string, unknown>)} />
+);
 
 export type ComboboxEmptyProps = ComponentProps<typeof CommandEmpty>;
 
 export const ComboboxEmpty = ({ children, ...props }: ComboboxEmptyProps) => {
   const { type } = useContext(ComboboxContext);
 
-  return <CommandEmpty {...(props as Record<string, unknown>)}>{children ?? `No ${type} found.`}</CommandEmpty>;
+  return (
+    <CommandEmpty {...(props as Record<string, unknown>)}>
+      {children ?? `No ${type} found.`}
+    </CommandEmpty>
+  );
 };
 
 export type ComboboxGroupProps = ComponentProps<typeof CommandGroup>;
 
-export const ComboboxGroup = (props: ComboboxGroupProps) => <CommandGroup {...(props as Record<string, unknown>)} />;
+export const ComboboxGroup = (props: ComboboxGroupProps) => (
+  <CommandGroup {...(props as Record<string, unknown>)} />
+);
 
 export type ComboboxItemProps = ComponentProps<typeof CommandItem>;
 

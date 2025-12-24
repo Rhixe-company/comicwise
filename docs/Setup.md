@@ -56,30 +56,34 @@
 
 ### 1. Clone Repository
 
-\`\`\`bash
-git clone <repository-url>
-cd comicwise
-\`\`\`
+\`\`\`bash git clone <repository-url> cd comicwise \`\`\`
 
 ### 2. Install Dependencies
 
 \`\`\`bash
+
 # Enable Corepack (if not already enabled)
+
 corepack enable
 
 # Install all dependencies
-pnpm install
-\`\`\`
+
+pnpm install \`\`\`
 
 ### 3. Environment Setup
 
 \`\`\`bash
+
 # Copy environment template
+
 cp .env.example .env.local
 
 # Edit configuration
+
 # Windows: notepad .env.local
+
 # macOS/Linux: nano .env.local
+
 \`\`\`
 
 ---
@@ -89,48 +93,50 @@ cp .env.example .env.local
 ### Required Variables
 
 \`\`\`env
+
 # Database
+
 DATABASE_URL=postgresql://user:password@localhost:5432/comicwise
 
 # Authentication
+
 NEXTAUTH_SECRET=<generate-with-openssl-rand-base64-32>
 NEXTAUTH_URL=http://localhost:3000
 
 # Email (optional but recommended)
-EMAIL_SERVER_HOST=smtp.gmail.com
-EMAIL_SERVER_PORT=587
-EMAIL_SERVER_USER=your-email@gmail.com
-EMAIL_SERVER_PASSWORD=your-app-password
-EMAIL_FROM=noreply@comicwise.com
-\`\`\`
+
+EMAIL_SERVER_HOST=smtp.gmail.com EMAIL_SERVER_PORT=587
+EMAIL_SERVER_USER=your-email@gmail.com EMAIL_SERVER_PASSWORD=your-app-password
+EMAIL_FROM=noreply@comicwise.com \`\`\`
 
 ### Optional Services
 
 \`\`\`env
+
 # OAuth Providers (optional)
+
 GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
 
-GITHUB_ID=your-github-id
-GITHUB_SECRET=your-github-secret
+GITHUB_ID=your-github-id GITHUB_SECRET=your-github-secret
 
 # Image Upload (choose one)
-CLOUDINARY_CLOUD_NAME=your-cloud-name
-CLOUDINARY_API_KEY=your-api-key
+
+CLOUDINARY_CLOUD_NAME=your-cloud-name CLOUDINARY_API_KEY=your-api-key
 CLOUDINARY_API_SECRET=your-api-secret
 
 # Or ImageKit
-IMAGEKIT_PUBLIC_KEY=your-public-key
-IMAGEKIT_PRIVATE_KEY=your-private-key
+
+IMAGEKIT_PUBLIC_KEY=your-public-key IMAGEKIT_PRIVATE_KEY=your-private-key
 IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your-id
 
 # Redis (for caching)
+
 REDIS_URL=redis://localhost:6379
 
 # QStash (for background jobs)
-QSTASH_URL=your-qstash-url
-QSTASH_TOKEN=your-qstash-token
-\`\`\`
+
+QSTASH_URL=your-qstash-url QSTASH_TOKEN=your-qstash-token \`\`\`
 
 ---
 
@@ -139,38 +145,42 @@ QSTASH_TOKEN=your-qstash-token
 ### Local PostgreSQL
 
 \`\`\`bash
+
 # Push schema to database
+
 pnpm db:push
 
 # Seed database with sample data
+
 pnpm db:seed
 
 # Open Drizzle Studio (database GUI)
-pnpm db:studio
-\`\`\`
+
+pnpm db:studio \`\`\`
 
 ### Docker PostgreSQL
 
 \`\`\`bash
+
 # Start all services (includes PostgreSQL & Redis)
+
 docker-compose -f docker-compose.dev.yml up -d
 
 # Initialize database
-docker-compose exec app pnpm db:push
-docker-compose exec app pnpm db:seed
-\`\`\`
+
+docker-compose exec app pnpm db:push docker-compose exec app pnpm db:seed \`\`\`
 
 ### Database Commands
 
-| Command | Description |
-|---------|-------------|
-| \`pnpm db:push\` | Push schema to database |
-| \`pnpm db:pull\` | Pull schema from database |
-| \`pnpm db:generate\` | Generate migrations |
-| \`pnpm db:migrate\` | Run migrations |
-| \`pnpm db:studio\` | Open Drizzle Studio |
-| \`pnpm db:seed\` | Seed database |
-| \`pnpm db:reset\` | Drop, recreate, and seed |
+| Command              | Description               |
+| -------------------- | ------------------------- |
+| \`pnpm db:push\`     | Push schema to database   |
+| \`pnpm db:pull\`     | Pull schema from database |
+| \`pnpm db:generate\` | Generate migrations       |
+| \`pnpm db:migrate\`  | Run migrations            |
+| \`pnpm db:studio\`   | Open Drizzle Studio       |
+| \`pnpm db:seed\`     | Seed database             |
+| \`pnpm db:reset\`    | Drop, recreate, and seed  |
 
 ---
 
@@ -179,94 +189,80 @@ docker-compose exec app pnpm db:seed
 ### Start Development Server
 
 \`\`\`bash
+
 # Start with Turbopack (faster)
+
 pnpm dev
 
 # Start with debugging
+
 pnpm dev:debug
 
 # Start with HTTPS
-pnpm dev:https
-\`\`\`
+
+pnpm dev:https \`\`\`
 
 ### Code Quality Checks
 
 \`\`\`bash
+
 # Type check
+
 pnpm type-check
 
 # Lint code
+
 pnpm lint
 
 # Auto-fix lint issues
+
 pnpm lint:fix
 
 # Format code
+
 pnpm format
 
 # Run all validations
-pnpm validate
-\`\`\`
+
+pnpm validate \`\`\`
 
 ### Build & Production
 
 \`\`\`bash
+
 # Build for production
+
 pnpm build
 
 # Build with bundle analysis
+
 pnpm build:analyze
 
 # Start production server
-pnpm start
-\`\`\`
+
+pnpm start \`\`\`
 
 ---
 
 ## Project Structure
 
-\`\`\`
-comicwise/
-├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── (auth)/            # Authentication pages
-│   │   ├── (root)/            # Main app routes
-│   │   ├── admin/             # Admin dashboard
-│   │   ├── api/               # API routes
-│   │   ├── layout.tsx         # Root layout
-│   │   └── page.tsx           # Home page
-│   ├── components/            # React components
-│   │   ├── ui/               # shadcn/ui components
-│   │   ├── layout/           # Layout components
-│   │   ├── admin/            # Admin components
-│   │   └── emails/           # Email templates
-│   ├── lib/                   # Utilities & helpers
-│   │   ├── actions/          # Server actions
-│   │   ├── validations/      # Zod schemas
-│   │   ├── auth.ts           # NextAuth config
-│   │   └── utils.ts          # Utility functions
-│   ├── database/             # Database layer
-│   │   ├── schema.ts         # Drizzle schema
-│   │   ├── queries/          # Database queries
-│   │   ├── mutations/        # Database mutations
-│   │   └── db.ts             # Database client
-│   ├── types/                # TypeScript types
-│   │   ├── index.ts          # Type exports
-│   │   ├── database.ts       # DB types
-│   │   └── ...               # Other types
-│   ├── hooks/                # Custom React hooks
-│   ├── services/             # External services
-│   ├── stores/               # State management
-│   └── styles/               # Global styles
-├── public/                   # Static assets
-├── scripts/                  # Build & utility scripts
-├── docs/                     # Documentation
-├── .env.local               # Environment variables
-├── next.config.ts           # Next.js config
-├── tailwind.config.ts       # Tailwind config
-├── tsconfig.json            # TypeScript config
-└── package.json             # Dependencies
-\`\`\`
+\`\`\` comicwise/ ├── src/ │ ├── app/ # Next.js App Router │ │ ├── (auth)/ #
+Authentication pages │ │ ├── (root)/ # Main app routes │ │ ├── admin/ # Admin
+dashboard │ │ ├── api/ # API routes │ │ ├── layout.tsx # Root layout │ │ └──
+page.tsx # Home page │ ├── components/ # React components │ │ ├── ui/ #
+shadcn/ui components │ │ ├── layout/ # Layout components │ │ ├── admin/ # Admin
+components │ │ └── emails/ # Email templates │ ├── lib/ # Utilities & helpers │
+│ ├── actions/ # Server actions │ │ ├── validations/ # Zod schemas │ │ ├──
+auth.ts # NextAuth config │ │ └── utils.ts # Utility functions │ ├── database/ #
+Database layer │ │ ├── schema.ts # Drizzle schema │ │ ├── queries/ # Database
+queries │ │ ├── mutations/ # Database mutations │ │ └── db.ts # Database client
+│ ├── types/ # TypeScript types │ │ ├── index.ts # Type exports │ │ ├──
+database.ts # DB types │ │ └── ... # Other types │ ├── hooks/ # Custom React
+hooks │ ├── services/ # External services │ ├── stores/ # State management │ └──
+styles/ # Global styles ├── public/ # Static assets ├── scripts/ # Build &
+utility scripts ├── docs/ # Documentation ├── .env.local # Environment variables
+├── next.config.ts # Next.js config ├── tailwind.config.ts # Tailwind config ├──
+tsconfig.json # TypeScript config └── package.json # Dependencies \`\`\`
 
 ---
 
@@ -274,36 +270,33 @@ comicwise/
 
 ### Primary Aliases (# prefix)
 
-\`\`\`typescript
-import { Button } from "#ui/button";
-import { createUser } from "#actions/users";
-import { db } from "#database/db";
-import type { User } from "#types";
-\`\`\`
+\`\`\`typescript import { Button } from "#ui/button"; import { createUser } from
+"#actions/users"; import { db } from "#database/db"; import type { User } from
+"#types"; \`\`\`
 
 ### Available Aliases
 
-| Alias | Path | Usage |
-|-------|------|-------|
-| \`#/*\` | \`./src/*\` | Core source |
-| \`#components/*\` | \`./src/components/*\` | Components |
-| \`#ui/*\` | \`./src/components/ui/*\` | UI components |
-| \`#lib/*\` | \`./src/lib/*\` | Libraries |
-| \`#actions/*\` | \`./src/lib/actions/*\` | Server actions |
-| \`#hooks/*\` | \`./src/hooks/*\` | React hooks |
-| \`#types/*\` | \`./src/types/*\` | TypeScript types |
-| \`#database/*\` | \`./src/database/*\` | Database |
-| \`#services/*\` | \`./src/services/*\` | Services |
+| Alias              | Path                       | Usage            |
+| ------------------ | -------------------------- | ---------------- |
+| \`#/\*\`           | \`./src/\*\`               | Core source      |
+| \`#components/\*\` | \`./src/components/\*\`    | Components       |
+| \`#ui/\*\`         | \`./src/components/ui/\*\` | UI components    |
+| \`#lib/\*\`        | \`./src/lib/\*\`           | Libraries        |
+| \`#actions/\*\`    | \`./src/lib/actions/\*\`   | Server actions   |
+| \`#hooks/\*\`      | \`./src/hooks/\*\`         | React hooks      |
+| \`#types/\*\`      | \`./src/types/\*\`         | TypeScript types |
+| \`#database/\*\`   | \`./src/database/\*\`      | Database         |
+| \`#services/\*\`   | \`./src/services/\*\`      | Services         |
 
 ### Short Aliases
 
-| Alias | Path |
-|-------|------|
-| \`auth\` | \`./src/lib/auth.ts\` |
-| \`db\` | \`./src/database/db.ts\` |
+| Alias      | Path                         |
+| ---------- | ---------------------------- |
+| \`auth\`   | \`./src/lib/auth.ts\`        |
+| \`db\`     | \`./src/database/db.ts\`     |
 | \`schema\` | \`./src/database/schema.ts\` |
-| \`utils\` | \`./src/lib/utils.ts\` |
-| \`types\` | \`./src/types/index.ts\` |
+| \`utils\`  | \`./src/lib/utils.ts\`       |
+| \`types\`  | \`./src/types/index.ts\`     |
 
 ---
 
@@ -312,27 +305,34 @@ import type { User } from "#types";
 ### Quick Scaffolding
 
 \`\`\`bash
+
 # Create component
+
 pnpm scaffold component UserCard
 
 # Create page
+
 pnpm scaffold page dashboard/analytics
 
 # Create API route
+
 pnpm scaffold api users
 
 # Create server action
+
 pnpm scaffold action createUser
 
 # Create hook
+
 pnpm scaffold hook useUser
 
 # Create database query
+
 pnpm scaffold query getUserById
 
 # Create type definition
-pnpm scaffold type UserProfile
-\`\`\`
+
+pnpm scaffold type UserProfile \`\`\`
 
 ### Template Types
 
@@ -355,45 +355,39 @@ pnpm scaffold type UserProfile
 #### PowerShell (Windows)
 
 \`\`\`powershell
+
 # Add to PowerShell profile
+
 . C:\\path\\to\\comicwise\\scripts\\aliases-comicwise.ps1
 
 # Or permanently
-echo ". $(Get-Location)\\scripts\\aliases-comicwise.ps1" >> $PROFILE
-\`\`\`
+
+echo ". $(Get-Location)\\scripts\\aliases-comicwise.ps1" >> $PROFILE \`\`\`
 
 #### Bash/Zsh (macOS/Linux)
 
 \`\`\`bash
+
 # Add to ~/.bashrc or ~/.zshrc
+
 source /path/to/comicwise/scripts/aliases-comicwise.sh
 
 # Or
-echo "source $(pwd)/scripts/aliases-comicwise.sh" >> ~/.bashrc
-\`\`\`
+
+echo "source $(pwd)/scripts/aliases-comicwise.sh" >> ~/.bashrc \`\`\`
 
 ### Common Aliases
 
-\`\`\`bash
-cw                  # pnpm
-cwd                 # pnpm dev
-cwb                 # pnpm build
-cws                 # pnpm start
-cwt                 # pnpm test
+\`\`\`bash cw # pnpm cwd # pnpm dev cwb # pnpm build cws # pnpm start cwt # pnpm
+test
 
-cw:db               # pnpm db:studio
-cw:db:seed          # pnpm db:seed
-cw:db:reset         # pnpm db:reset
+cw:db # pnpm db:studio cw:db:seed # pnpm db:seed cw:db:reset # pnpm db:reset
 
-cw:check            # pnpm type-check
-cw:lint             # pnpm lint
-cw:lint:fix         # pnpm lint:fix
-cw:validate         # pnpm validate
+cw:check # pnpm type-check cw:lint # pnpm lint cw:lint:fix # pnpm lint:fix
+cw:validate # pnpm validate
 
-cw:fresh            # Fresh setup (clean + install + seed)
-cw:quick:check      # Quick validation
-cw:full:check       # Full validation with tests
-\`\`\`
+cw:fresh # Fresh setup (clean + install + seed) cw:quick:check # Quick
+validation cw:full:check # Full validation with tests \`\`\`
 
 ---
 
@@ -402,15 +396,18 @@ cw:full:check       # Full validation with tests
 ### Type Checking
 
 \`\`\`bash
+
 # Check types
+
 pnpm type-check
 
 # Watch mode
+
 pnpm type-check:watch
 
 # Fix common type issues
-pnpm tsx scripts/fix-any-types.ts --dry-run
-\`\`\`
+
+pnpm tsx scripts/fix-any-types.ts --dry-run \`\`\`
 
 ### Type Organization
 
@@ -425,12 +422,10 @@ All types are centralized in \`src/types/\`:
 
 ### Import Types
 
-\`\`\`typescript
-// From centralized types
-import type { User, Comic, ApiResponse } from "types";
+\`\`\`typescript // From centralized types import type { User, Comic,
+ApiResponse } from "types";
 
-// From specific type files
-import type { ComicFilters } from "#types/database";
+// From specific type files import type { ComicFilters } from "#types/database";
 \`\`\`
 
 ---
@@ -446,21 +441,26 @@ import type { ComicFilters } from "#types/database";
 ### Commands
 
 \`\`\`bash
+
 # Lint code
+
 pnpm lint
 
 # Fix auto-fixable issues
+
 pnpm lint:fix
 
 # Strict mode (fail on warnings)
+
 pnpm lint:strict
 
 # Format code
+
 pnpm format
 
 # Check formatting
-pnpm format:check
-\`\`\`
+
+pnpm format:check \`\`\`
 
 ### Pre-commit Hooks
 
@@ -477,37 +477,46 @@ Husky runs automatically before commits:
 ### Unit Tests (Vitest)
 
 \`\`\`bash
+
 # Run unit tests
+
 pnpm test:unit
 
 # Watch mode
+
 pnpm test:unit:watch
 
 # Coverage report
+
 pnpm test:unit:coverage
 
 # UI mode
-pnpm test:unit:ui
-\`\`\`
+
+pnpm test:unit:ui \`\`\`
 
 ### E2E Tests (Playwright)
 
 \`\`\`bash
+
 # Run E2E tests
+
 pnpm test
 
 # UI mode
+
 pnpm test:ui
 
 # Debug mode
+
 pnpm test:debug
 
 # Headed mode
+
 pnpm test:headed
 
 # Generate tests
-pnpm test:codegen
-\`\`\`
+
+pnpm test:codegen \`\`\`
 
 ---
 
@@ -516,31 +525,38 @@ pnpm test:codegen
 ### Development
 
 \`\`\`bash
+
 # Start all services
+
 docker-compose -f docker-compose.dev.yml up -d
 
 # View logs
+
 docker-compose logs -f
 
 # Stop services
+
 docker-compose down
 
 # Clean up
-docker-compose down -v --remove-orphans
-\`\`\`
+
+docker-compose down -v --remove-orphans \`\`\`
 
 ### Production
 
 \`\`\`bash
+
 # Build production image
+
 docker-compose build
 
 # Start production
+
 docker-compose up -d
 
 # Health check
-docker-compose ps
-\`\`\`
+
+docker-compose ps \`\`\`
 
 ### Services
 
@@ -556,12 +572,14 @@ docker-compose ps
 ### Vercel
 
 \`\`\`bash
+
 # Deploy preview
+
 pnpm deploy:preview
 
 # Deploy production
-pnpm deploy:vercel
-\`\`\`
+
+pnpm deploy:vercel \`\`\`
 
 ### Environment Variables
 
@@ -581,42 +599,47 @@ Set these in your deployment platform:
 #### Port Already in Use
 
 \`\`\`bash
+
 # Kill process on port 3000 (Windows)
-Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess | Stop-Process
+
+Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess |
+Stop-Process
 
 # macOS/Linux
-lsof -ti:3000 | xargs kill
-\`\`\`
+
+lsof -ti:3000 | xargs kill \`\`\`
 
 #### Database Connection Failed
 
 \`\`\`bash
+
 # Check database is running
+
 pnpm health:db
 
 # Reset database
-pnpm db:reset
-\`\`\`
+
+pnpm db:reset \`\`\`
 
 #### Type Errors
 
 \`\`\`bash
+
 # Clean and rebuild
-pnpm clean
-pnpm install
-pnpm db:generate
-pnpm type-check
-\`\`\`
+
+pnpm clean pnpm install pnpm db:generate pnpm type-check \`\`\`
 
 #### Build Fails
 
 \`\`\`bash
+
 # Clean Next.js cache
+
 pnpm clean:cache
 
 # Rebuild
-pnpm build
-\`\`\`
+
+pnpm build \`\`\`
 
 ---
 
@@ -656,33 +679,27 @@ pnpm build
 
 ### Quick Setup
 
-\`\`\`
-@workspace Setup ComicWise project from scratch with all dependencies and database
-\`\`\`
+\`\`\` @workspace Setup ComicWise project from scratch with all dependencies and
+database \`\`\`
 
 ### Create Component
 
-\`\`\`
-@workspace Create a new UserProfile component in src/components with proper TypeScript types and styling
-\`\`\`
+\`\`\` @workspace Create a new UserProfile component in src/components with
+proper TypeScript types and styling \`\`\`
 
 ### Add Feature
 
-\`\`\`
-@workspace Add a new comic rating feature with database schema, API route, and UI component
-\`\`\`
+\`\`\` @workspace Add a new comic rating feature with database schema, API
+route, and UI component \`\`\`
 
 ### Fix Errors
 
-\`\`\`
-@workspace Fix all TypeScript type errors in src/components/admin
-\`\`\`
+\`\`\` @workspace Fix all TypeScript type errors in src/components/admin \`\`\`
 
 ### Optimize
 
-\`\`\`
-@workspace Optimize database queries in src/database/queries for better performance
-\`\`\`
+\`\`\` @workspace Optimize database queries in src/database/queries for better
+performance \`\`\`
 
 ---
 
@@ -704,4 +721,4 @@ pnpm build
 
 ---
 
-*Last updated: December 24, 2025*
+_Last updated: December 24, 2025_

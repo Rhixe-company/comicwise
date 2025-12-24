@@ -1,11 +1,5 @@
 "use client";
 
-import { BellIcon, ChevronDownIcon, HelpCircleIcon } from "lucide-react";
-import * as React from "react";
-import { useEffect, useRef, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
-import { Badge } from "ui/badge";
-import { Button } from "ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +15,12 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { BellIcon, ChevronDownIcon, HelpCircleIcon } from "lucide-react";
+import * as React from "react";
+import { useEffect, useRef, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
+import { Badge } from "ui/badge";
+import { Button } from "ui/button";
 import { cn } from "utils";
 
 // Simple logo component for the navbar

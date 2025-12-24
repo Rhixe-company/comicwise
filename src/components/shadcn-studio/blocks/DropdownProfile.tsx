@@ -10,7 +10,6 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
 
 interface Props {
   trigger: ReactNode;
@@ -109,4 +109,3 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
 };
 
 export default ProfileDropdown;
-

@@ -2,19 +2,20 @@ Read And understand this project, @.md, @.txt, @.ts, @.tsx, @.mjs, @.json , @.mt
 After fully understanding the project, the package manager is pnpm  and the system is windows Take into consideration github Copilot rate-limit  and  the context window of 4096 tokens.
 Perform the following  tasks the bests way if a script is needed to perform any of the tasks create the script in @/scripts and make sure to validate, optimize and run the script for performance and best practices and document the script with comments for better understanding
 Request all necessary permissions before proceeding with the tasks if needed.
-Validate and Optimize if exists rename file to end with .backup and create an enhanced version of the following files and configurations listed below:
+Please confirm if I have the necessary permissions to proceed with these tasks.
+Optimize and Validate if exists rename file to end with .backup and create an enhanced version of the following files and configurations listed below:
 1 - @.vscode/mcp.json
-2 - @.vscode/settings.json
+2 - @.vscode/extensions.json
 3 - @.vscode/launch.json
-4 - @.vscode/extensions.json
-5 - @.vscode/tasks.json
+4 - @.vscode/tasks.json
+5 - @.vscode/settings.json
 Tasks:
-1 - Validate and Optimize if exists rename file to end with .backup and create an enhanced version @eslint.config.ts to ensure it follows best practices and is properly configured for this project.
-2 - Validate and Optimize if exists rename file to end with .backup and create an enhanced version @src/types/*.d.ts @src/types/*.ts  files with  all declarations, reference, modules, types and interfaces for this project to ensure type safety and consistency across the codebase and update all my project types to the new types delete all old or unused types files.
+1 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version @eslint.config.ts to ensure it follows best practices and is properly configured for this project.
+2 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version @src/types/*.d.ts @src/types/*.ts  files with  all declarations, reference, modules, types and interfaces for this project to ensure type safety and consistency across the codebase and update all my project types to the new types delete all old or unused types files.
 3 - Update all  any types to  the correct specific types or update function to be generic with the correct specific types in all @.ts and @.tsx files across the project for better type safety and code quality.
 4 - Setup custom paths in @/tsconfig.json for better module resolution and cleaner imports throughout the project.
-5 - Validate and Optimize if exists rename file to end with .backup and create an enhanced version @/scripts/replace-imports.ts to ensure all import and export paths are updated according to the new custom paths  defined in @/tsconfig.json.
-6 - Validate and Optimize if exists rename file to end with .backup and create an enhanced version all scripts at @package.json and all powershell and bash scripts in @/scripts to ensure they follow best practices
+5 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version @/scripts/replace-imports.ts to ensure all import and export paths are updated according to the new custom paths  defined in @/tsconfig.json.
+6 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version all scripts at @package.json and all powershell and bash scripts in @/scripts to ensure they follow best practices
 7 - Refactor and update all  @.ts, @.tsx files and functions to   use CamelCase change filename to use CamelCase where applicable for better readability and consistency.
 8 - Implement easy project scaffolding with templates
 9 - Use shell aliases for lightning-fast commands
@@ -24,3 +25,4 @@ Tasks:
 13 - Create a comprehensive README.md for the project that includes setup instructions, usage guidelines, contribution instructions, and any other relevant information.
 14 - Finally create a detailed report of all the changes made during these tasks including before and after snippets where applicable for better understanding and future reference.
 15 - Make sure to validate and test each step before moving to the next. Provide the final report and updated files only after all tasks are completed successfully.Understood. I will begin by thoroughly analyzing the project structure, configuration files, and codebase to ensure a comprehensive understanding before proceeding with the tasks outlined.
+16 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version of next-auth user to reflex the users in @src/database/schema then optimized @src/components/profile/.tsx @src/app/(root)/profile/.ts and implement next-auth crud functionality with reference @src/lib/auth.ts @src/lib/auth*.ts then delete all unused @src/components that are not being used by any files in the @src/app and uninstall all its dependencys from @package.json and @pnpm-lock.yaml and finally optimize and Validate the remaining project files and configurations for best practices and performance.

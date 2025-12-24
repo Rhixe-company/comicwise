@@ -3,10 +3,10 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * MASTER OPTIMIZATION SCRIPT - ComicWise
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Comprehensive project optimization executing all 15 tasks:
  * 1. ✅ ESLint optimization
- * 2. ✅ Type consolidation  
+ * 2. ✅ Type consolidation
  * 3. ⏳ Fix 'any' types
  * 4. ✅ Custom paths setup
  * 5. ✅ Import path optimization
@@ -20,15 +20,14 @@
  * 13. ⏳ Update README.md
  * 14. ⏳ Generate final report
  * 15. ⏳ Validation and testing
- * 
+ *
  * @usage pnpm tsx scripts/master-optimization.ts [--task=<number>] [--dry-run]
  */
 
-import { execSync } from "child_process";
 import chalk from "chalk";
-import { writeFileSync, existsSync, mkdirSync, readFileSync } from "fs";
+import { execSync } from "child_process";
+import { writeFileSync } from "fs";
 import { globSync } from "glob";
-import path from "path";
 
 // ═══════════════════════════════════════════════════
 // CONFIGURATION
@@ -123,7 +122,12 @@ async function task2_typeConsolidation() {
       "Analyzing type files"
     );
     if (result.success) {
-      details.push(`  - ${result.output.split("\n").filter((l) => l.includes("type files")).join("")}`);
+      details.push(
+        `  - ${result.output
+          .split("\n")
+          .filter((l) => l.includes("type files"))
+          .join("")}`
+      );
     }
   }
 
@@ -147,7 +151,12 @@ async function task3_fixAnyTypes() {
 
       if (result.success) {
         details.push("✅ Any type analysis complete");
-        details.push(`  - ${result.output.split("\n").filter((l) => l.includes("Found")).join("")}`);
+        details.push(
+          `  - ${result.output
+            .split("\n")
+            .filter((l) => l.includes("Found"))
+            .join("")}`
+        );
       } else {
         errors.push(result.output);
       }
@@ -159,7 +168,14 @@ async function task3_fixAnyTypes() {
   }
 
   const duration = Date.now() - taskStart;
-  saveResult(3, "Fix Any Types", errors.length > 0 ? "failed" : "completed", duration, details, errors);
+  saveResult(
+    3,
+    "Fix Any Types",
+    errors.length > 0 ? "failed" : "completed",
+    duration,
+    details,
+    errors
+  );
 }
 
 async function task4_customPaths() {
@@ -192,7 +208,12 @@ async function task5_importOptimization() {
 
     if (result.success) {
       details.push("✅ Import optimization script validated");
-      details.push(`  - ${result.output.split("\n").filter((l) => l.includes("files")).join("")}`);
+      details.push(
+        `  - ${result.output
+          .split("\n")
+          .filter((l) => l.includes("files"))
+          .join("")}`
+      );
     }
   } else {
     details.push("✅ Script validated and optimized");

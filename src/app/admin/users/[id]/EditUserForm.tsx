@@ -118,11 +118,7 @@ export default async function EditUserForm({ params }: { params: { id: string } 
                 </Button>
               </form>
               <div className="flex gap-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => window.history.back()}
-                >
+                <Button type="button" variant="outline" onClick={() => window.history.back()}>
                   Cancel
                 </Button>
                 <Button type="submit">Save Changes</Button>

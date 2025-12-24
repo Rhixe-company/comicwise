@@ -120,7 +120,11 @@ export interface PillIconProps {
 }
 
 export const PillIcon = ({ icon: Icon, className, ...props }: PillIconProps) => (
-  <Icon className={cn("size-3 text-muted-foreground", className)} size={12} {...(props as Record<string, unknown>)} />
+  <Icon
+    className={cn("size-3 text-muted-foreground", className)}
+    size={12}
+    {...(props as Record<string, unknown>)}
+  />
 );
 
 export interface PillAvatarGroupProps {

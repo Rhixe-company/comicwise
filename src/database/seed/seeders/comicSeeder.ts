@@ -113,9 +113,17 @@ export class ComicSeeder {
       }
     }
 
-    const validStatuses: ComicStatus[] = ["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon"];
+    const validStatuses: ComicStatus[] = [
+      "Ongoing",
+      "Hiatus",
+      "Completed",
+      "Dropped",
+      "Coming Soon",
+    ];
     const comicStatus: ComicStatus =
-      comicData.status && validStatuses.includes(comicData.status as ComicStatus) ? (comicData.status as ComicStatus) : "Ongoing";
+      comicData.status && validStatuses.includes(comicData.status as ComicStatus)
+        ? (comicData.status as ComicStatus)
+        : "Ongoing";
 
     let comicId: number;
 

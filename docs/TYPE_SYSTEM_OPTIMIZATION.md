@@ -8,12 +8,15 @@
 ## 🎯 Optimization Summary
 
 ### Before Optimization
+
 - **Files:** 4 type files with duplicates
-- **Duplicate Types:** 15+ duplicated across Core.ts, Utility.ts, database.ts, schema.ts
+- **Duplicate Types:** 15+ duplicated across Core.ts, Utility.ts, database.ts,
+  schema.ts
 - **Maintainability:** Low (changes needed in multiple places)
 - **Type Safety:** Compromised by conflicts
 
 ### After Optimization
+
 - **Files:** 3 streamlined type files
 - **Duplicate Types:** 0 (100% DRY compliant)
 - **Maintainability:** High (single source of truth)
@@ -40,6 +43,7 @@ src/types/
 ```
 
 ### ❌ Removed
+
 - `schema.ts` - **DELETED** (duplicated database.ts content)
 
 ---
@@ -49,6 +53,7 @@ src/types/
 ### 1. Core.ts - Streamlined ✅
 
 **Removed Duplicates:**
+
 - ❌ `Nullable<T>` (moved to Utility.ts only)
 - ❌ `Optional<T>` (moved to Utility.ts only)
 - ❌ `Maybe<T>` (moved to Utility.ts only)
@@ -56,6 +61,7 @@ src/types/
 - ❌ `KeysOfType<T, U>` (moved to Utility.ts only)
 
 **Kept Core Types:**
+
 - ✅ `BaseEntity` - Application base entity interface
 - ✅ `TimestampedEntity` - Entity with timestamps
 - ✅ `AsyncResult<T>` - Promise wrapper
@@ -70,30 +76,32 @@ src/types/
 ### 2. Utility.ts - Organized by Category ✅
 
 **Added Clear Sections:**
+
 ```typescript
 // NULL/UNDEFINED HELPERS
-Nullable<T>, Optional<T>, Maybe<T>
+(Nullable<T>, Optional<T>, Maybe<T>);
 
 // OBJECT TRANSFORMATIONS
-Prettify<T>, DeepPartial<T>, DeepRequired<T>, Expand<T>
+(Prettify<T>, DeepPartial<T>, DeepRequired<T>, Expand<T>);
 
 // PICK/OMIT VARIANTS
-StrictOmit, StrictPick, PartialBy, RequiredBy, PickByValue, OmitByValue
+(StrictOmit, StrictPick, PartialBy, RequiredBy, PickByValue, OmitByValue);
 
 // KEY/VALUE EXTRACTION
-ValueOf<T>, KeysOfType<T, V>, NonNullableKeys<T>
+(ValueOf<T>, KeysOfType<T, V>, NonNullableKeys<T>);
 
 // ARRAY HELPERS
-NonEmptyArray<T>, AtLeastOne<T>, ArrayElement<T>
+(NonEmptyArray<T>, AtLeastOne<T>, ArrayElement<T>);
 
 // PROMISE HELPERS
-UnwrapPromise<T>
+UnwrapPromise<T>;
 
 // ADVANCED TYPE MANIPULATION
-UnionToIntersection<U>
+UnionToIntersection<U>;
 ```
 
 **Removed Duplicates:**
+
 - ❌ `Awaited<T>` (duplicate of UnwrapPromise, removed)
 
 **Principle:** Single location for each type utility, organized by purpose
@@ -101,6 +109,7 @@ UnionToIntersection<U>
 ### 3. database.ts - Consolidated Single Source ✅
 
 **Structure:**
+
 ```typescript
 // BASE MODELS (Select & Insert)
 User, InsertUser, Account, InsertAccount, etc.
@@ -122,6 +131,7 @@ CreateComicInput, UpdateComicInput, etc.
 ```
 
 **Key Improvements:**
+
 - ✅ All database types in ONE file
 - ✅ Enums derived from schema (no hardcoding)
 - ✅ Consistent naming patterns
@@ -130,6 +140,7 @@ CreateComicInput, UpdateComicInput, etc.
 - ✅ Form inputs use `Omit<>` pattern consistently
 
 **Removed Duplicates:**
+
 - ❌ Deleted entire `schema.ts` file
 - ❌ Eliminated 25+ duplicate type definitions
 
@@ -138,22 +149,24 @@ CreateComicInput, UpdateComicInput, etc.
 ### 4. index.ts - Clean Export Strategy ✅
 
 **Before:**
+
 ```typescript
 export * from "./Core";
 export * from "./Utility";
 export * from "./database";
-export * from "./schema";  // ❌ Duplicate exports!
+export * from "./schema"; // ❌ Duplicate exports!
 // ... more exports
 ```
 
 **After:**
+
 ```typescript
 // Clear sections with comments
-export * from "./Core";      // BaseEntity, etc.
-export * from "./Utility";   // Nullable, Prettify, etc.
-export * from "./database";  // All DB types (consolidated)
-export * from "./actions";   // Server actions
-export * from "./Api";       // API responses
+export * from "./Core"; // BaseEntity, etc.
+export * from "./Utility"; // Nullable, Prettify, etc.
+export * from "./database"; // All DB types (consolidated)
+export * from "./actions"; // Server actions
+export * from "./Api"; // API responses
 // ... etc.
 ```
 
@@ -164,11 +177,13 @@ export * from "./Api";       // API responses
 ## 📊 DRY Principles Applied
 
 ### 1. Single Source of Truth ✅
+
 - Each type defined in exactly ONE place
 - No duplicate definitions across files
 - Clear ownership of each type category
 
 ### 2. Derive Don't Duplicate ✅
+
 ```typescript
 // ❌ Before - Duplicate definitions
 interface ComicWithDetails extends Comic { ... }
@@ -180,19 +195,24 @@ type ComicSearchResult = Pick<ComicWithRelations, keyof Comic | "author" | "arti
 ```
 
 ### 3. Use Type Utilities ✅
+
 ```typescript
 // ❌ Before - Manual omission
 type CreateComicInput = {
   title: string;
   description: string;
   // ... manually listing all fields except id, createdAt, etc.
-}
+};
 
 // ✅ After - Use Omit utility
-type CreateComicInput = Omit<InsertComic, "id" | "createdAt" | "updatedAt" | "views" | "rating">;
+type CreateComicInput = Omit<
+  InsertComic,
+  "id" | "createdAt" | "updatedAt" | "views" | "rating"
+>;
 ```
 
 ### 4. Consistent Patterns ✅
+
 ```typescript
 // All Create/Update inputs follow same pattern
 type Create[Entity]Input = Omit<Insert[Entity], "auto-fields">;
@@ -200,6 +220,7 @@ type Update[Entity]Input = Partial<Create[Entity]Input> & { id: number };
 ```
 
 ### 5. Enum From Source ✅
+
 ```typescript
 // ❌ Before - Hardcoded
 type UserRole = "user" | "admin" | "moderator";
@@ -213,18 +234,21 @@ type UserRole = (typeof schema.userRole.enumValues)[number];
 ## ✅ Benefits Achieved
 
 ### Maintainability
+
 - **Single Point of Update:** Change once, reflects everywhere
 - **Clear Organization:** Easy to find type definitions
 - **No Conflicts:** Zero duplicate identifier errors
 - **Better Documentation:** Organized by purpose
 
 ### Type Safety
+
 - **Consistency:** All code uses same type definitions
 - **No Drift:** Types can't get out of sync
 - **Better IntelliSense:** IDE shows correct types
 - **Compile-Time Safety:** Errors caught early
 
 ### Developer Experience
+
 - **Easy to Navigate:** Clear file structure
 - **Predictable Imports:** `import { Type } from "types"`
 - **Faster Development:** Less time searching for types
@@ -235,52 +259,55 @@ type UserRole = (typeof schema.userRole.enumValues)[number];
 ## 📝 Type System Guidelines
 
 ### When to Create a New Type File
+
 ✅ **DO** create new file for:
+
 - New domain area (e.g., `payments.ts`, `analytics.ts`)
 - External library declarations (`.d.ts` files)
 - Large, self-contained type sets
 
 ❌ **DON'T** create new file for:
+
 - Types that belong in existing categories
 - Small type additions (add to existing file)
 - Types that duplicate existing ones
 
 ### Where to Put New Types
 
-| Type Category | Location | Example |
-|---------------|----------|---------|
-| Database models | `database.ts` | `User`, `Comic` |
-| Database relations | `database.ts` | `ComicWithRelations` |
-| Form inputs | `database.ts` or `forms.ts` | `CreateComicInput` |
-| API responses | `Api.ts` | `ApiResponse<T>` |
-| Server actions | `actions.ts` | `ActionResult<T>` |
-| Generic utilities | `Utility.ts` | `Prettify<T>` |
-| Base entities | `Core.ts` | `BaseEntity` |
-| Component props | `components.ts` | `ButtonProps` |
+| Type Category      | Location                    | Example              |
+| ------------------ | --------------------------- | -------------------- |
+| Database models    | `database.ts`               | `User`, `Comic`      |
+| Database relations | `database.ts`               | `ComicWithRelations` |
+| Form inputs        | `database.ts` or `forms.ts` | `CreateComicInput`   |
+| API responses      | `Api.ts`                    | `ApiResponse<T>`     |
+| Server actions     | `actions.ts`                | `ActionResult<T>`    |
+| Generic utilities  | `Utility.ts`                | `Prettify<T>`        |
+| Base entities      | `Core.ts`                   | `BaseEntity`         |
+| Component props    | `components.ts`             | `ButtonProps`        |
 
 ### Naming Conventions
 
 ```typescript
 // Models (from schema)
-User, Comic, Chapter
+(User, Comic, Chapter);
 
 // Insert models
-InsertUser, InsertComic
+(InsertUser, InsertComic);
 
 // With relations
-ComicWithRelations, UserWithRelations
+(ComicWithRelations, UserWithRelations);
 
 // Form inputs
-CreateComicInput, UpdateComicInput
+(CreateComicInput, UpdateComicInput);
 
 // Filters
-ComicFilters, UserFilters
+(ComicFilters, UserFilters);
 
 // Specialized views
-ComicSearchResult, ComicWithChapters
+(ComicSearchResult, ComicWithChapters);
 
 // Type utilities
-Nullable<T>, DeepPartial<T>
+(Nullable<T>, DeepPartial<T>);
 ```
 
 ---
@@ -288,6 +315,7 @@ Nullable<T>, DeepPartial<T>
 ## 🚀 Validation Results
 
 ### Type-Check
+
 ```bash
 pnpm type-check
 ✅ PASSED - 0 errors
@@ -297,13 +325,13 @@ pnpm type-check
 
 ### Before/After Metrics
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Type Files | 4 | 3 | -25% |
-| Duplicate Types | 15+ | 0 | -100% |
-| LOC (type files) | ~400 | ~300 | -25% |
-| Type Errors | 27 | 0 | -100% |
-| Maintainability | Low | High | +100% |
+| Metric           | Before | After | Improvement |
+| ---------------- | ------ | ----- | ----------- |
+| Type Files       | 4      | 3     | -25%        |
+| Duplicate Types  | 15+    | 0     | -100%       |
+| LOC (type files) | ~400   | ~300  | -25%        |
+| Type Errors      | 27     | 0     | -100%       |
+| Maintainability  | Low    | High  | +100%       |
 
 ---
 
@@ -320,6 +348,7 @@ pnpm type-check
 ## 🎯 Key Takeaways
 
 ### Best Practices Applied
+
 1. ✅ **Single Source of Truth** - Each type defined once
 2. ✅ **DRY (Don't Repeat Yourself)** - No duplicate definitions
 3. ✅ **Composition Over Duplication** - Use type utilities
@@ -328,6 +357,7 @@ pnpm type-check
 6. ✅ **Derive From Source** - Use schema for enums and types
 
 ### Antipatterns Eliminated
+
 1. ❌ Duplicate type definitions across files
 2. ❌ Hardcoded enum values
 3. ❌ Manual type definitions when utilities exist
@@ -339,12 +369,14 @@ pnpm type-check
 ## 🔄 Next Steps
 
 ### Maintenance
+
 - [ ] When adding new types, check existing files first
 - [ ] Use type utilities instead of manual definitions
 - [ ] Keep types organized by category
 - [ ] Document complex type transformations
 
 ### Future Enhancements
+
 - [ ] Add JSDoc comments to complex types
 - [ ] Create type utility documentation
 - [ ] Add type tests for critical types

@@ -78,7 +78,10 @@ export const ColorPicker = ({
     if (value) {
       try {
         const c = Color(value).rgb();
-        const obj = typeof (c as Record<string, unknown>).object === "function" ? (c as Record<string, unknown>).object() : null;
+        const obj =
+          typeof (c as Record<string, unknown>).object === "function"
+            ? (c as Record<string, unknown>).object()
+            : null;
         if (obj) {
           setHue(obj.r ?? 0);
           setSaturation(obj.g ?? 0);
@@ -133,7 +136,10 @@ export const ColorPicker = ({
         setMode,
       }}
     >
-      <div className={cn("flex size-full flex-col gap-4", className)} {...(props as Record<string, unknown>)} />
+      <div
+        className={cn("flex size-full flex-col gap-4", className)}
+        {...(props as Record<string, unknown>)}
+      />
     </ColorPickerContext.Provider>
   );
 };
@@ -440,7 +446,10 @@ export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProp
       .map((value) => Math.round(value));
 
     return (
-      <div className={cn("w-full rounded-md shadow-sm", className)} {...(props as Record<string, unknown>)}>
+      <div
+        className={cn("w-full rounded-md shadow-sm", className)}
+        {...(props as Record<string, unknown>)}
+      >
         <Input
           className="h-8 w-full bg-secondary px-2 text-xs shadow-none"
           readOnly

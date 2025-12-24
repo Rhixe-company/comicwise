@@ -6,7 +6,6 @@ import {
   IconLogout,
   IconNotification,
   IconUserCircle,
-  type Icon,
 } from "@tabler/icons-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -101,4 +100,3 @@ export function NavUser({
     </SidebarMenu>
   );
 }
-
