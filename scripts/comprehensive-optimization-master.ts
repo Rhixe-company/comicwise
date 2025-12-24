@@ -2,7 +2,7 @@
  * ═══════════════════════════════════════════════════════════════
  * COMICWISE - COMPREHENSIVE PROJECT OPTIMIZATION SCRIPT
  * ═══════════════════════════════════════════════════════════════
- * 
+ *
  * This script performs all optimization tasks requested:
  * 1. VS Code configuration files ✅ COMPLETED
  * 2. ESLint configuration optimization
@@ -60,7 +60,7 @@ class ProjectOptimizer {
   constructor() {
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
     this.backupDir = path.join(ROOT_DIR, `.optimization-backup-${timestamp}`);
-    
+
     this.report = {
       tasks: this.initializeTasks(),
       startTime: new Date(),
@@ -200,7 +200,7 @@ class ProjectOptimizer {
     console.log(chalk.green(`✓ Backup directory created: ${this.backupDir}`));
     console.log("");
 
-    const tasksToRun = options.tasks 
+    const tasksToRun = options.tasks
       ? this.report.tasks.filter((t) => options.tasks!.includes(t.id))
       : this.report.tasks;
 
@@ -301,10 +301,10 @@ class ProjectOptimizer {
     // Backup existing config
     const eslintConfig = path.join(ROOT_DIR, "eslint.config.ts");
     const eslintBackup = path.join(ROOT_DIR, "eslint.config.backup.ts");
-    
+
     await fs.copy(eslintConfig, eslintBackup);
     this.report.filesModified.push("eslint.config.ts");
-    
+
     // Enhanced ESLint configuration will be created separately
   }
 
@@ -380,7 +380,7 @@ class ProjectOptimizer {
 
   private async generateReport(): Promise<void> {
     this.report.endTime = new Date();
-    
+
     const reportPath = path.join(ROOT_DIR, "docs", "OPTIMIZATION_REPORT.md");
     await fs.ensureDir(path.dirname(reportPath));
 
@@ -403,9 +403,14 @@ class ProjectOptimizer {
 
     reportContent += `## Detailed Task Status\n\n`;
     for (const task of this.report.tasks) {
-      const icon = task.status === "completed" ? "✅" : 
-                   task.status === "failed" ? "❌" : 
-                   task.status === "skipped" ? "⊘" : "⏳";
+      const icon =
+        task.status === "completed"
+          ? "✅"
+          : task.status === "failed"
+            ? "❌"
+            : task.status === "skipped"
+              ? "⊘"
+              : "⏳";
       reportContent += `### ${icon} ${task.name}\n`;
       reportContent += `**Status:** ${task.status}\n`;
       reportContent += `**Description:** ${task.description}\n\n`;
