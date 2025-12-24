@@ -5,30 +5,30 @@
     "esbenp.prettier-vscode",
     "ms-vscode.vscode-typescript-next",
     "stateful.runme",
-    
+
     // Framework & Libraries
     "bradlc.vscode-tailwindcss",
     "dsznajder.es7-react-js-snippets",
     "burkeholland.simple-react-snippets",
     "styled-components.vscode-styled-components",
-    
+
     // Database
     "drizzle-team.drizzle-vscode",
     "cweijan.vscode-postgresql-client2",
     "redis.redis-for-vscode",
-    
+
     // Testing
     "orta.vscode-jest",
     "vitest.explorer",
     "ms-playwright.playwright",
     "hbenl.vscode-test-explorer",
-    
+
     // Git & Version Control
     "eamodio.gitlens",
     "mhutchie.git-graph",
     "donjayamanne.githistory",
     "github.vscode-pull-request-github",
-    
+
     // Code Quality & Analysis
     "streetsidesoftware.code-spell-checker",
     "usernamehw.errorlens",
@@ -37,7 +37,7 @@
     "wayou.vscode-todo-highlight",
     "gruntfuggly.todo-tree",
     "sonarqube.sonarlint-vscode",
-    
+
     // Productivity
     "formulahendry.auto-rename-tag",
     "formulahendry.auto-close-tag",
@@ -46,52 +46,52 @@
     "editorconfig.editorconfig",
     "wix.vscode-import-cost",
     "pflannery.vscode-versionlens",
-    
+
     // Docker & DevOps
     "ms-azuretools.vscode-docker",
     "ms-vscode-remote.remote-containers",
     "ms-vscode-remote.remote-ssh",
-    
+
     // API & GraphQL
     "humao.rest-client",
     "graphql.vscode-graphql",
     "apollographql.vscode-apollo",
-    
+
     // Documentation
     "yzhang.markdown-all-in-one",
     "bierner.markdown-mermaid",
     "bierner.markdown-preview-github-styles",
     "davidanson.vscode-markdownlint",
-    
+
     // Config Files
     "redhat.vscode-yaml",
     "tamasfe.even-better-toml",
     "mikestead.dotenv",
-    
+
     // UI/UX
     "pkief.material-icon-theme",
     "antfu.icons-carbon",
     "oderwat.indent-rainbow",
     "naumovs.color-highlight",
     "pranaygp.vscode-css-peek",
-    
+
     // AI & Copilot
     "github.copilot",
     "github.copilot-chat",
-    
+
     // Scripting
     "ms-vscode.powershell",
-    
+
     // i18n
     "lokalise.i18n-ally",
-    
+
     // Performance & Monitoring
     "wix.glean",
     "quicktype.quicktype",
-    
+
     // Security
     "snyk-security.snyk-vulnerability-scanner",
-    
+
     // Additional Utilities
     "chakrounanas.turbo-console-log",
     "steoates.autoimport",

@@ -4,8 +4,8 @@ Perform the following  tasks the bests way if a script is needed to perform any 
 Request all necessary permissions before proceeding with the tasks if needed.
 Please confirm if I have the necessary permissions to proceed with these tasks.
 Optimize and Validate if exists rename file to end with .backup and create an enhanced version of the following files and configurations listed below:
-1 - @.vscode/mcp.json
-2 - @.vscode/extensions.json
+1 - @.vscode/mcp.json #start all servers
+2 - @.vscode/extensions.json #dont install depreciated extensions
 3 - @.vscode/launch.json
 4 - @.vscode/tasks.json
 5 - @.vscode/settings.json

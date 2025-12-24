@@ -75,18 +75,6 @@ CREATE TABLE "chapterImage" (
 	"createdAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "chapters" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"comicId" integer NOT NULL,
-	"title" varchar(512) NOT NULL,
-	"slug" varchar(512) NOT NULL,
-	"content" text,
-	"number" integer NOT NULL,
-	"published" boolean DEFAULT false NOT NULL,
-	"createdAt" timestamp DEFAULT now() NOT NULL,
-	"updatedAt" timestamp DEFAULT now() NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE "comic" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"title" text NOT NULL,
@@ -119,17 +107,6 @@ CREATE TABLE "comicToGenre" (
 	"comicId" integer NOT NULL,
 	"genreId" integer NOT NULL,
 	CONSTRAINT "comicToGenre_comicId_genreId_pk" PRIMARY KEY("comicId","genreId")
-);
---> statement-breakpoint
-CREATE TABLE "comics" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"title" varchar(512) NOT NULL,
-	"slug" varchar(512) NOT NULL,
-	"description" text,
-	"authorId" integer,
-	"published" boolean DEFAULT false NOT NULL,
-	"createdAt" timestamp DEFAULT now() NOT NULL,
-	"updatedAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "comment" (
@@ -199,15 +176,6 @@ CREATE TABLE "user" (
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-CREATE TABLE "users" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"email" varchar(320) NOT NULL,
-	"name" text,
-	"password_hash" text,
-	"createdAt" timestamp DEFAULT now() NOT NULL,
-	"updatedAt" timestamp DEFAULT now() NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE "verificationToken" (
 	"identifier" text NOT NULL,
 	"token" text NOT NULL,
@@ -222,14 +190,12 @@ ALTER TABLE "bookmark" ADD CONSTRAINT "bookmark_comicId_comic_id_fk" FOREIGN KEY
 ALTER TABLE "bookmark" ADD CONSTRAINT "bookmark_lastReadChapterId_chapter_id_fk" FOREIGN KEY ("lastReadChapterId") REFERENCES "public"."chapter"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "chapter" ADD CONSTRAINT "chapter_comicId_comic_id_fk" FOREIGN KEY ("comicId") REFERENCES "public"."comic"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "chapterImage" ADD CONSTRAINT "chapterImage_chapterId_chapter_id_fk" FOREIGN KEY ("chapterId") REFERENCES "public"."chapter"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "chapters" ADD CONSTRAINT "chapters_comicId_comics_id_fk" FOREIGN KEY ("comicId") REFERENCES "public"."comics"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "comic" ADD CONSTRAINT "comic_authorId_author_id_fk" FOREIGN KEY ("authorId") REFERENCES "public"."author"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "comic" ADD CONSTRAINT "comic_artistId_artist_id_fk" FOREIGN KEY ("artistId") REFERENCES "public"."artist"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "comic" ADD CONSTRAINT "comic_typeId_type_id_fk" FOREIGN KEY ("typeId") REFERENCES "public"."type"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "comicImage" ADD CONSTRAINT "comicImage_comicId_comic_id_fk" FOREIGN KEY ("comicId") REFERENCES "public"."comic"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "comicToGenre" ADD CONSTRAINT "comicToGenre_comicId_comic_id_fk" FOREIGN KEY ("comicId") REFERENCES "public"."comic"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "comicToGenre" ADD CONSTRAINT "comicToGenre_genreId_genre_id_fk" FOREIGN KEY ("genreId") REFERENCES "public"."genre"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "comics" ADD CONSTRAINT "comics_authorId_users_id_fk" FOREIGN KEY ("authorId") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "comment" ADD CONSTRAINT "comment_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "comment" ADD CONSTRAINT "comment_chapterId_chapter_id_fk" FOREIGN KEY ("chapterId") REFERENCES "public"."chapter"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "readingProgress" ADD CONSTRAINT "readingProgress_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
