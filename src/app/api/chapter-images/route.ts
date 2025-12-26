@@ -14,10 +14,10 @@ import {
   createChapterImages,
   deleteChapterImage,
   updateChapterImage,
-} from "mutations/chapterImages";
+} from "database/mutations/chapterImages";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getChapterImages } from "queries/chapterImages";
+import { getChapterImages } from "database/queries/chapterImages";
 
 // ═══════════════════════════════════════════════════
 // GET - List Chapter Images

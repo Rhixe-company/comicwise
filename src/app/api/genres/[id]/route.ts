@@ -9,9 +9,9 @@ import {
   zodToValidationResult,
 } from "lib/genericCrud";
 import { genreIdSchema, updateGenreSchema } from "lib/validations";
-import { deleteGenre, updateGenre } from "mutations/genres";
+import { deleteGenre, updateGenre } from "database/mutations/genres";
 import type { NextRequest } from "next/server";
-import { getGenreById } from "queries/genres";
+import { getGenreById } from "database/queries/genres";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

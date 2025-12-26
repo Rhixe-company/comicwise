@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable typescript-eslint/no-unsafe-assignment */
 // ESLint 9.x Flat Config for Next.js 16 + React 19 + TypeScript 5
 import css from "@eslint/css";
 import js from "@eslint/js";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
-import eslintNextPlugin from "@next/eslint-plugin-next";
-import typescript from "@typescript-eslint/eslint-plugin";
-import typescriptParser from "@typescript-eslint/parser";
+import eslintNextPlugin from "next/eslint-plugin-next";
+import typescript from "typescript-eslint/eslint-plugin";
+import typescriptParser from "typescript-eslint/parser";
 import prettierConfig from "eslint-config-prettier/flat";
 import pluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
 import * as pluginDrizzle from "eslint-plugin-drizzle";
@@ -28,8 +28,8 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 const eslintPlugins = {
-  "@next/next": eslintNextPlugin,
-  "@typescript-eslint": typescript as any,
+  "next/next": eslintNextPlugin,
+  "typescript-eslint": typescript as any,
   zod: zod as any,
   "react-hooks": pluginReactHooks as any,
   "jsx-a11y": jsxA11y,
@@ -82,40 +82,40 @@ const eslintRules = {
   "rest-spread-spacing": "error",
   "template-tag-spacing": "error",
 
-  "@next/next/no-html-link-for-pages": "warn",
-  "@next/next/no-img-element": "warn",
-  "@next/next/no-page-custom-font": "error",
-  "@next/next/no-sync-scripts": "error",
-  "@next/next/no-css-tags": "error",
+  "next/next/no-html-link-for-pages": "warn",
+  "next/next/no-img-element": "warn",
+  "next/next/no-page-custom-font": "error",
+  "next/next/no-sync-scripts": "error",
+  "next/next/no-css-tags": "error",
 
-  "@typescript-eslint/no-unused-vars": [
+  "typescript-eslint/no-unused-vars": [
     "warn",
     { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
   ],
-  "@typescript-eslint/no-explicit-any": "warn",
-  "@typescript-eslint/explicit-module-boundary-types": "warn",
-  "@typescript-eslint/no-floating-promises": "warn",
-  "@typescript-eslint/no-misused-promises": [
+  "typescript-eslint/no-explicit-any": "warn",
+  "typescript-eslint/explicit-module-boundary-types": "warn",
+  "typescript-eslint/no-floating-promises": "warn",
+  "typescript-eslint/no-misused-promises": [
     "warn",
     { checksVoidReturn: false, checksConditionals: false },
   ],
-  "@typescript-eslint/no-unsafe-assignment": "warn",
-  "@typescript-eslint/no-unsafe-call": "warn",
-  "@typescript-eslint/no-unsafe-member-access": "warn",
-  "@typescript-eslint/no-unsafe-return": "warn",
-  "@typescript-eslint/await-thenable": "error",
-  "@typescript-eslint/no-unnecessary-type-assertion": "warn",
-  "@typescript-eslint/prefer-nullish-coalescing": "warn",
-  "@typescript-eslint/prefer-optional-chain": "warn",
-  "@typescript-eslint/prefer-as-const": "error",
-  "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
-  "@typescript-eslint/consistent-type-imports": [
+  "typescript-eslint/no-unsafe-assignment": "warn",
+  "typescript-eslint/no-unsafe-call": "warn",
+  "typescript-eslint/no-unsafe-member-access": "warn",
+  "typescript-eslint/no-unsafe-return": "warn",
+  "typescript-eslint/await-thenable": "error",
+  "typescript-eslint/no-unnecessary-type-assertion": "warn",
+  "typescript-eslint/prefer-nullish-coalescing": "warn",
+  "typescript-eslint/prefer-optional-chain": "warn",
+  "typescript-eslint/prefer-as-const": "error",
+  "typescript-eslint/consistent-type-definitions": ["warn", "interface"],
+  "typescript-eslint/consistent-type-imports": [
     "warn",
     { prefer: "type-imports", fixStyle: "separate-type-imports" },
   ],
-  "@typescript-eslint/no-non-null-assertion": "warn",
-  "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
-  "@typescript-eslint/naming-convention": [
+  "typescript-eslint/no-non-null-assertion": "warn",
+  "typescript-eslint/no-non-null-asserted-optional-chain": "warn",
+  "typescript-eslint/naming-convention": [
     "error",
     { selector: "import", format: ["camelCase", "PascalCase"] },
     {
@@ -128,12 +128,12 @@ const eslintRules = {
     { selector: "typeLike", format: ["PascalCase"] },
     { selector: "enumMember", format: ["PascalCase", "UPPER_CASE"] },
   ],
-  "@typescript-eslint/no-require-imports": "warn",
-  "@typescript-eslint/prefer-function-type": "warn",
-  "@typescript-eslint/unified-signatures": "warn",
-  "@typescript-eslint/method-signature-style": ["warn", "method"],
-  "@typescript-eslint/no-duplicate-enum-values": "error",
-  "@typescript-eslint/no-invalid-void-type": "error",
+  "typescript-eslint/no-require-imports": "warn",
+  "typescript-eslint/prefer-function-type": "warn",
+  "typescript-eslint/unified-signatures": "warn",
+  "typescript-eslint/method-signature-style": ["warn", "method"],
+  "typescript-eslint/no-duplicate-enum-values": "error",
+  "typescript-eslint/no-invalid-void-type": "error",
 
   "react/react-in-jsx-scope": "warn",
   "react/prop-types": "warn",
@@ -315,7 +315,7 @@ const eslintSettings = {
     },
   },
   "better-tailwindcss": {
-    entryPoint: "src/styles/globals.css",
+    entryPoint: "styles/globals.css",
     tailwindConfig: "",
     attributes: ["class", "className"],
     callees: [
@@ -393,17 +393,17 @@ const eslintConfig: Config[] = defineConfig([
   {
     files: ["**/*.d.ts"],
     rules: {
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unused-vars": "off",
+      "typescript-eslint/no-explicit-any": "off",
+      "typescript-eslint/no-unused-vars": "off",
     },
   },
   // Config files
   {
     files: ["*.config.{js,ts,mjs,cjs}", "next.config.ts", "tailwind.config.ts"],
     rules: {
-      "@typescript-eslint/no-var-requires": "warn",
+      "typescript-eslint/no-var-requires": "warn",
       "import/no-default-export": "off",
-      "@typescript-eslint/no-explicit-any": "off",
+      "typescript-eslint/no-explicit-any": "off",
       "unicorn/prevent-abbreviations": "off",
     },
   },
@@ -411,14 +411,14 @@ const eslintConfig: Config[] = defineConfig([
   // Next.js app directory - allow default exports
   {
     files: [
-      "src/app/**/page.tsx",
-      "src/app/**/layout.tsx",
-      "src/app/**/loading.tsx",
-      "src/app/**/error.tsx",
-      "src/app/**/not-found.tsx",
-      "src/app/**/template.tsx",
-      "src/app/**/default.tsx",
-      "src/app/**/route.ts",
+      "app/**/page.tsx",
+      "app/**/layout.tsx",
+      "app/**/loading.tsx",
+      "app/**/error.tsx",
+      "app/**/not-found.tsx",
+      "app/**/template.tsx",
+      "app/**/default.tsx",
+      "app/**/route.ts",
     ],
     rules: {
       "import/no-default-export": "off",
@@ -431,9 +431,9 @@ const eslintConfig: Config[] = defineConfig([
     files: ["scripts/**/*.{ts,mts,cts,js,mjs,cjs}"],
     rules: {
       "no-console": "off",
-      "@typescript-eslint/no-explicit-any": "off",
+      "typescript-eslint/no-explicit-any": "off",
       "unicorn/prevent-abbreviations": "off",
-      "@typescript-eslint/no-var-requires": "off",
+      "typescript-eslint/no-var-requires": "off",
     },
   },
   // JSON files
@@ -476,7 +476,7 @@ const eslintConfig: Config[] = defineConfig([
     "**/drizzle/**",
     "**/coverage/**",
     "**/.turbo/**",
-    "src/styles/globals.css",
+    "styles/globals.css",
     "**/docs/**",
   ]),
 ]);

@@ -1,4 +1,4 @@
-import { useConfirmDialog } from "admin/ConfirmDialog";
+import { useConfirmDialog } from "components/admin/ConfirmDialog";
 import { ChevronLeft, ChevronRight, Edit2, Eye, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

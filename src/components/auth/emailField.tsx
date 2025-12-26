@@ -15,7 +15,7 @@ export interface EmailFieldProps {
 export function EmailField({
   name = "email",
   label = "Email",
-  placeholder = "name@example.com",
+  placeholder = "nameexample.com",
   disabled = false,
   autoComplete = "email",
 }: EmailFieldProps) {

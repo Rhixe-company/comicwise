@@ -11,7 +11,7 @@ import { createSlug, normalizeDate, validateArray } from "database/seed/utils/he
 import type { MetadataCache } from "database/seed/utils/metadataCache";
 import type { ComicSeed } from "lib/validations";
 import { imageService } from "services/imageService";
-import type { ComicStatus } from "types/database";
+import type { ComicStatus } from "/typesdatabase";
 import { comicSeedSchema } from "validations/index";
 
 /**
@@ -25,8 +25,8 @@ export class ComicSeeder {
 
   /**
    *
-   * @param metadataCache
-   * @param options
+   * param metadataCache
+   * param options
    */
   constructor(metadataCache: MetadataCache, options: SeedConfig["options"]) {
     this.metadataCache = metadataCache;
@@ -39,7 +39,7 @@ export class ComicSeeder {
 
   /**
    *
-   * @param comics
+   * param comics
    */
   async seed(comics: ComicSeed[]): Promise<void> {
     // Validate data before processing
@@ -226,7 +226,7 @@ export class ComicSeeder {
 
   /**
    *
-   * @param slug
+   * param slug
    */
   getComicIdBySlug(slug: string): number | undefined {
     return this.comicSlugCache.get(slug);

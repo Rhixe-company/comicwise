@@ -5,10 +5,10 @@
 import { auth } from "auth";
 import bcrypt from "bcryptjs";
 import { createUserSchema, userFilterSchema } from "lib/validations";
-import { createUser } from "mutations/users";
+import { createUser } from "database/mutations/users";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getAllUsers } from "queries/users";
+import { getAllUsers } from "database/queries/users";
 
 // ═══════════════════════════════════════════════════
 // GET - List Users with Filtering & Pagination

@@ -1,6 +1,6 @@
 "use client";
 
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { useControllableState } from "radix-ui/react-use-controllable-state";
 import type { HTMLAttributes } from "react";
 import { createContext, useContext, useEffect } from "react";
 import { cn } from "utils";

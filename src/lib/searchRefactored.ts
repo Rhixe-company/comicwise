@@ -94,7 +94,7 @@ interface SearchConditions {
 
 /**
  *
- * @param filters
+ * param filters
  */
 export async function searchComics(filters: AdvancedSearchFilters = {}): Promise<SearchResponse> {
   const {
@@ -152,7 +152,7 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
 
   const sortedQuery = applySorting(query, sortBy, sortOrder, !!searchText);
   const offset = (page - 1) * limit;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line typescript-eslint/no-explicit-any
   const results = await (sortedQuery as any).limit(limit).offset(offset);
 
   const total = await getSearchTotalCount(conditions.all);
@@ -222,9 +222,9 @@ function addTextSearchCondition(
   const tsquery = buildSearchQuery(searchText, searchMode || "websearch");
   conditions.textSearch.push(
     or(
-      sql`${comic.searchVector} @@ to_tsquery('english', ${tsquery})`,
-      sql`${author.searchVector} @@ to_tsquery('english', ${tsquery})`,
-      sql`${artist.searchVector} @@ to_tsquery('english', ${tsquery})`
+      sql`${comic.searchVector}  to_tsquery('english', ${tsquery})`,
+      sql`${author.searchVector}  to_tsquery('english', ${tsquery})`,
+      sql`${artist.searchVector}  to_tsquery('english', ${tsquery})`
     )
   );
 }
@@ -374,7 +374,7 @@ function applySorting(
   hasSearchQuery: boolean
 ): unknown {
   const isDesc = sortOrder === "desc";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line typescript-eslint/no-explicit-any
   const q = query as any;
 
   switch (sortBy) {
@@ -410,7 +410,7 @@ function applySorting(
 // ═══════════════════════════════════════════════════
 
 function enrichSearchResult(result: unknown, genresMap: Record<number, string[]>): SearchResult {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line typescript-eslint/no-explicit-any
   const r = result as any;
   return {
     id: Number(r.id) || 0,
@@ -470,7 +470,7 @@ async function getSearchTotalCount(conditions: unknown[]): Promise<number> {
     .$dynamic();
 
   if (conditions.length > 0) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line typescript-eslint/no-explicit-any
     countQuery = countQuery.where(and(...(conditions as any)));
   }
 
@@ -511,8 +511,8 @@ async function getComicGenres(comicIds: number[]): Promise<Record<number, string
 
 /**
  *
- * @param query
- * @param limit
+ * param query
+ * param limit
  */
 export async function getSearchSuggestions(
   query: string,
@@ -528,21 +528,21 @@ export async function getSearchSuggestions(
     db
       .select({ title: comic.title })
       .from(comic)
-      .where(sql`${comic.searchVector} @@ to_tsquery('english', ${tsquery})`)
+      .where(sql`${comic.searchVector}  to_tsquery('english', ${tsquery})`)
       .orderBy(desc(sql`ts_rank(${comic.searchVector}, to_tsquery('english', ${tsquery}))`))
       .limit(limit),
 
     db
       .select({ name: author.name })
       .from(author)
-      .where(sql`${author.searchVector} @@ to_tsquery('english', ${tsquery})`)
+      .where(sql`${author.searchVector}  to_tsquery('english', ${tsquery})`)
       .orderBy(desc(sql`ts_rank(${author.searchVector}, to_tsquery('english', ${tsquery}))`))
       .limit(limit),
 
     db
       .select({ name: artist.name })
       .from(artist)
-      .where(sql`${artist.searchVector} @@ to_tsquery('english', ${tsquery})`)
+      .where(sql`${artist.searchVector}  to_tsquery('english', ${tsquery})`)
       .orderBy(desc(sql`ts_rank(${artist.searchVector}, to_tsquery('english', ${tsquery}))`))
       .limit(limit),
   ]);
@@ -560,7 +560,7 @@ export async function getSearchSuggestions(
 
 /**
  *
- * @param limit
+ * param limit
  */
 export async function getPopularSearches(limit: number = 10): Promise<string[]> {
   const topComics = await db
@@ -574,8 +574,8 @@ export async function getPopularSearches(limit: number = 10): Promise<string[]> 
 
 /**
  *
- * @param days
- * @param limit
+ * param days
+ * param limit
  */
 export async function getTrendingComics(
   days: number = 7,

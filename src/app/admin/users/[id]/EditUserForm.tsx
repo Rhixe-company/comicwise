@@ -1,4 +1,4 @@
-import { deleteUser, updateUser } from "dto/usersDto";
+import { deleteUser, updateUser } from "/dto/usersDto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { Button } from "ui/button";
@@ -78,7 +78,7 @@ export default async function EditUserForm({ params }: { params: { id: string } 
                 name="email"
                 type="email"
                 defaultValue={user.email ?? ""}
-                placeholder="john@example.com"
+                placeholder="johnexample.com"
               />
             </div>
 

@@ -9,7 +9,7 @@ import {
   TrendingUpIcon,
 } from "lucide-react";
 
-// @ts-expect-error - recharts Label export type mismatch
+// ts-expect-error - recharts Label export type mismatch
 import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
 
 import { Avatar, AvatarFallback } from "ui/avatar";
@@ -115,7 +115,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xl font-medium">Sandy&apos; Company</span>
-                <span className="text-sm text-muted-foreground">sandy@company.com</span>
+                <span className="text-sm text-muted-foreground">sandycompany.com</span>
               </div>
             </div>
 

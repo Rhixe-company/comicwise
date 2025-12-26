@@ -1,9 +1,25 @@
 {
   "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/schema/mcp-config.schema.json",
+  "globalSettings": {
+    "timeout": 60000,
+    "retries": 3,
+    "logLevel": "info",
+    "logFile": "${workspaceFolder}\\.vscode\\mcp-logs.txt",
+    "maxConcurrentRequests": 15,
+    "cacheEnabled": true,
+    "cacheTTL": 600,
+    "enableMetrics": true,
+    "metricsInterval": 300000,
+    "healthCheckInterval": 60000
+  },
   "mcpServers": {
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${workspaceFolder}"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
+      ],
       "env": {},
       "disabled": false,
       "autoApprove": [
@@ -279,24 +295,6 @@
       "description": "AI image generation via EverArt API (requires API key)"
     }
   },
-  "globalSettings": {
-    "timeout": 60000,
-    "retries": 3,
-    "logLevel": "info",
-    "logFile": "${workspaceFolder}\\.vscode\\mcp-logs.txt",
-    "maxConcurrentRequests": 15,
-    "cacheEnabled": true,
-    "cacheTTL": 600,
-    "enableMetrics": true,
-    "metricsInterval": 300000,
-    "healthCheckInterval": 60000
-  },
-  "windowsSpecific": {
-    "useWindowsPaths": true,
-    "shellExecutable": "powershell.exe",
-    "encodingFix": true,
-    "pathSeparator": "\\"
-  },
   "performanceSettings": {
     "enableRequestBatching": true,
     "requestBatchSize": 10,
@@ -304,5 +302,11 @@
     "preloadServers": ["filesystem", "github", "postgres", "git", "typescript"],
     "connectionPoolSize": 5,
     "keepAliveInterval": 30000
+  },
+  "windowsSpecific": {
+    "useWindowsPaths": true,
+    "shellExecutable": "powershell.exe",
+    "encodingFix": true,
+    "pathSeparator": "\\"
   }
 }

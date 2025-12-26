@@ -22,8 +22,8 @@ interface TypeIssue {
 
 const PATTERNS = {
   any: /:\s*any\b/g,
-  tsIgnore: /@ts-ignore/g,
-  tsExpectError: /@ts-expect-error/g,
+  tsIgnore: /ts-ignore/g,
+  tsExpectError: /ts-expect-error/g,
   asAny: /as\s+any\b/g,
 };
 
@@ -43,7 +43,7 @@ const SUGGESTIONS: Record<string, string[]> = {
     "Use proper type assertions",
     "Add proper type definitions",
   ],
-  "ts-expect-error": ["Preferred over @ts-ignore but still avoid", "Fix the type error properly"],
+  "ts-expect-error": ["Preferred over ts-ignore but still avoid", "Fix the type error properly"],
 };
 
 // ═══════════════════════════════════════════════════
@@ -69,7 +69,7 @@ async function scanFile(filePath: string): Promise<TypeIssue[]> {
         });
       }
 
-      // Check for @ts-ignore
+      // Check for ts-ignore
       if (PATTERNS.tsIgnore.test(line)) {
         issues.push({
           file: filePath,
@@ -80,7 +80,7 @@ async function scanFile(filePath: string): Promise<TypeIssue[]> {
         });
       }
 
-      // Check for @ts-expect-error
+      // Check for ts-expect-error
       if (PATTERNS.tsExpectError.test(line)) {
         issues.push({
           file: filePath,
@@ -110,7 +110,7 @@ async function scanFile(filePath: string): Promise<TypeIssue[]> {
 }
 
 async function scanProject(): Promise<TypeIssue[]> {
-  const files = await glob("src/**/*.{ts,tsx}", { ignore: ["node_modules/**", ".next/**"] });
+  const files = await glob("**/*.{ts,tsx}", { ignore: ["node_modules/**", ".next/**"] });
   const allIssues: TypeIssue[] = [];
 
   for (const file of files) {
@@ -225,7 +225,7 @@ function autoFixFile(filePath: string, dryRun = true): number {
 }
 
 async function autoFix(dryRun = true): Promise<number> {
-  const files = await glob("src/**/*.{ts,tsx}", { ignore: ["node_modules/**", ".next/**"] });
+  const files = await glob("**/*.{ts,tsx}", { ignore: ["node_modules/**", ".next/**"] });
   let totalFixes = 0;
 
   console.log("═══════════════════════════════════════════════════════");

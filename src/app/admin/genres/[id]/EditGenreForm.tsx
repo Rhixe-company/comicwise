@@ -1,4 +1,4 @@
-import { deleteGenre, updateGenre } from "dto/genresDto";
+import { deleteGenre, updateGenre } from "/dto/genresDto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { Button } from "ui/button";

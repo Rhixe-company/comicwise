@@ -5,14 +5,14 @@ import type {
   ColumnFiltersState,
   SortingState,
   VisibilityState,
-} from "@tanstack/react-table";
+} from "tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from "tanstack/react-table";
 import { Download, Filter, X } from "lucide-react";
 import Papa from "papaparse";
 import { useState } from "react";

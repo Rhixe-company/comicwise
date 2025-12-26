@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* eslint-disable typescript-eslint/no-empty-object-type */
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  * GLOBAL TYPE DEFINITIONS - ComicWise Project
@@ -7,9 +7,9 @@
  * Comprehensive type definitions ensuring type safety and consistency
  * across the entire codebase.
  *
- * @version 1.0.0
- * @author ComicWise Team
- * @license MIT
+ * version 1.0.0
+ * author ComicWise Team
+ * license MIT
  */
 
 // ═══════════════════════════════════════════════════════════════════════════

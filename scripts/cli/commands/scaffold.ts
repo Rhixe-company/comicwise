@@ -30,8 +30,8 @@ function toCamelCase(string_: string): string {
 
 /**
  *
- * @param template
- * @param options
+ * param template
+ * param options
  */
 export async function scaffold(template: string, options: any) {
   const spinner = ora("Scaffolding...").start();
@@ -50,7 +50,7 @@ export async function scaffold(template: string, options: any) {
       .replaceAll("{{name}}", name)
       .replaceAll("{{camelName}}", toCamelCase(name));
 
-    const outputPath = options.path || `src/components/${name}.tsx`;
+    const outputPath = options.path || `components/${name}.tsx`;
     await fs.ensureDir(path.dirname(outputPath));
     await fs.writeFile(outputPath, processed);
 

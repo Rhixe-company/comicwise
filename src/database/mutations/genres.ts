@@ -5,9 +5,9 @@ import { genre } from "schema";
 
 /**
  *
- * @param data
- * @param data.name
- * @param data.description
+ * param data
+ * param data.name
+ * param data.description
  */
 export async function createGenre(data: {
   name: string;
@@ -26,10 +26,10 @@ export async function createGenre(data: {
 
 /**
  *
- * @param genreId
- * @param data
- * @param data.name
- * @param data.description
+ * param genreId
+ * param data
+ * param data.name
+ * param data.description
  */
 export async function updateGenre(
   genreId: number,
@@ -52,7 +52,7 @@ export async function updateGenre(
 
 /**
  *
- * @param genreId
+ * param genreId
  */
 export async function deleteGenre(genreId: number): Promise<typeof genre.$inferSelect | undefined> {
   const [deletedGenre] = await database.delete(genre).where(eq(genre.id, genreId)).returning();

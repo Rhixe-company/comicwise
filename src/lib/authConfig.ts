@@ -29,7 +29,7 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "your@email.com" },
+        email: { label: "Email", type: "email", placeholder: "youremail.com" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<AuthUser | null> {

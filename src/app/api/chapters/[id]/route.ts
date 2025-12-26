@@ -4,10 +4,10 @@
 
 import { auth } from "auth";
 import { chapterIdSchema, updateChapterSchema } from "lib/validations";
-import { deleteChapter, updateChapter } from "mutations/chapters";
+import { deleteChapter, updateChapter } from "database/mutations/chapters";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getChapter } from "queries/chapters";
+import { getChapter } from "database/queries/chapters";
 
 // ═══════════════════════════════════════════════════
 // GET - Get Chapter by ID

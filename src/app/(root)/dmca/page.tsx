@@ -70,7 +70,7 @@ export default function DMCAPage() {
             <p className="mb-4">DMCA notices can be sent to our designated Copyright Agent at:</p>
             <div className="mb-4 rounded-lg bg-muted p-4">
               <p className="font-mono">
-                Email: dmca@comicwise.com
+                Email: dmcacomicwise.com
                 <br />
                 Subject: DMCA Copyright Infringement Notice
               </p>

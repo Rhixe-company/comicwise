@@ -7,8 +7,8 @@
  * Automatically replaces relative imports with path aliases defined in tsconfig.json
  * Enhanced version with complete tsconfig.json path support
  *
- * @usage pnpm tsx scripts/replace-imports-enhanced.ts [--dry-run] [--verbose] [--backup]
- * @example pnpm tsx scripts/replace-imports-enhanced.ts --verbose --backup
+ * usage pnpm tsx scripts/replace-imports-enhanced.ts [--dry-run] [--verbose] [--backup]
+ * example pnpm tsx scripts/replace-imports-enhanced.ts --verbose --backup
  *
  * Features:
  * - ✅ All 33 tsconfig.json paths supported
@@ -20,9 +20,9 @@
  * - ✅ Duplicate import consolidation
  * - ✅ Export path optimization
  *
- * @author ComicWise Dev Team
- * @date 2025-12-24
- * @version 2.0.0
+ * author ComicWise Dev Team
+ * date 2025-12-24
+ * version 2.0.0
  */
 
 import chalk from "chalk";
@@ -60,8 +60,8 @@ const CREATE_BACKUP = args.has("--backup");
 
 // Files to process
 const FILES_TO_PROCESS = [
-  "src/**/*.ts",
-  "src/**/*.tsx",
+  "**/*.ts",
+  "**/*.tsx",
   "app-config.ts",
   "scripts/**/*.ts",
   "cli/**/*.ts",
@@ -312,14 +312,14 @@ const IMPORT_PATTERNS: Pattern[] = [
   },
 
   // ═══════════════════════════════════════════════════
-  // PRIORITY 4: Fallback to @ prefix
+  // PRIORITY 4: Fallback to  prefix
   // ═══════════════════════════════════════════════════
 
-  // Catch remaining src/ imports
+  // Catch remaining  imports
   {
     from: /from ["'](?:\.\.\/)*src\/([^"']+)["']/g,
-    to: 'from "@/$1"',
-    category: "Source (@)",
+    to: 'from "/$1"',
+    category: "Source ()",
     priority: 4,
   },
 ];
@@ -331,43 +331,43 @@ const IMPORT_PATTERNS: Pattern[] = [
 const INVALID_PATTERNS: Pattern[] = [
   {
     from: /from ["']ui\/([^"']+)["']/g,
-    to: 'from "@/components/ui/$1"',
+    to: 'from "ui/$1"',
     category: "Invalid ui",
     priority: 0,
   },
   {
     from: /from ["']components\/([^"']+)["']/g,
-    to: 'from "@/components/$1"',
+    to: 'from "components/$1"',
     category: "Invalid components",
     priority: 0,
   },
   {
     from: /from ["']lib\/([^"']+)["']/g,
-    to: 'from "@/lib/$1"',
+    to: 'from "lib/$1"',
     category: "Invalid lib",
     priority: 0,
   },
   {
     from: /from ["']database\/([^"']+)["']/g,
-    to: 'from "@/database/$1"',
+    to: 'from "database/$1"',
     category: "Invalid database",
     priority: 0,
   },
   {
     from: /from ["']types\/([^"']+)["']/g,
-    to: 'from "@/types/$1"',
+    to: 'from "/types/$1"',
     category: "Invalid types",
     priority: 0,
   },
   {
     from: /from ["']actions\/([^"']+)["']/g,
-    to: 'from "@/lib/actions/$1"',
+    to: 'from "lib/actions/$1"',
     category: "Invalid actions",
     priority: 0,
   },
   {
     from: /from ["']hooks\/([^"']+)["']/g,
-    to: 'from "@/hooks/$1"',
+    to: 'from "/hooks/$1"',
     category: "Invalid hooks",
     priority: 0,
   },

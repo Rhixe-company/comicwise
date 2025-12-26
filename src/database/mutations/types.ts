@@ -5,9 +5,9 @@ import { type } from "schema";
 
 /**
  *
- * @param data
- * @param data.name
- * @param data.description
+ * param data
+ * param data.name
+ * param data.description
  */
 export async function createType(data: {
   name: string;
@@ -26,10 +26,10 @@ export async function createType(data: {
 
 /**
  *
- * @param typeId
- * @param data
- * @param data.name
- * @param data.description
+ * param typeId
+ * param data
+ * param data.name
+ * param data.description
  */
 export async function updateType(
   typeId: number,
@@ -52,7 +52,7 @@ export async function updateType(
 
 /**
  *
- * @param typeId
+ * param typeId
  */
 export async function deleteType(typeId: number): Promise<typeof type.$inferSelect | undefined> {
   const [deletedType] = await database.delete(type).where(eq(type.id, typeId)).returning();

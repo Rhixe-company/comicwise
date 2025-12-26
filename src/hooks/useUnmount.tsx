@@ -5,9 +5,9 @@ import * as React from "react";
 /**
  * A React hook that runs a cleanup function when the component unmounts.
  *
- * @param fn - The cleanup function to run on unmount
+ * param fn - The cleanup function to run on unmount
  *
- * @example
+ * example
  * ```tsx
  * function MyComponent() {
  *   useUnmount(() => {

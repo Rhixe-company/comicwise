@@ -115,8 +115,8 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
           "echo 'Edit .env.local with your configuration'",
         ],
         acceptance: [
-          "All `process.env` imports from `src/app-config/index.ts`",
-          "`src/app-config/index.ts` has Zod validation",
+          "All `process.env` imports from `app-config/index.ts`",
+          "`app-config/index.ts` has Zod validation",
           "Fallbacks for development included",
           "Type exports available for TypeScript",
           "`.env.example` updated with all required variables",
@@ -143,9 +143,9 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
         dependsOn: ["p0-1", "p0-2", "p0-3"],
         commands: ["pnpm dev", "curl -X POST http://localhost:3000/api/auth/signin"],
         acceptance: [
-          "`src/lib/authConfig.ts` has providers (email, Google, GitHub)",
-          "`src/lib/auth.ts` has server-side helpers",
-          "`src/app/api/auth/[...nextauth]/route.ts` is wired",
+          "`lib/authConfig.ts` has providers (email, Google, GitHub)",
+          "`lib/auth.ts` has server-side helpers",
+          "`app/api/auth/[...nextauth]/route.ts` is wired",
           "Nodemailer configured for email provider",
           "Sign-in/out flows work locally",
           "Email provider is functional",
@@ -161,7 +161,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
         dependsOn: ["p0-3"],
         commands: ["pnpm type-check", " Test image upload functionality"],
         acceptance: [
-          "`src/lib/imageUpload.ts` exists with adapters",
+          "`lib/imageUpload.ts` exists with adapters",
           "Supports Cloudinary, ImageKit, and local filesystem",
           "`uploadImage()`, `deleteImage()`, `getOptimizedUrl()` functions work",
           "Admin components use the upload hook",

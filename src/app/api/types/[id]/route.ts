@@ -7,11 +7,11 @@ import {
   getGenericEntity,
   updateGenericEntity,
   zodToValidationResult,
-} from "@/app/api/lib/generic-crud";
+} from "/app/apilib/generic-crud";
 import { typeIdSchema, updateTypeSchema } from "lib/validations";
-import { deleteType, updateType } from "mutations/types";
+import { deleteType, updateType } from "database/mutations/types";
 import type { NextRequest } from "next/server";
-import { getTypeById } from "queries/types";
+import { getTypeById } from "database/queries/types";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

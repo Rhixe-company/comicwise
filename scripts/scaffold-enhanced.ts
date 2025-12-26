@@ -176,11 +176,11 @@ async function scaffold() {
   }
 
   const paths = {
-    component: `src/components/${name}.tsx`,
-    hook: `src/hooks/use${name}.tsx`,
-    action: `src/lib/actions/${name.charAt(0).toLowerCase() + name.slice(1)}.ts`,
-    api: `src/app/api/${name.toLowerCase()}/route.ts`,
-    page: `src/app/(root)/${name.toLowerCase()}/page.tsx`,
+    component: `components/${name}.tsx`,
+    hook: `hooks/use${name}.tsx`,
+    action: `lib/actions/${name.charAt(0).toLowerCase() + name.slice(1)}.ts`,
+    api: `app/api/${name.toLowerCase()}/route.ts`,
+    page: `app/(root)/${name.toLowerCase()}/page.tsx`,
   };
 
   const filePath = paths[type as keyof typeof paths];

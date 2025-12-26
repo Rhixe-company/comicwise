@@ -7,7 +7,7 @@ import { db } from "database/db";
 import { and, desc, eq, like, sql, type SQL } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { comic, comicToGenre } from "schema";
-import type { Comic } from "types/database";
+import type { Comic } from "/typesdatabase";
 
 export class ComicDal {
   private static instance: ComicDal;

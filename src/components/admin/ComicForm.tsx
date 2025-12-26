@@ -1,6 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "hookform/resolvers/zod";
 import { useImageUpload } from "hooks/useImageUpload";
 import { comicFormSchema } from "lib/validations";
 import { AlertCircle, Loader2, Upload } from "lucide-react";
@@ -57,7 +57,7 @@ export function ComicForm({
   });
 
   const form = useForm<z.infer<typeof comicFormSchema>>({
-    // @ts-expect-error - zodResolver type compatibility issue with react-hook-form
+    // ts-expect-error - zodResolver type compatibility issue with react-hook-form
     resolver: zodResolver(comicFormSchema),
     defaultValues: {
       title: initialData?.title || "",

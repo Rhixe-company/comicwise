@@ -19,7 +19,7 @@ describe("Authentication Validation Schemas", () => {
     it("should validate correct signup data", () => {
       const validData = {
         name: "John Doe",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "SecurePass123!",
       };
 
@@ -30,7 +30,7 @@ describe("Authentication Validation Schemas", () => {
     it("should reject empty name", () => {
       const invalidData = {
         name: "",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "SecurePass123!",
       };
 
@@ -52,7 +52,7 @@ describe("Authentication Validation Schemas", () => {
     it("should reject short password", () => {
       const invalidData = {
         name: "John Doe",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "123",
       };
 
@@ -63,7 +63,7 @@ describe("Authentication Validation Schemas", () => {
     it("should reject password without uppercase", () => {
       const invalidData = {
         name: "John Doe",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "securepass123!",
       };
 
@@ -74,7 +74,7 @@ describe("Authentication Validation Schemas", () => {
     it("should reject password without lowercase", () => {
       const invalidData = {
         name: "John Doe",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "SECUREPASS123!",
       };
 
@@ -85,7 +85,7 @@ describe("Authentication Validation Schemas", () => {
     it("should reject password without number", () => {
       const invalidData = {
         name: "John Doe",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "SecurePass!",
       };
 
@@ -96,7 +96,7 @@ describe("Authentication Validation Schemas", () => {
     it("should trim whitespace from inputs", () => {
       const dataWithSpaces = {
         name: "  John Doe  ",
-        email: "  john@example.com  ",
+        email: "  johnexample.com  ",
         password: "SecurePass123!",
       };
 
@@ -104,7 +104,7 @@ describe("Authentication Validation Schemas", () => {
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.data.name).toBe("John Doe");
-        expect(result.data.email).toBe("john@example.com");
+        expect(result.data.email).toBe("johnexample.com");
       }
     });
   });
@@ -112,7 +112,7 @@ describe("Authentication Validation Schemas", () => {
   describe("signInSchema", () => {
     it("should validate correct signin data", () => {
       const validData = {
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "SecurePass123!",
       };
 
@@ -132,7 +132,7 @@ describe("Authentication Validation Schemas", () => {
 
     it("should reject empty password", () => {
       const invalidData = {
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "",
       };
 
@@ -143,7 +143,7 @@ describe("Authentication Validation Schemas", () => {
 
   describe("forgotPasswordSchema", () => {
     it("should validate correct email", () => {
-      const validData = { email: "john@example.com" };
+      const validData = { email: "johnexample.com" };
 
       const result = forgotPasswordSchema.safeParse(validData);
       expect(result.success).toBe(true);

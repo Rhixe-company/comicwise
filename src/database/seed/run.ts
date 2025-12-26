@@ -8,10 +8,10 @@
  * - Dynamic data loading from JSON files
  */
 
-import { parseCLIArgs } from "./config";
-import { logger } from "./logger";
 import { db as database } from "db";
 import { sql } from "drizzle-orm";
+import { parseCLIArgs } from "./config";
+import { logger } from "./logger";
 import type { SeedOptions } from "./seedHelpers";
 import { seedAll, seedChapters, seedComics, seedUsers } from "./seedHelpers";
 

@@ -72,7 +72,7 @@ export class SeedOrchestrator {
 
   /**
    *
-   * @param config
+   * param config
    */
   constructor(config: SeedConfig) {
     this.config = config;

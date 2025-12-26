@@ -11,7 +11,7 @@ async function exists(p: string) {
 }
 
 function safeFilename(pkgName: string) {
-  return pkgName.replace(/^@/, "").replace(/\//g, "__");
+  return pkgName.replace(/^/, "").replace(/\//g, "__");
 }
 
 async function hasBundledTypes(packageDir: string) {
@@ -54,14 +54,14 @@ async function main() {
 
   for (const name of names) {
     // ignore types packages themselves
-    if (name.startsWith("@types/")) {
+    if (name.startsWith("types/")) {
       hasTypesInstalled.push(name);
       continue;
     }
 
     const packageDir = path.join(root, "node_modules", name);
     const typesName = safeFilename(name);
-    const typesPackageDir = path.join(root, "node_modules", "@types", typesName);
+    const typesPackageDir = path.join(root, "node_modules", "types", typesName);
 
     const bundled = await hasBundledTypes(packageDir);
     const hasTypesPkg = await exists(typesPackageDir);
@@ -91,10 +91,10 @@ async function main() {
   console.log("Types generation complete. Summary:");
   console.log("- generated stubs:", generated.length);
   if (generated.length) console.log("  ", generated.join(", "));
-  console.log("- skipped (bundled or @types present):", skipped.length);
+  console.log("- skipped (bundled or types present):", skipped.length);
   if (skipped.length) console.log("  ", skipped.join(", "));
   if (hasTypesInstalled.length) {
-    console.log("- @types packages (already present):", hasTypesInstalled.length);
+    console.log("- types packages (already present):", hasTypesInstalled.length);
     console.log("  ", hasTypesInstalled.join(", "));
   }
 
@@ -103,7 +103,7 @@ async function main() {
     "- Run `pnpm install` to ensure `node_modules` is present before rerunning this script."
   );
   console.log(
-    "- If a package has a matching `@types/*`, consider installing it instead of using a stub."
+    "- If a package has a matching `types/*`, consider installing it instead of using a stub."
   );
 }
 

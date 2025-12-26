@@ -10,7 +10,7 @@
  * - Validates type exports
  * - Creates optimized type index
  *
- * @usage pnpm tsx scripts/consolidate-types.ts [--dry-run] [--verbose]
+ * usage pnpm tsx scripts/consolidate-types.ts [--dry-run] [--verbose]
  */
 
 import chalk from "chalk";
@@ -26,7 +26,7 @@ const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
 const VERBOSE = args.includes("--verbose");
 
-const TYPES_DIR = "src/types";
+const TYPES_DIR = "types";
 const TYPE_FILES = globSync(`${TYPES_DIR}/**/*.{ts,d.ts}`, {
   ignore: ["**/node_modules/**", "**/index.ts"],
 });
@@ -162,7 +162,7 @@ for (const analysis of analyses) {
 }
 
 // Check usage in source files
-const sourceFiles = globSync("src/**/*.{ts,tsx}", {
+const sourceFiles = globSync("**/*.{ts,tsx}", {
   ignore: ["**/node_modules/**", "**/types/**"],
 });
 
@@ -225,7 +225,7 @@ export * from "./Utility";
 // ═══════════════════════════════════════════════════
 // DATABASE MODELS
 // ═══════════════════════════════════════════════════
-export * from "./database";
+export * from ".database";
 
 // ═══════════════════════════════════════════════════
 // API & ACTIONS
@@ -236,7 +236,7 @@ export * from "./Api";
 // ═══════════════════════════════════════════════════
 // COMPONENTS & FORMS
 // ═══════════════════════════════════════════════════
-export * from "./components";
+export * from ".components";
 export * from "./forms";
 
 // ═══════════════════════════════════════════════════

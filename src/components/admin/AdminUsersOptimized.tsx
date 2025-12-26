@@ -15,7 +15,7 @@ import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import type { User } from "types/database";
+import type { User } from "/typesdatabase";
 import { Button } from "ui/button";
 import {
   Dialog,

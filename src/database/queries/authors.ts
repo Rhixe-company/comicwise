@@ -5,7 +5,7 @@ import { author } from "schema";
 
 /**
  *
- * @param authorId
+ * param authorId
  */
 export async function getAuthorById(authorId: number) {
   return await database.query.author.findFirst({
@@ -22,12 +22,12 @@ export async function getAuthorByName(name: string) {
 
 /**
  *
- * @param parameters
- * @param parameters.limit
- * @param parameters.offset
- * @param parameters.sortBy
- * @param parameters.sortOrder
- * @param parameters.search
+ * param parameters
+ * param parameters.limit
+ * param parameters.offset
+ * param parameters.sortBy
+ * param parameters.sortOrder
+ * param parameters.search
  */
 export async function getAuthors(parameters?: {
   limit?: number;
@@ -58,8 +58,8 @@ export async function getAuthors(parameters?: {
 
 /**
  *
- * @param parameters
- * @param parameters.search
+ * param parameters
+ * param parameters.search
  */
 export async function getAuthorCount(parameters?: { search?: string }) {
   const { search } = parameters || {};
@@ -77,12 +77,12 @@ export async function getAuthorCount(parameters?: { search?: string }) {
 // Wrapper function for API compatibility
 /**
  *
- * @param filters
- * @param filters.search
- * @param filters.page
- * @param filters.limit
- * @param filters.sortBy
- * @param filters.sortOrder
+ * param filters
+ * param filters.search
+ * param filters.page
+ * param filters.limit
+ * param filters.sortBy
+ * param filters.sortOrder
  */
 export async function getAllAuthors(filters?: {
   search?: string;

@@ -1,4 +1,4 @@
-// @ts-nocheck
+// ts-nocheck
 "use client";
 
 import Color from "color";
@@ -305,7 +305,7 @@ export const ColorPickerEyeDropper = ({ className, ...props }: ColorPickerEyeDro
 
   const handleEyeDropper = async () => {
     try {
-      // @ts-expect-error - EyeDropper API is experimental
+      // ts-expect-error - EyeDropper API is experimental
       const eyeDropper = new EyeDropper();
       const result = await eyeDropper.open();
       const color = Color(result.sRGBHex);

@@ -46,7 +46,7 @@ const environmentSchema = z.object({
   EMAIL_SERVER_PORT: z.coerce.number().int().positive().default(587),
   EMAIL_SERVER_USER: z.string().default(""),
   EMAIL_SERVER_PASSWORD: z.string().default(""),
-  EMAIL_FROM: z.string().email().default("noreply@comicwise.com"),
+  EMAIL_FROM: z.string().email().default("noreplycomicwise.com"),
   EMAIL_SECURE: z.coerce.boolean().default(false),
 
   // Legacy SMTP support (backwards compatibility)
@@ -118,7 +118,7 @@ function validateEnvironment(): Environment {
       EMAIL_SERVER_PORT: process.env.EMAIL_SERVER_PORT ?? process.env.SMTP_PORT ?? "587",
       EMAIL_SERVER_USER: process.env.EMAIL_SERVER_USER ?? process.env.SMTP_USER ?? "",
       EMAIL_SERVER_PASSWORD: process.env.EMAIL_SERVER_PASSWORD ?? process.env.SMTP_PASSWORD ?? "",
-      EMAIL_FROM: process.env.EMAIL_FROM ?? process.env.SMTP_FROM ?? "noreply@comicwise.com",
+      EMAIL_FROM: process.env.EMAIL_FROM ?? process.env.SMTP_FROM ?? "noreplycomicwise.com",
       EMAIL_SECURE: process.env.EMAIL_SECURE ?? process.env.SMTP_SECURE ?? "false",
       NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
     });
@@ -153,7 +153,7 @@ function validateEnvironment(): Environment {
         EMAIL_SERVER_PORT: process.env.EMAIL_SERVER_PORT ?? process.env.SMTP_PORT ?? "587",
         EMAIL_SERVER_USER: process.env.EMAIL_SERVER_USER ?? process.env.SMTP_USER ?? "",
         EMAIL_SERVER_PASSWORD: process.env.EMAIL_SERVER_PASSWORD ?? process.env.SMTP_PASSWORD ?? "",
-        EMAIL_FROM: process.env.EMAIL_FROM ?? process.env.SMTP_FROM ?? "noreply@comicwise.com",
+        EMAIL_FROM: process.env.EMAIL_FROM ?? process.env.SMTP_FROM ?? "noreplycomicwise.com",
         EMAIL_SECURE: process.env.EMAIL_SECURE ?? process.env.SMTP_SECURE ?? "false",
         NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
         NODE_ENV: process.env.NODE_ENV ?? "development",
@@ -176,7 +176,7 @@ export const env = validateEnvironment();
 
 /**
  * Check if a specific environment variable is set
- * @param key
+ * param key
  */
 export function hasEnvironment(key: keyof Environment): boolean {
   return !!env[key];
@@ -184,8 +184,8 @@ export function hasEnvironment(key: keyof Environment): boolean {
 
 /**
  * Get environment variable with type safety
- * @param key
- * @param defaultValue
+ * param key
+ * param defaultValue
  */
 export function getEnv<K extends keyof Environment>(
   key: K,
@@ -398,4 +398,4 @@ const appConfig = {
 export default appConfig;
 
 // Re-export rate limiting utilities
-export { checkRateLimit, clearRateLimit, getRateLimitStatus } from "@/lib/ratelimit";
+export { checkRateLimit, clearRateLimit, getRateLimitStatus } from "lib/ratelimit";

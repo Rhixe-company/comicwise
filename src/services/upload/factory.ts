@@ -10,10 +10,10 @@ import type { UploadProvider, UploadProviderType } from "services/upload/types";
  * Get the upload provider instance based on environment configuration
  * Dynamically imports and instantiates the appropriate provider
  *
- * @returns UploadProvider instance
- * @throws Error if provider is not configured or unknown
+ * returns UploadProvider instance
+ * throws Error if provider is not configured or unknown
  *
- * @example
+ * example
  * ```typescript
  * const provider = await getUploadProvider();
  * const result = await provider.upload(file);
@@ -45,7 +45,7 @@ export async function getUploadProvider(): Promise<UploadProvider> {
 
 /**
  * Get the currently configured provider type
- * @returns The provider type from environment
+ * returns The provider type from environment
  */
 export function getConfiguredProvider(): UploadProviderType {
   return (env.UPLOAD_PROVIDER || "local") as UploadProviderType;
@@ -53,8 +53,8 @@ export function getConfiguredProvider(): UploadProviderType {
 
 /**
  * Check if a provider is available
- * @param providerType - Provider to check
- * @returns true if provider credentials are configured
+ * param providerType - Provider to check
+ * returns true if provider credentials are configured
  */
 export function isProviderAvailable(providerType: UploadProviderType): boolean {
   switch (providerType) {
@@ -74,7 +74,7 @@ export function isProviderAvailable(providerType: UploadProviderType): boolean {
 
 /**
  * Get all available providers
- * @returns Array of available provider types
+ * returns Array of available provider types
  */
 export function getAvailableProviders(): UploadProviderType[] {
   const allProviders: UploadProviderType[] = ["local", "imagekit", "cloudinary"];

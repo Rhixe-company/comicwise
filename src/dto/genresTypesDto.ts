@@ -3,8 +3,8 @@
  * Data Transfer Objects for combined genre and type operations
  */
 
-import type { GenreDto } from "src/src/dto/genresDto";
-import type { TypeDto } from "src/src/dto/typesDto";
+import type { GenreDto } from "dto/genresDto";
+import type { TypeDto } from "dto/typesDto";
 
 export type GenresTypesDto = {
   genres: GenreDto[];
@@ -16,8 +16,8 @@ export type GenresTypesWithCountsDto = {
   types: Array<TypeDto & { comicCount: number }>;
 };
 
-export type { CreateGenreDto, UpdateGenreDto } from "src/src/dto/genresDto";
-export type { CreateTypeDto, UpdateTypeDto } from "src/src/dto/typesDto";
+export type { CreateGenreDto, UpdateGenreDto } from "dto/genresDto";
+export type { CreateTypeDto, UpdateTypeDto } from "dto/typesDto";
 export type { GenreDto, TypeDto };
 
 export { getAllGenres, getAllTypes } from "lib/actions/genresTypes";

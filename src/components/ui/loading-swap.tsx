@@ -1,1 +1,1 @@
-export * from "src/src/components/ui/LoadingSwap";
+export * from "components/ui/LoadingSwap";

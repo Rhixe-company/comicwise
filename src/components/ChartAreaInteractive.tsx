@@ -9,18 +9,18 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import type { ChartConfig } from "@/components/ui/chart";
-import { ChartContainer } from "@/components/ui/chart";
+} from "ui/card";
+import type { ChartConfig } from "ui/chart";
+import { ChartContainer } from "ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useIsMobile } from "@/hooks/use-mobile";
+} from "ui/select";
+import { ToggleGroup, ToggleGroupItem } from "ui/toggle-group";
+import { useIsMobile } from "/hooks/use-mobile";
 
 export const description = "An interactive area chart";
 
@@ -160,19 +160,19 @@ export function ChartAreaInteractive() {
   });
 
   return (
-    <Card className="@container/card">
+    <Card className="container/card">
       <CardHeader>
         <CardTitle>Total Visitors</CardTitle>
         <CardDescription>
           <span
             className={`
               hidden
-              @[540px]/card:block
+              [540px]/card:block
             `}
           >
             Total for the last 3 months
           </span>
-          <span className="@[540px]/card:hidden">Last 3 months</span>
+          <span className="[540px]/card:hidden">Last 3 months</span>
         </CardDescription>
         <CardAction>
           <ToggleGroup
@@ -183,7 +183,7 @@ export function ChartAreaInteractive() {
             className={`
               hidden
               *:data-[slot=toggle-group-item]:!px-4
-              @[767px]/card:flex
+              [767px]/card:flex
             `}
           >
             <ToggleGroupItem value="90d">Last 3 months</ToggleGroupItem>
@@ -196,7 +196,7 @@ export function ChartAreaInteractive() {
                 flex w-40
                 **:data-[slot=select-value]:block
                 **:data-[slot=select-value]:truncate
-                @[767px]/card:hidden
+                [767px]/card:hidden
               `}
               size="sm"
               aria-label="Select a value"

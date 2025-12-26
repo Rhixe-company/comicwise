@@ -7,11 +7,11 @@ import {
   getGenericEntity,
   updateGenericEntity,
   zodToValidationResult,
-} from "@/app/api/lib/generic-crud";
+} from "/app/apilib/generic-crud";
 import { artistIdSchema, updateArtistSchema } from "lib/validations";
-import { deleteArtist, updateArtist } from "mutations/artists";
+import { deleteArtist, updateArtist } from "database/mutations/artists";
 import type { NextRequest } from "next/server";
-import { getArtistById } from "queries/artists";
+import { getArtistById } from "database/queries/artists";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

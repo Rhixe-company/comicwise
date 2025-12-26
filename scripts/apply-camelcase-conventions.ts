@@ -11,7 +11,7 @@
  * - Renames files and functions to camelCase
  * - Updates all imports and references
  *
- * @usage pnpm tsx scripts/apply-camelcase-conventions.ts [--dry-run]
+ * usage pnpm tsx scripts/apply-camelcase-conventions.ts [--dry-run]
  */
 
 import chalk from "chalk";
@@ -55,186 +55,186 @@ const stats: Stats = {
 const fileRenames: FileRename[] = [
   // Actions
   {
-    from: "src/lib/actions/users-management.ts",
-    to: "src/lib/actions/usersManagement.ts",
+    from: "lib/actions/users-management.ts",
+    to: "lib/actions/usersManagement.ts",
     category: "Actions",
   },
   {
-    from: "src/lib/actions/authors-artists.ts",
-    to: "src/lib/actions/authorsArtists.ts",
+    from: "lib/actions/authors-artists.ts",
+    to: "lib/actions/authorsArtists.ts",
     category: "Actions",
   },
   {
-    from: "src/lib/actions/bookmarks-comments.ts",
-    to: "src/lib/actions/bookmarksComments.ts",
+    from: "lib/actions/bookmarks-comments.ts",
+    to: "lib/actions/bookmarksComments.ts",
     category: "Actions",
   },
   {
-    from: "src/lib/actions/genres-types.ts",
-    to: "src/lib/actions/genresTypes.ts",
+    from: "lib/actions/genres-types.ts",
+    to: "lib/actions/genresTypes.ts",
     category: "Actions",
   },
 
   // Services
   {
-    from: "src/services/cache.service.ts",
-    to: "src/services/cacheService.ts",
+    from: "services/cache.service.ts",
+    to: "services/cacheService.ts",
     category: "Services",
   },
   {
-    from: "src/services/image.service.ts",
-    to: "src/services/imageService.ts",
+    from: "services/image.service.ts",
+    to: "services/imageService.ts",
     category: "Services",
   },
   {
-    from: "src/services/rate-limit.service.ts",
-    to: "src/services/rateLimitService.ts",
+    from: "services/rate-limit.service.ts",
+    to: "services/rateLimitService.ts",
     category: "Services",
   },
   {
-    from: "src/services/reading-progress.service.ts",
-    to: "src/services/readingProgressService.ts",
+    from: "services/reading-progress.service.ts",
+    to: "services/readingProgressService.ts",
     category: "Services",
   },
   {
-    from: "src/services/search.service.ts",
-    to: "src/services/searchService.ts",
+    from: "services/search.service.ts",
+    to: "services/searchService.ts",
     category: "Services",
   },
 
   // Seeders
   {
-    from: "src/database/seed/seeders/user-seeder.ts",
-    to: "src/database/seed/seeders/userSeeder.ts",
+    from: "database/seed/seeders/user-seeder.ts",
+    to: "database/seed/seeders/userSeeder.ts",
     category: "Seeders",
   },
   {
-    from: "src/database/seed/seeders/comic-seeder.ts",
-    to: "src/database/seed/seeders/comicSeeder.ts",
+    from: "database/seed/seeders/comic-seeder.ts",
+    to: "database/seed/seeders/comicSeeder.ts",
     category: "Seeders",
   },
   {
-    from: "src/database/seed/seeders/chapter-seeder.ts",
-    to: "src/database/seed/seeders/chapterSeeder.ts",
+    from: "database/seed/seeders/chapter-seeder.ts",
+    to: "database/seed/seeders/chapterSeeder.ts",
     category: "Seeders",
   },
 
   // Utils
   {
-    from: "src/database/seed/utils/file-utils.ts",
-    to: "src/database/seed/utils/fileUtils.ts",
+    from: "database/seed/utils/file-utils.ts",
+    to: "database/seed/utils/fileUtils.ts",
     category: "Utils",
   },
   {
-    from: "src/database/seed/utils/metadata-cache.ts",
-    to: "src/database/seed/utils/metadataCache.ts",
+    from: "database/seed/utils/metadata-cache.ts",
+    to: "database/seed/utils/metadataCache.ts",
     category: "Utils",
   },
   {
-    from: "src/database/seed/utils/batch-processor.ts",
-    to: "src/database/seed/utils/batchProcessor.ts",
+    from: "database/seed/utils/batch-processor.ts",
+    to: "database/seed/utils/batchProcessor.ts",
     category: "Utils",
   },
 
   // Lib
-  { from: "src/lib/auth-config.ts", to: "src/lib/authConfig.ts", category: "Lib" },
-  { from: "src/lib/auth-adapter.ts", to: "src/lib/authAdapter.ts", category: "Lib" },
-  { from: "src/lib/cache-middleware.ts", to: "src/lib/cacheMiddleware.ts", category: "Lib" },
-  { from: "src/lib/comic-cache.ts", to: "src/lib/comicCache.ts", category: "Lib" },
-  { from: "src/lib/generic-crud.ts", to: "src/lib/genericCrud.ts", category: "Lib" },
-  { from: "src/lib/search-refactored.ts", to: "src/lib/searchRefactored.ts", category: "Lib" },
+  { from: "lib/auth-config.ts", to: "lib/authConfig.ts", category: "Lib" },
+  { from: "lib/auth-adapter.ts", to: "lib/authAdapter.ts", category: "Lib" },
+  { from: "lib/cache-middleware.ts", to: "lib/cacheMiddleware.ts", category: "Lib" },
+  { from: "lib/comic-cache.ts", to: "lib/comicCache.ts", category: "Lib" },
+  { from: "lib/generic-crud.ts", to: "lib/genericCrud.ts", category: "Lib" },
+  { from: "lib/search-refactored.ts", to: "lib/searchRefactored.ts", category: "Lib" },
 
   // Validations
   {
-    from: "src/lib/validations/comic-form.ts",
-    to: "src/lib/validations/comicForm.ts",
+    from: "lib/validations/comic-form.ts",
+    to: "lib/validations/comicForm.ts",
     category: "Validations",
   },
 
   // Hooks
-  { from: "src/hooks/use-boolean.tsx", to: "src/hooks/useBoolean.tsx", category: "Hooks" },
+  { from: "hooks/use-boolean.tsx", to: "hooks/useBoolean.tsx", category: "Hooks" },
   {
-    from: "src/hooks/use-copy-to-clipboard.tsx",
-    to: "src/hooks/useCopyToClipboard.tsx",
+    from: "hooks/use-copy-to-clipboard.tsx",
+    to: "hooks/useCopyToClipboard.tsx",
     category: "Hooks",
   },
-  { from: "src/hooks/use-dark-mode.tsx", to: "src/hooks/useDarkMode.tsx", category: "Hooks" },
-  { from: "src/hooks/use-debounce.ts", to: "src/hooks/useDebounce.ts", category: "Hooks" },
+  { from: "hooks/use-dark-mode.tsx", to: "hooks/useDarkMode.tsx", category: "Hooks" },
+  { from: "hooks/use-debounce.ts", to: "hooks/useDebounce.ts", category: "Hooks" },
   {
-    from: "src/hooks/use-debounce-callback.tsx",
-    to: "src/hooks/useDebounceCallback.tsx",
-    category: "Hooks",
-  },
-  {
-    from: "src/hooks/use-debounce-value.tsx",
-    to: "src/hooks/useDebounceValue.tsx",
+    from: "hooks/use-debounce-callback.tsx",
+    to: "hooks/useDebounceCallback.tsx",
     category: "Hooks",
   },
   {
-    from: "src/hooks/use-event-callback.tsx",
-    to: "src/hooks/useEventCallback.tsx",
+    from: "hooks/use-debounce-value.tsx",
+    to: "hooks/useDebounceValue.tsx",
     category: "Hooks",
   },
   {
-    from: "src/hooks/use-event-listener.ts",
-    to: "src/hooks/useEventListener.ts",
+    from: "hooks/use-event-callback.tsx",
+    to: "hooks/useEventCallback.tsx",
     category: "Hooks",
   },
   {
-    from: "src/hooks/use-isomorphic-layout-effect.ts",
-    to: "src/hooks/useIsomorphicLayoutEffect.ts",
+    from: "hooks/use-event-listener.ts",
+    to: "hooks/useEventListener.ts",
     category: "Hooks",
   },
   {
-    from: "src/hooks/use-isomorphic-layout-effect.tsx",
-    to: "src/hooks/useIsomorphicLayoutEffect.tsx",
+    from: "hooks/use-isomorphic-layout-effect.ts",
+    to: "hooks/useIsomorphicLayoutEffect.ts",
     category: "Hooks",
   },
-  { from: "src/hooks/use-local-storage.ts", to: "src/hooks/useLocalStorage.ts", category: "Hooks" },
-  { from: "src/hooks/use-media-query.ts", to: "src/hooks/useMediaQuery.ts", category: "Hooks" },
-  { from: "src/hooks/use-mobile.ts", to: "src/hooks/useMobile.ts", category: "Hooks" },
   {
-    from: "src/hooks/use-on-click-outside.tsx",
-    to: "src/hooks/useOnClickOutside.tsx",
+    from: "hooks/use-isomorphic-layout-effect.tsx",
+    to: "hooks/useIsomorphicLayoutEffect.tsx",
     category: "Hooks",
   },
-  { from: "src/hooks/use-pagination.ts", to: "src/hooks/usePagination.ts", category: "Hooks" },
-  { from: "src/hooks/use-toast.ts", to: "src/hooks/useToast.ts", category: "Hooks" },
-  { from: "src/hooks/use-unmount.tsx", to: "src/hooks/useUnmount.tsx", category: "Hooks" },
+  { from: "hooks/use-local-storage.ts", to: "hooks/useLocalStorage.ts", category: "Hooks" },
+  { from: "hooks/use-media-query.ts", to: "hooks/useMediaQuery.ts", category: "Hooks" },
+  { from: "hooks/use-mobile.ts", to: "hooks/useMobile.ts", category: "Hooks" },
+  {
+    from: "hooks/use-on-click-outside.tsx",
+    to: "hooks/useOnClickOutside.tsx",
+    category: "Hooks",
+  },
+  { from: "hooks/use-pagination.ts", to: "hooks/usePagination.ts", category: "Hooks" },
+  { from: "hooks/use-toast.ts", to: "hooks/useToast.ts", category: "Hooks" },
+  { from: "hooks/use-unmount.tsx", to: "hooks/useUnmount.tsx", category: "Hooks" },
 
   // Stores
-  { from: "src/stores/bookmark.store.ts", to: "src/stores/bookmarkStore.ts", category: "Stores" },
-  { from: "src/stores/ui.store.ts", to: "src/stores/uiStore.ts", category: "Stores" },
+  { from: "stores/bookmark.store.ts", to: "stores/bookmarkStore.ts", category: "Stores" },
+  { from: "stores/ui.store.ts", to: "stores/uiStore.ts", category: "Stores" },
 
   // Components
   {
-    from: "src/components/auth/auth-form.tsx",
-    to: "src/components/auth/authForm.tsx",
+    from: "components/auth/auth-form.tsx",
+    to: "components/auth/authForm.tsx",
     category: "Components",
   },
   {
-    from: "src/components/auth/email-field.tsx",
-    to: "src/components/auth/emailField.tsx",
+    from: "components/auth/email-field.tsx",
+    to: "components/auth/emailField.tsx",
     category: "Components",
   },
   {
-    from: "src/components/auth/name-field.tsx",
-    to: "src/components/auth/nameField.tsx",
+    from: "components/auth/name-field.tsx",
+    to: "components/auth/nameField.tsx",
     category: "Components",
   },
   {
-    from: "src/components/auth/password-field.tsx",
-    to: "src/components/auth/passwordField.tsx",
+    from: "components/auth/password-field.tsx",
+    to: "components/auth/passwordField.tsx",
     category: "Components",
   },
   {
-    from: "src/components/admin/comic-form.tsx",
-    to: "src/components/admin/comicForm.tsx",
+    from: "components/admin/comic-form.tsx",
+    to: "components/admin/comicForm.tsx",
     category: "Components",
   },
   {
-    from: "src/components/admin/comic-form-enhanced.tsx",
-    to: "src/components/admin/comicFormEnhanced.tsx",
+    from: "components/admin/comic-form-enhanced.tsx",
+    to: "components/admin/comicFormEnhanced.tsx",
     category: "Components",
   },
 ];
@@ -291,7 +291,7 @@ async function updateEslintConfig() {
 
   let content = fs.readFileSync(eslintPath, "utf-8");
 
-  if (content.includes('"@typescript-eslint/naming-convention"')) {
+  if (content.includes('"typescript-eslint/naming-convention"')) {
     console.log(chalk.gray("  ✓ CamelCase rules already exist"));
     return;
   }
@@ -307,7 +307,7 @@ async function updateEslintConfig() {
     const insertPos = content.indexOf("{", rulesSection) + 1;
     const camelCaseRules = `
       // Enforce camelCase naming convention
-      "@typescript-eslint/naming-convention": [
+      "typescript-eslint/naming-convention": [
         "error",
         { selector: "default", format: ["camelCase"], leadingUnderscore: "allow" },
         { selector: "variable", format: ["camelCase", "UPPER_CASE", "PascalCase"] },
@@ -412,8 +412,8 @@ async function updateAllImports() {
         // Create import patterns
         const patterns = [
           {
-            old: rename.from.replace(/^src\//, "@/").replace(/\.(ts|tsx)$/, ""),
-            new: rename.to.replace(/^src\//, "@/").replace(/\.(ts|tsx)$/, ""),
+            old: rename.from.replace(/^src\//, "/").replace(/\.(ts|tsx)$/, ""),
+            new: rename.to.replace(/^src\//, "/").replace(/\.(ts|tsx)$/, ""),
           },
           {
             old: rename.from.replace(/^src\//, "/").replace(/\.(ts|tsx)$/, ""),

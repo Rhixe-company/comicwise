@@ -5,10 +5,10 @@
 import { auth } from "auth";
 import { sendCommentNotificationEmail } from "lib/email";
 import { createCommentSchema } from "lib/validations";
-import { createComment } from "mutations/comments";
+import { createComment } from "database/mutations/comments";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getCommentsByChapter } from "queries/comments";
+import { getCommentsByChapter } from "database/queries/comments";
 
 // ═══════════════════════════════════════════════════
 // GET - List Comments with Filtering

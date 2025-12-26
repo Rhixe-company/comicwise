@@ -29,12 +29,12 @@ if (existsSync(proxyFile)) {
   }
 }
 
-// Fix component import issues - use @ts-expect-error for third-party library issues
+// Fix component import issues - use ts-expect-error for third-party library issues
 const componentFiles = [
-  "src/components/ui/input-otp.tsx",
-  "src/components/ui/shadcn-io/color-picker/index.tsx",
-  "src/components/ui/shadcn-io/dropzone/index.tsx",
-  "src/components/shadcn-studio/blocks/chart-sales-metrics.tsx",
+  "components/ui/input-otp.tsx",
+  "components/ui/shadcn-io/color-picker/index.tsx",
+  "components/ui/shadcn-io/dropzone/index.tsx",
+  "components/shadcn-studio/blocks/chart-sales-metrics.tsx",
 ];
 
 for (const file of componentFiles) {
@@ -42,11 +42,11 @@ for (const file of componentFiles) {
     let content = readFileSync(file, "utf8");
     const original = content;
 
-    // Add @ts-expect-error before problematic imports
+    // Add ts-expect-error before problematic imports
     if (file.includes("chart-sales-metrics")) {
       content = content.replace(
         /import \{ Label \} from "recharts"/g,
-        "// @ts-expect-error - recharts type mismatch\nimport Label from 'recharts'"
+        "// ts-expect-error - recharts type mismatch\nimport Label from 'recharts'"
       );
     }
 
@@ -58,28 +58,28 @@ for (const file of componentFiles) {
   }
 }
 
-// Add @ts-nocheck to problematic UI components (third-party library issues)
+// Add ts-nocheck to problematic UI components (third-party library issues)
 const noCheckFiles = [
-  "src/components/ui/input-otp.tsx",
-  "src/components/ui/shadcn-io/color-picker/index.tsx",
-  "src/components/ui/shadcn-io/dropzone/index.tsx",
+  "components/ui/input-otp.tsx",
+  "components/ui/shadcn-io/color-picker/index.tsx",
+  "components/ui/shadcn-io/dropzone/index.tsx",
 ];
 
 for (const file of noCheckFiles) {
   if (existsSync(file)) {
     let content = readFileSync(file, "utf8");
 
-    if (!content.startsWith("// @ts-nocheck")) {
-      content = "// @ts-nocheck\n" + content;
+    if (!content.startsWith("// ts-nocheck")) {
+      content = "// ts-nocheck\n" + content;
       writeFileSync(file, content, "utf8");
-      console.log(`✓ ${file} - Added @ts-nocheck`);
+      console.log(`✓ ${file} - Added ts-nocheck`);
       fixCount++;
     }
   }
 }
 
 // Fix remaining actions exports
-const actionsWithIssues = globSync("src/lib/actions/*.ts");
+const actionsWithIssues = globSync("lib/actions/*.ts");
 for (const actionFile of actionsWithIssues) {
   let content = readFileSync(actionFile, "utf8");
   const original = content;

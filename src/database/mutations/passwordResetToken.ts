@@ -5,10 +5,10 @@ import { passwordResetToken } from "schema";
 
 /**
  *
- * @param data
- * @param data.email
- * @param data.token
- * @param data.expires
+ * param data
+ * param data.email
+ * param data.token
+ * param data.expires
  */
 export async function createPasswordResetToken(data: {
   email: string;
@@ -28,7 +28,7 @@ export async function createPasswordResetToken(data: {
 
 /**
  *
- * @param token
+ * param token
  */
 export async function deletePasswordResetToken(
   token: string
@@ -42,7 +42,7 @@ export async function deletePasswordResetToken(
 
 /**
  *
- * @param email
+ * param email
  */
 export async function deletePasswordResetTokensByEmail(
   email: string

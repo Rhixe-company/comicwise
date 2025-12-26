@@ -24,7 +24,7 @@ export class UserSeeder {
 
   /**
    *
-   * @param options
+   * param options
    */
   constructor(options: SeedConfig["options"]) {
     this.options = options;
@@ -36,7 +36,7 @@ export class UserSeeder {
 
   /**
    *
-   * @param users
+   * param users
    */
   async seed(users: UserSeed[]): Promise<void> {
     // Validate data before processing

@@ -9,10 +9,10 @@ import {
   removeBookmark,
   updateBookmarkNotes,
   updateReadingProgress,
-} from "mutations/bookmarks";
+} from "database/mutations/bookmarks";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getUserBookmarks } from "queries/bookmarks";
+import { getUserBookmarks } from "database/queries/bookmarks";
 
 // ═══════════════════════════════════════════════════
 // GET - List User Bookmarks

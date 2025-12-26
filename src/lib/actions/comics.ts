@@ -11,7 +11,7 @@ import type { ComicFilterInput, CreateComicInput, UpdateComicInput } from "lib/v
 import { comicFilterSchema, createComicSchema, updateComicSchema } from "lib/validations";
 import { revalidatePath } from "next/cache";
 import { comic, comicToGenre } from "schema";
-import type { Genre } from "types/database";
+import type { Genre } from "/typesdatabase";
 import { slugify } from "utils";
 
 type ParsedCreateComic = CreateComicInput & { slug?: string };

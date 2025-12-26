@@ -1,4 +1,4 @@
-import type { Comic } from "types/database";
+import type { Comic } from "/typesdatabase";
 
 import type { CacheOptions } from "lib/cache";
 import { cache, CACHE_KEYS, CACHE_TTL } from "lib/cache";
@@ -10,9 +10,9 @@ import { cache, CACHE_KEYS, CACHE_TTL } from "lib/cache";
 export class ComicCacheService {
   /**
    * Get comic by ID from cache or fetch
-   * @param comicId
-   * @param fetchFn
-   * @param fetchFunction
+   * param comicId
+   * param fetchFn
+   * param fetchFunction
    */
   async getComic(
     comicId: number,
@@ -27,9 +27,9 @@ export class ComicCacheService {
 
   /**
    * Get comic by slug from cache or fetch
-   * @param slug
-   * @param fetchFn
-   * @param fetchFunction
+   * param slug
+   * param fetchFn
+   * param fetchFunction
    */
   async getComicBySlug(
     slug: string,
@@ -44,10 +44,10 @@ export class ComicCacheService {
 
   /**
    * Get comics list with filters from cache or fetch
-   * @param cacheKey
-   * @param fetchFn
-   * @param fetchFunction
-   * @param options
+   * param cacheKey
+   * param fetchFn
+   * param fetchFunction
+   * param options
    */
   async getComicsList<T>(
     cacheKey: string,
@@ -63,9 +63,9 @@ export class ComicCacheService {
 
   /**
    * Get comic chapters from cache or fetch
-   * @param comicId
-   * @param fetchFn
-   * @param fetchFunction
+   * param comicId
+   * param fetchFn
+   * param fetchFunction
    */
   async getComicChapters<T>(comicId: number, fetchFunction: () => Promise<T>): Promise<T> {
     const key = `${CACHE_KEYS.COMIC_CHAPTERS}${comicId}`;
@@ -77,9 +77,9 @@ export class ComicCacheService {
 
   /**
    * Get chapter by ID from cache or fetch
-   * @param chapterId
-   * @param fetchFn
-   * @param fetchFunction
+   * param chapterId
+   * param fetchFn
+   * param fetchFunction
    */
   async getChapter<T>(chapterId: number, fetchFunction: () => Promise<T>): Promise<T> {
     const key = `${CACHE_KEYS.CHAPTER}${chapterId}`;
@@ -91,9 +91,9 @@ export class ComicCacheService {
 
   /**
    * Cache search results
-   * @param searchKey
-   * @param fetchFn
-   * @param fetchFunction
+   * param searchKey
+   * param fetchFn
+   * param fetchFunction
    */
   async getSearchResults<T>(searchKey: string, fetchFunction: () => Promise<T>): Promise<T> {
     const key = `${CACHE_KEYS.SEARCH}${searchKey}`;
@@ -105,8 +105,8 @@ export class ComicCacheService {
 
   /**
    * Get trending comics from cache or fetch
-   * @param fetchFn
-   * @param fetchFunction
+   * param fetchFn
+   * param fetchFunction
    */
   async getTrendingComics<T>(fetchFunction: () => Promise<T>): Promise<T> {
     const key = `${CACHE_KEYS.TRENDING}comics`;
@@ -118,8 +118,8 @@ export class ComicCacheService {
 
   /**
    * Get popular comics from cache or fetch
-   * @param fetchFn
-   * @param fetchFunction
+   * param fetchFn
+   * param fetchFunction
    */
   async getPopularComics<T>(fetchFunction: () => Promise<T>): Promise<T> {
     const key = `${CACHE_KEYS.POPULAR}comics`;
@@ -131,8 +131,8 @@ export class ComicCacheService {
 
   /**
    * Get genres list from cache or fetch
-   * @param fetchFn
-   * @param fetchFunction
+   * param fetchFn
+   * param fetchFunction
    */
   async getGenres<T>(fetchFunction: () => Promise<T>): Promise<T> {
     const key = `${CACHE_KEYS.GENRES_LIST}all`;
@@ -144,7 +144,7 @@ export class ComicCacheService {
 
   /**
    * Invalidate specific comic cache
-   * @param comicId
+   * param comicId
    */
   async invalidateComic(comicId: number): Promise<void> {
     const patterns = [
@@ -169,8 +169,8 @@ export class ComicCacheService {
 
   /**
    * Invalidate chapter cache
-   * @param chapterId
-   * @param comicId
+   * param chapterId
+   * param comicId
    */
   async invalidateChapter(chapterId: number, comicId?: number): Promise<void> {
     await cache.delete(`${CACHE_KEYS.CHAPTER}${chapterId}`);
@@ -217,8 +217,8 @@ export class ComicCacheService {
 
   /**
    * Track comic view (increment counter)
-   * @param comicId
-   * @param amount
+   * param comicId
+   * param amount
    */
   async incrementViews(comicId: number, amount = 1): Promise<number> {
     const key = `${CACHE_KEYS.VIEW_COUNT}comic:${comicId}`;
@@ -227,7 +227,7 @@ export class ComicCacheService {
 
   /**
    * Get comic view count from cache
-   * @param comicId
+   * param comicId
    */
   async getViewCount(comicId: number): Promise<number> {
     const key = `${CACHE_KEYS.VIEW_COUNT}comic:${comicId}`;
@@ -237,8 +237,8 @@ export class ComicCacheService {
 
   /**
    * Track chapter view
-   * @param chapterId
-   * @param amount
+   * param chapterId
+   * param amount
    */
   async incrementChapterViews(chapterId: number, amount = 1): Promise<number> {
     const key = `${CACHE_KEYS.VIEW_COUNT}chapter:${chapterId}`;
@@ -247,8 +247,8 @@ export class ComicCacheService {
 
   /**
    * Add comic to trending sorted set (by views)
-   * @param comicId
-   * @param views
+   * param comicId
+   * param views
    */
   async addToTrending(comicId: number, views: number): Promise<void> {
     const key = `${CACHE_KEYS.TRENDING}sorted`;
@@ -260,7 +260,7 @@ export class ComicCacheService {
 
   /**
    * Get top trending comics from sorted set
-   * @param limit
+   * param limit
    */
   async getTopTrending(limit = 10): Promise<number[]> {
     const key = `${CACHE_KEYS.TRENDING}sorted`;
@@ -270,9 +270,9 @@ export class ComicCacheService {
 
   /**
    * Cache user bookmarks
-   * @param userId
-   * @param fetchFn
-   * @param fetchFunction
+   * param userId
+   * param fetchFn
+   * param fetchFunction
    */
   async getUserBookmarks<T>(userId: string, fetchFunction: () => Promise<T>): Promise<T> {
     const key = `${CACHE_KEYS.USER_BOOKMARKS}${userId}`;
@@ -284,7 +284,7 @@ export class ComicCacheService {
 
   /**
    * Invalidate user bookmarks cache
-   * @param userId
+   * param userId
    */
   async invalidateUserBookmarks(userId: string): Promise<void> {
     await cache.delete(`${CACHE_KEYS.USER_BOOKMARKS}${userId}`);
@@ -293,7 +293,7 @@ export class ComicCacheService {
 
   /**
    * Get comment count for a comic
-   * @param comicId
+   * param comicId
    */
   async getCommentCount(comicId: number): Promise<number> {
     const key = `${CACHE_KEYS.COMMENT_COUNT}${comicId}`;
@@ -303,8 +303,8 @@ export class ComicCacheService {
 
   /**
    * Set comment count for a comic
-   * @param comicId
-   * @param count
+   * param comicId
+   * param count
    */
   async setCommentCount(comicId: number, count: number): Promise<void> {
     const key = `${CACHE_KEYS.COMMENT_COUNT}${comicId}`;
@@ -313,7 +313,7 @@ export class ComicCacheService {
 
   /**
    * Increment comment count
-   * @param comicId
+   * param comicId
    */
   async incrementCommentCount(comicId: number): Promise<number> {
     const key = `${CACHE_KEYS.COMMENT_COUNT}${comicId}`;
@@ -322,7 +322,7 @@ export class ComicCacheService {
 
   /**
    * Decrement comment count
-   * @param comicId
+   * param comicId
    */
   async decrementCommentCount(comicId: number): Promise<number> {
     const key = `${CACHE_KEYS.COMMENT_COUNT}${comicId}`;
@@ -331,7 +331,7 @@ export class ComicCacheService {
 
   /**
    * Warm cache with popular comics (pre-populate)
-   * @param popularComics
+   * param popularComics
    */
   async warmCache(popularComics: Comic[]): Promise<void> {
     console.log(`🔥 Warming cache with ${popularComics.length} popular comics...`);

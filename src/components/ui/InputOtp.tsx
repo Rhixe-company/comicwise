@@ -4,7 +4,7 @@ import { OTPInput, OTPInputContext } from "input-otp";
 import { MinusIcon } from "lucide-react";
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "lib/utils";
 
 const InputOTP = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
@@ -32,8 +32,8 @@ InputOTP.displayName = "InputOTP";
 
 /**
  *
- * @param root0
- * @param root0.className
+ * param root0
+ * param root0.className
  */
 function InputOTPGroup({ className, ...properties }: React.ComponentProps<"div">) {
   return (
@@ -47,9 +47,9 @@ function InputOTPGroup({ className, ...properties }: React.ComponentProps<"div">
 
 /**
  *
- * @param root0
- * @param root0.index
- * @param root0.className
+ * param root0
+ * param root0.index
+ * param root0.className
  */
 function InputOTPSlot({
   index,
@@ -103,7 +103,7 @@ function InputOTPSlot({
 
 /**
  *
- * @param root0
+ * param root0
  */
 function InputOTPSeparator({ ...properties }: React.ComponentProps<"div">) {
   return (

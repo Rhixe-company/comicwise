@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readdir } from "fs/promises";
 import { extname, join } from "path";
-// import { uploadToCloudinary } from '../src/lib/cloudinary';
+// import { uploadToCloudinary } from '..lib/cloudinary';
 
 interface UploadResult {
   file: string;

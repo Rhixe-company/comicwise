@@ -1,7 +1,7 @@
 "use client";
 
-import { bulkDeleteComics, deleteComic } from "@/app/admin/comics/actions";
-import { ComicsTable } from "admin/ComicsTable";
+import { bulkDeleteComics, deleteComic } from "/app/admin/comics/actions";
+import { ComicsTable } from "components/admin/ComicsTable";
 import { useToast } from "hooks/useToast";
 import { Plus, Search } from "lucide-react";
 import Link from "next/link";

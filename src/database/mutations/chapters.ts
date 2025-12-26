@@ -13,7 +13,7 @@ interface CreateChapterData {
 
 /**
  *
- * @param data
+ * param data
  */
 export async function createChapter(
   data: CreateChapterData
@@ -43,8 +43,8 @@ interface UpdateChapterData {
 
 /**
  *
- * @param chapterId
- * @param data
+ * param chapterId
+ * param data
  */
 export async function updateChapter(
   chapterId: number,
@@ -61,7 +61,7 @@ export async function updateChapter(
 
 /**
  *
- * @param chapterId
+ * param chapterId
  */
 export async function deleteChapter(
   chapterId: number
@@ -75,7 +75,7 @@ export async function deleteChapter(
 
 /**
  *
- * @param chapterId
+ * param chapterId
  */
 export async function incrementChapterViews(
   chapterId: number
@@ -99,7 +99,7 @@ interface AddChapterImageData {
 
 /**
  *
- * @param data
+ * param data
  */
 export async function addChapterImage(data: AddChapterImageData) {
   const [newImage] = await database.insert(chapterImage).values(data).returning();
@@ -109,8 +109,8 @@ export async function addChapterImage(data: AddChapterImageData) {
 
 /**
  *
- * @param chapterId
- * @param imageUrls
+ * param chapterId
+ * param imageUrls
  */
 export async function addChapterImages(chapterId: number, imageUrls: string[]) {
   const images = imageUrls.map((url, index) => ({
@@ -124,7 +124,7 @@ export async function addChapterImages(chapterId: number, imageUrls: string[]) {
 
 /**
  *
- * @param imageId
+ * param imageId
  */
 export async function deleteChapterImage(imageId: number) {
   const [deleted] = await database

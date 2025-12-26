@@ -15,7 +15,7 @@ console.log(chalk.cyan("\n╔═════════════════
 console.log(chalk.cyan("║          Fix Renamed Files Imports - ComicWise               ║"));
 console.log(chalk.cyan("╚══════════════════════════════════════════════════════════════╝\n"));
 
-const files = globSync("src/**/*.{ts,tsx}", {
+const files = globSync("**/*.{ts,tsx}", {
   ignore: ["**/node_modules/**", "**/.next/**"],
 });
 
@@ -23,34 +23,34 @@ console.log(chalk.blue(`📁 Found ${files.length} files to process\n`));
 
 const renamedFiles: Array<[RegExp, string]> = [
   // Type definition files
-  [/['"]@\/types\/react-email-components['"]/g, '"@/types/reactEmailComponents"'],
-  [/['"]@\/types\/react-dropzone['"]/g, '"@/types/reactDropzone"'],
+  [/['"]\/types\/react-email-components['"]/g, '"/types/reactEmailComponents"'],
+  [/['"]\/types\/react-dropzone['"]/g, '"/types/reactDropzone"'],
   [
-    /['"]@\/types\/prettier-plugin-organize-imports['"]/g,
-    '"@/types/prettierPluginOrganizeImports"',
+    /['"]\/types\/prettier-plugin-organize-imports['"]/g,
+    '"/types/prettierPluginOrganizeImports"',
   ],
-  [/['"]@\/types\/input-otp['"]/g, '"@/types/inputOtp"'],
-  [/['"]@\/types\/database-relations['"]/g, '"@/types/databaseRelations"'],
-  [/['"]@\/types\/app-config['"]/g, '"@/types/appConfig"'],
+  [/['"]\/types\/input-otp['"]/g, '"/types/inputOtp"'],
+  [/['"]\/types\database-relations['"]/g, '"/typesdatabaseRelations"'],
+  [/['"]\/types\/app-config['"]/g, '"/types/appConfig"'],
 
   // Library files
-  [/['"]@\/lib\/logger-enhanced['"]/g, '"@/lib/loggerEnhanced"'],
+  [/['"]\lib\/logger-enhanced['"]/g, '"lib/loggerEnhanced"'],
   [/['"]lib\/logger-enhanced['"]/g, '"lib/loggerEnhanced"'],
 
   // DAL files
-  [/['"]@\/dal\/sample-queries['"]/g, '"@/dal/sampleQueries"'],
+  [/['"]\/dal\/sample-queries['"]/g, '"/dal/sampleQueries"'],
   [/['"]dal\/sample-queries['"]/g, '"dal/sampleQueries"'],
-  [/['"]@\/dal\/admin-comics['"]/g, '"@/dal/adminComics"'],
+  [/['"]\/dal\/admin-comics['"]/g, '"/dal/adminComics"'],
   [/['"]dal\/admin-comics['"]/g, '"dal/adminComics"'],
 
   // Component files
-  [/['"]@\/components\/layout\/site-header['"]/g, '"@/components/layout/SiteHeader"'],
+  [/['"]\components\/layout\/site-header['"]/g, '"components/layout/SiteHeader"'],
   [/['"]layout\/site-header['"]/g, '"layout/SiteHeader"'],
-  [/['"]@\/components\/home\/section-cards['"]/g, '"@/components/home/SectionCards"'],
-  [/['"]@\/components\/sidebar\/nav-user['"]/g, '"@/components/sidebar/NavUser"'],
-  [/['"]@\/components\/sidebar\/nav-secondary['"]/g, '"@/components/sidebar/NavSecondary"'],
-  [/['"]@\/components\/sidebar\/nav-main['"]/g, '"@/components/sidebar/NavMain"'],
-  [/['"]@\/components\/sidebar\/nav-documents['"]/g, '"@/components/sidebar/NavDocuments"'],
+  [/['"]\components\/home\/section-cards['"]/g, '"components/home/SectionCards"'],
+  [/['"]\components\/sidebar\/nav-user['"]/g, '"components/sidebar/NavUser"'],
+  [/['"]\components\/sidebar\/nav-secondary['"]/g, '"components/sidebar/NavSecondary"'],
+  [/['"]\components\/sidebar\/nav-main['"]/g, '"components/sidebar/NavMain"'],
+  [/['"]\components\/sidebar\/nav-documents['"]/g, '"components/sidebar/NavDocuments"'],
 ];
 
 let filesModified = 0;

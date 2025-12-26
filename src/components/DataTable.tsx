@@ -1,6 +1,6 @@
 "use client";
 
-import type { DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
+import type { DragEndEvent, UniqueIdentifier } from "dnd-kit/core";
 import {
   closestCenter,
   DndContext,
@@ -9,15 +9,15 @@ import {
   TouchSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+} from "dnd-kit/core";
+import { restrictToVerticalAxis } from "dnd-kit/modifiers";
 import {
   arrayMove,
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+} from "dnd-kit/sortable";
+import { CSS } from "dnd-kit/utilities";
 import {
   IconChevronDown,
   IconChevronLeft,
@@ -31,14 +31,14 @@ import {
   IconLoader,
   IconPlus,
   IconTrendingUp,
-} from "@tabler/icons-react";
+} from "tabler/icons-react";
 import type {
   ColumnDef,
   ColumnFiltersState,
   Row,
   SortingState,
   VisibilityState,
-} from "@tanstack/react-table";
+} from "tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
@@ -48,15 +48,15 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from "tanstack/react-table";
 import * as React from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import type { ChartConfig } from "@/components/ui/chart";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "ui/badge";
+import { Button } from "ui/button";
+import type { ChartConfig } from "ui/chart";
+import { Checkbox } from "ui/checkbox";
 import {
   Drawer,
   DrawerClose,
@@ -66,7 +66,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
+} from "ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -74,17 +74,17 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "ui/dropdown-menu";
+import { Input } from "ui/input";
+import { Label } from "ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+} from "ui/select";
+import { Separator } from "ui/separator";
 import {
   Table,
   TableBody,
@@ -92,9 +92,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useIsMobile } from "@/hooks/use-mobile";
+} from "ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "ui/tabs";
+import { useIsMobile } from "/hooks/use-mobile";
 
 export const schema = z
   .object({
@@ -358,8 +358,8 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 
 /**
  *
- * @param root0
- * @param root0.data
+ * param root0
+ * param root0.data
  */
 export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[] }) {
   const [data, setData] = React.useState(() => initialData);
@@ -431,7 +431,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
           <SelectTrigger
             className={`
             flex w-fit
-            @4xl/main:hidden
+            4xl/main:hidden
           `}
             size="sm"
             id="view-selector"
@@ -450,7 +450,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
           hidden
           **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full
           **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1
-          @4xl/main:flex
+          4xl/main:flex
         `}
         >
           <TabsTrigger value="outline">Outline</TabsTrigger>

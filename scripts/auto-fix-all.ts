@@ -6,7 +6,7 @@
  *
  * Automatically fixes common type errors and import issues
  *
- * @usage pnpm tsx scripts/auto-fix-all.ts
+ * usage pnpm tsx scripts/auto-fix-all.ts
  */
 
 import chalk from "chalk";
@@ -41,8 +41,8 @@ const actionImportMap = {
   "actions/bookmarksComments": "dto/bookmarksCommentsDto",
 };
 
-const files = globSync("src/**/*.{ts,tsx}", {
-  ignore: ["node_modules/**", ".next/**", "src/lib/actions/**", "src/lib/dto/**"],
+const files = globSync("**/*.{ts,tsx}", {
+  ignore: ["node_modules/**", ".next/**", "lib/actions/**", "lib/dto/**"],
 });
 
 for (const file of files) {
@@ -73,8 +73,8 @@ console.log(chalk.green(`  Fixed ${fixCount} files\n`));
 
 console.log(chalk.blue("🔧 Fixing useMobile hook imports..."));
 
-const useMobileFiles = globSync("src/**/*.{ts,tsx}", {
-  ignore: ["node_modules/**", ".next/**", "src/hooks/useMobile.ts", "src/hooks/use-mobile.ts"],
+const useMobileFiles = globSync("**/*.{ts,tsx}", {
+  ignore: ["node_modules/**", ".next/**", "hooks/useMobile.ts", "hooks/use-mobile.ts"],
 });
 
 let mobileFixCount = 0;
@@ -109,7 +109,7 @@ console.log(chalk.green(`  Fixed ${mobileFixCount} files\n`));
 
 console.log(chalk.blue("🔄 Fixing circular imports..."));
 
-const utilsFile = "src/actions/utils.ts";
+const utilsFile = "actions/utils.ts";
 if (existsSync(utilsFile)) {
   let content = readFileSync(utilsFile, "utf8");
   const original = content;
@@ -141,7 +141,7 @@ console.log(chalk.green(`  Fixed circular imports\n`));
 
 console.log(chalk.blue("⚡ Fixing rate limit type errors..."));
 
-const rateLimitFiles = ["src/lib/actions/users.ts", "src/lib/actions/workflow.ts"];
+const rateLimitFiles = ["lib/actions/users.ts", "lib/actions/workflow.ts"];
 
 for (const file of rateLimitFiles) {
   if (!existsSync(file)) continue;

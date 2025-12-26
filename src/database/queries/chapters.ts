@@ -12,7 +12,7 @@ export async function getChapterByComicAndNumber(comicId: number, chapterNumber:
 
 /**
  *
- * @param comicId
+ * param comicId
  */
 export async function getChaptersByComicId(comicId: number) {
   return await database
@@ -24,7 +24,7 @@ export async function getChaptersByComicId(comicId: number) {
 
 /**
  *
- * @param chapterId
+ * param chapterId
  */
 export async function getChapter(chapterId: number) {
   const result = await database
@@ -54,7 +54,7 @@ export async function getChapter(chapterId: number) {
 
 /**
  *
- * @param chapterId
+ * param chapterId
  */
 export async function getChapterImages(chapterId: number) {
   return await database
@@ -66,7 +66,7 @@ export async function getChapterImages(chapterId: number) {
 
 /**
  *
- * @param currentChapterId
+ * param currentChapterId
  */
 export async function getNextChapter(currentChapterId: number) {
   const current = await database
@@ -94,7 +94,7 @@ export async function getNextChapter(currentChapterId: number) {
 
 /**
  *
- * @param currentChapterId
+ * param currentChapterId
  */
 export async function getPreviousChapter(currentChapterId: number) {
   const current = await database
@@ -122,7 +122,7 @@ export async function getPreviousChapter(currentChapterId: number) {
 
 /**
  *
- * @param comicId
+ * param comicId
  */
 export async function getFirstChapter(comicId: number) {
   const result = await database
@@ -137,7 +137,7 @@ export async function getFirstChapter(comicId: number) {
 
 /**
  *
- * @param comicId
+ * param comicId
  */
 export async function getLatestChapter(comicId: number) {
   const result = await database
@@ -153,13 +153,13 @@ export async function getLatestChapter(comicId: number) {
 // Wrapper function for API compatibility
 /**
  *
- * @param filters
- * @param filters.comicId
- * @param filters.search
- * @param filters.page
- * @param filters.limit
- * @param filters.sortBy
- * @param filters.sortOrder
+ * param filters
+ * param filters.comicId
+ * param filters.search
+ * param filters.page
+ * param filters.limit
+ * param filters.sortBy
+ * param filters.sortOrder
  */
 export async function getAllChapters(filters?: {
   comicId?: number;

@@ -1,1 +1,1 @@
-export * from "src/src/components/ui/NavigationMenu";
+export * from "components/ui/NavigationMenu";

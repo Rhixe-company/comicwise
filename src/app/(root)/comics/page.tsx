@@ -1,13 +1,13 @@
 import { ComicCard } from "components/ComicCard";
 import { Filters } from "components/Filters";
 import { Pagination } from "components/Pagination";
-import { getAllGenres, getAllTypes } from "dto/genresTypesDto";
-import { getAllComics } from "queries/comics";
+import { getAllGenres, getAllTypes } from "/dto/genresTypesDto";
+import { getAllComics } from "database/queries/comics";
 import { Suspense } from "react";
 import { Skeleton } from "ui/skeleton";
 
 import type { Metadata } from "next";
-import type { ComicFilters, ComicStatus } from "types/database";
+import type { ComicFilters, ComicStatus } from "/typesdatabase";
 
 interface Type {
   id: number;

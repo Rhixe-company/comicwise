@@ -22,9 +22,9 @@ function ensureImport(content) {
     const insertAt = m[0].length;
     const before = content.slice(0, insertAt);
     const after = content.slice(insertAt);
-    return `${before}\nimport { useImageUpload } from 'src/hooks/useImageUpload';\n${after}`;
+    return `${before}\nimport { useImageUpload } from 'hooks/useImageUpload';\n${after}`;
   }
-  return `import { useImageUpload } from 'src/hooks/useImageUpload';\n${content}`;
+  return `import { useImageUpload } from 'hooks/useImageUpload';\n${content}`;
 }
 
 function transform(content) {

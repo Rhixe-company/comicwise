@@ -15,7 +15,7 @@ import {
   Preview,
   Section,
   Text,
-} from "@react-email/components";
+} from "react-emailcomponents";
 
 interface NewChapterEmailProps {
   userName: string;

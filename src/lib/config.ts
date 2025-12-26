@@ -50,7 +50,7 @@ export const config = {
 
   // Email
   email: {
-    from: process.env.EMAIL_FROM || "noreply@comicwise.local",
+    from: process.env.EMAIL_FROM || "noreplycomicwise.local",
     smtp: {
       host: process.env.SMTP_HOST || "localhost",
       port: Number.parseInt(process.env.SMTP_PORT || "1025", 10),

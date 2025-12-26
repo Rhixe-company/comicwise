@@ -2,7 +2,7 @@
 // EMAIL SERVICE - Send Emails with React Email Templates
 // ═══════════════════════════════════════════════════
 
-import { render } from "@react-email/components";
+import { render } from "react-emailcomponents";
 import appConfig, { isDevelopment } from "appConfig";
 import AccountUpdatedEmail from "emails/AccountUpdatedEmail";
 import CommentNotificationEmail from "emails/CommentNotificationEmail";

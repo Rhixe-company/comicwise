@@ -35,8 +35,8 @@ const getDatabaseUrl = (): string => {
 };
 
 const cfg = {
-  schema: "./src/database/schema.ts",
-  out: "./src/database/drizzle",
+  schema: ".database/schema.ts",
+  out: ".database/drizzle",
   dialect: "postgresql",
   // drizzle-kit typings differ across versions; keep flexible here
   // `databaseCredentials` is used at runtime but may not be in the d.ts

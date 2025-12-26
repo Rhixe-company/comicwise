@@ -32,7 +32,7 @@ describe("Auth Actions", () => {
   // ═══════════════════════════════════════════════════
 
   describe("signInAction", () => {
-    const validEmail = "test@example.com";
+    const validEmail = "testexample.com";
     const validPassword = "Password123!";
 
     it("should successfully sign in with valid credentials", async () => {

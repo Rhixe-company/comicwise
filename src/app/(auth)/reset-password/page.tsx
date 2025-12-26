@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import { resetPasswordAction } from "@/dto/authDto";
+import { resetPasswordAction } from "/dto/authDto";
 import { AuthForm, PasswordField } from "components/auth";
 import type { ResetPasswordInput } from "lib/validations";
 import { resetPasswordSchema } from "lib/validations";

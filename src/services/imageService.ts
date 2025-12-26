@@ -53,7 +53,7 @@ export class ImageService {
   /**
    * Generate a hash for the image URL to use as filename
    * Ensures unique filenames regardless of source URL
-   * @param url
+   * param url
    */
   private generateHash(url: string): string {
     return crypto.createHash("md5").update(url).digest("hex");
@@ -62,7 +62,7 @@ export class ImageService {
   /**
    * Extract file extension from URL
    * Defaults to .webp if no extension found
-   * @param url
+   * param url
    */
   private getExtension(url: string): string {
     try {
@@ -78,10 +78,10 @@ export class ImageService {
    * Download image from URL and save using configured upload provider
    * with retry logic and improved error handling
    *
-   * @param url - Remote image URL to download
-   * @param subDirectory - Subdirectory in storage (e.g., "avatars", "comics/123")
-   * @param retries - Number of retry attempts (default: 2)
-   * @returns ImageDownloadResult with success status and URL/error details
+   * param url - Remote image URL to download
+   * param subDirectory - Subdirectory in storage (e.g., "avatars", "comics/123")
+   * param retries - Number of retry attempts (default: 2)
+   * returns ImageDownloadResult with success status and URL/error details
    */
   async downloadImage(
     url: string,
@@ -197,8 +197,8 @@ export class ImageService {
   /**
    * Create a placeholder result for failed downloads
    * Silently falls back without logging to reduce noise
-   * @param url
-   * @param errorMessage
+   * param url
+   * param errorMessage
    */
   private createPlaceholderResult(url: string, errorMessage?: string): ImageDownloadResult {
     const placeholderUrl = "/placeholder-comic.jpg";
@@ -220,10 +220,10 @@ export class ImageService {
   /**
    * Download multiple images in parallel with configurable concurrency
    *
-   * @param urls - Array of image URLs to download
-   * @param subDirectory - Subdirectory in storage
-   * @param concurrency - Maximum parallel downloads (default: 5)
-   * @returns Array of download results
+   * param urls - Array of image URLs to download
+   * param subDirectory - Subdirectory in storage
+   * param concurrency - Maximum parallel downloads (default: 5)
+   * returns Array of download results
    */
   async downloadImageBatch(
     urls: string[],
@@ -248,9 +248,9 @@ export class ImageService {
    * Process image URL - download if remote URL, return as-is if local path
    * Useful for handling mixed local/remote image sources
    *
-   * @param url - Image URL or local path
-   * @param subDirectory - Where to store if downloading
-   * @returns Public URL (local or remote) or null if processing failed
+   * param url - Image URL or local path
+   * param subDirectory - Where to store if downloading
+   * returns Public URL (local or remote) or null if processing failed
    */
   async processImageUrl(
     url: string | null | undefined,

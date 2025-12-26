@@ -1,4 +1,4 @@
-import { deleteType, updateType } from "dto/typesDto";
+import { deleteType, updateType } from "/dto/typesDto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { Button } from "ui/button";

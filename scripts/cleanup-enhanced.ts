@@ -114,10 +114,10 @@ const config: CleanupConfig = {
   ],
   duplicateActionFiles: [
     // Singular versions that duplicate functionality from plural versions
-    "src/lib/actions/comic.ts",
-    "src/lib/actions/chapter.ts",
-    "src/lib/actions/artist.ts",
-    "src/lib/actions/author.ts",
+    "lib/actions/comic.ts",
+    "lib/actions/chapter.ts",
+    "lib/actions/artist.ts",
+    "lib/actions/author.ts",
   ],
 };
 

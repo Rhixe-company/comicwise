@@ -1,6 +1,6 @@
 "use server";
 
-import { chapter, comic, readingProgress } from "@/database";
+import { chapter, comic, readingProgress } from "database";
 import { db } from "database/db";
 import { and, desc, eq, lt, sql } from "drizzle-orm";
 import { cacheKeys, cacheService, cacheTTL } from "services/cacheService";
@@ -41,7 +41,7 @@ export interface ReadingStats {
 export class ReadingProgressService {
   /**
    * Save reading progress for a chapter
-   * @param data
+   * param data
    */
   async saveProgress(data: ReadingProgressData): Promise<void> {
     try {
@@ -95,8 +95,8 @@ export class ReadingProgressService {
 
   /**
    * Get reading progress for a chapter
-   * @param userId
-   * @param chapterId
+   * param userId
+   * param chapterId
    */
   async getProgress(userId: string, chapterId: number) {
     try {
@@ -115,8 +115,8 @@ export class ReadingProgressService {
 
   /**
    * Get reading progress for a comic
-   * @param userId
-   * @param comicId
+   * param userId
+   * param comicId
    */
   async getComicProgress(userId: string, comicId: number) {
     try {
@@ -142,8 +142,8 @@ export class ReadingProgressService {
 
   /**
    * Get reading history for user
-   * @param userId
-   * @param limit
+   * param userId
+   * param limit
    */
   async getHistory(userId: string, limit = 20): Promise<ReadingHistory[]> {
     try {
@@ -193,8 +193,8 @@ export class ReadingProgressService {
 
   /**
    * Get continue reading list
-   * @param userId
-   * @param limit
+   * param userId
+   * param limit
    */
   async getContinueReading(userId: string, limit = 10) {
     try {
@@ -224,8 +224,8 @@ export class ReadingProgressService {
 
   /**
    * Get completed chapters
-   * @param userId
-   * @param limit
+   * param userId
+   * param limit
    */
   async getCompletedChapters(userId: string, limit = 20) {
     try {
@@ -245,8 +245,8 @@ export class ReadingProgressService {
 
   /**
    * Delete reading progress
-   * @param userId
-   * @param progressId
+   * param userId
+   * param progressId
    */
   async deleteProgress(userId: string, progressId: number): Promise<boolean> {
     try {
@@ -274,8 +274,8 @@ export class ReadingProgressService {
 
   /**
    * Clear all progress for a comic
-   * @param userId
-   * @param comicId
+   * param userId
+   * param comicId
    */
   async clearComicProgress(userId: string, comicId: number): Promise<void> {
     try {
@@ -293,7 +293,7 @@ export class ReadingProgressService {
 
   /**
    * Get reading statistics
-   * @param userId
+   * param userId
    */
   async getStats(userId: string): Promise<ReadingStats> {
     try {

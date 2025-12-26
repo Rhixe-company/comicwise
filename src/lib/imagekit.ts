@@ -699,7 +699,7 @@ export async function getImageMetadata(fileId: string): Promise<{
   try {
     const ik: ImageKit = getImageKitInstance();
     const metadataResult = await ik.getFileMetadata(fileId);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line typescript-eslint/no-explicit-any
     const meta = metadataResult as any;
     const details: {
       width: number;

@@ -11,7 +11,7 @@
  * 4. Removal of unused types
  * 5. Generic type inference
  *
- * @usage pnpm tsx scripts/comprehensive-optimization.ts
+ * usage pnpm tsx scripts/comprehensive-optimization.ts
  */
 
 import chalk from "chalk";

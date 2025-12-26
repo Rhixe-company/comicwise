@@ -7,9 +7,9 @@
  * This comprehensive script executes all 15 optimization tasks for the ComicWise project.
  * It handles ESLint, TypeScript, imports, scaffolding, documentation, and cleanup.
  *
- * @version 3.0.0
- * @author ComicWise Optimization Team
- * @date 2025-12-24
+ * version 3.0.0
+ * author ComicWise Optimization Team
+ * date 2025-12-24
  *
  * Tasks:
  * 1. Validate and optimize ESLint configuration
@@ -98,7 +98,7 @@ async function task1_validateEslint(): Promise<TaskResult> {
     // Check for proper structure
     const checks = [
       { test: config.includes("typescript-eslint"), msg: "TypeScript ESLint integration" },
-      { test: config.includes("@next/eslint-plugin-next"), msg: "Next.js plugin" },
+      { test: config.includes("next/eslint-plugin-next"), msg: "Next.js plugin" },
       { test: config.includes("eslint-plugin-react"), msg: "React plugin" },
       { test: config.includes("eslint-config-prettier"), msg: "Prettier integration" },
     ];
@@ -136,14 +136,14 @@ async function task2_validateTypes(): Promise<TaskResult> {
   const spinner = ora("Scanning type files...").start();
 
   try {
-    const typeFiles = globSync("src/types/**/*.{ts,d.ts}", {
+    const typeFiles = globSync("types/**/*.{ts,d.ts}", {
       ignore: ["**/node_modules/**"],
     });
 
     spinner.text = `Found ${typeFiles.length} type files, analyzing...`;
 
     // Check for duplicate type definitions
-    const typeIndex = path.join(PROJECT_ROOT, "src/types/index.ts");
+    const typeIndex = path.join(PROJECT_ROOT, "types/index.ts");
     const content = await fs.readFile(typeIndex, "utf-8");
 
     const hasProperExports = content.includes("export type");
@@ -341,7 +341,7 @@ async function task7_analyzeCamelCase(): Promise<TaskResult> {
   const spinner = ora("Analyzing file naming conventions...").start();
 
   try {
-    const tsFiles = globSync("src/**/*.{ts,tsx}", {
+    const tsFiles = globSync("**/*.{ts,tsx}", {
       ignore: ["**/node_modules/**", "**/.next/**"],
     });
 
@@ -582,11 +582,11 @@ pnpm dev
 
  Project Structure
 
-- \`src/app/\` - Next.js 16 App Router
-- \`src/components/\` - React components
-- \`src/lib/\` - Utilities and server actions
-- \`src/types/\` - TypeScript definitions
-- \`src/dal/\` - Data Access Layer
+- \`app/\` - Next.js 16 App Router
+- \`components/\` - React components
+- \`lib/\` - Utilities and server actions
+- \`types/\` - TypeScript definitions
+- \`dal/\` - Data Access Layer
 - \`scripts/\` - Automation scripts
 
  Path Aliases
@@ -746,7 +746,7 @@ pnpm cleanup           Clean up project
 
 \`\`\`
 comicwise/
-├── src/
+├── 
 │   ├── app/               Next.js App Router
 │   ├── components/        React components
 │   │   ├── ui/           Shadcn UI components
@@ -816,7 +816,7 @@ Clean imports using configured aliases:
 \`\`\`typescript
 import { Button } from "ui/button"
 import { getComics } from "dal/comicDal"
-import { Comic } from "types/database"
+import { Comic } from "typesdatabase"
 \`\`\`
 
  Shell Aliases
@@ -1013,7 +1013,7 @@ ${r.errors && r.errors.length > 0 ? `**Errors**:\n${r.errors.map((e) => `- ${e}`
 3. \`COMPLETE_OPTIMIZATION_REPORT.md\` - This report
 
  Updated Files
-- \`src/types/index.ts\` - Type exports optimized
+- \`types/index.ts\` - Type exports optimized
 - \`tsconfig.json\` - Path aliases verified
 - \`eslint.config.ts\` - Configuration validated
 

@@ -1,7 +1,7 @@
 /**
  * Metadata Cache
  * Caches metadata entities to reduce database queries
- * Uses @/database/queries for read operations and direct insert for creation
+ * Uses database/queries for read operations and direct insert for creation
  */
 
 import { db as database } from "database/db";

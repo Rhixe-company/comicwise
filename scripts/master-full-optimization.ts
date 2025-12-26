@@ -55,9 +55,9 @@ class OptimizationOrchestrator {
       "tsconfig.json",
       "eslint.config.ts",
       ".vscode",
-      "src/types",
-      "src/database/schema.ts",
-      "src/lib/auth.ts",
+      "types",
+      "database/schema.ts",
+      "lib/auth.ts",
     ];
 
     for (const file of criticalFiles) {

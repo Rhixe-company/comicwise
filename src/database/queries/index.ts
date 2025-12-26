@@ -1,23 +1,23 @@
 // ═══════════════════════════════════════════════════
 // AUTH QUERIES
 // ═══════════════════════════════════════════════════
-export * from "queries/accounts";
-export * from "queries/authenticators";
-export * from "queries/passwordResetToken";
-export * from "queries/sessions";
-export * from "queries/verificationTokens";
+export * from "database/queries/accounts";
+export * from "database/queries/authenticators";
+export * from "database/queries/passwordResetToken";
+export * from "database/queries/sessions";
+export * from "database/queries/verificationTokens";
 
 // ═══════════════════════════════════════════════════
 // USER QUERIES
 // ═══════════════════════════════════════════════════
-export * from "queries/users";
+export * from "database/queries/users";
 
 // ═══════════════════════════════════════════════════
 // COMIC CONTENT QUERIES
 // ═══════════════════════════════════════════════════
-export * from "queries/artists";
-export * from "queries/authors";
-export * from "queries/chapterImages";
+export * from "database/queries/artists";
+export * from "database/queries/authors";
+export * from "database/queries/chapterImages";
 export {
   getChapter,
   getChapterByComicAndNumber,
@@ -26,18 +26,18 @@ export {
   getLatestChapter,
   getNextChapter,
   getPreviousChapter,
-} from "queries/chapters";
-export * from "queries/comicImages";
-export * from "queries/comics";
-export * from "queries/comicToGenre";
-export * from "queries/genres";
-export * from "queries/types";
+} from "database/queries/chapters";
+export * from "database/queries/comicImages";
+export * from "database/queries/comics";
+export * from "database/queries/comicToGenre";
+export * from "database/queries/genres";
+export * from "database/queries/types";
 
 // ═══════════════════════════════════════════════════
 // INTERACTION QUERIES
 // ═══════════════════════════════════════════════════
-export * from "queries/bookmarks";
-export * from "queries/comments";
+export * from "database/queries/bookmarks";
+export * from "database/queries/comments";
 
 // ═══════════════════════════════════════════════════
 // UTILITY QUERIES

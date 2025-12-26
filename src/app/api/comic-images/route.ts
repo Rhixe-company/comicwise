@@ -14,10 +14,10 @@ import {
   createComicImages,
   deleteComicImage,
   updateComicImage,
-} from "mutations/comicImages";
+} from "database/mutations/comicImages";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getComicImages } from "queries/comicImages";
+import { getComicImages } from "database/queries/comicImages";
 
 // ═══════════════════════════════════════════════════
 // GET - List Comic Images

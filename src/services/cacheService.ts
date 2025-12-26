@@ -5,7 +5,7 @@ import { createCacheClient } from "lib/cache";
  * Provides caching layer for database database/queries and API responses
  */
 
-import { Redis } from "@upstash/redis";
+import { Redis } from "upstash/redis";
 
 // Lazy loader for cache client to avoid forcing dependency at module import
 let clientInstance: ReturnType<typeof createCacheClient> | null = null;

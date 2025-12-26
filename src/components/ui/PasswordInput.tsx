@@ -1,15 +1,15 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "ui/input";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from "@/components/ui/input-group";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import { zxcvbn, zxcvbnOptions } from "@zxcvbn-ts/core";
+} from "ui/input-group";
+import { Tooltip, TooltipContent, TooltipTrigger } from "ui/tooltip";
+import { cn } from "lib/utils";
+import { zxcvbn, zxcvbnOptions } from "zxcvbn-ts/core";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import {
   createContext,
@@ -84,7 +84,7 @@ export function PasswordInputStrengthChecker() {
   }, [optionsLoaded, deferredPassword]);
 
   useEffect(() => {
-    Promise.all([import("@zxcvbn-ts/language-common"), import("@zxcvbn-ts/language-en")])
+    Promise.all([import("zxcvbn-ts/language-common"), import("zxcvbn-ts/language-en")])
       .then(([commonModule, englishModule]) => {
         const common =
           (commonModule as { default?: Record<string, unknown> }).default ||

@@ -6,7 +6,7 @@ import type { ComicFilters, ComicWithDetails, Genre, PaginatedResponse } from "t
 
 /**
  *
- * @param title
+ * param title
  */
 export async function getComicByTitle(title: string) {
   return await database.query.comic.findFirst({
@@ -16,7 +16,7 @@ export async function getComicByTitle(title: string) {
 
 /**
  *
- * @param filters
+ * param filters
  */
 export async function getAllComics(
   filters: ComicFilters = {}
@@ -143,7 +143,7 @@ export async function getAllComics(
 
 /**
  *
- * @param comicId
+ * param comicId
  */
 export async function getComic(comicId: number): Promise<ComicWithDetails | null> {
   const result = await database
@@ -188,8 +188,8 @@ export async function getComic(comicId: number): Promise<ComicWithDetails | null
 
 /**
  *
- * @param comicId
- * @param limit
+ * param comicId
+ * param limit
  */
 export async function getRecommendedComics(comicId: number, limit: number = 6) {
   const currentComic = await database.select().from(comic).where(eq(comic.id, comicId)).limit(1);
@@ -216,8 +216,8 @@ export async function getRecommendedComics(comicId: number, limit: number = 6) {
 
 /**
  *
- * @param query
- * @param limit
+ * param query
+ * param limit
  */
 export async function searchComics(query: string, limit: number = 10) {
   if (!query || query.trim().length === 0) return [];
@@ -250,8 +250,8 @@ export async function searchComics(query: string, limit: number = 10) {
 
 /**
  *
- * @param typeId
- * @param limit
+ * param typeId
+ * param limit
  */
 export async function getComicsByType(typeId: number, limit: number = 12) {
   return await database
@@ -264,7 +264,7 @@ export async function getComicsByType(typeId: number, limit: number = 12) {
 
 /**
  *
- * @param limit
+ * param limit
  */
 export async function getLatestComics(limit: number = 12) {
   return await database
@@ -283,7 +283,7 @@ export async function getLatestComics(limit: number = 12) {
 
 /**
  *
- * @param limit
+ * param limit
  */
 export async function getPopularComics(limit: number = 12) {
   return await database

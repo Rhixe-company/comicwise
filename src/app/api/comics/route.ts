@@ -4,10 +4,10 @@
 
 import { auth } from "auth";
 import { comicFilterSchema, createComicSchema } from "lib/validations";
-import { createComic } from "mutations/comics";
+import { createComic } from "database/mutations/comics";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getAllComics } from "queries/comics";
+import { getAllComics } from "database/queries/comics";
 
 import type { ComicFilters } from "types";
 

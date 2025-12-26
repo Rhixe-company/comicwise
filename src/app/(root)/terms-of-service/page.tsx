@@ -252,7 +252,7 @@ export default function TermsOfServicePage() {
             <p className="mb-4">If you have any questions about these Terms, please contact us:</p>
             <div className="mb-4 rounded-lg bg-muted p-4">
               <p className="font-mono">
-                Email: legal@comicwise.com
+                Email: legalcomicwise.com
                 <br />
                 Subject: Terms of Service Inquiry
               </p>

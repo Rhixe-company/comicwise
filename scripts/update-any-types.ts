@@ -13,7 +13,7 @@ console.log(chalk.cyan("\n╔═════════════════
 console.log(chalk.cyan("║          Type System Updater - Remove 'any' Types           ║"));
 console.log(chalk.cyan("╚══════════════════════════════════════════════════════════════╝\n"));
 
-const files = globSync("src/**/*.{ts,tsx}", {
+const files = globSync("**/*.{ts,tsx}", {
   ignore: ["**/node_modules/**", "**/.next/**", "**/types/*.d.ts"],
 });
 
@@ -74,7 +74,7 @@ for (const file of files) {
   // Skip files with eslint-disable any
   if (
     content.includes("eslint-disable") &&
-    content.includes("@typescript-eslint/no-explicit-any")
+    content.includes("typescript-eslint/no-explicit-any")
   ) {
     continue;
   }

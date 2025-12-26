@@ -33,7 +33,7 @@ function toPascalCase(str: string): string {
     .join("");
 }
 
-const files = globSync("src/**/*.{ts,tsx}", {
+const files = globSync("**/*.{ts,tsx}", {
   ignore: ["**/node_modules/**", "**/.next/**"],
 });
 

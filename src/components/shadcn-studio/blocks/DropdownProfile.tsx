@@ -18,7 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
 
 interface Props {
@@ -54,7 +54,7 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
           </div>
           <div className="flex flex-1 flex-col items-start">
             <span className="text-lg font-semibold text-foreground">John Doe</span>
-            <span className="text-base text-muted-foreground">john.doe@example.com</span>
+            <span className="text-base text-muted-foreground">john.doeexample.com</span>
           </div>
         </DropdownMenuLabel>
 

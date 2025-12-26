@@ -6,9 +6,9 @@ import { env } from "appConfig";
 
 /**
  * Generate responsive image srcset for different screen sizes
- * @param url - Original image URL
- * @param widths - Array of widths to generate (default: [320, 640, 1024, 1920])
- * @returns srcset string for use in img tag
+ * param url - Original image URL
+ * param widths - Array of widths to generate (default: [320, 640, 1024, 1920])
+ * returns srcset string for use in img tag
  */
 export function getResponsiveSrcSet(
   url: string,
@@ -19,8 +19,8 @@ export function getResponsiveSrcSet(
 
 /**
  * Get full CDN URL for an image path
- * @param path - Image path or URL
- * @returns Full URL with app base
+ * param path - Image path or URL
+ * returns Full URL with app base
  */
 export function getImageUrl(path: string): string {
   if (!path) return "";
@@ -41,11 +41,11 @@ export function getImageUrl(path: string): string {
 
 /**
  * Transform image URL with width, height, and quality parameters
- * @param url - Original image URL
- * @param width - Image width in pixels
- * @param height - Optional image height
- * @param quality - Image quality (1-100, default 80)
- * @returns Transformed image URL
+ * param url - Original image URL
+ * param width - Image width in pixels
+ * param height - Optional image height
+ * param quality - Image quality (1-100, default 80)
+ * returns Transformed image URL
  */
 export function transformImage(
   url: string,
@@ -75,8 +75,8 @@ export function transformImage(
 /**
  * Delete image from storage
  * Note: Actual deletion should be handled via API endpoint
- * @param url - Image URL to delete
- * @returns Promise resolving to success boolean
+ * param url - Image URL to delete
+ * returns Promise resolving to success boolean
  */
 export async function deleteImage(url: string): Promise<boolean> {
   if (!url) return false;
@@ -97,10 +97,10 @@ export async function deleteImage(url: string): Promise<boolean> {
 
 /**
  * Get thumbnail URL with predefined dimensions
- * @param url - Original image URL
- * @param width - Thumbnail width (default: 300)
- * @param height - Thumbnail height (default: 300)
- * @returns Thumbnail URL
+ * param url - Original image URL
+ * param width - Thumbnail width (default: 300)
+ * param height - Thumbnail height (default: 300)
+ * returns Thumbnail URL
  */
 export function getThumbnailUrl(url: string, width: number = 300, height: number = 300): string {
   return transformImage(url, width, height, 80);
@@ -109,8 +109,8 @@ export function getThumbnailUrl(url: string, width: number = 300, height: number
 /**
  * Extract public ID from image URL
  * Works with local paths and CDN URLs
- * @param url - Image URL
- * @returns Public ID or filename
+ * param url - Image URL
+ * returns Public ID or filename
  */
 export function getPublicIdFromUrl(url: string): string {
   if (!url) return "";
@@ -134,8 +134,8 @@ export function getPublicIdFromUrl(url: string): string {
 
 /**
  * Validate if a URL is a valid image URL
- * @param url - URL to validate
- * @returns true if URL appears to be an image
+ * param url - URL to validate
+ * returns true if URL appears to be an image
  */
 export function isValidImageUrl(url: string): boolean {
   if (!url) return false;
@@ -148,7 +148,7 @@ export function isValidImageUrl(url: string): boolean {
 
 /**
  * Get responsive image sizes attribute for Next.js Image component
- * @returns sizes string for responsive images
+ * returns sizes string for responsive images
  */
 export function getResponsiveImageSizes(): string {
   return "(max-width: 640px) 100vw, (max-width: 1024px) 75vw, (max-width: 1920px) 50vw, 33vw";
@@ -161,9 +161,9 @@ interface ImageDimensions {
 
 /**
  * Calculate aspect-ratio from dimensions
- * @param width - Image width
- * @param height - Image height
- * @returns Aspect ratio as decimal
+ * param width - Image width
+ * param height - Image height
+ * returns Aspect ratio as decimal
  */
 export function getAspectRatio(width: number, height: number): number {
   return width / height;
@@ -171,10 +171,10 @@ export function getAspectRatio(width: number, height: number): number {
 
 /**
  * Get optimized dimensions maintaining aspect ratio
- * @param originalWidth - Original image width
- * @param originalHeight - Original image height
- * @param targetWidth - Target width
- * @returns Dimensions maintaining aspect ratio
+ * param originalWidth - Original image width
+ * param originalHeight - Original image height
+ * param targetWidth - Target width
+ * returns Dimensions maintaining aspect ratio
  */
 export function getOptimizedDimensions(
   originalWidth: number,

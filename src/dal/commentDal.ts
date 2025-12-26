@@ -7,7 +7,7 @@ import { db } from "database/db";
 import { desc, eq } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { comment } from "schema";
-import type { Comment } from "types/database";
+import type { Comment } from "/typesdatabase";
 
 export class CommentDal {
   private static instance: CommentDal;

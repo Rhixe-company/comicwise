@@ -1,10 +1,10 @@
-import { deleteComicAction, updateComicAction } from "@/app/actions/admin/comics";
-import { ComicForm } from "admin/ComicForm";
-import { useConfirmDialog } from "admin/ConfirmDialog";
+import { deleteComicAction, updateComicAction } from "/app/actions/admin/comics";
+import { ComicForm } from "components/admin/ComicForm";
+import { useConfirmDialog } from "components/admin/ConfirmDialog";
 import { auth } from "auth";
 import { Trash2 } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
-import { getComicById } from "queries/adminComics";
+import { getComicById } from "database/queries/adminComics";
 import { Suspense } from "react";
 import { Button } from "ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
@@ -78,7 +78,7 @@ async function ComicEditForm({ id }: { id: number }) {
 }
 
 function DeleteComicButton({ comicId }: { comicId: number }) {
-  // @ts-ignore - useConfirmDialog hook
+  // ts-ignore - useConfirmDialog hook
   const { confirm, ConfirmDialog } = useConfirmDialog();
 
   return (

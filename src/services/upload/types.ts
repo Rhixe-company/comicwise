@@ -57,24 +57,24 @@ export interface UploadResult {
 export interface UploadProvider {
   /**
    * Upload a file to the storage backend
-   * @param file - File or Buffer to upload
-   * @param options - Upload configuration
-   * @returns Upload result with URL and metadata
+   * param file - File or Buffer to upload
+   * param options - Upload configuration
+   * returns Upload result with URL and metadata
    */
   upload(file: File | Buffer, options?: UploadOptions): Promise<UploadResult>;
 
   /**
    * Delete a file from storage
-   * @param publicId - File ID returned from upload
-   * @returns true if deletion was successful
+   * param publicId - File ID returned from upload
+   * returns true if deletion was successful
    */
   delete(publicId: string): Promise<boolean>;
 
   /**
    * Get public URL for a file with optional transformations
-   * @param publicId - File ID
-   * @param transformation - Transform options (provider-specific)
-   * @returns Public URL with transformations applied
+   * param publicId - File ID
+   * param transformation - Transform options (provider-specific)
+   * returns Public URL with transformations applied
    */
   getUrl(publicId: string, transformation?: Record<string, unknown>): string;
 }
@@ -157,8 +157,8 @@ export const UPLOAD_CONSTRAINTS: Record<UploadType, UploadConstraints> = {
 
 /**
  * Get upload constraints for a specific upload type
- * @param type - Upload type
- * @returns Upload constraints
+ * param type - Upload type
+ * returns Upload constraints
  */
 export function getUploadConstraints(type: UploadType): UploadConstraints {
   return UPLOAD_CONSTRAINTS[type] || UPLOAD_CONSTRAINTS.general;

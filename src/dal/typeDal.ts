@@ -7,7 +7,7 @@ import { db } from "database/db";
 import { asc, eq } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { type as typeTable } from "schema";
-import type { Type } from "types/database";
+import type { Type } from "/typesdatabase";
 
 export class TypeDal {
   private static instance: TypeDal;

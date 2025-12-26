@@ -203,7 +203,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="mb-4 rounded-lg bg-muted p-4">
               <p className="font-mono">
-                Email: privacy@comicwise.com
+                Email: privacycomicwise.com
                 <br />
                 Subject: Privacy Policy Inquiry
               </p>

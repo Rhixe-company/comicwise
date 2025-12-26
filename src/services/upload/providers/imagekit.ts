@@ -3,8 +3,8 @@
 // Next.js 16.0.7 + ImageKit Integration
 // ═══════════════════════════════════════════════════
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck - ImageKit SDK has incomplete type definitions
+// eslint-disable-next-line typescript-eslint/ban-ts-comment
+// ts-nocheck - ImageKit SDK has incomplete type definitions
 import { env } from "appConfig";
 import ImageKit from "imagekit";
 

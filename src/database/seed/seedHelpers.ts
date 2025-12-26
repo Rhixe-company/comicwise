@@ -9,6 +9,7 @@
  * - Track progress with detailed logging
  */
 
+import type { ChapterSeed, ComicSeed, UserSeed } from "lib/validations";
 import { parseCLIArgs } from "./config";
 import { logger } from "./logger";
 import { ChapterSeeder } from "./seeders/chapterSeeder";
@@ -16,7 +17,6 @@ import { ComicSeeder } from "./seeders/comicSeeder";
 import { UserSeeder } from "./seeders/userSeeder";
 import { fileUtils } from "./utils/fileUtils";
 import { metadataCache } from "./utils/metadataCache";
-import type { ChapterSeed, ComicSeed, UserSeed } from "lib/validations";
 
 export interface SeedOptions {
   batchSize?: number;

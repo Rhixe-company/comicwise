@@ -1,4 +1,4 @@
-import { bookmark, chapter, comic, comment, user } from "@/database";
+import { bookmark, chapter, comic, comment, user } from "database";
 import { db } from "database/db";
 import { desc, sql } from "drizzle-orm";
 import { BookMarked, BookOpen, BookPlus, Eye, FileText, Plus, UserPlus, Users } from "lucide-react";

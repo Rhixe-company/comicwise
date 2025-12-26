@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import { forgotPasswordAction } from "@/dto/authDto";
+import { forgotPasswordAction } from "/dto/authDto";
 import { AuthForm, EmailField } from "components/auth";
 import type { ForgotPasswordInput } from "lib/validations";
 import { forgotPasswordSchema } from "lib/validations";

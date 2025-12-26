@@ -10,7 +10,7 @@
  * - Optimizes folder structure
  * - Identifies orphaned code
  *
- * @usage pnpm tsx scripts/project-cleanup.ts [--dry-run] [--aggressive]
+ * usage pnpm tsx scripts/project-cleanup.ts [--dry-run] [--aggressive]
  */
 
 import chalk from "chalk";
@@ -181,7 +181,7 @@ if (result.largeFiles.length > 0) {
 console.log(chalk.yellow("📂 Suggested Folder Structure (Next.js 15+):"));
 console.log(
   chalk.gray(`
-src/
+
   ├── app/                    App Router
   │   ├── (auth)/            Route groups
   │   ├── (root)/

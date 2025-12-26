@@ -4,8 +4,8 @@ import ora from "ora";
 
 /**
  *
- * @param provider
- * @param options
+ * param provider
+ * param options
  */
 export async function upload(provider: string, options: any) {
   const spinner = ora(`Uploading to ${provider}...`).start();

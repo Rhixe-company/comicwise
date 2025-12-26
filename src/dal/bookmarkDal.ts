@@ -7,7 +7,7 @@ import { db } from "database/db";
 import { and, desc, eq } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { bookmark } from "schema";
-import type { Bookmark } from "types/database";
+import type { Bookmark } from "/typesdatabase";
 
 export class BookmarkDal {
   private static instance: BookmarkDal;

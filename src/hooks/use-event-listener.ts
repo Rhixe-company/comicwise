@@ -1,2 +1,2 @@
-export * from "src/src/hooks/useEventListener";
-export { useEventListener as default } from "src/src/hooks/useEventListener";
+export * from "hooks/useEventListener";
+export { useEventListener as default } from "hooks/useEventListener";

@@ -4,10 +4,10 @@
 
 import { auth } from "auth";
 import { updateUserSchema, userIdSchema } from "lib/validations";
-import { deleteUser, updateUser } from "mutations/users";
+import { deleteUser, updateUser } from "database/mutations/users";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getUserById } from "queries/users";
+import { getUserById } from "database/queries/users";
 
 // ═══════════════════════════════════════════════════
 // GET - Get User by ID

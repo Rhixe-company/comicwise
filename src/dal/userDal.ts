@@ -8,7 +8,7 @@ import * as mutations from "database/mutations";
 import * as queries from "database/queries";
 import { logger } from "lib/logger";
 import { user } from "schema";
-import type { User } from "types/database";
+import type { User } from "/typesdatabase";
 
 export class UserDal {
   private static instance: UserDal;

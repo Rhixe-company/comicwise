@@ -24,7 +24,7 @@ describe("Authentication Schemas", () => {
   describe("signInSchema", () => {
     it("should validate correct sign in data", () => {
       const validData = {
-        email: "test@example.com",
+        email: "testexample.com",
         password: "Password123",
       };
 
@@ -44,7 +44,7 @@ describe("Authentication Schemas", () => {
 
     it("should reject short password", () => {
       const invalidData = {
-        email: "test@example.com",
+        email: "testexample.com",
         password: "short",
       };
 
@@ -54,14 +54,14 @@ describe("Authentication Schemas", () => {
 
     it("should trim and lowercase email", () => {
       const data = {
-        email: "  TEST@EXAMPLE.COM  ",
+        email: "  TESTEXAMPLE.COM  ",
         password: "Password123",
       };
 
       const result = signInSchema.safeParse(data);
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.email).toBe("test@example.com");
+        expect(result.data.email).toBe("testexample.com");
       }
     });
   });
@@ -70,7 +70,7 @@ describe("Authentication Schemas", () => {
     it("should validate correct sign up data", () => {
       const validData = {
         name: "John Doe",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "Password123",
         confirmPassword: "Password123",
       };
@@ -82,7 +82,7 @@ describe("Authentication Schemas", () => {
     it("should reject passwords that don't match", () => {
       const invalidData = {
         name: "John Doe",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "Password123",
         confirmPassword: "DifferentPassword123",
       };
@@ -94,7 +94,7 @@ describe("Authentication Schemas", () => {
     it("should reject weak password", () => {
       const invalidData = {
         name: "John Doe",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "onlylowercase",
         confirmPassword: "onlylowercase",
       };
@@ -106,7 +106,7 @@ describe("Authentication Schemas", () => {
     it("should reject short name", () => {
       const invalidData = {
         name: "J",
-        email: "john@example.com",
+        email: "johnexample.com",
         password: "Password123",
         confirmPassword: "Password123",
       };
@@ -118,7 +118,7 @@ describe("Authentication Schemas", () => {
 
   describe("forgotPasswordSchema", () => {
     it("should validate correct email", () => {
-      const validData = { email: "test@example.com" };
+      const validData = { email: "testexample.com" };
 
       const result = forgotPasswordSchema.safeParse(validData);
       expect(result.success).toBe(true);
@@ -407,14 +407,14 @@ describe("Chapter Schemas", () => {
 describe("Security & Edge Cases", () => {
   it("should trim whitespace from strings", () => {
     const data = {
-      email: "  test@example.com  ",
+      email: "  testexample.com  ",
       password: "Password123",
     };
 
     const result = signInSchema.safeParse(data);
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.email).toBe("test@example.com");
+      expect(result.data.email).toBe("testexample.com");
     }
   });
 

@@ -10,7 +10,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "ui/dropdown-menu";
 
 type Props = {
   trigger: ReactNode;
@@ -45,7 +45,7 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
           </div>
           <div className="flex flex-1 flex-col items-start">
             <span className="text-foreground text-lg font-semibold">John Doe</span>
-            <span className="text-muted-foreground text-base">john.doe@example.com</span>
+            <span className="text-muted-foreground text-base">john.doeexample.com</span>
           </div>
         </DropdownMenuLabel>
 

@@ -1,4 +1,4 @@
-import { createComic } from "dto/comicsDto";
+import { createComic } from "/dto/comicsDto";
 import type { CreateComicInput } from "lib/validations";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

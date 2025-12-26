@@ -1,4 +1,4 @@
-import { DataTable } from "admin/DataTable";
+import { DataTable } from "components/admin/DataTable";
 import { db } from "database/db";
 import { eq } from "drizzle-orm";
 import { Plus } from "lucide-react";

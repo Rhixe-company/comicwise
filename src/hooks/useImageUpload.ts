@@ -71,10 +71,10 @@ export interface UseImageUploadReturn {
  * - Error handling and reporting
  * - Multiple file type support (images, PDFs, etc.)
  *
- * @param options - Configuration options for upload behavior
- * @returns Object with upload state and control methods
+ * param options - Configuration options for upload behavior
+ * returns Object with upload state and control methods
  *
- * @example
+ * example
  * ```tsx
  * const { fileInputRef, isUploading, error, handleFileSelect } = useImageUpload({
  *   maxSizeMB: 10,

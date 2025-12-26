@@ -4,9 +4,9 @@
 
 import { createGenericEntity, listGenericEntity, zodToValidationResult } from "lib/genericCrud";
 import { authorFilterSchema, createAuthorSchema } from "lib/validations";
-import { createAuthor } from "mutations/authors";
+import { createAuthor } from "database/mutations/authors";
 import type { NextRequest } from "next/server";
-import { getAllAuthors } from "queries/authors";
+import { getAllAuthors } from "database/queries/authors";
 
 export async function GET(request: NextRequest) {
   return listGenericEntity(request, {

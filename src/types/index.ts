@@ -7,23 +7,23 @@
 // CORE & UTILITIES
 // ═══════════════════════════════════════════════════
 
-export * from "src/src/types/Core"; // BaseEntity, TimestampedEntity, etc.
-export * from "src/src/types/Utility"; // Nullable, Prettify, DeepPartial, etc.
+export * from "types/Core"; // BaseEntity, TimestampedEntity, etc.
+export * from "types/Utility"; // Nullable, Prettify, DeepPartial, etc.
 
 // ═══════════════════════════════════════════════════
 // DATABASE (All models, relations, filters, inputs)
 // ═══════════════════════════════════════════════════
 
-export * from "src/src/types/database"; // All database types (consolidated)
+export * from "typesdatabase"; // All database types (consolidated)
 
 // ═══════════════════════════════════════════════════
 // APPLICATION LAYER
 // ═══════════════════════════════════════════════════
 
-export * from "src/src/types/actions"; // Server actions
-export * from "src/src/types/Api"; // API responses
-export * from "src/src/types/components"; // Component props
-export * from "src/src/types/forms"; // Form types
+export * from "types/actions"; // Server actions
+export * from "types/Api"; // API responses
+export * from "typescomponents"; // Component props
+export * from "types/forms"; // Form types
 
 // ═══════════════════════════════════════════════════
 // INFRASTRUCTURE

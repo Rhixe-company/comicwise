@@ -1,5 +1,5 @@
-import ClientImageUploader from "admin/ClientImageUploader";
-import { deleteAuthor, updateAuthor } from "dto/authorsDto";
+import ClientImageUploader from "components/admin/ClientImageUploader";
+import { deleteAuthor, updateAuthor } from "/dto/authorsDto";
 import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/ca
 import { Input } from "ui/input";
 import { Textarea } from "ui/textarea";
 
-// `ClientImageUploader` moved to `src/components/admin/ClientImageUploader`
+// `ClientImageUploader` moved to `components/admin/ClientImageUploader`
 
 export default async function EditAuthorForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);

@@ -4,7 +4,7 @@
 // VERIFY EMAIL PAGE (Next.js 16 + React 19)
 // ═══════════════════════════════════════════════════
 
-import { verifyEmailAction } from "@/dto/authDto";
+import { verifyEmailAction } from "/dto/authDto";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";

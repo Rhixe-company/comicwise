@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /*
  * scripts/update-imports-to-aliases.ts
- * Rewrites relative imports that point into `src/` to use path aliases.
+ * Rewrites relative imports that point into `` to use path aliases.
  * Uses ts-morph to safely rewrite import & export module specifiers via AST.
  * Usage: pnpm tsx scripts/update-imports-to-aliases.ts
  */
@@ -23,12 +23,12 @@ function processModuleSpec(filePath: string, moduleSpec: string | undefined): st
   if (!resolved.startsWith(sourceRoot)) return null;
 
   const relativeToSource = normalizeSlashes(path.relative(sourceRoot, resolved));
-  return `src/${relativeToSource}`;
+  return `${relativeToSource}`;
 }
 
 async function main() {
   const project = new Project({ tsConfigFilePath: path.join(repoRoot, "tsconfig.json") });
-  const files = await globby(["src/**/*.{ts,tsx,js,jsx,mts,cts}"], {
+  const files = await globby(["**/*.{ts,tsx,js,jsx,mts,cts}"], {
     gitignore: true,
     cwd: repoRoot,
     absolute: true,

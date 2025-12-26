@@ -20,8 +20,8 @@ import { readFileSync, readdirSync, statSync } from "fs";
 import { basename, extname, join, relative } from "path";
 
 // Import providers
-import { CloudinaryProvider } from "@/services/upload/providers/cloudinary";
-import { ImageKitProvider } from "@/services/upload/providers/imagekit";
+import { CloudinaryProvider } from "/services/upload/providers/cloudinary";
+import { ImageKitProvider } from "/services/upload/providers/imagekit";
 
 interface UploadOptions {
   provider?: "imagekit" | "cloudinary" | "aws" | "all";
@@ -84,7 +84,7 @@ class BulkUploader {
       ) {
         // Dynamically import AWS provider if available
         try {
-          const { S3Provider } = await import("@/services/upload/providers/s3");
+          const { S3Provider } = await import("/services/upload/providers/s3");
           this.providers.set("aws", new S3Provider());
           console.log("✅ AWS S3 initialized");
         } catch (error) {

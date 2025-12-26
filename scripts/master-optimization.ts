@@ -21,7 +21,7 @@
  * 14. ⏳ Generate final report
  * 15. ⏳ Validation and testing
  *
- * @usage pnpm tsx scripts/master-optimization.ts [--task=<number>] [--dry-run]
+ * usage pnpm tsx scripts/master-optimization.ts [--task=<number>] [--dry-run]
  */
 
 import chalk from "chalk";
@@ -187,7 +187,7 @@ async function task4_customPaths() {
   details.push("✅ Custom paths already configured in tsconfig.json");
   details.push("  - Primary aliases ()");
   details.push("  - Short aliases");
-  details.push("  - Backwards compatibility (@/)");
+  details.push("  - Backwards compatibility (/)");
   details.push("  - Legacy support");
 
   const duration = Date.now() - taskStart;

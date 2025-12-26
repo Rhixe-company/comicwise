@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import EditUserForm from "src/app/admin/users/[id]/EditUserForm";
+import EditUserForm from "app/admin/users/[id]/EditUserForm";
 
 export default function Page({ params }: { params: { id: string } }) {
   return (

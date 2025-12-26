@@ -1,7 +1,7 @@
 /**
  * jscodeshift transform: replace-upload-with-hook.jscodeshift.js
  * - Removes a top-level `async function handleImageUpload(...)` declaration
- * - Adds an import for `useImageUpload` from `src/hooks/useImageUpload` if missing
+ * - Adds an import for `useImageUpload` from `hooks/useImageUpload` if missing
  * - Inserts a conservative hook usage snippet after imports when `handleImageUpload` was present
  * - Replaces `onChange={handleImageUpload}` with `onChange={handleFileSelect}`
  * - Replaces `document.getElementById(...)? .click()` patterns with `fileInputRef.current?.click()`
@@ -39,14 +39,14 @@ module.exports = function transformer(file, api) {
 
   // Ensure import for useImageUpload exists
   const existingImport = root.find(j.ImportDeclaration, {
-    source: { value: "src/hooks/useImageUpload" },
+    source: { value: "hooks/useImageUpload" },
   });
   if (existingImport.size() === 0) {
     // insert after last import
     const imports = root.find(j.ImportDeclaration);
     const hookImport = j.importDeclaration(
       [j.importSpecifier(j.identifier("useImageUpload"))],
-      j.literal("src/hooks/useImageUpload")
+      j.literal("hooks/useImageUpload")
     );
 
     if (imports.size() > 0) {

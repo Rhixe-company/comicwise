@@ -98,7 +98,7 @@ async function cleanupDuplicateFiles(): Promise<void> {
 async function validateFileNaming(): Promise<void> {
   header("Validating file naming conventions");
 
-  const files = globSync("src/**/*.{ts,tsx}", {
+  const files = globSync("**/*.{ts,tsx}", {
     ignore: ["**/node_modules/**", "**/.next/**"],
     cwd: process.cwd(),
   });

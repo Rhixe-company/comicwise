@@ -1,6 +1,6 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageUpload } from "admin/ImageUpload";
+import { zodResolver } from "hookform/resolvers/zod";
+import { ImageUpload } from "components/admin/ImageUpload";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

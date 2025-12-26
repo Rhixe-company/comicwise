@@ -1,4 +1,4 @@
-declare module "@upstash/redis" {
+declare module "upstash/redis" {
   export interface RedisConfig {
     url: string;
     token: string;
@@ -59,7 +59,7 @@ declare module "@upstash/redis" {
   }
 }
 
-declare module "@upstash/qstash" {
+declare module "upstash/qstash" {
   export interface QStashConfig {
     token: string;
   }

@@ -1,4 +1,4 @@
-import { deleteChapter, updateChapter } from "dto/chaptersDto";
+import { deleteChapter, updateChapter } from "/dto/chaptersDto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { Button } from "ui/button";

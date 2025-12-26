@@ -3,8 +3,8 @@
  * Comprehensive Master Optimization Script
  * Handles all 16 optimization tasks for ComicWise project
  *
- * @author AI Assistant
- * @date 2025-12-24
+ * author AI Assistant
+ * date 2025-12-24
  */
 
 import chalk from "chalk";

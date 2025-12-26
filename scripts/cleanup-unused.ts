@@ -12,13 +12,13 @@ console.log(chalk.cyan("╚═════════════════�
 
 const filesToRemove = [
   // Old type files that are now consolidated
-  "src/types/core.ts",
-  "src/types/api.d.ts",
-  "src/types/database-auto.ts",
-  "src/types/database-models.ts",
+  "types/core.ts",
+  "types/api.d.ts",
+  "typesdatabase-auto.ts",
+  "typesdatabase-models.ts",
 
   // Duplicate or old implementation files
-  "src/lib/search.ts", // Replaced by searchRefactored.ts
+  "lib/search.ts", // Replaced by searchRefactored.ts
 
   // Old summary/documentation files (keep only latest)
   "COMPLETE_TASK_SUMMARY.md",

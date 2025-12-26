@@ -23,7 +23,7 @@ interface ClientImageUploaderProps {
   maxSize?: number; // in MB
   type?: "comic-cover" | "chapter-image" | "avatar" | "general";
   uploadType?: "comic-cover" | "chapter-image" | "avatar" | "general";
-  /** @deprecated Not used, kept for backward compatibility */
+  /** deprecated Not used, kept for backward compatibility */
   targetInputId?: string;
 }
 
@@ -37,7 +37,7 @@ interface ClientImageUploaderProps {
  * - Error handling
  * - Responsive design
  *
- * @example
+ * example
  * ```tsx
  * <ClientImageUploader
  *   value={imageUrl}

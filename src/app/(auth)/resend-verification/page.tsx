@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import { resendVerificationEmailAction } from "@/dto/authDto";
+import { resendVerificationEmailAction } from "/dto/authDto";
 import { AuthForm, EmailField } from "components/auth";
 import type { ResendVerificationEmailInput } from "lib/validations";
 import { resendVerificationEmailSchema } from "lib/validations";

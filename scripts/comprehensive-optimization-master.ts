@@ -309,7 +309,7 @@ class ProjectOptimizer {
   }
 
   private async consolidateTypes(): Promise<void> {
-    // Consolidate all type definitions into src/types
+    // Consolidate all type definitions into types
     console.log(chalk.gray("  Consolidating type definitions..."));
   }
 

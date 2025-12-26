@@ -1,4 +1,4 @@
-declare module "@zxcvbn-ts/core" {
+declare module "zxcvbn-ts/core" {
   export interface ZxcvbnResult {
     score: 0 | 1 | 2 | 3 | 4;
     guesses: number;
@@ -27,7 +27,7 @@ declare module "@zxcvbn-ts/core" {
   export function zxcvbnOptions(options: ZxcvbnOptions): void;
 }
 
-declare module "@zxcvbn-ts/language-common" {
+declare module "zxcvbn-ts/language-common" {
   export const dictionary: {
     passwords: string[];
     names: string[];
@@ -35,7 +35,7 @@ declare module "@zxcvbn-ts/language-common" {
   };
 }
 
-declare module "@zxcvbn-ts/language-en" {
+declare module "zxcvbn-ts/language-en" {
   export const dictionary: {
     passwords: string[];
     names: string[];

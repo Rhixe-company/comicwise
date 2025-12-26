@@ -4,7 +4,7 @@
  * Using sliding window algorithm with Redis
  */
 
-import { Redis } from "@upstash/redis";
+import { Redis } from "upstash/redis";
 import { env } from "appConfig";
 
 const redis = new Redis({

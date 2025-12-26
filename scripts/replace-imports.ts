@@ -1,17 +1,24 @@
-import fs from "fs";
+import fs from "node:fs";
 import { glob } from "glob";
-import { dirname, relative, resolve } from "path";
-import { fileURLToPath } from "url";
+import { dirname, relative, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const filename = fileURLToPath(import.meta.url);
 const baseDirname = dirname(filename);
 const repoRoot = resolve(baseDirname, "..");
-const patterns = [{ from: "", to: "" }];
+const patterns = [
+  { from: "@", to: "" },
+   { from: "src/", to: "" },
+   { from: "/components/ui", to: "ui" },
+   { from: "/components", to: "components" },
+   { from: "/lib", to: "lib" },
+   { from: "/database", to: "database" }
+   ];
 
 // Order matters: longer matches first already arranged
 
 const fileGlob = "**/*.{ts,tsx,js,jsx}";
-const ignore = ["node_modules/**", ".next/**", "dist/**", "out/**"];
+const ignore = ["node_modules/**", ".next/**", "dist/**", "out/**", "scripts/replace-imports.ts"];
 
 const files = glob.sync(fileGlob, { cwd: repoRoot, absolute: true, ignore });
 let changed = 0;

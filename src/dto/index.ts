@@ -15,7 +15,7 @@ export type {
   UpdateUserDto,
   UserDto,
   VerifyEmailDto,
-} from "src/src/dto/authDto";
+} from "./authDto";
 
 // Artist DTOs
 export type {
@@ -24,7 +24,7 @@ export type {
   ArtistWithComicsDto,
   CreateArtistDto,
   UpdateArtistDto,
-} from "src/src/dto/artistsDto";
+} from "./artistsDto";
 
 // Author DTOs
 export type {
@@ -33,7 +33,7 @@ export type {
   AuthorWithComicsDto,
   CreateAuthorDto,
   UpdateAuthorDto,
-} from "src/src/dto/authorsDto";
+} from "./authorsDto";
 
 // Chapter DTOs
 export type {
@@ -43,7 +43,7 @@ export type {
   ChapterWithImagesDto,
   CreateChapterDto,
   UpdateChapterDto,
-} from "src/src/dto/chaptersDto";
+} from "./chaptersDto";
 
 // Comic DTOs
 export type {
@@ -53,7 +53,7 @@ export type {
   ComicWithRelationsDto,
   CreateComicDto,
   UpdateComicDto,
-} from "src/src/dto/comicsDto";
+} from "./comicsDto";
 
 // Genre DTOs
 export type {
@@ -62,7 +62,7 @@ export type {
   GenreListDto,
   GenreWithComicsDto,
   UpdateGenreDto,
-} from "src/src/dto/genresDto";
+} from "./genresDto";
 
 // Type DTOs
 export type {
@@ -71,13 +71,13 @@ export type {
   TypeListDto,
   TypeWithComicsDto,
   UpdateTypeDto,
-} from "src/src/dto/typesDto";
+} from "./typesDto";
 
 // User DTOs
-export type { SafeUserDto, UserListDto, UserWithBookmarksDto } from "src/src/dto/usersDto";
+export type { SafeUserDto, UserListDto, UserWithBookmarksDto } from "./usersDto";
 
 // Combined DTOs
-export type { GenresTypesDto, GenresTypesWithCountsDto } from "src/src/dto/genresTypesDto";
+export type { GenresTypesDto, GenresTypesWithCountsDto } from "./genresTypesDto";
 
 // Bookmark DTOs
 export type {
@@ -86,7 +86,7 @@ export type {
   BookmarkWithComicDto,
   CreateBookmarkDto,
   UpdateBookmarkDto,
-} from "src/src/dto/bookmarkDto";
+} from "./bookmarkDto";
 
 // Comment DTOs
 export type {
@@ -95,4 +95,4 @@ export type {
   CommentWithUserDto,
   CreateCommentDto,
   UpdateCommentDto,
-} from "src/src/dto/commentDto";
+} from "./commentDto";

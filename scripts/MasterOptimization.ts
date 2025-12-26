@@ -230,7 +230,7 @@ export interface RequestOptions {
 async function task2_UpdateAnyTypes() {
   console.log(chalk.blue("\n🔧 Task 2: Updating 'any' Types...\n"));
 
-  const files = globSync("src/**/*.{ts,tsx}", {
+  const files = globSync("**/*.{ts,tsx}", {
     ignore: ["**/node_modules/**", "**/.next/**", "**/types/*.d.ts", "**/eslint.config.ts"],
   });
 
@@ -241,7 +241,7 @@ async function task2_UpdateAnyTypes() {
     const originalContent = content;
 
     // Skip files with explicit any disable comments
-    if (content.includes("@typescript-eslint/no-explicit-any")) {
+    if (content.includes("typescript-eslint/no-explicit-any")) {
       continue;
     }
 

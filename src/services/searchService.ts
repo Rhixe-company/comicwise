@@ -65,7 +65,7 @@ export async function fullTextSearch(
 
     // Full-text search condition
     if (tsQuery) {
-      conditions.push(sql`searchVector @@ to_tsquery('english', ${tsQuery})` as SQL<unknown>);
+      conditions.push(sql`searchVector  to_tsquery('english', ${tsQuery})` as SQL<unknown>);
     }
 
     // Status filter

@@ -1,12 +1,12 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "playwright/test";
 import { env } from "appConfig";
 
 const BASE_URL = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 // Test user credentials
 const TEST_USER = {
-  email: "test@example.com",
-  password: "Test123!@",
+  email: "testexample.com",
+  password: "Test123!",
   name: "Test User",
 };
 
@@ -62,7 +62,7 @@ test.describe("Authentication E2E Tests", () => {
 
     test("should successfully register a new user", async ({ page }) => {
       // Generate unique email for test
-      const uniqueEmail = `test-${Date.now()}@example.com`;
+      const uniqueEmail = `test-${Date.now()}example.com`;
 
       await page.goto(`${BASE_URL}/register`);
 
@@ -88,7 +88,7 @@ test.describe("Authentication E2E Tests", () => {
 
     test("should prevent duplicate email registration", async ({ page }) => {
       // Try to register with same email twice
-      const uniqueEmail = `duplicate-${Date.now()}@example.com`;
+      const uniqueEmail = `duplicate-${Date.now()}example.com`;
 
       // First registration
       await page.goto(`${BASE_URL}/register`);
@@ -136,7 +136,7 @@ test.describe("Authentication E2E Tests", () => {
       await page.goto(`${BASE_URL}/sign-in`);
 
       // Enter invalid credentials
-      await page.getByLabel(/email/i).fill("nonexistent@example.com");
+      await page.getByLabel(/email/i).fill("nonexistentexample.com");
       await page.getByLabel(/password/i).fill("WrongPassword123!");
 
       await page.getByRole("button", { name: /sign in|log in/i }).click();

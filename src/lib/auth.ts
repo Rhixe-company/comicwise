@@ -66,7 +66,7 @@ export async function isAuthenticated(): Promise<boolean> {
 
 /**
  * Check if user has specific role
- * @param requiredRole
+ * param requiredRole
  */
 export async function hasRole(requiredRole: "admin" | "moderator" | "user"): Promise<boolean> {
   const currentUser = await getCurrentUser();
@@ -98,7 +98,7 @@ export async function requireAuth(): Promise<typeof user.$inferSelect> {
 
 /**
  * Require specific role - throw error if not authorized
- * @param requiredRole
+ * param requiredRole
  */
 export async function requireRole(
   requiredRole: "admin" | "moderator"

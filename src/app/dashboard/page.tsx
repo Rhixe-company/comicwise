@@ -1,11 +1,11 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import { ChartAreaInteractive } from "@/components/ChartAreaInteractive";
-import { DataTable } from "@/components/DataTable";
-import { SectionCards } from "@/components/SectionCards";
-import { SiteHeader } from "@/components/SiteHeader";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "components/app-sidebar";
+import { ChartAreaInteractive } from "components/ChartAreaInteractive";
+import { DataTable } from "components/DataTable";
+import { SectionCards } from "components/SectionCards";
+import { SiteHeader } from "components/SiteHeader";
+import { SidebarInset, SidebarProvider } from "ui/sidebar";
 
-import data from "src/src/app/dashboard/data.json";
+import data from "app/dashboard/data.json";
 
 export default function Page() {
   return (
@@ -21,7 +21,7 @@ export default function Page() {
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
+          <div className="container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
               <SectionCards />
               <div className="px-4 lg:px-6">

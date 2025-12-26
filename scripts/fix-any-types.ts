@@ -6,7 +6,7 @@
  *
  * Automatically fixes 'any' types with proper TypeScript types
  *
- * @usage pnpm tsx scripts/fix-any-types.ts [--dry-run] [--fix]
+ * usage pnpm tsx scripts/fix-any-types.ts [--dry-run] [--fix]
  */
 
 import { readFileSync, writeFileSync } from "fs";
@@ -19,7 +19,7 @@ const AUTO_FIX = args.includes("--fix");
 console.log("🔍 Searching for 'any' types...\n");
 
 // Find all TypeScript files with 'any' type
-const tsFiles = globSync("src/**/*.{ts,tsx}", {
+const tsFiles = globSync("**/*.{ts,tsx}", {
   ignore: ["**/node_modules/**", "**/*.d.ts", "**/types/**"],
 });
 

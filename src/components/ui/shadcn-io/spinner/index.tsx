@@ -164,7 +164,7 @@ const Bars = ({ size = 24, ...props }: SpinnerVariantProps) => (
       .spinner-bars-3 {
         animation-delay: -0.5s;
       }
-      @keyframes spinner-bars-animation {
+      keyframes spinner-bars-animation {
         0% {
           y: 1px;
           height: 22px;

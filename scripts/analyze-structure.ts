@@ -27,23 +27,23 @@ interface FolderStructure {
 
 const STRUCTURE_IMPROVEMENTS: FolderStructure[] = [
   {
-    current: "src/components/ui",
-    recommended: "src/components/ui",
+    current: "components/ui",
+    recommended: "components/ui",
     reason: "✅ Already optimal - shadcn/ui components",
   },
   {
-    current: "src/lib/actions",
-    recommended: "src/features/*/actions",
+    current: "lib/actions",
+    recommended: "features/*/actions",
     reason: "Group actions by feature for better organization",
   },
   {
-    current: "src/database/queries",
-    recommended: "src/dal",
+    current: "database/queries",
+    recommended: "dal",
     reason: "Consolidate data access layer for better encapsulation",
   },
   {
-    current: "src/database/mutations",
-    recommended: "src/dal",
+    current: "database/mutations",
+    recommended: "dal",
     reason: "Consolidate data access layer for better encapsulation",
   },
 ];
@@ -70,11 +70,11 @@ async function analyzeStructure(): Promise<void> {
   header("Folder Structure Analysis");
 
   // Get all directories in src
-  const srcDirs = globSync("src/*/", {
+  const srcDirs = globSync("*/", {
     cwd: process.cwd(),
   });
 
-  log(`Found ${srcDirs.length} top-level directories in src/`, "info");
+  log(`Found ${srcDirs.length} top-level directories in `, "info");
 
   for (const dir of srcDirs) {
     const stats = await fs.stat(dir);
@@ -90,7 +90,7 @@ async function checkDuplicateCode(): Promise<void> {
   header("Checking for Duplicate Code");
 
   // Check for duplicate component names
-  const components = globSync("src/**/*.tsx", {
+  const components = globSync("**/*.tsx", {
     ignore: ["**/*.d.ts", "**/node_modules/**", "**/.next/**"],
   });
 
@@ -122,7 +122,7 @@ async function checkDuplicateCode(): Promise<void> {
 async function validateImports(): Promise<void> {
   header("Validating Import Paths");
 
-  const tsFiles = globSync("src/**/*.{ts,tsx}", {
+  const tsFiles = globSync("**/*.{ts,tsx}", {
     ignore: ["**/*.d.ts", "**/node_modules/**", "**/.next/**"],
   });
 
@@ -132,7 +132,7 @@ async function validateImports(): Promise<void> {
   for (const file of tsFiles) {
     const content = await fs.readFile(file, "utf-8");
     const relativeMatches = content.match(/from\s+["']\.{1,2}\//g);
-    const aliasMatches = content.match(/from\s+["'][@]/g);
+    const aliasMatches = content.match(/from\s+["'][]/g);
 
     if (relativeMatches) {
       relativeImports += relativeMatches.length;
@@ -157,7 +157,7 @@ async function checkFeatureOrganization(): Promise<void> {
   const features = ["auth", "comics", "chapters", "bookmarks", "comments", "admin", "profile"];
 
   log("Recommended feature-based structure:", "info");
-  log("\n  src/features/", "info");
+  log("\n  features/", "info");
   for (const feature of features) {
     log(`    ├── ${feature}/`, "info");
     log(`    │   ├── actions/`, "info");
@@ -182,7 +182,7 @@ async function generateRecommendations(): Promise<void> {
       priority: "HIGH",
       action: "Move data access code to DAL",
       reason: "Better separation of concerns and easier testing",
-      command: "Already implemented in src/dal/",
+      command: "Already implemented in dal/",
     },
     {
       priority: "MEDIUM",
@@ -223,7 +223,7 @@ Generated: ${new Date().toISOString()}
  Current Structure
 
 \`\`\`
-src/
+
 ├── app/               Next.js App Router
 ├── components/        Reusable components
 │   ├── ui/           shadcn/ui components
@@ -249,7 +249,7 @@ src/
  1. Feature-Based Organization (Future Enhancement)
 
 \`\`\`
-src/features/
+features/
 ├── auth/
 │   ├── actions/
 │   ├── components/
@@ -265,12 +265,12 @@ src/features/
 
  2. Data Layer Consolidation ✅
 
-- **Implemented**: All queries and mutations moved to \`src/dal/\`
+- **Implemented**: All queries and mutations moved to \`dal/\`
 - **Benefit**: Single source of truth for data operations
 
  3. Type Organization ✅
 
-- **Current**: Centralized in \`src/types/\`
+- **Current**: Centralized in \`types/\`
 - **Status**: Well-organized with proper exports
 
  Best Practices

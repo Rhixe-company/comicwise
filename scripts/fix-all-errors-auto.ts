@@ -37,7 +37,7 @@ function fixActionResponseType() {
   const typesIndexPath = path.join(projectRoot, "src", "types", "index.ts");
 
   if (!fs.existsSync(typesIndexPath)) {
-    console.log("  ⚠️  src/types/index.ts not found, skipping...");
+    console.log("  ⚠️  types/index.ts not found, skipping...");
     return;
   }
 
@@ -59,7 +59,7 @@ export interface ActionResponse<T = unknown> {
 `;
     content = actionResponseType + "\n" + content;
     fs.writeFileSync(typesIndexPath, content, "utf-8");
-    console.log("  ✓ Added ActionResponse type to src/types/index.ts");
+    console.log("  ✓ Added ActionResponse type to types/index.ts");
   } else {
     console.log("  ✓ ActionResponse type already exists");
   }
@@ -119,7 +119,7 @@ function fixDatabaseAdapter() {
 
   // Ensure database export doesn't include .db property
   if (content.includes("export { database }") && content.includes("database.db")) {
-    content = content.replace(/database\.db/g, "database");
+    content = content.replace(database.db/g, "database");
     fs.writeFileSync(dbPath, content, "utf-8");
     console.log("  ✓ Fixed database.db reference");
   } else {

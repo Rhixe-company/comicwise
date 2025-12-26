@@ -11,14 +11,14 @@ import {
 
 import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "ui/avatar";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "ui/chart";
 
 const salesPlanPercentage = 54;
 const totalBars = 24;
@@ -108,7 +108,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xl font-medium">Sandy&apos; Company</span>
-                <span className="text-muted-foreground text-sm">sandy@company.com</span>
+                <span className="text-muted-foreground text-sm">sandycompany.com</span>
               </div>
             </div>
 

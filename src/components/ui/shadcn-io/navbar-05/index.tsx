@@ -7,14 +7,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+} from "ui/navigation-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "ui/popover";
 import { BellIcon, ChevronDownIcon, HelpCircleIcon } from "lucide-react";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -180,7 +180,7 @@ const NotificationMenu = ({
 // User Menu Component
 const UserMenu = ({
   userName = "John Doe",
-  userEmail = "john@example.com",
+  userEmail = "johnexample.com",
   userAvatar,
   onItemClick,
 }: {
@@ -264,7 +264,7 @@ export const Navbar05 = React.forwardRef<HTMLElement, Navbar05Props>(
       logoHref: _logoHref = "",
       navigationLinks = defaultNavigationLinks,
       userName = "John Doe",
-      userEmail = "john@example.com",
+      userEmail = "johnexample.com",
       userAvatar,
       notificationCount = 3,
       onNavItemClick,

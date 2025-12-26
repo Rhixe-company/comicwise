@@ -1,4 +1,4 @@
-import { Redis } from "@upstash/redis";
+import { Redis } from "upstash/redis";
 
 // Use Upstash Redis REST API (recommended for serverless)
 export const redis = new Redis({

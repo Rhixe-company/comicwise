@@ -1,1 +1,1 @@
-export * from "src/src/components/ui/AlertDialog";
+export * from "components/ui/AlertDialog";

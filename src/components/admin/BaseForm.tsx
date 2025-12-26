@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable typescript-eslint/no-explicit-any */
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import type { DefaultValues, Path, UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
@@ -66,7 +66,7 @@ export function BaseForm<T extends z.ZodTypeAny>({
 }: BaseFormProps<T>) {
   type FormValues = z.infer<T>;
 
-  // @ts-expect-error - zodResolver type compatibility issue with react-hook-form generics
+  // ts-expect-error - zodResolver type compatibility issue with react-hook-form generics
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<FormValues>,

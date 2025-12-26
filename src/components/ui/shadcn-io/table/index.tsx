@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "ui/dropdown-menu";
 import {
   TableBody as TableBodyRaw,
   TableCell as TableCellRaw,
@@ -12,7 +12,7 @@ import {
   TableHead as TableHeadRaw,
   Table as TableRaw,
   TableRow as TableRowRaw,
-} from "@/components/ui/table";
+} from "ui/table";
 import type {
   Cell,
   Column,
@@ -22,20 +22,20 @@ import type {
   Row,
   SortingState,
   Table,
-} from "@tanstack/react-table";
+} from "tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from "tanstack/react-table";
 import { atom, useAtom } from "jotai";
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from "lucide-react";
 import type { HTMLAttributes, ReactNode } from "react";
 import { createContext, memo, useCallback, useContext } from "react";
 import { cn } from "utils";
 
-export type { ColumnDef } from "@tanstack/react-table";
+export type { ColumnDef } from "tanstack/react-table";
 
 const sortingAtom = atom<SortingState>([]);
 
@@ -69,7 +69,7 @@ export function TableProvider<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: (updater) => {
-      // @ts-expect-error updater is a function that returns a sorting object
+      // ts-expect-error updater is a function that returns a sorting object
       const newSorting = updater(sorting);
 
       setSorting(newSorting);

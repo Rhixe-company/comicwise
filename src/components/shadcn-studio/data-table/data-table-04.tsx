@@ -10,7 +10,7 @@ import type {
   ColumnFiltersState,
   RowData,
   SortingState,
-} from "@tanstack/react-table";
+} from "tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
@@ -20,20 +20,20 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from "tanstack/react-table";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
+import { Badge } from "ui/badge";
+import { Checkbox } from "ui/checkbox";
+import { Input } from "ui/input";
+import { Label } from "ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "ui/select";
 import {
   Table,
   TableBody,
@@ -41,12 +41,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "ui/table";
 
-import { cn } from "@/lib/utils";
+import { cn } from "lib/utils";
 
-declare module "@tanstack/react-table" {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+declare module "tanstack/react-table" {
+  // eslint-disable-next-line typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
     filterVariant?: "text" | "range" | "select";
   }

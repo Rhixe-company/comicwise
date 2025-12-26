@@ -1,6 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useState } from "react";
@@ -29,18 +29,18 @@ export interface AuthFormProperties<T extends FieldValues> {
 
 /**
  *
- * @param root0
- * @param root0.title
- * @param root0.description
- * @param root0.schema
- * @param root0.defaultValues
- * @param root0.onSubmit
- * @param root0.children
- * @param root0.footer
- * @param root0.error
- * @param root0.isLoading
- * @param root0.submitLabel
- * @param root0.className
+ * param root0
+ * param root0.title
+ * param root0.description
+ * param root0.schema
+ * param root0.defaultValues
+ * param root0.onSubmit
+ * param root0.children
+ * param root0.footer
+ * param root0.error
+ * param root0.isLoading
+ * param root0.submitLabel
+ * param root0.className
  */
 export function AuthForm<T extends FieldValues>({
   title,
@@ -56,14 +56,14 @@ export function AuthForm<T extends FieldValues>({
   className,
 }: AuthFormProperties<T>) {
   const [internalError, setInternalError] = useState<string | null>(null);
-  // @ts-expect-error - zodResolver type compatibility issue with react-hook-form
+  // ts-expect-error - zodResolver type compatibility issue with react-hook-form
   const form = useForm<T>({
     resolver: zodResolver(schema),
     defaultValues,
   });
 
   const handleSubmit = async (data: T) => {
-    // @ts-expect-error - Type compatibility with generic form
+    // ts-expect-error - Type compatibility with generic form
     await onSubmit(data, form);
   };
 

@@ -9,18 +9,18 @@ import { account } from "schema";
 
 /**
  *
- * @param data
- * @param data.userId
- * @param data.type
- * @param data.provider
- * @param data.providerAccountId
- * @param data.refreshToken
- * @param data.accessToken
- * @param data.expiresAt
- * @param data.tokenType
- * @param data.scope
- * @param data.idToken
- * @param data.sessionState
+ * param data
+ * param data.userId
+ * param data.type
+ * param data.provider
+ * param data.providerAccountId
+ * param data.refreshToken
+ * param data.accessToken
+ * param data.expiresAt
+ * param data.tokenType
+ * param data.scope
+ * param data.idToken
+ * param data.sessionState
  */
 export async function createAccount(data: {
   userId: string;
@@ -41,16 +41,16 @@ export async function createAccount(data: {
 
 /**
  *
- * @param provider
- * @param providerAccountId
- * @param data
- * @param data.refreshToken
- * @param data.accessToken
- * @param data.expiresAt
- * @param data.tokenType
- * @param data.scope
- * @param data.idToken
- * @param data.sessionState
+ * param provider
+ * param providerAccountId
+ * param data
+ * param data.refreshToken
+ * param data.accessToken
+ * param data.expiresAt
+ * param data.tokenType
+ * param data.scope
+ * param data.idToken
+ * param data.sessionState
  */
 export async function updateAccount(
   provider: string,
@@ -75,8 +75,8 @@ export async function updateAccount(
 
 /**
  *
- * @param provider
- * @param providerAccountId
+ * param provider
+ * param providerAccountId
  */
 export async function deleteAccount(
   provider: string,
@@ -91,7 +91,7 @@ export async function deleteAccount(
 
 /**
  *
- * @param userId
+ * param userId
  */
 export async function deleteAccountsByUserId(
   userId: string

@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import { signInAction } from "@/dto/authDto";
+import { signInAction } from "/dto/authDto";
 import { AuthForm, EmailField, PasswordField } from "components/auth";
 import type { SignInInput } from "lib/validations";
 import { signInSchema } from "lib/validations";

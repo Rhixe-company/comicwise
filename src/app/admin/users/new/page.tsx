@@ -1,7 +1,7 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { registerUser } from "dto/usersDto";
+import { zodResolver } from "hookform/resolvers/zod";
+import { registerUser } from "/dto/usersDto";
 import { signUpSchema } from "lib/validations";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -92,7 +92,7 @@ export default function NewUserPage() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="john@example.com" {...field} />
+                      <Input type="email" placeholder="johnexample.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
