@@ -2,16 +2,16 @@
 // TYPE DETAIL API
 // ═══════════════════════════════════════════════════
 
-import { typeIdSchema, updateTypeSchema } from "#lib/validations";
-import { deleteType, updateType } from "#mutations/types";
-import { getTypeById } from "#queries/types";
 import {
   deleteGenericEntity,
   getGenericEntity,
   updateGenericEntity,
   zodToValidationResult,
 } from "@/app/api/lib/generic-crud";
+import { typeIdSchema, updateTypeSchema } from "lib/validations";
+import { deleteType, updateType } from "mutations/types";
 import type { NextRequest } from "next/server";
+import { getTypeById } from "queries/types";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

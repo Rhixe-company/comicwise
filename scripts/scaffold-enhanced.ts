@@ -55,14 +55,14 @@ export function use${name}(options: Use${name}Options = {}) {
 
   action: (name: string) => `"use server";
 
-import type { ActionResponse } from "#types/actions";
+import type { ActionResponse } from "types/actions";
 
 export async function ${name}Action(
   data: unknown
 ): Promise<ActionResponse<unknown>> {
   try {
     // Action logic here
-    
+
     return {
       success: true,
       data: {},
@@ -82,7 +82,7 @@ import type { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     // GET logic here
-    
+
     return NextResponse.json({
       success: true,
       data: {},
@@ -101,9 +101,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // POST logic here
-    
+
     return NextResponse.json({
       success: true,
       data: {},

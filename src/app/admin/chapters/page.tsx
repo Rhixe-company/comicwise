@@ -1,11 +1,11 @@
-import { DataTable } from "#admin/DataTable";
-import { db } from "#database/db";
-import { chapter, comic } from "#schema";
-import { Button } from "#ui/button";
+import { DataTable } from "admin/DataTable";
+import { db } from "database/db";
 import { eq } from "drizzle-orm";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { chapter, comic } from "schema";
+import { Button } from "ui/button";
 
 async function ChaptersTable() {
   const chapters = await db
@@ -33,7 +33,7 @@ async function ChaptersTable() {
     },
     {
       accessorKey: "chapterNumber" as const,
-      header: "Chapter #",
+      header: "Chapter ",
     },
     {
       accessorKey: "title" as const,

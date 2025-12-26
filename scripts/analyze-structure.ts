@@ -132,7 +132,7 @@ async function validateImports(): Promise<void> {
   for (const file of tsFiles) {
     const content = await fs.readFile(file, "utf-8");
     const relativeMatches = content.match(/from\s+["']\.{1,2}\//g);
-    const aliasMatches = content.match(/from\s+["'][#@]/g);
+    const aliasMatches = content.match(/from\s+["'][@]/g);
 
     if (relativeMatches) {
       relativeImports += relativeMatches.length;
@@ -216,37 +216,37 @@ async function generateRecommendations(): Promise<void> {
 async function createStructureReport(): Promise<void> {
   const reportPath = "docs/STRUCTURE_REPORT.md";
 
-  const report = `# ComicWise - Folder Structure Report
+  const report = ` ComicWise - Folder Structure Report
 
 Generated: ${new Date().toISOString()}
 
-## Current Structure
+ Current Structure
 
 \`\`\`
 src/
-├── app/              # Next.js App Router
-├── components/       # Reusable components
-│   ├── ui/          # shadcn/ui components
-│   ├── admin/       # Admin-specific components
-│   ├── auth/        # Auth-related components
-│   └── emails/      # Email templates
-├── lib/             # Utility functions and configs
-│   ├── actions/     # Server actions
-│   └── validations/ # Zod schemas
-├── database/        # Database layer
-│   ├── queries/     # (deprecated - use DAL)
-│   └── mutations/   # (deprecated - use DAL)
-├── dal/             # Data Access Layer (new)
-├── dto/             # Data Transfer Objects
-├── types/           # TypeScript type definitions
-├── hooks/           # Custom React hooks
-├── services/        # Business logic services
-└── stores/          # State management
+├── app/               Next.js App Router
+├── components/        Reusable components
+│   ├── ui/           shadcn/ui components
+│   ├── admin/        Admin-specific components
+│   ├── auth/         Auth-related components
+│   └── emails/       Email templates
+├── lib/              Utility functions and configs
+│   ├── actions/      Server actions
+│   └── validations/  Zod schemas
+├── database/         Database layer
+│   ├── queries/      (deprecated - use DAL)
+│   └── mutations/    (deprecated - use DAL)
+├── dal/              Data Access Layer (new)
+├── dto/              Data Transfer Objects
+├── types/            TypeScript type definitions
+├── hooks/            Custom React hooks
+├── services/         Business logic services
+└── stores/           State management
 \`\`\`
 
-## Recommended Improvements
+ Recommended Improvements
 
-### 1. Feature-Based Organization (Future Enhancement)
+ 1. Feature-Based Organization (Future Enhancement)
 
 \`\`\`
 src/features/
@@ -263,25 +263,25 @@ src/features/
 └── ...
 \`\`\`
 
-### 2. Data Layer Consolidation ✅
+ 2. Data Layer Consolidation ✅
 
 - **Implemented**: All queries and mutations moved to \`src/dal/\`
 - **Benefit**: Single source of truth for data operations
 
-### 3. Type Organization ✅
+ 3. Type Organization ✅
 
 - **Current**: Centralized in \`src/types/\`
 - **Status**: Well-organized with proper exports
 
-## Best Practices
+ Best Practices
 
-1. ✅ Use path aliases (#components, #lib, etc.)
+1. ✅ Use path aliases (components, lib, etc.)
 2. ✅ Separate client and server code
 3. ✅ Colocate related files
 4. ✅ Use TypeScript strict mode
 5. ⚠️  Consider feature-based organization for scale
 
-## Next Steps
+ Next Steps
 
 1. Continue using DAL for all data operations
 2. Update import paths to use aliases

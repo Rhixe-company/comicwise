@@ -99,7 +99,7 @@ export function GenreDistributionChart({ data }: GenreDistributionChartProps) {
                 `${entry.name} ${(entry.percent * 100).toFixed(0)}%`
               }
               outerRadius={80}
-              fill="#8884d8"
+              fill="8884d8"
               dataKey="value"
             >
               {data.map((_entry, index) => (

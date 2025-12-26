@@ -3,7 +3,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[dockerfile]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    "editor.defaultFormatter": "docker.docker-vscode-extension"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -227,26 +227,7 @@
   "makefile.configureOnOpen": true,
   "path-intellisense.autoSlashAfterDirectory": true,
   "path-intellisense.extensionOnImport": true,
-  "path-intellisense.mappings": {
-    "@": "${workspaceFolder}/src",
-    "ui": "${workspaceFolder}/src/components/ui",
-    "layout": "${workspaceFolder}/src/components/layout",
-    "emails": "${workspaceFolder}/src/components/emails",
-    "admin": "${workspaceFolder}/src/components/admin",
-    "lib": "${workspaceFolder}/src/lib",
-    "actions": "${workspaceFolder}/src/lib/actions",
-    "validations": "${workspaceFolder}/src/lib/validations",
-    "hooks": "${workspaceFolder}/src/hooks",
-    "types": "${workspaceFolder}/src/types",
-    "database": "${workspaceFolder}/src/database",
-    "queries": "${workspaceFolder}/src/database/queries",
-    "mutations": "${workspaceFolder}/src/database/mutations",
-    "schema": "${workspaceFolder}/src/database/schema",
-    "services": "${workspaceFolder}/src/services",
-    "stores": "${workspaceFolder}/src/stores",
-    "dal": "${workspaceFolder}/src/dal",
-    "dto": "${workspaceFolder}/src/dto"
-  },
+
   "prettier.requireConfig": true,
   "prettier.useEditorConfig": false,
   "redhat.telemetry.enabled": true,

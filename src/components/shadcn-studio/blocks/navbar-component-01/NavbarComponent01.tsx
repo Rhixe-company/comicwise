@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import Logo from "#components/shadcn-studio/logo";
+import Logo from "components/shadcn-studio/logo";
 
 type NavigationItem = {
   title: string;
@@ -33,7 +33,7 @@ const Navbar = ({ navigationData }: { navigationData: NavigationItem }) => {
         `}
         >
           <a
-            href="#"
+            href=""
             className={`
             hover:text-primary
             max-md:hidden
@@ -42,7 +42,7 @@ const Navbar = ({ navigationData }: { navigationData: NavigationItem }) => {
             Home
           </a>
           <a
-            href="#"
+            href=""
             className={`
             hover:text-primary
             max-md:hidden
@@ -50,11 +50,11 @@ const Navbar = ({ navigationData }: { navigationData: NavigationItem }) => {
           >
             Products
           </a>
-          <a href="#">
+          <a href="">
             <Logo className="gap-3 text-foreground" />
           </a>
           <a
-            href="#"
+            href=""
             className={`
             hover:text-primary
             max-md:hidden
@@ -63,7 +63,7 @@ const Navbar = ({ navigationData }: { navigationData: NavigationItem }) => {
             About Us
           </a>
           <a
-            href="#"
+            href=""
             className={`
             hover:text-primary
             max-md:hidden

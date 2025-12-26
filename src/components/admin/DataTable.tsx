@@ -1,6 +1,9 @@
 "use client";
 
-import { Button } from "#ui/button";
+import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { Button } from "ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,12 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "#ui/DropdownMenu";
-import { Input } from "#ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "#ui/table";
-import { MoreHorizontal, Pencil, Trash } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
+} from "ui/DropdownMenu";
+import { Input } from "ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "ui/table";
 
 interface Column<T = Record<string, unknown>> {
   accessorKey: keyof T & string;

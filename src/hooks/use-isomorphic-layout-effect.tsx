@@ -1,2 +1,2 @@
-export * from "./useIsomorphicLayoutEffect";
-export { useIsomorphicLayoutEffect as default } from "./useIsomorphicLayoutEffect";
+export * from "src/src/hooks/useIsomorphicLayoutEffect";
+export { useIsomorphicLayoutEffect as default } from "src/src/hooks/useIsomorphicLayoutEffect";

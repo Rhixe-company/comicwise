@@ -169,13 +169,13 @@ export default AccountUpdatedEmail;
 // ═══════════════════════════════════════════════════
 
 const main = {
-  backgroundColor: "#f6f9fc",
+  backgroundColor: "f6f9fc",
   fontFamily:
     '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
 };
 
 const container = {
-  backgroundColor: "#ffffff",
+  backgroundColor: "ffffff",
   margin: "0 auto",
   padding: "20px 0 48px",
   marginBottom: "64px",
@@ -196,7 +196,7 @@ const heading = {
   fontSize: "28px",
   lineHeight: "1.3",
   fontWeight: "700",
-  color: "#1a1a1a",
+  color: "1a1a1a",
   margin: "0",
 };
 
@@ -207,12 +207,12 @@ const content = {
 const paragraph = {
   fontSize: "16px",
   lineHeight: "26px",
-  color: "#484848",
+  color: "484848",
   margin: "16px 0",
 };
 
 const detailsBox = {
-  backgroundColor: "#f8fafc",
+  backgroundColor: "f8fafc",
   borderRadius: "4px",
   padding: "16px",
   margin: "16px 0",
@@ -221,13 +221,13 @@ const detailsBox = {
 const detailsText = {
   fontSize: "14px",
   lineHeight: "22px",
-  color: "#484848",
+  color: "484848",
   margin: "0",
 };
 
 const infoBox = {
-  backgroundColor: "#f0f9ff",
-  borderLeft: "4px solid #3b82f6",
+  backgroundColor: "f0f9ff",
+  borderLeft: "4px solid 3b82f6",
   borderRadius: "4px",
   padding: "16px",
   margin: "16px 0",
@@ -236,13 +236,13 @@ const infoBox = {
 const infoText = {
   fontSize: "13px",
   lineHeight: "20px",
-  color: "#1e40af",
+  color: "1e40af",
   margin: "0",
 };
 
 const warningBox = {
-  backgroundColor: "#fef2f2",
-  borderLeft: "4px solid #dc2626",
+  backgroundColor: "fef2f2",
+  borderLeft: "4px solid dc2626",
   borderRadius: "4px",
   padding: "16px",
   margin: "24px 0",
@@ -251,7 +251,7 @@ const warningBox = {
 const warningText = {
   fontSize: "14px",
   lineHeight: "22px",
-  color: "#7f1d1d",
+  color: "7f1d1d",
   margin: "0",
 };
 
@@ -261,9 +261,9 @@ const buttonContainer = {
 };
 
 const button = {
-  backgroundColor: "#5469d4",
+  backgroundColor: "5469d4",
   borderRadius: "6px",
-  color: "#fff",
+  color: "fff",
   fontSize: "16px",
   fontWeight: "600",
   textDecoration: "none",
@@ -273,12 +273,12 @@ const button = {
 };
 
 const link = {
-  color: "#5469d4",
+  color: "5469d4",
   textDecoration: "underline",
 };
 
 const hr = {
-  borderColor: "#e6ebf1",
+  borderColor: "e6ebf1",
   margin: "32px 0",
 };
 
@@ -289,12 +289,12 @@ const footer = {
 const footerText = {
   fontSize: "12px",
   lineHeight: "16px",
-  color: "#8898aa",
+  color: "8898aa",
   margin: "4px 0",
   textAlign: "center" as const,
 };
 
 const footerLink = {
-  color: "#8898aa",
+  color: "8898aa",
   textDecoration: "underline",
 };

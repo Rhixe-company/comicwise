@@ -1,9 +1,9 @@
-import { DataTable } from "#admin/DataTable";
-import { Button } from "#ui/button";
+import { DataTable } from "admin/DataTable";
 import { env } from "appConfig";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { Button } from "ui/button";
 
 async function getTypes() {
   const baseUrl = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";

@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "#ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
-import { Input } from "#ui/input";
-import { Label } from "#ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "#ui/select";
-import { Textarea } from "#ui/textarea";
 import { useState } from "react";
+import { Button } from "ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
+import { Input } from "ui/input";
+import { Label } from "ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "ui/select";
+import { Textarea } from "ui/textarea";
 
 interface Author {
   id: number;

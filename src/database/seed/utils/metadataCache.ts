@@ -4,9 +4,9 @@
  * Uses @/database/queries for read operations and direct insert for creation
  */
 
-import { db as database } from "#database/db";
-import * as queries from "#database/queries";
-import { artist, author, genre, type as typeTable } from "#schema";
+import { db as database } from "database/db";
+import * as queries from "database/queries";
+import { artist, author, genre, type as typeTable } from "schema";
 
 export class MetadataCache {
   private typeCache = new Map<string, number>();

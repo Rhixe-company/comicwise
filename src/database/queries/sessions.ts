@@ -1,6 +1,6 @@
-import { db as database } from "#database/db";
-import { session } from "#schema";
+import { db as database } from "database/db";
 import { and, eq, gt } from "drizzle-orm";
+import { session } from "schema";
 
 // ═══════════════════════════════════════════════════
 // SESSION QUERIES

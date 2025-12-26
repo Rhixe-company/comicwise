@@ -1,2 +1,2 @@
-export * from "./useEventCallback";
-export { useEventCallback as default } from "./useEventCallback";
+export * from "src/src/hooks/useEventCallback";
+export { useEventCallback as default } from "src/src/hooks/useEventCallback";

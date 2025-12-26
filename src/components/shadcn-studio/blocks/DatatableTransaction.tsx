@@ -39,7 +39,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
 import { Badge } from "ui/badge";
 import { Button } from "ui/button";
 
-import { usePagination } from "#hooks/use-pagination";
+import { usePagination } from "hooks/use-pagination";
 
 export interface Item {
   id: string;

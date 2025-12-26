@@ -9,10 +9,10 @@
  * - AWS S3
  *
  * Usage:
- *   pnpm upload:bulk                    # Upload to all providers
- *   pnpm upload:bulk --provider=imagekit # Upload to specific provider
- *   pnpm upload:bulk --dry-run           # Preview without uploading
- *   pnpm upload:bulk --path=public/comics # Upload specific directory
+ *   pnpm upload:bulk                     Upload to all providers
+ *   pnpm upload:bulk --provider=imagekit  Upload to specific provider
+ *   pnpm upload:bulk --dry-run            Preview without uploading
+ *   pnpm upload:bulk --path=public/comics  Upload specific directory
  */
 
 import { env } from "appConfig";
@@ -378,16 +378,16 @@ Options:
   --help, -h          Show this help message
 
 Examples:
-  # Upload all public images to all providers
+   Upload all public images to all providers
   pnpm upload:bulk
 
-  # Upload only to ImageKit
+   Upload only to ImageKit
   pnpm upload:bulk --provider=imagekit
 
-  # Upload specific directory
+   Upload specific directory
   pnpm upload:bulk --path=public/comics
 
-  # Dry run to preview
+   Dry run to preview
   pnpm upload:bulk --dry-run
 
 Environment Variables Required:

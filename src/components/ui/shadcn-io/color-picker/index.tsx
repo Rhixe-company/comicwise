@@ -55,7 +55,7 @@ export type ColorPickerProps = HTMLAttributes<HTMLDivElement> & {
 
 export const ColorPicker = ({
   value,
-  defaultValue = "#000000",
+  defaultValue = "000000",
   onChange,
   className,
   ...props
@@ -240,7 +240,7 @@ export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => 
       <Slider.Track
         className={`
         relative my-0.5 h-3 w-full grow rounded-full
-        bg-[linear-gradient(90deg,#FF0000,#FFFF00,#00FF00,#00FFFF,#0000FF,#FF00FF,#FF0000)]
+        bg-[linear-gradient(90deg,FF0000,FFFF00,00FF00,00FFFF,0000FF,FF00FF,FF0000)]
       `}
       >
         <Slider.Range className="absolute h-full" />

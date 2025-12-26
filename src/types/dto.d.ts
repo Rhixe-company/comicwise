@@ -2,7 +2,7 @@
 // DTO TYPES - Data Transfer Objects
 // ═══════════════════════════════════════════════════
 
-import type { ActionResponse } from "./api";
+import type { ActionResponse } from "src/src/types/api";
 
 /**
  * Base DTO interface

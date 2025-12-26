@@ -8,15 +8,22 @@
 ## ✅ ISSUE FIXED
 
 ### Problem
-The `pnpm db:seed` command was failing due to invalid import paths in seed-related files.
+
+The `pnpm db:seed` command was failing due to invalid import paths in
+seed-related files.
 
 ### Root Cause
-Multiple files in the seed system were using invalid `#` prefix imports instead of the correct `@/` prefix:
+
+Multiple files in the seed system were using invalid `#` prefix imports instead
+of the correct `@/` prefix:
+
 - `from "#database/..."` ❌
 - `from "#lib/..."` ❌
 
 ### Solution
+
 Replaced all invalid `#` prefix imports with correct `@/` prefix imports:
+
 - `from "@/database/..."` ✅
 - `from "@/lib/..."` ✅
 
@@ -25,7 +32,9 @@ Replaced all invalid `#` prefix imports with correct `@/` prefix imports:
 ## 📁 FILES FIXED
 
 ### 1. `src/database/seed/index.ts`
+
 **Line 17:** Changed import statement
+
 ```typescript
 // BEFORE
 import { db as database } from "db";
@@ -35,7 +44,9 @@ import { db as database } from "@/database/db";
 ```
 
 ### 2. `src/lib/seedHelpers.ts`
+
 **Lines 12-19:** Fixed all imports
+
 ```typescript
 // BEFORE
 import { parseCLIArgs } from "#database/seed/config";
@@ -59,9 +70,11 @@ import type { ChapterSeed, ComicSeed, UserSeed } from "@/lib/validations";
 ```
 
 ### 3. `src/database/seed/seeders/comicSeeder.ts`
+
 Fixed `#` prefix imports to `@/` prefix
 
 ### 4. `src/database/seed/orchestrator.ts`
+
 Fixed `#` prefix imports to `@/` prefix
 
 ---
@@ -80,6 +93,7 @@ Fixed `#` prefix imports to `@/` prefix
 Now that the seed system is fixed, you can use:
 
 ### Basic Seeding
+
 ```bash
 # Seed all data (users, comics, chapters)
 pnpm db:seed
@@ -92,6 +106,7 @@ pnpm db:seed:dry-run
 ```
 
 ### Selective Seeding
+
 ```bash
 # Seed only users
 pnpm db:seed:users
@@ -104,6 +119,7 @@ pnpm db:seed:chapters
 ```
 
 ### Database Reset
+
 ```bash
 # Drop, recreate, and seed database
 pnpm db:reset
@@ -117,10 +133,13 @@ pnpm db:reset:hard
 ## 🔍 HOW TO TEST
 
 ### 1. Test with Dry-Run (Recommended First)
+
 ```bash
 pnpm db:seed:dry-run
 ```
+
 This will:
+
 - ✅ Validate all imports
 - ✅ Load JSON data files
 - ✅ Validate data schemas
@@ -128,16 +147,20 @@ This will:
 - ❌ NOT write to database
 
 ### 2. Test with Verbose Output
+
 ```bash
 pnpm db:seed:verbose
 ```
+
 This will:
+
 - ✅ Show detailed progress
 - ✅ Display validation results
 - ✅ Track batch processing
 - ✅ Actually seed the database
 
 ### 3. Seed Specific Data
+
 ```bash
 # Seed only users first
 pnpm db:seed:users
@@ -156,6 +179,7 @@ pnpm db:seed:chapters
 The seed system includes:
 
 ### ✅ Smart Features
+
 - **Batch Processing:** Processes data in configurable batches
 - **Validation:** Uses Zod schemas to validate all data
 - **Upsert Logic:** Updates existing records, inserts new ones
@@ -164,11 +188,13 @@ The seed system includes:
 - **Selective Seeding:** Seed specific entities only
 
 ### ✅ Data Sources
+
 - `users.json` - User accounts and profiles
 - `comics.json` / `comicsdata1.json` / `comicsdata2.json` - Comic metadata
 - `chapters.json` / `chaptersdata1.json` / `chaptersdata2.json` - Chapter data
 
 ### ✅ CLI Options
+
 ```bash
 --dry-run          # Test without writing to database
 --verbose          # Show detailed output
@@ -185,6 +211,7 @@ The seed system includes:
 Before running seed commands, ensure:
 
 1. **Database is Running**
+
    ```bash
    # Check database connection
    pnpm health:db
@@ -192,11 +219,13 @@ Before running seed commands, ensure:
 
 2. **Environment Variables Set**
    - Verify `.env.local` has `DATABASE_URL`
+
    ```env
    DATABASE_URL="postgresql://user:password@localhost:5432/comicwise"
    ```
 
 3. **Database Schema Exists**
+
    ```bash
    # Push schema to database first
    pnpm db:push
@@ -212,16 +241,19 @@ Before running seed commands, ensure:
 ## 🎯 NEXT STEPS
 
 1. **Test the Fix**
+
    ```bash
    pnpm db:seed:dry-run
    ```
 
 2. **If Successful, Seed Database**
+
    ```bash
    pnpm db:seed:verbose
    ```
 
 3. **Verify Data in Database**
+
    ```bash
    # Open Drizzle Studio to view data
    pnpm db:studio
@@ -272,21 +304,25 @@ Seeding Complete
 ### If seed still fails:
 
 1. **Check Database Connection**
+
    ```bash
    pnpm health:db
    ```
 
 2. **Verify Schema is Pushed**
+
    ```bash
    pnpm db:push
    ```
 
 3. **Check JSON Files Exist**
+
    ```bash
    ls -la *.json
    ```
 
 4. **View Detailed Errors**
+
    ```bash
    pnpm db:seed:verbose 2>&1 | tee seed-log.txt
    ```

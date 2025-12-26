@@ -1,10 +1,10 @@
-import { ComicCard } from "#components/ComicCard";
-import { getLatestComics, getPopularComics } from "#database/queries";
-import { Button } from "#ui/button";
-import { Skeleton } from "#ui/skeleton";
+import { ComicCard } from "components/ComicCard";
+import { getLatestComics, getPopularComics } from "database/queries";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { Button } from "ui/button";
+import { Skeleton } from "ui/skeleton";
 
 export const metadata = {
   title: "ComicWise - Your Comic Reading Platform",

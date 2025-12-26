@@ -16,7 +16,7 @@
  * - ✅ Automatic backup creation
  * - ✅ Parallel file processing
  * - ✅ Progress reporting with statistics
- * - ✅ Invalid import detection (#ui/, #components/, etc.)
+ * - ✅ Invalid import detection (ui/, components/, etc.)
  * - ✅ Duplicate import consolidation
  * - ✅ Export path optimization
  *
@@ -330,45 +330,45 @@ const IMPORT_PATTERNS: Pattern[] = [
 
 const INVALID_PATTERNS: Pattern[] = [
   {
-    from: /from ["']#ui\/([^"']+)["']/g,
+    from: /from ["']ui\/([^"']+)["']/g,
     to: 'from "@/components/ui/$1"',
-    category: "Invalid #ui",
+    category: "Invalid ui",
     priority: 0,
   },
   {
-    from: /from ["']#components\/([^"']+)["']/g,
+    from: /from ["']components\/([^"']+)["']/g,
     to: 'from "@/components/$1"',
-    category: "Invalid #components",
+    category: "Invalid components",
     priority: 0,
   },
   {
-    from: /from ["']#lib\/([^"']+)["']/g,
+    from: /from ["']lib\/([^"']+)["']/g,
     to: 'from "@/lib/$1"',
-    category: "Invalid #lib",
+    category: "Invalid lib",
     priority: 0,
   },
   {
-    from: /from ["']#database\/([^"']+)["']/g,
+    from: /from ["']database\/([^"']+)["']/g,
     to: 'from "@/database/$1"',
-    category: "Invalid #database",
+    category: "Invalid database",
     priority: 0,
   },
   {
-    from: /from ["']#types\/([^"']+)["']/g,
+    from: /from ["']types\/([^"']+)["']/g,
     to: 'from "@/types/$1"',
-    category: "Invalid #types",
+    category: "Invalid types",
     priority: 0,
   },
   {
-    from: /from ["']#actions\/([^"']+)["']/g,
+    from: /from ["']actions\/([^"']+)["']/g,
     to: 'from "@/lib/actions/$1"',
-    category: "Invalid #actions",
+    category: "Invalid actions",
     priority: 0,
   },
   {
-    from: /from ["']#hooks\/([^"']+)["']/g,
+    from: /from ["']hooks\/([^"']+)["']/g,
     to: 'from "@/hooks/$1"',
-    category: "Invalid #hooks",
+    category: "Invalid hooks",
     priority: 0,
   },
 ];

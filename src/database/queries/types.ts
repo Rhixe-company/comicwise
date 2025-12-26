@@ -1,6 +1,6 @@
-import { db as database } from "#database/db";
-import { type } from "#schema";
+import { db as database } from "database/db";
 import { asc, desc, eq, ilike } from "drizzle-orm";
+import { type } from "schema";
 
 export async function getTypeById(typeId: number) {
   return await database.query.type.findFirst({

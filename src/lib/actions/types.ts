@@ -1,9 +1,9 @@
 "use server";
 
-import { error } from "#actions/utils";
-import * as mutations from "#database/mutations";
-import { createTypeSchema, updateTypeSchema } from "#lib/validations";
+import { error } from "actions/utils";
 import appConfig, { checkRateLimit } from "appConfig";
+import * as mutations from "database/mutations";
+import { createTypeSchema, updateTypeSchema } from "lib/validations";
 import { revalidatePath } from "next/cache";
 import type { ActionResponse } from "types";
 import z from "zod";

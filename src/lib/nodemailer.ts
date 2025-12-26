@@ -86,18 +86,18 @@ function getEmailTemplate(title: string, content: string): string {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>${title}</title>
       <style>
-        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f4f4f5; }
-        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center; }
-        .header h1 { margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; }
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: 333; background-color: f4f4f5; }
+        .container { max-width: 600px; margin: 0 auto; background-color: ffffff; }
+        .header { background: linear-gradient(135deg, 667eea 0%, 764ba2 100%); padding: 40px 20px; text-align: center; }
+        .header h1 { margin: 0; color: ffffff; font-size: 28px; font-weight: 700; }
         .content { padding: 40px 30px; }
-        .button { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff !important; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 20px 0; }
+        .button { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, 667eea 0%, 764ba2 100%); color: ffffff !important; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 20px 0; }
         .button:hover { opacity: 0.9; }
-        .footer { background-color: #f9fafb; padding: 30px; text-align: center; color: #6b7280; font-size: 14px; border-top: 1px solid #e5e7eb; }
-        .footer a { color: #667eea; text-decoration: none; }
-        .divider { height: 1px; background-color: #e5e7eb; margin: 30px 0; }
-        p { margin: 0 0 16px 0; color: #4b5563; }
-        .info-box { background-color: #f3f4f6; padding: 16px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #667eea; }
+        .footer { background-color: f9fafb; padding: 30px; text-align: center; color: 6b7280; font-size: 14px; border-top: 1px solid e5e7eb; }
+        .footer a { color: 667eea; text-decoration: none; }
+        .divider { height: 1px; background-color: e5e7eb; margin: 30px 0; }
+        p { margin: 0 0 16px 0; color: 4b5563; }
+        .info-box { background-color: f3f4f6; padding: 16px; border-radius: 6px; margin: 20px 0; border-left: 4px solid 667eea; }
       </style>
     </head>
     <body>
@@ -143,7 +143,7 @@ export async function sendVerificationEmail(
       <p style="margin: 0;"><strong>⏱️ This link will expire in 24 hours.</strong></p>
     </div>
     <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
-    <p style="word-break: break-all; color: #667eea; font-size: 14px;">${verificationUrl}</p>
+    <p style="word-break: break-all; color: 667eea; font-size: 14px;">${verificationUrl}</p>
   `;
 
   return sendEmail({
@@ -174,7 +174,7 @@ export async function sendPasswordResetEmail(
       <p style="margin: 8px 0 0 0;">For security reasons, please change your password from a trusted device.</p>
     </div>
     <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
-    <p style="word-break: break-all; color: #667eea; font-size: 14px;">${resetUrl}</p>
+    <p style="word-break: break-all; color: 667eea; font-size: 14px;">${resetUrl}</p>
   `;
 
   return sendEmail({

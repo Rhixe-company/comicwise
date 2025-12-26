@@ -10,9 +10,13 @@ import {
   updateUserSchema,
   type CreateUserInput,
   type UpdateUserInput,
-} from "#lib/validations";
-import type { User } from "#types/database";
-import { Button } from "#ui/button";
+} from "lib/validations";
+import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
+import type { User } from "types/database";
+import { Button } from "ui/button";
 import {
   Dialog,
   DialogContent,
@@ -20,14 +24,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "#ui/dialog";
-import { Input } from "#ui/input";
-import { Label } from "#ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "#ui/select";
-import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { toast } from "sonner";
+} from "ui/dialog";
+import { Input } from "ui/input";
+import { Label } from "ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "ui/select";
 
 // ═══════════════════════════════════════════════════
 // TYPE DEFINITIONS

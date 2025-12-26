@@ -27,18 +27,18 @@ const fixes: string[] = [];
 console.log(chalk.blue("📦 Fixing action imports to use DTOs..."));
 
 const actionImportMap = {
-  "#actions/auth": "#dto/authDto",
-  "#actions/artists": "#dto/artistsDto",
-  "#actions/authors": "#dto/authorsDto",
-  "#actions/chapters": "#dto/chaptersDto",
-  "#actions/comics": "#dto/comicsDto",
-  "#actions/comments": "#dto/commentsDto",
-  "#actions/genres": "#dto/genresDto",
-  "#actions/genresTypes": "#dto/genresTypesDto",
-  "#actions/types": "#dto/typesDto",
-  "#actions/users": "#dto/usersDto",
-  "#actions/bookmark": "#dto/bookmarkDto",
-  "#actions/bookmarksComments": "#dto/bookmarksCommentsDto",
+  "actions/auth": "dto/authDto",
+  "actions/artists": "dto/artistsDto",
+  "actions/authors": "dto/authorsDto",
+  "actions/chapters": "dto/chaptersDto",
+  "actions/comics": "dto/comicsDto",
+  "actions/comments": "dto/commentsDto",
+  "actions/genres": "dto/genresDto",
+  "actions/genresTypes": "dto/genresTypesDto",
+  "actions/types": "dto/typesDto",
+  "actions/users": "dto/usersDto",
+  "actions/bookmark": "dto/bookmarkDto",
+  "actions/bookmarksComments": "dto/bookmarksCommentsDto",
 };
 
 const files = globSync("src/**/*.{ts,tsx}", {
@@ -89,8 +89,8 @@ for (const file of useMobileFiles) {
   );
 
   content = content.replace(
-    /import\s*\{\s*useMobile\s*\}\s*from\s*["']#hooks\/useMobile["']/g,
-    'import { useIsMobile } from "#hooks/useMobile"'
+    /import\s*\{\s*useMobile\s*\}\s*from\s*["']hooks\/useMobile["']/g,
+    'import { useIsMobile } from "hooks/useMobile"'
   );
 
   // Also rename usage if needed

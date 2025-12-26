@@ -159,7 +159,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
         estimatedHours: 3,
         completed: false,
         dependsOn: ["p0-3"],
-        commands: ["pnpm type-check", "# Test image upload functionality"],
+        commands: ["pnpm type-check", " Test image upload functionality"],
         acceptance: [
           "`src/lib/imageUpload.ts` exists with adapters",
           "Supports Cloudinary, ImageKit, and local filesystem",
@@ -204,7 +204,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
         estimatedHours: 3,
         completed: false,
         dependsOn: ["p1-1"],
-        commands: ["# Verify email templates", "# Test email workflow"],
+        commands: [" Verify email templates", " Test email workflow"],
         acceptance: [
           "Comic created/updated/deleted notifications work",
           "Chapter notifications implemented",
@@ -222,7 +222,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
         estimatedHours: 8,
         completed: false,
         dependsOn: ["p1-1", "p1-2"],
-        commands: ["# Navigate to /admin", "# Test CRUD operations"],
+        commands: [" Navigate to /admin", " Test CRUD operations"],
         acceptance: [
           "All entity management pages exist (genres, types, authors, artists)",
           "DataTable with search/sort/pagination",
@@ -241,7 +241,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
         estimatedHours: 2,
         completed: false,
         dependsOn: ["p0-2"],
-        commands: ["pnpm db:push", "# Test search queries"],
+        commands: ["pnpm db:push", " Test search queries"],
         acceptance: [
           "PostgreSQL tsvector and plainto_tsquery used",
           "Results ranked by relevance",
@@ -259,7 +259,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
         estimatedHours: 2,
         completed: false,
         dependsOn: ["p0-2"],
-        commands: ["pnpm build", "# Monitor cache hit rates"],
+        commands: ["pnpm build", " Monitor cache hit rates"],
         acceptance: [
           "Redis caching layer working (Upstash or local)",
           "Comic lists cached",
@@ -307,7 +307,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
         estimatedHours: 4,
         completed: false,
         dependsOn: ["p3-1"],
-        commands: ["# GitHub Actions workflow runs", "# Tests pass on push/PR"],
+        commands: [" GitHub Actions workflow runs", " Tests pass on push/PR"],
         acceptance: [
           "`.github/workflows/ci.yml` created",
           "Type-check runs on CI",
@@ -345,7 +345,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
         estimatedHours: 4,
         completed: false,
         dependsOn: ["p0-1"],
-        commands: ["# Documentation review", "# API docs generated"],
+        commands: [" Documentation review", " API docs generated"],
         acceptance: [
           "`docs/API.md` with endpoint reference",
           "`docs/DEPLOYMENT.md` with instructions",

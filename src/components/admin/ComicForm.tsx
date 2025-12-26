@@ -1,10 +1,16 @@
 "use client";
 
-import { useImageUpload } from "#hooks/useImageUpload";
-import { comicFormSchema } from "#lib/validations";
-import { Alert, AlertDescription } from "#ui/alert";
-import { Button } from "#ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useImageUpload } from "hooks/useImageUpload";
+import { comicFormSchema } from "lib/validations";
+import { AlertCircle, Loader2, Upload } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Alert, AlertDescription } from "ui/alert";
+import { Button } from "ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
 import {
   Form,
   FormControl,
@@ -13,16 +19,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "#ui/form";
-import { Input } from "#ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "#ui/select";
-import { Textarea } from "#ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, Loader2, Upload } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+} from "ui/form";
+import { Input } from "ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "ui/select";
+import { Textarea } from "ui/textarea";
 import { z } from "zod";
 
 interface ComicFormProps {

@@ -8,7 +8,7 @@
 import { env } from "appConfig";
 import ImageKit from "imagekit";
 
-import type { UploadOptions, UploadProvider, UploadResult } from "#services/upload/index";
+import type { UploadOptions, UploadProvider, UploadResult } from "services/upload/index";
 
 // Validate ImageKit configuration
 if (!env.IMAGEKIT_PUBLIC_KEY || !env.IMAGEKIT_PRIVATE_KEY || !env.IMAGEKIT_URL_ENDPOINT) {

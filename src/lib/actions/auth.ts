@@ -4,33 +4,33 @@
 // AUTH SERVER ACTIONS (Next.js 16 + Rate Limiting + Emails)
 // ═══════════════════════════════════════════════════
 
-import { db as database } from "#database/db";
+import appConfig, { checkRateLimit } from "appConfig";
+import { signIn, signOut } from "auth";
+import bcrypt from "bcryptjs";
+import { db as database } from "database/db";
+import { eq } from "drizzle-orm";
 import {
   sendAccountUpdatedEmail,
   sendPasswordResetEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
-} from "#lib/email";
+} from "lib/email";
 import type {
   ForgotPasswordInput,
   ResendVerificationEmailInput,
   ResetPasswordInput,
   SignUpInput,
   VerifyEmailInput,
-} from "#lib/validations";
+} from "lib/validations";
 import {
   forgotPasswordSchema,
   resendVerificationEmailSchema,
   resetPasswordSchema,
   signUpSchema,
   verifyEmailSchema,
-} from "#lib/validations";
-import { passwordResetToken, user, verificationToken } from "#schema";
-import appConfig, { checkRateLimit } from "appConfig";
-import { signIn, signOut } from "auth";
-import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
+} from "lib/validations";
 import { headers } from "next/headers";
+import { passwordResetToken, user, verificationToken } from "schema";
 
 // ═══════════════════════════════════════════════════
 // TYPE DEFINITIONS

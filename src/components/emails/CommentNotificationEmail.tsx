@@ -37,7 +37,7 @@ export const CommentNotificationEmail = ({
   commentText = "Great chapter! I loved the plot twist at the end.",
   comicTitle = "Amazing Comic Series",
   chapterNumber,
-  commentUrl = "https://comicwise.app/comic/chapter#comment-123",
+  commentUrl = "https://comicwise.app/comic/chaptercomment-123",
   commentType = "reply",
 }: CommentNotificationEmailProps) => {
   const getNotificationTitle = () => {
@@ -183,13 +183,13 @@ export default CommentNotificationEmail;
 // ═══════════════════════════════════════════════════
 
 const main = {
-  backgroundColor: "#f6f9fc",
+  backgroundColor: "f6f9fc",
   fontFamily:
     '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
 };
 
 const container = {
-  backgroundColor: "#ffffff",
+  backgroundColor: "ffffff",
   margin: "0 auto",
   padding: "20px 0 48px",
   marginBottom: "64px",
@@ -210,7 +210,7 @@ const heading = {
   fontSize: "28px",
   lineHeight: "1.3",
   fontWeight: "700",
-  color: "#1a1a1a",
+  color: "1a1a1a",
   margin: "0",
 };
 
@@ -221,14 +221,14 @@ const content = {
 const paragraph = {
   fontSize: "16px",
   lineHeight: "26px",
-  color: "#484848",
+  color: "484848",
   margin: "16px 0",
 };
 
 const commentCard = {
-  backgroundColor: "#f8fafc",
+  backgroundColor: "f8fafc",
   borderRadius: "8px",
-  border: "1px solid #e6ebf1",
+  border: "1px solid e6ebf1",
   padding: "20px",
   margin: "24px 0",
 };
@@ -248,8 +248,8 @@ const avatarPlaceholder = {
   width: "40px",
   height: "40px",
   borderRadius: "50%",
-  backgroundColor: "#5469d4",
-  color: "#fff",
+  backgroundColor: "5469d4",
+  color: "fff",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -265,28 +265,28 @@ const commenterDetails = {
 const commenterNameText = {
   fontSize: "15px",
   fontWeight: "600",
-  color: "#1a1a1a",
+  color: "1a1a1a",
   margin: "0 0 2px 0",
 };
 
 const timestamp = {
   fontSize: "13px",
-  color: "#64748b",
+  color: "64748b",
   margin: "0",
 };
 
 const commentBody = {
   padding: "16px",
-  backgroundColor: "#ffffff",
+  backgroundColor: "ffffff",
   borderRadius: "6px",
-  borderLeft: "3px solid #5469d4",
+  borderLeft: "3px solid 5469d4",
   margin: "12px 0",
 };
 
 const commentTextStyle = {
   fontSize: "15px",
   lineHeight: "24px",
-  color: "#1a1a1a",
+  color: "1a1a1a",
   margin: "0",
   fontStyle: "italic" as const,
 };
@@ -297,7 +297,7 @@ const comicInfo = {
 
 const comicInfoText = {
   fontSize: "13px",
-  color: "#64748b",
+  color: "64748b",
   margin: "0",
 };
 
@@ -307,9 +307,9 @@ const buttonContainer = {
 };
 
 const button = {
-  backgroundColor: "#8b5cf6",
+  backgroundColor: "8b5cf6",
   borderRadius: "6px",
-  color: "#fff",
+  color: "fff",
   fontSize: "16px",
   fontWeight: "600",
   textDecoration: "none",
@@ -319,7 +319,7 @@ const button = {
 };
 
 const tipsBox = {
-  backgroundColor: "#f0f9ff",
+  backgroundColor: "f0f9ff",
   borderRadius: "4px",
   padding: "16px",
   margin: "24px 0",
@@ -328,24 +328,24 @@ const tipsBox = {
 const tipsText = {
   fontSize: "13px",
   lineHeight: "20px",
-  color: "#1e40af",
+  color: "1e40af",
   margin: "0",
 };
 
 const smallText = {
   fontSize: "13px",
   lineHeight: "20px",
-  color: "#64748b",
+  color: "64748b",
   margin: "16px 0",
 };
 
 const link = {
-  color: "#5469d4",
+  color: "5469d4",
   textDecoration: "underline",
 };
 
 const hr = {
-  borderColor: "#e6ebf1",
+  borderColor: "e6ebf1",
   margin: "32px 0",
 };
 
@@ -356,12 +356,12 @@ const footer = {
 const footerText = {
   fontSize: "12px",
   lineHeight: "16px",
-  color: "#8898aa",
+  color: "8898aa",
   margin: "4px 0",
   textAlign: "center" as const,
 };
 
 const footerLink = {
-  color: "#8898aa",
+  color: "8898aa",
   textDecoration: "underline",
 };

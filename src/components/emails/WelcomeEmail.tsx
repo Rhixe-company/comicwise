@@ -79,12 +79,12 @@ export default function WelcomeEmail({ name }: WelcomeEmailProps) {
 }
 
 const main = {
-  backgroundColor: "#f6f9fc",
+  backgroundColor: "f6f9fc",
   fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif',
 };
 
 const container = {
-  backgroundColor: "#ffffff",
+  backgroundColor: "ffffff",
   margin: "0 auto",
   padding: "20px 0 48px",
   marginBottom: "64px",
@@ -97,7 +97,7 @@ const header = {
 };
 
 const h1 = {
-  color: "#1f2937",
+  color: "1f2937",
   fontSize: "28px",
   fontWeight: "bold",
   margin: "0",
@@ -109,14 +109,14 @@ const content = {
 };
 
 const paragraph = {
-  color: "#374151",
+  color: "374151",
   fontSize: "16px",
   lineHeight: "26px",
   margin: "16px 0",
 };
 
 const list = {
-  color: "#374151",
+  color: "374151",
   fontSize: "16px",
   lineHeight: "26px",
   margin: "16px 0",
@@ -133,9 +133,9 @@ const buttonContainer = {
 };
 
 const button = {
-  backgroundColor: "#3b82f6",
+  backgroundColor: "3b82f6",
   borderRadius: "6px",
-  color: "#fff",
+  color: "fff",
   fontSize: "16px",
   fontWeight: "bold",
   textDecoration: "none",
@@ -145,26 +145,26 @@ const button = {
 };
 
 const footer = {
-  color: "#6b7280",
+  color: "6b7280",
   fontSize: "14px",
   lineHeight: "24px",
   marginTop: "32px",
 };
 
 const footerSection = {
-  borderTop: "1px solid #e5e7eb",
+  borderTop: "1px solid e5e7eb",
   marginTop: "32px",
   padding: "24px 48px",
 };
 
 const footerText = {
-  color: "#9ca3af",
+  color: "9ca3af",
   fontSize: "12px",
   lineHeight: "20px",
   textAlign: "center" as const,
 };
 
 const link = {
-  color: "#3b82f6",
+  color: "3b82f6",
   textDecoration: "underline",
 };

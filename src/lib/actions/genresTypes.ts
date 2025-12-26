@@ -4,25 +4,25 @@
 // GENRES & TYPES CRUD SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import { db as database } from "#database/db";
+import appConfig from "appConfig";
+import { db as database } from "database/db";
+import { asc, eq, like, sql } from "drizzle-orm";
 import type {
   CreateGenreInput,
   CreateTypeInput,
   PaginationInput,
   UpdateGenreInput,
   UpdateTypeInput,
-} from "#lib/validations";
+} from "lib/validations";
 import {
   createGenreSchema,
   createTypeSchema,
   paginationSchema,
   updateGenreSchema,
   updateTypeSchema,
-} from "#lib/validations";
-import { type as comicType, genre } from "#schema";
-import appConfig from "appConfig";
-import { asc, eq, like, sql } from "drizzle-orm";
+} from "lib/validations";
 import { revalidatePath } from "next/cache";
+import { type as comicType, genre } from "schema";
 
 export type ActionResult<T = unknown> =
   | { success: true; data: T; message?: string }

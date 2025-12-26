@@ -2,8 +2,8 @@ import { FacebookIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from "lucide-re
 
 import { Separator } from "ui/separator";
 
-import CurrentYear from "#components/CurrentYear";
-import Logo from "#components/shadcn-studio/logo";
+import CurrentYear from "components/CurrentYear";
+import Logo from "components/shadcn-studio/logo";
 
 const Footer = () => {
   return (
@@ -16,30 +16,30 @@ const Footer = () => {
         md:gap-6 md:py-8
       `}
       >
-        <a href="#">
+        <a href="">
           <div className="flex items-center gap-3">
             <Logo className="gap-3" />
           </div>
         </a>
 
         <div className="flex items-center gap-5 whitespace-nowrap">
-          <a href="#">About</a>
-          <a href="#">Features</a>
-          <a href="#">Works</a>
-          <a href="#">Career</a>
+          <a href="">About</a>
+          <a href="">Features</a>
+          <a href="">Works</a>
+          <a href="">Career</a>
         </div>
 
         <div className="flex items-center gap-4">
-          <a href="#">
+          <a href="">
             <FacebookIcon className="size-5" />
           </a>
-          <a href="#">
+          <a href="">
             <InstagramIcon className="size-5" />
           </a>
-          <a href="#">
+          <a href="">
             <TwitterIcon className="size-5" />
           </a>
-          <a href="#">
+          <a href="">
             <YoutubeIcon className="size-5" />
           </a>
         </div>
@@ -54,7 +54,7 @@ const Footer = () => {
       `}
       >
         <p className="text-center font-medium text-balance">
-          ©<CurrentYear /> <a href="#">Shadcn/studio</a>, Made with ❤️ for better web.
+          ©<CurrentYear /> <a href="">Shadcn/studio</a>, Made with ❤️ for better web.
         </p>
       </div>
     </footer>

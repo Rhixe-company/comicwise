@@ -2,15 +2,15 @@
 /**
  * Comprehensive Master Optimization Script
  * Handles all 16 optimization tasks for ComicWise project
- * 
+ *
  * @author AI Assistant
  * @date 2025-12-24
  */
 
+import chalk from "chalk";
 import { execSync } from "child_process";
 import * as fs from "fs-extra";
 import * as path from "path";
-import chalk from "chalk";
 
 interface TaskResult {
   taskNumber: number;
@@ -81,7 +81,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task1_VSCodeConfigs(): Promise<void> {
     console.log(chalk.blue.bold("\n📁 TASK 1: VS Code Configurations Optimization"));
-    
+
     const result: TaskResult = {
       taskNumber: 1,
       taskName: "VS Code Configurations",
@@ -95,18 +95,12 @@ class ComprehensiveMasterOptimizer {
 
     try {
       const vscodeDir = path.join(process.cwd(), ".vscode");
-      const files = [
-        "mcp.json",
-        "extensions.json",
-        "launch.json",
-        "tasks.json",
-        "settings.json"
-      ];
+      const files = ["mcp.json", "extensions.json", "launch.json", "tasks.json", "settings.json"];
 
       for (const file of files) {
         const filePath = path.join(vscodeDir, file);
         const backupPath = path.join(this.backupDir, ".vscode", `${file}.backup`);
-        
+
         if (await fs.pathExists(filePath)) {
           await fs.ensureDir(path.dirname(backupPath));
           await fs.copy(filePath, backupPath);
@@ -131,7 +125,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task2_ESLintConfig(): Promise<void> {
     console.log(chalk.blue.bold("\n🎨 TASK 2: ESLint Configuration Optimization"));
-    
+
     const result: TaskResult = {
       taskNumber: 2,
       taskName: "ESLint Configuration",
@@ -168,7 +162,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task3_TypeDefinitions(): Promise<void> {
     console.log(chalk.blue.bold("\n📘 TASK 3: Type Definitions Consolidation"));
-    
+
     const result: TaskResult = {
       taskNumber: 3,
       taskName: "Type Definitions",
@@ -182,7 +176,7 @@ class ComprehensiveMasterOptimizer {
 
     try {
       const typesDir = path.join(process.cwd(), "src", "types");
-      
+
       if (await fs.pathExists(typesDir)) {
         const backupTypesDir = path.join(this.backupDir, "src", "types");
         await fs.ensureDir(backupTypesDir);
@@ -205,7 +199,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task4_AnyTypesToSpecific(): Promise<void> {
     console.log(chalk.blue.bold("\n🔧 TASK 4: Replace 'any' Types with Specific Types"));
-    
+
     const result: TaskResult = {
       taskNumber: 4,
       taskName: "Any Types Replacement",
@@ -235,7 +229,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task5_TSConfigPaths(): Promise<void> {
     console.log(chalk.blue.bold("\n🛤️  TASK 5: TSConfig Custom Paths Optimization"));
-    
+
     const result: TaskResult = {
       taskNumber: 5,
       taskName: "TSConfig Paths",
@@ -272,7 +266,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task6_ReplaceImports(): Promise<void> {
     console.log(chalk.blue.bold("\n🔄 TASK 6: Replace Imports Script Optimization"));
-    
+
     const result: TaskResult = {
       taskNumber: 6,
       taskName: "Replace Imports",
@@ -301,7 +295,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task7_PackageScripts(): Promise<void> {
     console.log(chalk.blue.bold("\n📦 TASK 7: Package Scripts Optimization"));
-    
+
     const result: TaskResult = {
       taskNumber: 7,
       taskName: "Package Scripts",
@@ -338,7 +332,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task8_CamelCaseRefactor(): Promise<void> {
     console.log(chalk.blue.bold("\n🔤 TASK 8: CamelCase Refactoring"));
-    
+
     const result: TaskResult = {
       taskNumber: 8,
       taskName: "CamelCase Refactoring",
@@ -367,7 +361,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task9_ProjectScaffolding(): Promise<void> {
     console.log(chalk.blue.bold("\n🏗️  TASK 9: Project Scaffolding Templates"));
-    
+
     const result: TaskResult = {
       taskNumber: 9,
       taskName: "Project Scaffolding",
@@ -396,7 +390,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task10_ShellAliases(): Promise<void> {
     console.log(chalk.blue.bold("\n⚡ TASK 10: Shell Aliases for Lightning-Fast Commands"));
-    
+
     const result: TaskResult = {
       taskNumber: 10,
       taskName: "Shell Aliases",
@@ -425,7 +419,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task11_FolderStructureRefactor(): Promise<void> {
     console.log(chalk.blue.bold("\n📂 TASK 11: Folder Structure Refactoring"));
-    
+
     const result: TaskResult = {
       taskNumber: 11,
       taskName: "Folder Structure Refactor",
@@ -454,7 +448,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task12_FixTypeCheckLint(): Promise<void> {
     console.log(chalk.blue.bold("\n🔍 TASK 12: Fix Type-Check and Linting Errors"));
-    
+
     const result: TaskResult = {
       taskNumber: 12,
       taskName: "Type-Check & Lint Fixes",
@@ -501,7 +495,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task13_GitHubSetupPrompt(): Promise<void> {
     console.log(chalk.blue.bold("\n🐙 TASK 13: GitHub Setup Prompt Creation"));
-    
+
     const result: TaskResult = {
       taskNumber: 13,
       taskName: "GitHub Setup Prompt",
@@ -516,7 +510,7 @@ class ComprehensiveMasterOptimizer {
     try {
       const githubDir = path.join(process.cwd(), ".github");
       await fs.ensureDir(githubDir);
-      
+
       const setupPromptPath = path.join(githubDir, "Setup.prompt.md");
       result.filesCreated.push(setupPromptPath);
 
@@ -536,7 +530,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task14_ComprehensiveREADME(): Promise<void> {
     console.log(chalk.blue.bold("\n📖 TASK 14: Comprehensive README Creation"));
-    
+
     const result: TaskResult = {
       taskNumber: 14,
       taskName: "Comprehensive README",
@@ -573,7 +567,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task15_ValidationTesting(): Promise<void> {
     console.log(chalk.blue.bold("\n✅ TASK 15: Validation and Testing"));
-    
+
     const result: TaskResult = {
       taskNumber: 15,
       taskName: "Validation and Testing",
@@ -588,7 +582,7 @@ class ComprehensiveMasterOptimizer {
     try {
       console.log(chalk.gray("  Validating project structure..."));
       console.log(chalk.gray("  Running health checks..."));
-      
+
       result.message = "Project validated and tested successfully";
       console.log(chalk.green(`  ✅ ${result.message}`));
     } catch (error) {
@@ -605,7 +599,7 @@ class ComprehensiveMasterOptimizer {
    */
   private async task16_NextAuthOptimization(): Promise<void> {
     console.log(chalk.blue.bold("\n🔐 TASK 16: NextAuth User System Optimization"));
-    
+
     const result: TaskResult = {
       taskNumber: 16,
       taskName: "NextAuth Optimization",
@@ -644,56 +638,57 @@ class ComprehensiveMasterOptimizer {
   private async generateReport(): Promise<void> {
     console.log(chalk.blue.bold("\n📊 Generating Comprehensive Report..."));
 
-    const successCount = this.results.filter(r => r.status === "success").length;
-    const failureCount = this.results.filter(r => r.status === "failure").length;
-    const totalFiles = this.results.reduce((acc, r) => 
-      acc + r.filesModified.length + r.filesCreated.length + r.filesDeleted.length, 0
+    const successCount = this.results.filter((r) => r.status === "success").length;
+    const failureCount = this.results.filter((r) => r.status === "failure").length;
+    const totalFiles = this.results.reduce(
+      (acc, r) => acc + r.filesModified.length + r.filesCreated.length + r.filesDeleted.length,
+      0
     );
 
-    let report = `# Comprehensive Optimization Report\n\n`;
+    let report = ` Comprehensive Optimization Report\n\n`;
     report += `**Date:** ${new Date().toLocaleString()}\n`;
     report += `**Backup Directory:** \`${this.backupDir}\`\n\n`;
-    report += `## Summary\n\n`;
+    report += ` Summary\n\n`;
     report += `- ✅ Successful Tasks: ${successCount}/16\n`;
     report += `- ❌ Failed Tasks: ${failureCount}/16\n`;
     report += `- 📁 Total Files Affected: ${totalFiles}\n\n`;
     report += `---\n\n`;
 
-    report += `## Task Details\n\n`;
+    report += ` Task Details\n\n`;
     for (const result of this.results) {
       const icon = result.status === "success" ? "✅" : result.status === "failure" ? "❌" : "⚠️";
-      report += `### ${icon} Task ${result.taskNumber}: ${result.taskName}\n\n`;
+      report += ` ${icon} Task ${result.taskNumber}: ${result.taskName}\n\n`;
       report += `**Status:** ${result.status}\n`;
       report += `**Message:** ${result.message}\n\n`;
-      
+
       if (result.filesModified.length > 0) {
         report += `**Files Modified:**\n`;
-        result.filesModified.forEach(f => report += `- \`${f}\`\n`);
+        result.filesModified.forEach((f) => (report += `- \`${f}\`\n`));
         report += `\n`;
       }
-      
+
       if (result.filesCreated.length > 0) {
         report += `**Files Created:**\n`;
-        result.filesCreated.forEach(f => report += `- \`${f}\`\n`);
+        result.filesCreated.forEach((f) => (report += `- \`${f}\`\n`));
         report += `\n`;
       }
-      
+
       if (result.filesDeleted.length > 0) {
         report += `**Files Deleted:**\n`;
-        result.filesDeleted.forEach(f => report += `- \`${f}\`\n`);
+        result.filesDeleted.forEach((f) => (report += `- \`${f}\`\n`));
         report += `\n`;
       }
-      
+
       if (result.errors.length > 0) {
         report += `**Errors:**\n`;
-        result.errors.forEach(e => report += `- \`${e}\`\n`);
+        result.errors.forEach((e) => (report += `- \`${e}\`\n`));
         report += `\n`;
       }
-      
+
       report += `---\n\n`;
     }
 
-    report += `## Next Steps\n\n`;
+    report += ` Next Steps\n\n`;
     report += `1. Review the backup directory: \`${this.backupDir}\`\n`;
     report += `2. Run \`pnpm type-check\` to verify TypeScript compilation\n`;
     report += `3. Run \`pnpm lint\` to check for any remaining linting issues\n`;
@@ -707,7 +702,7 @@ class ComprehensiveMasterOptimizer {
 }
 
 // Execute if run directly
-const isMainModule = import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}`;
+const isMainModule = import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}`;
 
 if (isMainModule) {
   const optimizer = new ComprehensiveMasterOptimizer();

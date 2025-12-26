@@ -2,22 +2,22 @@
 // COMIC IMAGES API - Manage Comic Gallery Images
 // ═══════════════════════════════════════════════════
 
+import { auth } from "auth";
 import {
   batchCreateComicImagesSchema,
   batchDeleteSchema,
   batchUpdateComicImagesSchema,
   createComicImageSchema,
-} from "#lib/validations";
+} from "lib/validations";
 import {
   createComicImage,
   createComicImages,
   deleteComicImage,
   updateComicImage,
-} from "#mutations/comicImages";
-import { getComicImages } from "#queries/comicImages";
-import { auth } from "auth";
+} from "mutations/comicImages";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { getComicImages } from "queries/comicImages";
 
 // ═══════════════════════════════════════════════════
 // GET - List Comic Images

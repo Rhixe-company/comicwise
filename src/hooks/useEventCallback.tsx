@@ -1,6 +1,6 @@
 "use client";
 
-import { useIsomorphicLayoutEffect } from "#hooks/use-isomorphic-layout-effect";
+import { useIsomorphicLayoutEffect } from "hooks/use-isomorphic-layout-effect";
 import { useCallback, useRef } from "react";
 
 /**

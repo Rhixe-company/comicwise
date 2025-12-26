@@ -9,12 +9,12 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
-import { AuthForm, EmailField } from "#components/auth";
-import type { ForgotPasswordInput } from "#lib/validations";
-import { forgotPasswordSchema } from "#lib/validations";
-import { Button } from "#ui/button";
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "#ui/card";
 import { forgotPasswordAction } from "@/dto/authDto";
+import { AuthForm, EmailField } from "components/auth";
+import type { ForgotPasswordInput } from "lib/validations";
+import { forgotPasswordSchema } from "lib/validations";
+import { Button } from "ui/button";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "ui/card";
 
 export default function ForgotPasswordPage() {
   const [isPending, startTransition] = useTransition();

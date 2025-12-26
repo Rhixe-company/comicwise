@@ -1,6 +1,6 @@
-import { db as database } from "#database/db";
-import { verificationToken } from "#schema";
+import { db as database } from "database/db";
 import { and, eq, lt } from "drizzle-orm";
+import { verificationToken } from "schema";
 
 // ═══════════════════════════════════════════════════
 // VERIFICATION TOKEN MUTATIONS

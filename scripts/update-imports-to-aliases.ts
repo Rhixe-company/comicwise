@@ -10,7 +10,7 @@ import path from "path";
 import { Project } from "ts-morph";
 
 const repoRoot = path.resolve(process.cwd());
-const sourceRoot = path.join(repoRoot, "src");
+const sourceRoot = path.join(repoRoot, ".");
 
 function normalizeSlashes(string_: string): string {
   return string_.replaceAll("\\", "/");

@@ -157,11 +157,11 @@ git commit -m "fix(types): resolve type errors in problematic-file"
 
 **Checklist:**
 
-- [ ] File 1: **********\_********** (fixed & committed)
-- [ ] File 2: **********\_********** (fixed & committed)
-- [ ] File 3: **********\_********** (fixed & committed)
-- [ ] File 4: **********\_********** (fixed & committed)
-- [ ] File 5: **********\_********** (fixed & committed)
+- [ ] File 1: \***\*\*\*\*\***\_\***\*\*\*\*\*** (fixed & committed)
+- [ ] File 2: \***\*\*\*\*\***\_\***\*\*\*\*\*** (fixed & committed)
+- [ ] File 3: \***\*\*\*\*\***\_\***\*\*\*\*\*** (fixed & committed)
+- [ ] File 4: \***\*\*\*\*\***\_\***\*\*\*\*\*** (fixed & committed)
+- [ ] File 5: \***\*\*\*\*\***\_\***\*\*\*\*\*** (fixed & committed)
 
 **Estimated Time:** 2-4 hours (depending on error count)
 
@@ -304,9 +304,9 @@ git checkout HEAD -- src/components/unused-component
 
 **Components to Delete:**
 
-- [ ] Component 1: **********\_********** (deleted & tested)
-- [ ] Component 2: **********\_********** (deleted & tested)
-- [ ] Component 3: **********\_********** (deleted & tested)
+- [ ] Component 1: \***\*\*\*\*\***\_\***\*\*\*\*\*** (deleted & tested)
+- [ ] Component 2: \***\*\*\*\*\***\_\***\*\*\*\*\*** (deleted & tested)
+- [ ] Component 3: \***\*\*\*\*\***\_\***\*\*\*\*\*** (deleted & tested)
 
 **Estimated Time:** 1-2 hours
 
@@ -327,9 +327,9 @@ git commit -m "chore: remove unused dependency <package-name>"
 
 **Dependencies to Remove:**
 
-- [ ] Package 1: **********\_********** (removed & tested)
-- [ ] Package 2: **********\_********** (removed & tested)
-- [ ] Package 3: **********\_********** (removed & tested)
+- [ ] Package 1: \***\*\*\*\*\***\_\***\*\*\*\*\*** (removed & tested)
+- [ ] Package 2: \***\*\*\*\*\***\_\***\*\*\*\*\*** (removed & tested)
+- [ ] Package 3: \***\*\*\*\*\***\_\***\*\*\*\*\*** (removed & tested)
 
 **Estimated Time:** 30-60 minutes
 

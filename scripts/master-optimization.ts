@@ -185,7 +185,7 @@ async function task4_customPaths() {
   const details: string[] = [];
 
   details.push("✅ Custom paths already configured in tsconfig.json");
-  details.push("  - Primary aliases (#)");
+  details.push("  - Primary aliases ()");
   details.push("  - Short aliases");
   details.push("  - Backwards compatibility (@/)");
   details.push("  - Legacy support");
@@ -334,24 +334,24 @@ async function main() {
 function generateMarkdownReport(results: TaskResult[], totalDuration: number): string {
   const date = new Date().toISOString();
 
-  return `# ComicWise Optimization Report
+  return ` ComicWise Optimization Report
 
 **Generated:** ${date}
 **Duration:** ${(totalDuration / 1000).toFixed(2)}s
 
-## Summary
+ Summary
 
 - **Total Tasks:** ${results.length}
 - **Completed:** ${results.filter((r) => r.status === "completed").length}
 - **Failed:** ${results.filter((r) => r.status === "failed").length}
 - **Pending:** ${results.filter((r) => r.status === "pending").length}
 
-## Task Details
+ Task Details
 
 ${results
   .map(
     (r) => `
-### Task ${r.task}: ${r.name}
+ Task ${r.task}: ${r.name}
 
 **Status:** ${r.status === "completed" ? "✅ Completed" : r.status === "failed" ? "❌ Failed" : "⏭ Pending"}
 **Duration:** ${(r.duration / 1000).toFixed(2)}s
@@ -364,7 +364,7 @@ ${r.errors && r.errors.length > 0 ? `**Errors:**\n${r.errors.map((e) => `- ${e}`
   )
   .join("\n")}
 
-## Next Steps
+ Next Steps
 
 ${results.some((r) => r.status === "failed") ? "1. Address failed tasks\n2. Re-run optimization\n3. Validate changes" : "1. Review changes\n2. Run type-check\n3. Run linting\n4. Commit changes"}
 `;

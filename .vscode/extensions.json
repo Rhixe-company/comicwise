@@ -1,35 +1,39 @@
 {
   "recommendations": [
-    // Core Development
+    // === Core Development ===
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "ms-vscode.vscode-typescript-next",
     "stateful.runme",
 
-    // Framework & Libraries
+    // === Framework & Libraries ===
     "bradlc.vscode-tailwindcss",
     "dsznajder.es7-react-js-snippets",
     "burkeholland.simple-react-snippets",
     "styled-components.vscode-styled-components",
 
-    // Database
+    // === Database ===
     "drizzle-team.drizzle-vscode",
     "cweijan.vscode-postgresql-client2",
     "redis.redis-for-vscode",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
 
-    // Testing
+    // === Testing ===
     "orta.vscode-jest",
     "vitest.explorer",
     "ms-playwright.playwright",
     "hbenl.vscode-test-explorer",
+    "ZixuanChen.vitest-explorer",
 
-    // Git & Version Control
+    // === Git & Version Control ===
     "eamodio.gitlens",
     "mhutchie.git-graph",
     "donjayamanne.githistory",
     "github.vscode-pull-request-github",
+    "github.vscode-github-actions",
 
-    // Code Quality & Analysis
+    // === Code Quality & Analysis ===
     "streetsidesoftware.code-spell-checker",
     "usernamehw.errorlens",
     "yoavbls.pretty-ts-errors",
@@ -37,8 +41,9 @@
     "wayou.vscode-todo-highlight",
     "gruntfuggly.todo-tree",
     "sonarqube.sonarlint-vscode",
+    "dbaeumer.vscode-eslint",
 
-    // Productivity
+    // === Productivity ===
     "formulahendry.auto-rename-tag",
     "formulahendry.auto-close-tag",
     "christian-kohler.path-intellisense",
@@ -46,64 +51,94 @@
     "editorconfig.editorconfig",
     "wix.vscode-import-cost",
     "pflannery.vscode-versionlens",
+    "alefragnani.bookmarks",
+    "alefragnani.project-manager",
 
-    // Docker & DevOps
+    // === Docker & DevOps ===
     "ms-azuretools.vscode-docker",
     "ms-vscode-remote.remote-containers",
     "ms-vscode-remote.remote-ssh",
+    "ms-vscode-remote.remote-wsl",
 
-    // API & GraphQL
+    // === API & GraphQL ===
     "humao.rest-client",
     "graphql.vscode-graphql",
     "apollographql.vscode-apollo",
+    "42crunch.vscode-openapi",
 
-    // Documentation
+    // === Documentation ===
     "yzhang.markdown-all-in-one",
     "bierner.markdown-mermaid",
     "bierner.markdown-preview-github-styles",
     "davidanson.vscode-markdownlint",
+    "yzane.markdown-pdf",
 
-    // Config Files
+    // === Config Files ===
     "redhat.vscode-yaml",
     "tamasfe.even-better-toml",
     "mikestead.dotenv",
 
-    // UI/UX
+    // === UI/UX ===
     "pkief.material-icon-theme",
     "antfu.icons-carbon",
     "oderwat.indent-rainbow",
     "naumovs.color-highlight",
     "pranaygp.vscode-css-peek",
+    "bradlc.vscode-tailwindcss",
 
-    // AI & Copilot
+    // === AI & Copilot ===
     "github.copilot",
     "github.copilot-chat",
 
-    // Scripting
+    // === Scripting ===
     "ms-vscode.powershell",
 
-    // i18n
+    // === i18n ===
     "lokalise.i18n-ally",
 
-    // Performance & Monitoring
+    // === Performance & Monitoring ===
     "wix.glean",
     "quicktype.quicktype",
+    "wallabyjs.quokka-vscode",
+    "pflannery.vscode-versionlens",
 
-    // Security
+    // === Security ===
     "snyk-security.snyk-vulnerability-scanner",
+    "42crunch.vscode-openapi",
 
-    // Additional Utilities
+    // === Additional Utilities ===
     "chakrounanas.turbo-console-log",
     "steoates.autoimport",
-    "alefragnani.bookmarks",
-    "alefragnani.project-manager",
-    "VisualStudioExptTeam.vscodeintellicode"
+    "VisualStudioExptTeam.vscodeintellicode",
+    "VisualStudioExptTeam.intellicode-api-usage-examples",
+
+    // === Next.js Specific ===
+    "PulkitGangwar.nextjs-snippets",
+    "willstakayama.vscode-nextjs-snippets",
+
+    // === React Specific ===
+    "rodrigovallades.es7-react-js-snippets",
+    "xabikos.ReactSnippets",
+
+    // === Import Management ===
+    "NuclleaR.vscode-extension-auto-import",
+    "wix.vscode-import-cost",
+
+    // === Code Navigation ===
+    "metaseed.metago",
+    "metaseed.metajump",
+
+    // === Formatting ===
+    "rvest.vs-code-prettier-eslint",
+    "esbenp.prettier-vscode"
   ],
   "unwantedRecommendations": [
     "hookyqr.beautify",
     "dbaeumer.jshint",
     "ms-vscode.vscode-typescript-tslint-plugin",
     "liuji-jim.lua",
-    "octref.vetur"
+    "octref.vetur",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "eg2.tslint"
   ]
 }

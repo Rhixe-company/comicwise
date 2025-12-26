@@ -8,7 +8,7 @@ import fs from "fs/promises";
 import path from "path";
 import sharp from "sharp";
 
-import type { UploadOptions, UploadProvider, UploadResult } from "#services/upload/index";
+import type { UploadOptions, UploadProvider, UploadResult } from "services/upload/index";
 
 export interface LocalTransformationOptions {
   width?: number;

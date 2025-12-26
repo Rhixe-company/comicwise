@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { useIsomorphicLayoutEffect } from "#hooks/use-isomorphic-layout-effect";
+import { useIsomorphicLayoutEffect } from "hooks/use-isomorphic-layout-effect";
 
 interface UseMediaQueryOptions {
   defaultValue?: boolean;
@@ -40,7 +40,7 @@ export function useMediaQuery(
     // Triggered at the first client-side load and if query changes
     handleChange();
 
-    // Use deprecated `addListener` and `removeListener` to support Safari < 14 (#135)
+    // Use deprecated `addListener` and `removeListener` to support Safari < 14 (135)
     if (matchMedia.addListener) {
       matchMedia.addListener(handleChange);
     } else {

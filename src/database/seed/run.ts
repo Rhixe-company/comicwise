@@ -1,5 +1,3 @@
-#!/usr/bin/env tsx
-
 /**
  * Database Seeding System - Main Entry Point
  *
@@ -10,12 +8,12 @@
  * - Dynamic data loading from JSON files
  */
 
-import { parseCLIArgs } from "#database/seed/config";
-import { logger } from "#database/seed/logger";
-import type { SeedOptions } from "#lib/seedHelpers";
-import { seedAll, seedChapters, seedComics, seedUsers } from "#lib/seedHelpers";
+import { parseCLIArgs } from "database/seed/config";
+import { logger } from "database/seed/logger";
 import { db as database } from "db";
 import { sql } from "drizzle-orm";
+import type { SeedOptions } from "lib/seedHelpers";
+import { seedAll, seedChapters, seedComics, seedUsers } from "lib/seedHelpers";
 
 async function seed() {
   const startTime = Date.now();

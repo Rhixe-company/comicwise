@@ -9,7 +9,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "#ui/AlertDialog";
+} from "ui/AlertDialog";
 
 // Hook for easier use
 import { useState } from "react";

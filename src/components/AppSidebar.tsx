@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeToggle } from "#admin/ThemeToggle";
+import { ThemeToggle } from "admin/ThemeToggle";
 import {
   BookOpen,
   FileText,

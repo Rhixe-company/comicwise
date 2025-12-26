@@ -416,8 +416,8 @@ async function updateAllImports() {
             new: rename.to.replace(/^src\//, "@/").replace(/\.(ts|tsx)$/, ""),
           },
           {
-            old: rename.from.replace(/^src\//, "#/").replace(/\.(ts|tsx)$/, ""),
-            new: rename.to.replace(/^src\//, "#/").replace(/\.(ts|tsx)$/, ""),
+            old: rename.from.replace(/^src\//, "/").replace(/\.(ts|tsx)$/, ""),
+            new: rename.to.replace(/^src\//, "/").replace(/\.(ts|tsx)$/, ""),
           },
         ];
 

@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-import AuthBackgroundShape from "#assets/svg/auth-background-shape";
-import LoginForm from "#components/shadcn-studio/blocks/login-page-01/login-form";
-import Logo from "#components/shadcn-studio/logo";
+import AuthBackgroundShape from "assets/svg/auth-background-shape";
+import LoginForm from "components/shadcn-studio/blocks/login-page-01/login-form";
+import Logo from "components/shadcn-studio/logo";
 
 const Login = () => {
   return (
@@ -41,7 +41,7 @@ const Login = () => {
           <p className="mb-6 text-muted-foreground">
             Login with{" "}
             <a
-              href="#"
+              href=""
               className={`
               text-card-foreground
               hover:underline
@@ -73,7 +73,7 @@ const Login = () => {
             <p className="text-center text-muted-foreground">
               New on our platform?{" "}
               <a
-                href="#"
+                href=""
                 className={`
                 text-card-foreground
                 hover:underline
@@ -90,7 +90,7 @@ const Login = () => {
             </div>
 
             <Button variant="ghost" className="w-full" asChild>
-              <a href="#">Sign in with google</a>
+              <a href="">Sign in with google</a>
             </Button>
           </div>
         </CardContent>

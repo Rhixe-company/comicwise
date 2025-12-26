@@ -32,61 +32,61 @@ const MIGRATION_RULES = [
   { from: /from ['"]\.\.\/\.\.\/\.\.\/lib\/auth['"]/g, to: 'from "auth"' },
   { from: /from ['"]@\/lib\/auth['"]/g, to: 'from "auth"' },
 
-  // Components with # prefix
-  { from: /from ['"]@\/components\//g, to: 'from "#components/' },
-  { from: /from ['"]\.\.\/\.\.\/components\//g, to: 'from "#components/' },
+  // Components with  prefix
+  { from: /from ['"]@\/components\//g, to: 'from "components/' },
+  { from: /from ['"]\.\.\/\.\.\/components\//g, to: 'from "components/' },
 
   // UI components
-  { from: /from ['"]@\/components\/ui\//g, to: 'from "#ui/' },
-  { from: /from ['"]\.\.\/\.\.\/components\/ui\//g, to: 'from "#ui/' },
+  { from: /from ['"]@\/components\/ui\//g, to: 'from "ui/' },
+  { from: /from ['"]\.\.\/\.\.\/components\/ui\//g, to: 'from "ui/' },
 
-  // Lib with # prefix
-  { from: /from ['"]@\/lib\//g, to: 'from "#lib/' },
-  { from: /from ['"]\.\.\/\.\.\/lib\//g, to: 'from "#lib/' },
+  // Lib with  prefix
+  { from: /from ['"]@\/lib\//g, to: 'from "lib/' },
+  { from: /from ['"]\.\.\/\.\.\/lib\//g, to: 'from "lib/' },
 
   // Actions
-  { from: /from ['"]@\/lib\/actions\//g, to: 'from "#actions/' },
-  { from: /from ['"]\.\.\/\.\.\/lib\/actions\//g, to: 'from "#actions/' },
+  { from: /from ['"]@\/lib\/actions\//g, to: 'from "actions/' },
+  { from: /from ['"]\.\.\/\.\.\/lib\/actions\//g, to: 'from "actions/' },
 
   // Validations
-  { from: /from ['"]@\/lib\/validations\//g, to: 'from "#validations/' },
-  { from: /from ['"]\.\.\/\.\.\/lib\/validations\//g, to: 'from "#validations/' },
+  { from: /from ['"]@\/lib\/validations\//g, to: 'from "validations/' },
+  { from: /from ['"]\.\.\/\.\.\/lib\/validations\//g, to: 'from "validations/' },
 
   // DAL
-  { from: /from ['"]@\/dal\//g, to: 'from "#dal/' },
-  { from: /from ['"]\.\.\/\.\.\/dal\//g, to: 'from "#dal/' },
+  { from: /from ['"]@\/dal\//g, to: 'from "dal/' },
+  { from: /from ['"]\.\.\/\.\.\/dal\//g, to: 'from "dal/' },
 
   // DTO
-  { from: /from ['"]@\/dto\//g, to: 'from "#dto/' },
-  { from: /from ['"]\.\.\/\.\.\/dto\//g, to: 'from "#dto/' },
+  { from: /from ['"]@\/dto\//g, to: 'from "dto/' },
+  { from: /from ['"]\.\.\/\.\.\/dto\//g, to: 'from "dto/' },
 
   // Types
-  { from: /from ['"]@\/types\//g, to: 'from "#types/' },
-  { from: /from ['"]\.\.\/\.\.\/types\//g, to: 'from "#types/' },
+  { from: /from ['"]@\/types\//g, to: 'from "types/' },
+  { from: /from ['"]\.\.\/\.\.\/types\//g, to: 'from "types/' },
 
   // Database paths
-  { from: /from ['"]@\/database\//g, to: 'from "#database/' },
-  { from: /from ['"]\.\.\/\.\.\/database\//g, to: 'from "#database/' },
+  { from: /from ['"]@\/database\//g, to: 'from "database/' },
+  { from: /from ['"]\.\.\/\.\.\/database\//g, to: 'from "database/' },
 
   // Queries
-  { from: /from ['"]@\/database\/queries\//g, to: 'from "#queries/' },
-  { from: /from ['"]\.\.\/\.\.\/database\/queries\//g, to: 'from "#queries/' },
+  { from: /from ['"]@\/database\/queries\//g, to: 'from "queries/' },
+  { from: /from ['"]\.\.\/\.\.\/database\/queries\//g, to: 'from "queries/' },
 
   // Mutations
-  { from: /from ['"]@\/database\/mutations\//g, to: 'from "#mutations/' },
-  { from: /from ['"]\.\.\/\.\.\/database\/mutations\//g, to: 'from "#mutations/' },
+  { from: /from ['"]@\/database\/mutations\//g, to: 'from "mutations/' },
+  { from: /from ['"]\.\.\/\.\.\/database\/mutations\//g, to: 'from "mutations/' },
 
   // Hooks
-  { from: /from ['"]@\/hooks\//g, to: 'from "#hooks/' },
-  { from: /from ['"]\.\.\/\.\.\/hooks\//g, to: 'from "#hooks/' },
+  { from: /from ['"]@\/hooks\//g, to: 'from "hooks/' },
+  { from: /from ['"]\.\.\/\.\.\/hooks\//g, to: 'from "hooks/' },
 
   // Services
-  { from: /from ['"]@\/services\//g, to: 'from "#services/' },
-  { from: /from ['"]\.\.\/\.\.\/services\//g, to: 'from "#services/' },
+  { from: /from ['"]@\/services\//g, to: 'from "services/' },
+  { from: /from ['"]\.\.\/\.\.\/services\//g, to: 'from "services/' },
 
   // Stores
-  { from: /from ['"]@\/stores\//g, to: 'from "#stores/' },
-  { from: /from ['"]\.\.\/\.\.\/stores\//g, to: 'from "#stores/' },
+  { from: /from ['"]@\/stores\//g, to: 'from "stores/' },
+  { from: /from ['"]\.\.\/\.\.\/stores\//g, to: 'from "stores/' },
 ];
 
 // ═══════════════════════════════════════════════════
@@ -199,9 +199,9 @@ function main() {
     console.log("✅ All imports have been migrated!");
     console.log("");
     console.log("Next steps:");
-    console.log("  1. pnpm type-check     # Verify types");
-    console.log("  2. pnpm lint:fix       # Fix linting");
-    console.log("  3. pnpm build          # Test build");
+    console.log("  1. pnpm type-check      Verify types");
+    console.log("  2. pnpm lint:fix        Fix linting");
+    console.log("  3. pnpm build           Test build");
   }
 }
 

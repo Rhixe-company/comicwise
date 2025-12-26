@@ -1,4 +1,4 @@
-import type { User as DbUser } from "#types/database";
+import type { User as DbUser } from "types/database";
 
 declare module "next-auth" {
   interface Session {

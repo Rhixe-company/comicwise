@@ -1,10 +1,10 @@
-import { deleteType, updateType } from "#dto/typesDto";
-import { Button } from "#ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
-import { Input } from "#ui/input";
-import { Textarea } from "#ui/textarea";
+import { deleteType, updateType } from "dto/typesDto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { Button } from "ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
+import { Input } from "ui/input";
+import { Textarea } from "ui/textarea";
 
 export default async function EditTypeForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);

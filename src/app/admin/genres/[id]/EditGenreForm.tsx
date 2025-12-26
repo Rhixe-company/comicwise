@@ -1,10 +1,10 @@
-import { deleteGenre, updateGenre } from "#dto/genresDto";
-import { Button } from "#ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
-import { Input } from "#ui/input";
-import { Textarea } from "#ui/textarea";
+import { deleteGenre, updateGenre } from "dto/genresDto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { Button } from "ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
+import { Input } from "ui/input";
+import { Textarea } from "ui/textarea";
 
 export default async function EditGenreForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);

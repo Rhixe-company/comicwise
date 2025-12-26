@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-import AuthBackgroundShape from "#assets/svg/auth-background-shape";
-import RegisterForm from "#components/shadcn-studio/blocks/register-01/register-form";
-import Logo from "#components/shadcn-studio/logo";
+import AuthBackgroundShape from "assets/svg/auth-background-shape";
+import RegisterForm from "components/shadcn-studio/blocks/register-01/register-form";
+import Logo from "components/shadcn-studio/logo";
 
 const Register = () => {
   return (
@@ -45,7 +45,7 @@ const Register = () => {
             <p className="text-center text-muted-foreground">
               Already have an account?{" "}
               <a
-                href="#"
+                href=""
                 className={`
                 text-card-foreground
                 hover:underline
@@ -62,7 +62,7 @@ const Register = () => {
             </div>
 
             <Button variant="ghost" className="w-full" asChild>
-              <a href="#">Sign in with google</a>
+              <a href="">Sign in with google</a>
             </Button>
           </div>
         </CardContent>

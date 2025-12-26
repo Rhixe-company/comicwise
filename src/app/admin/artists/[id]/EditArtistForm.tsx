@@ -1,12 +1,12 @@
-import ClientImageUploader from "#admin/ClientImageUploader";
-import { deleteArtist, updateArtist } from "#dto/artistsDto";
-import { Button } from "#ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#ui/card";
-import { Input } from "#ui/input";
-import { Textarea } from "#ui/textarea";
+import ClientImageUploader from "admin/ClientImageUploader";
+import { deleteArtist, updateArtist } from "dto/artistsDto";
 import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { Button } from "ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
+import { Input } from "ui/input";
+import { Textarea } from "ui/textarea";
 
 // `ClientImageUploader` moved to `src/components/admin/ClientImageUploader`
 

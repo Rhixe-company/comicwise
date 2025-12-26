@@ -35,17 +35,17 @@ const renamedFiles: Array<[RegExp, string]> = [
 
   // Library files
   [/['"]@\/lib\/logger-enhanced['"]/g, '"@/lib/loggerEnhanced"'],
-  [/['"]#lib\/logger-enhanced['"]/g, '"#lib/loggerEnhanced"'],
+  [/['"]lib\/logger-enhanced['"]/g, '"lib/loggerEnhanced"'],
 
   // DAL files
   [/['"]@\/dal\/sample-queries['"]/g, '"@/dal/sampleQueries"'],
-  [/['"]#dal\/sample-queries['"]/g, '"#dal/sampleQueries"'],
+  [/['"]dal\/sample-queries['"]/g, '"dal/sampleQueries"'],
   [/['"]@\/dal\/admin-comics['"]/g, '"@/dal/adminComics"'],
-  [/['"]#dal\/admin-comics['"]/g, '"#dal/adminComics"'],
+  [/['"]dal\/admin-comics['"]/g, '"dal/adminComics"'],
 
   // Component files
   [/['"]@\/components\/layout\/site-header['"]/g, '"@/components/layout/SiteHeader"'],
-  [/['"]#layout\/site-header['"]/g, '"#layout/SiteHeader"'],
+  [/['"]layout\/site-header['"]/g, '"layout/SiteHeader"'],
   [/['"]@\/components\/home\/section-cards['"]/g, '"@/components/home/SectionCards"'],
   [/['"]@\/components\/sidebar\/nav-user['"]/g, '"@/components/sidebar/NavUser"'],
   [/['"]@\/components\/sidebar\/nav-secondary['"]/g, '"@/components/sidebar/NavSecondary"'],

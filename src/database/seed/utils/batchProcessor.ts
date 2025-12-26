@@ -3,7 +3,7 @@
  * Provides efficient batch processing for large datasets
  */
 
-import { logger } from "#database/seed/logger";
+import { logger } from "database/seed/logger";
 
 export interface BatchProcessorOptions {
   batchSize?: number;

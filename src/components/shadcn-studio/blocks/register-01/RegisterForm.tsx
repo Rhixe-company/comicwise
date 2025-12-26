@@ -94,7 +94,7 @@ const RegisterForm = () => {
         <Checkbox id="rememberMe" className="size-6" />
         <Label htmlFor="rememberMe">
           <span className="text-muted-foreground">I agree to</span>{" "}
-          <a href="#">privacy policy & terms</a>
+          <a href="">privacy policy & terms</a>
         </Label>
       </div>
 

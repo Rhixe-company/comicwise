@@ -1,5 +1,5 @@
-import { ComicsListContent } from "#admin/ComicsListContent";
-import { getComicsWithPagination, searchComics } from "#queries/adminComics";
+import { ComicsListContent } from "admin/ComicsListContent";
+import { getComicsWithPagination, searchComics } from "queries/adminComics";
 import { Suspense } from "react";
 
 interface ComicsPageProps {

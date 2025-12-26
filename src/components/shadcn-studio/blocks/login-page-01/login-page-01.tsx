@@ -28,7 +28,7 @@ const Login = () => {
         <CardContent>
           <p className="text-muted-foreground mb-6">
             Login with{" "}
-            <a href="#" className="text-card-foreground hover:underline">
+            <a href="" className="text-card-foreground hover:underline">
               Magic Link
             </a>
           </p>
@@ -49,7 +49,7 @@ const Login = () => {
 
             <p className="text-muted-foreground text-center">
               New on our platform?{" "}
-              <a href="#" className="text-card-foreground hover:underline">
+              <a href="" className="text-card-foreground hover:underline">
                 Create an account
               </a>
             </p>
@@ -61,7 +61,7 @@ const Login = () => {
             </div>
 
             <Button variant="ghost" className="w-full" asChild>
-              <a href="#">Sign in with google</a>
+              <a href="">Sign in with google</a>
             </Button>
           </div>
         </CardContent>

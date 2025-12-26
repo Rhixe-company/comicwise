@@ -60,7 +60,7 @@ const LoginForm = () => {
           </Label>
         </div>
 
-        <a href="#" className="hover:underline">
+        <a href="" className="hover:underline">
           Forgot Password?
         </a>
       </div>

@@ -182,27 +182,27 @@ console.log(chalk.yellow("📂 Suggested Folder Structure (Next.js 15+):"));
 console.log(
   chalk.gray(`
 src/
-  ├── app/                   # App Router
-  │   ├── (auth)/           # Route groups
+  ├── app/                    App Router
+  │   ├── (auth)/            Route groups
   │   ├── (root)/
-  │   ├── api/              # API routes
+  │   ├── api/               API routes
   │   └── admin/
-  ├── components/           # React components
-  │   ├── ui/              # Reusable UI
-  │   ├── forms/           # Form components
-  │   └── blocks/          # Compound components
-  ├── lib/                  # Utilities
-  │   ├── actions/         # Server actions
-  │   ├── validations/     # Zod schemas
+  ├── components/            React components
+  │   ├── ui/               Reusable UI
+  │   ├── forms/            Form components
+  │   └── blocks/           Compound components
+  ├── lib/                   Utilities
+  │   ├── actions/          Server actions
+  │   ├── validations/      Zod schemas
   │   └── utils.ts
-  ├── database/            # Database layer
+  ├── database/             Database layer
   │   ├── schema.ts
   │   ├── queries/
   │   └── mutations/
-  ├── types/               # TypeScript types
-  ├── hooks/               # React hooks
-  ├── services/            # External services
-  └── stores/              # State management
+  ├── types/                TypeScript types
+  ├── hooks/                React hooks
+  ├── services/             External services
+  └── stores/               State management
 `)
 );
 

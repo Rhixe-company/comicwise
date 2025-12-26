@@ -5,10 +5,10 @@
 
 "use server";
 
-import { db as database } from "#database/db";
-import { chapter, comic } from "#schema";
 import { requireRole } from "auth";
+import { db as database } from "database/db";
 import { eq, inArray } from "drizzle-orm";
+import { chapter, comic } from "schema";
 import { z } from "zod";
 
 const createChapterSchema = z

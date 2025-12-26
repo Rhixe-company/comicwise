@@ -3,7 +3,7 @@
  * Data Transfer Objects for author operations
  */
 
-import type { author } from "#schema";
+import type { author } from "schema";
 
 export type AuthorDto = typeof author.$inferSelect;
 export type CreateAuthorDto = typeof author.$inferInsert;
@@ -25,4 +25,4 @@ export type AuthorWithComicsDto = AuthorDto & {
   }>;
 };
 
-export { deleteAuthor, updateAuthor } from "#lib/actions/authors";
+export { deleteAuthor, updateAuthor } from "lib/actions/authors";

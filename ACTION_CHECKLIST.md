@@ -34,12 +34,14 @@
 ### Day 1 Morning: Type Checking & Analysis
 
 - [ ] **Run Type-Check Analysis**
+
   ```bash
   pnpm type-check > reports/typecheck-report.txt 2>&1
   cat reports/typecheck-report.txt
   ```
 
 - [ ] **Run Lint Analysis**
+
   ```bash
   pnpm lint > reports/lint-report.txt 2>&1
   cat reports/lint-report.txt
@@ -53,6 +55,7 @@
 ### Day 1 Afternoon: Automated Fixes
 
 - [ ] **Task 12 (Part 1): Auto-Fix Linting**
+
   ```bash
   pnpm lint:fix
   pnpm format
@@ -83,13 +86,14 @@
 ### Day 2 Afternoon: Any Type Replacement
 
 - [ ] **Task 4: Replace Any Types**
+
   ```bash
   # Scan for any types
   grep -r ": any" src/ --include="*.ts" --include="*.tsx" > reports/any-types.txt
-  
+
   # Run replacement script
   pnpm tsx scripts/update-any-types.ts
-  
+
   # Type check
   pnpm type-check
   ```
@@ -111,7 +115,6 @@
     ```bash
     cp tsconfig.json tsconfig.json.backup-phase3
     ```
-  
   - Add recommended paths from report
   - Test compilation:
     ```bash
@@ -121,16 +124,17 @@
 ### Day 3 Afternoon: Import Path Updates
 
 - [ ] **Task 6: Replace Import Paths**
+
   ```bash
   # Dry run first
   pnpm tsx scripts/replace-imports.ts --dry-run --verbose > reports/import-changes.txt
-  
+
   # Review changes
   cat reports/import-changes.txt
-  
+
   # Apply changes
   pnpm tsx scripts/replace-imports.ts
-  
+
   # Verify
   pnpm type-check
   pnpm build
@@ -149,13 +153,11 @@
     ```bash
     cp eslint.config.ts eslint.config.ts.backup-phase3
     ```
-  
   - Add enhancements from report
   - Test:
     ```bash
     pnpm lint
     ```
-  
   - Fix new issues:
     ```bash
     pnpm lint:fix
@@ -176,21 +178,23 @@
 ### Day 5: CamelCase Refactoring (OPTIONAL)
 
 - [ ] **Create Feature Branch**
+
   ```bash
   git checkout -b refactor/camelcase
   ```
 
 - [ ] **Task 7: CamelCase Files**
+
   ```bash
   # Dry run
   pnpm tsx scripts/rename-to-camelcase.ts --dry-run
-  
+
   # Apply changes
   pnpm tsx scripts/rename-to-camelcase.ts
-  
+
   # Fix imports
   pnpm tsx scripts/fix-renamed-imports.ts
-  
+
   # Verify
   pnpm type-check
   pnpm dev  # Test manually
@@ -207,6 +211,7 @@
 ⚠️ **WARNING:** This is a MASSIVE change. Strongly recommend separate sprint.
 
 - [ ] **Create Feature Branch**
+
   ```bash
   git checkout -b refactor/folder-structure
   ```
@@ -225,22 +230,24 @@
 ### Morning: Cleanup
 
 - [ ] **Task 11: Remove Unused Files**
+
   ```bash
   # Dry run
   pnpm tsx scripts/cleanup-comprehensive.ts --dry-run > reports/cleanup-plan.txt
-  
+
   # Review plan
   cat reports/cleanup-plan.txt
-  
+
   # Execute cleanup
   pnpm tsx scripts/cleanup-comprehensive.ts
   ```
 
 - [ ] **Remove Backup Files**
+
   ```bash
   # Remove old optimization backups
   rm -rf .optimization-backup-*
-  
+
   # Keep only recent .backup files
   find . -name "*.backup-*" -type f -mtime +7 -delete
   ```
@@ -254,25 +261,26 @@
 ### Afternoon: Final Validation
 
 - [ ] **Task 15: Complete Validation**
+
   ```bash
   # 1. Type check
   pnpm type-check
-  
+
   # 2. Lint
   pnpm lint
-  
+
   # 3. Format check
   pnpm format:check
-  
+
   # 4. Unit tests
   pnpm test:unit:run
-  
+
   # 5. Build
   pnpm build
-  
+
   # 6. E2E tests
   pnpm test
-  
+
   # 7. All checks
   pnpm validate
   ```
@@ -377,12 +385,14 @@ Phase 6: ░░░░░░░░░░░░░░░░░░░░   0% (Opti
 ## ⚡ Quick Commands Reference
 
 ### Type Checking
+
 ```bash
 pnpm type-check                    # Check types
 pnpm type-check:watch              # Watch mode
 ```
 
 ### Linting
+
 ```bash
 pnpm lint                          # Check lint
 pnpm lint:fix                      # Fix issues
@@ -390,6 +400,7 @@ pnpm lint:strict                   # Strict mode
 ```
 
 ### Testing
+
 ```bash
 pnpm test:unit:run                 # Unit tests
 pnpm test                          # E2E tests
@@ -397,12 +408,14 @@ pnpm test:all                      # All tests
 ```
 
 ### Building
+
 ```bash
 pnpm build                         # Production build
 pnpm build:analyze                 # With analyzer
 ```
 
 ### Validation
+
 ```bash
 pnpm validate                      # All checks
 pnpm validate:quick                # Quick checks
@@ -428,11 +441,13 @@ Each phase is complete when:
 ## 📞 Need Help?
 
 ### Documentation
+
 - **Full Report:** `COMPREHENSIVE_OPTIMIZATION_REPORT_2025-12-24.md`
 - **Setup Guide:** `.github/Setup.prompt.md`
 - **README:** `README.md`
 
 ### Scripts
+
 - **Master Script:** `scripts/comprehensive-master-optimization.ts`
 - **Type Consolidation:** `scripts/consolidate-types.ts`
 - **Any Type Replacement:** `scripts/update-any-types.ts`
@@ -441,6 +456,7 @@ Each phase is complete when:
 - **Cleanup:** `scripts/cleanup-comprehensive.ts`
 
 ### Commands
+
 ```bash
 pnpm cli                           # Interactive CLI
 pnpm health:all                    # Health checks
@@ -452,6 +468,7 @@ pnpm db:studio                     # Database UI
 ## ⚠️ Before You Begin
 
 1. **Create Git Checkpoint**
+
    ```bash
    git add .
    git commit -m "Checkpoint before Phase 2"
@@ -459,6 +476,7 @@ pnpm db:studio                     # Database UI
    ```
 
 2. **Backup Database**
+
    ```bash
    # Export your database
    pg_dump -U user -d comicwise > backup-$(date +%Y%m%d).sql
@@ -499,4 +517,4 @@ pnpm db:studio                     # Database UI
 
 **Good luck! 🚀**
 
-*Remember: Quality over speed. Test thoroughly at each phase.*
+_Remember: Quality over speed. Test thoroughly at each phase._

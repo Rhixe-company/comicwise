@@ -2,13 +2,13 @@
 // USERS API - Full CRUD with Filtering & Pagination
 // ═══════════════════════════════════════════════════
 
-import { createUserSchema, userFilterSchema } from "#lib/validations";
-import { createUser } from "#mutations/users";
-import { getAllUsers } from "#queries/users";
 import { auth } from "auth";
 import bcrypt from "bcryptjs";
+import { createUserSchema, userFilterSchema } from "lib/validations";
+import { createUser } from "mutations/users";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { getAllUsers } from "queries/users";
 
 // ═══════════════════════════════════════════════════
 // GET - List Users with Filtering & Pagination

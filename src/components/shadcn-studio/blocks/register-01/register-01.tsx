@@ -32,7 +32,7 @@ const Register = () => {
 
             <p className="text-muted-foreground text-center">
               Already have an account?{" "}
-              <a href="#" className="text-card-foreground hover:underline">
+              <a href="" className="text-card-foreground hover:underline">
                 Sign in instead
               </a>
             </p>
@@ -44,7 +44,7 @@ const Register = () => {
             </div>
 
             <Button variant="ghost" className="w-full" asChild>
-              <a href="#">Sign in with google</a>
+              <a href="">Sign in with google</a>
             </Button>
           </div>
         </CardContent>

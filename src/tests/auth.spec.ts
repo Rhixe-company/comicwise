@@ -6,7 +6,7 @@ const BASE_URL = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 // Test user credentials
 const TEST_USER = {
   email: "test@example.com",
-  password: "Test123!@#",
+  password: "Test123!@",
   name: "Test User",
 };
 

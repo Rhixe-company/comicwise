@@ -143,13 +143,13 @@ export default NewChapterEmail;
 // ═══════════════════════════════════════════════════
 
 const main = {
-  backgroundColor: "#f6f9fc",
+  backgroundColor: "f6f9fc",
   fontFamily:
     '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
 };
 
 const container = {
-  backgroundColor: "#ffffff",
+  backgroundColor: "ffffff",
   margin: "0 auto",
   padding: "20px 0 48px",
   marginBottom: "64px",
@@ -170,7 +170,7 @@ const heading = {
   fontSize: "28px",
   lineHeight: "1.3",
   fontWeight: "700",
-  color: "#1a1a1a",
+  color: "1a1a1a",
   margin: "0",
 };
 
@@ -181,12 +181,12 @@ const content = {
 const paragraph = {
   fontSize: "16px",
   lineHeight: "26px",
-  color: "#484848",
+  color: "484848",
   margin: "16px 0",
 };
 
 const comicCard = {
-  backgroundColor: "#f8fafc",
+  backgroundColor: "f8fafc",
   borderRadius: "8px",
   padding: "24px",
   margin: "24px 0",
@@ -207,21 +207,21 @@ const comicTitleStyle = {
   fontSize: "22px",
   lineHeight: "1.4",
   fontWeight: "700",
-  color: "#1a1a1a",
+  color: "1a1a1a",
   margin: "8px 0",
 };
 
 const chapterMeta = {
   fontSize: "16px",
   lineHeight: "24px",
-  color: "#5469d4",
+  color: "5469d4",
   margin: "8px 0",
 };
 
 const releaseInfo = {
   fontSize: "14px",
   lineHeight: "20px",
-  color: "#64748b",
+  color: "64748b",
   margin: "4px 0",
 };
 
@@ -231,9 +231,9 @@ const buttonContainer = {
 };
 
 const button = {
-  backgroundColor: "#10b981",
+  backgroundColor: "10b981",
   borderRadius: "6px",
-  color: "#fff",
+  color: "fff",
   fontSize: "16px",
   fontWeight: "600",
   textDecoration: "none",
@@ -243,8 +243,8 @@ const button = {
 };
 
 const tipsBox = {
-  backgroundColor: "#f0f9ff",
-  borderLeft: "4px solid #3b82f6",
+  backgroundColor: "f0f9ff",
+  borderLeft: "4px solid 3b82f6",
   borderRadius: "4px",
   padding: "16px",
   margin: "24px 0",
@@ -254,31 +254,31 @@ const tipsHeading = {
   fontSize: "15px",
   lineHeight: "22px",
   fontWeight: "600",
-  color: "#1e40af",
+  color: "1e40af",
   margin: "0 0 8px 0",
 };
 
 const tipItem = {
   fontSize: "14px",
   lineHeight: "22px",
-  color: "#1e40af",
+  color: "1e40af",
   margin: "4px 0",
 };
 
 const smallText = {
   fontSize: "13px",
   lineHeight: "20px",
-  color: "#64748b",
+  color: "64748b",
   margin: "16px 0",
 };
 
 const link = {
-  color: "#5469d4",
+  color: "5469d4",
   textDecoration: "underline",
 };
 
 const hr = {
-  borderColor: "#e6ebf1",
+  borderColor: "e6ebf1",
   margin: "32px 0",
 };
 
@@ -289,12 +289,12 @@ const footer = {
 const footerText = {
   fontSize: "12px",
   lineHeight: "16px",
-  color: "#8898aa",
+  color: "8898aa",
   margin: "4px 0",
   textAlign: "center" as const,
 };
 
 const footerLink = {
-  color: "#8898aa",
+  color: "8898aa",
   textDecoration: "underline",
 };

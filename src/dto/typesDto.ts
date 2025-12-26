@@ -3,7 +3,7 @@
  * Data Transfer Objects for type operations
  */
 
-import type { type as typeTable } from "#schema";
+import type { type as typeTable } from "schema";
 
 export type TypeDto = typeof typeTable.$inferSelect;
 export type CreateTypeDto = typeof typeTable.$inferInsert;
@@ -26,4 +26,4 @@ export type TypeWithComicsDto = TypeDto & {
   comicCount?: number;
 };
 
-export { deleteType, updateType } from "#lib/actions/genresTypes";
+export { deleteType, updateType } from "lib/actions/genresTypes";

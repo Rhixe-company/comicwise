@@ -1,10 +1,10 @@
 "use client";
 
-import { Card, CardDescription, CardHeader, CardTitle } from "#ui/card";
 import { signOutAction } from "@/dto/authDto";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Card, CardDescription, CardHeader, CardTitle } from "ui/card";
 
 /**
  *

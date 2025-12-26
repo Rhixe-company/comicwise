@@ -1,8 +1,8 @@
-import { Breadcrumbs } from "#admin/Breadcrumbs";
-import { CommandMenu } from "#admin/CommandMenu";
-import { AppSidebar } from "#components/AppSidebar";
-import { SidebarInset, SidebarProvider } from "#ui/sidebar";
+import { Breadcrumbs } from "admin/Breadcrumbs";
+import { CommandMenu } from "admin/CommandMenu";
+import { AppSidebar } from "components/AppSidebar";
 import React, { Suspense } from "react";
+import { SidebarInset, SidebarProvider } from "ui/sidebar";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   // NOTE: We intentionally avoid awaiting server-side auth here to prevent

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // ESLint 9.x Flat Config for Next.js 16 + React 19 + TypeScript 5
 import css from "@eslint/css";
@@ -43,6 +42,7 @@ const eslintPlugins = {
   security,
   sonarjs,
   unicorn,
+  js,
   jsdoc,
   prettier,
 };

@@ -388,11 +388,11 @@ class ProjectOptimizer {
     const durationMin = Math.floor(duration / 60000);
     const durationSec = Math.floor((duration % 60000) / 1000);
 
-    let reportContent = `# ComicWise Project Optimization Report\n\n`;
+    let reportContent = ` ComicWise Project Optimization Report\n\n`;
     reportContent += `**Generated:** ${this.report.endTime.toISOString()}\n`;
     reportContent += `**Duration:** ${durationMin}m ${durationSec}s\n\n`;
 
-    reportContent += `## Tasks Summary\n\n`;
+    reportContent += ` Tasks Summary\n\n`;
     const completed = this.report.tasks.filter((t) => t.status === "completed").length;
     const failed = this.report.tasks.filter((t) => t.status === "failed").length;
     const skipped = this.report.tasks.filter((t) => t.status === "skipped").length;
@@ -401,7 +401,7 @@ class ProjectOptimizer {
     reportContent += `- ❌ Failed: ${failed}\n`;
     reportContent += `- ⊘ Skipped: ${skipped}\n\n`;
 
-    reportContent += `## Detailed Task Status\n\n`;
+    reportContent += ` Detailed Task Status\n\n`;
     for (const task of this.report.tasks) {
       const icon =
         task.status === "completed"
@@ -411,12 +411,12 @@ class ProjectOptimizer {
             : task.status === "skipped"
               ? "⊘"
               : "⏳";
-      reportContent += `### ${icon} ${task.name}\n`;
+      reportContent += ` ${icon} ${task.name}\n`;
       reportContent += `**Status:** ${task.status}\n`;
       reportContent += `**Description:** ${task.description}\n\n`;
     }
 
-    reportContent += `## Files Modified\n\n`;
+    reportContent += ` Files Modified\n\n`;
     if (this.report.filesModified.length > 0) {
       for (const file of this.report.filesModified) {
         reportContent += `- ${file}\n`;
@@ -425,7 +425,7 @@ class ProjectOptimizer {
       reportContent += `*No files modified*\n`;
     }
 
-    reportContent += `\n## Files Created\n\n`;
+    reportContent += `\n Files Created\n\n`;
     if (this.report.filesCreated.length > 0) {
       for (const file of this.report.filesCreated) {
         reportContent += `- ${file}\n`;
@@ -434,7 +434,7 @@ class ProjectOptimizer {
       reportContent += `*No files created*\n`;
     }
 
-    reportContent += `\n## Files Deleted\n\n`;
+    reportContent += `\n Files Deleted\n\n`;
     if (this.report.filesDeleted.length > 0) {
       for (const file of this.report.filesDeleted) {
         reportContent += `- ${file}\n`;
@@ -444,14 +444,14 @@ class ProjectOptimizer {
     }
 
     if (this.report.errors.length > 0) {
-      reportContent += `\n## Errors\n\n`;
+      reportContent += `\n Errors\n\n`;
       for (const error of this.report.errors) {
         reportContent += `- ❌ ${error}\n`;
       }
     }
 
     if (this.report.warnings.length > 0) {
-      reportContent += `\n## Warnings\n\n`;
+      reportContent += `\n Warnings\n\n`;
       for (const warning of this.report.warnings) {
         reportContent += `- ⚠️ ${warning}\n`;
       }

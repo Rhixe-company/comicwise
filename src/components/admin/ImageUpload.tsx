@@ -4,7 +4,7 @@
 
 "use client";
 
-import { useImageUpload } from "#hooks/useImageUpload";
+import { useImageUpload } from "hooks/useImageUpload";
 import { Loader2, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "ui/button";

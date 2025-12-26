@@ -42,27 +42,27 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "",
       icon: IconDashboard,
     },
     {
       title: "Lifecycle",
-      url: "#",
+      url: "",
       icon: IconListDetails,
     },
     {
       title: "Analytics",
-      url: "#",
+      url: "",
       icon: IconChartBar,
     },
     {
       title: "Projects",
-      url: "#",
+      url: "",
       icon: IconFolder,
     },
     {
       title: "Team",
-      url: "#",
+      url: "",
       icon: IconUsers,
     },
   ],
@@ -71,45 +71,45 @@ const data = {
       title: "Capture",
       icon: IconCamera,
       isActive: true,
-      url: "#",
+      url: "",
       items: [
         {
           title: "Active Proposals",
-          url: "#",
+          url: "",
         },
         {
           title: "Archived",
-          url: "#",
+          url: "",
         },
       ],
     },
     {
       title: "Proposal",
       icon: IconFileDescription,
-      url: "#",
+      url: "",
       items: [
         {
           title: "Active Proposals",
-          url: "#",
+          url: "",
         },
         {
           title: "Archived",
-          url: "#",
+          url: "",
         },
       ],
     },
     {
       title: "Prompts",
       icon: IconFileAi,
-      url: "#",
+      url: "",
       items: [
         {
           title: "Active Proposals",
-          url: "#",
+          url: "",
         },
         {
           title: "Archived",
-          url: "#",
+          url: "",
         },
       ],
     },
@@ -117,34 +117,34 @@ const data = {
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "",
       icon: IconSettings,
     },
     {
       title: "Get Help",
-      url: "#",
+      url: "",
       icon: IconHelp,
     },
     {
       title: "Search",
-      url: "#",
+      url: "",
       icon: IconSearch,
     },
   ],
   documents: [
     {
       name: "Data Library",
-      url: "#",
+      url: "",
       icon: IconDatabase,
     },
     {
       name: "Reports",
-      url: "#",
+      url: "",
       icon: IconReport,
     },
     {
       name: "Word Assistant",
-      url: "#",
+      url: "",
       icon: IconFileWord,
     },
   ],
@@ -157,7 +157,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
-              <a href="#">
+              <a href="">
                 <IconInnerShadowTop className="!size-5" />
                 <span className="text-base font-semibold">Acme Inc.</span>
               </a>

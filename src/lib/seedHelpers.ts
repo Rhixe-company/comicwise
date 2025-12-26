@@ -9,14 +9,14 @@
  * - Track progress with detailed logging
  */
 
-import { parseCLIArgs } from "#database/seed/config";
-import { logger } from "#database/seed/logger";
-import { ChapterSeeder } from "#database/seed/seeders/chapterSeeder";
-import { ComicSeeder } from "#database/seed/seeders/comicSeeder";
-import { UserSeeder } from "#database/seed/seeders/userSeeder";
-import { fileUtils } from "#database/seed/utils/fileUtils";
-import { metadataCache } from "#database/seed/utils/metadataCache";
-import type { ChapterSeed, ComicSeed, UserSeed } from "#lib/validations";
+import { parseCLIArgs } from "database/seed/config";
+import { logger } from "database/seed/logger";
+import { ChapterSeeder } from "database/seed/seeders/chapterSeeder";
+import { ComicSeeder } from "database/seed/seeders/comicSeeder";
+import { UserSeeder } from "database/seed/seeders/userSeeder";
+import { fileUtils } from "database/seed/utils/fileUtils";
+import { metadataCache } from "database/seed/utils/metadataCache";
+import type { ChapterSeed, ComicSeed, UserSeed } from "lib/validations";
 
 export interface SeedOptions {
   batchSize?: number;

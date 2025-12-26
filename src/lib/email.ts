@@ -2,14 +2,14 @@
 // EMAIL SERVICE - Send Emails with React Email Templates
 // ═══════════════════════════════════════════════════
 
-import AccountUpdatedEmail from "#emails/AccountUpdatedEmail";
-import CommentNotificationEmail from "#emails/CommentNotificationEmail";
-import NewChapterEmail from "#emails/NewChapterEmail";
-import PasswordResetEmail from "#emails/PasswordResetEmail";
-import VerificationEmail from "#emails/VerificationEmail";
-import WelcomeEmail from "#emails/WelcomeEmail";
 import { render } from "@react-email/components";
 import appConfig, { isDevelopment } from "appConfig";
+import AccountUpdatedEmail from "emails/AccountUpdatedEmail";
+import CommentNotificationEmail from "emails/CommentNotificationEmail";
+import NewChapterEmail from "emails/NewChapterEmail";
+import PasswordResetEmail from "emails/PasswordResetEmail";
+import VerificationEmail from "emails/VerificationEmail";
+import WelcomeEmail from "emails/WelcomeEmail";
 import nodemailer from "nodemailer";
 
 import type { SendEmailOptions } from "types";
@@ -257,7 +257,7 @@ export async function sendCommentNotificationEmail(params: {
   commentId: string;
   commentType: "reply" | "mention" | "new";
 }) {
-  const commentUrl = `${appConfig.url}/comic/${params.comicTitle}#comment-${params.commentId}`;
+  const commentUrl = `${appConfig.url}/comic/${params.comicTitle}comment-${params.commentId}`;
 
   const html = await render(
     CommentNotificationEmail({

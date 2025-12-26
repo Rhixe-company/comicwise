@@ -10,7 +10,7 @@ import {
   genreSeedSchema,
   typeSeedSchema,
   userSeedSchema,
-} from "#validations/index";
+} from "validations/index";
 import type { ZodType } from "zod";
 import { z } from "zod";
 

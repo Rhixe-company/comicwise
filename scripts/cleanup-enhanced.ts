@@ -331,15 +331,15 @@ async function generateCleanupReport(
 ) {
   const reportPath = path.join(config.rootDir, "docs", "CLEANUP_REPORT.md");
 
-  let report = `# Project Cleanup Report\n\n`;
+  let report = ` Project Cleanup Report\n\n`;
   report += `Generated: ${new Date().toISOString()}\n\n`;
 
-  report += `## Summary\n\n`;
+  report += ` Summary\n\n`;
   report += `- Duplicate Action Files: ${duplicateFiles.length}\n`;
   report += `- Duplicate Function Exports: ${duplicateFunctions.length}\n\n`;
 
   if (duplicateFiles.length > 0) {
-    report += `## Duplicate Action Files (Removed)\n\n`;
+    report += ` Duplicate Action Files (Removed)\n\n`;
     duplicateFiles.forEach((file) => {
       const basename = path.basename(file, ".ts");
       const pluralVersion = file.replace(`${basename}.ts`, `${basename}s.ts`);
@@ -349,10 +349,10 @@ async function generateCleanupReport(
   }
 
   if (duplicateFunctions.length > 0) {
-    report += `## Duplicate Function Exports\n\n`;
+    report += ` Duplicate Function Exports\n\n`;
     report += `The following functions are exported from multiple files:\n\n`;
     duplicateFunctions.forEach(([name, files]) => {
-      report += `### \`${name}\`\n\n`;
+      report += ` \`${name}\`\n\n`;
       files.forEach((file) => {
         report += `- ${file}\n`;
       });
@@ -360,7 +360,7 @@ async function generateCleanupReport(
     });
   }
 
-  report += `## Recommendations\n\n`;
+  report += ` Recommendations\n\n`;
   report += `1. Use DAL (Data Access Layer) for all database operations\n`;
   report += `2. Use DTOs (Data Transfer Objects) for type definitions\n`;
   report += `3. Keep action files focused on server actions only\n`;

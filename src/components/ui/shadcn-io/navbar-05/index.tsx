@@ -250,10 +250,10 @@ export interface Navbar05Props extends React.HTMLAttributes<HTMLElement> {
 
 // Default navigation links
 const defaultNavigationLinks: Navbar05NavItem[] = [
-  { href: "#", label: "Home" },
-  { href: "#", label: "Features" },
-  { href: "#", label: "Pricing" },
-  { href: "#", label: "About" },
+  { href: "", label: "Home" },
+  { href: "", label: "Features" },
+  { href: "", label: "Pricing" },
+  { href: "", label: "About" },
 ];
 
 export const Navbar05 = React.forwardRef<HTMLElement, Navbar05Props>(
@@ -261,7 +261,7 @@ export const Navbar05 = React.forwardRef<HTMLElement, Navbar05Props>(
     {
       className,
       logo = <Logo />,
-      logoHref: _logoHref = "#",
+      logoHref: _logoHref = "",
       navigationLinks = defaultNavigationLinks,
       userName = "John Doe",
       userEmail = "john@example.com",
