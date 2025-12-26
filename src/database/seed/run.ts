@@ -8,12 +8,12 @@
  * - Dynamic data loading from JSON files
  */
 
-import { parseCLIArgs } from "database/seed/config";
-import { logger } from "database/seed/logger";
+import { parseCLIArgs } from "./config";
+import { logger } from "./logger";
 import { db as database } from "db";
 import { sql } from "drizzle-orm";
-import type { SeedOptions } from "lib/seedHelpers";
-import { seedAll, seedChapters, seedComics, seedUsers } from "lib/seedHelpers";
+import type { SeedOptions } from "./seedHelpers";
+import { seedAll, seedChapters, seedComics, seedUsers } from "./seedHelpers";
 
 async function seed() {
   const startTime = Date.now();

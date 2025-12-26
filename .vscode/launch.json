@@ -1,5 +1,4 @@
 {
-  "version": "0.2.0",
   "compounds": [
     {
       "name": "🚀 Full Stack: Dev + Debug + Health",
@@ -461,5 +460,6 @@
         "order": 1
       }
     }
-  ]
+  ],
+  "version": "0.2.0"
 }

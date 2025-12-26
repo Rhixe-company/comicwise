@@ -1,5 +1,4 @@
 {
-  "version": "2.0.0",
   "tasks": [
     {
       "label": "📦 Install Dependencies",
@@ -794,5 +793,6 @@
       },
       "problemMatcher": ["$tsc", "$eslint-stylish"]
     }
-  ]
+  ],
+  "version": "2.0.0"
 }

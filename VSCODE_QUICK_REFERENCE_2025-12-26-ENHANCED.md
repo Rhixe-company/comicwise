@@ -8,10 +8,11 @@
 ## ⚡ Quick Commands
 
 ### Essential Shortcuts
+
 ```
 F5                  → Start Debugging (Full Stack)
 Ctrl+Shift+P        → Command Palette
-Ctrl+Shift+B        → Run Build Task  
+Ctrl+Shift+B        → Run Build Task
 Ctrl+Shift+T        → Run Test Task
 Ctrl+Shift+D        → Debug View
 Ctrl+`              → Toggle Terminal
@@ -22,6 +23,7 @@ Ctrl+,              → Settings
 ```
 
 ### Development Commands
+
 ```
 pnpm dev            → Start dev server (Turbopack)
 pnpm build          → Production build
@@ -38,6 +40,7 @@ pnpm db:studio      → Open Drizzle Studio
 Press `Ctrl+Shift+P` → Type "Tasks: Run Task"
 
 **Most Used:**
+
 - `🚀 Dev Server` - Start development
 - `✅ Validate All` - Full validation
 - `🏗️ Build` - Production build
@@ -53,6 +56,7 @@ Press `Ctrl+Shift+P` → Type "Tasks: Run Task"
 Press `F5` or Debug view (`Ctrl+Shift+D`)
 
 **Compounds (Favorites):**
+
 1. 🚀 Full Stack: Dev + Debug + Health
 2. 🔧 Dev + Debug + TypeScript Watch
 3. 🧪 Full Test Suite
@@ -60,6 +64,7 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 5. ⚡ Complete CI Pipeline
 
 **Individual:**
+
 - Next: Dev Server
 - Next: Dev with Inspect
 - Vitest Unit Tests
@@ -72,6 +77,7 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 ## 🎨 Extensions Installed
 
 **Critical:**
+
 - ✅ ESLint
 - ✅ Prettier
 - ✅ TypeScript
@@ -79,19 +85,23 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 - ✅ Error Lens
 
 **Testing:**
+
 - ✅ Vitest Explorer
 - ✅ Playwright
 
 **Database:**
+
 - ✅ PostgreSQL Client
 - ✅ Redis for VS Code
 
 **AI:**
+
 - ✅ GitHub Copilot
 - ✅ Copilot Chat
 - ✅ Continue
 
 **Git:**
+
 - ✅ GitLens
 - ✅ Git Graph
 
@@ -100,6 +110,7 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 ## 🤖 MCP Servers Active
 
 **Core (Always On):**
+
 - ✅ filesystem - File operations
 - ✅ github - Repository management
 - ✅ postgres - Database operations
@@ -107,21 +118,25 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 - ✅ git - Version control
 
 **Development:**
+
 - ✅ next-devtools - Next.js tools
 - ✅ shadcn - Components
 - ✅ npm - Package management
 - ✅ docker - Containers
 
 **Testing:**
+
 - ✅ playwright - E2E testing
 
 **Utilities:**
+
 - ✅ fetch - HTTP requests
 - ✅ memory - AI memory
 - ✅ sequential-thinking - AI reasoning
 - ✅ time - Time utilities
 
 **Optional (Disabled):**
+
 - ⏸️ redis - Enable when needed
 - ⏸️ brave-search - Requires API key
 
@@ -130,6 +145,7 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 ## 🎯 Common Workflows
 
 ### Start New Feature
+
 ```bash
 1. Git branch: Ctrl+Shift+P → "Git: Create Branch"
 2. Start dev: Task → "🚀 Dev Server"
@@ -139,6 +155,7 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 ```
 
 ### Run Tests
+
 ```bash
 1. Unit: Task → "🧪 Test (Unit Watch)"
 2. E2E: Debug → "Playwright E2E"
@@ -147,6 +164,7 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 ```
 
 ### Database Work
+
 ```bash
 1. Studio: Debug → "Database: Studio"
 2. Seed: Task → "🗄️ Database: Seed"
@@ -155,6 +173,7 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 ```
 
 ### Build & Deploy
+
 ```bash
 1. Validate: Task → "✅ Validate All"
 2. Clean: Task → "🧹 Clean"
@@ -169,17 +188,20 @@ Press `F5` or Debug view (`Ctrl+Shift+D`)
 **Auto-Format on Save:** ✅ Enabled
 
 **Manual Format:**
+
 ```
 Shift+Alt+F         → Format Document
 Ctrl+K Ctrl+F       → Format Selection
 ```
 
 **Lint:**
+
 ```
 Task → "🎨 Lint (Fix)"  → Auto-fix all
 ```
 
 **Organize Imports:**
+
 ```
 Shift+Alt+O         → Organize Imports (auto on save)
 ```
@@ -189,6 +211,7 @@ Shift+Alt+O         → Organize Imports (auto on save)
 ## 🔍 Search & Navigation
 
 **Find:**
+
 ```
 Ctrl+F              → Find in file
 Ctrl+H              → Replace in file
@@ -197,6 +220,7 @@ Ctrl+Shift+H        → Replace in files
 ```
 
 **Navigate:**
+
 ```
 Ctrl+P              → Go to file
 Ctrl+Shift+O        → Go to symbol
@@ -206,11 +230,12 @@ Shift+F12           → Find all references
 ```
 
 **Path Aliases:**
+
 ```typescript
-import { } from "@/..." // src/
-import { } from "lib/..." // src/lib/
-import { } from "components/..." // src/components/
-import { } from "ui/..." // src/components/ui/
+import {} from "@/..."; // src/
+import {} from "lib/..."; // src/lib/
+import {} from "components/..."; // src/components/
+import {} from "ui/..."; // src/components/ui/
 ```
 
 ---
@@ -218,12 +243,14 @@ import { } from "ui/..." // src/components/ui/
 ## 🐛 Debugging Tips
 
 **Breakpoints:**
+
 ```
 F9                  → Toggle breakpoint
 Ctrl+Shift+F9       → Toggle conditional breakpoint
 ```
 
 **Debug Controls:**
+
 ```
 F5                  → Start/Continue
 F10                 → Step Over
@@ -234,6 +261,7 @@ Shift+F5            → Stop
 ```
 
 **Debug Console:**
+
 ```
 Ctrl+Shift+Y        → Open debug console
 Type expressions to evaluate
@@ -244,18 +272,21 @@ Type expressions to evaluate
 ## 💡 Pro Tips
 
 ### Performance
+
 - **Memory:** 8GB allocated for dev, 6GB for build
 - **Minimap:** Enabled but optimized
 - **File Watchers:** Excludes node_modules, .next, dist
 - **Auto-save:** 1 second delay
 
 ### Code Quality
+
 - **ESLint:** Auto-fix on save ✅
 - **Prettier:** Format on save ✅
 - **Type Check:** Real-time with inlay hints ✅
 - **Spell Check:** 60+ custom words ✅
 
 ### Productivity
+
 - **Copilot:** Enabled for all files ✅
 - **Auto-import:** Enabled ✅
 - **Path intellisense:** Enabled ✅
@@ -266,18 +297,21 @@ Type expressions to evaluate
 ## 🔧 Customization
 
 ### Change Theme
+
 ```
 Ctrl+K Ctrl+T       → Select Color Theme
 Current: Default Dark+
 ```
 
 ### Change Icon Theme
+
 ```
 Current: Material Icon Theme
 Ctrl+Shift+P → "Preferences: File Icon Theme"
 ```
 
 ### Modify Settings
+
 ```
 Ctrl+,              → Open Settings UI
 Ctrl+Shift+P → "Preferences: Open Settings (JSON)"
@@ -311,11 +345,13 @@ Documentation:
 ## 🆘 Troubleshooting
 
 ### Extensions Not Working?
+
 ```powershell
 .\scripts\install-vscode-extensions-complete.ps1
 ```
 
 ### MCP Servers Not Starting?
+
 ```
 1. Check VS Code Output → "MCP Servers"
 2. Verify .env.local
@@ -323,12 +359,14 @@ Documentation:
 ```
 
 ### Format Not Working?
+
 ```
 Ctrl+Shift+P → "Format Document With..."
 Select "Prettier - Code formatter"
 ```
 
 ### IntelliSense Not Working?
+
 ```
 Ctrl+Shift+P → "TypeScript: Restart TS Server"
 ```
@@ -346,6 +384,7 @@ Ctrl+Shift+P → "TypeScript: Restart TS Server"
 ## ✅ Verification Checklist
 
 After restart, verify:
+
 - [ ] MCP servers running (14 active)
 - [ ] Extensions installed (59 total)
 - [ ] Format on save working
@@ -365,4 +404,4 @@ After restart, verify:
 
 ---
 
-*Last Updated: 2025-12-26 | ComicWise Project | Enhanced Configuration v2.0*
+_Last Updated: 2025-12-26 | ComicWise Project | Enhanced Configuration v2.0_
