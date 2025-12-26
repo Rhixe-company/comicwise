@@ -3,11 +3,11 @@
 // ═══════════════════════════════════════════════════
 
 import { auth } from "auth";
-import { comicIdSchema, updateComicSchema } from "lib/validations";
-import { deleteComic, updateComic } from "database/mutations/comics";
+import { deleteComic, updateComic } from "@/database/mutations/comics";
+import { getComic } from "@/database/queries/comics";
+import { comicIdSchema, updateComicSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getComic } from "database/queries/comics";
 
 // ═══════════════════════════════════════════════════
 // GET - Get Comic by ID

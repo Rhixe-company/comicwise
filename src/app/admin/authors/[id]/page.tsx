@@ -1,5 +1,5 @@
-import { Suspense } from "react";
 import EditAuthorForm from "app/admin/authors/[id]/EditAuthorForm";
+import { Suspense } from "react";
 
 export default function EditAuthorPage({ params }: { params: { id: string } }) {
   return (

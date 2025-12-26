@@ -397,5 +397,5 @@ const appConfig = {
 
 export default appConfig;
 
-// Re-export rate limiting utilities
-export { checkRateLimit, clearRateLimit, getRateLimitStatus } from "lib/ratelimit";
+// Note: Rate limiting utilities moved to separate import
+// import { checkRateLimit, clearRateLimit, getRateLimitStatus } from "@/lib/ratelimit";

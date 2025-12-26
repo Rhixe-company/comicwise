@@ -1,5 +1,5 @@
-import fs from "node:fs";
 import { glob } from "glob";
+import fs from "node:fs";
 import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -8,12 +8,12 @@ const baseDirname = dirname(filename);
 const repoRoot = resolve(baseDirname, "..");
 const patterns = [
   { from: "@", to: "" },
-   { from: "src/", to: "" },
-   { from: "/components/ui", to: "ui" },
-   { from: "/components", to: "components" },
-   { from: "/lib", to: "lib" },
-   { from: "/database", to: "database" }
-   ];
+  { from: "src/", to: "" },
+  { from: "/components/ui", to: "ui" },
+  { from: "/components", to: "components" },
+  { from: "/lib", to: "lib" },
+  { from: "/database", to: "database" },
+];
 
 // Order matters: longer matches first already arranged
 

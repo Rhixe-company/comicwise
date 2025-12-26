@@ -5,14 +5,7 @@ const config = {
   sitemapSize: 7000,
   changefreq: "weekly",
   priority: 0.7,
-  exclude: [
-    "/admin",
-    "/admin/*",
-    "/api/*",
-    "/dashboard/*",
-    "/_next/*",
-    "/fonts/*",
-  ],
+  exclude: ["/admin", "/admin/*", "/api/*", "/dashboard/*", "/_next/*", "/fonts/*"],
   robotsTxtOptions: {
     policies: [
       {

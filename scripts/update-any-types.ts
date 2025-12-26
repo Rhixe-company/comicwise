@@ -72,10 +72,7 @@ for (const file of files) {
   let fileReplacements = 0;
 
   // Skip files with eslint-disable any
-  if (
-    content.includes("eslint-disable") &&
-    content.includes("typescript-eslint/no-explicit-any")
-  ) {
+  if (content.includes("eslint-disable") && content.includes("typescript-eslint/no-explicit-any")) {
     continue;
   }
 

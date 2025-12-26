@@ -1,1 +1,1 @@
-export * from "components/ui/InputGroup";
+export * from "@/components/ui/InputGroup";

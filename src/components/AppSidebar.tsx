@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeToggle } from "components/admin/ThemeToggle";
+import { ThemeToggle } from "@/components/admin/ThemeToggle";
 import {
   BookOpen,
   FileText,
@@ -24,7 +24,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "ui/sidebar";
+} from "@/components/ui/sidebar";
 
 const menuItems = [
   {

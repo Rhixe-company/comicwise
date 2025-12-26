@@ -4,8 +4,8 @@
 
 import { createChapter, getChapterImages, updateChapter } from "actions/chapter";
 import * as authLib from "auth";
-import * as mutations from "database/mutations";
-import * as queries from "database/queries";
+import * as mutations from "@/database/mutations";
+import * as queries from "@/database/queries";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

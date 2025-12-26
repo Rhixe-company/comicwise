@@ -9,7 +9,7 @@
  * - Track progress with detailed logging
  */
 
-import type { ChapterSeed, ComicSeed, UserSeed } from "lib/validations";
+import type { ChapterSeed, ComicSeed, UserSeed } from "@/lib/validations";
 import { parseCLIArgs } from "./config";
 import { logger } from "./logger";
 import { ChapterSeeder } from "./seeders/chapterSeeder";

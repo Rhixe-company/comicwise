@@ -1,6 +1,6 @@
 import { asc, eq } from "drizzle-orm";
 
-import { db as database } from "database/db";
+import { db as database } from "@/database/db";
 import { chapterImage } from "schema";
 
 /**

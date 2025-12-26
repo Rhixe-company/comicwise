@@ -1,179 +1,37 @@
 {
+  "unwantedRecommendations": [
+    "hookyqr.beautify",
+    "dbaeumer.jshint",
+    "eg2.tslint",
+    "octref.vetur",
+    "ms-python.python",
+    "rust-lang.rust-analyzer",
+    "golang.go"
+  ],
   "recommendations": [
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === CRITICAL: Core Development Tools ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "ms-vscode.vscode-typescript-next",
     "usernamehw.errorlens",
     "yoavbls.pretty-ts-errors",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === CRITICAL: Framework & Libraries ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     "bradlc.vscode-tailwindcss",
     "dsznajder.es7-react-js-snippets",
     "PulkitGangwar.nextjs-snippets",
-    "unifiedjs.vscode-mdx",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === HIGH PRIORITY: Database Tools ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     "cweijan.vscode-postgresql-client2",
     "redis.redis-for-vscode",
-    "mtxr.sqltools",
-    "mtxr.sqltools-driver-pg",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === HIGH PRIORITY: Testing & Quality ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     "vitest.explorer",
     "ms-playwright.playwright",
-    "ZixuanChen.vitest-explorer",
     "streetsidesoftware.code-spell-checker",
-    "aaron-bond.better-comments",
-    "gruntfuggly.todo-tree",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === HIGH PRIORITY: Git & Version Control ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     "eamodio.gitlens",
-    "mhutchie.git-graph",
-    "donjayamanne.githistory",
-    "github.vscode-pull-request-github",
-    "github.vscode-github-actions",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === HIGH PRIORITY: AI & Copilot ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     "github.copilot",
     "github.copilot-chat",
-    "continue.continue",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === MEDIUM PRIORITY: Productivity ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "formulahendry.auto-rename-tag",
-    "formulahendry.auto-close-tag",
-    "christian-kohler.path-intellisense",
-    "christian-kohler.npm-intellisense",
-    "editorconfig.editorconfig",
-    "wix.vscode-import-cost",
-    "pflannery.vscode-versionlens",
-    "alefragnani.bookmarks",
-    "NuclleaR.vscode-extension-auto-import",
-    "VisualStudioExptTeam.vscodeintellicode",
-    "VisualStudioExptTeam.intellicode-api-usage-examples",
-    "visualstudioexptteam.vscodeintellicode-completions",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === MEDIUM PRIORITY: Docker & DevOps ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     "ms-azuretools.vscode-docker",
-    "ms-vscode-remote.remote-containers",
-    "ms-vscode-remote.remote-wsl",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === MEDIUM PRIORITY: API & Testing ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "humao.rest-client",
-    "rangav.vscode-thunder-client",
-    "42crunch.vscode-openapi",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === MEDIUM PRIORITY: Documentation ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "yzhang.markdown-all-in-one",
-    "bierner.markdown-mermaid",
-    "bierner.markdown-preview-github-styles",
-    "davidanson.vscode-markdownlint",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === MEDIUM PRIORITY: Config Files ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "redhat.vscode-yaml",
-    "tamasfe.even-better-toml",
-    "mikestead.dotenv",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === MEDIUM PRIORITY: Security ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "snyk-security.snyk-vulnerability-scanner",
-    "GitHub.vscode-codeql",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === MEDIUM PRIORITY: Scripting ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "ms-vscode.powershell",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === LOW PRIORITY: UI/UX Enhancements ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    "christian-kohler.path-intellisense",
+    "editorconfig.editorconfig",
+    "gruntfuggly.todo-tree",
     "pkief.material-icon-theme",
-    "antfu.icons-carbon",
-    "oderwat.indent-rainbow",
-    "naumovs.color-highlight",
-    "pranaygp.vscode-css-peek",
-    "kisstkondoros.vscode-gutter-preview",
-
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // === LOW PRIORITY: Utilities ===
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "chakrounanas.turbo-console-log",
-    "quicktype.quicktype",
-    "wix.glean",
-    "metaseed.metago",
-    "pnp.polacode",
-    "folke.vscode-monorepo-workspace",
-    "rvest.vs-code-prettier-eslint",
-    "stateful.runme"
-  ],
-
-  "unwantedRecommendations": [
-    // Deprecated or Replaced Extensions
-    "hookyqr.beautify",
-    "dbaeumer.jshint",
-    "ms-vscode.vscode-typescript-tslint-plugin",
-    "eg2.tslint",
-    "octref.vetur",
-
-    // Not Applicable for This Stack
-    "liuji-jim.lua",
-    "ms-python.python",
-    "ms-dotnettools.csharp",
-    "rust-lang.rust-analyzer",
-    "golang.go",
-
-    // Duplicate or Conflicting Extensions
-    "burkeholland.simple-react-snippets",
-    "rodrigovallades.es7-react-js-snippets",
-    "xabikos.ReactSnippets",
-    "wayou.vscode-todo-highlight",
-    "styled-components.vscode-styled-components",
-    "steoates.autoimport",
-    "metaseed.metajump",
-
-    // Deprecated Testing Extensions
-    "orta.vscode-jest",
-    "hbenl.vscode-test-explorer",
-
-    // Optional/Redundant Tools
-    "alefragnani.project-manager",
-    "ms-vscode-remote.remote-ssh",
-    "graphql.vscode-graphql",
-    "apollographql.vscode-apollo",
-    "lokalise.i18n-ally",
-    "wallabyjs.quokka-vscode",
-    "yzane.markdown-pdf",
-    "ritwickdey.LiveServer",
-
-    // Performance-Heavy Extensions
-    "ms-vscode.vscode-node-size-badge",
-    "waderyan.gitblame",
-
-    // Alternative Tools (Choose One)
-    "bradlc.vscode-tailwindcss",
-    "csstools.postcss"
+    "ms-vscode.powershell",
+    "redhat.vscode-yaml",
+    "mikestead.dotenv"
   ]
 }

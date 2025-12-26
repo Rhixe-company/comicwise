@@ -3,11 +3,11 @@
 // ═══════════════════════════════════════════════════
 
 import { auth } from "auth";
-import { comicFilterSchema, createComicSchema } from "lib/validations";
-import { createComic } from "database/mutations/comics";
+import { createComic } from "@/database/mutations/comics";
+import { getAllComics } from "@/database/queries/comics";
+import { comicFilterSchema, createComicSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getAllComics } from "database/queries/comics";
 
 import type { ComicFilters } from "types";
 

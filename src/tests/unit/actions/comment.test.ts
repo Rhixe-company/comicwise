@@ -2,7 +2,7 @@
 // COMMENT ACTIONS - UNIT TESTS
 // ═══════════════════════════════════════════════════
 
-import * as mutations from "database/mutations";
+import * as mutations from "@/database/mutations";
 import { createComment, deleteComment, updateComment } from "lib/actions/comments";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";

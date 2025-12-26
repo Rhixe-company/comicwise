@@ -4,7 +4,8 @@
  * Starts background job workers
  */
 
-import { emailQueue } from "lib/queue";
+// TODO: Create @/lib/queue or remove this import
+// import { emailQueue } from "@/lib/queue";
 
 console.log("═══════════════════════════════════════════════════════════");
 console.log("  ⚙️  Queue Worker Starting");

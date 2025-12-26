@@ -2,7 +2,7 @@
 // FULL-TEXT SEARCH SERVICE - PostgreSQL FTS Implementation
 // ═══════════════════════════════════════════════════
 
-import { db } from "database/db";
+import { db } from "@/database/db";
 import { and, asc, desc, eq, ilike, or, sql, type SQL } from "drizzle-orm";
 import { artist, author, comic, comicToGenre, type as comicType } from "schema";
 // ═══════════════════════════════════════════════════

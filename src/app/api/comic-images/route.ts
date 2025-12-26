@@ -4,20 +4,20 @@
 
 import { auth } from "auth";
 import {
-  batchCreateComicImagesSchema,
-  batchDeleteSchema,
-  batchUpdateComicImagesSchema,
-  createComicImageSchema,
-} from "lib/validations";
-import {
   createComicImage,
   createComicImages,
   deleteComicImage,
   updateComicImage,
-} from "database/mutations/comicImages";
+} from "@/database/mutations/comicImages";
+import { getComicImages } from "@/database/queries/comicImages";
+import {
+  batchCreateComicImagesSchema,
+  batchDeleteSchema,
+  batchUpdateComicImagesSchema,
+  createComicImageSchema,
+} from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getComicImages } from "database/queries/comicImages";
 
 // ═══════════════════════════════════════════════════
 // GET - List Comic Images

@@ -4,7 +4,7 @@ import { isDevelopment } from "appConfig";
 import { AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
-import { Button } from "ui/button";
+import { Button } from "@/components/ui/button";
 
 interface GlobalErrorProps {
   error: Error & { digest?: string };

@@ -3,16 +3,16 @@
 // ═══════════════════════════════════════════════════
 
 import { auth } from "auth";
-import { createBookmarkSchema, updateBookmarkSchema } from "lib/validations";
 import {
   addBookmark,
   removeBookmark,
   updateBookmarkNotes,
   updateReadingProgress,
-} from "database/mutations/bookmarks";
+} from "@/database/mutations/bookmarks";
+import { getUserBookmarks } from "@/database/queries/bookmarks";
+import { createBookmarkSchema, updateBookmarkSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getUserBookmarks } from "database/queries/bookmarks";
 
 // ═══════════════════════════════════════════════════
 // GET - List User Bookmarks

@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import type { DefaultValues, Path, UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Button } from "ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,11 +15,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "ui/form";
-import { Input } from "ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "ui/select";
-import { Switch } from "ui/switch";
-import { Textarea } from "ui/textarea";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 
 import type { z } from "zod";
 

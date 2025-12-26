@@ -1,4 +1,4 @@
-import { defineConfig, devices } from "playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -11,11 +11,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [
-    ["html"],
-    ["list"],
-    process.env.CI ? ["github"] : ["list"],
-  ],
+  reporter: [["html"], ["list"], process.env.CI ? ["github"] : ["list"]],
   /* Maximum time one test can run */
   timeout: 30_000,
   expect: {

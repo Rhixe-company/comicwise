@@ -1,13 +1,13 @@
-import { useConfirmDialog } from "components/admin/ConfirmDialog";
+import { useConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { ChevronLeft, ChevronRight, Edit2, Eye, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Badge } from "ui/badge";
-import { Button } from "ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
-import { Checkbox } from "ui/checkbox";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface Comic {
   id: number;

@@ -1,7 +1,7 @@
 "use server";
 
 import { chapter, comic, readingProgress } from "database";
-import { db } from "database/db";
+import { db } from "@/database/db";
 import { and, desc, eq, lt, sql } from "drizzle-orm";
 import { cacheKeys, cacheService, cacheTTL } from "services/cacheService";
 

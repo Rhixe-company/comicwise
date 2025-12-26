@@ -3,7 +3,7 @@
 import { MoreHorizontal, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,9 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "ui/DropdownMenu";
-import { Input } from "ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "ui/table";
+} from "@/components/ui/DropdownMenu";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface Column<T = Record<string, unknown>> {
   accessorKey: keyof T & string;

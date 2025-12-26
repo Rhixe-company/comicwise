@@ -4,9 +4,9 @@ import { auth } from "auth";
 import {
   createChapter as createChapterMutation,
   updateChapter as updateChapterMutation,
-} from "database/mutations";
-import { getChapterImages as getChapterImagesMutation } from "database/queries";
-import type { createChapterSchema, updateChapterSchema } from "lib/validations";
+} from "@/database/mutations";
+import { getChapterImages as getChapterImagesMutation } from "@/database/queries";
+import type { createChapterSchema, updateChapterSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 
 import type { z } from "zod";

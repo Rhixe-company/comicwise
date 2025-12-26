@@ -8,9 +8,9 @@
 import type { User } from "next-auth";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
-import { Card, CardContent } from "ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ProfileManagementProps {
   user: User;

@@ -10,7 +10,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "ui/command";
+} from "@/components/ui/command";
 
 const navigationItems = [
   { title: "Dashboard", href: "/admin", icon: FileText },

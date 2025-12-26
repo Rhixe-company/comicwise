@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════
 
 import appConfig from "appConfig";
-import { db as database } from "database/db";
+import { db as database } from "@/database/db";
 import { asc, eq, like, sql } from "drizzle-orm";
 import type {
   CreateGenreInput,
@@ -13,14 +13,14 @@ import type {
   PaginationInput,
   UpdateGenreInput,
   UpdateTypeInput,
-} from "lib/validations";
+} from "@/lib/validations";
 import {
   createGenreSchema,
   createTypeSchema,
   paginationSchema,
   updateGenreSchema,
   updateTypeSchema,
-} from "lib/validations";
+} from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import { type as comicType, genre } from "schema";
 

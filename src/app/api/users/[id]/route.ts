@@ -3,11 +3,11 @@
 // ═══════════════════════════════════════════════════
 
 import { auth } from "auth";
-import { updateUserSchema, userIdSchema } from "lib/validations";
-import { deleteUser, updateUser } from "database/mutations/users";
+import { deleteUser, updateUser } from "@/database/mutations/users";
+import { getUserById } from "@/database/queries/users";
+import { updateUserSchema, userIdSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getUserById } from "database/queries/users";
 
 // ═══════════════════════════════════════════════════
 // GET - Get User by ID

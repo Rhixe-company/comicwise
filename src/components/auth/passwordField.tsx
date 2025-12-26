@@ -1,8 +1,8 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "ui/form";
-import { PasswordInput } from "ui/PasswordInput";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 
 export interface PasswordFieldProps {
   name?: string;

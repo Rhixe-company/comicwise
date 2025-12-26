@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 
-import { db as database } from "database/db";
+import { db as database } from "@/database/db";
 import { account } from "schema";
 
 // ═══════════════════════════════════════════════════

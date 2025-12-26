@@ -1,0 +1,50 @@
+
+> comicwise@0.1.0 type-check C:\Users\Alexa\Desktop\SandBox\comicwise
+> tsc --noEmit
+
+app-config.ts(401,68): error TS2307: Cannot find module 'lib/ratelimit' or its corresponding type declarations.
+eslint.config.ts(346,21): error TS2304: Cannot find name 'Config'.
+eslint.config.ts(346,32): error TS2304: Cannot find name 'defineConfig'.
+eslint.config.ts(355,15): error TS2304: Cannot find name 'typescriptParser'.
+eslint.config.ts(380,11): error TS2304: Cannot find name 'typescript'.
+eslint.config.ts(465,3): error TS2304: Cannot find name 'globalIgnores'.
+scripts/fix-all-errors-auto.ts(122,31): error TS2304: Cannot find name 'database'.
+scripts/fix-all-errors-auto.ts(122,31): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type 'number' is not assignable to parameter of type 'string | RegExp'.
+scripts/fix-all-errors-auto.ts(122,45): error TS2304: Cannot find name 'g'.
+scripts/queue-worker.ts(7,28): error TS2307: Cannot find module 'lib/queue' or its corresponding type declarations.
+scripts/upload-bulk.ts(23,36): error TS2307: Cannot find module '/services/upload/providers/cloudinary' or its corresponding type declarations.
+scripts/upload-bulk.ts(24,34): error TS2307: Cannot find module '/services/upload/providers/imagekit' or its corresponding type declarations.
+scripts/upload-bulk.ts(87,47): error TS2307: Cannot find module '/services/upload/providers/s3' or its corresponding type declarations.
+src/app/(auth)/forgot-password/page.tsx(12,38): error TS2307: Cannot find module '@/components/auth' or its corresponding type declarations.
+src/app/(auth)/forgot-password/page.tsx(13,42): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/forgot-password/page.tsx(14,38): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/forgot-password/page.tsx(15,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/app/(auth)/forgot-password/page.tsx(16,74): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
+src/app/(auth)/forgot-password/page.tsx(17,38): error TS2307: Cannot find module '@/dto/authDto' or its corresponding type declarations.
+src/app/(auth)/resend-verification/page.tsx(12,38): error TS2307: Cannot find module '@/components/auth' or its corresponding type declarations.
+src/app/(auth)/resend-verification/page.tsx(13,51): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/resend-verification/page.tsx(14,47): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/resend-verification/page.tsx(15,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/app/(auth)/resend-verification/page.tsx(16,74): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
+src/app/(auth)/resend-verification/page.tsx(17,47): error TS2307: Cannot find module '@/dto/authDto' or its corresponding type declarations.
+src/app/(auth)/reset-password/page.tsx(13,41): error TS2307: Cannot find module '@/components/auth' or its corresponding type declarations.
+src/app/(auth)/reset-password/page.tsx(14,41): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/reset-password/page.tsx(15,37): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/reset-password/page.tsx(16,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/app/(auth)/reset-password/page.tsx(17,74): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
+src/app/(auth)/reset-password/page.tsx(18,37): error TS2307: Cannot find module '@/dto/authDto' or its corresponding type declarations.
+src/app/(auth)/sign-in/page.tsx(13,53): error TS2307: Cannot find module '@/components/auth' or its corresponding type declarations.
+src/app/(auth)/sign-in/page.tsx(14,34): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/sign-in/page.tsx(15,30): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/sign-in/page.tsx(16,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/app/(auth)/sign-in/page.tsx(17,30): error TS2307: Cannot find module '@/dto/authDto' or its corresponding type declarations.
+src/app/(auth)/sign-out/page.tsx(6,62): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
+src/app/(auth)/sign-out/page.tsx(7,31): error TS2307: Cannot find module '@/dto/authDto' or its corresponding type declarations.
+src/app/(auth)/sign-up/page.tsx(13,64): error TS2307: Cannot find module '@/components/auth' or its corresponding type declarations.
+src/app/(auth)/sign-up/page.tsx(14,34): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/sign-up/page.tsx(15,30): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/(auth)/sign-up/page.tsx(16,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+src/app/(auth)/sign-up/page.tsx(17,27): error TS2307: Cannot find module '@/components/ui/separator' or its corresponding type declarations.
+src/app/(auth)/sign-up/page.tsx(18,36): error TS2307: Cannot find module '@/dto/authDto' or its corresponding type declarations.

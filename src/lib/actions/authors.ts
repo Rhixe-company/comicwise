@@ -2,8 +2,8 @@
 
 import { error } from "actions/utils";
 import appConfig, { checkRateLimit } from "appConfig";
-import * as mutations from "database/mutations";
-import { createAuthorSchema, updateAuthorSchema } from "lib/validations";
+import * as mutations from "@/database/mutations";
+import { createAuthorSchema, updateAuthorSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import type { ActionResponse } from "types";
 import z from "zod";

@@ -22,8 +22,8 @@ export * from "typesdatabase"; // All database types (consolidated)
 
 export * from "types/actions"; // Server actions
 export * from "types/Api"; // API responses
-export * from "typescomponents"; // Component props
 export * from "types/forms"; // Form types
+export * from "typescomponents"; // Component props
 
 // ═══════════════════════════════════════════════════
 // INFRASTRUCTURE

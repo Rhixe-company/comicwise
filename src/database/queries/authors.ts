@@ -1,6 +1,6 @@
 import { asc, desc, eq, ilike } from "drizzle-orm";
 
-import { db as database } from "database/db";
+import { db as database } from "@/database/db";
 import { author } from "schema";
 
 /**

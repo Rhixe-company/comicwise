@@ -2,7 +2,7 @@ import { DrizzleAdapter as NextAuthDrizzleAdapter } from "auth/drizzle-adapter";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { Adapter } from "next-auth/adapters";
 
-import { account, authenticator, session, user, verificationToken } from "database/schema";
+import { account, authenticator, session, user, verificationToken } from "@/database/schema";
 import type * as schema from "schema";
 
 /**

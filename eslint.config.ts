@@ -1,13 +1,10 @@
-/* eslint-disable typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // ESLint 9.x Flat Config for Next.js 16 + React 19 + TypeScript 5
 import css from "@eslint/css";
 import js from "@eslint/js";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
-import eslintNextPlugin from "next/eslint-plugin-next";
-import typescript from "typescript-eslint/eslint-plugin";
-import typescriptParser from "typescript-eslint/parser";
-import prettierConfig from "eslint-config-prettier/flat";
+import prettierConfig from "eslint-config-prettier";
 import pluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
 import * as pluginDrizzle from "eslint-plugin-drizzle";
 import importPlugin from "eslint-plugin-import";
@@ -22,14 +19,13 @@ import sonarjs from "eslint-plugin-sonarjs";
 import unicorn from "eslint-plugin-unicorn";
 import unused from "eslint-plugin-unused-imports";
 import zod from "eslint-plugin-zod";
-import type { Config } from "eslint/config";
-import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
+import eslintNextPlugin from "@next/eslint-plugin-next";
 import tseslint from "typescript-eslint";
 
 const eslintPlugins = {
-  "next/next": eslintNextPlugin,
-  "typescript-eslint": typescript as any,
+  "@next/next": eslintNextPlugin,
+  "@typescript-eslint": tseslint.plugin,
   zod: zod as any,
   "react-hooks": pluginReactHooks as any,
   "jsx-a11y": jsxA11y,

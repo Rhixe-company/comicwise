@@ -18,5 +18,5 @@ export * from "./ui";
 // Auth components
 export * from "./auth";
 
-// Admin components  
+// Admin components
 export * from "./admin";

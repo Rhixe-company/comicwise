@@ -1,18 +1,61 @@
 {
   "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/schema/mcp-config.schema.json",
+  "windowsSpecific": {
+    "pathSeparator": "\\",
+    "shellExecutable": "powershell.exe",
+    "encodingFix": true,
+    "useWindowsPaths": true
+  },
   "globalSettings": {
-    "timeout": 60000,
     "retries": 3,
-    "logLevel": "info",
-    "logFile": "${workspaceFolder}\\.vscode\\mcp-logs.txt",
-    "maxConcurrentRequests": 15,
     "cacheEnabled": true,
-    "cacheTTL": 600,
+    "maxConcurrentRequests": 20,
+    "logFile": "${workspaceFolder}\\.vscode\\mcp-logs.txt",
+    "cacheTTL": 900,
     "enableMetrics": true,
+    "timeout": 90000,
     "metricsInterval": 300000,
+    "logLevel": "info",
     "healthCheckInterval": 60000
   },
   "mcpServers": {
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
+      },
+      "disabled": true,
+      "timeout": 45000,
+      "retries": 2,
+      "description": "Web search via Brave Search API (requires API key)"
+    },
+    "everart": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-everart"],
+      "env": {
+        "EVERART_API_KEY": "${env:EVERART_API_KEY}"
+      },
+      "disabled": true,
+      "timeout": 90000,
+      "description": "AI image generation via EverArt API (requires API key)"
+    },
+    "everything": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-everything"],
+      "disabled": true,
+      "timeout": 30000,
+      "description": "Windows Everything search integration (Windows-only, optional)"
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "disabled": false,
+      "autoApprove": ["fetch", "get", "post", "put", "delete"],
+      "timeout": 45000,
+      "retries": 3,
+      "description": "HTTP fetch for API testing, external service integration, and web requests"
+    },
     "filesystem": {
       "command": "npx",
       "args": [
@@ -20,8 +63,8 @@
         "@modelcontextprotocol/server-filesystem",
         "${workspaceFolder}"
       ],
-      "env": {},
-      "disabled": false,
+      "timeout": 60000,
+      "retries": 3,
       "autoApprove": [
         "read_file",
         "list_directory",
@@ -34,17 +77,33 @@
         "edit_file",
         "directory_tree"
       ],
-      "timeout": 60000,
-      "retries": 3,
-      "description": "Local filesystem operations with full read/write capabilities for ComicWise project"
+      "description": "Local filesystem operations with full read/write capabilities for ComicWise project",
+      "env": {},
+      "disabled": false
+    },
+    "git": {
+      "autoApprove": [
+        "git_status",
+        "git_log",
+        "git_diff",
+        "git_show",
+        "list_branches",
+        "git_branch",
+        "git_commit",
+        "git_add"
+      ],
+      "timeout": 45000,
+      "disabled": false,
+      "description": "Git version control operations",
+      "command": "npx",
+      "retries": 2,
+      "args": ["-y", "@modelcontextprotocol/server-git", "${workspaceFolder}"]
     },
     "github": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "${env:GITHUB_TOKEN}"
-      },
-      "disabled": false,
+      "timeout": 90000,
+      "retries": 3,
       "autoApprove": [
         "search_repositories",
         "get_file_contents",
@@ -55,34 +114,13 @@
         "get_issue",
         "search_issues",
         "create_issue",
-        "update_issue",
-        "create_pull_request",
-        "fork_repository"
+        "update_issue"
       ],
-      "timeout": 90000,
-      "retries": 3,
-      "description": "GitHub integration for repository management, PRs, and collaboration"
-    },
-    "postgres": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "description": "GitHub integration for repository management and collaboration",
       "env": {
-        "DATABASE_URL": "${env:DATABASE_URL}"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${env:GITHUB_TOKEN}"
       },
-      "disabled": false,
-      "autoApprove": [
-        "list_tables",
-        "describe_table",
-        "query",
-        "list_schemas",
-        "get_table_info",
-        "list_columns",
-        "get_indexes",
-        "get_constraints"
-      ],
-      "timeout": 60000,
-      "retries": 3,
-      "description": "PostgreSQL database operations for ComicWise schema and data management"
+      "disabled": false
     },
     "memory": {
       "command": "npx",
@@ -99,30 +137,6 @@
       "retries": 2,
       "description": "Persistent memory across AI sessions for context retention and knowledge base"
     },
-    "fetch": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-fetch"],
-      "disabled": false,
-      "autoApprove": ["fetch", "get", "post", "put", "delete"],
-      "timeout": 45000,
-      "retries": 3,
-      "description": "HTTP fetch for API testing, external service integration, and web requests"
-    },
-    "shadcn": {
-      "command": "npx",
-      "args": ["shadcn@latest", "mcp"],
-      "disabled": false,
-      "autoApprove": [
-        "list_components",
-        "add_component",
-        "diff_component",
-        "update_component",
-        "remove_component"
-      ],
-      "timeout": 90000,
-      "retries": 2,
-      "description": "shadcn/ui component library management and installation for Next.js 16"
-    },
     "next-devtools": {
       "command": "npx",
       "args": ["-y", "next-devtools-mcp@latest"],
@@ -137,57 +151,6 @@
       "timeout": 60000,
       "retries": 2,
       "description": "Next.js 16 development tools with Turbopack optimization and performance analysis"
-    },
-    "npm": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-npm"],
-      "disabled": false,
-      "autoApprove": [
-        "search_packages",
-        "get_package_info",
-        "get_package_versions",
-        "list_dependencies",
-        "check_updates"
-      ],
-      "timeout": 45000,
-      "retries": 3,
-      "description": "NPM/pnpm package search, dependency management, and version tracking"
-    },
-    "docker": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-docker"],
-      "disabled": false,
-      "autoApprove": [
-        "list_containers",
-        "inspect_container",
-        "list_images",
-        "container_logs",
-        "container_stats",
-        "list_networks",
-        "list_volumes"
-      ],
-      "timeout": 30000,
-      "retries": 2,
-      "description": "Docker container and image management for ComicWise development environment"
-    },
-    "git": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-git", "${workspaceFolder}"],
-      "disabled": false,
-      "autoApprove": [
-        "git_status",
-        "git_log",
-        "git_diff",
-        "git_show",
-        "list_branches",
-        "git_branch",
-        "git_commit",
-        "git_add",
-        "git_reset"
-      ],
-      "timeout": 45000,
-      "retries": 2,
-      "description": "Git version control operations and repository management with enhanced capabilities"
     },
     "playwright": {
       "command": "npx",
@@ -205,37 +168,33 @@
       "retries": 2,
       "description": "Playwright E2E testing automation and browser control for ComicWise testing"
     },
-    "sequential-thinking": {
+    "postgres": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-      "disabled": false,
-      "autoApprove": ["think", "analyze", "reason", "plan"],
-      "timeout": 90000,
-      "retries": 2,
-      "description": "Enhanced AI reasoning for complex problem-solving and code optimization"
-    },
-    "typescript": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-typescript"],
-      "disabled": false,
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "timeout": 60000,
+      "retries": 3,
       "autoApprove": [
-        "analyze_types",
-        "find_references",
-        "get_diagnostics",
-        "get_completions"
+        "list_tables",
+        "describe_table",
+        "query",
+        "list_schemas",
+        "get_table_info",
+        "list_columns",
+        "get_indexes",
+        "get_constraints"
       ],
-      "timeout": 45000,
-      "retries": 2,
-      "description": "TypeScript language server for type checking, refactoring, and code intelligence"
+      "description": "PostgreSQL database operations for ComicWise",
+      "env": {
+        "DATABASE_URL": "${env:DATABASE_URL}"
+      },
+      "disabled": false
     },
-    "time": {
+    "puppeteer": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-time"],
-      "disabled": false,
-      "autoApprove": ["get_current_time", "convert_timezone", "format_date"],
-      "timeout": 10000,
-      "retries": 1,
-      "description": "Current time and timezone information for scheduling and logging"
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "disabled": true,
+      "timeout": 90000,
+      "description": "Puppeteer web scraping and automation (alternative to Playwright)"
     },
     "redis": {
       "command": "npx",
@@ -249,16 +208,29 @@
       "retries": 2,
       "description": "Redis cache management for ComicWise (enable when Redis is running)"
     },
-    "brave-search": {
+    "sequential-thinking": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
-      "env": {
-        "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
-      },
-      "disabled": true,
-      "timeout": 45000,
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "disabled": false,
+      "autoApprove": ["think", "analyze", "reason", "plan"],
+      "timeout": 90000,
       "retries": 2,
-      "description": "Web search via Brave Search API (requires API key)"
+      "description": "Enhanced AI reasoning for complex problem-solving and code optimization"
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"],
+      "disabled": false,
+      "autoApprove": [
+        "list_components",
+        "add_component",
+        "diff_component",
+        "update_component",
+        "remove_component"
+      ],
+      "timeout": 90000,
+      "retries": 2,
+      "description": "shadcn/ui component library management and installation for Next.js 16"
     },
     "sqlite": {
       "command": "npx",
@@ -270,43 +242,42 @@
       "disabled": true,
       "description": "SQLite database support (disabled - using PostgreSQL)"
     },
-    "everything": {
+    "time": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-everything"],
-      "disabled": true,
-      "timeout": 30000,
-      "description": "Windows Everything search integration (Windows-only, optional)"
+      "args": ["-y", "@modelcontextprotocol/server-time"],
+      "disabled": false,
+      "autoApprove": ["get_current_time", "convert_timezone", "format_date"],
+      "timeout": 10000,
+      "retries": 1,
+      "description": "Current time and timezone information for scheduling and logging"
     },
-    "puppeteer": {
+    "typescript": {
+      "autoApprove": [
+        "analyze_types",
+        "find_references",
+        "get_diagnostics",
+        "get_completions"
+      ],
+      "timeout": 45000,
+      "disabled": false,
+      "description": "TypeScript language server for type checking and refactoring",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
-      "disabled": true,
-      "timeout": 90000,
-      "description": "Puppeteer web scraping and automation (alternative to Playwright)"
-    },
-    "everart": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-everart"],
-      "env": {
-        "EVERART_API_KEY": "${env:EVERART_API_KEY}"
-      },
-      "disabled": true,
-      "timeout": 90000,
-      "description": "AI image generation via EverArt API (requires API key)"
+      "retries": 2,
+      "args": ["-y", "@modelcontextprotocol/server-typescript"]
     }
   },
   "performanceSettings": {
-    "enableRequestBatching": true,
-    "requestBatchSize": 10,
     "enableLazyLoading": true,
-    "preloadServers": ["filesystem", "github", "postgres", "git", "typescript"],
+    "preloadServers": [
+      "filesystem",
+      "github",
+      "postgres",
+      "git",
+      "typescript"
+    ],
     "connectionPoolSize": 5,
-    "keepAliveInterval": 30000
-  },
-  "windowsSpecific": {
-    "useWindowsPaths": true,
-    "shellExecutable": "powershell.exe",
-    "encodingFix": true,
-    "pathSeparator": "\\"
+    "keepAliveInterval": 30000,
+    "requestBatchSize": 10,
+    "enableRequestBatching": true
   }
 }

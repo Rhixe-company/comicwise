@@ -144,22 +144,26 @@ pnpm health:redis
 ## 📝 Common Tasks
 
 ### Create New Component
+
 ```bash
 pnpm cli scaffold component MyComponent
 ```
 
 ### Create New Page
+
 ```bash
 # Manual: create src/app/(root)/my-page/page.tsx
 ```
 
 ### Update Dependencies
+
 ```bash
 pnpm check-updates
 pnpm update-deps
 ```
 
 ### Seed Specific Data
+
 ```bash
 pnpm db:seed:users
 pnpm db:seed:comics
@@ -173,12 +177,12 @@ pnpm db:seed:chapters
 Use these in imports:
 
 ```typescript
-import { Button } from "@/components/ui/button"
-import { db } from "@/database/db"
-import type { UserDto } from "@/dto"
-import { getCurrentUser } from "@/lib/auth"
-import { createComic } from "@/database/mutations/comics"
-import { getComicBySlug } from "@/database/queries/comics"
+import { Button } from "@/components/ui/button";
+import { db } from "@/database/db";
+import type { UserDto } from "@/dto";
+import { getCurrentUser } from "@/lib/auth";
+import { createComic } from "@/database/mutations/comics";
+import { getComicBySlug } from "@/database/queries/comics";
 ```
 
 ---

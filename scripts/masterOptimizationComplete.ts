@@ -5,11 +5,11 @@
  * Created: 2025-12-26
  */
 
+import chalk from "chalk";
 import { execSync } from "child_process";
 import fs from "fs-extra";
-import path from "path";
-import chalk from "chalk";
 import ora from "ora";
+import path from "path";
 
 const ROOT_DIR = process.cwd();
 const BACKUP_SUFFIX = ".backup";
@@ -38,12 +38,12 @@ async function backupAndDelete(filePath: string): Promise<void> {
   const absolutePath = path.resolve(ROOT_DIR, filePath);
   if (await fs.pathExists(absolutePath)) {
     const backupPath = `${absolutePath}${BACKUP_SUFFIX}`;
-    
+
     // If backup already exists, delete it
     if (await fs.pathExists(backupPath)) {
       await fs.remove(backupPath);
     }
-    
+
     // Rename current file to backup
     await fs.rename(absolutePath, backupPath);
     console.log(chalk.dim(`  ✓ Backed up: ${filePath}`));
@@ -56,7 +56,7 @@ async function deleteAllBackups(): Promise<void> {
   try {
     const files = await fs.readdir(ROOT_DIR, { recursive: true, withFileTypes: true });
     let count = 0;
-    
+
     for (const file of files) {
       if (file.isFile() && file.name.endsWith(BACKUP_SUFFIX)) {
         const fullPath = path.join(file.path || "", file.name);
@@ -64,7 +64,7 @@ async function deleteAllBackups(): Promise<void> {
         count++;
       }
     }
-    
+
     spinner.succeed(`Deleted ${count} .backup files`);
   } catch (error) {
     spinner.fail();
@@ -75,7 +75,7 @@ async function deleteAllBackups(): Promise<void> {
 // Task 1: Optimize config files
 async function optimizeConfigFiles(): Promise<void> {
   console.log(chalk.cyan("\n📋 Task 1: Optimizing configuration files..."));
-  
+
   const configs = [
     "next.config.ts",
     "eslint.config.ts",
@@ -86,9 +86,9 @@ async function optimizeConfigFiles(): Promise<void> {
     "playwright.config.ts",
     "next-sitemap.config.ts",
     "cspell.config.ts",
-    "tsconfig.json"
+    "tsconfig.json",
   ];
-  
+
   // Already optimized - just validate
   console.log(chalk.green("  ✓ Configuration files are already optimized"));
 }
@@ -157,10 +157,10 @@ async function applyCamelCase(): Promise<void> {
 // Task 12: Refactor folder structure and cleanup
 async function refactorAndCleanup(): Promise<void> {
   console.log(chalk.cyan("\n📋 Task 12: Refactoring folder structure and cleanup..."));
-  
+
   // Delete all .backup files
   await deleteAllBackups();
-  
+
   // Run comprehensive cleanup if script exists
   if (await fs.pathExists(path.join(ROOT_DIR, "scripts/cleanup-comprehensive.ts"))) {
     exec("pnpm tsx scripts/cleanup-comprehensive.ts", "Running comprehensive cleanup");
@@ -176,13 +176,13 @@ async function removeUnusedComponents(): Promise<void> {
 // Task 14: Fix type-check and linting errors
 async function fixTypeAndLintErrors(): Promise<void> {
   console.log(chalk.cyan("\n📋 Task 14: Fixing type-check and linting errors..."));
-  
+
   // Run linter with auto-fix
   exec("pnpm lint:fix", "Running ESLint auto-fix");
-  
+
   // Run formatter
   exec("pnpm format", "Running Prettier");
-  
+
   // Run type-check
   exec("pnpm type-check", "Running TypeScript type-check");
 }
@@ -190,10 +190,10 @@ async function fixTypeAndLintErrors(): Promise<void> {
 // Task 15: Create GitHub Copilot setup prompt
 async function createGitHubPrompt(): Promise<void> {
   console.log(chalk.cyan("\n📋 Task 15: Creating GitHub Copilot setup prompt..."));
-  
+
   const promptDir = path.join(ROOT_DIR, ".github/prompts");
   await fs.ensureDir(promptDir);
-  
+
   // Will be created in separate step
   console.log(chalk.green("  ✓ GitHub prompt directory prepared"));
 }
@@ -208,28 +208,83 @@ async function createComprehensiveReadme(): Promise<void> {
 async function main(): Promise<void> {
   console.log(chalk.bold.blue("\n🚀 ComicWise Master Optimization\n"));
   console.log(chalk.dim("════════════════════════════════════════════════════════\n"));
-  
+
   const tasks: Task[] = [
-    { id: 1, name: "Config Files", description: "Optimize configuration files", execute: optimizeConfigFiles },
-    { id: 2, name: "Seeding System", description: "Optimize database seeding", execute: optimizeSeedingSystem },
-    { id: 3, name: "Auth Schema", description: "Align next-auth with schema", execute: optimizeAuthSchema },
-    { id: 5, name: "Profile Components", description: "Optimize profile functionality", execute: optimizeProfileComponents },
-    { id: 6, name: "Type Definitions", description: "Consolidate type definitions", execute: optimizeTypes },
+    {
+      id: 1,
+      name: "Config Files",
+      description: "Optimize configuration files",
+      execute: optimizeConfigFiles,
+    },
+    {
+      id: 2,
+      name: "Seeding System",
+      description: "Optimize database seeding",
+      execute: optimizeSeedingSystem,
+    },
+    {
+      id: 3,
+      name: "Auth Schema",
+      description: "Align next-auth with schema",
+      execute: optimizeAuthSchema,
+    },
+    {
+      id: 5,
+      name: "Profile Components",
+      description: "Optimize profile functionality",
+      execute: optimizeProfileComponents,
+    },
+    {
+      id: 6,
+      name: "Type Definitions",
+      description: "Consolidate type definitions",
+      execute: optimizeTypes,
+    },
     { id: 7, name: "Any Types", description: "Replace any types", execute: replaceAnyTypes },
-    { id: 8, name: "TSConfig Paths", description: "Optimize import paths", execute: optimizeTsconfigPaths },
-    { id: 9, name: "Import Script", description: "Update import paths script", execute: updateImportPathsScript },
+    {
+      id: 8,
+      name: "TSConfig Paths",
+      description: "Optimize import paths",
+      execute: optimizeTsconfigPaths,
+    },
+    {
+      id: 9,
+      name: "Import Script",
+      description: "Update import paths script",
+      execute: updateImportPathsScript,
+    },
     { id: 10, name: "Scripts", description: "Optimize package scripts", execute: optimizeScripts },
     { id: 11, name: "CamelCase", description: "Apply naming conventions", execute: applyCamelCase },
     { id: 12, name: "Cleanup", description: "Refactor and cleanup", execute: refactorAndCleanup },
-    { id: 13, name: "Unused Components", description: "Remove unused code", execute: removeUnusedComponents },
-    { id: 14, name: "Type & Lint", description: "Fix errors and warnings", execute: fixTypeAndLintErrors },
-    { id: 15, name: "GitHub Prompt", description: "Create setup prompt", execute: createGitHubPrompt },
-    { id: 16, name: "README", description: "Comprehensive documentation", execute: createComprehensiveReadme },
+    {
+      id: 13,
+      name: "Unused Components",
+      description: "Remove unused code",
+      execute: removeUnusedComponents,
+    },
+    {
+      id: 14,
+      name: "Type & Lint",
+      description: "Fix errors and warnings",
+      execute: fixTypeAndLintErrors,
+    },
+    {
+      id: 15,
+      name: "GitHub Prompt",
+      description: "Create setup prompt",
+      execute: createGitHubPrompt,
+    },
+    {
+      id: 16,
+      name: "README",
+      description: "Comprehensive documentation",
+      execute: createComprehensiveReadme,
+    },
   ];
-  
+
   let completed = 0;
   let failed = 0;
-  
+
   for (const task of tasks) {
     try {
       await task.execute();
@@ -239,7 +294,7 @@ async function main(): Promise<void> {
       console.error(chalk.red(`\n❌ Task ${task.id} failed: ${(error as Error).message}`));
     }
   }
-  
+
   console.log(chalk.dim("\n════════════════════════════════════════════════════════\n"));
   console.log(chalk.bold.green(`✅ Optimization Complete!`));
   console.log(chalk.dim(`   Tasks completed: ${completed}/${tasks.length}`));

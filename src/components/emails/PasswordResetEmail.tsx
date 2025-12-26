@@ -1,3 +1,4 @@
+import appConfig from "appConfig";
 import {
   Body,
   Button,
@@ -10,7 +11,6 @@ import {
   Section,
   Text,
 } from "react-emailcomponents";
-import appConfig from "appConfig";
 
 interface PasswordResetEmailProps {
   name: string;

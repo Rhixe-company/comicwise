@@ -8,7 +8,7 @@
 import appConfig, { checkRateLimit } from "appConfig";
 import { signIn, signOut } from "auth";
 import bcrypt from "bcryptjs";
-import { db as database } from "database/db";
+import { db as database } from "@/database/db";
 import { eq } from "drizzle-orm";
 import {
   sendAccountUpdatedEmail,
@@ -25,7 +25,7 @@ import type {
   UpdatePasswordInput,
   UpdateProfileInput,
   VerifyEmailInput,
-} from "lib/validations";
+} from "@/lib/validations";
 import {
   forgotPasswordSchema,
   resendVerificationEmailSchema,
@@ -35,7 +35,7 @@ import {
   updatePasswordSchema,
   updateProfileSchema,
   verifyEmailSchema,
-} from "lib/validations";
+} from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { passwordResetToken, user, verificationToken } from "schema";

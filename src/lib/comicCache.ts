@@ -1,4 +1,4 @@
-import type { Comic } from "/typesdatabase";
+import type { Comic } from "@/types/database";
 
 import type { CacheOptions } from "lib/cache";
 import { cache, CACHE_KEYS, CACHE_TTL } from "lib/cache";

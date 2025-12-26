@@ -3,11 +3,11 @@
  * Handles all database operations for chapters
  */
 
-import { db } from "database/db";
+import { db } from "@/database/db";
 import { and, asc, desc, eq } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { chapter } from "schema";
-import type { Chapter } from "/typesdatabase";
+import type { Chapter } from "@/types/database";
 
 export class ChapterDal {
   private static instance: ChapterDal;

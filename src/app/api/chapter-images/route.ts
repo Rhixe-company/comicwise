@@ -4,20 +4,20 @@
 
 import { auth } from "auth";
 import {
-  batchCreateChapterImagesSchema,
-  batchDeleteSchema,
-  batchUpdateChapterImagesSchema,
-  createChapterImageSchema,
-} from "lib/validations";
-import {
   createChapterImage,
   createChapterImages,
   deleteChapterImage,
   updateChapterImage,
-} from "database/mutations/chapterImages";
+} from "@/database/mutations/chapterImages";
+import { getChapterImages } from "@/database/queries/chapterImages";
+import {
+  batchCreateChapterImagesSchema,
+  batchDeleteSchema,
+  batchUpdateChapterImagesSchema,
+  createChapterImageSchema,
+} from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getChapterImages } from "database/queries/chapterImages";
 
 // ═══════════════════════════════════════════════════
 // GET - List Chapter Images

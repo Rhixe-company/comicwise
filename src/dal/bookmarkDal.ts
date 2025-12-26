@@ -3,11 +3,11 @@
  * Handles all database operations for bookmarks
  */
 
-import { db } from "database/db";
+import { db } from "@/database/db";
 import { and, desc, eq } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { bookmark } from "schema";
-import type { Bookmark } from "/typesdatabase";
+import type { Bookmark } from "@/types/database";
 
 export class BookmarkDal {
   private static instance: BookmarkDal;

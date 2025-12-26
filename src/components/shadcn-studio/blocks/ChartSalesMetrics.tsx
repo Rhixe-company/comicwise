@@ -12,10 +12,10 @@ import {
 // ts-expect-error - recharts Label export type mismatch
 import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
 
-import { Avatar, AvatarFallback } from "ui/avatar";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "ui/card";
-import type { ChartConfig } from "ui/chart";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "ui/chart";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import type { ChartConfig } from "@/components/ui/chart";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 const salesPlanPercentage = 54;
 const totalBars = 24;

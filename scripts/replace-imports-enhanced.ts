@@ -59,13 +59,7 @@ const VERBOSE = args.has("--verbose");
 const CREATE_BACKUP = args.has("--backup");
 
 // Files to process
-const FILES_TO_PROCESS = [
-  "**/*.ts",
-  "**/*.tsx",
-  "app-config.ts",
-  "scripts/**/*.ts",
-  "cli/**/*.ts",
-];
+const FILES_TO_PROCESS = ["**/*.ts", "**/*.tsx", "app-config.ts", "scripts/**/*.ts", "cli/**/*.ts"];
 
 // Files to exclude
 const EXCLUDE_PATTERNS = [

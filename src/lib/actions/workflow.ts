@@ -3,7 +3,7 @@
 import { error } from "actions/utils";
 import appConfig from "appConfig";
 import bcrypt from "bcryptjs";
-import { db as database } from "database/db";
+import { db as database } from "@/database/db";
 import { eq } from "drizzle-orm";
 import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "lib/nodemailer";
 import { checkRateLimit } from "lib/ratelimit";
@@ -12,7 +12,7 @@ import {
   resetPasswordSchema,
   signUpSchema,
   verifyEmailSchema,
-} from "lib/validations";
+} from "@/lib/validations";
 import { passwordResetToken, user, verificationToken } from "schema";
 import type { ActionResponse } from "types";
 import { z } from "zod";

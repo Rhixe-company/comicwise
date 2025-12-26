@@ -1,5 +1,5 @@
-import { expect, test } from "playwright/test";
 import { env } from "appConfig";
+import { expect, test } from "playwright/test";
 
 const BASE_URL = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 

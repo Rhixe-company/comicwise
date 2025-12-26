@@ -4,10 +4,10 @@ import { useState } from "react";
 
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
-import { Button } from "ui/button";
-import { Checkbox } from "ui/checkbox";
-import { Input } from "ui/input";
-import { Label } from "ui/label";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const RegisterForm = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

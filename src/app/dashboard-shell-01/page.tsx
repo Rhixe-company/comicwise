@@ -22,7 +22,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -30,10 +30,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "ui/breadcrumb";
-import { Button } from "ui/button";
-import { Card } from "ui/card";
-import { Separator } from "ui/separator";
+} from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
@@ -46,17 +46,17 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "ui/sidebar";
+} from "@/components/ui/sidebar";
 
-import SalesMetricsCard from "components/shadcn-studio/blocks/chart-sales-metrics";
+import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
 import TransactionDatatable, {
   type Item,
-} from "components/shadcn-studio/blocks/datatable-transaction";
-import LanguageDropdown from "components/shadcn-studio/blocks/dropdown-language";
-import ProfileDropdown from "components/shadcn-studio/blocks/dropdown-profile";
-import StatisticsCard from "components/shadcn-studio/blocks/statistics-card-01";
-import ProductInsightsCard from "components/shadcn-studio/blocks/widget-product-insights";
-import TotalEarningCard from "components/shadcn-studio/blocks/widget-total-earning";
+} from "@/components/shadcn-studio/blocks/datatable-transaction";
+import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
+import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
+import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
+import ProductInsightsCard from "@/components/shadcn-studio/blocks/widget-product-insights";
+import TotalEarningCard from "@/components/shadcn-studio/blocks/widget-total-earning";
 
 // Statistics card data
 const StatisticsCardData = [

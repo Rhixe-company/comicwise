@@ -6,7 +6,7 @@
 "use server";
 
 import { requireRole } from "auth";
-import { db as database } from "database/db";
+import { db as database } from "@/database/db";
 import { eq, inArray } from "drizzle-orm";
 import { author } from "schema";
 import { z } from "zod";

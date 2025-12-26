@@ -25,10 +25,7 @@ const renamedFiles: Array<[RegExp, string]> = [
   // Type definition files
   [/['"]\/types\/react-email-components['"]/g, '"/types/reactEmailComponents"'],
   [/['"]\/types\/react-dropzone['"]/g, '"/types/reactDropzone"'],
-  [
-    /['"]\/types\/prettier-plugin-organize-imports['"]/g,
-    '"/types/prettierPluginOrganizeImports"',
-  ],
+  [/['"]\/types\/prettier-plugin-organize-imports['"]/g, '"/types/prettierPluginOrganizeImports"'],
   [/['"]\/types\/input-otp['"]/g, '"/types/inputOtp"'],
   [/['"]\/types\database-relations['"]/g, '"/typesdatabaseRelations"'],
   [/['"]\/types\/app-config['"]/g, '"/types/appConfig"'],

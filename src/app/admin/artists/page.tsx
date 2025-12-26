@@ -1,9 +1,9 @@
-import { DataTable } from "components/admin/DataTable";
 import { env } from "appConfig";
+import { DataTable } from "@/components/admin/DataTable";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Button } from "ui/button";
+import { Button } from "@/components/ui/button";
 
 async function getArtists() {
   const baseUrl = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";

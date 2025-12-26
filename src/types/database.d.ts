@@ -14,7 +14,7 @@ import type {
   genre,
   type as typeTable,
   user,
-} from "database/schema";
+} from "@/database/schema";
 import type { InferSelectModel } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════

@@ -13,7 +13,7 @@ import type {
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { PercentCrop, PixelCrop, ReactCropProps } from "react-image-crop";
 import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
-import { Button } from "ui/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "utils";
 
 import "react-image-crop/dist/ReactCrop.css";

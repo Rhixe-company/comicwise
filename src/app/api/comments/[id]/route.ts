@@ -3,11 +3,11 @@
 // ═══════════════════════════════════════════════════
 
 import { auth } from "auth";
-import { commentIdSchema, updateCommentSchema } from "lib/validations";
-import { deleteComment, updateComment } from "database/mutations/comments";
+import { deleteComment, updateComment } from "@/database/mutations/comments";
+import { getCommentById } from "@/database/queries/comments";
+import { commentIdSchema, updateCommentSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getCommentById } from "database/queries/comments";
 
 // ═══════════════════════════════════════════════════
 // GET - Get Comment by ID
