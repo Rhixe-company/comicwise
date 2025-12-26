@@ -10,9 +10,9 @@ import { BatchProcessor } from "@/database/seed/utils/batchProcessor";
 import { createSlug, normalizeDate, validateArray } from "@/database/seed/utils/helpers";
 import type { MetadataCache } from "@/database/seed/utils/metadataCache";
 import type { ComicSeed } from "@/lib/validations";
+import type { ComicStatus } from "@/types/database";
 import { imageService } from "services/imageService";
 import { comicSeedSchema } from "validations/index";
-import type { ComicStatus } from "@/types/database";
 
 /**
  *

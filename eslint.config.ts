@@ -4,6 +4,7 @@ import css from "@eslint/css";
 import js from "@eslint/js";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
+import eslintNextPlugin from "@next/eslint-plugin-next";
 import prettierConfig from "eslint-config-prettier";
 import pluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
 import * as pluginDrizzle from "eslint-plugin-drizzle";
@@ -20,7 +21,6 @@ import unicorn from "eslint-plugin-unicorn";
 import unused from "eslint-plugin-unused-imports";
 import zod from "eslint-plugin-zod";
 import globals from "globals";
-import eslintNextPlugin from "@next/eslint-plugin-next";
 import tseslint from "typescript-eslint";
 
 const eslintPlugins = {

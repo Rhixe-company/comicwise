@@ -1,9 +1,9 @@
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { deleteUser, updateUser } from "@/dto/usersDto";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export default async function EditUserForm({ params }: { params: { id: string } }) {
   const id = String(params.id);

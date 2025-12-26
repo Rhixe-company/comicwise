@@ -4,10 +4,10 @@
  */
 
 import { db } from "@/database/db";
+import type { Type } from "@/types/database";
 import { asc, eq } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { type as typeTable } from "schema";
-import type { Type } from "@/types/database";
 
 export class TypeDal {
   private static instance: TypeDal;

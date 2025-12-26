@@ -1,18 +1,18 @@
 "use server";
 
-import { error } from "actions/utils";
-import appConfig from "appConfig";
-import bcrypt from "bcryptjs";
 import { db as database } from "@/database/db";
-import { eq } from "drizzle-orm";
-import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "lib/nodemailer";
-import { checkRateLimit } from "lib/ratelimit";
 import {
   forgotPasswordSchema,
   resetPasswordSchema,
   signUpSchema,
   verifyEmailSchema,
 } from "@/lib/validations";
+import { error } from "actions/utils";
+import appConfig from "appConfig";
+import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
+import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "lib/nodemailer";
+import { checkRateLimit } from "lib/ratelimit";
 import { passwordResetToken, user, verificationToken } from "schema";
 import type { ActionResponse } from "types";
 import { z } from "zod";

@@ -1,11 +1,6 @@
 /* eslint-disable typescript-eslint/no-explicit-any */
 "use client";
 
-import { zodResolver } from "hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import type { DefaultValues, Path, UseFormReturn } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,9 +12,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import type { DefaultValues, Path, UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import type { z } from "zod";
 

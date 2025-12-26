@@ -4,10 +4,10 @@
  */
 
 import { db } from "@/database/db";
+import type { Genre } from "@/types/database";
 import { asc, eq } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { genre } from "schema";
-import type { Genre } from "@/types/database";
 
 export class GenreDal {
   private static instance: GenreDal;

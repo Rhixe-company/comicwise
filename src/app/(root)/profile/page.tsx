@@ -1,12 +1,12 @@
-import { auth } from "auth";
-import { getBookmarkCount } from "@/database/queries";
-import { BookMarked, Mail, User } from "lucide-react";
-import { redirect } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getBookmarkCount } from "@/database/queries";
+import { auth } from "auth";
+import { BookMarked, Mail, User } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Profile - ComicWise",

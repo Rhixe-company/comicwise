@@ -2,7 +2,6 @@
 // CHAPTER IMAGES API - Manage Chapter Page Images
 // ═══════════════════════════════════════════════════
 
-import { auth } from "auth";
 import {
   createChapterImage,
   createChapterImages,
@@ -16,6 +15,7 @@ import {
   batchUpdateChapterImagesSchema,
   createChapterImageSchema,
 } from "@/lib/validations";
+import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 

@@ -60,7 +60,7 @@ class ProjectOptimizer {
   // Task 1: Optimize Configuration Files
   private async task1_OptimizeConfigs(): Promise<void> {
     this.log("\n=== TASK 1: Optimize Configuration Files ===", "info");
-    
+
     const configFiles = [
       "next.config.ts",
       "eslint.config.ts",
@@ -85,11 +85,11 @@ class ProjectOptimizer {
   // Task 2: Optimize Database Seeding System
   private async task2_OptimizeDatabaseSeeding(): Promise<void> {
     this.log("\n=== TASK 2: Optimize Database Seeding System ===", "info");
-    
+
     const seedDir = path.join(this.rootDir, "src", "database", "seed");
     if (await fs.pathExists(seedDir)) {
       const seedFiles = await glob("src/database/seed/**/*.ts");
-      
+
       for (const file of seedFiles) {
         await this.backupFile(file);
       }
@@ -101,7 +101,7 @@ class ProjectOptimizer {
   // Task 3: Optimize Next-Auth User Schema
   private async task3_OptimizeNextAuthUser(): Promise<void> {
     this.log("\n=== TASK 3: Optimize Next-Auth User Schema ===", "info");
-    
+
     const schemaFile = path.join(this.rootDir, "src", "database", "schema.ts");
     if (await fs.pathExists(schemaFile)) {
       await this.backupFile(schemaFile);
@@ -117,11 +117,8 @@ class ProjectOptimizer {
   // Task 5: Optimize Profile Components and Pages
   private async task5_OptimizeProfile(): Promise<void> {
     this.log("\n=== TASK 5: Optimize Profile Components ===", "info");
-    
-    const profilePaths = [
-      "src/components/profile",
-      "src/app/(root)/profile",
-    ];
+
+    const profilePaths = ["src/components/profile", "src/app/(root)/profile"];
 
     for (const profilePath of profilePaths) {
       const fullPath = path.join(this.rootDir, profilePath);
@@ -137,13 +134,13 @@ class ProjectOptimizer {
   // Task 6: Consolidate and Optimize Type Definitions
   private async task6_OptimizeTypes(): Promise<void> {
     this.log("\n=== TASK 6: Consolidate Type Definitions ===", "info");
-    
+
     const typesDir = path.join(this.rootDir, "src", "types");
     if (await fs.pathExists(typesDir)) {
       const typeFiles = await glob("src/types/**/*.{ts,d.ts}");
-      
+
       this.log(`Found ${typeFiles.length} type definition files`, "info");
-      
+
       for (const file of typeFiles) {
         await this.backupFile(file);
       }
@@ -153,21 +150,21 @@ class ProjectOptimizer {
   // Task 8: Optimize TSConfig Paths
   private async task8_OptimizeTSConfigPaths(): Promise<void> {
     this.log("\n=== TASK 8: Optimize TSConfig Paths ===", "info");
-    
+
     const tsconfigPath = path.join(this.rootDir, "tsconfig.json");
     await this.backupFile(tsconfigPath);
-    
+
     this.log("TSConfig backed up", "success");
   }
 
   // Task 10: Optimize Scripts
   private async task10_OptimizeScripts(): Promise<void> {
     this.log("\n=== TASK 10: Optimize Scripts ===", "info");
-    
+
     const scriptsDir = path.join(this.rootDir, "scripts");
     if (await fs.pathExists(scriptsDir)) {
       const scriptFiles = await glob("scripts/**/*.{ts,ps1,sh,mjs}");
-      
+
       this.log(`Found ${scriptFiles.length} script files`, "info");
     }
 
@@ -177,19 +174,19 @@ class ProjectOptimizer {
   // Task 12: Cleanup and Restructure
   private async task12_CleanupProject(): Promise<void> {
     this.log("\n=== TASK 12: Project Cleanup ===", "info");
-    
+
     // Find markdown report files
     const mdFiles = await glob("*.md", {
       ignore: ["README.md", "LICENSE.md", "CHANGELOG.md"],
     });
-    
+
     this.log(`Found ${mdFiles.length} documentation files to review`, "info");
   }
 
   // Task 14: Fix Type Check and Lint Errors
   private async task14_FixErrors(): Promise<void> {
     this.log("\n=== TASK 14: Fix Type Check and Lint Errors ===", "info");
-    
+
     try {
       this.log("Running type check...", "info");
       const { stdout } = await execAsync("pnpm type-check");
@@ -265,9 +262,9 @@ class ProjectOptimizer {
       try {
         this.log(`\n📌 Task ${task.id}: ${task.name}`, "info");
         this.log(`   ${task.description}`, "info");
-        
+
         await task.execute();
-        
+
         this.completedTasks.push(task.id);
         this.log(`✅ Task ${task.id} completed successfully\n`, "success");
       } catch (error) {
@@ -285,11 +282,11 @@ class ProjectOptimizer {
     this.log("=".repeat(60), "info");
     this.log(`✅ Completed Tasks: ${this.completedTasks.length}`, "success");
     this.log(`❌ Failed Tasks: ${this.failedTasks.length}`, "error");
-    
+
     if (this.failedTasks.length > 0) {
       this.log(`\nFailed Task IDs: ${this.failedTasks.join(", ")}`, "error");
     }
-    
+
     this.log("\n" + "=".repeat(60) + "\n", "info");
   }
 }

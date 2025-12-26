@@ -1,7 +1,5 @@
 "use client";
 
-import { type ComponentProps, type ReactNode, useTransition } from "react";
-import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,6 +13,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { LoadingSwap } from "@/components/ui/loading-swap";
+import { type ComponentProps, type ReactNode, useTransition } from "react";
+import { toast } from "sonner";
 
 export function ActionButton({
   action,

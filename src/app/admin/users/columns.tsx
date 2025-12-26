@@ -1,9 +1,5 @@
 "use client";
 
-import { MoreHorizontal, Pencil, Trash } from "lucide-react";
-import Link from "next/link";
-import { toast } from "sonner";
-import type { ColumnDef } from "tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,9 +10,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
+import type { ColumnDef } from "tanstack/react-table";
 
-import type { user } from "schema";
 import { deleteUser } from "@/dto/usersDto";
+import type { user } from "schema";
 
 export type User = typeof user.$inferSelect;
 

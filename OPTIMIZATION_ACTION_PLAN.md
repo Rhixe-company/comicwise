@@ -1,16 +1,17 @@
 # Comicwise Project Optimization - Complete Action Plan
 
-**Generated:** 2025-12-26
-**Authorization:** GRANTED
-**Status:** IN PROGRESS
+**Generated:** 2025-12-26 **Authorization:** GRANTED **Status:** IN PROGRESS
 
 ## Executive Summary
 
-This document outlines the comprehensive optimization plan for the Comicwise project covering all 16 requested tasks. Due to system performance constraints, this provides a complete roadmap for manual and automated completion.
+This document outlines the comprehensive optimization plan for the Comicwise
+project covering all 16 requested tasks. Due to system performance constraints,
+this provides a complete roadmap for manual and automated completion.
 
 ## Current Project State
 
 **Tech Stack:**
+
 - Next.js 16.1.1 with App Router
 - React 19.2.3
 - TypeScript 5
@@ -21,6 +22,7 @@ This document outlines the comprehensive optimization plan for the Comicwise pro
 - pnpm package manager
 
 **Critical Issues Identified:**
+
 1. Import path resolution errors (vitest, playwright, eslint configs)
 2. Multiple duplicate markdown documentation files
 3. Type safety issues across the codebase
@@ -32,9 +34,11 @@ This document outlines the comprehensive optimization plan for the Comicwise pro
 ### ✅ COMPLETED TASKS
 
 #### Task 1: Configuration Files Optimization (PARTIAL)
+
 **Status:** Backups created, fixes applied
 
 **Files Backed Up:**
+
 - next.config.ts.backup ✓
 - eslint.config.ts.backup ✓
 - .prettierrc.ts.backup ✓
@@ -48,14 +52,16 @@ This document outlines the comprehensive optimization plan for the Comicwise pro
 - tsconfig.json.backup ✓
 
 **Fixes Applied:**
+
 - ✓ Fixed vitest.config.ts import (`@vitejs/plugin-react`)
 - ✓ Fixed playwright.config.ts import (`@playwright/test`)
 - ✓ Fixed drizzle.config.ts schema paths
 - ✓ Fixed vitest path aliases to use `./src/`
-- ⚠️  eslint.config.ts - needs complete rewrite (partial fixes applied)
+- ⚠️ eslint.config.ts - needs complete rewrite (partial fixes applied)
 
 **Remaining:**
--  Complete eslint.config.ts optimization
+
+- Complete eslint.config.ts optimization
 - Validate all configs with `pnpm validate`
 
 ---
@@ -65,6 +71,7 @@ This document outlines the comprehensive optimization plan for the Comicwise pro
 #### Task 2: Database Seeding System Optimization
 
 **Current Structure:**
+
 ```
 src/database/seed/
 ├── config.ts
@@ -84,6 +91,7 @@ src/database/seed/
 ```
 
 **Optimization Plan:**
+
 1. Create unified seeder interface
 2. Implement DRY principles for common operations
 3. Add progress tracking and error recovery
@@ -91,6 +99,7 @@ src/database/seed/
 5. Add validation layer
 
 **Implementation Script:**
+
 ```bash
 # Run after manual review
 pnpm tsx scripts/optimize-database-seeders.ts
@@ -101,6 +110,7 @@ pnpm tsx scripts/optimize-database-seeders.ts
 #### Task 3: Next-Auth User Schema Alignment
 
 **Current Schema:** `src/database/schema.ts`
+
 ```typescript
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -116,6 +126,7 @@ export const user = pgTable("user", {
 ```
 
 **Required Changes:**
+
 1. Ensure Next-Auth adapter compatibility
 2. Add missing fields (if any)
 3. Update `src/lib/authAdapter.ts`
@@ -127,6 +138,7 @@ export const user = pgTable("user", {
 #### Task 5: Profile Components & CRUD Implementation
 
 **Files to Optimize:**
+
 ```
 src/components/profile/ProfileManagement.tsx
 src/app/(root)/profile/page.tsx
@@ -134,6 +146,7 @@ src/app/(root)/profile/loading.tsx
 ```
 
 **Implementation:**
+
 1. Create profile mutation actions
 2. Implement form validation with Zod
 3. Add optimistic updates
@@ -143,12 +156,13 @@ src/app/(root)/profile/loading.tsx
 7. Add email verification re-send
 
 **Actions to Create:**
+
 ```typescript
 // src/app/actions/profile.ts
-export async function updateProfile(data: UpdateProfileInput)
-export async function changePassword(data: ChangePasswordInput)
-export async function uploadAvatar(formData: FormData)
-export async function deleteAccount()
+export async function updateProfile(data: UpdateProfileInput);
+export async function changePassword(data: ChangePasswordInput);
+export async function uploadAvatar(formData: FormData);
+export async function deleteAccount();
 ```
 
 ---
@@ -156,6 +170,7 @@ export async function deleteAccount()
 #### Task 6: Type Definitions Consolidation
 
 **Current Types Structure:**
+
 ```
 src/types/ (40 files)
 ├── actions.ts
@@ -168,6 +183,7 @@ src/types/ (40 files)
 ```
 
 **Consolidation Plan:**
+
 1. Merge duplicate type definitions
 2. Create barrel exports in index.ts
 3. Remove unused type files
@@ -175,6 +191,7 @@ src/types/ (40 files)
 5. Add JSDoc comments
 
 **Target Structure:**
+
 ```
 src/types/
 ├── index.ts              # Main barrel export
@@ -191,12 +208,14 @@ src/types/
 #### Task 7: Replace `any` Types with Specific Types
 
 **Strategy:**
+
 1. Run type audit: `pnpm tsx scripts/type-safety-audit.ts`
 2. Identify all `any` usages
 3. Replace with proper types or generics
 4. Add strict type guards where needed
 
 **Priority Files:**
+
 - `src/lib/actions/**/*.ts`
 - `src/database/queries/**/*.ts`
 - `src/database/mutations/**/*.ts`
@@ -207,6 +226,7 @@ src/types/
 #### Task 8: TSConfig Path Optimization
 
 **Current Paths:** (Already well-configured)
+
 ```json
 {
   "@": ["./src/*"],
@@ -220,6 +240,7 @@ src/types/
 ```
 
 **Enhancements Needed:**
+
 1. Add missing aliases for new directories
 2. Ensure consistency across all config files
 3. Update vitest.config.ts aliases (DONE)
@@ -232,6 +253,7 @@ src/types/
 **Create:** `scripts/update-imports-to-aliases.ts`
 
 **Features:**
+
 1. Scan all `.ts` and `.tsx` files
 2. Detect relative imports that can use aliases
 3. Replace with path aliases
@@ -239,6 +261,7 @@ src/types/
 5. Dry-run mode for safety
 
 **Usage:**
+
 ```bash
 # Dry run
 pnpm tsx scripts/update-imports-to-aliases.ts --dry-run
@@ -252,6 +275,7 @@ pnpm tsx scripts/update-imports-to-aliases.ts
 #### Task 10: Scripts Optimization
 
 **Scripts to Optimize:**
+
 ```
 scripts/ (116 files)
 - Remove duplicates
@@ -262,6 +286,7 @@ scripts/ (116 files)
 ```
 
 **Package.json Scripts:**
+
 - Audit for unused scripts
 - Standardize naming conventions
 - Add missing common tasks
@@ -272,12 +297,14 @@ scripts/ (116 files)
 #### Task 11: CamelCase Refactoring
 
 **Files Affected:**
+
 - Components: PascalCase for React components
 - Utilities: camelCase for functions
 - Constants: UPPER_SNAKE_CASE
 - Types: PascalCase for interfaces/types
 
 **Implementation:**
+
 ```bash
 pnpm tsx scripts/rename-to-camelcase.ts --dry-run
 pnpm tsx scripts/rename-to-camelcase.ts --execute
@@ -288,11 +315,13 @@ pnpm tsx scripts/rename-to-camelcase.ts --execute
 #### Task 12: Folder Restructuring & Cleanup
 
 **Cleanup Targets:**
+
 1. **Markdown Files:** Consolidate 40+ .md files
    - Keep: README.md, LICENSE, CHANGELOG.md
    - Archive: Move others to `/docs/archive/`
 
 2. **Duplicate Components:** Identify and remove
+
    ```bash
    pnpm tsx scripts/find-duplicate-components.ts
    ```
@@ -322,7 +351,9 @@ pnpm tsx scripts/rename-to-camelcase.ts --execute
 #### Task 13: Remove Unused Components & Dependencies
 
 **Process:**
+
 1. Analyze component usage
+
    ```bash
    pnpm tsx scripts/analyze-component-usage.ts
    ```
@@ -330,6 +361,7 @@ pnpm tsx scripts/rename-to-camelcase.ts --execute
 2. Generate removal list
 
 3. Uninstall unused packages
+
    ```bash
    pnpm remove <package-name>
    ```
@@ -341,11 +373,13 @@ pnpm tsx scripts/rename-to-camelcase.ts --execute
 #### Task 14: Fix Type Check & Lint Errors
 
 **Current Errors (Sample from type-check):**
+
 - Import resolution errors
 - Missing type declarations
 - Incorrect module paths
 
 **Fix Strategy:**
+
 1. Fix configuration imports (DONE for most)
 2. Fix module resolution in src files
 3. Add missing type declarations
@@ -359,6 +393,7 @@ pnpm tsx scripts/rename-to-camelcase.ts --execute
 **Create:** `.github/prompts/Setup.prompt.md`
 
 **Contents:**
+
 - Complete project overview
 - Setup instructions
 - Development workflows
@@ -373,6 +408,7 @@ pnpm tsx scripts/rename-to-camelcase.ts --execute
 **Create:** `README.md` (Enhanced version)
 
 **Sections:**
+
 - Features showcase
 - Quick start guide
 - Detailed installation
@@ -415,16 +451,19 @@ pnpm tsx scripts/rename-to-camelcase.ts --execute
 ### Immediate Actions Required:
 
 1. **Verify Backups:**
+
    ```bash
    ls -la *.backup
    ```
 
 2. **Test Configuration Fixes:**
+
    ```bash
    pnpm type-check 2>&1 | head -50
    ```
 
 3. **Run Existing Optimizations:**
+
    ```bash
    pnpm tsx scripts/comprehensive-project-optimization.ts
    ```
@@ -480,6 +519,6 @@ pnpm tsx scripts/rename-to-camelcase.ts --execute
 
 ---
 
-**Status:** Ready for manual completion following this action plan
-**Last Updated:** 2025-12-26 14:50 UTC
-**Authorization:** User confirmed YES for all 16 tasks
+**Status:** Ready for manual completion following this action plan **Last
+Updated:** 2025-12-26 14:50 UTC **Authorization:** User confirmed YES for all 16
+tasks

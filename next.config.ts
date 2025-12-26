@@ -1,40 +1,74 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // React Compiler for automatic optimization
   reactCompiler: true,
+
   experimental: {
+    // Turbopack caching for faster dev builds
     turbopackFileSystemCacheForDev: true,
     turbopackFileSystemCacheForBuild: false,
+
+    // Type-safe environment variables
     typedEnv: true,
+
+    // Optimized caching strategy
     staleTimes: {
       dynamic: 30,
       static: 180,
     },
-    staticGenerationRetryCount: 2,
+
+    // Static generation optimization
+    staticGenerationRetryCount: 3,
     staticGenerationMaxConcurrency: 16,
     staticGenerationMinPagesPerWorker: 25,
+
+    // Package import optimization
     optimizePackageImports: [
-      "radix-ui/react-icons",
-      "radix-ui/react-avatar",
-      "radix-ui/react-dialog",
-      "radix-ui/react-dropdown-menu",
-      "radix-ui/react-select",
-      "radix-ui/react-tabs",
-      "radix-ui/react-accordion",
-      "radix-ui/react-popover",
-      "radix-ui/react-tooltip",
+      "@radix-ui/react-icons",
+      "@radix-ui/react-avatar",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-select",
+      "@radix-ui/react-tabs",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-popover",
+      "@radix-ui/react-tooltip",
+      "@radix-ui/react-label",
+      "@radix-ui/react-switch",
+      "@radix-ui/react-checkbox",
+      "@radix-ui/react-slider",
+      "@radix-ui/react-separator",
       "lucide-react",
-      "tabler/icons-react",
+      "@tabler/icons-react",
       "framer-motion",
       "recharts",
+      "date-fns",
     ],
+
+    // Server Actions configuration
     serverActions: {
-      bodySizeLimit: "5mb",
+      bodySizeLimit: "10mb",
       allowedOrigins: ["localhost:3000"],
     },
+
+    // Partial Prerendering (Next.js 16)
+    ppr: "incremental",
   },
-  serverExternalPackages: ["postgres", "server-only", "libsql/client"],
+
+  // External packages for server-side
+  serverExternalPackages: [
+    "postgres",
+    "server-only",
+    "@libsql/client",
+    "bcryptjs",
+    "sharp",
+    "nodemailer",
+  ],
+
+  // Cache React Server Components
   cacheComponents: true,
+  // Image optimization
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
@@ -46,31 +80,50 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "localhost" },
       { protocol: "http", hostname: "localhost" },
-      {
-        protocol: "https",
-        hostname: "**",
-      },
+      { protocol: "https", hostname: "**" },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+
+  // Enhanced logging
   logging: {
     fetches: {
       fullUrl: true,
     },
   },
+
+  // Type-safe routing
   typedRoutes: true,
+
+  // TypeScript configuration
   typescript: {
     ignoreBuildErrors: false,
   },
+
+  // ESLint configuration
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+
+  // Development indicators
   devIndicators: {
     position: "bottom-right",
   },
+
+  // Bundle optimization
   bundlePagesRouterDependencies: true,
+
+  // Security headers
   poweredByHeader: false,
   compress: true,
+
+  // Security headers
   headers: async () => [
     {
       source: "/:path*",
@@ -96,8 +149,8 @@ const nextConfig: NextConfig = {
           value: "origin-when-cross-origin",
         },
         {
-          key: "X-UA-Compatible",
-          value: "IE=edge",
+          key: "X-XSS-Protection",
+          value: "1; mode=block",
         },
         {
           key: "Permissions-Policy",

@@ -2,18 +2,6 @@
 
 import { ThemeToggle } from "@/components/admin/ThemeToggle";
 import {
-  BookOpen,
-  FileText,
-  FolderOpen,
-  LayoutDashboard,
-  Palette,
-  Tag,
-  UserCircle,
-  Users,
-} from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -25,6 +13,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import {
+  BookOpen,
+  FileText,
+  FolderOpen,
+  LayoutDashboard,
+  Palette,
+  Tag,
+  UserCircle,
+  Users,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   {

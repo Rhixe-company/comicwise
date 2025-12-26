@@ -6,6 +6,7 @@
 ## 📦 What's Included
 
 ### 1. Working Script (Already Proven)
+
 - ✅ **fix-imports.cjs** - Successfully fixed 281 files
 - Location: Project root
 - Status: Production-ready
@@ -14,6 +15,7 @@
 ### 2. Enhanced Runner Scripts (NEW)
 
 #### PowerShell Runner (Windows)
+
 - **File:** `scripts/run-import-replacement.ps1`
 - **Features:**
   - ✅ Prerequisite checking (Node.js, pnpm)
@@ -24,6 +26,7 @@
   - ✅ Error handling and recovery
 
 #### Bash Runner (Unix/Linux/macOS)
+
 - **File:** `scripts/run-import-replacement.sh`
 - **Features:**
   - ✅ Same features as PowerShell version
@@ -32,6 +35,7 @@
   - ✅ Exit code handling
 
 ### 3. Documentation
+
 - ✅ **IMPORT_REPLACEMENT_GUIDE.md** - Complete implementation guide
 - ✅ Pattern examples and usage instructions
 - ✅ Future enhancement roadmap
@@ -76,34 +80,38 @@ node fix-imports.cjs
 
 ## 📋 Available Options
 
-| Option | PowerShell | Bash | Description |
-|--------|------------|------|-------------|
-| Dry Run | `-DryRun` | `--dry-run` | Test without modifying files |
-| Verbose | `-Verbose` | `--verbose` | Show detailed progress |
-| Backup | `-Backup` | `--backup` | Create backup before changes |
+| Option   | PowerShell  | Bash         | Description                  |
+| -------- | ----------- | ------------ | ---------------------------- |
+| Dry Run  | `-DryRun`   | `--dry-run`  | Test without modifying files |
+| Verbose  | `-Verbose`  | `--verbose`  | Show detailed progress       |
+| Backup   | `-Backup`   | `--backup`   | Create backup before changes |
 | Validate | `-Validate` | `--validate` | Run validation after changes |
 
 ## 🎯 Features
 
 ### 1. Safety First
+
 - ✅ Dry-run mode to preview changes
 - ✅ Automatic backup creation option
 - ✅ Prerequisite checking before execution
 - ✅ Error handling and recovery
 
 ### 2. Validation
+
 - ✅ Type checking after replacement
 - ✅ Format verification
 - ✅ Import consistency checks
 - ✅ Build validation option
 
 ### 3. User Experience
+
 - ✅ Colored output for clarity
 - ✅ Progress reporting
 - ✅ Clear error messages
 - ✅ Success/failure summary
 
 ### 4. Cross-Platform
+
 - ✅ PowerShell for Windows
 - ✅ Bash for Unix/Linux/macOS
 - ✅ Node.js script works everywhere
@@ -130,14 +138,14 @@ from "@/dto/authDto"
 
 Based on `tsconfig.json` paths, handles 33 different import patterns:
 
-| Pattern | Example | Replacement |
-|---------|---------|-------------|
-| `ui/*` | `ui/button` | `@/components/ui/button` |
-| `components/*` | `components/Card` | `@/components/Card` |
-| `database/*` | `database/db` | `@/database/db` |
-| `lib/actions/*` | `lib/actions/auth` | `@/lib/actions/auth` |
-| `dto/*` | `dto/authDto` | `@/dto/authDto` |
-| And 28 more... | See guide | All standardized |
+| Pattern         | Example            | Replacement              |
+| --------------- | ------------------ | ------------------------ |
+| `ui/*`          | `ui/button`        | `@/components/ui/button` |
+| `components/*`  | `components/Card`  | `@/components/Card`      |
+| `database/*`    | `database/db`      | `@/database/db`          |
+| `lib/actions/*` | `lib/actions/auth` | `@/lib/actions/auth`     |
+| `dto/*`         | `dto/authDto`      | `@/dto/authDto`          |
+| And 28 more...  | See guide          | All standardized         |
 
 ## 🔄 Workflow Example
 
@@ -186,6 +194,7 @@ git commit -m "chore: standardize import paths to @ aliases"
 ## 📈 Success Metrics
 
 ### Already Achieved
+
 - ✅ **281 files** automatically fixed
 - ✅ **~1,500+ imports** standardized
 - ✅ **58.4%** of codebase optimized
@@ -193,6 +202,7 @@ git commit -m "chore: standardize import paths to @ aliases"
 - ✅ **0 errors** from automation
 
 ### With Enhanced Runners
+
 - ✅ **Safer** - Dry-run and backup options
 - ✅ **Faster** - One command execution
 - ✅ **Validated** - Automatic checks included
@@ -289,9 +299,9 @@ Get-ChildItem -Filter ".import-backup-*"
 Copy-Item -Path ".import-backup-2025-12-26-143000/src" -Destination "." -Recurse -Force
 
 # Clean old backups (keep last 3)
-Get-ChildItem -Filter ".import-backup-*" | 
-  Sort-Object CreationTime -Descending | 
-  Select-Object -Skip 3 | 
+Get-ChildItem -Filter ".import-backup-*" |
+  Sort-Object CreationTime -Descending |
+  Select-Object -Skip 3 |
   Remove-Item -Recurse -Force
 ```
 
@@ -373,6 +383,7 @@ node fix-imports.cjs
 **Status:** ✅ COMPLETE AND PRODUCTION-READY
 
 **What You Have:**
+
 1. ✅ Working automation script (fix-imports.cjs)
 2. ✅ Enhanced PowerShell runner
 3. ✅ Enhanced Bash runner
@@ -380,6 +391,7 @@ node fix-imports.cjs
 5. ✅ Integration examples
 
 **What It Does:**
+
 - Standardizes all imports to @ aliases
 - Aligns with tsconfig.json paths
 - Handles 33 different patterns
@@ -387,7 +399,8 @@ node fix-imports.cjs
 
 **Success Rate:** 281/481 files (58.4%) already processed successfully
 
-**Ready to Use:** Run `.\scripts\run-import-replacement.ps1` or `./scripts/run-import-replacement.sh`
+**Ready to Use:** Run `.\scripts\run-import-replacement.ps1` or
+`./scripts/run-import-replacement.sh`
 
 ---
 

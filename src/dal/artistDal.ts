@@ -4,10 +4,10 @@
  */
 
 import { db } from "@/database/db";
+import type { Artist } from "@/types/database";
 import { desc, eq, like } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { artist } from "schema";
-import type { Artist } from "@/types/database";
 
 export class ArtistDal {
   private static instance: ArtistDal;

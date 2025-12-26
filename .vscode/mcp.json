@@ -1,11 +1,5 @@
 {
   "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/schema/mcp-config.schema.json",
-  "windowsSpecific": {
-    "pathSeparator": "\\",
-    "shellExecutable": "powershell.exe",
-    "encodingFix": true,
-    "useWindowsPaths": true
-  },
   "globalSettings": {
     "retries": 3,
     "cacheEnabled": true,
@@ -268,16 +262,16 @@
   },
   "performanceSettings": {
     "enableLazyLoading": true,
-    "preloadServers": [
-      "filesystem",
-      "github",
-      "postgres",
-      "git",
-      "typescript"
-    ],
+    "preloadServers": ["filesystem", "github", "postgres", "git", "typescript"],
     "connectionPoolSize": 5,
     "keepAliveInterval": 30000,
     "requestBatchSize": 10,
     "enableRequestBatching": true
+  },
+  "windowsSpecific": {
+    "pathSeparator": "\\",
+    "shellExecutable": "powershell.exe",
+    "encodingFix": true,
+    "useWindowsPaths": true
   }
 }

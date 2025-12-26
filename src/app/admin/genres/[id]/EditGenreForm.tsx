@@ -1,10 +1,10 @@
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { deleteGenre, updateGenre } from "@/dto/genresDto";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export default async function EditGenreForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);

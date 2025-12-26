@@ -4,10 +4,10 @@
  */
 
 import { db } from "@/database/db";
+import type { Comment } from "@/types/database";
 import { desc, eq } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { comment } from "schema";
-import type { Comment } from "@/types/database";
 
 export class CommentDal {
   private static instance: CommentDal;

@@ -1,13 +1,4 @@
 {
-  "unwantedRecommendations": [
-    "hookyqr.beautify",
-    "dbaeumer.jshint",
-    "eg2.tslint",
-    "octref.vetur",
-    "ms-python.python",
-    "rust-lang.rust-analyzer",
-    "golang.go"
-  ],
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
@@ -33,5 +24,14 @@
     "ms-vscode.powershell",
     "redhat.vscode-yaml",
     "mikestead.dotenv"
+  ],
+  "unwantedRecommendations": [
+    "hookyqr.beautify",
+    "dbaeumer.jshint",
+    "eg2.tslint",
+    "octref.vetur",
+    "ms-python.python",
+    "rust-lang.rust-analyzer",
+    "golang.go"
   ]
 }

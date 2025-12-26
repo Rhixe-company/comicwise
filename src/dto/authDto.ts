@@ -45,7 +45,6 @@ export type SessionDto = {
   expires: string;
 };
 
-export { signOut as signOutAction } from "@/lib/auth";
 export {
   forgotPassword as forgotPasswordAction,
   registerUserAction,
@@ -54,3 +53,4 @@ export {
   signInAction,
   verifyEmail as verifyEmailAction,
 } from "@/lib/actions/auth";
+export { signOut as signOutAction } from "@/lib/auth";

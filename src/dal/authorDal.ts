@@ -4,10 +4,10 @@
  */
 
 import { db } from "@/database/db";
+import type { Author } from "@/types/database";
 import { desc, eq, like } from "drizzle-orm";
 import { logger } from "lib/logger";
 import { author } from "schema";
-import type { Author } from "@/types/database";
 
 export class AuthorDal {
   private static instance: AuthorDal;

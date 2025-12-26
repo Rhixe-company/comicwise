@@ -2,7 +2,6 @@
 // COMIC IMAGES API - Manage Comic Gallery Images
 // ═══════════════════════════════════════════════════
 
-import { auth } from "auth";
 import {
   createComicImage,
   createComicImages,
@@ -16,6 +15,7 @@ import {
   batchUpdateComicImagesSchema,
   createComicImageSchema,
 } from "@/lib/validations";
+import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 

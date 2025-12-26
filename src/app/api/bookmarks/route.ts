@@ -2,7 +2,6 @@
 // BOOKMARKS API - Full CRUD
 // ═══════════════════════════════════════════════════
 
-import { auth } from "auth";
 import {
   addBookmark,
   removeBookmark,
@@ -11,6 +10,7 @@ import {
 } from "@/database/mutations/bookmarks";
 import { getUserBookmarks } from "@/database/queries/bookmarks";
 import { createBookmarkSchema, updateBookmarkSchema } from "@/lib/validations";
+import { auth } from "auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
