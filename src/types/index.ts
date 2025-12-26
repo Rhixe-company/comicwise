@@ -7,29 +7,30 @@
 // CORE & UTILITIES
 // ═══════════════════════════════════════════════════
 
-export * from "types/Core"; // BaseEntity, TimestampedEntity, etc.
-export * from "types/Utility"; // Nullable, Prettify, DeepPartial, etc.
+export * from "./Core"; // BaseEntity, TimestampedEntity, etc.
+export * from "./Utility"; // Nullable, Prettify, DeepPartial, etc.
 
 // ═══════════════════════════════════════════════════
 // DATABASE (All models, relations, filters, inputs)
 // ═══════════════════════════════════════════════════
 
-export * from "typesdatabase"; // All database types (consolidated)
+export * from "./database"; // All database types (consolidated)
 
 // ═══════════════════════════════════════════════════
 // APPLICATION LAYER
 // ═══════════════════════════════════════════════════
 
-export * from "types/actions"; // Server actions
-export * from "types/Api"; // API responses
-export * from "types/forms"; // Form types
-export * from "typescomponents"; // Component props
+export * from "./actions"; // Server actions
+export * from "./Api"; // API responses
+export * from "./components"; // Component props
+export * from "./forms"; // Form types
 
 // ═══════════════════════════════════════════════════
 // INFRASTRUCTURE
 // ═══════════════════════════════════════════════════
 
-// export * from "./cache";       // Cache types
-// export * from "./monitoring";  // Monitoring types
-// export * from "./queue";       // Queue types
-// export * from "./upload";      // Upload types
+export * from "./cache"; // Cache types
+export * from "./monitoring"; // Monitoring types
+export * from "./queue"; // Queue types
+export * from "./upload"; // Upload types
+

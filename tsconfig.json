@@ -1,53 +1,33 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["DOM", "DOM.Iterable", "ESNext", "ES2022"],
-    "jsx": "react-jsx",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
     "allowImportingTsExtensions": false,
-    "strict": true,
-    "noUncheckedIndexedAccess": false,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "noImplicitAny": false,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "exactOptionalPropertyTypes": false,
-    "noImplicitOverride": true,
-    "noUncheckedSideEffectImports": false,
-    "noEmit": true,
     "declaration": false,
     "declarationMap": false,
-    "sourceMap": true,
-    "removeComments": false,
-    "importHelpers": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "exactOptionalPropertyTypes": false,
     "forceConsistentCasingInFileNames": true,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "allowJs": true,
+    "importHelpers": true,
     "incremental": true,
-    "tsBuildInfoFile": ".next/cache/tsbuildinfo.json",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext", "ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false,
+    "noUncheckedSideEffectImports": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "paths": {
       "@": ["./src/*"],
       "actions": ["./src/lib/actions/*"],
@@ -80,7 +60,26 @@
       "ui": ["./src/components/ui/*"],
       "utils": ["./src/lib/utils"],
       "validations": ["./src/lib/validations/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "target": "ES2022",
+    "tsBuildInfoFile": ".next/cache/tsbuildinfo.json",
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "verbatimModuleSyntax": true
   },
   "exclude": ["node_modules", ".next", "out", "build", "dist", "coverage"],
   "include": [
@@ -96,10 +95,8 @@
     "**/*.cjs",
     ".next/types/**/*.ts",
     "src/**/*",
-    "tests/**/*",
     ".next/dev/types/**/*.ts",
     ".prettierrc.ts",
-    "scripts/**/*",
-    "cli/**/*"
+    "scripts/**/*"
   ]
 }
