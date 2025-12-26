@@ -13,10 +13,6 @@ import {
   Table as TableRaw,
   TableRow as TableRowRaw,
 } from "@/components/ui/table";
-import { atom, useAtom } from "jotai";
-import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from "lucide-react";
-import type { HTMLAttributes, ReactNode } from "react";
-import { createContext, memo, useCallback, useContext } from "react";
 import type {
   Cell,
   Column,
@@ -26,16 +22,20 @@ import type {
   Row,
   SortingState,
   Table,
-} from "tanstack/react-table";
+} from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
-} from "tanstack/react-table";
+} from "@tanstack/react-table";
+import { atom, useAtom } from "jotai";
+import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from "lucide-react";
+import type { HTMLAttributes, ReactNode } from "react";
+import { createContext, memo, useCallback, useContext } from "react";
 import { cn } from "utils";
 
-export type { ColumnDef } from "tanstack/react-table";
+export type { ColumnDef } from "@tanstack/react-table";
 
 const sortingAtom = atom<SortingState>([]);
 

@@ -4,7 +4,7 @@
  * Shows Redis cache usage and statistics
  */
 
-import { env } from "@/app-config";
+import { env } from "../appConfig";
 import IORedis from "ioredis";
 
 const redis = new IORedis({

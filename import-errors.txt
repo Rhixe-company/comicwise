@@ -3,19 +3,19 @@
 > tsc --noEmit
 
 drizzle.config.ts(17,40): error TS2307: Cannot find module 'app-config' or its corresponding type declarations.
-scripts/cacheStats.ts(7,21): error TS2307: Cannot find module 'appConfig' or its corresponding type declarations.
-scripts/checkRedis.ts(6,21): error TS2307: Cannot find module 'appConfig' or its corresponding type declarations.
-scripts/clearCache.ts(7,21): error TS2307: Cannot find module 'appConfig' or its corresponding type declarations.
+scripts/cacheStats.ts(7,21): error TS2307: Cannot find module '@/app-config' or its corresponding type declarations.
+scripts/checkRedis.ts(6,21): error TS2307: Cannot find module '@/app-config' or its corresponding type declarations.
+scripts/clearCache.ts(7,21): error TS2307: Cannot find module '@/app-config' or its corresponding type declarations.
 scripts/cli/commands/health.ts(44,17): error TS2339: Property 'verbose' does not exist on type 'T'.
 scripts/fixAllErrorsAuto.ts(122,31): error TS2304: Cannot find name 'database'.
 scripts/fixAllErrorsAuto.ts(122,31): error TS2769: No overload matches this call.
   The last overload gave the following error.
     Argument of type 'number' is not assignable to parameter of type 'string | RegExp'.
 scripts/fixAllErrorsAuto.ts(122,45): error TS2304: Cannot find name 'g'.
-scripts/healthCheck.ts(7,21): error TS2307: Cannot find module 'appConfig' or its corresponding type declarations.
-scripts/uploadBulk.ts(18,21): error TS2307: Cannot find module 'appConfig' or its corresponding type declarations.
-scripts/uploadBulk.ts(23,36): error TS2307: Cannot find module 'services/upload/providers/cloudinary' or its corresponding type declarations.
-scripts/uploadBulk.ts(24,34): error TS2307: Cannot find module 'services/upload/providers/imagekit' or its corresponding type declarations.
+scripts/healthCheck.ts(7,21): error TS2307: Cannot find module '@/app-config' or its corresponding type declarations.
+scripts/uploadBulk.ts(18,21): error TS2307: Cannot find module '@/app-config' or its corresponding type declarations.
+scripts/uploadBulk.ts(23,36): error TS2307: Cannot find module '@/services/upload/providers/cloudinary' or its corresponding type declarations.
+scripts/uploadBulk.ts(24,34): error TS2307: Cannot find module '@/services/upload/providers/imagekit' or its corresponding type declarations.
 scripts/uploadBulk.ts(87,47): error TS2307: Cannot find module '/services/upload/providers/s3' or its corresponding type declarations.
 src/app/(auth)/forgot-password/page.tsx(12,38): error TS2307: Cannot find module '@/components/auth' or its corresponding type declarations.
 src/app/(auth)/forgot-password/page.tsx(13,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
@@ -116,6 +116,7 @@ src/app/admin/artists/new/page.tsx(4,75): error TS2307: Cannot find module '@/co
 src/app/admin/artists/new/page.tsx(13,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
 src/app/admin/artists/new/page.tsx(14,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
 src/app/admin/artists/new/page.tsx(15,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
+src/app/admin/artists/new/page.tsx(16,29): error TS2307: Cannot find module 'hookform/resolvers/zod' or its corresponding type declarations.
 src/app/admin/artists/new/page.tsx(17,32): error TS2307: Cannot find module 'hooks/useImageUpload' or its corresponding type declarations.
 src/app/admin/artists/page.tsx(1,21): error TS2307: Cannot find module '@/app-config' or its corresponding type declarations.
 src/app/admin/artists/page.tsx(2,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
@@ -133,6 +134,7 @@ src/app/admin/authors/new/page.tsx(4,75): error TS2307: Cannot find module '@/co
 src/app/admin/authors/new/page.tsx(13,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
 src/app/admin/authors/new/page.tsx(14,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
 src/app/admin/authors/new/page.tsx(15,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
+src/app/admin/authors/new/page.tsx(16,29): error TS2307: Cannot find module 'hookform/resolvers/zod' or its corresponding type declarations.
 src/app/admin/authors/new/page.tsx(17,32): error TS2307: Cannot find module 'hooks/useImageUpload' or its corresponding type declarations.
 src/app/admin/authors/page.tsx(1,21): error TS2307: Cannot find module '@/app-config' or its corresponding type declarations.
 src/app/admin/authors/page.tsx(2,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
@@ -152,6 +154,7 @@ src/app/admin/chapters/new/page.tsx(20,8): error TS2307: Cannot find module '@/c
 src/app/admin/chapters/new/page.tsx(21,24): error TS2307: Cannot find module '@/components/ui/switch' or its corresponding type declarations.
 src/app/admin/chapters/new/page.tsx(22,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
 src/app/admin/chapters/new/page.tsx(23,29): error TS2307: Cannot find module 'components/admin/ImageUpload' or its corresponding type declarations.
+src/app/admin/chapters/new/page.tsx(24,29): error TS2307: Cannot find module 'hookform/resolvers/zod' or its corresponding type declarations.
 src/app/admin/chapters/page.tsx(1,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/app/admin/chapters/page.tsx(2,20): error TS2307: Cannot find module '@/database/db' or its corresponding type declarations.
 src/app/admin/chapters/page.tsx(3,27): error TS2307: Cannot find module 'components/admin/DataTable' or its corresponding type declarations.
@@ -194,6 +197,7 @@ src/app/admin/genres/new/page.tsx(4,75): error TS2307: Cannot find module '@/com
 src/app/admin/genres/new/page.tsx(12,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
 src/app/admin/genres/new/page.tsx(13,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
 src/app/admin/genres/new/page.tsx(14,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
+src/app/admin/genres/new/page.tsx(15,29): error TS2307: Cannot find module 'hookform/resolvers/zod' or its corresponding type declarations.
 src/app/admin/genres/page.tsx(1,21): error TS2307: Cannot find module '@/app-config' or its corresponding type declarations.
 src/app/admin/genres/page.tsx(2,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/app/admin/genres/page.tsx(3,27): error TS2307: Cannot find module 'components/admin/DataTable' or its corresponding type declarations.
@@ -224,6 +228,7 @@ src/app/admin/types/new/page.tsx(4,75): error TS2307: Cannot find module '@/comp
 src/app/admin/types/new/page.tsx(12,8): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
 src/app/admin/types/new/page.tsx(13,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
 src/app/admin/types/new/page.tsx(14,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
+src/app/admin/types/new/page.tsx(15,29): error TS2307: Cannot find module 'hookform/resolvers/zod' or its corresponding type declarations.
 src/app/admin/types/page.tsx(1,21): error TS2307: Cannot find module '@/app-config' or its corresponding type declarations.
 src/app/admin/types/page.tsx(2,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/app/admin/types/page.tsx(3,27): error TS2307: Cannot find module 'components/admin/DataTable' or its corresponding type declarations.
@@ -235,6 +240,7 @@ src/app/admin/users/[id]/page.tsx(1,26): error TS2307: Cannot find module 'app/a
 src/app/admin/users/columns.tsx(3,23): error TS2307: Cannot find module '@/components/ui/badge' or its corresponding type declarations.
 src/app/admin/users/columns.tsx(4,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/app/admin/users/columns.tsx(12,8): error TS2307: Cannot find module '@/components/ui/DropdownMenu' or its corresponding type declarations.
+src/app/admin/users/columns.tsx(16,32): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
 src/app/admin/users/columns.tsx(18,28): error TS2307: Cannot find module '@/dto/usersDto' or its corresponding type declarations.
 src/app/admin/users/new/page.tsx(3,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/app/admin/users/new/page.tsx(4,75): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
@@ -242,6 +248,7 @@ src/app/admin/users/new/page.tsx(12,8): error TS2307: Cannot find module '@/comp
 src/app/admin/users/new/page.tsx(13,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
 src/app/admin/users/new/page.tsx(14,30): error TS2307: Cannot find module '@/dto/usersDto' or its corresponding type declarations.
 src/app/admin/users/new/page.tsx(15,30): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/app/admin/users/new/page.tsx(16,29): error TS2307: Cannot find module 'hookform/resolvers/zod' or its corresponding type declarations.
 src/app/admin/users/page.tsx(1,20): error TS2307: Cannot find module '@/database/db' or its corresponding type declarations.
 src/app/admin/users/page.tsx(2,27): error TS2307: Cannot find module 'components/admin/DataTable' or its corresponding type declarations.
 src/app/admin/users/page.tsx(3,10): error TS2459: Module '"database"' declares 'user' locally, but it is not exported.
@@ -372,20 +379,9 @@ src/components/admin/BaseForm.tsx(14,23): error TS2307: Cannot find module '@/co
 src/components/admin/BaseForm.tsx(21,8): error TS2307: Cannot find module '@/components/ui/select' or its corresponding type declarations.
 src/components/admin/BaseForm.tsx(22,24): error TS2307: Cannot find module '@/components/ui/switch' or its corresponding type declarations.
 src/components/admin/BaseForm.tsx(23,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
+src/components/admin/BaseForm.tsx(24,29): error TS2307: Cannot find module 'hookform/resolvers/zod' or its corresponding type declarations.
 src/components/admin/BaseForm.tsx(76,24): error TS2344: Type 'output<T>' does not satisfy the constraint 'FieldValues'.
   Type 'unknown' is not assignable to type 'FieldValues'.
-src/components/admin/BaseForm.tsx(77,27): error TS2769: No overload matches this call.
-  Overload 1 of 4, '(schema: Zod3Type<unknown, FieldValues>, schemaOptions?: ParseParams | undefined, resolverOptions?: NonRawResolverOptions | undefined): Resolver<...>', gave the following error.
-    Argument of type 'T' is not assignable to parameter of type 'Zod3Type<unknown, FieldValues>'.
-      Type 'ZodType<unknown, unknown, $ZodTypeInternals<unknown, unknown>>' is not assignable to type 'Zod3Type<unknown, FieldValues>'.
-        Types of property '_input' are incompatible.
-          Type 'unknown' is not assignable to type 'FieldValues'.
-  Overload 2 of 4, '(schema: $ZodType<unknown, FieldValues, $ZodTypeInternals<unknown, FieldValues>>, schemaOptions?: ParseContext<$ZodIssue> | undefined, resolverOptions?: NonRawResolverOptions | undefined): Resolver<...>', gave the following error.
-    Argument of type 'T' is not assignable to parameter of type '$ZodType<unknown, FieldValues, $ZodTypeInternals<unknown, FieldValues>>'.
-      Type 'ZodType<unknown, unknown, $ZodTypeInternals<unknown, unknown>>' is not assignable to type '$ZodType<unknown, FieldValues, $ZodTypeInternals<unknown, FieldValues>>'.
-        Types of property '_zod' are incompatible.
-          Type '$ZodTypeInternals<unknown, unknown>' is not assignable to type '$ZodTypeInternals<unknown, FieldValues>'.
-            Type 'unknown' is not assignable to type 'FieldValues'.
 src/components/admin/BaseForm.tsx(91,79): error TS2344: Type 'output<T>' does not satisfy the constraint 'FieldValues'.
   Type 'unknown' is not assignable to type 'FieldValues'.
 src/components/admin/BaseForm.tsx(236,37): error TS2345: Argument of type '(values: z.core.output<T>) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
@@ -409,6 +405,7 @@ src/components/admin/ComicForm.tsx(15,23): error TS2307: Cannot find module '@/c
 src/components/admin/ComicForm.tsx(22,8): error TS2307: Cannot find module '@/components/ui/select' or its corresponding type declarations.
 src/components/admin/ComicForm.tsx(23,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
 src/components/admin/ComicForm.tsx(24,33): error TS2307: Cannot find module '@/lib/validations' or its corresponding type declarations.
+src/components/admin/ComicForm.tsx(25,29): error TS2307: Cannot find module 'hookform/resolvers/zod' or its corresponding type declarations.
 src/components/admin/ComicForm.tsx(26,32): error TS2307: Cannot find module 'hooks/useImageUpload' or its corresponding type declarations.
 src/components/admin/ComicsListContent.tsx(3,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/components/admin/ComicsListContent.tsx(4,58): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
@@ -436,6 +433,8 @@ src/components/admin/EnhancedDataTable.tsx(4,26): error TS2307: Cannot find modu
 src/components/admin/EnhancedDataTable.tsx(10,8): error TS2307: Cannot find module '@/components/ui/DropdownMenu' or its corresponding type declarations.
 src/components/admin/EnhancedDataTable.tsx(11,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
 src/components/admin/EnhancedDataTable.tsx(19,8): error TS2307: Cannot find module '@/components/ui/table' or its corresponding type declarations.
+src/components/admin/EnhancedDataTable.tsx(29,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
+src/components/admin/EnhancedDataTable.tsx(36,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
 src/components/admin/ImageUpload.tsx(7,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/components/admin/ImageUpload.tsx(8,32): error TS2307: Cannot find module 'hooks/useImageUpload' or its corresponding type declarations.
 src/components/admin/LoadingStates.tsx(1,47): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
@@ -457,35 +456,10 @@ src/components/AppNavbar.tsx(4,23): error TS2307: Cannot find module '@/componen
 src/components/AppSidebar.tsx(14,8): error TS2307: Cannot find module '@/components/ui/sidebar' or its corresponding type declarations.
 src/components/AppSidebar.tsx(15,29): error TS2307: Cannot find module 'components/admin/ThemeToggle' or its corresponding type declarations.
 src/components/auth/authForm.tsx(3,22): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
+src/components/auth/authForm.tsx(4,29): error TS2307: Cannot find module 'hookform/resolvers/zod' or its corresponding type declarations.
 src/components/auth/authForm.tsx(12,41): error TS2307: Cannot find module '@/components/ui/alert' or its corresponding type declarations.
 src/components/auth/authForm.tsx(13,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/components/auth/authForm.tsx(21,8): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
-src/components/auth/authForm.tsx(68,5): error TS2322: Type 'Resolver<FieldValues, any, T>' is not assignable to type 'Resolver<T, any, T>'.
-  Types of parameters 'options' and 'options' are incompatible.
-    Type 'ResolverOptions<T>' is not assignable to type 'ResolverOptions<FieldValues>'.
-      Type 'FieldValues' is not assignable to type 'T'.
-        'FieldValues' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint 'FieldValues'.
-src/components/auth/authForm.tsx(68,27): error TS2769: No overload matches this call.
-  Overload 1 of 4, '(schema: Zod3Type<T, FieldValues>, schemaOptions?: ParseParams | undefined, resolverOptions?: NonRawResolverOptions | undefined): Resolver<...>', gave the following error.
-    Argument of type 'ZodType<T, unknown, $ZodTypeInternals<T, unknown>>' is not assignable to parameter of type 'Zod3Type<T, FieldValues>'.
-      Types of property '_input' are incompatible.
-        Type 'unknown' is not assignable to type 'FieldValues'.
-  Overload 2 of 4, '(schema: $ZodType<unknown, FieldValues, $ZodTypeInternals<unknown, FieldValues>>, schemaOptions?: ParseContext<$ZodIssue> | undefined, resolverOptions?: NonRawResolverOptions | undefined): Resolver<...>', gave the following error.
-    Argument of type 'ZodType<T, unknown, $ZodTypeInternals<T, unknown>>' is not assignable to parameter of type '$ZodType<unknown, FieldValues, $ZodTypeInternals<unknown, FieldValues>>'.
-      Types of property '_zod' are incompatible.
-        Type '$ZodTypeInternals<T, unknown>' is not assignable to type '$ZodTypeInternals<unknown, FieldValues>'.
-          Type 'unknown' is not assignable to type 'FieldValues'.
-src/components/auth/authForm.tsx(74,26): error TS2345: Argument of type 'UseFormReturn<T, any, TFieldValues>' is not assignable to parameter of type 'UseFormReturn<T>'.
-  Types of property 'handleSubmit' are incompatible.
-    Type 'UseFormHandleSubmit<T, TFieldValues>' is not assignable to type 'UseFormHandleSubmit<T, T>'.
-      Types of parameters 'onValid' and 'onValid' are incompatible.
-        Types of parameters 'data' and 'data' are incompatible.
-          Type 'TFieldValues' is not assignable to type 'T'.
-            'TFieldValues' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint 'FieldValues'.
-src/components/auth/authForm.tsx(87,43): error TS2345: Argument of type '(data: T) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
-  Types of parameters 'data' and 'data' are incompatible.
-    Type 'TFieldValues' is not assignable to type 'T'.
-      'TFieldValues' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint 'FieldValues'.
 src/components/auth/emailField.tsx(3,74): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
 src/components/auth/emailField.tsx(4,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
 src/components/auth/nameField.tsx(3,74): error TS2307: Cannot find module '@/components/ui/form' or its corresponding type declarations.
@@ -511,6 +485,8 @@ src/components/DataTable.tsx(13,40): error TS2307: Cannot find module 'dnd-kit/m
 src/components/DataTable.tsx(19,8): error TS2307: Cannot find module 'dnd-kit/sortable' or its corresponding type declarations.
 src/components/DataTable.tsx(20,21): error TS2307: Cannot find module 'dnd-kit/utilities' or its corresponding type declarations.
 src/components/DataTable.tsx(36,8): error TS2307: Cannot find module 'tabler/icons-react' or its corresponding type declarations.
+src/components/DataTable.tsx(43,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
+src/components/DataTable.tsx(53,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
 src/components/DataTable.tsx(56,23): error TS2307: Cannot find module '@/components/ui/badge' or its corresponding type declarations.
 src/components/DataTable.tsx(57,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/components/DataTable.tsx(58,34): error TS2307: Cannot find module '@/components/ui/chart' or its corresponding type declarations.
@@ -585,6 +561,8 @@ src/components/shadcn-studio/blocks/ChartSalesMetrics.tsx(15,40): error TS2307: 
 src/components/shadcn-studio/blocks/ChartSalesMetrics.tsx(16,70): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/ChartSalesMetrics.tsx(17,34): error TS2307: Cannot find module '@/components/ui/chart' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/ChartSalesMetrics.tsx(18,67): error TS2307: Cannot find module '@/components/ui/chart' or its corresponding type declarations.
+src/components/shadcn-studio/blocks/datatable-transaction.tsx(7,49): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
+src/components/shadcn-studio/blocks/datatable-transaction.tsx(15,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/datatable-transaction.tsx(17,53): error TS2307: Cannot find module '@/components/ui/avatar' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/datatable-transaction.tsx(18,23): error TS2307: Cannot find module '@/components/ui/badge' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/datatable-transaction.tsx(19,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
@@ -592,6 +570,8 @@ src/components/shadcn-studio/blocks/datatable-transaction.tsx(26,8): error TS230
 src/components/shadcn-studio/blocks/datatable-transaction.tsx(32,8): error TS2307: Cannot find module '@/components/ui/pagination' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/datatable-transaction.tsx(40,8): error TS2307: Cannot find module '@/components/ui/table' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/datatable-transaction.tsx(42,31): error TS2307: Cannot find module '/hooks/use-pagination' or its corresponding type declarations.
+src/components/shadcn-studio/blocks/DatatableTransaction.tsx(7,49): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
+src/components/shadcn-studio/blocks/DatatableTransaction.tsx(15,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/DatatableTransaction.tsx(17,53): error TS2307: Cannot find module '@/components/ui/avatar' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/DatatableTransaction.tsx(18,23): error TS2307: Cannot find module '@/components/ui/badge' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/DatatableTransaction.tsx(19,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
@@ -677,6 +657,8 @@ src/components/shadcn-studio/blocks/WidgetTotalEarning.tsx(4,24): error TS2307: 
 src/components/shadcn-studio/blocks/WidgetTotalEarning.tsx(5,47): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/WidgetTotalEarning.tsx(12,8): error TS2307: Cannot find module '@/components/ui/dropdown-menu' or its corresponding type declarations.
 src/components/shadcn-studio/blocks/WidgetTotalEarning.tsx(13,26): error TS2307: Cannot find module '@/components/ui/progress' or its corresponding type declarations.
+src/components/shadcn-studio/data-table/data-table-04.tsx(13,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
+src/components/shadcn-studio/data-table/data-table-04.tsx(23,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/data-table-04.tsx(25,53): error TS2307: Cannot find module '@/components/ui/avatar' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/data-table-04.tsx(26,23): error TS2307: Cannot find module '@/components/ui/badge' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/data-table-04.tsx(27,26): error TS2307: Cannot find module '@/components/ui/checkbox' or its corresponding type declarations.
@@ -686,7 +668,8 @@ src/components/shadcn-studio/data-table/data-table-04.tsx(36,8): error TS2307: C
 src/components/shadcn-studio/data-table/data-table-04.tsx(44,8): error TS2307: Cannot find module '@/components/ui/table' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/data-table-04.tsx(46,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/data-table-04.tsx(48,16): error TS2664: Invalid module name in augmentation, module 'tanstack/react-table' cannot be found.
-src/components/shadcn-studio/data-table/data-table-04.tsx(311,11): error TS2339: Property 'filterVariant' does not exist on type 'ColumnMeta<any, unknown>'.
+src/components/shadcn-studio/data-table/DataTable04.tsx(13,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
+src/components/shadcn-studio/data-table/DataTable04.tsx(23,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/DataTable04.tsx(25,53): error TS2307: Cannot find module '@/components/ui/avatar' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/DataTable04.tsx(26,23): error TS2307: Cannot find module '@/components/ui/badge' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/DataTable04.tsx(27,26): error TS2307: Cannot find module '@/components/ui/checkbox' or its corresponding type declarations.
@@ -695,12 +678,12 @@ src/components/shadcn-studio/data-table/DataTable04.tsx(29,23): error TS2307: Ca
 src/components/shadcn-studio/data-table/DataTable04.tsx(36,8): error TS2307: Cannot find module '@/components/ui/select' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/DataTable04.tsx(44,8): error TS2307: Cannot find module '@/components/ui/table' or its corresponding type declarations.
 src/components/shadcn-studio/data-table/DataTable04.tsx(48,16): error TS2664: Invalid module name in augmentation, module 'tanstack/react-table' cannot be found.
-src/components/shadcn-studio/data-table/DataTable04.tsx(326,11): error TS2339: Property 'filterVariant' does not exist on type 'ColumnMeta<any, unknown>'.
 src/components/shadcn-studio/logo.tsx(1,21): error TS2307: Cannot find module '/assets/svg/logo' or its corresponding type declarations.
 src/components/shadcn-studio/logo.tsx(4,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/SiteHeader.tsx(1,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/components/SiteHeader.tsx(2,27): error TS2307: Cannot find module '@/components/ui/separator' or its corresponding type declarations.
 src/components/SiteHeader.tsx(3,32): error TS2307: Cannot find module '@/components/ui/sidebar' or its corresponding type declarations.
+src/components/ui/accordion.tsx(4,37): error TS2307: Cannot find module 'radix-ui/react-accordion' or its corresponding type declarations.
 src/components/ui/accordion.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/ActionButton.tsx(13,8): error TS2307: Cannot find module '@/components/ui/alert-dialog' or its corresponding type declarations.
 src/components/ui/ActionButton.tsx(14,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
@@ -711,10 +694,15 @@ src/components/ui/AlertDialog.tsx(3,39): error TS2307: Cannot find module 'radix
 src/components/ui/AlertDialog.tsx(6,32): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/components/ui/AlertDialog.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/AspectRatio.tsx(3,39): error TS2307: Cannot find module 'radix-ui/react-aspect-ratio' or its corresponding type declarations.
+src/components/ui/avatar.tsx(3,34): error TS2307: Cannot find module 'radix-ui/react-avatar' or its corresponding type declarations.
 src/components/ui/avatar.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/badge.tsx(2,22): error TS2307: Cannot find module 'radix-ui/react-slot' or its corresponding type declarations.
 src/components/ui/badge.tsx(5,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/breadcrumb.tsx(2,22): error TS2307: Cannot find module 'radix-ui/react-slot' or its corresponding type declarations.
 src/components/ui/breadcrumb.tsx(5,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/button.tsx(2,22): error TS2307: Cannot find module 'radix-ui/react-slot' or its corresponding type declarations.
 src/components/ui/button.tsx(5,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/ButtonGroup.tsx(2,22): error TS2307: Cannot find module 'radix-ui/react-slot' or its corresponding type declarations.
 src/components/ui/ButtonGroup.tsx(4,27): error TS2307: Cannot find module '@/components/ui/separator' or its corresponding type declarations.
 src/components/ui/ButtonGroup.tsx(5,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/calendar.tsx(7,40): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
@@ -724,11 +712,14 @@ src/components/ui/carousel.tsx(7,24): error TS2307: Cannot find module '@/compon
 src/components/ui/carousel.tsx(8,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/chart.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/chart.tsx(244,26): error TS2694: Namespace '"recharts"' has no exported member 'LegendProps'.
+src/components/ui/checkbox.tsx(4,36): error TS2307: Cannot find module 'radix-ui/react-checkbox' or its corresponding type declarations.
 src/components/ui/checkbox.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/collapsible.tsx(3,39): error TS2307: Cannot find module 'radix-ui/react-collapsible' or its corresponding type declarations.
 src/components/ui/command.tsx(13,8): error TS2307: Cannot find module '@/components/ui/dialog' or its corresponding type declarations.
 src/components/ui/command.tsx(14,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/ContextMenu.tsx(4,39): error TS2307: Cannot find module 'radix-ui/react-context-menu' or its corresponding type declarations.
 src/components/ui/ContextMenu.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/dialog.tsx(4,34): error TS2307: Cannot find module 'radix-ui/react-dialog' or its corresponding type declarations.
 src/components/ui/dialog.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/drawer.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/dropdown-menu.tsx(4,40): error TS2307: Cannot find module 'radix-ui/react-dropdown-menu' or its corresponding type declarations.
@@ -739,6 +730,8 @@ src/components/ui/empty.tsx(3,20): error TS2307: Cannot find module '@/lib/utils
 src/components/ui/field.tsx(6,23): error TS2307: Cannot find module '@/components/ui/label' or its corresponding type declarations.
 src/components/ui/field.tsx(7,27): error TS2307: Cannot find module '@/components/ui/separator' or its corresponding type declarations.
 src/components/ui/field.tsx(8,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/form.tsx(3,38): error TS2307: Cannot find module 'radix-ui/react-label' or its corresponding type declarations.
+src/components/ui/form.tsx(4,22): error TS2307: Cannot find module 'radix-ui/react-slot' or its corresponding type declarations.
 src/components/ui/form.tsx(16,23): error TS2307: Cannot find module '@/components/ui/label' or its corresponding type declarations.
 src/components/ui/form.tsx(17,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/HoverCard.tsx(3,37): error TS2307: Cannot find module 'radix-ui/react-hover-card' or its corresponding type declarations.
@@ -751,12 +744,15 @@ src/components/ui/InputGroup.tsx(7,23): error TS2307: Cannot find module '@/comp
 src/components/ui/InputGroup.tsx(8,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
 src/components/ui/InputGroup.tsx(9,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/InputOtp.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/item.tsx(2,22): error TS2307: Cannot find module 'radix-ui/react-slot' or its corresponding type declarations.
 src/components/ui/item.tsx(5,27): error TS2307: Cannot find module '@/components/ui/separator' or its corresponding type declarations.
 src/components/ui/item.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/kbd.tsx(1,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/label.tsx(3,33): error TS2307: Cannot find module 'radix-ui/react-label' or its corresponding type declarations.
 src/components/ui/label.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/loading-swap.tsx(1,15): error TS2307: Cannot find module '@/components/ui/LoadingSwap' or its corresponding type declarations.
 src/components/ui/LoadingSwap.tsx(1,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/menubar.tsx(4,35): error TS2307: Cannot find module 'radix-ui/react-menubar' or its corresponding type declarations.
 src/components/ui/menubar.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/MultiSelect.tsx(3,23): error TS2307: Cannot find module '@/components/ui/badge' or its corresponding type declarations.
 src/components/ui/MultiSelect.tsx(4,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
@@ -776,7 +772,9 @@ src/components/ui/PasswordInput.tsx(3,23): error TS2307: Cannot find module '@/c
 src/components/ui/PasswordInput.tsx(9,8): error TS2307: Cannot find module '@/components/ui/input-group' or its corresponding type declarations.
 src/components/ui/PasswordInput.tsx(10,57): error TS2307: Cannot find module '@/components/ui/tooltip' or its corresponding type declarations.
 src/components/ui/PasswordInput.tsx(11,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/popover.tsx(3,35): error TS2307: Cannot find module 'radix-ui/react-popover' or its corresponding type declarations.
 src/components/ui/popover.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/progress.tsx(3,36): error TS2307: Cannot find module 'radix-ui/react-progress' or its corresponding type declarations.
 src/components/ui/progress.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/radio-group.tsx(1,15): error TS2307: Cannot find module '@/components/ui/RadioGroup' or its corresponding type declarations.
 src/components/ui/RadioGroup.tsx(4,38): error TS2307: Cannot find module 'radix-ui/react-radio-group' or its corresponding type declarations.
@@ -784,10 +782,13 @@ src/components/ui/RadioGroup.tsx(7,20): error TS2307: Cannot find module '@/lib/
 src/components/ui/resizable.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/ScrollArea.tsx(3,38): error TS2307: Cannot find module 'radix-ui/react-scroll-area' or its corresponding type declarations.
 src/components/ui/ScrollArea.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/select.tsx(4,34): error TS2307: Cannot find module 'radix-ui/react-select' or its corresponding type declarations.
 src/components/ui/select.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/separator.tsx(3,37): error TS2307: Cannot find module 'radix-ui/react-separator' or its corresponding type declarations.
 src/components/ui/separator.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/shadcn-io/announcement/index.tsx(1,23): error TS2307: Cannot find module '@/components/ui/badge' or its corresponding type declarations.
 src/components/ui/shadcn-io/avatar-group/index.tsx(8,65): error TS2307: Cannot find module '@/components/ui/tooltip' or its corresponding type declarations.
+src/components/ui/shadcn-io/avatar-group/index.tsx(9,35): error TS2307: Cannot find module 'radix-ui/react-tooltip' or its corresponding type declarations.
 src/components/ui/shadcn-io/choicebox/index.tsx(3,75): error TS2307: Cannot find module '@/components/ui/card' or its corresponding type declarations.
 src/components/ui/shadcn-io/choicebox/index.tsx(4,28): error TS2307: Cannot find module '@/components/ui/radio-group' or its corresponding type declarations.
 src/components/ui/shadcn-io/choicebox/index.tsx(19,4): error TS2741: Property 'value' is missing in type '{ children: Element; asChild: true; className: string; }' but required in type 'RadioGroupItemProps'.
@@ -841,14 +842,16 @@ src/components/ui/shadcn-io/relative-time/index.tsx(3,38): error TS2307: Cannot 
 src/components/ui/shadcn-io/table/index.tsx(1,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/components/ui/shadcn-io/table/index.tsx(7,8): error TS2307: Cannot find module '@/components/ui/dropdown-menu' or its corresponding type declarations.
 src/components/ui/shadcn-io/table/index.tsx(15,8): error TS2307: Cannot find module '@/components/ui/table' or its corresponding type declarations.
-src/components/ui/shadcn-io/table/index.tsx(73,26): error TS2349: This expression is not callable.
-  Not all constituents of type 'Updater<SortingState>' are callable.
-    Type 'SortingState' has no call signatures.
+src/components/ui/shadcn-io/table/index.tsx(29,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
+src/components/ui/shadcn-io/table/index.tsx(35,8): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
+src/components/ui/shadcn-io/table/index.tsx(38,32): error TS2307: Cannot find module 'tanstack/react-table' or its corresponding type declarations.
 src/components/ui/shadcn-io/tags/index.tsx(3,23): error TS2307: Cannot find module '@/components/ui/badge' or its corresponding type declarations.
 src/components/ui/shadcn-io/tags/index.tsx(4,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/components/ui/shadcn-io/tags/index.tsx(12,8): error TS2307: Cannot find module '@/components/ui/command' or its corresponding type declarations.
 src/components/ui/shadcn-io/tags/index.tsx(13,57): error TS2307: Cannot find module '@/components/ui/popover' or its corresponding type declarations.
+src/components/ui/sheet.tsx(4,33): error TS2307: Cannot find module 'radix-ui/react-dialog' or its corresponding type declarations.
 src/components/ui/sheet.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/sidebar.tsx(5,22): error TS2307: Cannot find module 'radix-ui/react-slot' or its corresponding type declarations.
 src/components/ui/sidebar.tsx(8,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
 src/components/ui/sidebar.tsx(9,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
 src/components/ui/sidebar.tsx(10,27): error TS2307: Cannot find module '@/components/ui/separator' or its corresponding type declarations.
@@ -859,17 +862,22 @@ src/components/ui/sidebar.tsx(20,20): error TS2307: Cannot find module '@/lib/ut
 src/components/ui/sidebar.tsx(21,29): error TS2307: Cannot find module '/hooks/use-mobile' or its corresponding type declarations.
 src/components/ui/skeleton.tsx(1,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/skeletons.tsx(1,26): error TS2307: Cannot find module '@/components/ui/skeleton' or its corresponding type declarations.
+src/components/ui/slider.tsx(3,34): error TS2307: Cannot find module 'radix-ui/react-slider' or its corresponding type declarations.
 src/components/ui/slider.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/spinner.tsx(3,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/switch.tsx(3,34): error TS2307: Cannot find module 'radix-ui/react-switch' or its corresponding type declarations.
 src/components/ui/switch.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/table.tsx(5,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/tabs.tsx(3,32): error TS2307: Cannot find module 'radix-ui/react-tabs' or its corresponding type declarations.
 src/components/ui/tabs.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/textarea.tsx(3,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/toggle-group.tsx(1,15): error TS2307: Cannot find module '@/components/ui/ToggleGroup' or its corresponding type declarations.
+src/components/ui/toggle.tsx(4,34): error TS2307: Cannot find module 'radix-ui/react-toggle' or its corresponding type declarations.
 src/components/ui/toggle.tsx(7,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/components/ui/ToggleGroup.tsx(4,39): error TS2307: Cannot find module 'radix-ui/react-toggle-group' or its corresponding type declarations.
 src/components/ui/ToggleGroup.tsx(7,32): error TS2307: Cannot find module '@/components/ui/toggle' or its corresponding type declarations.
 src/components/ui/ToggleGroup.tsx(8,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+src/components/ui/tooltip.tsx(3,35): error TS2307: Cannot find module 'radix-ui/react-tooltip' or its corresponding type declarations.
 src/components/ui/tooltip.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
 src/dal/artistDal.ts(6,20): error TS2307: Cannot find module '@/database/db' or its corresponding type declarations.
 src/dal/artistDal.ts(7,24): error TS2307: Cannot find module '@/lib/logger' or its corresponding type declarations.
@@ -1250,4 +1258,4 @@ src/types/index.ts(24,15): error TS2307: Cannot find module 'types/Api' or its c
 src/types/index.ts(25,15): error TS2307: Cannot find module 'types/forms' or its corresponding type declarations.
 src/types/index.ts(26,15): error TS2307: Cannot find module 'typescomponents' or its corresponding type declarations.
 vitest.config.ts(2,19): error TS2307: Cannot find module 'vitejs/plugin-react' or its corresponding type declarations.
-ΓÇëELIFECYCLEΓÇë Command failed with exit code 2.
+ΓÇëELIFECYCLEΓÇë Command failed with exit code 1.

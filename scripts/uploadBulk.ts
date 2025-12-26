@@ -15,13 +15,13 @@
  *   pnpm upload:bulk --path=public/comics  Upload specific directory
  */
 
-import { env } from "@/app-config";
+import { env } from "../appConfig";
 import { readFileSync, readdirSync, statSync } from "fs";
 import { basename, extname, join, relative } from "path";
 
 // Import providers
-import { CloudinaryProvider } from "@/services/upload/providers/cloudinary";
-import { ImageKitProvider } from "@/services/upload/providers/imagekit";
+import { CloudinaryProvider } from "../src/services/upload/providers/cloudinary";
+import { ImageKitProvider } from "../src/services/upload/providers/imagekit";
 
 interface UploadOptions {
   provider?: "imagekit" | "cloudinary" | "aws" | "all";

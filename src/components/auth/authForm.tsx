@@ -1,7 +1,7 @@
 "use client";
 
 import { Form } from "@/components/ui/form";
-import { zodResolver } from "hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useState } from "react";

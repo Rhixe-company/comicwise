@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import type { DefaultValues, Path, UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";

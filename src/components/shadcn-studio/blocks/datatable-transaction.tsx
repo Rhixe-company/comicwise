@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { ChevronLeftIcon, ChevronRightIcon, EllipsisVerticalIcon } from "lucide-react";
 
-import type { ColumnDef, PaginationState } from "tanstack/react-table";
+import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
@@ -12,7 +12,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "tanstack/react-table";
+} from "@tanstack/react-table";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";

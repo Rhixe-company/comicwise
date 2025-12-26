@@ -17,23 +17,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Download, Filter, X } from "lucide-react";
-import Papa from "papaparse";
-import { useState } from "react";
-import { toast } from "sonner";
 import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
-} from "tanstack/react-table";
+} from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from "tanstack/react-table";
+} from "@tanstack/react-table";
+import { Download, Filter, X } from "lucide-react";
+import Papa from "papaparse";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface EnhancedDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

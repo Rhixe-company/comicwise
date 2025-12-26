@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { comicFormSchema } from "@/lib/validations";
-import { zodResolver } from "hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useImageUpload } from "hooks/useImageUpload";
 import { AlertCircle, Loader2, Upload } from "lucide-react";
 import Image from "next/image";

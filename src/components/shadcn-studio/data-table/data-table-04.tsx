@@ -10,7 +10,7 @@ import type {
   ColumnFiltersState,
   RowData,
   SortingState,
-} from "tanstack/react-table";
+} from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
@@ -20,7 +20,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from "tanstack/react-table";
+} from "@tanstack/react-table";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
