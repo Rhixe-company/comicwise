@@ -1,18 +1,19 @@
 {
   "compounds": [
     {
-      "name": "Full Stack Dev",
+      "name": "Full Stack Dev + Health Check",
       "configurations": ["Next: Dev Server", "Attach to Process"],
       "presentation": {
         "hidden": false,
         "group": "development",
         "order": 1
       },
-      "stopAll": true
+      "stopAll": true,
+      "preLaunchTask": "🏥 Health: Check All"
     },
     {
-      "name": "Dev + Debug",
-      "configurations": ["Next: Dev with Inspect", "Attach to Next (9229)"],
+      "name": "Dev + Debug + Type Check",
+      "configurations": ["Next: Dev with Inspect", "Attach to Next (9229)", "TypeScript: Watch"],
       "presentation": {
         "hidden": false,
         "group": "development",
@@ -28,7 +29,8 @@
         "group": "testing",
         "order": 1
       },
-      "stopAll": true
+      "stopAll": true,
+      "preLaunchTask": "✅ Validate All"
     },
     {
       "name": "Docker + Debug",
@@ -39,6 +41,16 @@
         "order": 1
       },
       "stopAll": true
+    },
+    {
+      "name": "Full CI Pipeline",
+      "configurations": ["🔍 Type Check", "🎨 Lint", "Vitest Unit Tests", "Next: Build"],
+      "presentation": {
+        "hidden": false,
+        "group": "ci",
+        "order": 1
+      },
+      "stopAll": false
     }
   ],
   "configurations": [
@@ -52,8 +64,9 @@
       "console": "integratedTerminal",
       "autoAttachChildProcesses": true,
       "env": {
-        "NODE_OPTIONS": "--enable-source-maps",
-        "NODE_ENV": "development"
+        "NODE_OPTIONS": "--enable-source-maps --max-old-space-size=8192 --trace-warnings",
+        "NODE_ENV": "development",
+        "DEBUG": "next:*"
       },
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "presentation": {
@@ -78,20 +91,24 @@
       "autoAttachChildProcesses": true,
       "port": 9229,
       "env": {
-        "NODE_OPTIONS": "--inspect=9229 --enable-source-maps"
+        "NODE_OPTIONS": "--inspect=9229 --enable-source-maps --max-old-space-size=8192 --trace-warnings"
       },
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "presentation": {
         "hidden": false,
         "group": "development",
         "order": 2
-      }
+      },
+      "restart": true,
+      "sourceMaps": true
     },
     {
       "name": "Attach to Next (9229)",
       "type": "node",
       "request": "attach",
       "port": 9229,
+      "restart": true,
+      "sourceMaps": true,
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "presentation": {
         "hidden": false,
@@ -119,11 +136,16 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["build"],
       "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "production",
+        "NODE_OPTIONS": "--max-old-space-size=6144"
+      },
       "presentation": {
         "hidden": false,
         "group": "build",
         "order": 1
-      }
+      },
+      "preLaunchTask": "🧹 Clean"
     },
     {
       "name": "Next: Start Production",
@@ -150,6 +172,7 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["test:unit"],
       "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
       "presentation": {
         "hidden": false,
         "group": "testing",
@@ -171,6 +194,20 @@
       }
     },
     {
+      "name": "Vitest Coverage",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["test:unit:coverage"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "testing",
+        "order": 3
+      }
+    },
+    {
       "name": "Playwright E2E",
       "type": "node",
       "request": "launch",
@@ -181,7 +218,7 @@
       "presentation": {
         "hidden": false,
         "group": "testing",
-        "order": 3
+        "order": 4
       }
     },
     {
@@ -195,7 +232,21 @@
       "presentation": {
         "hidden": false,
         "group": "testing",
-        "order": 4
+        "order": 5
+      }
+    },
+    {
+      "name": "Playwright Debug",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["test:debug"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "testing",
+        "order": 6
       }
     },
     {
@@ -213,6 +264,20 @@
       }
     },
     {
+      "name": "Database: Seed Verbose",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["db:seed:verbose"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "database",
+        "order": 2
+      }
+    },
+    {
       "name": "Database: Studio",
       "type": "node",
       "request": "launch",
@@ -223,7 +288,21 @@
       "presentation": {
         "hidden": false,
         "group": "database",
-        "order": 2
+        "order": 3
+      }
+    },
+    {
+      "name": "Database: Reset",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["db:reset"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "database",
+        "order": 4
       }
     },
     {
@@ -249,6 +328,7 @@
       "localRoot": "${workspaceFolder}",
       "remoteRoot": "/app",
       "skipFiles": ["<node_internals>/**"],
+      "restart": true,
       "presentation": {
         "hidden": false,
         "group": "docker",
@@ -281,6 +361,34 @@
         "hidden": false,
         "group": "linting",
         "order": 1
+      }
+    },
+    {
+      "name": "Cache: Clear All",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["cache:clear"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "utilities",
+        "order": 1
+      }
+    },
+    {
+      "name": "Health: Check All",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["health:all"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "utilities",
+        "order": 2
       }
     }
   ],

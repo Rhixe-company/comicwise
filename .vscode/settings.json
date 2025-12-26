@@ -114,7 +114,7 @@
     "slugify",
     "camelcase"
   ],
-  "chat.agent.maxRequests": 10000,
+  "chat.agent.maxRequests": 50000,
   "chat.mcp.gallery.enabled": true,
   "editor.acceptSuggestionOnCommitCharacter": true,
   "editor.acceptSuggestionOnEnter": "on",
@@ -124,7 +124,9 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit",
     "source.removeUnusedImports": "explicit",
-    "source.addMissingImports": "explicit"
+    "source.addMissingImports": "explicit",
+    "source.sortImports": "never",
+    "source.fixAll": "explicit"
   },
   "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
@@ -133,24 +135,16 @@
   "editor.fontFamily": "Fira Code, Cascadia Code, JetBrains Mono, Consolas, 'Courier New', monospace",
   "editor.fontLigatures": true,
   "editor.fontSize": 14,
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "editor.guides.bracketPairs": "active",
-  "editor.guides.highlightActiveIndentation": true,
-  "editor.guides.indentation": true,
-  "editor.hover.delay": 300,
-  "editor.hover.enabled": "on",
-  "editor.inlineSuggest.enabled": true,
-  "editor.insertSpaces": true,
-  "editor.lightbulb.enabled": "onCode",
-  "editor.lineHeight": 1.6,
+  "editor.fontWeight": "400",
+  "editor.lineHeight": 1.7,
   "editor.linkedEditing": true,
   "editor.minimap.enabled": false,
+  "editor.minimap.renderCharacters": false,
   "editor.parameterHints.enabled": true,
   "editor.quickSuggestions": {
-    "other": true,
-    "comments": false,
-    "strings": true
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
   },
   "editor.rename.enablePreview": true,
   "editor.renderWhitespace": "boundary",
@@ -221,6 +215,7 @@
     "scminput": false
   },
   "github.copilot.nextEditSuggestions.enabled": true,
+  "github.copilot.editor.enableAutoCompletions": true,
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.suggest.autoImports": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
@@ -230,6 +225,8 @@
 
   "prettier.requireConfig": true,
   "prettier.useEditorConfig": false,
+  "prettier.enableDebugLogs": false,
+  "prettier.resolveGlobalModules": true,
   "redhat.telemetry.enabled": true,
   "search.exclude": {
     "**/node_modules": true,
@@ -294,5 +291,44 @@
   "workbench.iconTheme": "material-icon-theme",
   "workbench.productIconTheme": "icons-carbon",
   "workbench.startupEditor": "welcomePageInEmptyWorkbench",
-  "workbench.tree.indent": 20
+  "workbench.tree.indent": 20,
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 10,
+  "workbench.editor.limit.perEditorGroup": true,
+
+  // === Performance Optimizations ===
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1
+  },
+  "search.followSymlinks": false,
+  "search.smartCase": true,
+  "files.hotExit": "onExitAndWindowClose",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+
+  // === Next.js Specific ===
+  "nextjs.autoDetect": true,
+  "nextjs.serverlessPatterns": ["**/api/**/*.ts", "**/api/**/*.js"],
+
+  // === pnpm Specific ===
+  "npm.packageManager": "pnpm",
+  "npm.autoDetect": "on",
+
+  // === Debug Settings ===
+  "debug.internalConsoleOptions": "neverOpen",
+  "debug.showBreakpointsInOverviewRuler": true,
+  "debug.toolBarLocation": "docked",
+  "debug.saveBeforeStart": "allEditorsInActiveGroup",
+
+  // === Inlay Hints ===
+  "editor.inlayHints.enabled": "on",
+  "javascript.inlayHints.enumMemberValues.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "chat.detectParticipant.enabled": true
 }

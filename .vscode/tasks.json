@@ -15,6 +15,29 @@
         "clear": true,
         "group": "setup"
       },
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "default"
+      },
+      "icon": {
+        "id": "package",
+        "color": "terminal.ansiBlue"
+      }
+    },
+    {
+      "label": "🎯 Full Setup",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["setup"],
+      "dependsOrder": "sequence",
+      "dependsOn": ["📦 Install Dependencies"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "setup"
+      },
       "problemMatcher": []
     },
     {
@@ -42,7 +65,12 @@
         "panel": "dedicated",
         "showReuseMessage": false,
         "clear": false,
-        "group": "development"
+        "group": "development",
+        "focus": true
+      },
+      "icon": {
+        "id": "rocket",
+        "color": "terminal.ansiGreen"
       }
     },
     {
@@ -464,6 +492,63 @@
         "showReuseMessage": false,
         "clear": true,
         "group": "cleanup"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "📊 Queue: Worker",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["queue:worker"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "queue"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "📊 Queue: Stats",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["queue:stats"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "queue"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "📤 Upload: Bulk Test",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["upload:bulk:dry-run"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "upload"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔄 Update Dependencies",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["check-updates"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "group": "maintenance"
       },
       "problemMatcher": []
     }

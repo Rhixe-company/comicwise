@@ -1,49 +1,47 @@
 {
   "recommendations": [
-    // === Core Development ===
+    // === Core Development (Priority: Critical) ===
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "ms-vscode.vscode-typescript-next",
     "stateful.runme",
+    "ms-vscode.vscode-js-profile-flame",
 
-    // === Framework & Libraries ===
+    // === Framework & Libraries (Priority: Critical) ===
     "bradlc.vscode-tailwindcss",
     "dsznajder.es7-react-js-snippets",
-    "burkeholland.simple-react-snippets",
-    "styled-components.vscode-styled-components",
+    "PulkitGangwar.nextjs-snippets",
+    "unifiedjs.vscode-mdx",
 
-    // === Database ===
-    "drizzle-team.drizzle-vscode",
+    // === Database (Priority: High) ===
+    // "drizzle-team.drizzle-vscode",
     "cweijan.vscode-postgresql-client2",
     "redis.redis-for-vscode",
     "mtxr.sqltools",
     "mtxr.sqltools-driver-pg",
 
-    // === Testing ===
-    "orta.vscode-jest",
+    // === Testing (Priority: High) ===
     "vitest.explorer",
     "ms-playwright.playwright",
-    "hbenl.vscode-test-explorer",
     "ZixuanChen.vitest-explorer",
 
-    // === Git & Version Control ===
+    // === Git & Version Control (Priority: High) ===
     "eamodio.gitlens",
     "mhutchie.git-graph",
     "donjayamanne.githistory",
     "github.vscode-pull-request-github",
     "github.vscode-github-actions",
 
-    // === Code Quality & Analysis ===
+    // === Code Quality & Analysis (Priority: Critical) ===
     "streetsidesoftware.code-spell-checker",
     "usernamehw.errorlens",
     "yoavbls.pretty-ts-errors",
     "aaron-bond.better-comments",
-    "wayou.vscode-todo-highlight",
     "gruntfuggly.todo-tree",
-    "sonarqube.sonarlint-vscode",
-    "dbaeumer.vscode-eslint",
+    // "sonarqube.sonarlint-vscode",
+    "GitHub.vscode-codeql",
 
-    // === Productivity ===
+    // === Productivity (Priority: Medium) ===
     "formulahendry.auto-rename-tag",
     "formulahendry.auto-close-tag",
     "christian-kohler.path-intellisense",
@@ -52,93 +50,112 @@
     "wix.vscode-import-cost",
     "pflannery.vscode-versionlens",
     "alefragnani.bookmarks",
-    "alefragnani.project-manager",
 
-    // === Docker & DevOps ===
+    // === Docker & DevOps (Priority: Medium) ===
     "ms-azuretools.vscode-docker",
     "ms-vscode-remote.remote-containers",
-    "ms-vscode-remote.remote-ssh",
     "ms-vscode-remote.remote-wsl",
 
-    // === API & GraphQL ===
+    // === API & Testing (Priority: Medium) ===
     "humao.rest-client",
-    "graphql.vscode-graphql",
-    "apollographql.vscode-apollo",
+    "rangav.vscode-thunder-client",
     "42crunch.vscode-openapi",
 
-    // === Documentation ===
+    // === Documentation (Priority: Medium) ===
     "yzhang.markdown-all-in-one",
     "bierner.markdown-mermaid",
     "bierner.markdown-preview-github-styles",
     "davidanson.vscode-markdownlint",
-    "yzane.markdown-pdf",
 
-    // === Config Files ===
+    // === Config Files (Priority: Medium) ===
     "redhat.vscode-yaml",
     "tamasfe.even-better-toml",
     "mikestead.dotenv",
 
-    // === UI/UX ===
+    // === UI/UX (Priority: Low) ===
     "pkief.material-icon-theme",
     "antfu.icons-carbon",
     "oderwat.indent-rainbow",
     "naumovs.color-highlight",
     "pranaygp.vscode-css-peek",
-    "bradlc.vscode-tailwindcss",
 
-    // === AI & Copilot ===
+    // === AI & Copilot (Priority: High) ===
     "github.copilot",
     "github.copilot-chat",
+    "continue.continue",
 
-    // === Scripting ===
+    // === Scripting (Priority: Medium) ===
     "ms-vscode.powershell",
 
-    // === i18n ===
-    "lokalise.i18n-ally",
-
-    // === Performance & Monitoring ===
+    // === Performance & Monitoring (Priority: Low) ===
     "wix.glean",
     "quicktype.quicktype",
-    "wallabyjs.quokka-vscode",
-    "pflannery.vscode-versionlens",
 
-    // === Security ===
+    // === Security (Priority: High) ===
     "snyk-security.snyk-vulnerability-scanner",
-    "42crunch.vscode-openapi",
 
-    // === Additional Utilities ===
+    // === Additional Utilities (Priority: Low) ===
     "chakrounanas.turbo-console-log",
-    "steoates.autoimport",
     "VisualStudioExptTeam.vscodeintellicode",
     "VisualStudioExptTeam.intellicode-api-usage-examples",
 
-    // === Next.js Specific ===
-    "PulkitGangwar.nextjs-snippets",
-    "willstakayama.vscode-nextjs-snippets",
-
-    // === React Specific ===
-    "rodrigovallades.es7-react-js-snippets",
-    "xabikos.ReactSnippets",
-
-    // === Import Management ===
+    // === Import Management (Priority: Medium) ===
     "NuclleaR.vscode-extension-auto-import",
-    "wix.vscode-import-cost",
 
-    // === Code Navigation ===
+    // === Code Navigation (Priority: Low) ===
     "metaseed.metago",
-    "metaseed.metajump",
 
-    // === Formatting ===
+    // === Image & Asset Management ===
+    "kisstkondoros.vscode-gutter-preview",
+    "pnp.polacode",
+
+    // === Monorepo & Workspace (Priority: Medium) ===
+    "folke.vscode-monorepo-workspace",
+
+    // === Enhanced Formatting ===
     "rvest.vs-code-prettier-eslint",
-    "esbenp.prettier-vscode"
+
+    // === Performance Monitoring ===
+    // "ms-vscode.vscode-node-size-badge",
+    "wix.glean",
+
+    // === Copilot Features ===
+    "visualstudioexptteam.vscodeintellicode-completions"
   ],
   "unwantedRecommendations": [
+    // Deprecated or Replaced
     "hookyqr.beautify",
     "dbaeumer.jshint",
     "ms-vscode.vscode-typescript-tslint-plugin",
-    "liuji-jim.lua",
+    "eg2.tslint",
     "octref.vetur",
-    "ms-vscode.vscode-typescript-tslint-plugin",
-    "eg2.tslint"
+
+    // Not applicable for this stack
+    "liuji-jim.lua",
+    "ms-python.python",
+
+    // Duplicates
+    "burkeholland.simple-react-snippets",
+    "rodrigovallades.es7-react-js-snippets",
+    "xabikos.ReactSnippets",
+    "wayou.vscode-todo-highlight",
+    "styled-components.vscode-styled-components",
+
+    // Deprecated testing extensions
+    "orta.vscode-jest",
+    "hbenl.vscode-test-explorer",
+
+    // Duplicate utilities
+    "steoates.autoimport",
+    "metaseed.metajump",
+
+    // Optional/Redundant
+    "alefragnani.project-manager",
+    "ms-vscode-remote.remote-ssh",
+    "graphql.vscode-graphql",
+    "apollographql.vscode-apollo",
+    "lokalise.i18n-ally",
+    "wallabyjs.quokka-vscode",
+    "yzane.markdown-pdf"
   ]
 }

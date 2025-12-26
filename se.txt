@@ -2,16 +2,16 @@ Read And understand this project, @.md, @.txt, @.ts, @.tsx, @.mjs, @.json , @.mt
 After fully understanding the project, the package manager is pnpm  and the system is windows.
 Perform the following  tasks the bests way if a script is needed to perform any of the tasks create the script in @/scripts and make sure to validate, optimize and run the script for performance and best practices and document the script with comments for better understanding
 Request all necessary permissions before proceeding with the tasks if needed.
-Please confirm if I have the necessary permissions to proceed with these tasks.
+Please confirm if I have the necessary permissions to proceed with these tasks and confirm if I have the necessary permissions for PowerShell execution.
 Tasks:
-1 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version @eslint.config.ts to ensure it follows best practices and is properly configured for this project.
-2 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version of next-auth user to reflex the users in @src/database/schema then
+1 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of @next.config.ts, @eslint.config.ts, @.prettierrc.ts, @postcss.config.mjs, @*.config.ts to ensure it follows best practices and is properly configured for this project.
+2 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of next-auth user to reflex the user in @src/database/schema then
 3 - optimized @src/components/profile/.tsx @src/app/(root)/profile/.ts and implement next-auth crud functionality with reference @src/lib/auth.ts @src/lib/auth*.ts then
-4 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version @src/types/*.d.ts @src/types/*.ts  files with  all declarations, reference, modules, types and interfaces for this project to ensure type safety and consistency across the codebase and update all my project types to the new types delete all old or unused types files.
-5 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version of  all  any types to  the correct specific types or update function to be generic with the correct specific types in all @.ts and @.tsx files across the project for better type safety and code quality.
-6 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version of custom paths in @/tsconfig.json for better module resolution and cleaner imports throughout the project.
-7 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version @/scripts/update-imports-to-aliases.ts to ensure all import and export paths are updated according to the new custom paths  defined in @/tsconfig.json.
-8 - Optimize and Validate if exists rename file to end with .backup and create an enhanced version all scripts at @package.json and all powershell and bash scripts in @/scripts to ensure they follow best practices
+4 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of @src/types/*.d.ts @src/types/*.ts  files with  all declarations, reference, modules, types and interfaces for this project to ensure type safety and consistency across the codebase and update all my project types to the new types delete all old or unused types files.
+5 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of  all  any types to  the correct specific types or update function to be generic with the correct specific types in all @.ts and @.tsx files across the project for better type safety and code quality.
+6 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of custom paths in @/tsconfig.json for better module resolution and cleaner imports throughout the project.
+7 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of @/scripts/update-imports-to-aliases.ts to ensure all import and export paths are updated according to the new custom paths  defined in @/tsconfig.json.
+8 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of all scripts at @package.json and all powershell and bash scripts in @/scripts to ensure they follow best practices
 9 - Refactor and update all  @.ts, @.tsx files and functions to   use CamelCase change filename to use CamelCase where applicable for better readability and consistency.
 10 - Implement easy project scaffolding with templates
 11 - Use shell aliases for lightning-fast commands
