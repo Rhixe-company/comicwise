@@ -64,7 +64,7 @@ export function AuthForm<T extends FieldValues>({
 }: AuthFormProperties<T>) {
   const [internalError, setInternalError] = useState<string | null>(null);
   // ts-expect-error - zodResolver type compatibility issue with react-hook-form
-  const form = useForm<T>({
+  const form = useForm<any>({
     resolver: zodResolver(schema),
     defaultValues,
   });

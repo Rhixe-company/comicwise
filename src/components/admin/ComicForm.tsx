@@ -1,4 +1,5 @@
-"use client";
+import type { z } from "zod";
+("use client");
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 interface ComicFormProps {
   onSubmit: (

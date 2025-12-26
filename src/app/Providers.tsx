@@ -18,7 +18,7 @@ export function Providers({ children, attribute, defaultTheme, enableSystem }: A
       <ThemeProvider attribute={attribute} defaultTheme={defaultTheme} enableSystem={enableSystem}>
         {children}
         <Suspense fallback={null}>
-          <Toaster expand={true} richColors closeButton />
+          <Toaster richColors closeButton />
         </Suspense>
       </ThemeProvider>
     </SessionProvider>

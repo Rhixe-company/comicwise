@@ -65,7 +65,7 @@ export const ColorPicker = ({
   onChange,
   className,
   ...props
-}: ColorPickerProps) => {
+}: anyPickerProps) => {
   const selectedColor = Color(value);
   const defaultColor = Color(defaultValue);
 
@@ -84,10 +84,7 @@ export const ColorPicker = ({
     if (value) {
       try {
         const c = Color(value).rgb();
-        const obj =
-          typeof (c as Record<string, unknown>).object === "function"
-            ? (c as Record<string, unknown>).object()
-            : null;
+        const obj = typeof (c as any).object === "function" ? (c as any).object() : null;
         if (obj) {
           setHue(obj.r ?? 0);
           setSaturation(obj.g ?? 0);
@@ -112,9 +109,9 @@ export const ColorPicker = ({
     if (onChange) {
       try {
         // allow alpha to be provided when constructing HSL
-        const c = (Color as Record<string, unknown>).hsl
-          ? (Color as Record<string, unknown>).hsl(hue, saturation, lightness, alpha / 100)
-          : Color.hsl(hue, saturation, lightness).alpha(alpha / 100);
+        const c = (Color as any).hsl
+          ? (Color as any).hsl(hue, saturation, lightness, alpha / 100)
+          : any.hsl(hue, saturation, lightness).alpha(alpha / 100);
         const rgba =
           c.rgb && typeof c.rgb === "function" && typeof c.array === "function"
             ? (c.rgb().array() as number[])
@@ -142,17 +139,14 @@ export const ColorPicker = ({
         setMode,
       }}
     >
-      <div
-        className={cn("flex size-full flex-col gap-4", className)}
-        {...(props as Record<string, unknown>)}
-      />
+      <div className={cn("flex size-full flex-col gap-4", className)} {...(props as any)} />
     </ColorPickerContext.Provider>
   );
 };
 
 export type ColorPickerSelectionProps = HTMLAttributes<HTMLDivElement>;
 
-export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSelectionProps) => {
+export const ColorPickerSelection = memo(({ className, ...props }: anyPickerSelectionProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [positionX, setPositionX] = useState(0);
@@ -210,7 +204,7 @@ export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSe
       style={{
         background: backgroundGradient,
       }}
-      {...(props as Record<string, unknown>)}
+      {...(props as any)}
     >
       <div
         className={`
@@ -231,7 +225,7 @@ ColorPickerSelection.displayName = "ColorPickerSelection";
 
 export type ColorPickerHueProps = ComponentProps<typeof Slider.Root>;
 
-export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => {
+export const ColorPickerHue = ({ className, ...props }: anyPickerHueProps) => {
   const { hue, setHue } = useColorPicker();
 
   return (
@@ -241,7 +235,7 @@ export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => 
       onValueChange={([hue]) => setHue(hue ?? 0)}
       step={1}
       value={[hue]}
-      {...(props as Record<string, unknown>)}
+      {...(props as any)}
     >
       <Slider.Track
         className={`
@@ -265,7 +259,7 @@ export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => 
 
 export type ColorPickerAlphaProps = ComponentProps<typeof Slider.Root>;
 
-export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps) => {
+export const ColorPickerAlpha = ({ className, ...props }: anyPickerAlphaProps) => {
   const { alpha, setAlpha } = useColorPicker();
 
   return (
@@ -275,7 +269,7 @@ export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps)
       onValueChange={([alpha]) => setAlpha(alpha ?? 0)}
       step={1}
       value={[alpha]}
-      {...(props as Record<string, unknown>)}
+      {...(props as any)}
     >
       <Slider.Track
         className="relative my-0.5 h-3 w-full grow rounded-full"
@@ -306,13 +300,13 @@ export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps)
 
 export type ColorPickerEyeDropperProps = ComponentProps<typeof Button>;
 
-export const ColorPickerEyeDropper = ({ className, ...props }: ColorPickerEyeDropperProps) => {
+export const ColorPickerEyeDropper = ({ className, ...props }: anyPickerEyeDropperProps) => {
   const { setHue, setSaturation, setLightness, setAlpha } = useColorPicker();
 
   const handleEyeDropper = async () => {
     try {
       // ts-expect-error - EyeDropper API is experimental
-      const eyeDropper = new EyeDropper();
+      const eyeDropper = new (window as any).EyeDropper();
       const result = await eyeDropper.open();
       const color = Color(result.sRGBHex);
       const [h, s, l] = color.hsl().array();
@@ -333,7 +327,7 @@ export const ColorPickerEyeDropper = ({ className, ...props }: ColorPickerEyeDro
       size="icon"
       variant="outline"
       type="button"
-      {...(props as Record<string, unknown>)}
+      {...(props as any)}
     >
       <PipetteIcon size={16} />
     </Button>
@@ -344,12 +338,12 @@ export type ColorPickerOutputProps = ComponentProps<typeof SelectTrigger>;
 
 const formats = ["hex", "rgb", "css", "hsl"];
 
-export const ColorPickerOutput = ({ className: _className, ...props }: ColorPickerOutputProps) => {
+export const ColorPickerOutput = ({ className: _className, ...props }: anyPickerOutputProps) => {
   const { mode, setMode } = useColorPicker();
 
   return (
     <Select onValueChange={setMode} value={mode}>
-      <SelectTrigger className="h-8 w-20 shrink-0 text-xs" {...(props as Record<string, unknown>)}>
+      <SelectTrigger className="h-8 w-20 shrink-0 text-xs" {...(props as any)}>
         <SelectValue placeholder="Mode" />
       </SelectTrigger>
       <SelectContent>
@@ -371,7 +365,7 @@ const PercentageInput = ({ className, ...props }: PercentageInputProps) => {
       <Input
         readOnly
         type="text"
-        {...(props as Record<string, unknown>)}
+        {...(props as any)}
         className={cn(
           "h-8 w-[3.25rem] rounded-l-none bg-secondary px-2 text-xs shadow-none",
           className
@@ -390,7 +384,7 @@ const PercentageInput = ({ className, ...props }: PercentageInputProps) => {
 
 export type ColorPickerFormatProps = HTMLAttributes<HTMLDivElement>;
 
-export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProps) => {
+export const ColorPickerFormat = ({ className, ...props }: anyPickerFormatProps) => {
   const { hue, saturation, lightness, alpha, mode } = useColorPicker();
   const color = Color.hsl(hue, saturation, lightness, alpha / 100);
 
@@ -403,7 +397,7 @@ export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProp
           "relative flex w-full items-center -space-x-px rounded-md shadow-sm",
           className
         )}
-        {...(props as Record<string, unknown>)}
+        {...(props as any)}
       >
         <Input
           className="h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none"
@@ -425,7 +419,7 @@ export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProp
     return (
       <div
         className={cn("flex items-center -space-x-px rounded-md shadow-sm", className)}
-        {...(props as Record<string, unknown>)}
+        {...(props as any)}
       >
         {rgb.map((value, index) => (
           <Input
@@ -452,16 +446,13 @@ export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProp
       .map((value) => Math.round(value));
 
     return (
-      <div
-        className={cn("w-full rounded-md shadow-sm", className)}
-        {...(props as Record<string, unknown>)}
-      >
+      <div className={cn("w-full rounded-md shadow-sm", className)} {...(props as any)}>
         <Input
           className="h-8 w-full bg-secondary px-2 text-xs shadow-none"
           readOnly
           type="text"
           value={`rgba(${rgb.join(", ")}, ${alpha}%)`}
-          {...(props as Record<string, unknown>)}
+          {...(props as any)}
         />
       </div>
     );
@@ -476,7 +467,7 @@ export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProp
     return (
       <div
         className={cn("flex items-center -space-x-px rounded-md shadow-sm", className)}
-        {...(props as Record<string, unknown>)}
+        {...(props as any)}
       >
         {hsl.map((value, index) => (
           <Input

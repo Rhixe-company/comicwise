@@ -1,4 +1,4 @@
-declare module "@/app-config" {
+declare module "@/appConfig" {
   export const env: {
     DATABASE_URL: string;
     NEXTAUTH_SECRET: string;

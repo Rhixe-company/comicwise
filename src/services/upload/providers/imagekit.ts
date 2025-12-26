@@ -85,13 +85,13 @@ export class ImageKitProvider implements UploadProvider {
       const result = await Promise.race([uploadPromise, timeoutPromise]);
 
       return {
-        url: result.url,
-        publicId: result.fileId,
-        width: result.width,
-        height: result.height,
-        format: result.fileType,
-        size: result.size,
-        thumbnail: this.getThumbnailUrl(result.url),
+        url: (result as any).url,
+        publicId: (result as any).fileId,
+        width: (result as any).width,
+        height: (result as any).height,
+        format: (result as any).fileType,
+        size: (result as any).size,
+        thumbnail: this.getThumbnailUrl((result as any).url),
         success: true,
       };
     } catch (error) {
@@ -157,7 +157,7 @@ export class ImageKitProvider implements UploadProvider {
    */
   getThumbnailUrl(url: string, width = 300, height = 300): string {
     return imagekit.url({
-      src: url,
+      path: url,
       transformation: [
         {
           width: width.toString(),
@@ -227,7 +227,7 @@ export class ImageKitProvider implements UploadProvider {
    */
   private getTransformedUrl(url: string, transformation: Record<string, unknown>): string {
     return imagekit.url({
-      src: url,
+      path: url,
       transformation: this.buildTransformation(transformation),
     });
   }

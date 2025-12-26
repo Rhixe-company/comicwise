@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/database/db";
-import { bookmark, chapter, comic, comment, user } from "database";
+import { bookmark, chapter, comic, comment, user } from "@/database/schema";
 import { desc, sql } from "drizzle-orm";
 import { BookMarked, BookOpen, BookPlus, Eye, FileText, Plus, UserPlus, Users } from "lucide-react";
 import Link from "next/link";
