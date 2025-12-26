@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-import RegisterForm from "@/components/shadcn-studio/blocks/register-01/register-form";
+import RegisterForm from "components/shadcn-studio/blocks/register-01/register-form";
 import AuthBackgroundShape from "/assets/svg/auth-background-shape";
 import Logo from "/assets/svg/logo";
 

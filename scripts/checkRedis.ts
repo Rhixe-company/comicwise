@@ -3,7 +3,7 @@
  * Check Redis Connection
  */
 
-import { env } from "appConfig";
+import { env } from "@/app-config";
 import IORedis from "ioredis";
 
 async function checkRedis() {

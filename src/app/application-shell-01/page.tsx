@@ -45,8 +45,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
-import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
+import LanguageDropdown from "components/shadcn-studio/blocks/dropdown-language";
+import ProfileDropdown from "components/shadcn-studio/blocks/dropdown-profile";
 
 const ApplicationShell = () => {
   return (

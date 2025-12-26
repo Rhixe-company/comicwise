@@ -1,6 +1,6 @@
-import { DataTable } from "@/components/admin/DataTable";
 import { Button } from "@/components/ui/button";
 import { db } from "@/database/db";
+import { DataTable } from "components/admin/DataTable";
 import { eq } from "drizzle-orm";
 import { Plus } from "lucide-react";
 import Link from "next/link";

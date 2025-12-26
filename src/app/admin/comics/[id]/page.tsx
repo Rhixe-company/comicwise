@@ -1,9 +1,9 @@
-import { ComicForm } from "@/components/admin/ComicForm";
-import { useConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getComicById } from "@/database/queries/adminComics";
 import { auth } from "auth";
+import { ComicForm } from "components/admin/ComicForm";
+import { useConfirmDialog } from "components/admin/ConfirmDialog";
 import { Trash2 } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";

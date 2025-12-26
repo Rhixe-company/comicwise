@@ -4,6 +4,7 @@
 // BOOKMARKS & COMMENTS SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
+import appConfig from "@/app-config";
 import { db as database } from "@/database/db";
 import type {
   CreateBookmarkInput,
@@ -19,7 +20,6 @@ import {
   updateBookmarkSchema,
   updateCommentSchema,
 } from "@/lib/validations";
-import appConfig from "appConfig";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { bookmark, comment } from "schema";

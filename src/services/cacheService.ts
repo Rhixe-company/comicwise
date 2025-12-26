@@ -1,5 +1,5 @@
-import { env } from "appConfig";
-import { createCacheClient } from "lib/cache";
+import { env } from "@/app-config";
+import { createCacheClient } from "@/lib/cache";
 /**
  * Redis Cache Service
  * Provides caching layer for database database/queries and API responses

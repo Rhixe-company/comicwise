@@ -1,6 +1,5 @@
 "use client";
 
-import { ThemeToggle } from "@/components/admin/ThemeToggle";
 import {
   Sidebar,
   SidebarContent,
@@ -13,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { ThemeToggle } from "components/admin/ThemeToggle";
 import {
   BookOpen,
   FileText,

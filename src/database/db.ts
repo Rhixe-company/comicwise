@@ -2,7 +2,7 @@ import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { env, isDevelopment } from "appConfig";
+import { env, isDevelopment } from "@/app-config";
 import * as schema from "schema";
 
 if (!env.DATABASE_URL) {

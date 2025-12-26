@@ -3,10 +3,10 @@
 // Next.js 16.0.7 + Cloudinary Integration
 // ═══════════════════════════════════════════════════
 
-import { env } from "appConfig";
+import { env } from "@/app-config";
 import { v2 as cloudinary } from "cloudinary";
 
-import type { UploadOptions, UploadProvider, UploadResult } from "services/upload/index";
+import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
 
 // Validate Cloudinary configuration
 if (!env.CLOUDINARY_CLOUD_NAME || !env.CLOUDINARY_API_KEY || !env.CLOUDINARY_API_SECRET) {

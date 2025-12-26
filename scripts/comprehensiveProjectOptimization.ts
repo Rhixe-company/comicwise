@@ -88,7 +88,7 @@ class ProjectOptimizer {
 
     const seedDir = path.join(this.rootDir, "src", "database", "seed");
     if (await fs.pathExists(seedDir)) {
-      const seedFiles = await glob("src/database/seed/**/*.ts");
+      const seedFiles = await glob("database/seed/**/*.ts");
 
       for (const file of seedFiles) {
         await this.backupFile(file);
@@ -108,7 +108,7 @@ class ProjectOptimizer {
       this.log("Schema file backed up", "success");
     }
 
-    const authFiles = await glob("src/lib/auth*.ts");
+    const authFiles = await glob("lib/auth*.ts");
     for (const file of authFiles) {
       await this.backupFile(file);
     }
@@ -118,7 +118,7 @@ class ProjectOptimizer {
   private async task5_OptimizeProfile(): Promise<void> {
     this.log("\n=== TASK 5: Optimize Profile Components ===", "info");
 
-    const profilePaths = ["src/components/profile", "src/app/(root)/profile"];
+    const profilePaths = ["components/profile", "app/(root)/profile"];
 
     for (const profilePath of profilePaths) {
       const fullPath = path.join(this.rootDir, profilePath);
@@ -137,7 +137,7 @@ class ProjectOptimizer {
 
     const typesDir = path.join(this.rootDir, "src", "types");
     if (await fs.pathExists(typesDir)) {
-      const typeFiles = await glob("src/types/**/*.{ts,d.ts}");
+      const typeFiles = await glob("types/**/*.{ts,d.ts}");
 
       this.log(`Found ${typeFiles.length} type definition files`, "info");
 
@@ -191,7 +191,7 @@ class ProjectOptimizer {
       this.log("Running type check...", "info");
       const { stdout } = await execAsync("pnpm type-check");
       this.log(stdout, "info");
-    } catch (error: any) {
+    } catch (error) {
       this.log("Type check found errors (will fix manually)", "warn");
     }
   }

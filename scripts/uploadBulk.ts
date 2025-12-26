@@ -15,7 +15,7 @@
  *   pnpm upload:bulk --path=public/comics  Upload specific directory
  */
 
-import { env } from "appConfig";
+import { env } from "@/app-config";
 import { readFileSync, readdirSync, statSync } from "fs";
 import { basename, extname, join, relative } from "path";
 
@@ -84,7 +84,7 @@ class BulkUploader {
       ) {
         // Dynamically import AWS provider if available
         try {
-          const { S3Provider } = await import("@/services/upload/providers/s3");
+          const { S3Provider } = await import("/services/upload/providers/s3");
           this.providers.set("aws", new S3Provider());
           console.log("✅ AWS S3 initialized");
         } catch (error) {

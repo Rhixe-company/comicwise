@@ -14,7 +14,7 @@ import {
   validateArray,
 } from "@/database/seed/utils/helpers";
 import type { ChapterSeed } from "@/lib/validations";
-import { imageService } from "services/imageService";
+import { imageService } from "@/services/imageService";
 import { chapterSeedSchema } from "validations/index";
 
 export class ChapterSeeder {

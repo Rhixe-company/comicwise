@@ -17,7 +17,7 @@ const importMappings: ImportMapping[] = [
   { pattern: /from\s+['"]ui\/(.*?)['"]/g, replacement: 'from "@/components/ui/$1"' },
 
   // Components
-  { pattern: /from\s+['"]components\/(.*?)['"]/g, replacement: 'from "@/components/$1"' },
+  { pattern: /from\s+['"]components\/(.*?)['"]/g, replacement: 'from "components/$1"' },
 
   // Database
   { pattern: /from\s+['"]database\/(.*?)['"]/g, replacement: 'from "@/database/$1"' },
@@ -32,13 +32,13 @@ const importMappings: ImportMapping[] = [
   { pattern: /from\s+['"]\/dto\/(.*?)['"]/g, replacement: 'from "@/dto/$1"' },
 
   // Types with incorrect path
-  { pattern: /from\s+['"]\/types\/(.*?)['"]/g, replacement: 'from "@/types/$1"' },
+  { pattern: /from\s+['"]\/types\/(.*?)['"]/g, replacement: 'from "/types/$1"' },
 
   // Services with leading slash
   { pattern: /from\s+['"]\/services\/(.*?)['"]/g, replacement: 'from "@/services/$1"' },
 
-  // Combined types/database path
-  { pattern: /from\s+['"]\/typesdatabase['"]/g, replacement: 'from "@/types/database"' },
+  // Combined typesdatabase path
+  { pattern: /from\s+['"]\/typesdatabase['"]/g, replacement: 'from "/typesdatabase"' },
 ];
 
 async function fixFile(filePath: string): Promise<{ fixed: boolean; changes: number }> {
@@ -65,7 +65,7 @@ async function fixFile(filePath: string): Promise<{ fixed: boolean; changes: num
 async function main() {
   console.log("🔧 Starting comprehensive import fix...\n");
 
-  const files = await glob("src/**/*.{ts,tsx}", {
+  const files = await glob("**/*.{ts,tsx}", {
     ignore: ["**/node_modules/**", "**/.next/**", "**/dist/**"],
   });
 

@@ -1,9 +1,9 @@
-import ClientImageUploader from "@/components/admin/ClientImageUploader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { deleteArtist, updateArtist } from "@/dto/artistsDto";
+import ClientImageUploader from "components/admin/ClientImageUploader";
 import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { redirect } from "next/navigation";

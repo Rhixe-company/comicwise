@@ -1,7 +1,7 @@
-import { ComicCard } from "@/components/ComicCard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getLatestComics, getPopularComics } from "@/database/queries";
+import { ComicCard } from "components/ComicCard";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";

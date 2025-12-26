@@ -5,10 +5,10 @@
 
 // eslint-disable-next-line typescript-eslint/ban-ts-comment
 // ts-nocheck - ImageKit SDK has incomplete type definitions
-import { env } from "appConfig";
+import { env } from "@/app-config";
 import ImageKit from "imagekit";
 
-import type { UploadOptions, UploadProvider, UploadResult } from "services/upload/index";
+import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
 
 // Validate ImageKit configuration
 if (!env.IMAGEKIT_PUBLIC_KEY || !env.IMAGEKIT_PRIVATE_KEY || !env.IMAGEKIT_URL_ENDPOINT) {

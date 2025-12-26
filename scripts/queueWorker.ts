@@ -4,7 +4,7 @@
  * Starts background job workers
  */
 
-// TODO: Create @/lib/queue or remove this import
+// TODO: Create lib/queue or remove this import
 // import { emailQueue } from "@/lib/queue";
 
 console.log("═══════════════════════════════════════════════════════════");
@@ -17,12 +17,12 @@ console.log("⏳ Waiting for jobs...\n");
 // Handle graceful shutdown
 process.on("SIGTERM", async () => {
   console.log("\n🛑 Shutting down gracefully...");
-  await emailQueue.close();
+  await // emailQueue.close();
   process.exit(0);
 });
 
 process.on("SIGINT", async () => {
   console.log("\n🛑 Shutting down gracefully...");
-  await emailQueue.close();
+  await // emailQueue.close();
   process.exit(0);
 });

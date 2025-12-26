@@ -26,4 +26,4 @@ export type GenreWithComicsDto = GenreDto & {
   comicCount?: number;
 };
 
-export { deleteGenre, updateGenre } from "lib/actions/genresTypes";
+export { deleteGenre, updateGenre } from "@/lib/actions/genresTypes";

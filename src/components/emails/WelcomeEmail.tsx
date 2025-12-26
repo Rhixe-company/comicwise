@@ -1,4 +1,4 @@
-import appConfig from "appConfig";
+import appConfig from "@/app-config";
 import {
   Body,
   Button,

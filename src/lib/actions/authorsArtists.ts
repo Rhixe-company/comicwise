@@ -4,6 +4,7 @@
 // AUTHORS & ARTISTS CRUD SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
+import appConfig from "@/app-config";
 import { db as database } from "@/database/db";
 import type {
   CreateArtistInput,
@@ -19,7 +20,6 @@ import {
   updateArtistSchema,
   updateAuthorSchema,
 } from "@/lib/validations";
-import appConfig from "appConfig";
 import { asc, eq, like, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { artist, author } from "schema";

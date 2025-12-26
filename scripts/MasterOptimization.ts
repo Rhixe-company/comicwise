@@ -262,7 +262,7 @@ async function task2_UpdateAnyTypes() {
       [/Record<\w+,\s*any>/g, "Record<string, unknown>"],
 
       // Generic any
-      [/<any>/g, "<unknown>"],
+      [/<unknown>/g, "<unknown>"],
     ];
 
     for (const [pattern, replacement] of replacements) {

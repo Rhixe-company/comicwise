@@ -77,7 +77,7 @@ async function main() {
     const content =
       `// AUTO-GENERATED STUB TYPES for ${name}\n// This file is intentionally minimal: it declares the module with ` +
       "any" +
-      ` to satisfy TypeScript.\ndeclare module "${name}" {\n  const value: any;\n  export default value;\n  export const __any: any;\n  export function __call(...args: any[]): any;\n}\n`;
+      ` to satisfy TypeScript.\ndeclare module "${name}" {\n  const value: any;\n  export default value;\n  export const __any: any;\n  export function __call(...args: unknown[]): any;\n}\n`;
     await fs.writeFile(filePath, content, "utf8");
     generated.push(name);
   }

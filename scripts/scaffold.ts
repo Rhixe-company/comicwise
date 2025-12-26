@@ -33,7 +33,7 @@ export const ${name}: FC<${name}Props> = ({ className }) => {
 };
 `,
   api: (name: string) => `import { NextRequest, NextResponse } from 'next/server';
-import { logger } from 'lib/logger';
+import { logger } from "@/lib/logger';
 
 export async function GET(request: NextRequest) {
   try {
@@ -62,10 +62,10 @@ export async function POST(request: NextRequest) {
   }
 }
 `,
-  dal: (name: string) => `import { db } from 'database/db';
-import { ${name.toLowerCase()}s } from 'database/schema';
+  dal: (name: string) => `import { db } from "@/database/db';
+import { ${name.toLowerCase()}s } from "@/database/schema';
 import { eq } from 'drizzle-orm';
-import { logger } from 'lib/logger';
+import { logger } from "@/lib/logger';
 
 export class ${name}Dal {
   static async getAll() {

@@ -5,7 +5,7 @@ import fs from "fs";
  *
  * param options
  */
-export async function health(options: any) {
+export async function health<T>(options: T) {
   console.log(chalk.bold("\n🏥 System Health Check\n"));
 
   const checks = [

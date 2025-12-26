@@ -25,22 +25,22 @@ const nextConfig: NextConfig = {
 
     // Package import optimization
     optimizePackageImports: [
-      "@radix-ui/react-icons",
-      "@radix-ui/react-avatar",
-      "@radix-ui/react-dialog",
-      "@radix-ui/react-dropdown-menu",
-      "@radix-ui/react-select",
-      "@radix-ui/react-tabs",
-      "@radix-ui/react-accordion",
-      "@radix-ui/react-popover",
-      "@radix-ui/react-tooltip",
-      "@radix-ui/react-label",
-      "@radix-ui/react-switch",
-      "@radix-ui/react-checkbox",
-      "@radix-ui/react-slider",
-      "@radix-ui/react-separator",
+      "radix-ui/react-icons",
+      "radix-ui/react-avatar",
+      "radix-ui/react-dialog",
+      "radix-ui/react-dropdown-menu",
+      "radix-ui/react-select",
+      "radix-ui/react-tabs",
+      "radix-ui/react-accordion",
+      "radix-ui/react-popover",
+      "radix-ui/react-tooltip",
+      "radix-ui/react-label",
+      "radix-ui/react-switch",
+      "radix-ui/react-checkbox",
+      "radix-ui/react-slider",
+      "radix-ui/react-separator",
       "lucide-react",
-      "@tabler/icons-react",
+      "tabler/icons-react",
       "framer-motion",
       "recharts",
       "date-fns",
@@ -60,7 +60,7 @@ const nextConfig: NextConfig = {
   serverExternalPackages: [
     "postgres",
     "server-only",
-    "@libsql/client",
+    "libsql/client",
     "bcryptjs",
     "sharp",
     "nodemailer",
@@ -104,11 +104,6 @@ const nextConfig: NextConfig = {
   // TypeScript configuration
   typescript: {
     ignoreBuildErrors: false,
-  },
-
-  // ESLint configuration
-  eslint: {
-    ignoreDuringBuilds: false,
   },
 
   // Development indicators

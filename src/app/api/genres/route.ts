@@ -4,8 +4,8 @@
 
 import { createGenre } from "@/database/mutations/genres";
 import { getAllGenres } from "@/database/queries/genres";
+import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/genericCrud";
 import { createGenreSchema, genreFilterSchema } from "@/lib/validations";
-import { createGenericEntity, listGenericEntity, zodToValidationResult } from "lib/genericCrud";
 import type { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {

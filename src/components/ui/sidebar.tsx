@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "lib/utils";
+import { cn } from "@/lib/utils";
 import { useIsMobile } from "/hooks/use-mobile";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";

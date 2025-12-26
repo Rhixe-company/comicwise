@@ -5,6 +5,7 @@ import js from "@eslint/js";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 import eslintNextPlugin from "@next/eslint-plugin-next";
+import type { Linter } from "eslint";
 import prettierConfig from "eslint-config-prettier";
 import pluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
 import * as pluginDrizzle from "eslint-plugin-drizzle";
@@ -24,8 +25,8 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 const eslintPlugins = {
-  "@next/next": eslintNextPlugin,
-  "@typescript-eslint": tseslint.plugin,
+  "next/next": eslintNextPlugin,
+  "typescript-eslint": tseslint.plugin,
   zod: zod as any,
   "react-hooks": pluginReactHooks as any,
   "jsx-a11y": jsxA11y,
@@ -343,16 +344,16 @@ const eslintSettings = {
   },
 };
 
-const eslintConfig: Config[] = defineConfig([
+const eslintConfig: Linter.Config[] = [
   js.configs.recommended,
-  tseslint.configs.recommended,
+  ...(tseslint.configs.recommended as Linter.Config[]),
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     plugins: {
       ...eslintPlugins,
     },
     languageOptions: {
-      parser: typescriptParser,
+      parser: tseslint.parser,
       parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
@@ -377,7 +378,7 @@ const eslintConfig: Config[] = defineConfig([
     },
     rules: {
       ...js.configs.recommended.rules,
-      ...(typescript.configs.recommended?.rules ?? {}),
+      ...(tseslint.configs.recommended?.[0]?.rules ?? {}),
       ...eslintNextPlugin.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
       ...(pluginBetterTailwindcss.configs["recommended-warn"]?.rules ?? {}),
@@ -462,19 +463,21 @@ const eslintConfig: Config[] = defineConfig([
     },
   },
   prettierConfig,
-  globalIgnores([
-    "**/.next/**",
-    "**/node_modules/**",
-    "**/dist/**",
-    "**/build/**",
-    "**/.vercel/**",
-    "**/public/**",
-    "**/drizzle/**",
-    "**/coverage/**",
-    "**/.turbo/**",
-    "styles/globals.css",
-    "**/docs/**",
-  ]),
-]);
+  {
+    ignores: [
+      "**/.next/**",
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.vercel/**",
+      "**/public/**",
+      "**/drizzle/**",
+      "**/coverage/**",
+      "**/.turbo/**",
+      "styles/globals.css",
+      "**/docs/**",
+    ],
+  },
+];
 
 export default eslintConfig;

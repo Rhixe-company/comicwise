@@ -48,15 +48,15 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
+import SalesMetricsCard from "components/shadcn-studio/blocks/chart-sales-metrics";
 import TransactionDatatable, {
   type Item,
-} from "@/components/shadcn-studio/blocks/datatable-transaction";
-import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
-import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
-import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
-import ProductInsightsCard from "@/components/shadcn-studio/blocks/widget-product-insights";
-import TotalEarningCard from "@/components/shadcn-studio/blocks/widget-total-earning";
+} from "components/shadcn-studio/blocks/datatable-transaction";
+import LanguageDropdown from "components/shadcn-studio/blocks/dropdown-language";
+import ProfileDropdown from "components/shadcn-studio/blocks/dropdown-profile";
+import StatisticsCard from "components/shadcn-studio/blocks/statistics-card-01";
+import ProductInsightsCard from "components/shadcn-studio/blocks/widget-product-insights";
+import TotalEarningCard from "components/shadcn-studio/blocks/widget-total-earning";
 
 // Statistics card data
 const StatisticsCardData = [

@@ -13,16 +13,12 @@ const ROOT_DIR = process.cwd();
 // Map of incorrect imports to correct imports based on tsconfig.json paths
 const importMappings: Record<string, string> = {
   // UI components
-  "'ui/": "'ui/",
-  '"ui/': '"ui/',
-  "from 'ui/": "from 'ui/",
-  'from "ui/': 'from "ui/',
+  "'ui/": "'@/components/ui/",
+  '"ui/': '"@/components/ui/',
 
   // Components
-  "'components/": "'components/",
-  '"components/': '"components/',
-  "from 'components/": "from 'components/",
-  'from "components/': 'from "components/',
+  "'components/": "'@/components/",
+  '"components/': '"@/components/',
 
   // Database
   "'database/db'": "'database/db'",

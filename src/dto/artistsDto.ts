@@ -25,4 +25,4 @@ export type ArtistWithComicsDto = ArtistDto & {
   }>;
 };
 
-export { deleteArtist, updateArtist } from "lib/actions/artists";
+export { deleteArtist, updateArtist } from "@/lib/actions/artists";

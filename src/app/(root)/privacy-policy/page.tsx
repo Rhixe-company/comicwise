@@ -1,5 +1,5 @@
-import ClientDate from "@/components/ClientDate";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import ClientDate from "components/ClientDate";
 
 import type { Metadata } from "next";
 

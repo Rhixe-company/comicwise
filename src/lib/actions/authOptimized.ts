@@ -5,7 +5,14 @@
 // Enhanced with rate limiting, workflows, and comprehensive error handling
 // ═══════════════════════════════════════════════════
 
+import appConfig, { checkRateLimit } from "@/app-config";
 import { db as database } from "@/database/db";
+import {
+  sendAccountUpdatedEmail,
+  sendPasswordResetEmail,
+  sendVerificationEmail,
+  sendWelcomeEmail,
+} from "@/lib/email";
 import type {
   ForgotPasswordInput,
   ResendVerificationEmailInput,
@@ -26,16 +33,9 @@ import {
   updateProfileSchema,
   verifyEmailSchema,
 } from "@/lib/validations";
-import appConfig, { checkRateLimit } from "appConfig";
 import { signIn, signOut } from "auth";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-import {
-  sendAccountUpdatedEmail,
-  sendPasswordResetEmail,
-  sendVerificationEmail,
-  sendWelcomeEmail,
-} from "lib/email";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { passwordResetToken, user, verificationToken } from "schema";

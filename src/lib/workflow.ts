@@ -4,9 +4,9 @@
 // COMPREHENSIVE WORKFLOW SYSTEM (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import appConfig from "appConfig";
-import emailService, { sendEmail } from "lib/email";
-import { checkRateLimit } from "lib/ratelimit";
+import appConfig from "@/app-config";
+import emailService, { sendEmail } from "@/lib/email";
+import { checkRateLimit } from "@/lib/ratelimit";
 import { z } from "zod";
 
 // ═══════════════════════════════════════════════════

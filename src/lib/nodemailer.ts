@@ -1,4 +1,4 @@
-import appConfig, { env } from "appConfig";
+import appConfig, { env } from "@/app-config";
 import nodemailer from "nodemailer";
 
 import type { MailOptions, Transporter } from "nodemailer";

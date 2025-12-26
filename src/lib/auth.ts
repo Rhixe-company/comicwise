@@ -2,8 +2,8 @@
  * Server-side authentication helpers
  */
 import { db as database } from "@/database/db";
+import { authOptions } from "@/lib/authConfig";
 import { eq } from "drizzle-orm";
-import { authOptions } from "lib/authConfig";
 import type { Session } from "next-auth";
 import NextAuth from "next-auth";
 import { user } from "schema";

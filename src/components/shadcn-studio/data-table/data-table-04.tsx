@@ -43,7 +43,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { cn } from "lib/utils";
+import { cn } from "@/lib/utils";
 
 declare module "tanstack/react-table" {
   // eslint-disable-next-line typescript-eslint/no-unused-vars

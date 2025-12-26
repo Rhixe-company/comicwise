@@ -4,10 +4,10 @@
  */
 
 import { db } from "@/database/db";
-import type { Chapter } from "@/types/database";
+import { logger } from "@/lib/logger";
 import { and, asc, desc, eq } from "drizzle-orm";
-import { logger } from "lib/logger";
 import { chapter } from "schema";
+import type { Chapter } from "/typesdatabase";
 
 export class ChapterDal {
   private static instance: ChapterDal;

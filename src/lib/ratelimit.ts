@@ -1,4 +1,4 @@
-import appConfig from "appConfig";
+import appConfig from "@/app-config";
 
 interface RateLimitRecord {
   count: number;

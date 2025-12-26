@@ -2,7 +2,7 @@
 // IMAGE UTILITIES - CDN URL generation, responsive srcsets, transformations
 // ═══════════════════════════════════════════════════════════════════════════
 
-import { env } from "appConfig";
+import { env } from "@/app-config";
 
 /**
  * Generate responsive image srcset for different screen sizes

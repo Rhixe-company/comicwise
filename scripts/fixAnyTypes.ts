@@ -45,7 +45,7 @@ for (const file of tsFiles) {
 
     const anyMatches = [
       ...line.matchAll(/:\s*any(?:\s|;|,|\)|\||&)/g),
-      ...line.matchAll(/<any>/g),
+      ...line.matchAll(/<unknown>/g),
       ...line.matchAll(/as\s+any/g),
     ];
 
@@ -122,7 +122,7 @@ for (const [file, locations] of Object.entries(fileGroups)) {
       if (loc.suggestion) {
         // Simple replacements
         content = content.replace(/:\s*any(?=\s|;|,|\)|\||&)/, `: ${loc.suggestion}`);
-        content = content.replace(/<any>/g, `<${loc.suggestion}>`);
+        content = content.replace(/<unknown>/g, `<${loc.suggestion}>`);
         content = content.replace(/as\s+any/g, `as ${loc.suggestion}`);
         modified = true;
         fixedCount++;

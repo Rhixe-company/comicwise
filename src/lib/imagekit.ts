@@ -2,7 +2,7 @@
 // IMAGEKIT SERVICE - Image Upload & Management
 // ═══════════════════════════════════════════════════
 
-import appConfig from "appConfig";
+import appConfig from "@/app-config";
 import ImageKit from "imagekit";
 
 // ═══════════════════════════════════════════════════

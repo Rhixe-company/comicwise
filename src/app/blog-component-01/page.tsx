@@ -1,4 +1,4 @@
-import Blog from "@/components/shadcn-studio/blocks/blog-component-01/blog-component-01";
+import Blog from "components/shadcn-studio/blocks/blog-component-01/blog-component-01";
 
 const blogCards = [
   {

@@ -1,7 +1,7 @@
-import { Breadcrumbs } from "@/components/admin/Breadcrumbs";
-import { CommandMenu } from "@/components/admin/CommandMenu";
-import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Breadcrumbs } from "components/admin/Breadcrumbs";
+import { CommandMenu } from "components/admin/CommandMenu";
+import { AppSidebar } from "components/AppSidebar";
 import React, { Suspense } from "react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

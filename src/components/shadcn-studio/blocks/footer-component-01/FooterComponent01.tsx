@@ -2,8 +2,8 @@ import { FacebookIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from "lucide-re
 
 import { Separator } from "@/components/ui/separator";
 
-import CurrentYear from "@/components/CurrentYear";
-import Logo from "@/components/shadcn-studio/logo";
+import CurrentYear from "components/CurrentYear";
+import Logo from "components/shadcn-studio/logo";
 
 const Footer = () => {
   return (

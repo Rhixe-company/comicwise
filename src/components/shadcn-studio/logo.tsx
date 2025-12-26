@@ -1,7 +1,7 @@
 import LogoSvg from "/assets/svg/logo";
 
 // Util Imports
-import { cn } from "lib/utils";
+import { cn } from "@/lib/utils";
 
 const Logo = ({ className }: { className?: string }) => {
   return (
