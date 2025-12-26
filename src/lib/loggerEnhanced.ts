@@ -2,7 +2,7 @@
 // ENHANCED LOGGING - Using Pino
 // ═══════════════════════════════════════════════════
 
-import { env } from "@/lib/env";
+import { env } from "env";
 import pino from "pino";
 
 const isDevelopment = env.NODE_ENV === "development";

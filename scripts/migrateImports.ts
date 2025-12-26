@@ -37,16 +37,16 @@ const MIGRATION_RULES = [
   { from: /from ['"]\.\.\/\.\.\components\//g, to: 'from "components/' },
 
   // UI components
-  { from: /from ['"]\components\/ui\//g, to: 'from "@/components/ui/' },
-  { from: /from ['"]\.\.\/\.\.\components\/ui\//g, to: 'from "@/components/ui/' },
+  { from: /from ['"]components\/ui\//g, to: 'from "@/components/ui/"' },
+  { from: /from ['"]\.\.\/\.\.\/components\/ui\//g, to: 'from "@/components/ui/"' },
 
-  // Lib with  prefix
-  { from: /from ['"]\lib\//g, to: 'from "@/lib/' },
-  { from: /from ['"]\.\.\/\.\.\lib\//g, to: 'from "@/lib/' },
+  // Lib with @ prefix
+  { from: /from ['"]lib\//g, to: 'from "@/lib/"' },
+  { from: /from ['"]\.\.\/\.\.\/lib\//g, to: 'from "@/lib/"' },
 
   // Actions
-  { from: /from ['"]\lib\/actions\//g, to: 'from "actions/' },
-  { from: /from ['"]\.\.\/\.\.\lib\/actions\//g, to: 'from "actions/' },
+  { from: /from ['"]lib\/actions\//g, to: 'from "actions/"' },
+  { from: /from ['"]\.\.\/\.\.\/lib\/actions\//g, to: 'from "actions/"' },
 
   // Validations
   { from: /from ['"]\lib\/validations\//g, to: 'from "validations/' },
@@ -57,36 +57,36 @@ const MIGRATION_RULES = [
   { from: /from ['"]\.\.\/\.\.\/dal\//g, to: 'from "dal/' },
 
   // DTO
-  { from: /from ['"]\/dto\//g, to: 'from "@/dto/' },
-  { from: /from ['"]\.\.\/\.\.\/dto\//g, to: 'from "@/dto/' },
+  { from: /from ['"]\/dto\//g, to: 'from "@/dto/"' },
+  { from: /from ['"]\.\.\/\.\.\/dto\//g, to: 'from "@/dto/"' },
 
   // Types
-  { from: /from ['"]\/types\//g, to: 'from "types/' },
-  { from: /from ['"]\.\.\/\.\.\/types\//g, to: 'from "types/' },
+  { from: /from ['"]\/types\//g, to: 'from "types/"' },
+  { from: /from ['"]\.\.\/\.\.\/types\//g, to: 'from "types/"' },
 
   // Database paths
-  { from: /from ['"]\database\//g, to: 'from "@/database/' },
-  { from: /from ['"]\.\.\/\.\.\database\//g, to: 'from "@/database/' },
+  { from: /from ['"]database\//g, to: 'from "@/database/"' },
+  { from: /from ['"]\.\.\/\.\.\/database\//g, to: 'from "@/database/"' },
 
   // Queries
-  { from: /from ['"]\database\/queries\//g, to: 'from "queries/' },
-  { from: /from ['"]\.\.\/\.\.\database\/queries\//g, to: 'from "queries/' },
+  { from: /from ['"]database\/queries\//g, to: 'from "queries/"' },
+  { from: /from ['"]\.\.\/\.\.\/database\/queries\//g, to: 'from "queries/"' },
 
   // Mutations
-  { from: /from ['"]\database\/mutations\//g, to: 'from "mutations/' },
-  { from: /from ['"]\.\.\/\.\.\database\/mutations\//g, to: 'from "mutations/' },
+  { from: /from ['"]database\/mutations\//g, to: 'from "mutations/"' },
+  { from: /from ['"]\.\.\/\.\.\/database\/mutations\//g, to: 'from "mutations/"' },
 
   // Hooks
-  { from: /from ['"]\/hooks\//g, to: 'from "hooks/' },
-  { from: /from ['"]\.\.\/\.\.\/hooks\//g, to: 'from "hooks/' },
+  { from: /from ['"]\/hooks\//g, to: 'from "hooks/"' },
+  { from: /from ['"]\.\.\/\.\.\/hooks\//g, to: 'from "hooks/"' },
 
   // Services
-  { from: /from ['"]\/services\//g, to: 'from "@/services/' },
-  { from: /from ['"]\.\.\/\.\.\/services\//g, to: 'from "@/services/' },
+  { from: /from ['"]\/services\//g, to: 'from "@/services/"' },
+  { from: /from ['"]\.\.\/\.\.\/services\//g, to: 'from "@/services/"' },
 
   // Stores
-  { from: /from ['"]\/stores\//g, to: 'from "stores/' },
-  { from: /from ['"]\.\.\/\.\.\/stores\//g, to: 'from "stores/' },
+  { from: /from ['"]\/stores\//g, to: 'from "stores/"' },
+  { from: /from ['"]\.\.\/\.\.\/stores\//g, to: 'from "stores/"' },
 ];
 
 // ═══════════════════════════════════════════════════

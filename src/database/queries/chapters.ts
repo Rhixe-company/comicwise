@@ -1,6 +1,6 @@
 import { and, asc, desc, eq, gt, lt } from "drizzle-orm";
 
-import { db as database } from "@/database/db";
+import { db as database } from "db";
 import { chapter, chapterImage, comic } from "schema";
 
 // Seed helper: find chapter by comic and chapter number

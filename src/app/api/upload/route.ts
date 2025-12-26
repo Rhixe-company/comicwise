@@ -3,6 +3,7 @@
 // ═══════════════════════════════════════════════════
 
 import appConfig from "@/app-config";
+import { auth } from "auth";
 import {
   fileToBuffer,
   generateUniqueFileName,
@@ -11,8 +12,7 @@ import {
   uploadComicCover,
   uploadImage,
   validateImageFile,
-} from "@/lib/imagekit";
-import { auth } from "auth";
+} from "lib/imagekit";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";

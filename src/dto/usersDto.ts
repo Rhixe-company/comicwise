@@ -30,4 +30,4 @@ export {
   deleteUserAdmin as deleteUser,
   createUserAdmin as registerUser,
   updateUserAdmin as updateUser,
-} from "@/lib/actions/usersManagement";
+} from "actions/usersManagement";

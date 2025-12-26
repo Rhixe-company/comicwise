@@ -1,6 +1,6 @@
 import { FacebookIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
 
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "ui/separator";
 
 import CurrentYear from "components/CurrentYear";
 import Logo from "components/shadcn-studio/logo";

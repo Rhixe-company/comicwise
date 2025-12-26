@@ -3,9 +3,9 @@
  * Handles all database operations for comments
  */
 
-import { db } from "@/database/db";
-import { logger } from "@/lib/logger";
+import { db } from "db";
 import { desc, eq } from "drizzle-orm";
+import { logger } from "lib/logger";
 import { comment } from "schema";
 import type { Comment } from "/typesdatabase";
 

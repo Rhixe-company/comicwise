@@ -3,9 +3,9 @@
  * Handles all database operations for types
  */
 
-import { db } from "@/database/db";
-import { logger } from "@/lib/logger";
+import { db } from "db";
 import { asc, eq } from "drizzle-orm";
+import { logger } from "lib/logger";
 import { type as typeTable } from "schema";
 import type { Type } from "/typesdatabase";
 

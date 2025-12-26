@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { deleteAuthor, updateAuthor } from "@/dto/authorsDto";
 import ClientImageUploader from "components/admin/ClientImageUploader";
+import { deleteAuthor, updateAuthor } from "dto/authorsDto";
 import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { Button } from "ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
+import { Input } from "ui/input";
+import { Textarea } from "ui/textarea";
 
 // `ClientImageUploader` moved to `components/admin/ClientImageUploader`
 

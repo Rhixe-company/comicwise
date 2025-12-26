@@ -3,9 +3,9 @@
  * Handles all database operations for bookmarks
  */
 
-import { db } from "@/database/db";
-import { logger } from "@/lib/logger";
+import { db } from "db";
 import { and, desc, eq } from "drizzle-orm";
+import { logger } from "lib/logger";
 import { bookmark } from "schema";
 import type { Bookmark } from "/typesdatabase";
 

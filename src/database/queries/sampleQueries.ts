@@ -4,7 +4,7 @@
  */
 import { eq, inArray } from "drizzle-orm";
 
-import { db as database } from "@/database/db";
+import { db as database } from "db";
 import { bookmark, chapter, comic, comicToGenre, comment, readingProgress, user } from "schema";
 import type {
   ChapterWithComments,

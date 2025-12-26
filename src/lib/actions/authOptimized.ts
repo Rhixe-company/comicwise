@@ -6,13 +6,16 @@
 // ═══════════════════════════════════════════════════
 
 import appConfig, { checkRateLimit } from "@/app-config";
-import { db as database } from "@/database/db";
+import { signIn, signOut } from "auth";
+import bcrypt from "bcryptjs";
+import { db as database } from "db";
+import { eq } from "drizzle-orm";
 import {
   sendAccountUpdatedEmail,
   sendPasswordResetEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
-} from "@/lib/email";
+} from "lib/email";
 import type {
   ForgotPasswordInput,
   ResendVerificationEmailInput,
@@ -22,7 +25,7 @@ import type {
   UpdatePasswordInput,
   UpdateProfileInput,
   VerifyEmailInput,
-} from "@/lib/validations";
+} from "lib/validations";
 import {
   forgotPasswordSchema,
   resendVerificationEmailSchema,
@@ -32,10 +35,7 @@ import {
   updatePasswordSchema,
   updateProfileSchema,
   verifyEmailSchema,
-} from "@/lib/validations";
-import { signIn, signOut } from "auth";
-import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
+} from "lib/validations";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { passwordResetToken, user, verificationToken } from "schema";

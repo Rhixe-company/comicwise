@@ -19,7 +19,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "ui/avatar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,10 +27,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+} from "ui/breadcrumb";
+import { Button } from "ui/button";
+import { Card, CardContent } from "ui/card";
+import { Separator } from "ui/separator";
 import {
   Sidebar,
   SidebarContent,
@@ -43,7 +43,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar";
+} from "ui/sidebar";
 
 import LanguageDropdown from "components/shadcn-studio/blocks/dropdown-language";
 import ProfileDropdown from "components/shadcn-studio/blocks/dropdown-profile";

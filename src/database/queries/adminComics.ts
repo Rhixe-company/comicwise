@@ -1,4 +1,4 @@
-import { db as database } from "@/database/db";
+import { db as database } from "db";
 import { desc, eq, like } from "drizzle-orm";
 import { artist, author, comic, type as typeTable } from "schema";
 

@@ -118,7 +118,7 @@ async function fixServiceImports() {
     // Fix service imports
     content = content.replace(
       /from ['"]\/services\/upload\/providers\/(\w+)['"]/g,
-      'from "@/services/upload/providers/$1"'
+      'from "services/upload/providers/$1"'
     );
     content = content.replace(
       /from ['"]@\/services\/upload\/providers\/(\w+)['"]/g,
@@ -149,19 +149,16 @@ async function fixModuleImports() {
 
     // Fix component imports
     content = content.replace(/from ['"]@\/components\/auth['"]/g, 'from "@/components/auth"');
-    content = content.replace(
-      /from ['"]@\/components\/ui\/([^'"]+)['"]/g,
-      'from "@/components/ui/$1"'
-    );
+    content = content.replace(/from ['"]@\/components\/ui\/([^'"]+)['"]/g, 'from "ui/$1"');
 
     // Fix dto imports
-    content = content.replace(/from ['"]@\/dto\/(\w+)['"]/g, 'from "@/dto/$1"');
+    content = content.replace(/from ['"]@\/dto\/(\w+)['"]/g, 'from "dto/$1"');
 
     // Fix lib/validations imports
-    content = content.replace(/from ['"]@\/lib\/validations['"]/g, 'from "@/lib/validations"');
+    content = content.replace(/from ['"]@\/lib\/validations['"]/g, 'from "lib/validations"');
     content = content.replace(
       /from ['"]@\/lib\/validations\/([^'"]+)['"]/g,
-      'from "@/lib/validations/$1"'
+      'from "lib/validations/$1"'
     );
 
     if (content !== originalContent) {

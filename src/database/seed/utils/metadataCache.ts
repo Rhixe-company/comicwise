@@ -4,8 +4,8 @@
  * Uses database/queries for read operations and direct insert for creation
  */
 
-import { db as database } from "@/database/db";
-import * as queries from "@/database/queries";
+import * as queries from "database/queries";
+import { db as database } from "db";
 import { artist, author, genre, type as typeTable } from "schema";
 
 export class MetadataCache {

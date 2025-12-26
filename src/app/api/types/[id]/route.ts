@@ -2,9 +2,9 @@
 // TYPE DETAIL API
 // ═══════════════════════════════════════════════════
 
-import { deleteType, updateType } from "@/database/mutations/types";
-import { getTypeById } from "@/database/queries/types";
-import { typeIdSchema, updateTypeSchema } from "@/lib/validations";
+import { deleteType, updateType } from "database/mutations/types";
+import { getTypeById } from "database/queries/types";
+import { typeIdSchema, updateTypeSchema } from "lib/validations";
 import type { NextRequest } from "next/server";
 import {
   deleteGenericEntity,

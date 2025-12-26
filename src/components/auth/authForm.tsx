@@ -1,24 +1,17 @@
 "use client";
 
-import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import type { DefaultValues, FieldValues, UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import { Form } from "ui/form";
 import type { ZodType } from "zod";
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Alert, AlertDescription } from "ui/alert";
+import { Button } from "ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "ui/card";
 
 export interface AuthFormProperties<T extends FieldValues> {
   title: string;

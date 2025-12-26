@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Bookmark, BookOpen, LogOut, Menu, Search, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { Button } from "ui/button";
+import { Input } from "ui/input";
 import { cn } from "utils";
 
 export function AppNavbar() {

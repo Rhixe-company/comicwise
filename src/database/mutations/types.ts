@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 
-import { db as database } from "@/database/db";
+import { db as database } from "db";
 import { type } from "schema";
 
 /**

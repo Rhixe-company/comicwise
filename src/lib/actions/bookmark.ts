@@ -1,12 +1,12 @@
 "use server";
 
+import { auth } from "auth";
 import {
   addBookmark as addBookmarkMutation,
   removeBookmark as removeBookmarkMutation,
   updateReadingProgress as updateReadingProgressMutation,
-} from "@/database/mutations";
-import { getUserBookmarks } from "@/database/queries";
-import { auth } from "auth";
+} from "database/mutations";
+import { getUserBookmarks } from "database/queries";
 import { revalidatePath } from "next/cache";
 
 export async function addBookmark(comicId: number, chapterId?: number) {

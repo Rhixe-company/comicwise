@@ -1,0 +1,25 @@
+
+> comicwise@0.1.0 type-check C:\Users\Alexa\Desktop\SandBox\comicwise
+> tsc --noEmit
+
+scripts/migrateImports.ts(40,73): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(41,3): error TS1005: ',' expected.
+scripts/migrateImports.ts(41,83): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(44,3): error TS1005: ',' expected.
+scripts/migrateImports.ts(44,52): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(45,3): error TS1005: ',' expected.
+scripts/migrateImports.ts(45,62): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(48,3): error TS1005: ',' expected.
+scripts/migrateImports.ts(60,53): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(61,3): error TS1005: ',' expected.
+scripts/migrateImports.ts(61,63): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(64,3): error TS1005: ',' expected.
+scripts/migrateImports.ts(68,62): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(69,3): error TS1005: ',' expected.
+scripts/migrateImports.ts(69,72): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(72,3): error TS1005: ',' expected.
+scripts/migrateImports.ts(84,63): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(85,3): error TS1005: ',' expected.
+scripts/migrateImports.ts(85,73): error TS1002: Unterminated string literal.
+scripts/migrateImports.ts(88,3): error TS1005: ',' expected.
+ΓÇëELIFECYCLEΓÇë Command failed with exit code 2.

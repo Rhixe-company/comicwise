@@ -5,8 +5,8 @@
 // ═══════════════════════════════════════════════════
 
 import appConfig from "@/app-config";
-import emailService, { sendEmail } from "@/lib/email";
-import { checkRateLimit } from "@/lib/ratelimit";
+import emailService, { sendEmail } from "lib/email";
+import { checkRateLimit } from "lib/ratelimit";
 import { z } from "zod";
 
 // ═══════════════════════════════════════════════════

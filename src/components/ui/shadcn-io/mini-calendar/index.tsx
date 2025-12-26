@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { addDays, format, isSameDay, isToday } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Slot } from "radix-ui";
@@ -13,6 +12,7 @@ import type {
   ReactNode,
 } from "react";
 import { createContext, useContext } from "react";
+import { Button } from "ui/button";
 import { cn } from "utils";
 
 // Context for sharing state between components

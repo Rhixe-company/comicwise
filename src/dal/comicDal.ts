@@ -3,9 +3,9 @@
  * Handles all database operations for comics
  */
 
-import { db } from "@/database/db";
-import { logger } from "@/lib/logger";
+import { db } from "db";
 import { and, desc, eq, like, sql, type SQL } from "drizzle-orm";
+import { logger } from "lib/logger";
 import { comic, comicToGenre } from "schema";
 import type { Comic } from "/typesdatabase";
 

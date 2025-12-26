@@ -2,13 +2,13 @@
 // SEARCH API ROUTE - Advanced Comic Search
 // ═══════════════════════════════════════════════════
 
-import type { AdvancedSearchFilters } from "@/lib/searchRefactored";
+import type { AdvancedSearchFilters } from "lib/searchRefactored";
 import {
   getPopularSearches,
   getSearchSuggestions,
   getTrendingComics,
   searchComics,
-} from "@/lib/searchRefactored";
+} from "lib/searchRefactored";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 

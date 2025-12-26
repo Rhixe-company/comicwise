@@ -4,7 +4,7 @@
 
 import { env } from "@/app-config";
 
-import type { UploadProvider, UploadProviderType } from "@/services/upload/types";
+import type { UploadProvider, UploadProviderType } from "services/upload/types";
 
 /**
  * Get the upload provider instance based on environment configuration

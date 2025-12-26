@@ -398,4 +398,4 @@ const appConfig = {
 export default appConfig;
 
 // Note: Rate limiting utilities moved to separate import
-// import { checkRateLimit, clearRateLimit, getRateLimitStatus } from "@/lib/ratelimit";
+// import { checkRateLimit, clearRateLimit, getRateLimitStatus } from "lib/ratelimit";

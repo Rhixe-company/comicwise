@@ -1,1 +1,1 @@
-export * from "@/components/ui/ToggleGroup";
+export * from "ui/ToggleGroup";

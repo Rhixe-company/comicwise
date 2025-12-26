@@ -2,11 +2,11 @@
 
 import { Bar, BarChart } from "recharts";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader } from "ui/card";
+import { type ChartConfig, ChartContainer } from "ui/chart";
+import { Separator } from "ui/separator";
 
-import { cn } from "@/lib/utils";
+import { cn } from "utils";
 
 // Product reached data
 const productReachChartData = [

@@ -2,10 +2,10 @@
 // COMIC DETAIL API - Get, Update, Delete Single Comic
 // ═══════════════════════════════════════════════════
 
-import { deleteComic, updateComic } from "@/database/mutations/comics";
-import { getComic } from "@/database/queries/comics";
-import { comicIdSchema, updateComicSchema } from "@/lib/validations";
 import { auth } from "auth";
+import { deleteComic, updateComic } from "database/mutations/comics";
+import { getComic } from "database/queries/comics";
+import { comicIdSchema, updateComicSchema } from "lib/validations";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 

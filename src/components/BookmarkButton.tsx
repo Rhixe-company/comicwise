@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useBookmarkStore } from "stores/bookmarkStore";
+import { Button } from "ui/button";
 
 interface BookmarkButtonProps {
   comicId: number;

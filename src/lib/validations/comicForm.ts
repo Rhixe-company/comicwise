@@ -1,2 +1,2 @@
 // Re-export comic form schema for backwards compatibility
-export { comicFormSchema, type ComicFormData } from "@/lib/validations/index";
+export { comicFormSchema, type ComicFormData } from "lib/validations/index";

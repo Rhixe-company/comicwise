@@ -3,6 +3,7 @@
  * TypeScript interfaces for database queries with proper typing
  */
 
+import type { InferSelectModel } from "drizzle-orm";
 import type {
   artist,
   author,
@@ -14,8 +15,7 @@ import type {
   genre,
   type as typeTable,
   user,
-} from "@/database/schema";
-import type { InferSelectModel } from "drizzle-orm";
+} from "schema";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // BASE MODEL TYPES (Direct from Drizzle)

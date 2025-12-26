@@ -2,9 +2,9 @@
 // AUTHOR DETAIL API
 // ═══════════════════════════════════════════════════
 
-import { deleteAuthor, updateAuthor } from "@/database/mutations/authors";
-import { getAuthorById } from "@/database/queries/authors";
-import { authorIdSchema, updateAuthorSchema } from "@/lib/validations";
+import { deleteAuthor, updateAuthor } from "database/mutations/authors";
+import { getAuthorById } from "database/queries/authors";
+import { authorIdSchema, updateAuthorSchema } from "lib/validations";
 import type { NextRequest } from "next/server";
 import {
   deleteGenericEntity,

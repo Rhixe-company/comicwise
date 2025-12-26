@@ -1,18 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronsUpDownIcon, XIcon } from "lucide-react";
 import {
   createContext,
@@ -24,6 +11,19 @@ import {
   type ComponentPropsWithoutRef,
   type ReactNode,
 } from "react";
+import { Badge } from "ui/badge";
+import { Button } from "ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "ui/popover";
+import { cn } from "utils";
 
 type MultiSelectContextType = {
   open: boolean;

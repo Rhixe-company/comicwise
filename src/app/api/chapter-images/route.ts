@@ -2,20 +2,20 @@
 // CHAPTER IMAGES API - Manage Chapter Page Images
 // ═══════════════════════════════════════════════════
 
+import { auth } from "auth";
 import {
   createChapterImage,
   createChapterImages,
   deleteChapterImage,
   updateChapterImage,
-} from "@/database/mutations/chapterImages";
-import { getChapterImages } from "@/database/queries/chapterImages";
+} from "database/mutations/chapterImages";
+import { getChapterImages } from "database/queries/chapterImages";
 import {
   batchCreateChapterImagesSchema,
   batchDeleteSchema,
   batchUpdateChapterImagesSchema,
   createChapterImageSchema,
-} from "@/lib/validations";
-import { auth } from "auth";
+} from "lib/validations";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 

@@ -2,24 +2,11 @@
 
 import * as React from "react";
 
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import type { ChartConfig } from "@/components/ui/chart";
-import { ChartContainer } from "@/components/ui/chart";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
+import type { ChartConfig } from "ui/chart";
+import { ChartContainer } from "ui/chart";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "ui/select";
+import { ToggleGroup, ToggleGroupItem } from "ui/toggle-group";
 import { useIsMobile } from "/hooks/use-mobile";
 
 export const description = "An interactive area chart";

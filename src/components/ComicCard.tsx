@@ -1,11 +1,11 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Eye, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Comic } from "types";
+import { Badge } from "ui/badge";
+import { Card, CardContent, CardFooter } from "ui/card";
 
 interface ComicCardProps {
   comic: Partial<Comic> & { id: number; title: string; coverImage: string; rating?: string | null };

@@ -1,6 +1,6 @@
 import { eq, sql } from "drizzle-orm";
 
-import { db as database } from "@/database/db";
+import { db as database } from "db";
 import { chapter, chapterImage } from "schema";
 
 interface CreateChapterData {

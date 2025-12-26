@@ -7,8 +7,8 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 import appConfig from "@/app-config";
-import { db as database } from "@/database/db";
-import { DrizzleAdapter } from "@/lib/authAdapter";
+import { DrizzleAdapter } from "authAdapter";
+import { db as database } from "db";
 import { user as userTable } from "schema";
 
 export const authOptions = {

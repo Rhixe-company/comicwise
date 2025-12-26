@@ -55,4 +55,4 @@ export type ComicFiltersDto = {
   limit?: number;
 };
 
-export { createComic } from "@/lib/actions/comics";
+export { createComic } from "actions/comics";

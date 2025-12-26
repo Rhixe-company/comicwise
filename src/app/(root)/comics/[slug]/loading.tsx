@@ -1,4 +1,4 @@
-import { ComicDetailSkeleton } from "@/components/ui/skeletons";
+import { ComicDetailSkeleton } from "ui/skeletons";
 
 export default function Loading() {
   return <ComicDetailSkeleton />;

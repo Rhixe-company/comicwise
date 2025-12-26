@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Bold,
   Code,
@@ -15,6 +14,7 @@ import {
 } from "lucide-react";
 import { EditorContent, useEditor } from "tiptap/react";
 import StarterKit from "tiptap/starter-kit";
+import { Button } from "ui/button";
 import { cn } from "utils";
 
 interface RichTextEditorProps {

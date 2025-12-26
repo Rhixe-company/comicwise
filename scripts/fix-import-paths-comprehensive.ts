@@ -18,26 +18,26 @@ const importMappings = [
 
   // Components
   { from: /from ['"]components\/auth['"]/g, to: `from "@/components/auth"` },
-  { from: /from ['"]ui\//g, to: `from "@/components/ui/` },
+  { from: /from ['"]ui\//g, to: `from "ui/` },
 
   // DTO
-  { from: /from ['"](\/)?dto\//g, to: `from "@/dto/` },
+  { from: /from [""](\/)?dto\//g, to: `from "dto/` },
 
   // Lib
-  { from: /from ['"]lib\/validations['"]/g, to: `from "@/lib/validations"` },
-  { from: /from ['"]lib\//g, to: `from "@/lib/` },
+  { from: /from [""]lib\/validations['"]/g, to: `from "lib/validations"` },
+  { from: /from ['"]lib\//g, to: `from "lib/` },
 
   // Schema
-  { from: /from ['"]schema['"]/g, to: `from "schema"` },
+  { from: /from [""]schema['"]/g, to: `from "schema"` },
 
   // Database
-  { from: /from ['"](\/)?database\//g, to: `from "@/database/` },
+  { from: /from ['"](\/)?database\//g, to: `from "database/` },
 
   // Services
-  { from: /from ['"](\/)?services\//g, to: `from "@/services/` },
+  { from: /from [""](\/)?services\//g, to: `from "services/` },
 
   // Eslint imports
-  { from: /from ['"]eslint\/css['"]/g, to: `from "@eslint/css"` },
+  { from: /from [""]eslint\/css['"]/g, to: `from "@eslint/css"` },
   { from: /from ['"]eslint\/js['"]/g, to: `from "@eslint/js"` },
   { from: /from ['"]eslint\/json['"]/g, to: `from "@eslint/json"` },
   { from: /from ['"]eslint\/markdown['"]/g, to: `from "@eslint/markdown"` },

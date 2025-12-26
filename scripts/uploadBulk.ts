@@ -15,9 +15,9 @@
  *   pnpm upload:bulk --path=public/comics  Upload specific directory
  */
 
-import { env } from "../appConfig";
 import { readFileSync, readdirSync, statSync } from "fs";
 import { basename, extname, join, relative } from "path";
+import { env } from "../appConfig";
 
 // Import providers
 import { CloudinaryProvider } from "../src/services/upload/providers/cloudinary";

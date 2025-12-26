@@ -1,13 +1,13 @@
 import { MenuIcon, SearchIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "ui/dropdown-menu";
 
 import Logo from "/assets/svg/logo";
 

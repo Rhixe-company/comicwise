@@ -1,9 +1,9 @@
 "use server";
 
-import { db } from "@/database/db";
-import { cacheKeys, cacheService, cacheTTL } from "@/services/cacheService";
 import { chapter, comic, readingProgress } from "database";
+import { db } from "db";
 import { and, desc, eq, lt, sql } from "drizzle-orm";
+import { cacheKeys, cacheService, cacheTTL } from "services/cacheService";
 
 export interface ReadingProgressData {
   userId: string;

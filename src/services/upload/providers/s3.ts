@@ -4,8 +4,8 @@
 // ═══════════════════════════════════════════════════
 
 import { env } from "@/app-config";
-import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from "aws-sdk/client-s3";
+import type { UploadOptions, UploadProvider, UploadResult } from "services/upload/index";
 
 // Validate AWS S3 configuration
 if (

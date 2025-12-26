@@ -30,4 +30,4 @@ export type ChapterNavigationDto = {
   next?: ChapterDto;
 };
 
-export { deleteChapter, updateChapter } from "@/lib/actions/chapters";
+export { deleteChapter, updateChapter } from "actions/chapters";

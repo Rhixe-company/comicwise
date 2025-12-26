@@ -3,7 +3,7 @@
  * Data Transfer Objects for authentication operations
  */
 
-import type { user } from "@/database/schema";
+import type { user } from "schema";
 
 export type UserDto = typeof user.$inferSelect;
 export type CreateUserDto = typeof user.$inferInsert;
@@ -52,5 +52,5 @@ export {
   resetPassword as resetPasswordAction,
   signInAction,
   verifyEmail as verifyEmailAction,
-} from "@/lib/actions/auth";
-export { signOut as signOutAction } from "@/lib/auth";
+} from "actions/auth";
+export { signOut as signOutAction } from "auth";

@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getComicById } from "@/database/queries/adminComics";
 import { auth } from "auth";
 import { ComicForm } from "components/admin/ComicForm";
 import { useConfirmDialog } from "components/admin/ConfirmDialog";
+import { getComicById } from "database/queries/adminComics";
 import { Trash2 } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
+import { Button } from "ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
 import { deleteComicAction, updateComicAction } from "/app/actions/admin/comics";
 
 import type { Metadata } from "next";

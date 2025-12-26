@@ -5,8 +5,8 @@
 
 "use server";
 
-import { db as database } from "@/database/db";
 import { requireRole } from "auth";
+import { db as database } from "db";
 import { eq, inArray } from "drizzle-orm";
 import { chapter, comic } from "schema";
 import { z } from "zod";

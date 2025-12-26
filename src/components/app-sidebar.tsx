@@ -19,6 +19,10 @@ import {
   IconUsers,
 } from "tabler/icons-react";
 
+import { NavDocuments } from "components/NavDocuments";
+import { NavMain } from "components/NavMain";
+import { NavSecondary } from "components/NavSecondary";
+import { NavUser } from "components/NavUser";
 import {
   Sidebar,
   SidebarContent,
@@ -27,11 +31,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { NavDocuments } from "components/NavDocuments";
-import { NavMain } from "components/NavMain";
-import { NavSecondary } from "components/NavSecondary";
-import { NavUser } from "components/NavUser";
+} from "ui/sidebar";
 
 const data = {
   user: {

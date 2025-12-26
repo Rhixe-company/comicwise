@@ -3,8 +3,8 @@
  * Check Redis Connection
  */
 
-import { env } from "../appConfig";
 import IORedis from "ioredis";
+import { env } from "../appConfig";
 
 async function checkRedis() {
   console.log("📦 Checking Redis connection...\n");

@@ -3,9 +3,9 @@
  * Handles all database operations for artists
  */
 
-import { db } from "@/database/db";
-import { logger } from "@/lib/logger";
+import { db } from "db";
 import { desc, eq, like } from "drizzle-orm";
+import { logger } from "lib/logger";
 import { artist } from "schema";
 import type { Artist } from "/typesdatabase";
 

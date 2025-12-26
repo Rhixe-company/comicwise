@@ -1,4 +1,4 @@
-import { db as database } from "@/database/db";
+import { db as database } from "db";
 import { asc, eq } from "drizzle-orm";
 import { comicImage } from "schema";
 

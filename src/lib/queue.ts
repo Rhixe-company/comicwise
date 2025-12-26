@@ -1,9 +1,9 @@
 import { env } from "@/app-config";
-import type { SendEmailParams } from "@/lib/email";
-import { sendEmail } from "@/lib/email";
 import type { Job } from "bullmq";
 import { Queue, Worker } from "bullmq";
 import IORedis from "ioredis";
+import type { SendEmailParams } from "lib/email";
+import { sendEmail } from "lib/email";
 
 // ═══════════════════════════════════════════════════
 // REDIS CONNECTION

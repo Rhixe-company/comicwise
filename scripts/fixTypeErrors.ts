@@ -27,13 +27,13 @@ const fixes: Fix[] = [
   // Fix lib/validations imports
   {
     pattern: /from ['"]\lib\/validations['"]/g,
-    replacement: 'from "@/lib/validations"',
+    replacement: 'from "lib/validations"',
     description: "Validations import",
   },
   // Fix database queries/mutations imports
   {
     pattern: /from ['"]\database\/(queries|mutations)['"]/g,
-    replacement: 'from "@/database/$1"',
+    replacement: 'from "database/$1"',
     description: "Database queries/mutations",
   },
 ];

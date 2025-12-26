@@ -1,6 +1,6 @@
-import { db } from "@/database/db";
 import { DataTable } from "components/admin/DataTable";
 import { user } from "database";
+import { db } from "db";
 import { Suspense } from "react";
 
 async function UsersTable() {

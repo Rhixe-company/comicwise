@@ -5,22 +5,22 @@
 // ═══════════════════════════════════════════════════
 
 import appConfig from "@/app-config";
-import { db as database } from "@/database/db";
+import { db as database } from "db";
+import { and, desc, eq, sql } from "drizzle-orm";
 import type {
   CreateBookmarkInput,
   CreateCommentInput,
   PaginationInput,
   UpdateBookmarkInput,
   UpdateCommentInput,
-} from "@/lib/validations";
+} from "lib/validations";
 import {
   createBookmarkSchema,
   createCommentSchema,
   paginationSchema,
   updateBookmarkSchema,
   updateCommentSchema,
-} from "@/lib/validations";
-import { and, desc, eq, sql } from "drizzle-orm";
+} from "lib/validations";
 import { revalidatePath } from "next/cache";
 import { bookmark, comment } from "schema";
 
