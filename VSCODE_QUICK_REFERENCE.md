@@ -15,29 +15,34 @@
 ## 🎯 Launch Configurations (Press F5)
 
 ### Development
+
 - **Full Stack Dev** - Dev server + auto-attach
 - **Dev + Debug** - Dev with inspector on port 9229
 - **Next: Dev Server** - Standard development server
 - **TypeScript: Watch** - Type checking in watch mode
 
 ### Testing
+
 - **Full Test Suite** - Vitest + Playwright
 - **Vitest Unit Tests** - Run all unit tests
 - **Playwright E2E** - Run E2E tests
 - **Playwright UI Mode** - Interactive test mode
 
 ### Database
+
 - **Database: Seed** - Seed database with test data
 - **Database: Studio** - Open Drizzle Studio
 - **Database: Reset** - Drop, recreate, and seed
 
 ### Production
+
 - **Next: Build** - Production build
 - **Next: Start Production** - Run production server
 
 ## 📋 Tasks (Ctrl+Shift+P → Tasks: Run Task)
 
 ### Common Tasks
+
 - 🚀 **Dev Server** - Start development
 - ✅ **Validate All** - Type + lint + format check
 - 🏗️ **Build** - Production build
@@ -48,6 +53,7 @@
 ## 🔌 MCP Servers
 
 ### Active Servers (13)
+
 ✅ filesystem - File operations  
 ✅ github - Repository management  
 ✅ postgres - Database queries  
@@ -60,14 +66,16 @@
 ✅ git - Version control  
 ✅ playwright - E2E testing  
 ✅ sequential-thinking - AI reasoning  
-✅ time - Timezone utilities  
+✅ time - Timezone utilities
 
 ### To Enable Optional Servers
+
 Edit `.vscode/mcp.json` → Set `disabled: false`
 
 ## 🧩 Key Extensions
 
 ### Must-Have
+
 - ESLint - Code linting
 - Prettier - Code formatting
 - Tailwind CSS IntelliSense - Tailwind support
@@ -75,6 +83,7 @@ Edit `.vscode/mcp.json` → Set `disabled: false`
 - GitLens - Git supercharged
 
 ### Recommended
+
 - Error Lens - Inline errors
 - Pretty TypeScript Errors - Better TS errors
 - GitHub Copilot - AI assistance
@@ -85,18 +94,18 @@ Edit `.vscode/mcp.json` → Set `disabled: false`
 
 ```json
 {
-  // Editor
-  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
   },
-  
-  // Package Manager
-  "npm.packageManager": "pnpm",
-  
+
+  // Editor
+  "editor.formatOnSave": true,
   // Performance
   "files.autoSave": "onFocusChange",
+  // Package Manager
+  "npm.packageManager": "pnpm",
+
   "workbench.editor.limit.value": 10
 }
 ```
@@ -135,12 +144,14 @@ EVERART_API_KEY=xxxxx          # EverArt (optional)
 ## 📊 Quick Commands
 
 ### VSCode Command Palette (Ctrl+Shift+P)
+
 - `Tasks: Run Task` - Run a task
 - `Debug: Select and Start Debugging` - Start debugging
 - `Extensions: Install Extensions` - Install extensions
 - `Preferences: Open Settings (JSON)` - Edit settings
 
 ### Terminal
+
 ```powershell
 # Development
 pnpm dev                    # Start dev server
@@ -170,38 +181,42 @@ pnpm health:all             # Health check
 
 ## 🎯 Keyboard Shortcuts
 
-| Action | Shortcut |
-|--------|----------|
-| Start Debugging | F5 |
-| Run Task | Ctrl+Shift+P → Tasks |
-| Terminal | Ctrl+` |
-| Command Palette | Ctrl+Shift+P |
-| Quick Open | Ctrl+P |
-| Git Source Control | Ctrl+Shift+G |
-| Extensions | Ctrl+Shift+X |
-| Search | Ctrl+Shift+F |
-| Debug Console | Ctrl+Shift+Y |
+| Action             | Shortcut             |
+| ------------------ | -------------------- |
+| Start Debugging    | F5                   |
+| Run Task           | Ctrl+Shift+P → Tasks |
+| Terminal           | Ctrl+`               |
+| Command Palette    | Ctrl+Shift+P         |
+| Quick Open         | Ctrl+P               |
+| Git Source Control | Ctrl+Shift+G         |
+| Extensions         | Ctrl+Shift+X         |
+| Search             | Ctrl+Shift+F         |
+| Debug Console      | Ctrl+Shift+Y         |
 
 ## 🔄 Common Workflows
 
 ### Starting Development
+
 1. Open VSCode
 2. Press F5 → Select "Full Stack Dev"
 3. Wait for server to start
 4. Browser opens automatically
 
 ### Running Tests
+
 1. Ctrl+Shift+P
 2. Type "Tasks: Run Task"
 3. Select "🧪 Test (Unit)" or "🧪 Test (E2E)"
 
 ### Debugging
+
 1. Set breakpoints (click line number)
 2. Press F5
 3. Select debug configuration
 4. Debug console opens automatically
 
 ### Database Management
+
 1. Ctrl+Shift+P
 2. Type "Tasks: Run Task"
 3. Select "🗄️ Database: Studio"
@@ -214,20 +229,24 @@ See `VSCODE_CONFIGURATION_REPORT.md` for complete details.
 ## 🆘 Troubleshooting
 
 **Extensions not installing?**
+
 - Ensure `code` CLI is in PATH
 - Run VSCode as administrator
 
 **MCP servers not starting?**
+
 - Check Node.js version (22+)
 - Verify environment variables
 - Check `.vscode/mcp-logs.txt`
 
 **Tasks failing?**
+
 - Verify pnpm is installed
 - Check terminal output
 - Ensure scripts exist in package.json
 
 **Need help?**
+
 ```powershell
 .\scripts\manage-vscode-config.ps1 -Action help
 Get-Content .vscode\config-manager.log
@@ -236,6 +255,7 @@ Get-Content .vscode\config-manager.log
 ---
 
 **Quick Links:**
+
 - [Full Report](./VSCODE_CONFIGURATION_REPORT.md)
 - [Management Script](./scripts/manage-vscode-config.ps1)
 - [Project README](./README.md)

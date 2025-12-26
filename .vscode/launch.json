@@ -13,7 +13,11 @@
     },
     {
       "name": "Dev + Debug + Type Check",
-      "configurations": ["Next: Dev with Inspect", "Attach to Next (9229)", "TypeScript: Watch"],
+      "configurations": [
+        "Next: Dev with Inspect",
+        "Attach to Next (9229)",
+        "TypeScript: Watch"
+      ],
       "presentation": {
         "hidden": false,
         "group": "development",
@@ -44,7 +48,12 @@
     },
     {
       "name": "Full CI Pipeline",
-      "configurations": ["🔍 Type Check", "🎨 Lint", "Vitest Unit Tests", "Next: Build"],
+      "configurations": [
+        "🔍 Type Check",
+        "🎨 Lint",
+        "Vitest Unit Tests",
+        "Next: Build"
+      ],
       "presentation": {
         "hidden": false,
         "group": "ci",

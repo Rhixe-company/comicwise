@@ -115,7 +115,14 @@
     "camelcase"
   ],
   "chat.agent.maxRequests": 50000,
+  "chat.detectParticipant.enabled": true,
   "chat.mcp.gallery.enabled": true,
+  // === Debug Settings ===
+  "debug.internalConsoleOptions": "neverOpen",
+  "debug.saveBeforeStart": "allEditorsInActiveGroup",
+
+  "debug.showBreakpointsInOverviewRuler": true,
+  "debug.toolBarLocation": "docked",
   "editor.acceptSuggestionOnCommitCharacter": true,
   "editor.acceptSuggestionOnEnter": "on",
   "editor.accessibilitySupport": "off",
@@ -136,6 +143,10 @@
   "editor.fontLigatures": true,
   "editor.fontSize": 14,
   "editor.fontWeight": "400",
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+
+  // === Inlay Hints ===
+  "editor.inlayHints.enabled": "on",
   "editor.lineHeight": 1.7,
   "editor.linkedEditing": true,
   "editor.minimap.enabled": false,
@@ -183,18 +194,25 @@
     "typescript",
     "typescriptreact"
   ],
+  // === Performance Optimizations ===
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1
+  },
   "files.associations": {
     "*.css": "tailwindcss",
     "*.ts": "typescript",
     "*.tsx": "typescriptreact",
     "*.env*": "dotenv"
   },
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
     "**/node_modules": true,
     "**/.next": true
   },
+  "files.hotExit": "onExitAndWindowClose",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "files.watcherExclude": {
@@ -208,6 +226,7 @@
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
+  "github.copilot.editor.enableAutoCompletions": true,
   "github.copilot.enable": {
     "*": true,
     "plaintext": true,
@@ -215,18 +234,31 @@
     "scminput": false
   },
   "github.copilot.nextEditSuggestions.enabled": true,
-  "github.copilot.editor.enableAutoCompletions": true,
+  "javascript.inlayHints.enumMemberValues.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.suggest.autoImports": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "makefile.configureOnOpen": true,
+  // === Next.js Specific ===
+  "nextjs.autoDetect": true,
+  "nextjs.serverlessPatterns": ["**/api/**/*.ts", "**/api/**/*.js"],
+
+  "npm.autoDetect": "on",
+
+  // === pnpm Specific ===
+  "npm.packageManager": "pnpm",
   "path-intellisense.autoSlashAfterDirectory": true,
   "path-intellisense.extensionOnImport": true,
 
-  "prettier.requireConfig": true,
-  "prettier.useEditorConfig": false,
   "prettier.enableDebugLogs": false,
+  "prettier.requireConfig": true,
   "prettier.resolveGlobalModules": true,
+  "prettier.useEditorConfig": false,
   "redhat.telemetry.enabled": true,
   "search.exclude": {
     "**/node_modules": true,
@@ -236,6 +268,8 @@
     "**/pnpm-lock.yaml": true,
     "**/yarn.lock": true
   },
+  "search.followSymlinks": false,
+  "search.smartCase": true,
   "tailwindCSS.emmetCompletions": true,
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
@@ -285,50 +319,16 @@
   "workbench.colorCustomizations": {
     "editorRuler.foreground": "#2e3440"
   },
+  "workbench.colorTheme": "Default Dark+",
   "workbench.editor.enablePreview": false,
   "workbench.editor.highlightModifiedTabs": true,
   "workbench.editor.labelFormat": "short",
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.perEditorGroup": true,
+
+  "workbench.editor.limit.value": 10,
   "workbench.iconTheme": "material-icon-theme",
   "workbench.productIconTheme": "icons-carbon",
   "workbench.startupEditor": "welcomePageInEmptyWorkbench",
-  "workbench.tree.indent": 20,
-  "workbench.colorTheme": "Default Dark+",
-  "workbench.editor.limit.enabled": true,
-  "workbench.editor.limit.value": 10,
-  "workbench.editor.limit.perEditorGroup": true,
-
-  // === Performance Optimizations ===
-  "extensions.experimental.affinity": {
-    "vscodevim.vim": 1
-  },
-  "search.followSymlinks": false,
-  "search.smartCase": true,
-  "files.hotExit": "onExitAndWindowClose",
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
-  "editor.formatOnSaveMode": "modificationsIfAvailable",
-
-  // === Next.js Specific ===
-  "nextjs.autoDetect": true,
-  "nextjs.serverlessPatterns": ["**/api/**/*.ts", "**/api/**/*.js"],
-
-  // === pnpm Specific ===
-  "npm.packageManager": "pnpm",
-  "npm.autoDetect": "on",
-
-  // === Debug Settings ===
-  "debug.internalConsoleOptions": "neverOpen",
-  "debug.showBreakpointsInOverviewRuler": true,
-  "debug.toolBarLocation": "docked",
-  "debug.saveBeforeStart": "allEditorsInActiveGroup",
-
-  // === Inlay Hints ===
-  "editor.inlayHints.enabled": "on",
-  "javascript.inlayHints.enumMemberValues.enabled": true,
-  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "javascript.inlayHints.parameterNames.enabled": "all",
-  "javascript.inlayHints.parameterTypes.enabled": true,
-  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
-  "javascript.inlayHints.variableTypes.enabled": true,
-  "chat.detectParticipant.enabled": true
+  "workbench.tree.indent": 20
 }
