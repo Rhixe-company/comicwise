@@ -1,18 +1,19 @@
 {
+  "version": "0.2.0",
   "compounds": [
     {
-      "name": "Full Stack Dev + Health Check",
+      "name": "🚀 Full Stack: Dev + Debug + Health",
       "configurations": ["Next: Dev Server", "Attach to Process"],
       "presentation": {
         "hidden": false,
-        "group": "development",
+        "group": "⭐ favorites",
         "order": 1
       },
       "stopAll": true,
       "preLaunchTask": "🏥 Health: Check All"
     },
     {
-      "name": "Dev + Debug + Type Check",
+      "name": "🔧 Dev + Debug + TypeScript Watch",
       "configurations": [
         "Next: Dev with Inspect",
         "Attach to Next (9229)",
@@ -20,13 +21,13 @@
       ],
       "presentation": {
         "hidden": false,
-        "group": "development",
+        "group": "⭐ favorites",
         "order": 2
       },
       "stopAll": true
     },
     {
-      "name": "Full Test Suite",
+      "name": "🧪 Full Test Suite",
       "configurations": ["Vitest Unit Tests", "Playwright E2E"],
       "presentation": {
         "hidden": false,
@@ -37,7 +38,7 @@
       "preLaunchTask": "✅ Validate All"
     },
     {
-      "name": "Docker + Debug",
+      "name": "🐳 Docker Dev Environment + Debug",
       "configurations": ["Docker: Dev Environment", "Attach to Docker Node"],
       "presentation": {
         "hidden": false,
@@ -47,7 +48,7 @@
       "stopAll": true
     },
     {
-      "name": "Full CI Pipeline",
+      "name": "⚡ Complete CI Pipeline",
       "configurations": [
         "🔍 Type Check",
         "🎨 Lint",
@@ -155,6 +156,24 @@
         "order": 1
       },
       "preLaunchTask": "🧹 Clean"
+    },
+    {
+      "name": "Next: Build with Analysis",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["build:analyze"],
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "production",
+        "ANALYZE": "true"
+      },
+      "presentation": {
+        "hidden": false,
+        "group": "build",
+        "order": 2
+      }
     },
     {
       "name": "Next: Start Production",
@@ -359,6 +378,34 @@
       }
     },
     {
+      "name": "🔍 Type Check",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["type-check"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "validation",
+        "order": 1
+      }
+    },
+    {
+      "name": "🎨 Lint",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["lint"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "validation",
+        "order": 2
+      }
+    },
+    {
       "name": "ESLint: Fix All",
       "type": "node",
       "request": "launch",
@@ -399,7 +446,20 @@
         "group": "utilities",
         "order": 2
       }
+    },
+    {
+      "name": "Queue: Worker",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["queue:worker"],
+      "console": "integratedTerminal",
+      "presentation": {
+        "hidden": false,
+        "group": "background",
+        "order": 1
+      }
     }
-  ],
-  "version": "0.2.0"
+  ]
 }
