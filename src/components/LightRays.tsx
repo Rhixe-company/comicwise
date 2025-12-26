@@ -31,7 +31,7 @@ interface LightRaysProps {
 const DEFAULT_COLOR = "ffffff";
 
 const hexToRgb = (hex: string): [number, number, number] => {
-  const m = /^?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return m && m.length >= 4
     ? [
         parseInt(m[1] ?? "ff", 16) / 255,

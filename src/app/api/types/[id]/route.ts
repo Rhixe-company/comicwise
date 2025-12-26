@@ -2,14 +2,14 @@
 // TYPE DETAIL API
 // ═══════════════════════════════════════════════════
 
+import { deleteType, updateType } from "@/database/mutations/types";
+import { getTypeById } from "@/database/queries/types";
 import {
   deleteGenericEntity,
   getGenericEntity,
   updateGenericEntity,
   zodToValidationResult,
-} from "@/app/apilib/generic-crud";
-import { deleteType, updateType } from "@/database/mutations/types";
-import { getTypeById } from "@/database/queries/types";
+} from "@/lib/api/generic-crud";
 import { typeIdSchema, updateTypeSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 

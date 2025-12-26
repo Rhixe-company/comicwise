@@ -1,5 +1,7 @@
 declare module "@/appConfig" {
   export const env: {
+    REDIS_DB: number;
+    REDIS_TLS_ENABLED: boolean;
     DATABASE_URL: string;
     NEXTAUTH_SECRET: string;
     NEXTAUTH_URL: string;
@@ -53,6 +55,7 @@ declare module "@/appConfig" {
   }>;
 
   const appConfig: {
+    auth: any;
     name: string;
     url: string;
     description: string;
@@ -92,6 +95,7 @@ declare module "@/appConfig" {
       };
     };
     email: {
+      enabled: boolean;
       from: string;
       fromName: string;
       defaultTemplate: string;

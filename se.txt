@@ -4,18 +4,84 @@ Perform the following  tasks the bests way if a script is needed to perform any 
 Request all necessary permissions before proceeding with the tasks if needed.
 Please confirm if I have the necessary permissions to proceed with these tasks and confirm if I have the necessary permissions for PowerShell execution.
 Tasks:
-1 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of @next.config.ts, @eslint.config.ts, @.prettierrc.ts, @postcss.config.mjs, @*.config.ts to ensure it follows best practices and is properly configured for this project.
-2 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of seeding system in @src/database/seed/*.ts.
-3 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of next-auth user to reflex the user in @src/database/schema.
-5 - optimized @src/components/profile/.tsx @src/app/(root)/profile/.ts and implement next-auth crud functionality with reference @src/lib/auth.ts @src/lib/auth*.ts.
-6 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of @src/types/*.d.ts @src/types/*.ts  files with  all declarations, reference, modules, types and interfaces for this project to ensure type safety and consistency across the codebase and update all my project types to the new types delete all old or unused types files.
-7 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of  all  any types to  the correct specific types or update function to be generic with the correct specific types in all @.ts and @.tsx files across the project for better type safety and code quality.
-8 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of custom paths in @/tsconfig.json for better module resolution and cleaner imports throughout the project.
-9 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of @/scripts/update-imports-to-aliases.ts to ensure all import and export paths are updated according to the new custom paths  defined in @/tsconfig.json.
-10 - Optimize and Validate if exists rename file to end with .backup then delete the old file and create an enhanced version of all scripts at @package.json and all powershell and bash scripts in @/scripts to ensure they follow best practices
-11 - Refactor and update all  @.ts, @.tsx files and functions to   use CamelCase change filename to use CamelCase where applicable for better readability and consistency.
-12 - Create and Run a scripts to Perform Refactoring of the folder structure for better maintainability, next@latest in @src and Create and Run a scripts to Perform a cleanup of @. and @src by prevent duplicates use do not repeat practices deleting unused or duplecate files and functions and all files that ends with .backup and optimize the folder structure for better organization.
-13 - delete all unused @src/components that are not being used by any files in the @src/app and uninstall all its dependencys from @package.json
-14 - Fix all type-check and linting errors and warnings manually.
-15 - Create an Optimize .github/Setup.prompt.md if exists update the file  with all the content,tasks, todos, recommendations from @.md, @.txt, @.ts, @.tsx, @.mjs, @.json , @.mts, @.json @.yml   @.ps1 @.sh @Dockerfile files  as Github copilot cli Prompts for a complete setup of this project and scaffolding all necessary files, components, pages and codes   setup handler for long running functions.
-16 - Create a comprehensive README.md for the project that includes setup instructions, usage guidelines, contribution instructions, and any other relevant information.
+fix   all errors in the following files with optimization and best practices
+1 - scripts/cli/commands/health.ts:44
+2 - scripts/fixAllErrorsAuto.ts:122
+3 - scripts/uploadBulk.ts:87
+4 - src/app/(root)/comics/page.tsx:9
+5 - src/app/admin/artists/[id]/page.tsx:1
+6 - src/app/admin/authors/[id]/page.tsx:1
+7 - src/app/admin/chapters/[id]/page.tsx:1
+8 - src/app/admin/genres/[id]/page.tsx:1
+9 - src/app/admin/types/[id]/page.tsx:1
+10 - src/app/admin/users/[id]/page.tsx:1
+11 - src/app/admin/users/page.tsx:3
+12 - src/app/api/artists/[id]/route.ts:10
+13 - src/app/api/authors/[id]/route.ts:10
+14 - src/app/api/types/[id]/route.ts:10
+15 - src/app/api/upload/route.ts:49
+16 - src/app/dashboard/page.tsx:8
+17 - src/app/Providers.tsx:9
+18 - src/components/admin/AdminUsersOptimized.tsx:32
+19 - src/components/admin/BaseForm.tsx:76
+20 - src/components/admin/ComicForm.tsx:67
+21 - src/components/admin/DashboardCharts.tsx:5
+22 - src/components/auth/authForm.tsx:68
+23 - src/components/BookmarkButton.tsx:7
+24 - src/components/ChartAreaInteractive.tsx:23
+25 - src/components/DataTable.tsx:97
+26 - src/components/index.ts:8
+27 - src/components/LightRays.tsx:34
+28 - src/components/shadcn-studio/blocks/chart-sales-metrics.tsx:138
+29 - src/components/shadcn-studio/blocks/ChartSalesMetrics.tsx:13
+30 - src/components/shadcn-studio/blocks/datatable-transaction.tsx:42
+31 - src/components/shadcn-studio/blocks/widget-product-insights.tsx:3
+32 - src/components/shadcn-studio/blocks/WidgetProductInsights.tsx:3
+33 - src/components/shadcn-studio/data-table/data-table-04.tsx:48
+34 - src/components/shadcn-studio/data-table/DataTable04.tsx:48
+35 - src/components/ui/chart.tsx:45
+36 - src/components/ui/InputOtp.tsx:10
+37 - src/components/ui/scroll-area.tsx:2
+38 - src/components/ui/shadcn-io/choicebox/index.tsx:19
+39 - src/components/ui/shadcn-io/color-picker/index.tsx:68
+40 - src/components/ui/shadcn-io/dropzone/index.tsx:8
+41 - src/components/ui/shadcn-io/table/index.tsx:73
+42 - src/components/ui/sidebar.tsx:21
+43 - src/dal/artistDal.ts:9
+44 - src/dal/authorDal.ts:9
+45 - src/dal/bookmarkDal.ts:9
+46 - src/dal/chapterDal.ts:9
+47 - src/dal/comicDal.ts:9
+48 - src/dal/commentDal.ts:9
+49 - src/dal/genreDal.ts:9
+50 - src/dal/typeDal.ts:9
+51 - src/dal/userDal.ts:11
+52 - src/database/mutations/chapters.ts:22
+53 - src/database/mutations/comics.ts:26
+54 - src/database/queries/comics.ts:136
+55 - src/database/queries/sampleQueries.ts:23
+56 - src/database/seed/seeders/comicSeeder.ts:15
+57 - src/lib/actions/artists.ts:15
+58 - src/lib/actions/auth.ts:60
+59 - src/lib/actions/authOptimized.ts:70
+60 - src/lib/actions/authors.ts:15
+61 - src/lib/actions/authorsArtists.ts:150
+62 - src/lib/actions/bookmarksComments.ts:145
+63 - src/lib/actions/chapters.ts:200
+64 - src/lib/actions/comics.ts:12
+65 - src/lib/actions/comments.ts:30
+66 - src/lib/actions/genres.ts:15
+67 - src/lib/actions/genresTypes.ts:149
+68 - src/lib/actions/types.ts:15
+69 - src/lib/actions/users.ts:29
+70 - src/lib/actions/usersManagement.ts:41
+71 - src/lib/actions/workflow.ts:30
+72 - src/lib/authConfig.ts:77
+73 - src/lib/cache.ts:118
+74 - src/lib/comicCache.ts:1
+75 - src/lib/email.ts:26
+76 - src/lib/imagekit.ts:197
+77 - src/lib/nodemailer.ts:19
+78 - src/lib/ratelimit.ts:25
+79 - src/lib/workflow.ts:81
+80 - src/services/upload/providers/imagekit.ts:77

@@ -10,7 +10,8 @@ import {
 } from "lucide-react";
 
 // ts-expect-error - recharts Label export type mismatch
-import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
+import * as Recharts from "recharts";
+const { Bar, BarChart, Pie, PieChart } = Recharts;;
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";

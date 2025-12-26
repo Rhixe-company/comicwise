@@ -26,7 +26,7 @@ export async function registerUser(formData: FormData): Promise<ActionResponse<{
     // Rate limiting
     const email = formData.get("email") as string;
     const rateLimit = await checkRateLimit(`register:${email}`, {
-      limit: appConfig.rateLimit.auth.requests,
+      limit: appConfig.rateLimit.auth ?? 10,
       window: "30s",
     });
     if (!rateLimit.allowed) {
@@ -110,7 +110,7 @@ export async function requestPasswordReset(email: string): Promise<ActionRespons
   try {
     // Rate limiting
     const rateLimit = await checkRateLimit(`password-reset:${email}`, {
-      limit: appConfig.rateLimit.email.requests,
+      limit: appConfig.rateLimit.email ?? 10,
       window: "60s",
     });
     if (!rateLimit.allowed) {

@@ -146,7 +146,7 @@ export async function listGenres(input?: PaginationInput & { search?: string }) 
     const validated = paginationSchema.parse(input || {});
     const {
       page = 1,
-      limit = appConfig.pagination.defaultLimit,
+      limit = appConfig.pagination?.defaultLimit ?? 12,
       search,
     } = { ...validated, ...(input || {}) };
 
@@ -323,7 +323,7 @@ export async function listTypes(input?: PaginationInput & { search?: string }) {
     const validated = paginationSchema.parse(input || {});
     const {
       page = 1,
-      limit = appConfig.pagination.defaultLimit,
+      limit = appConfig.pagination?.defaultLimit ?? 12,
       search,
     } = { ...validated, ...(input || {}) };
 

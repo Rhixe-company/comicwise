@@ -6,7 +6,7 @@
 import { db } from "@/database/db";
 import { author } from "@/database/schema";
 import { logger } from "@/lib/logger";
-import type { Author } from "@/typesdatabase";
+import type { Author } from "@/types/database";
 import { desc, eq, like } from "drizzle-orm";
 
 export class AuthorDal {

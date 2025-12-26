@@ -67,7 +67,7 @@ async function getClientIP(): Promise<string> {
 async function checkAuthRateLimit(identifier: string): Promise<boolean> {
   try {
     const rateLimit = await checkRateLimit(identifier, {
-      limit: appConfig.rateLimit.auth.requests,
+      limit: appConfig.rateLimit.auth ?? 10,
     });
     return rateLimit.allowed;
   } catch {

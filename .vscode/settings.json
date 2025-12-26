@@ -193,7 +193,8 @@
     "source.removeUnusedImports": "explicit",
     "source.addMissingImports": "explicit",
     "source.sortImports": "never",
-    "source.fixAll": "explicit"
+    "source.fixAll": "explicit",
+    "source.formatDocument": "explicit"
   },
   "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
@@ -275,8 +276,12 @@
 
   // ━━━ Performance Optimizations ━━━
   "extensions.experimental.affinity": {
-    "vscodevim.vim": 1
+    "vscodevim.vim": 1,
+    "dbaeumer.vscode-eslint": 1,
+    "esbenp.prettier-vscode": 1
   },
+  "extensions.autoCheckUpdates": false,
+  "extensions.autoUpdate": false,
 
   // ━━━ File Configuration ━━━
   "files.associations": {
@@ -516,9 +521,12 @@
   "typescript.suggest.paths": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.tsserver.maxTsServerMemory": 8192,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
   "vitest.commandLine": "pnpm test:unit",
   // ━━━ Vitest Configuration ━━━
   "vitest.enable": true,
+  "vitest.nodeExecutable": "node",
   // ━━━ Workbench Configuration ━━━
   "workbench.colorCustomizations": {
     "editorRuler.foreground": "#2e3440",

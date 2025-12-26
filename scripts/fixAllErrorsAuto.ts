@@ -119,7 +119,7 @@ function fixDatabaseAdapter() {
 
   // Ensure database export doesn't include .db property
   if (content.includes("export { database }") && content.includes("database.db")) {
-    content = content.replace(database.db / g, "database");
+    content = content.replace(/database\.db/g, "database");
     fs.writeFileSync(dbPath, content, "utf-8");
     console.log("  ✓ Fixed database.db reference");
   } else {

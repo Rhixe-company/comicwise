@@ -5,9 +5,9 @@
 export { AppNavbar } from "./AppNavbar";
 export { BookmarkButton } from "./BookmarkButton";
 export { ChapterReader } from "./ChapterReader";
-export { ClientDate } from "./ClientDate";
+export { default as ClientDate } from "./ClientDate";
 export { ComicCard } from "./ComicCard";
-export { CurrentYear } from "./CurrentYear";
+export { default as CurrentYear } from "./CurrentYear";
 export { DataTable } from "./DataTable";
 export { Filters } from "./Filters";
 export { Pagination } from "./Pagination";

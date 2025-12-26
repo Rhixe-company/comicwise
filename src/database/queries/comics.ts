@@ -133,10 +133,10 @@ export async function getAllComics(
     pagination: {
       page,
       pageSize: limit,
-      totalItems: total,
+      total: total,
       totalPages: Math.ceil(total / limit),
-      hasNextPage: page < Math.ceil(total / limit),
-      hasPrevPage: page > 1,
+      hasNext: page < Math.ceil(total / limit),
+      hasPrev: page > 1,
     },
   };
 }

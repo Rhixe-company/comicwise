@@ -6,7 +6,7 @@ import { getAllComics } from "@/database/queries/comics";
 import { getAllGenres, getAllTypes } from "@/dto/genresTypesDto";
 import { Suspense } from "react";
 
-import type { ComicFilters, ComicStatus } from "@/typesdatabase";
+import type { ComicFilters, ComicStatus } from "@/types/database";
 import type { Metadata } from "next";
 
 interface Type {

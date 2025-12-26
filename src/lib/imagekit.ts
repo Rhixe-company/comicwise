@@ -194,7 +194,7 @@ export async function uploadMultipleImages(
 export async function deleteImage(fileId: string): Promise<DeleteResult> {
   try {
     const ik = getImageKitInstance();
-    await (ik.deleteFile as unknown)(fileId);
+    await (ik.deleteFile as unknown as (fileId: string) => Promise<void>)(fileId);
 
     return { success: true };
   } catch (error) {

@@ -1,5 +1,6 @@
+"use client";
+
 import type { z } from "zod";
-("use client");
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -64,7 +65,7 @@ export function ComicForm({
 
   const form = useForm<z.infer<typeof comicFormSchema>>({
     // ts-expect-error - zodResolver type compatibility issue with react-hook-form
-    resolver: zodResolver(comicFormSchema),
+    resolver: zodResolver(comicFormSchema) as any,
     defaultValues: {
       title: initialData?.title || "",
       description: initialData?.description || "",
@@ -164,7 +165,7 @@ export function ComicForm({
                   </Button>
 
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="coverImage"
                     render={({ field }) => (
                       <FormItem>
@@ -188,7 +189,7 @@ export function ComicForm({
             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="title"
                 render={({ field }) => (
                   <FormItem>
@@ -202,7 +203,7 @@ export function ComicForm({
               />
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="slug"
                 render={({ field }) => (
                   <FormItem>
@@ -217,7 +218,7 @@ export function ComicForm({
               />
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="description"
                 render={({ field }) => (
                   <FormItem>
@@ -239,7 +240,7 @@ export function ComicForm({
             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="status"
                 render={({ field }) => (
                   <FormItem>
@@ -264,7 +265,7 @@ export function ComicForm({
               />
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="publicationDate"
                 render={({ field }) => {
                   const dateValue =
@@ -297,7 +298,7 @@ export function ComicForm({
             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="authorId"
                 render={({ field }) => (
                   <FormItem>
@@ -311,7 +312,7 @@ export function ComicForm({
               />
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="artistId"
                 render={({ field }) => (
                   <FormItem>
@@ -325,7 +326,7 @@ export function ComicForm({
               />
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="typeId"
                 render={({ field }) => (
                   <FormItem>
@@ -361,3 +362,4 @@ export function ComicForm({
     </div>
   );
 }
+

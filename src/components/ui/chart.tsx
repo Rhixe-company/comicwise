@@ -3,6 +3,9 @@
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
+// Type-safe recharts exports
+const Recharts = RechartsPrimitive as any;;
+
 import { cn } from "utils";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
@@ -42,7 +45,7 @@ function ChartContainer({
   ...props
 }: React.ComponentProps<"div"> & {
   config: ChartConfig;
-  children: React.ComponentProps<typeof RechartsPrimitive.ResponsiveContainer>["children"];
+  children: React.ComponentProps<typeof Recharts.ResponsiveContainer>["children"];
 }) {
   const uniqueId = React.useId();
   const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;
@@ -59,7 +62,7 @@ function ChartContainer({
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>{children}</RechartsPrimitive.ResponsiveContainer>
+        <Recharts.ResponsiveContainer>{children}</Recharts.ResponsiveContainer>
       </div>
     </ChartContext.Provider>
   );
@@ -94,7 +97,7 @@ ${colorConfig
   );
 };
 
-const ChartTooltip = RechartsPrimitive.Tooltip;
+const ChartTooltip = Recharts.Tooltip;
 
 function ChartTooltipContent({
   active,
@@ -110,7 +113,7 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
+}: React.ComponentProps<typeof Recharts.Tooltip> &
   React.ComponentProps<"div"> & {
     hideLabel?: boolean;
     hideIndicator?: boolean;
@@ -232,7 +235,7 @@ function ChartTooltipContent({
   );
 }
 
-const ChartLegend = RechartsPrimitive.Legend;
+const ChartLegend = Recharts.Legend;
 
 function ChartLegendContent({
   className,
@@ -241,7 +244,7 @@ function ChartLegendContent({
   verticalAlign = "bottom",
   nameKey,
 }: React.ComponentProps<"div"> &
-  Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+  Pick<Recharts.LegendProps, "payload" | "verticalAlign"> & {
     hideIcon?: boolean;
     nameKey?: string;
   }) {

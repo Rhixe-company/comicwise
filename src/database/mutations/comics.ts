@@ -23,7 +23,7 @@ interface CreateComicData {
 export async function createComic(data: CreateComicData): Promise<typeof comic.$inferSelect> {
   const { genreIds, ...comicData } = data;
   const { slug: providedSlug, title } = comicData as { slug?: string; title: string };
-  const slugModule = await import("lib/utils");
+  const slugModule = await import("@/lib/utils");
   const slugify = slugModule.slugify;
   const slug = providedSlug ?? slugify(title);
 

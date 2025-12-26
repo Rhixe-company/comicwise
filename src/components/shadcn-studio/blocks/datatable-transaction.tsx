@@ -39,7 +39,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { usePagination } from "/hooks/use-pagination";
+import { usePagination } from "@/hooks/use-pagination";
 
 export type Item = {
   id: string;

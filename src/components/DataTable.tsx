@@ -94,7 +94,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useIsMobile } from "/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const schema = z
   .object({

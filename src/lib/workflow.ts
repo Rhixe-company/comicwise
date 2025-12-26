@@ -78,8 +78,8 @@ export async function executeWorkflow(payload: WorkflowPayload) {
     // Rate limiting for email workflows
     const rateLimitKey = `workflow:${validatedPayload.recipientEmail}`;
     const rateLimitResult = await checkRateLimit(rateLimitKey, {
-      limit: appConfig.rateLimit.email.requests,
-      window: appConfig.rateLimit.email.window,
+      limit: appConfig.rateLimit.email,
+      window: 60000, // 1 minute window
     });
 
     if (!rateLimitResult.allowed) {
@@ -330,11 +330,11 @@ async function sendAccountDeletedEmail(payload: WorkflowPayload) {
           </div>
           <div style="background-color: ffffff; padding: 40px; border: 1px solid e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px; margin-bottom: 20px;">Hi ${recipientName || "there"},</p>
-            
+
             <p style="font-size: 16px; margin-bottom: 20px;">
               This email confirms that your ${appConfig.name} account has been permanently deleted on ${deletionDate}.
             </p>
-            
+
             <div style="background-color: fef3c7; border-left: 4px solid f59e0b; padding: 15px; margin: 25px 0; border-radius: 4px;">
               <p style="margin: 0; color: 92400e; font-weight: 500;">⚠️ Account Deletion Details:</p>
               <ul style="margin: 10px 0 0 0; padding-left: 20px; color: 92400e;">
@@ -405,7 +405,7 @@ async function sendComicCreatedNotification(payload: WorkflowPayload) {
           </div>
           <div style="background-color: ffffff; padding: 40px; border: 1px solid e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px; margin-bottom: 20px;">Hi ${recipientName || "there"},</p>
-            
+
             <p style="font-size: 16px; margin-bottom: 25px;">
               Great news! A new comic has been added to ${appConfig.name} that you might enjoy:
             </p>
@@ -420,9 +420,9 @@ async function sendComicCreatedNotification(payload: WorkflowPayload) {
               `
                   : ""
               }
-              
+
               <h2 style="color: 667eea; margin: 0 0 15px 0; font-size: 24px; text-align: center;">${data["comicTitle"]}</h2>
-              
+
               ${
                 data["comicAuthor"]
                   ? `
@@ -498,7 +498,7 @@ async function sendComicUpdatedNotification(payload: WorkflowPayload) {
           </div>
           <div style="background-color: ffffff; padding: 40px; border: 1px solid e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px; margin-bottom: 20px;">Hi ${recipientName || "there"},</p>
-            
+
             <p style="font-size: 16px; margin-bottom: 25px;">
               The comic <strong>${data["comicTitle"]}</strong> has been updated with new information.
             </p>
@@ -553,7 +553,7 @@ async function sendComicDeletedNotification(payload: WorkflowPayload) {
           </div>
           <div style="background-color: ffffff; padding: 40px; border: 1px solid e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px; margin-bottom: 20px;">Hi ${recipientName || "there"},</p>
-            
+
             <p style="font-size: 16px; margin-bottom: 25px;">
               We're writing to inform you that the comic <strong>${data["comicTitle"]}</strong> has been removed from ${appConfig.name}.
             </p>
@@ -619,7 +619,7 @@ async function sendChapterUpdatedNotification(payload: WorkflowPayload) {
           </div>
           <div style="background-color: ffffff; padding: 40px; border: 1px solid e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px; margin-bottom: 20px;">Hi ${recipientName || "there"},</p>
-            
+
             <p style="font-size: 16px; margin-bottom: 25px;">
               A chapter you're following has been updated with improvements:
             </p>
@@ -677,7 +677,7 @@ async function sendChapterDeletedNotification(payload: WorkflowPayload) {
           </div>
           <div style="background-color: ffffff; padding: 40px; border: 1px solid e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px; margin-bottom: 20px;">Hi ${recipientName || "there"},</p>
-            
+
             <p style="font-size: 16px; margin-bottom: 25px;">
               We're writing to inform you that Chapter ${data["chapterNumber"]} of <strong>${data["comicTitle"]}</strong> has been removed.
             </p>
@@ -740,7 +740,7 @@ async function sendBookmarkCreatedNotification(payload: WorkflowPayload) {
           </div>
           <div style="background-color: ffffff; padding: 40px; border: 1px solid e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px; margin-bottom: 20px;">Hi ${recipientName || "there"},</p>
-            
+
             <p style="font-size: 16px; margin-bottom: 25px;">
               You've successfully bookmarked <strong>${data["comicTitle"]}</strong>!
             </p>
@@ -806,7 +806,7 @@ async function sendAdminNotification(payload: WorkflowPayload) {
           </div>
           <div style="background-color: ffffff; padding: 40px; border: 1px solid e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px; margin-bottom: 20px;">Hi ${recipientName || "Admin"},</p>
-            
+
             <div style="background-color: ${colors.bg}; border-left: 4px solid ${colors.border}; padding: 15px; margin: 25px 0; border-radius: 4px;">
               <p style="margin: 0 0 10px 0; color: ${colors.text}; font-weight: 600; text-transform: uppercase;">
                 ${priority === "critical" ? "🚨" : priority === "high" ? "⚠️" : "ℹ️"} ${priority} Priority

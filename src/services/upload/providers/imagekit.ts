@@ -74,7 +74,6 @@ export class ImageKitProvider implements UploadProvider {
         folder: options.folder || "/comicwise",
         tags: options.tags,
         useUniqueFileName: !options.filename,
-        transformation,
       });
 
       // Add timeout to upload
@@ -127,7 +126,7 @@ export class ImageKitProvider implements UploadProvider {
    */
   async delete(publicId: string): Promise<boolean> {
     try {
-      await imagekit.deleteFile(publicId);
+      await imagekit.deleteFile({ fileId: publicId });
       return true;
     } catch (error) {
       console.error("ImageKit delete error:", error);
@@ -140,12 +139,10 @@ export class ImageKitProvider implements UploadProvider {
    */
   getUrl(publicId: string, transformation?: Record<string, unknown>): string {
     try {
-      // Get file details to construct URL
-      const fileDetails = imagekit.url({
+      return imagekit.url({
         path: publicId,
         transformation: this.buildTransformation(transformation),
       });
-      return fileDetails;
     } catch (error) {
       console.error("ImageKit URL generation error:", error);
       return publicId;

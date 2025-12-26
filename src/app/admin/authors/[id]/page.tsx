@@ -1,4 +1,4 @@
-import EditAuthorForm from "app/admin/authors/[id]/EditAuthorForm";
+import EditAuthorForm from "@/components/admin/EditAuthorForm";
 import { Suspense } from "react";
 
 export default function EditAuthorPage({ params }: { params: { id: string } }) {

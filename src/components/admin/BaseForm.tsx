@@ -72,9 +72,9 @@ export function BaseForm<T extends z.ZodTypeAny>({
 }: BaseFormProps<T>) {
   type FormValues = z.infer<T>;
 
-  // ts-expect-error - zodResolver type compatibility issue with react-hook-form generics
+  // @ts-expect-error - zodResolver type compatibility issue with react-hook-form generics
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as any,
     defaultValues: defaultValues as DefaultValues<FormValues>,
   });
 
@@ -96,7 +96,7 @@ export function BaseForm<T extends z.ZodTypeAny>({
         return (
           <FormField
             key={String(fieldName)}
-            control={formInstance.control}
+            control={formInstance.control as any}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem>
@@ -119,7 +119,7 @@ export function BaseForm<T extends z.ZodTypeAny>({
         return (
           <FormField
             key={String(fieldName)}
-            control={formInstance.control}
+            control={formInstance.control as any}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem>
@@ -153,7 +153,7 @@ export function BaseForm<T extends z.ZodTypeAny>({
         return (
           <FormField
             key={String(fieldName)}
-            control={formInstance.control}
+            control={formInstance.control as any}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem
@@ -181,7 +181,7 @@ export function BaseForm<T extends z.ZodTypeAny>({
         return (
           <FormField
             key={String(fieldName)}
-            control={formInstance.control}
+            control={formInstance.control as any}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem>
@@ -207,7 +207,7 @@ export function BaseForm<T extends z.ZodTypeAny>({
         return (
           <FormField
             key={String(fieldName)}
-            control={formInstance.control}
+            control={formInstance.control as any}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem>
@@ -248,3 +248,5 @@ export function BaseForm<T extends z.ZodTypeAny>({
     </Form>
   );
 }
+
+

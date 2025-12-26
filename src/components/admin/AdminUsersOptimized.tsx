@@ -29,7 +29,7 @@ import {
   type CreateUserInput,
   type UpdateUserInput,
 } from "@/lib/validations";
-import type { User } from "@/typesdatabase";
+import type { User } from "@/types/database";
 import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";

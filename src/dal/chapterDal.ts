@@ -6,7 +6,7 @@
 import { db } from "@/database/db";
 import { chapter } from "@/database/schema";
 import { logger } from "@/lib/logger";
-import type { Chapter } from "@/typesdatabase";
+import type { Chapter } from "@/types/database";
 import { and, asc, desc, eq } from "drizzle-orm";
 
 export class ChapterDal {

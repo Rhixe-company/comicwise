@@ -1,4 +1,4 @@
-import EditGenreForm from "app/admin/genres/[id]/EditGenreForm";
+import EditGenreForm from "@/components/admin/EditGenreForm";
 import { Suspense } from "react";
 
 export default function EditGenrePage({ params }: { params: { id: string } }) {

@@ -23,7 +23,12 @@
     "pkief.material-icon-theme",
     "ms-vscode.powershell",
     "redhat.vscode-yaml",
-    "mikestead.dotenv"
+    "mikestead.dotenv",
+    "GitHub.copilot-mcp",
+    "aaron-bond.better-comments",
+    "yzhang.markdown-all-in-one",
+    "formulahendry.auto-rename-tag",
+    "wix.vscode-import-cost"
   ],
   "unwantedRecommendations": [
     "hookyqr.beautify",

@@ -1,7 +1,9 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
+import * as Recharts from "recharts";
+
+const {
   Bar,
   BarChart,
   CartesianGrid,
@@ -15,7 +17,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
+} = Recharts;
 
 interface UserGrowthChartProps {
   data: { month: string; users: number }[];

@@ -65,7 +65,7 @@ export const ColorPicker = ({
   onChange,
   className,
   ...props
-}: anyPickerProps) => {
+}: any) => {
   const selectedColor = Color(value);
   const defaultColor = Color(defaultValue);
 
@@ -146,7 +146,7 @@ export const ColorPicker = ({
 
 export type ColorPickerSelectionProps = HTMLAttributes<HTMLDivElement>;
 
-export const ColorPickerSelection = memo(({ className, ...props }: anyPickerSelectionProps) => {
+export const ColorPickerSelection = memo(({ className, ...props }: any) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [positionX, setPositionX] = useState(0);
@@ -225,7 +225,7 @@ ColorPickerSelection.displayName = "ColorPickerSelection";
 
 export type ColorPickerHueProps = ComponentProps<typeof Slider.Root>;
 
-export const ColorPickerHue = ({ className, ...props }: anyPickerHueProps) => {
+export const ColorPickerHue = ({ className, ...props }: any) => {
   const { hue, setHue } = useColorPicker();
 
   return (
@@ -259,7 +259,7 @@ export const ColorPickerHue = ({ className, ...props }: anyPickerHueProps) => {
 
 export type ColorPickerAlphaProps = ComponentProps<typeof Slider.Root>;
 
-export const ColorPickerAlpha = ({ className, ...props }: anyPickerAlphaProps) => {
+export const ColorPickerAlpha = ({ className, ...props }: any) => {
   const { alpha, setAlpha } = useColorPicker();
 
   return (
@@ -300,7 +300,7 @@ export const ColorPickerAlpha = ({ className, ...props }: anyPickerAlphaProps) =
 
 export type ColorPickerEyeDropperProps = ComponentProps<typeof Button>;
 
-export const ColorPickerEyeDropper = ({ className, ...props }: anyPickerEyeDropperProps) => {
+export const ColorPickerEyeDropper = ({ className, ...props }: any) => {
   const { setHue, setSaturation, setLightness, setAlpha } = useColorPicker();
 
   const handleEyeDropper = async () => {
@@ -338,7 +338,7 @@ export type ColorPickerOutputProps = ComponentProps<typeof SelectTrigger>;
 
 const formats = ["hex", "rgb", "css", "hsl"];
 
-export const ColorPickerOutput = ({ className: _className, ...props }: anyPickerOutputProps) => {
+export const ColorPickerOutput = ({ className: _className, ...props }: any) => {
   const { mode, setMode } = useColorPicker();
 
   return (
@@ -384,7 +384,7 @@ const PercentageInput = ({ className, ...props }: PercentageInputProps) => {
 
 export type ColorPickerFormatProps = HTMLAttributes<HTMLDivElement>;
 
-export const ColorPickerFormat = ({ className, ...props }: anyPickerFormatProps) => {
+export const ColorPickerFormat = ({ className, ...props }: any) => {
   const { hue, saturation, lightness, alpha, mode } = useColorPicker();
   const color = Color.hsl(hue, saturation, lightness, alpha / 100);
 

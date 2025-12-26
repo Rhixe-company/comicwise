@@ -103,7 +103,14 @@
     "upload:test": "tsx --env-file=.env.local scripts/test-upload.ts",
     "upstash": "pnpm dlx @upstash/qstash-cli dev",
     "validate": "pnpm type-check && pnpm lint:strict && pnpm format:check",
-    "validate:quick": "pnpm type-check && pnpm lint"
+    "validate:quick": "pnpm type-check && pnpm lint",
+    "seed:enhanced": "tsx --env-file=.env.local src/database/seed/runEnhanced.ts",
+    "seed:users": "tsx --env-file=.env.local src/database/seed/runEnhanced.ts --users",
+    "seed:comics": "tsx --env-file=.env.local src/database/seed/runEnhanced.ts --comics",
+    "seed:chapters": "tsx --env-file=.env.local src/database/seed/runEnhanced.ts --chapters",
+    "seed:clear": "tsx --env-file=.env.local src/database/seed/runEnhanced.ts --clear",
+    "seed:reset": "tsx --env-file=.env.local src/database/seed/runEnhanced.ts --reset",
+    "seed:validate": "tsx --env-file=.env.local src/database/seed/runEnhanced.ts --dry-run --verbose"
   },
   "lint-staged": {
     "**/*": [

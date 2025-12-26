@@ -12,7 +12,7 @@ export async function createType(formData: FormData): Promise<ActionResponse<{ i
   try {
     // Rate limiting
     const rateLimit = await checkRateLimit("create:type", {
-      limit: appConfig.rateLimit.default.requests,
+      limit: appConfig.rateLimit.default ?? 10,
     });
     if (!rateLimit.allowed) {
       return error("Too many requests. Please try again later.");

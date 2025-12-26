@@ -197,7 +197,7 @@ export async function listChapters(input?: ChapterFilterInput) {
     const validated = chapterFilterSchema.parse(input || {});
     const {
       page = 1,
-      limit = appConfig.pagination.chaptersPerPage,
+      limit = appConfig.pagination?.chaptersPerPage ?? 12,
       comicId,
       sortBy = "chapterNumber",
       sortOrder = "asc",

@@ -6,7 +6,7 @@
 import { db } from "@/database/db";
 import { comic, comicToGenre } from "@/database/schema";
 import { logger } from "@/lib/logger";
-import type { Comic } from "@/typesdatabase";
+import type { Comic } from "@/types/database";
 import { and, desc, eq, like, sql, type SQL } from "drizzle-orm";
 
 export class ComicDal {

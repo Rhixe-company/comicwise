@@ -27,8 +27,14 @@ export async function registerWorkflow(formData: FormData): Promise<ActionRespon
 
     // Rate limiting
     const rateLimit = await checkRateLimit(`register:${data.email}`, {
-      limit: appConfig.rateLimit.auth.requests,
-      window: appConfig.rateLimit.auth.window,
+      limit:
+        typeof appConfig.rateLimit.auth === "object" && appConfig.rateLimit.auth !== null
+          ? ((appConfig.rateLimit.auth as { requests?: number }).requests ?? 10)
+          : 10,
+      window:
+        typeof appConfig.rateLimit.auth === "object" && appConfig.rateLimit.auth !== null
+          ? ((appConfig.rateLimit.auth as { window?: number }).window ?? 60)
+          : 60,
     });
     if (!rateLimit.allowed) {
       return error("Too many registration attempts. Please try again later.");
@@ -92,8 +98,14 @@ export async function forgotPasswordWorkflow(formData: FormData): Promise<Action
 
     // Rate limiting
     const rateLimit = await checkRateLimit(`reset:${data.email}`, {
-      limit: appConfig.rateLimit.email.requests,
-      window: appConfig.rateLimit.email.window,
+      limit:
+        typeof appConfig.rateLimit.email === "object" && appConfig.rateLimit.email !== null
+          ? ((appConfig.rateLimit.email as { requests?: number }).requests ?? 10)
+          : 10,
+      window:
+        typeof appConfig.rateLimit.email === "object" && appConfig.rateLimit.email !== null
+          ? ((appConfig.rateLimit.email as { window?: number }).window ?? 60)
+          : 60,
     });
     if (!rateLimit.allowed) {
       return error("Too many reset attempts. Please try again later.");
@@ -214,8 +226,14 @@ export async function resendVerificationEmail(email: string): Promise<ActionResp
   try {
     // Rate limiting
     const rateLimit = await checkRateLimit(`resend:${email}`, {
-      limit: appConfig.rateLimit.email.requests,
-      window: appConfig.rateLimit.email.window,
+      limit:
+        typeof appConfig.rateLimit.email === "object" && appConfig.rateLimit.email !== null
+          ? ((appConfig.rateLimit.email as { requests?: number }).requests ?? 10)
+          : 10,
+      window:
+        typeof appConfig.rateLimit.email === "object" && appConfig.rateLimit.email !== null
+          ? ((appConfig.rateLimit.email as { window?: number }).window ?? 60)
+          : 60,
     });
     if (!rateLimit.allowed) {
       return error("Too many requests. Please try again later.");

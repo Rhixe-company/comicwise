@@ -46,11 +46,11 @@ export type SessionDto = {
 };
 
 export {
-  forgotPassword as forgotPasswordAction,
+  forgotPasswordAction,
   registerUserAction,
   resendVerificationEmailAction,
-  resetPassword as resetPasswordAction,
+  resetPasswordAction,
   signInAction,
-  verifyEmail as verifyEmailAction,
+  signOutAction,
+  verifyEmailAction,
 } from "@/lib/actions/auth";
-export { signOut as signOutAction } from "auth";

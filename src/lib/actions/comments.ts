@@ -27,7 +27,7 @@ export async function createComment(
   try {
     // Rate limiting
     const rateLimit = await checkRateLimit(`comment:${userId}`, {
-      limit: appConfig.rateLimit.default.requests,
+      limit: appConfig.rateLimit.default ?? 10,
     });
     if (!rateLimit.allowed) {
       return error("Too many comments. Please try again later.");

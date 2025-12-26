@@ -38,7 +38,10 @@ export async function createUserAdmin(
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(validated.password, appConfig.security.bcryptRounds);
+    const hashedPassword = await bcrypt.hash(
+      validated.password,
+      appConfig.security?.bcryptRounds ?? 10
+    );
 
     const [newUser] = await database
       .insert(user)
@@ -225,7 +228,7 @@ export async function listUsers(input?: UserFilterInput) {
     const validated = userFilterSchema.parse(input || {});
     const {
       page = 1,
-      limit = appConfig.pagination.defaultLimit,
+      limit = appConfig.pagination?.defaultLimit ?? 12,
       search,
       role,
       sortBy = "createdAt",

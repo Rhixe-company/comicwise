@@ -2,14 +2,14 @@
 // ARTIST DETAIL API
 // ═══════════════════════════════════════════════════
 
+import { deleteArtist, updateArtist } from "@/database/mutations/artists";
+import { getArtistById } from "@/database/queries/artists";
 import {
   deleteGenericEntity,
   getGenericEntity,
   updateGenericEntity,
   zodToValidationResult,
-} from "@/app/apilib/generic-crud";
-import { deleteArtist, updateArtist } from "@/database/mutations/artists";
-import { getArtistById } from "@/database/queries/artists";
+} from "@/lib/api/generic-crud";
 import { artistIdSchema, updateArtistSchema } from "@/lib/validations";
 import type { NextRequest } from "next/server";
 

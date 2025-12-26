@@ -19,7 +19,7 @@ export async function createChapter(
   data: CreateChapterData
 ): Promise<typeof chapter.$inferSelect | undefined> {
   const { slug: providedSlug, title } = data as { slug?: string; title: string };
-  const slugModule = await import("lib/utils");
+  const slugModule = await import("@/lib/utils");
   const slugify = slugModule.slugify;
   const slug = providedSlug ?? slugify(title);
 

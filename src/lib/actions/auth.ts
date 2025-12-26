@@ -57,7 +57,9 @@ async function getClientIP(): Promise<string> {
 }
 
 async function checkAuthRateLimit(identifier: string): Promise<boolean> {
-  const rateLimit = await checkRateLimit(identifier, { limit: appConfig.rateLimit.auth.requests });
+  const rateLimit = await checkRateLimit(identifier, {
+    limit: appConfig.rateLimit.auth ?? 10,
+  });
   return rateLimit.allowed;
 }
 
@@ -99,7 +101,7 @@ export async function registerUserAction(input: SignUpInput): Promise<AuthAction
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(password, appConfig.security.bcryptRounds);
+    const hashedPassword = await bcrypt.hash(password, appConfig.security?.bcryptRounds ?? 10);
 
     // Create user
     const [newUser] = await database
@@ -123,7 +125,9 @@ export async function registerUserAction(input: SignUpInput): Promise<AuthAction
     // Generate verification token
     if (appConfig.features.emailVerification && appConfig.features.email) {
       const token = crypto.randomUUID();
-      const expires = new Date(Date.now() + appConfig.security.tokenExpiry.emailVerification);
+      const expires = new Date(
+        Date.now() + (appConfig.security?.tokenExpiry?.emailVerification ?? 3600000)
+      );
 
       await database.insert(verificationToken).values({
         identifier: email,
@@ -268,7 +272,9 @@ export async function resendVerificationEmailAction(
 
     // Generate new verification token
     const token = crypto.randomUUID();
-    const expires = new Date(Date.now() + appConfig.security.tokenExpiry.emailVerification);
+    const expires = new Date(
+      Date.now() + (appConfig.security?.tokenExpiry?.emailVerification ?? 3600000)
+    );
 
     await database.insert(verificationToken).values({
       identifier: email,
@@ -338,7 +344,9 @@ export async function forgotPasswordAction(
 
     // Generate reset token
     const token = crypto.randomUUID();
-    const expires = new Date(Date.now() + appConfig.security.tokenExpiry.passwordReset);
+    const expires = new Date(
+      Date.now() + (appConfig.security?.tokenExpiry?.passwordReset ?? 3600000)
+    );
 
     await database.insert(passwordResetToken).values({
       email,
@@ -416,7 +424,7 @@ export async function resetPasswordAction(input: ResetPasswordInput): Promise<Au
     }
 
     // Hash new password
-    const hashedPassword = await bcrypt.hash(password, appConfig.security.bcryptRounds);
+    const hashedPassword = await bcrypt.hash(password, appConfig.security?.bcryptRounds ?? 10);
 
     // Update user password
     await database
@@ -523,3 +531,4 @@ export {
   signOutAction as signOutUser,
   verifyEmailAction as verifyEmail,
 };
+

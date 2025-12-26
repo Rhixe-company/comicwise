@@ -22,7 +22,12 @@ export async function checkRateLimit(
   remaining: number;
   reset: number;
 }> {
-  const requests = config.limit || appConfig.rateLimit.default.requests;
+  const requests =
+    config.limit ??
+    (typeof appConfig.rateLimit.default === "number"
+      ? appConfig.rateLimit.default
+      : (appConfig.rateLimit.default as any)?.requests) ??
+    10;
   const windowSeconds = config.window
     ? typeof config.window === "string"
       ? parseWindow(config.window)

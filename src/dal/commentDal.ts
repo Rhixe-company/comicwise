@@ -6,7 +6,7 @@
 import { db } from "@/database/db";
 import { comment } from "@/database/schema";
 import { logger } from "@/lib/logger";
-import type { Comment } from "@/typesdatabase";
+import type { Comment } from "@/types/database";
 import { desc, eq } from "drizzle-orm";
 
 export class CommentDal {

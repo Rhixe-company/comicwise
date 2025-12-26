@@ -5,7 +5,7 @@ import { SectionCards } from "@/components/SectionCards";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-import data from "app/dashboard/data.json";
+import data from "@/app/dashboard/data.json";
 
 export default function Page() {
   return (

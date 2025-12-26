@@ -1,4 +1,4 @@
-import EditUserForm from "app/admin/users/[id]/EditUserForm";
+import EditUserForm from "@/components/admin/EditUserForm";
 import { Suspense } from "react";
 
 export default function Page({ params }: { params: { id: string } }) {

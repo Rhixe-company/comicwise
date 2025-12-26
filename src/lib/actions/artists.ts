@@ -12,7 +12,7 @@ export async function createArtist(formData: FormData): Promise<ActionResponse<{
   try {
     // Rate limiting
     const rateLimit = await checkRateLimit("create:artist", {
-      limit: appConfig.rateLimit.default.requests,
+      limit: appConfig.rateLimit.default ?? 10,
     });
     if (!rateLimit.allowed) {
       return error("Too many requests. Please try again later.");

@@ -115,7 +115,7 @@ const getRedisConfig = (): Record<string, unknown> => {
     host: env.REDIS_HOST || "localhost",
     port: Number(env.REDIS_PORT) || 6379,
     password: env.REDIS_PASSWORD || undefined,
-    database: Number(env.REDIS_DB) || 0,
+    database: Number(env.REDIS_DB ?? 0) || 0,
     maxRetriesPerRequest: 3,
     retryStrategy(times: number) {
       const delay = Math.min(times * 50, 2000);
@@ -131,7 +131,7 @@ const getRedisConfig = (): Record<string, unknown> => {
   };
 
   // Add TLS for production
-  if (env.NODE_ENV === "production" && String(env.REDIS_TLS_ENABLED) === "true") {
+  if (env.NODE_ENV === "production" && String(env.REDIS_TLS_ENABLED ?? false) === "true") {
     baseConfig.tls = {
       rejectUnauthorized: false,
     };

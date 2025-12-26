@@ -6,7 +6,9 @@ import { ThemeProvider } from "next-themes";
 import type { ComponentProps, ReactNode } from "react";
 import { lazy, Suspense } from "react";
 
-const Toaster = lazy(() => import("ui/sonner").then((mod) => ({ default: mod.Toaster })));
+const Toaster = lazy(() =>
+  import("@/components/ui/sonner").then((mod) => ({ default: mod.Toaster }))
+);
 
 type AppProps = {
   children: ReactNode;
@@ -18,7 +20,7 @@ export function Providers({ children, attribute, defaultTheme, enableSystem }: A
       <ThemeProvider attribute={attribute} defaultTheme={defaultTheme} enableSystem={enableSystem}>
         {children}
         <Suspense fallback={null}>
-          <Toaster richColors closeButton />
+          <Toaster />
         </Suspense>
       </ThemeProvider>
     </SessionProvider>

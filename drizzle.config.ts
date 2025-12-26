@@ -35,8 +35,8 @@ const getDatabaseUrl = (): string => {
 };
 
 const cfg = {
-  schema: ".database/schema.ts",
-  out: ".database/drizzle",
+  schema: "src/database/schema.ts",
+  out: "src/database/drizzle",
   dialect: "postgresql",
   dbCredentials: {
     url: getDatabaseUrl(),

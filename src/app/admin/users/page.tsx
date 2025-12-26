@@ -1,7 +1,7 @@
 import { DataTable } from "@/components/admin/DataTable";
 import { db } from "@/database/db";
-import { user } from "database";
 import { Suspense } from "react";
+import { user } from "schema";
 
 async function UsersTable() {
   const users = await db.select().from(user);

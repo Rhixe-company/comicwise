@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if ImageKit is enabled
-    if (!appConfig.upload.imageKit.enabled) {
+    if (!appConfig.upload.imageKit?.enabled) {
       return NextResponse.json(
         { error: "Image upload is not configured. Please set ImageKit credentials." },
         { status: 503 }
@@ -263,3 +263,4 @@ export async function PUT(request: NextRequest) {
     );
   }
 }
+

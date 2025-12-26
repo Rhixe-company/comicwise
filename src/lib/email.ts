@@ -23,10 +23,10 @@ const transporter = nodemailer.createTransport({
   port: appConfig.email.port,
   secure: appConfig.email.secure,
   auth:
-    appConfig.email.user && appConfig.email.password
+    (appConfig.email.auth?.user ?? "") && (appConfig.email.auth?.pass ?? "")
       ? {
-          user: appConfig.email.user,
-          pass: appConfig.email.password,
+          user: appConfig.email.auth?.user ?? "",
+          pass: appConfig.email.auth?.pass ?? "",
         }
       : undefined,
 });
@@ -35,7 +35,7 @@ const transporter = nodemailer.createTransport({
 // Avoid verifying the transporter during static build/prerender to prevent
 // network calls at module initialization (which can fail in build environments).
 // Only verify in development to help catch config issues early.
-if (appConfig.email.enabled && isDevelopment) {
+if ((appConfig.email?.enabled ?? false) && isDevelopment) {
   transporter
     .verify()
     .then(() => {
@@ -61,7 +61,7 @@ export interface SendEmailParams {
  * Send email using configured transporter
  */
 export async function sendEmail({ to, subject, html, text }: SendEmailParams) {
-  if (!appConfig.email.enabled) {
+  if (!(appConfig.email?.enabled ?? false)) {
     console.warn("⚠️ Email feature is disabled. Skipping email send.");
     return { success: false, error: "Email feature is disabled" };
   }

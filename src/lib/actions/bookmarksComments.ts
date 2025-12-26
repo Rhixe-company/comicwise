@@ -142,7 +142,7 @@ export async function deleteBookmark(userId: string, comicId: number): Promise<A
 export async function getUserBookmarks(userId: string, input?: PaginationInput) {
   try {
     const validated = paginationSchema.parse(input || {});
-    const { page = 1, limit = appConfig.pagination.defaultLimit } = validated;
+    const { page = 1, limit = appConfig.pagination?.defaultLimit ?? 12 } = validated;
 
     const offset = (page - 1) * limit;
 
@@ -330,7 +330,7 @@ export async function deleteComment(id: number, userId: string): Promise<ActionR
 export async function getCommentsByChapter(chapterId: number, input?: PaginationInput) {
   try {
     const validated = paginationSchema.parse(input || {});
-    const { page = 1, limit = appConfig.pagination.commentsPerPage } = validated;
+    const { page = 1, limit = appConfig.pagination?.defaultLimit ?? 12 } = validated;
 
     const offset = (page - 1) * limit;
 
@@ -382,7 +382,7 @@ export async function getCommentsByChapter(chapterId: number, input?: Pagination
 export async function getUserComments(userId: string, input?: PaginationInput) {
   try {
     const validated = paginationSchema.parse(input || {});
-    const { page = 1, limit = appConfig.pagination.commentsPerPage } = validated;
+    const { page = 1, limit = appConfig.pagination?.defaultLimit ?? 12 } = validated;
 
     const offset = (page - 1) * limit;
 
@@ -464,7 +464,7 @@ export async function deleteCommentAdmin(id: number): Promise<ActionResult<void>
 export async function listAllComments(input?: PaginationInput) {
   try {
     const validated = paginationSchema.parse(input || {});
-    const { page = 1, limit = appConfig.pagination.defaultLimit } = validated;
+    const { page = 1, limit = appConfig.pagination?.defaultLimit ?? 12 } = validated;
 
     const offset = (page - 1) * limit;
 

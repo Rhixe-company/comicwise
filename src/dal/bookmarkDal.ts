@@ -6,7 +6,7 @@
 import { db } from "@/database/db";
 import { bookmark } from "@/database/schema";
 import { logger } from "@/lib/logger";
-import type { Bookmark } from "@/typesdatabase";
+import type { Bookmark } from "@/types/database";
 import { and, desc, eq } from "drizzle-orm";
 
 export class BookmarkDal {

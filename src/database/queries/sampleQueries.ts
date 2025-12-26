@@ -16,11 +16,11 @@ import {
 } from "@/database/schema";
 import type {
   ChapterWithComments,
-  ComicDetails,
   ComicSearchResult,
   ComicWithChapters,
+  ComicWithDetails,
   UserWithStats,
-} from "@/typesdatabase";
+} from "@/types/database";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SAMPLE QUERY 1: Comic with Chapters
@@ -181,7 +181,7 @@ export async function getUserWithStats(userId: string): Promise<UserWithStats | 
  * Get complete comic details with all relations
  * param comicId
  */
-export async function getComicDetails(comicId: number): Promise<ComicDetails | null> {
+export async function getComicDetails(comicId: number): Promise<ComicWithDetails | null> {
   const comicData = await database.query.comic.findFirst({
     where: eq(comic.id, comicId),
   });
@@ -202,7 +202,7 @@ export async function getComicDetails(comicId: number): Promise<ComicDetails | n
     type: null,
     totalChapters: chapters.length,
     commentCount: 0,
-  } as ComicDetails;
+  } as ComicWithDetails;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

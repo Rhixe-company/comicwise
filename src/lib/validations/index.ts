@@ -794,11 +794,19 @@ export const comicSeedSchema = z
       .default([]),
     updated_at: z
       .union([z.string(), z.date()])
-      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .transform((val) => {
+        if (!val) return undefined;
+        const date = typeof val === "string" ? new Date(val) : val;
+        return isNaN(date.getTime()) ? undefined : date;
+      })
       .optional(),
     updatedAt: z
       .union([z.string(), z.date()])
-      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .transform((val) => {
+        if (!val) return undefined;
+        const date = typeof val === "string" ? new Date(val) : val;
+        return isNaN(date.getTime()) ? undefined : date;
+      })
       .optional(),
     url: z.string().url().optional(),
     image_urls: z.array(z.string().url()).optional(),
@@ -817,7 +825,11 @@ export const comicSeedSchema = z
     numchapters: z.number().optional(),
     publicationDate: z
       .union([z.string(), z.date()])
-      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .transform((val) => {
+        if (!val) return undefined;
+        const date = typeof val === "string" ? new Date(val) : val;
+        return isNaN(date.getTime()) ? undefined : date;
+      })
       .optional(),
     coverImage: z.string().optional(),
     spider: z.string().optional(),
@@ -840,16 +852,28 @@ export const chapterSeedSchema = z
     chapterslug: z.string().optional(),
     updated_at: z
       .union([z.string(), z.date()])
-      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .transform((val) => {
+        if (!val) return undefined;
+        const date = typeof val === "string" ? new Date(val) : val;
+        return isNaN(date.getTime()) ? undefined : date;
+      })
       .optional(),
     updatedAt: z
       .union([z.string(), z.date()])
-      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .transform((val) => {
+        if (!val) return undefined;
+        const date = typeof val === "string" ? new Date(val) : val;
+        return isNaN(date.getTime()) ? undefined : date;
+      })
       .optional(),
     spider: z.string().optional(),
     releaseDate: z
       .union([z.string(), z.date()])
-      .transform((val) => (typeof val === "string" ? new Date(val) : val))
+      .transform((val) => {
+        if (!val) return undefined;
+        const date = typeof val === "string" ? new Date(val) : val;
+        return isNaN(date.getTime()) ? undefined : date;
+      })
       .optional(),
     comic: z
       .union([

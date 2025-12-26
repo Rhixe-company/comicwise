@@ -41,7 +41,7 @@ export async function health<T>(options: T) {
     const status = result ? chalk.green("✓") : chalk.red("✗");
     console.log(`${status} ${check.name}`);
 
-    if (options.verbose && result) {
+    if ((options as any).verbose && result) {
       console.log(chalk.gray(`  → OK`));
     }
   }
