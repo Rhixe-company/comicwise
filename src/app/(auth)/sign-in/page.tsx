@@ -12,7 +12,7 @@ import { toast } from "sonner";
 
 import { AuthForm, EmailField, PasswordField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
-import { signInAction } from "@/dto/authDto";
+import { signInUser } from "@/lib/actions/auth";
 import type { SignInInput } from "@/lib/validations";
 import { signInSchema } from "@/lib/validations";
 
@@ -29,7 +29,7 @@ export default function SignInPage() {
 
     startTransition(async () => {
       try {
-        const result = await signInAction(data.email, data.password);
+        const result = await signInUser(data.email, data.password);
 
         if (!result?.success) {
           setError("Invalid email or password. Please try again.");

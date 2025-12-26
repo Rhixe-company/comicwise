@@ -10,7 +10,7 @@ export default function EditChapterPage({ params }: { params: { id: string } }) 
       </div>
 
       <Suspense fallback={<div className="text-muted-foreground">Loading chapter editor...</div>}>
-        <EditChapterForm params={params} />
+        <EditChapterForm id={params.id} />
       </Suspense>
     </div>
   );

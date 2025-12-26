@@ -12,7 +12,7 @@ export default function EditAuthorPage({ params }: { params: { id: string } }) {
       <Suspense fallback={<div className="text-muted-foreground">Loading author editor...</div>}>
         {/* Client component handles its own data fetching and UI */}
         {}
-        <EditAuthorForm params={params} />
+        <EditAuthorForm id={params.id} />
       </Suspense>
     </div>
   );

@@ -1,12 +1,11 @@
 /**
  * Enhanced Dynamic Data Loader
- * 
+ *
  * @module DataLoader
  * @description Loads and processes JSON data files with validation and transformation
  */
 
 import * as fs from "fs/promises";
-import * as path from "path";
 import { glob } from "glob";
 import type { z } from "zod";
 import { logger } from "./logger";
@@ -32,7 +31,7 @@ export class DataLoader<T = unknown> {
       try {
         // Support glob patterns
         const files = await this.resolveFiles(source);
-        
+
         for (const file of files) {
           const data = await this.loadFile(file);
           allData.push(...data);

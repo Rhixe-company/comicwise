@@ -1,7 +1,6 @@
 "use client";
 
-import * as Recharts from "recharts";
-const { Bar, BarChart } = Recharts;;
+import { Bar, BarChart } from "recharts";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { ChartConfig } from "@/components/ui/chart";

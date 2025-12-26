@@ -274,15 +274,15 @@
   ],
   "eslint.workingDirectories": [{ "mode": "auto" }],
 
+  "extensions.autoCheckUpdates": false,
+  "extensions.autoUpdate": false,
+
   // ━━━ Performance Optimizations ━━━
   "extensions.experimental.affinity": {
     "vscodevim.vim": 1,
     "dbaeumer.vscode-eslint": 1,
     "esbenp.prettier-vscode": 1
   },
-  "extensions.autoCheckUpdates": false,
-  "extensions.autoUpdate": false,
-
   // ━━━ File Configuration ━━━
   "files.associations": {
     "*.css": "tailwindcss",
@@ -520,13 +520,16 @@
   "typescript.suggest.completeFunctionCalls": true,
   "typescript.suggest.paths": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "typescript.tsserver.maxTsServerMemory": 8192,
   "typescript.tsserver.experimental.enableProjectDiagnostics": true,
-  "vitest.commandLine": "pnpm test:unit",
+  "typescript.tsserver.maxTsServerMemory": 8192,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
   // ━━━ Vitest Configuration ━━━
+  "vitest.commandLine": "pnpm test:unit",
   "vitest.enable": true,
   "vitest.nodeExecutable": "node",
+  "vitest.showTerminalOnFailure": true,
+  "vitest.disableWorkspaceWarning": true,
   // ━━━ Workbench Configuration ━━━
   "workbench.colorCustomizations": {
     "editorRuler.foreground": "#2e3440",
@@ -544,7 +547,41 @@
   "workbench.list.smoothScrolling": true,
   "workbench.productIconTheme": "Default",
   "workbench.sideBar.location": "left",
-
   "workbench.startupEditor": "welcomePageInEmptyWorkbench",
-  "workbench.tree.indent": 20
+  "workbench.tree.indent": 20,
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.editor.tabSizingFixedMaxWidth": 160,
+  "workbench.editor.revealIfOpen": true,
+
+  // ━━━ Window Configuration ━━━
+  "window.autoDetectColorScheme": false,
+  "window.dialogStyle": "custom",
+  "window.menuBarVisibility": "toggle",
+  "window.restoreWindows": "all",
+  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}",
+  "window.titleBarStyle": "custom",
+
+  // ━━━ Security Configuration ━━━
+  "security.workspace.trust.enabled": true,
+  "security.workspace.trust.startupPrompt": "once",
+  "security.workspace.trust.untrustedFiles": "open",
+
+  // ━━━ Import Cost Configuration ━━━
+  "importCost.smallPackageSize": 50,
+  "importCost.mediumPackageSize": 100,
+  "importCost.largePackageColor": "#ff0000",
+  "importCost.mediumPackageColor": "#ffaa00",
+  "importCost.smallPackageColor": "#00ff00",
+  "importCost.showCalculatingDecoration": true,
+
+  // ━━━ Auto Rename Tag Configuration ━━━
+  "auto-rename-tag.activationOnLanguage": [
+    "html",
+    "xml",
+    "php",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
 }

@@ -1,12 +1,11 @@
 /**
  * Enhanced Base Seeder
- * 
+ *
  * @module BaseSeeder
  * @description Abstract base class for all seeders with common functionality
  */
 
 import { db as database } from "@/database/db";
-import { sql } from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
 import type { z } from "zod";
 import { DataLoader } from "./dataLoader";
@@ -56,8 +55,8 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
       try {
         return this.schema!.parse(item);
       } catch (error) {
-        logger.warn(`Validation error:`);
-        console.error(error);
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        logger.warn(`Validation error: ${errorMsg}`);
         throw error;
       }
     });
@@ -133,7 +132,8 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
         duration: Date.now() - startTime,
       };
     } catch (error) {
-      logger.error(`Failed to seed ${this.entity}: ${error instanceof Error ? error.message : String(error)}`);
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      logger.error(`Failed to seed ${this.entity}: ${errorMsg}`);
       throw error;
     }
   }
@@ -147,7 +147,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
   ): Promise<Omit<SeedResult, "duration">> {
     const batchSize = options.batchSize || 100;
     const batches = this.createBatches(records, batchSize);
-    
+
     let inserted = 0;
     let updated = 0;
     let skipped = 0;
@@ -157,7 +157,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
 
     for (let i = 0; i < batches.length; i++) {
       const batch = batches[i];
-      
+
       try {
         const result = await this.insertBatch(batch, options);
         inserted += result.inserted;
@@ -171,7 +171,8 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
           );
         }
       } catch (error) {
-        logger.error(`Batch ${i + 1} failed: ${error instanceof Error ? error.message : String(error)}`);
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        logger.error(`Batch ${i + 1} failed: ${errorMsg}`);
         errors += batch.length;
       }
     }
@@ -210,9 +211,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
   /**
    * Execute in transaction
    */
-  protected async executeInTransaction<R>(
-    callback: (tx: unknown) => Promise<R>
-  ): Promise<R> {
+  protected async executeInTransaction<R>(callback: (tx: unknown) => Promise<R>): Promise<R> {
     return database.transaction(callback);
   }
 }
@@ -221,4 +220,4 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
 // EXPORT
 // ═══════════════════════════════════════════════════
 
-export { logger, database };
+export { database, logger };

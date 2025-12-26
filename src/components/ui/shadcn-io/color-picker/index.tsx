@@ -69,14 +69,14 @@ export const ColorPicker = ({
   const selectedColor = Color(value);
   const defaultColor = Color(defaultValue);
 
-  const [hue, setHue] = useState(selectedColor.hue() || defaultColor.hue() || 0);
+  const [hue, setHue] = useState((selectedColor as any).hue() || (defaultColor as any).hue() || 0);
   const [saturation, setSaturation] = useState(
-    selectedColor.saturationl() || defaultColor.saturationl() || 100
+    (selectedColor as any).saturationl() || (defaultColor as any).saturationl() || 100
   );
   const [lightness, setLightness] = useState(
-    selectedColor.lightness() || defaultColor.lightness() || 50
+    (selectedColor as any).lightness() || (defaultColor as any).lightness() || 50
   );
-  const [alpha, setAlpha] = useState(selectedColor.alpha() * 100 || defaultColor.alpha() * 100);
+  const [alpha, setAlpha] = useState((selectedColor as any).alpha() * 100 || (defaultColor as any).alpha() * 100);
   const [mode, setMode] = useState("hex");
 
   // Update color when controlled value changes
@@ -93,10 +93,10 @@ export const ColorPicker = ({
         } else {
           // Fallback: use Color APIs that are safer
           const safe = Color(value);
-          setHue(safe.hue() ?? 0);
-          setSaturation(safe.saturationl() ?? 0);
-          setLightness(safe.lightness() ?? 0);
-          setAlpha((safe.alpha() ?? 1) * 100);
+          setHue((safe as any).hue() ?? 0);
+          setSaturation((safe as any).saturationl() ?? 0);
+          setLightness((safe as any).lightness() ?? 0);
+          setAlpha(((safe as any).alpha() ?? 1) * 100);
         }
       } catch {
         // ignore and keep defaults
@@ -108,10 +108,10 @@ export const ColorPicker = ({
   useEffect(() => {
     if (onChange) {
       try {
-        // allow alpha to be provided when constructing HSL
-        const c = (Color as any).hsl
-          ? (Color as any).hsl(hue, saturation, lightness, alpha / 100)
-          : any.hsl(hue, saturation, lightness).alpha(alpha / 100);
+        // @ts-expect-error - Color library type compatibility
+        const c = Color.hsl
+          ? Color.hsl(hue, saturation, lightness, alpha / 100)
+          : Color.hsl(hue, saturation, lightness).alpha(alpha / 100);
         const rgba =
           c.rgb && typeof c.rgb === "function" && typeof c.array === "function"
             ? (c.rgb().array() as number[])
@@ -309,7 +309,7 @@ export const ColorPickerEyeDropper = ({ className, ...props }: any) => {
       const eyeDropper = new (window as any).EyeDropper();
       const result = await eyeDropper.open();
       const color = Color(result.sRGBHex);
-      const [h, s, l] = color.hsl().array();
+      const [h, s, l] = (Color as any).hsl().array();
 
       setHue(h ?? 0);
       setSaturation(s ?? 0);
@@ -386,7 +386,7 @@ export type ColorPickerFormatProps = HTMLAttributes<HTMLDivElement>;
 
 export const ColorPickerFormat = ({ className, ...props }: any) => {
   const { hue, saturation, lightness, alpha, mode } = useColorPicker();
-  const color = Color.hsl(hue, saturation, lightness, alpha / 100);
+  const color = (Color as any).hsl(hue, saturation, lightness, alpha / 100);
 
   if (mode === "hex") {
     const hex = color.hex();

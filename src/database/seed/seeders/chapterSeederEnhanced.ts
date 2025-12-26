@@ -1,13 +1,13 @@
 /**
  * Enhanced Chapter Seeder
- * 
+ *
  * @module ChapterSeeder
  * @description Seeds chapter data with comic relations
  */
 
 import { chapter, comic } from "@/database/schema";
 import { chapterSeedSchema, type ChapterSeed } from "@/lib/validations";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { BaseSeeder, database } from "../baseSeeder";
 import { logger } from "../logger";
 import type { SeedOptions, SeedResult } from "../types";
@@ -47,13 +47,15 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
    * Prepare chapter data for insertion
    */
   protected prepareData(item: ChapterSeed): typeof chapter.$inferInsert {
+    const chapterNum = this.extractChapterNumber(item);
+    const title = item.title || `Chapter ${chapterNum}`;
+    
     return {
-      title: item.title || item.name || `Chapter ${(item as Record<string, unknown>).number || (item as Record<string, unknown>).chapterNumber || ""}`,
+      title,
       slug: this.generateSlug(item),
-      chapterNumber: this.extractChapterNumber(item),
+      chapterNumber: chapterNum,
       releaseDate: item.updatedAt ? new Date(item.updatedAt) : new Date(),
       comicId: 0, // Will be set later
-      createdAt: new Date(),
     };
   }
 
@@ -65,12 +67,14 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
       return item.slug;
     }
 
-    const comicSlug = (item as Record<string, unknown>).comic && typeof (item as Record<string, unknown>).comic === "object"
-      ? ((item as Record<string, unknown>).comic as { slug?: string }).slug
-      : "";
+    const comicSlug =
+      (item as Record<string, unknown>).comic &&
+      typeof (item as Record<string, unknown>).comic === "object"
+        ? ((item as Record<string, unknown>).comic as { slug?: string }).slug
+        : "";
 
     const chapterNum = this.extractChapterNumber(item);
-    
+
     if (comicSlug) {
       return `${comicSlug}-chapter-${chapterNum}`;
     }
@@ -116,11 +120,7 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
       return this.comicCache.get(slug)!;
     }
 
-    const existing = await database
-      .select()
-      .from(comic)
-      .where(eq(comic.slug, slug))
-      .limit(1);
+    const existing = await database.select().from(comic).where(eq(comic.slug, slug)).limit(1);
 
     if (existing.length > 0) {
       this.comicCache.set(slug, existing[0].id);
@@ -137,7 +137,9 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
     const images: string[] = [];
 
     if (Array.isArray((item as Record<string, unknown>).images)) {
-      const imageArray = (item as Record<string, unknown>).images as Array<{ url?: string } | string>;
+      const imageArray = (item as Record<string, unknown>).images as Array<
+        { url?: string } | string
+      >;
       for (const img of imageArray) {
         if (typeof img === "string") {
           images.push(img);
@@ -167,7 +169,10 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
         const prepared = this.prepareData(item);
 
         // Get comic ID
-        if ((item as Record<string, unknown>).comic && typeof (item as Record<string, unknown>).comic === "object") {
+        if (
+          (item as Record<string, unknown>).comic &&
+          typeof (item as Record<string, unknown>).comic === "object"
+        ) {
           const comicSlug = ((item as Record<string, unknown>).comic as { slug?: string }).slug;
           if (comicSlug) {
             const comicId = await this.getComicIdBySlug(comicSlug);

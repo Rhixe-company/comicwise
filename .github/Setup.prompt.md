@@ -8,6 +8,8 @@
 
 **Name:** ComicWise  
 **Description:** Modern, full-stack comic reading platform  
+**CLI Tool:** `cw` - Comprehensive management CLI
+
 **Tech Stack:**
 - Next.js 16 (App Router, Turbopack)
 - React 19
@@ -21,6 +23,180 @@
 
 **Package Manager:** pnpm  
 **Node Version:** 22+
+
+---
+
+## 🛠️ ComicWise CLI (`cw`)
+
+The `cw` CLI is a comprehensive command-line tool for managing all aspects of the ComicWise platform.
+
+### Installation
+
+```bash
+# Make executable (Unix/macOS)
+chmod +x scripts/cli/cw.ts
+
+# Add to package.json scripts (already configured)
+pnpm cw <command>
+```
+
+### Available Commands
+
+#### 📊 Database Operations
+
+```bash
+cw db push              # Push schema to database
+cw db pull              # Pull schema from database
+cw db generate          # Generate migrations
+cw db migrate           # Run migrations
+cw db studio            # Open Drizzle Studio
+cw db seed              # Seed database with sample data
+cw db seed --users      # Seed only users
+cw db seed --comics     # Seed only comics
+cw db seed --chapters   # Seed only chapters
+cw db seed --dry-run    # Validate without writing
+cw db reset             # Reset database (drop, push, seed)
+cw db reset --hard      # Hard reset (regenerate schema)
+```
+
+#### 💻 Development Operations
+
+```bash
+cw dev start            # Start development server
+cw dev start --debug    # Start with Node debugger
+cw dev start --https    # Start with HTTPS
+cw dev build            # Build for production
+cw dev build --analyze  # Build with bundle analyzer
+cw dev clean            # Clean build artifacts
+cw dev clean --all      # Clean all (including node_modules)
+```
+
+#### 🧪 Testing Operations
+
+```bash
+cw test all             # Run all tests
+cw test unit            # Run unit tests
+cw test unit --watch    # Unit tests in watch mode
+cw test unit --coverage # Unit tests with coverage
+cw test e2e             # Run E2E tests
+cw test e2e --ui        # E2E with Playwright UI
+cw test e2e --headed    # E2E in headed mode
+cw test e2e --debug     # E2E in debug mode
+```
+
+#### ✨ Code Quality
+
+```bash
+cw quality lint         # Run linter
+cw quality lint --fix   # Auto-fix lint issues
+cw quality format       # Format code with Prettier
+cw quality format --check  # Check formatting only
+cw quality type-check   # Run TypeScript type checking
+cw quality validate     # Run all checks (type, lint, format)
+cw quality validate --quick  # Quick validation
+
+# Aliases
+cw q lint               # Short form
+cw q validate           # Short form
+```
+
+#### 💾 Cache Operations
+
+```bash
+cw cache clear          # Clear application cache
+cw cache stats          # Show cache statistics
+```
+
+#### 🏥 Health Checks
+
+```bash
+cw health check         # Run system health check
+cw health db            # Check database connection
+cw health redis         # Check Redis connection
+cw health all           # Run all health checks
+```
+
+#### 🚀 Setup & Installation
+
+```bash
+cw setup init           # Initial project setup
+cw setup clean          # Clean setup (fresh install)
+cw setup full           # Full setup (clean + build)
+```
+
+#### ⚡ Optimization
+
+```bash
+cw optimize all         # Run comprehensive optimization
+cw optimize types       # Optimize TypeScript types
+cw optimize camelcase   # Preview CamelCase conversion
+cw optimize camelcase --execute  # Execute conversion
+
+# Aliases
+cw opt all              # Short form
+```
+
+#### 🧹 Cleanup
+
+```bash
+cw cleanup              # Clean project (remove duplicates)
+cw cleanup --dry-run    # Preview cleanup changes
+```
+
+#### 🚢 Deployment
+
+```bash
+cw deploy preview       # Deploy to preview environment
+cw deploy production    # Deploy to production (Vercel)
+```
+
+#### 🐳 Docker Operations
+
+```bash
+cw docker up            # Start Docker containers
+cw docker down          # Stop Docker containers
+cw docker build         # Build Docker images
+cw docker clean         # Clean containers and volumes
+cw docker logs          # Show container logs
+```
+
+#### 🏗️ Scaffolding
+
+```bash
+cw scaffold component MyComponent   # Generate component
+cw scaffold hook useMyHook          # Generate hook
+cw scaffold action myAction         # Generate server action
+
+# Aliases
+cw new component MyComponent   # Short form
+```
+
+#### ℹ️ Information
+
+```bash
+cw info                 # Display project information
+cw --version           # Show CLI version
+cw --help              # Show help
+```
+
+### Usage Examples
+
+```bash
+# Complete setup from scratch
+cw setup full
+
+# Start development
+cw dev start
+
+# Run validation before commit
+cw quality validate
+
+# Create new component
+cw new component UserProfile
+
+# Deploy to production
+cw deploy production
+```
 
 ---
 

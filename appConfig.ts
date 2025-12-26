@@ -327,8 +327,8 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   upload: {
     provider: env.UPLOAD_PROVIDER,
-    maxFileSize: 5 * 1024 * 1024, // 5MB
-    allowedTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"],
+    maxFileSize: 10 * 1024 * 1024, // 10MB
+    allowedTypes: ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"],
     imageKit: {
       publicKey: env.IMAGEKIT_PUBLIC_KEY ?? "",
       privateKey: env.IMAGEKIT_PRIVATE_KEY ?? "",
@@ -340,6 +340,13 @@ const appConfig = {
       apiKey: env.CLOUDINARY_API_KEY ?? "",
       apiSecret: env.CLOUDINARY_API_SECRET ?? "",
       enabled: hasEnvironment("CLOUDINARY_CLOUD_NAME"),
+    },
+    aws: {
+      region: env.AWS_REGION ?? "",
+      accessKeyId: env.AWS_ACCESS_KEY_ID ?? "",
+      secretAccessKey: env.AWS_SECRET_ACCESS_KEY ?? "",
+      bucketName: env.AWS_S3_BUCKET_NAME ?? "",
+      enabled: hasEnvironment("AWS_ACCESS_KEY_ID"),
     },
   },
 

@@ -8,9 +8,7 @@ import { cn } from "utils";
 
 const InputOTP = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
-  React.ComponentPropsWithoutRef<typeof OTPInput> & {
-    containerClassName?: string;
-  }
+  React.ComponentPropsWithoutRef<typeof OTPInput> & { containerClassName?: string }
 >(({ className, containerClassName, ...properties }, reference) => {
   return (
     <OTPInput

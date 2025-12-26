@@ -59,7 +59,6 @@ const nextConfig: NextConfig = {
   // External packages for server-side
   serverExternalPackages: [
     "postgres",
-    "server-only",
     "libsql/client",
     "bcryptjs",
     "sharp",
@@ -67,7 +66,7 @@ const nextConfig: NextConfig = {
   ],
 
   // Cache React Server Components
-  cacheComponents: true,
+  // cacheComponents: true,
   // Image optimization
   images: {
     remotePatterns: [

@@ -14,7 +14,7 @@ import { ci } from "./commands/ci";
 import { db as database } from "./commands/db";
 import { health } from "./commands/health";
 import { queue } from "./commands/queue";
-import { scaffold } from "./commands/scaffold";
+// import { scaffold } from "./commands/scaffold";
 import { upload } from "./commands/upload";
 
 const program = new Command();

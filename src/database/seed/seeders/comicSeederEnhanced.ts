@@ -1,13 +1,13 @@
 /**
  * Enhanced Comic Seeder
- * 
+ *
  * @module ComicSeeder
  * @description Seeds comic data with relations (authors, artists, genres, types)
  */
 
-import { artist, author, comic, comicToGenre, genre, type as comicType } from "@/database/schema";
+import { artist, author, comic, comicToGenre, type as comicType, genre } from "@/database/schema";
 import { comicSeedSchema, type ComicSeed } from "@/lib/validations";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { BaseSeeder, database } from "../baseSeeder";
 import { logger } from "../logger";
 import type { SeedOptions, SeedResult } from "../types";
@@ -16,9 +16,9 @@ import type { SeedOptions, SeedResult } from "../types";
 function slugify(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 // ═══════════════════════════════════════════════════
@@ -92,9 +92,11 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
   /**
    * Map status to enum
    */
-  private mapStatus(status?: string): "Ongoing" | "Completed" | "Hiatus" | "Dropped" | "Coming Soon" {
+  private mapStatus(
+    status?: string
+  ): "Ongoing" | "Completed" | "Hiatus" | "Dropped" | "Coming Soon" {
     if (!status) return "Ongoing";
-    
+
     const normalized = status.toLowerCase().trim();
     if (normalized.includes("complet")) return "Completed";
     if (normalized.includes("hiatus")) return "Hiatus";
@@ -111,21 +113,14 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
       return this.authorCache.get(name)!;
     }
 
-    const existing = await database
-      .select()
-      .from(author)
-      .where(eq(author.name, name))
-      .limit(1);
+    const existing = await database.select().from(author).where(eq(author.name, name)).limit(1);
 
     if (existing.length > 0) {
       this.authorCache.set(name, existing[0].id);
       return existing[0].id;
     }
 
-    const [newAuthor] = await database
-      .insert(author)
-      .values({ name })
-      .returning();
+    const [newAuthor] = await database.insert(author).values({ name }).returning();
 
     this.authorCache.set(name, newAuthor.id);
     return newAuthor.id;
@@ -139,21 +134,14 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
       return this.artistCache.get(name)!;
     }
 
-    const existing = await database
-      .select()
-      .from(artist)
-      .where(eq(artist.name, name))
-      .limit(1);
+    const existing = await database.select().from(artist).where(eq(artist.name, name)).limit(1);
 
     if (existing.length > 0) {
       this.artistCache.set(name, existing[0].id);
       return existing[0].id;
     }
 
-    const [newArtist] = await database
-      .insert(artist)
-      .values({ name })
-      .returning();
+    const [newArtist] = await database.insert(artist).values({ name }).returning();
 
     this.artistCache.set(name, newArtist.id);
     return newArtist.id;
@@ -167,21 +155,14 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
       return this.genreCache.get(name)!;
     }
 
-    const existing = await database
-      .select()
-      .from(genre)
-      .where(eq(genre.name, name))
-      .limit(1);
+    const existing = await database.select().from(genre).where(eq(genre.name, name)).limit(1);
 
     if (existing.length > 0) {
       this.genreCache.set(name, existing[0].id);
       return existing[0].id;
     }
 
-    const [newGenre] = await database
-      .insert(genre)
-      .values({ name })
-      .returning();
+    const [newGenre] = await database.insert(genre).values({ name }).returning();
 
     this.genreCache.set(name, newGenre.id);
     return newGenre.id;
@@ -206,10 +187,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
       return existing[0].id;
     }
 
-    const [newType] = await database
-      .insert(comicType)
-      .values({ name })
-      .returning();
+    const [newType] = await database.insert(comicType).values({ name }).returning();
 
     this.typeCache.set(name, newType.id);
     return newType.id;
@@ -232,7 +210,10 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
         const prepared = this.prepareData(item);
 
         // Handle author
-        if ((item as Record<string, unknown>).author && typeof (item as Record<string, unknown>).author === "object") {
+        if (
+          (item as Record<string, unknown>).author &&
+          typeof (item as Record<string, unknown>).author === "object"
+        ) {
           const authorName = ((item as Record<string, unknown>).author as { name: string }).name;
           if (authorName) {
             prepared.authorId = await this.getOrCreateAuthor(authorName);
@@ -240,7 +221,10 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
         }
 
         // Handle artist
-        if ((item as Record<string, unknown>).artist && typeof (item as Record<string, unknown>).artist === "object") {
+        if (
+          (item as Record<string, unknown>).artist &&
+          typeof (item as Record<string, unknown>).artist === "object"
+        ) {
           const artistName = ((item as Record<string, unknown>).artist as { name: string }).name;
           if (artistName) {
             prepared.artistId = await this.getOrCreateArtist(artistName);
@@ -248,7 +232,10 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
         }
 
         // Handle type
-        if ((item as Record<string, unknown>).type && typeof (item as Record<string, unknown>).type === "object") {
+        if (
+          (item as Record<string, unknown>).type &&
+          typeof (item as Record<string, unknown>).type === "object"
+        ) {
           const typeName = ((item as Record<string, unknown>).type as { name: string }).name;
           if (typeName) {
             prepared.typeId = await this.getOrCreateType(typeName);
@@ -283,30 +270,37 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
           }
         } else {
           // Insert new
-          const [newComic] = await database
-            .insert(comic)
-            .values(prepared)
-            .returning();
+          const [newComic] = await database.insert(comic).values(prepared).returning();
           comicId = newComic.id;
           inserted++;
         }
 
         // Handle genres
-        if ((item as Record<string, unknown>).genres && Array.isArray((item as Record<string, unknown>).genres)) {
+        if (
+          (item as Record<string, unknown>).genres &&
+          Array.isArray((item as Record<string, unknown>).genres)
+        ) {
           const genres = (item as Record<string, unknown>).genres as Array<{ name: string }>;
+          
+          // Collect genre relations
+          const genreRelations: Array<{ comicId: number; genreId: number }> = [];
+          
           for (const g of genres) {
             if (g.name) {
               const genreId = await this.getOrCreateGenre(g.name);
-              
-              // Insert genre relation (ignore duplicates)
-              try {
-                await database.insert(comicToGenre).values({ 
-                  comicId: comicId, 
-                  genreId: genreId 
-                });
-              } catch {
-                // Ignore duplicate genre relations
-              }
+              genreRelations.push({
+                comicId,
+                genreId,
+              });
+            }
+          }
+          
+          // Insert all genre relations at once
+          if (genreRelations.length > 0) {
+            try {
+              await database.insert(comicToGenre).values(genreRelations).onConflictDoNothing();
+            } catch {
+              // Ignore duplicate genre relations
             }
           }
         }

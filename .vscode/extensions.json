@@ -16,6 +16,7 @@
     "eamodio.gitlens",
     "github.copilot",
     "github.copilot-chat",
+    "GitHub.copilot-mcp",
     "ms-azuretools.vscode-docker",
     "christian-kohler.path-intellisense",
     "editorconfig.editorconfig",
@@ -24,11 +25,15 @@
     "ms-vscode.powershell",
     "redhat.vscode-yaml",
     "mikestead.dotenv",
-    "GitHub.copilot-mcp",
     "aaron-bond.better-comments",
     "yzhang.markdown-all-in-one",
     "formulahendry.auto-rename-tag",
-    "wix.vscode-import-cost"
+    "wix.vscode-import-cost",
+    "styled-components.vscode-styled-components",
+    "prisma.prisma",
+    "humao.rest-client",
+    "ritwickdey.liveserver",
+    "bierner.color-info"
   ],
   "unwantedRecommendations": [
     "hookyqr.beautify",
@@ -37,6 +42,7 @@
     "octref.vetur",
     "ms-python.python",
     "rust-lang.rust-analyzer",
-    "golang.go"
+    "golang.go",
+    "ms-vscode.vscode-typescript-tslint-plugin"
   ]
 }

@@ -62,20 +62,19 @@ export function AuthForm<T extends FieldValues>({
   submitLabel = "Submit",
   className,
 }: AuthFormProperties<T>) {
-  const [internalError, setInternalError] = useState<string | null>(null);
-  // ts-expect-error - zodResolver type compatibility issue with react-hook-form
-  const form = useForm<any>({
-    resolver: zodResolver(schema) as any as any,
+  const form = useForm<T>({
+    // @ts-expect-error - zodResolver type compatibility with generic schemas
+    resolver: zodResolver(schema) as any,
     defaultValues,
   });
 
   const handleSubmit = async (data: T) => {
-    // ts-expect-error - Type compatibility with generic form
+    // @ts-expect-error - Type compatibility with generic form
     await onSubmit(data, form);
   };
 
   const isFormLoading = isLoading || form.formState.isSubmitting;
-  const displayError = externalError || internalError;
+  const displayError = externalError;
 
   return (
     <Card className={className ?? "w-full max-w-md"}>

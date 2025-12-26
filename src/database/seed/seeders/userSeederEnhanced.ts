@@ -1,6 +1,6 @@
 /**
  * Enhanced User Seeder
- * 
+ *
  * @module UserSeeder
  * @description Seeds user data with validation and upsert logic
  */
@@ -25,11 +25,7 @@ export class UserSeederEnhanced extends BaseSeeder<UserSeed> {
    * Data sources for users
    */
   protected getDataSources(): string[] {
-    return [
-      "./users.json",
-      "./data/users.json",
-      "./seed-data/users*.json",
-    ];
+    return ["./users.json", "./data/users.json", "./seed-data/users*.json"];
   }
 
   /**

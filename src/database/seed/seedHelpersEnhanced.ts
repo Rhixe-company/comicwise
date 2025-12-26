@@ -1,6 +1,6 @@
 /**
  * Enhanced Seed Helpers
- * 
+ *
  * @module SeedHelpers
  * @description Unified seeding interface with DRY principles
  */
@@ -128,5 +128,5 @@ export async function validateSeedData(options: SeedOptions = {}): Promise<{
 // EXPORT ALL
 // ═══════════════════════════════════════════════════
 
-export type { SeedOptions, SeedResult };
 export { logger };
+export type { SeedOptions, SeedResult };

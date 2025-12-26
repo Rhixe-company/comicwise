@@ -1,6 +1,7 @@
 # Enhanced Dynamic Seeding System
 
-A comprehensive, type-safe database seeding system for ComicWise with full CRUD API support.
+A comprehensive, type-safe database seeding system for ComicWise with full CRUD
+API support.
 
 ## 🌟 Features
 
@@ -117,11 +118,13 @@ fetch("/api/seed", {
 The system automatically loads from these JSON files:
 
 ### Users
+
 - `./users.json`
 - `./data/users.json`
 - `./seed-data/users*.json`
 
 ### Comics
+
 - `./comics.json`
 - `./comicsdata.json`
 - `./comicsdata*.json`
@@ -129,6 +132,7 @@ The system automatically loads from these JSON files:
 - `./seed-data/comics*.json`
 
 ### Chapters
+
 - `./chapters.json`
 - `./chaptersdata.json`
 - `./chaptersdata*.json`
@@ -139,18 +143,19 @@ The system automatically loads from these JSON files:
 
 ```typescript
 interface SeedOptions {
-  batchSize?: number;        // Batch size (default: 100)
-  verbose?: boolean;         // Enable detailed logging
-  dryRun?: boolean;          // Validate without inserting
-  skipValidation?: boolean;  // Skip Zod validation
-  forceOverwrite?: boolean;  // Overwrite existing records
-  useTransaction?: boolean;  // Use database transactions
+  batchSize?: number; // Batch size (default: 100)
+  verbose?: boolean; // Enable detailed logging
+  dryRun?: boolean; // Validate without inserting
+  skipValidation?: boolean; // Skip Zod validation
+  forceOverwrite?: boolean; // Overwrite existing records
+  useTransaction?: boolean; // Use database transactions
 }
 ```
 
 ## 📝 JSON Format Examples
 
 ### Users (`users.json`)
+
 ```json
 [
   {
@@ -165,6 +170,7 @@ interface SeedOptions {
 ```
 
 ### Comics (`comics.json`)
+
 ```json
 [
   {
@@ -177,15 +183,13 @@ interface SeedOptions {
     "author": { "name": "Author Name" },
     "artist": { "name": "Artist Name" },
     "type": { "name": "Manhwa" },
-    "genres": [
-      { "name": "Action" },
-      { "name": "Adventure" }
-    ]
+    "genres": [{ "name": "Action" }, { "name": "Adventure" }]
   }
 ]
 ```
 
 ### Chapters (`chapters.json`)
+
 ```json
 [
   {
@@ -193,10 +197,7 @@ interface SeedOptions {
     "title": "Chapter Title",
     "comic": { "slug": "comic-slug" },
     "chapterNumber": 1,
-    "images": [
-      { "url": "/image1.jpg" },
-      { "url": "/image2.jpg" }
-    ]
+    "images": [{ "url": "/image1.jpg" }, { "url": "/image2.jpg" }]
   }
 ]
 ```
@@ -204,28 +205,33 @@ interface SeedOptions {
 ## 🎯 Features in Detail
 
 ### 1. Upsert Logic
+
 - Checks for existing records by unique field
 - Updates if exists (with `forceOverwrite`)
 - Inserts if new
 - Skips if exists (without `forceOverwrite`)
 
 ### 2. Relation Handling
+
 - Auto-creates authors, artists, genres, types
 - Caches lookups for performance
 - Links entities automatically
 
 ### 3. Batch Processing
+
 - Processes large datasets efficiently
 - Configurable batch sizes
 - Progress tracking
 - Error isolation (one batch failure doesn't stop others)
 
 ### 4. Validation
+
 - Zod schema validation for all entities
 - Detailed error reporting
 - Optional validation skip for performance
 
 ### 5. Progress Tracking
+
 ```
 Seeding Users
 Loading data from sources: ./users.json
@@ -239,6 +245,7 @@ Processing 1 batches (size: 100)...
 ## 🔒 Type Safety
 
 All seeders use Zod schemas:
+
 - `userSeedSchema`
 - `comicSeedSchema`
 - `chapterSeedSchema`
@@ -273,6 +280,7 @@ Validation happens before insertion, ensuring data integrity.
 ### Add New Entity
 
 1. Create seeder class:
+
 ```typescript
 export class MyEntitySeeder extends BaseSeeder<MyEntitySeed> {
   constructor(options: SeedOptions = {}) {
@@ -288,7 +296,9 @@ export class MyEntitySeeder extends BaseSeeder<MyEntitySeed> {
   }
 
   protected prepareData(item: MyEntitySeed) {
-    return { /* transform logic */ };
+    return {
+      /* transform logic */
+    };
   }
 
   protected async insertBatch(batch, options) {
@@ -298,6 +308,7 @@ export class MyEntitySeeder extends BaseSeeder<MyEntitySeed> {
 ```
 
 2. Add to `seedHelpersEnhanced.ts`:
+
 ```typescript
 export async function seedMyEntity(options = {}) {
   const seeder = new MyEntitySeeder(options);
@@ -317,22 +328,26 @@ export async function seedMyEntity(options = {}) {
 ## 🐛 Troubleshooting
 
 ### No data found
+
 - Check file paths in `getDataSources()`
 - Verify JSON files exist
 - Check file permissions
 
 ### Validation errors
+
 - Check Zod schemas match your data
 - Use `--verbose` for detailed error messages
 - Use `--dry-run` to validate without inserting
 
 ### Duplicate key errors
+
 - Use `--force` to overwrite existing records
 - Check unique fields (email, slug, etc.)
 
 ## 📝 Scripts
 
 Add to `package.json`:
+
 ```json
 {
   "scripts": {

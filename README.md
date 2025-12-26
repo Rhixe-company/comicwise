@@ -1,911 +1,404 @@
 # ComicWise 📚
 
-> A modern, full-stack comic reading platform built with Next.js 16, PostgreSQL,
-> and cutting-edge web technologies.
+> A modern, full-stack comic reading and management platform built with Next.js 15, PostgreSQL, and cutting-edge web technologies.
 
-[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9+-blue)](https://www.typescriptlang.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue)](https://www.postgresql.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.1.3-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7.2-blue)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
+## ✨ Features
+
+### 🎨 User Features
+- **Comic Reading**: Seamless comic reading experience with chapter navigation
+- **Bookmarks**: Save your favorite comics and track reading progress
+- **Comments**: Engage with the community through chapter comments
+- **Search**: Advanced full-text search for comics, authors, and artists
+- **User Authentication**: Secure authentication with email, Google, and GitHub
+- **Profile Management**: Manage your account and reading preferences
+- **Responsive Design**: Optimized for all devices and screen sizes
+
+### 👨‍💼 Admin Features
+- **Content Management**: Full CRUD operations for comics, chapters, authors, and artists
+- **User Management**: Manage users with role-based access control
+- **Analytics Dashboard**: Track engagement, views, and user statistics
+- **Bulk Operations**: Efficient bulk upload and management tools
+- **Image Management**: Integrated ImageKit CDN for optimized image delivery
+
+### ⚡ Technical Features
+- **Server Components**: Leverage React 19 Server Components for optimal performance
+- **Caching**: Redis-based caching for lightning-fast response times
+- **Rate Limiting**: Protect your API with built-in rate limiting
+- **Type Safety**: Full TypeScript coverage with strict mode
+- **Database Migrations**: Version-controlled schema with Drizzle ORM
+- **Email Integration**: Automated emails with React Email templates
+- **Docker Support**: Containerized deployment ready
+
 ## 🚀 Quick Start
 
-\`\`\`bash
+```bash
+# Install dependencies
+pnpm install
 
-# Clone and setup
-
-git clone <repository-url> cd comicwise pnpm install
-
-# Configure environment
-
-cp .env.example .env.local
-
-# Edit .env.local with your settings
+# Setup environment variables
+cp .env.example .env
+# Edit .env with your configuration
 
 # Setup database
+pnpm db:generate
+pnpm db:push
 
-pnpm db:push pnpm db:seed
+# Seed database (optional)
+pnpm seed:all
 
-# Start development
-
-pnpm dev \`\`\`
+# Start development server
+pnpm dev
+```
 
 Visit [http://localhost:3000](http://localhost:3000)
 
-📖 **New to the project?** Start with our [Complete Setup Guide](docs/Setup.md)
-
-## 📖 Table of Contents
-
-- [Features](#-features)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-- [Documentation](#-documentation)
-- [Project Structure](#-project-structure)
-- [Development](#-development)
-- [Testing](#-testing)
-- [Deployment](#-deployment)
-- [Contributing](#-contributing)
-- [License](#-license)
-
----
-
-## 🌟 Features
-
-### Core Functionality
-
-- 📖 **Comic Library** - Browse thousands of comics with advanced filtering
-- 📑 **Chapter Reader** - Smooth, responsive reading experience
-- 🔖 **Bookmarks** - Track reading progress across devices
-- 💬 **Comments** - Engage with community discussions
-- 🔍 **Advanced Search** - Find comics by title, author, artist, genre
-- ⭐ **Ratings & Reviews** - Rate and review your favorite comics
-
-### User Features
-
-- 🔐 **Authentication** - Email/password + OAuth (Google, GitHub)
-- 👤 **User Profiles** - Personalized dashboards
-- 📊 **Reading Statistics** - Track your reading habits
-- 🌓 **Theme Toggle** - Light/dark mode support
-- 📱 **Mobile Responsive** - Optimized for all devices
-
-### Admin Features
-
-- 👨‍💼 **Admin Dashboard** - Comprehensive content management
-- ✍️ **Content Creation** - Easy comic and chapter uploads
-- 📈 **Analytics** - User engagement metrics
-- 🔒 **Role Management** - Admin, moderator, user roles
-- 📧 **Email Notifications** - Automated user communications
-
-### Technical Highlights
-
-- ⚡ **Next.js 16 App Router** - Server components & streaming
-- 🗄️ **PostgreSQL + Drizzle ORM** - Type-safe database operations
-- 🎨 **Tailwind CSS 4** - Modern, utility-first styling
-- 📧 **React Email** - Beautiful email templates
-- 🔄 **QStash** - Background job processing
-- ☁️ **Image Upload** - ImageKit/Cloudinary integration
-- 🛡️ **Rate Limiting** - Upstash Redis protection
-- 🧪 **Playwright** - E2E testing suite
-- 🐳 **Docker Ready** - Production-ready containerization
-
----
-
 ## 📋 Prerequisites
 
-### Required
+Before you begin, ensure you have:
 
-- **Node.js** 22+ with Corepack enabled
-- **pnpm** 9+ (\`corepack enable\`)
-- **PostgreSQL** 17+ (or Docker)
-
-### Optional
-
-- **Docker** & **Docker Compose** (recommended)
-- **Redis** (for caching)
-- **Git** (latest version)
-
-### System Requirements
-
-- **OS**: Windows 10+, macOS 10.15+, Linux
-- **RAM**: 8GB minimum, 16GB recommended
-- **Storage**: 5GB free space
-
----
+- **Node.js** >= 20.0.0
+- **pnpm** >= 9.0.0
+- **PostgreSQL** >= 15
+- **Redis** (optional, can use Upstash)
 
 ## 📦 Installation
 
-### Option 1: Docker (Recommended)
+### 1. Clone the Repository
 
-\`\`\`bash
+```bash
+git clone <repository-url>
+cd comicwise
+```
 
-# Start all services (PostgreSQL, Redis, App)
+### 2. Install Dependencies
 
-docker-compose -f docker-compose.dev.yml up -d
-
-# Initialize database
-
-docker-compose exec app pnpm db:push docker-compose exec app pnpm db:seed
-
-# Access services:
-
-# - App: http://localhost:3000
-
-# - PgAdmin: http://localhost:5051
-
-# - Database: localhost:5433
-
-\`\`\`
-
-### Option 2: Local Development
-
-\`\`\`bash
-
-# 1. Install dependencies
-
+```bash
 pnpm install
+```
 
-# 2. Configure environment
+### 3. Configure Environment Variables
 
-cp .env.example .env.local
+Create a `.env` file in the root directory:
 
-# Edit .env.local with your settings
+```env
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/comicwise"
 
-# 3. Setup database
+# NextAuth
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key-here"
 
-pnpm db:push pnpm db:seed
+# OAuth Providers (Optional)
+AUTH_GOOGLE_CLIENT_ID="your-google-client-id"
+AUTH_GOOGLE_CLIENT_SECRET="your-google-client-secret"
+AUTH_GITHUB_CLIENT_ID="your-github-client-id"
+AUTH_GITHUB_CLIENT_SECRET="your-github-client-secret"
 
-# 4. Start development server
+# Email (Required for email verification)
+EMAIL_SERVER_USER="your-email@example.com"
+EMAIL_SERVER_PASSWORD="your-email-password"
+EMAIL_SERVER_HOST="smtp.resend.com"
+EMAIL_SERVER_PORT="587"
+EMAIL_FROM="noreply@comicwise.com"
+RESEND_API_KEY="your-resend-api-key"
 
-pnpm dev \`\`\`
+# ImageKit (Required for image uploads)
+IMAGEKIT_PUBLIC_KEY="your-imagekit-public-key"
+IMAGEKIT_PRIVATE_KEY="your-imagekit-private-key"
+IMAGEKIT_URL_ENDPOINT="https://ik.imagekit.io/your-id"
 
----
+# Redis (Optional, can use Upstash)
+UPSTASH_REDIS_REST_URL="your-upstash-redis-url"
+UPSTASH_REDIS_REST_TOKEN="your-upstash-redis-token"
+
+# Application
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NODE_ENV="development"
+```
+
+### 4. Setup Database
+
+```bash
+# Generate Drizzle schema
+pnpm db:generate
+
+# Push schema to database
+pnpm db:push
+
+# (Optional) Seed with sample data
+pnpm seed:all
+```
+
+### 5. Start Development Server
+
+```bash
+pnpm dev
+```
 
 ## 📚 Documentation
 
-- **[Complete Setup Guide](docs/Setup.md)** - Comprehensive setup instructions
-- **[CLI Reference](docs/CLI_GUIDE.md)** - All available commands
-- **[API Documentation](docs/API.md)** - API routes and usage
-- **[Docker Guide](docs/DOCKER_DEPLOYMENT.md)** - Docker deployment
-- **[Contributing Guide](#-contributing)** - How to contribute
+- [Setup Guide](.github/prompts/Setup.prompt.md) - Complete setup instructions
+- [API Documentation](docs/API.md) - API routes and usage
+- [Database Schema](docs/DATABASE.md) - Database structure and relations
+- [Contributing Guidelines](CONTRIBUTING.md) - How to contribute
 
----
-
-## 📂 Project Structure
+## 🏗️ Project Structure
 
 ```
 comicwise/
+├── .github/                 # GitHub configuration
+│   └── prompts/            # GitHub Copilot prompts
+├── .vscode/                # VSCode configuration
+├── public/                 # Static assets
+├── scripts/                # Utility scripts
+│   ├── cli/               # CLI commands
+│   └── seed/              # Database seeding
 ├── src/
-│   ├── app/                   # Next.js app directory
-│   │   ├── (auth)/           # Authentication pages
-│   │   ├── (root)/           # Main application routes
-│   │   ├── admin/            # Admin dashboard
-│   │   └── api/              # API routes
-│   ├── components/           # React components
-│   │   ├── ui/              # shadcn/ui components
-│   │   ├── blocks/          # Compound components
-│   │   └── emails/          # Email templates
-│   ├── lib/                  # Utilities & helpers
-│   │   ├── actions/         # Server actions
-│   │   ├── mutations.ts     # Database mutations
-│   │   ├── queries.ts       # Database queries
-│   │   ├── validator.ts     # Zod schemas
-│   │   ├── auth.ts          # NextAuth config
-│   │   └── seedHelpers.ts   # Database seeding
-│   ├── db/                   # Database layer
-│   │   ├── schema/          # Drizzle schemas
-│   │   └── client.ts        # Database client
-│   ├── app-config/          # App configuration
-│   ├── types/               # TypeScript types
-│   └── hooks/               # Custom React hooks
-├── compose/                 # Docker helpers & scripts
-├── drizzle/                 # Database migrations
-├── public/                  # Static assets
-├── docker-compose.yml       # Production setup
-├── docker-compose.dev.yml   # Development setup
-├── Makefile                 # Development commands
-└── package.json            # Dependencies
+│   ├── app/               # Next.js App Router
+│   │   ├── (root)/       # Public pages
+│   │   ├── admin/        # Admin dashboard
+│   │   ├── api/          # API routes
+│   │   └── dashboard/    # User dashboard
+│   ├── components/        # React components
+│   │   ├── admin/        # Admin components
+│   │   ├── auth/         # Authentication
+│   │   ├── layout/       # Layout components
+│   │   ├── profile/      # Profile components
+│   │   └── ui/           # shadcn/ui components
+│   ├── dal/              # Data Access Layer
+│   ├── database/         # Database configuration
+│   │   ├── mutations/    # Database mutations
+│   │   ├── queries/      # Database queries
+│   │   ├── seed/         # Seeding system
+│   │   └── schema.ts     # Drizzle schema
+│   ├── dto/              # Data Transfer Objects
+│   ├── hooks/            # React hooks
+│   ├── lib/              # Utilities
+│   │   ├── actions/      # Server actions
+│   │   ├── validations/  # Zod schemas
+│   │   └── utils.ts      # Helper functions
+│   ├── services/         # External services
+│   │   └── upload/       # Upload providers
+│   ├── stores/           # State management
+│   ├── styles/           # Global styles
+│   └── types/            # TypeScript definitions
+├── compose/              # Docker compose files
+└── ...config files
 ```
 
----
+## 🛠️ Development
 
-## 🛠️ CLI & Scripts
-
-### 🎯 Quick Access CLI
-
-ComicWise includes a powerful CLI system with 100+ organized scripts:
+### Available Scripts
 
 ```bash
-# Main CLI entry point
-pnpm cli
+# Development
+pnpm dev                 # Start dev server (localhost:3000)
+pnpm build              # Build for production
+pnpm start              # Start production server
 
-# Or use the bin shortcut
-./bin/comicwise
+# Database
+pnpm db:generate        # Generate migrations
+pnpm db:push            # Push schema changes
+pnpm db:studio          # Open Drizzle Studio
+pnpm db:migrate         # Run migrations
 
-# Windows users
-node bin/comicwise.mjs
+# Seeding
+pnpm seed:all           # Seed all data
+pnpm seed:users         # Seed users only
+pnpm seed:comics        # Seed comics only
+pnpm seed:chapters      # Seed chapters only
+pnpm seed:validate      # Validate seed data
+
+# Code Quality
+pnpm lint               # Run ESLint
+pnpm lint:fix           # Fix ESLint errors
+pnpm format             # Format with Prettier
+pnpm type-check         # TypeScript type checking
+
+# Testing
+pnpm test               # Run tests
+pnpm test:watch         # Watch mode
+pnpm test:e2e           # End-to-end tests
+
+# Docker
+docker-compose up -d    # Start in production mode
+docker-compose -f docker-compose.dev.yml up  # Development mode
 ```
 
-**CLI Features:**
-
-- 📂 Categorized scripts (Development, Database, Testing, etc.)
-- 🔍 Interactive search and filtering
-- 📖 Built-in documentation for every command
-- ⚡ Tab completion support
-- 🔗 Workflow chaining capabilities
-
-### 📋 Script Categories
-
-#### Development
-
-```bash
-pnpm dev              # Start dev server (Turbopack)
-pnpm dev:debug        # Start with Node.js inspector
-pnpm dev:https        # Start with HTTPS
-pnpm build            # Production build
-pnpm start            # Start production server
-pnpm preview          # Build and preview
-```
-
-#### Code Quality
-
-```bash
-pnpm validate         # Run all checks (type, lint, format)
-pnpm type-check       # TypeScript validation
-pnpm lint             # Run ESLint
-pnpm lint:fix         # Auto-fix lint issues
-pnpm format           # Format with Prettier
-pnpm check-all        # Complete validation suite
-```
-
-#### Database
-
-```bash
-pnpm db:push          # Push schema to database
-pnpm db:studio        # Open Drizzle Studio
-pnpm db:seed          # Seed database with test data
-pnpm db:seed:verbose  # Seed with detailed logs
-pnpm db:reset         # Drop, recreate, and seed
-pnpm db:backup        # Create database backup
-```
-
-#### Image Upload & Management
-
-```bash
-pnpm upload:bulk              # Bulk upload images
-pnpm upload:bulk:cloudinary   # Upload to Cloudinary
-pnpm upload:bulk:imagekit     # Upload to ImageKit
-pnpm upload:bulk:aws          # Upload to AWS S3
-pnpm upload:bulk:dry-run      # Test without uploading
-pnpm upload:comics            # Upload comic images
-pnpm upload:test              # Test upload service
-```
-
-#### Cache & Redis
-
-```bash
-pnpm cache:clear      # Clear all cache
-pnpm cache:stats      # View cache statistics
-pnpm redis:cli        # Open Redis CLI
-pnpm redis:flush      # Flush Redis database
-pnpm redis:start      # Start Redis container
-pnpm redis:stop       # Stop Redis container
-```
-
-#### Queue & Background Jobs
-
-```bash
-pnpm queue:worker     # Start queue worker
-pnpm queue:stats      # View queue statistics
-pnpm queue:clean      # Clean completed jobs
-pnpm queue:dashboard  # Open Bull Board UI
-pnpm qstash:test      # Test QStash workflow
-```
-
-#### System Health & Monitoring
-
-```bash
-pnpm health:check     # Complete health check
-pnpm health:db        # Check database connection
-pnpm health:redis     # Check Redis connection
-pnpm health:all       # Run all health checks
-```
-
-#### Testing
-
-```bash
-pnpm test             # Run Playwright E2E tests
-pnpm test:unit        # Run Vitest unit tests
-pnpm test:unit:ui     # Open Vitest UI
-pnpm test:ui          # Open Playwright UI
-pnpm test:debug       # Debug tests
-pnpm test:all         # Run all test suites
-```
-
-#### Docker
-
-```bash
-pnpm docker:dev       # Start dev containers
-pnpm docker:prod      # Start production containers
-pnpm docker:build     # Build images
-pnpm docker:down      # Stop all containers
-pnpm docker:clean     # Remove all containers/volumes
-pnpm docker:logs      # View all logs
-pnpm docker:shell     # Open shell in app container
-pnpm docker:test      # Run Docker health tests
-```
-
-#### Project Utilities
-
-```bash
-pnpm setup            # Initial project setup
-pnpm setup:docker     # Setup with Docker
-pnpm clean            # Clean build artifacts
-pnpm clean:all        # Clean everything (including node_modules)
-pnpm update-deps      # Update dependencies
-```
-
-### 🔧 Custom Script System
-
-#### Priority-Based Task Execution
-
-```bash
-pnpm priority:list      # List all tasks by priority
-pnpm priority:run:p0    # Run critical (P0) tasks
-pnpm priority:run:p1    # Run high priority (P1) tasks
-pnpm priority:status    # View task status
-pnpm priority:complete  # Mark tasks as complete
-```
-
-#### Workflow Management
-
-```bash
-pnpm workflow:test      # Test workflow execution
-```
-
-#### Import Optimization
-
-```bash
-pnpm imports:optimize   # Optimize all imports
-pnpm imports:check      # Check import paths (dry-run)
-```
-
-### 🎨 Shell Aliases (Optional)
-
-Add to your `.bashrc`, `.zshrc`, or PowerShell profile:
-
-```bash
-# Quick aliases
-alias cw='pnpm cli'
-alias cwd='pnpm dev'
-alias cwb='pnpm build'
-alias cwt='pnpm test'
-alias cwdb='pnpm db:studio'
-alias cws='pnpm db:seed'
-```
-
-### 📚 CLI Documentation
-
-Every script includes:
-
-- Description of what it does
-- Required environment variables
-- Usage examples
-- Related commands
-- Troubleshooting tips
-
-Access documentation:
-
-```bash
-pnpm cli --help          # General help
-pnpm cli search <term>   # Search for commands
-pnpm cli docs <script>   # Detailed script docs
-```
-
----
-
-## 🗃️ Database Schema
-
-### Authentication
-
-- **users** - User accounts with role-based permissions
-- **accounts** - OAuth provider accounts
-- **sessions** - User sessions
-- **verificationToken** - Email verification tokens
-- **passwordResetToken** - Password reset tokens
-- **authenticator** - WebAuthn authenticators
-
-### Content Management
-
-- **comics** - Comic series with metadata
-- **chapters** - Individual comic chapters
-- **chapterImages** - Chapter page images
-- **comicImages** - Comic cover and promotional images
-- **genres** - Genre categorization
-- **types** - Comic types (Manga, Manhwa, etc.)
-- **authors** - Content creators
-- **artists** - Illustrators
-
-### User Interaction
-
-- **bookmarks** - User's saved comics with reading progress
-- **comments** - Chapter comments and discussions
-
----
-
-## 🔒 Security Features
-
-- **Environment Validation** - Zod-based env variable validation
-- **Rate Limiting** - Configurable limits for sensitive operations
-- **Password Hashing** - bcrypt with salt rounds
-- **SQL Injection Prevention** - Parameterized queries with Drizzle ORM
-- **CSRF Protection** - Built-in Next.js protection
-- **Secure Headers** - Custom security headers
-- **JWT Sessions** - Secure session management
-- **Input Validation** - Zod schemas for all user inputs
-
----
-
-## 🖼️ Image Upload & Optimization
-
-ComicWise supports production-grade image handling with pluggable providers:
-
-**Supported Providers:**
-
-- **Cloudinary** (cloud)
-- **ImageKit** (cloud)
-- **Local** (filesystem, for development)
-
-**Configuration:**
-
-```env
-UPLOAD_PROVIDER=cloudinary   # or imagekit or local
-
-# Cloudinary
-CLOUDINARY_CLOUD_NAME=your-cloud-name
-CLOUDINARY_API_KEY=your-api-key
-CLOUDINARY_API_SECRET=your-api-secret
-
-# ImageKit
-IMAGEKIT_PUBLIC_KEY=your-public-key
-IMAGEKIT_PRIVATE_KEY=your-private-key
-IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your-id
-```
-
-**Usage:**
-
-```typescript
-import { uploadImage, deleteImage, getImageUrl } from "@/services/upload";
-
-// Upload an image
-const result = await uploadImage(fileBuffer, {
-  folder: "comic-covers",
-  filename: "my-comic-cover",
-  transformation: { width: 800, height: 1200, quality: 85 },
-});
-
-if (result.success) {
-  console.log("Image URL:", result.url);
-}
-
-// Get optimized URL
-const optimizedUrl = await getImageUrl(result.publicId, {
-  width: 400,
-  quality: 80,
-});
-
-// Delete image
-await deleteImage(result.publicId);
-```
-
----
-
-## 📧 Email Templates
-
-Professionally designed email templates using `@react-email/components`:
-
-- **Verification Email** - Account email verification
-- **Password Reset Email** - Password reset requests
-- **Welcome Email** - New user onboarding
-
-Features:
-
-- Responsive design
-- Dark mode support
-- Accessible markup
-- Cross-client compatibility
-
----
-
-## 🔧 Configuration
-
-### Environment Variables
-
-**Database:**
-
-```env
-DATABASE_URL=postgresql://user:pass@localhost:5432/comicwise
-```
-
-**Authentication:**
-
-```env
-NEXTAUTH_SECRET=your-secret-key  # Generate with: openssl rand -base64 32
-NEXTAUTH_URL=http://localhost:3000
-```
-
-**Email:**
-
-```env
-EMAIL_SERVER_HOST=smtp.gmail.com
-EMAIL_SERVER_PORT=587
-EMAIL_SERVER_USER=your-email@gmail.com
-EMAIL_SERVER_PASSWORD=your-app-password
-EMAIL_FROM=noreply@comicwise.com
-```
-
-**OAuth (Optional):**
-
-```env
-GOOGLE_CLIENT_ID=your-client-id
-GOOGLE_CLIENT_SECRET=your-client-secret
-GITHUB_ID=your-github-id
-GITHUB_SECRET=your-github-secret
-```
-
-### App Configuration
-
-All app-wide settings are in `src/app-config/`:
-
-```typescript
-{
-  name: "ComicWise",
-  url: env.NEXT_PUBLIC_APP_URL,
-  pagination: { defaultLimit: 12, maxLimit: 100 },
-  rateLimit: {
-    default: { requests: 10, window: 10 },
-    auth: { requests: 5, window: 900 },
-    email: { requests: 3, window: 3600 },
-  },
-}
-```
-
----
+### Technology Stack
+
+#### Frontend
+- **Next.js 15.1.3** - React framework with App Router
+- **React 19** - UI library with Server Components
+- **TypeScript 5.7.2** - Type-safe JavaScript
+- **Tailwind CSS 3.4.17** - Utility-first CSS framework
+- **shadcn/ui** - Re-usable component library
+- **Framer Motion** - Animation library
+- **Recharts** - Data visualization
+
+#### Backend
+- **Next.js API Routes** - Serverless API
+- **NextAuth.js v5** - Authentication
+- **Drizzle ORM** - Type-safe database ORM
+- **PostgreSQL** - Relational database
+- **Redis** (Upstash) - Caching and rate limiting
+
+#### DevOps
+- **Docker** - Containerization
+- **pnpm** - Fast, disk space efficient package manager
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+- **Husky** - Git hooks
+
+#### Services
+- **ImageKit** - Image CDN and optimization
+- **Resend** - Email delivery
+- **Upstash Redis** - Serverless Redis
 
 ## 🧪 Testing
 
-### Docker Testing
-
 ```bash
-make test-docker
+# Run all tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Run E2E tests
+pnpm test:e2e
+
+# Generate coverage report
+pnpm test:coverage
 ```
 
-Includes:
+## 🚢 Deployment
 
-- Container health checks
-- Database connectivity tests
-- Redis functionality tests
-- Application endpoint tests
-- Resource usage monitoring
-
-### Manual Testing
+### Production Build
 
 ```bash
-make type-check    # TypeScript validation
-make lint          # Code linting
-make check-all     # All quality checks
+# Install dependencies
+pnpm install --frozen-lockfile
+
+# Build application
+pnpm build
+
+# Start production server
+pnpm start
 ```
 
----
+### Docker Deployment
 
-## 📚 Additional Documentation
+```bash
+# Build and start containers
+docker-compose up -d
 
-- [ENVIRONMENT_DOCKER_SETUP_INDEX.md](ENVIRONMENT_DOCKER_SETUP_INDEX.md) -
-  Complete Docker & environment setup
-- [DOCKER_ENV_SETUP.md](DOCKER_ENV_SETUP.md) - Detailed environment
-  configuration
-- [CONFIG_FILE_INDEX.md](CONFIG_FILE_INDEX.md) - Configuration file reference
-- [.envs/README.md](.envs/README.md) - Environment variables guide
+# View logs
+docker-compose logs -f
 
----
+# Stop containers
+docker-compose down
+```
+
+### Environment Variables (Production)
+
+Ensure all required environment variables are set:
+- `DATABASE_URL` - Production database connection string
+- `NEXTAUTH_SECRET` - Secure random string for JWT signing
+- `NEXTAUTH_URL` - Production URL
+- All API keys for third-party services
+
+## 🔒 Security
+
+- **Authentication**: JWT-based with NextAuth.js
+- **Authorization**: Role-based access control (RBAC)
+- **Rate Limiting**: API route protection
+- **Input Validation**: Zod schema validation
+- **SQL Injection Protection**: Parameterized queries via Drizzle ORM
+- **CSRF Protection**: Built-in Next.js protection
+- **XSS Protection**: React automatic escaping
+- **HTTPS**: Required in production
+
+## 🎨 Code Style
+
+This project follows:
+- **ESLint** configuration for code quality
+- **Prettier** for consistent formatting
+- **TypeScript strict mode** for type safety
+- **CamelCase** naming for files and components
+- **DRY principles** throughout the codebase
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please:
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### Development Workflow
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
 3. Make your changes
-4. Run checks: `make pre-commit`
-5. Commit: `git commit -m 'Add amazing feature'`
-6. Push: `git push origin feature/amazing-feature`
+4. Run tests and linting (`pnpm test && pnpm lint`)
+5. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+6. Push to the branch (`git push origin feature/AmazingFeature`)
 7. Open a Pull Request
-
-**Code Standards:**
-
-- Follow the existing code style
-- Run `make pre-commit` before committing
-- Write clear commit messages
-- Update documentation as needed
-- Add tests for new features
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
-for details.
-
----
-
-## 🙏 Acknowledgments
-
-- [Next.js](https://nextjs.org/) - React framework
-- [shadcn/ui](https://ui.shadcn.com/) - UI components
-- [Drizzle ORM](https://orm.drizzle.team/) - Database ORM
-- [NextAuth.js](https://next-auth.js.org/) - Authentication
-- [Zod](https://zod.dev/) - Schema validation
-- [Tailwind CSS](https://tailwindcss.com/) - Styling
-- [React Email](https://react.email/) - Email templates
-- [PostgreSQL](https://www.postgresql.org/) - Database
-- [Docker](https://www.docker.com/) - Containerization
-
----
 
 ## 📞 Support
 
-- Open an issue on GitHub
-- Check existing documentation
-- Review closed issues for solutions
+- **Issues**: [GitHub Issues](https://github.com/yourusername/comicwise/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/comicwise/discussions)
+- **Email**: support@comicwise.com
 
----
+## 🙏 Acknowledgments
 
-## 🎨 Theming System
+- [Next.js](https://nextjs.org/) - The React Framework
+- [Vercel](https://vercel.com/) - Deployment platform
+- [shadcn/ui](https://ui.shadcn.com/) - UI components
+- [Drizzle ORM](https://orm.drizzle.team/) - TypeScript ORM
+- All our amazing contributors!
 
-ComicWise includes a comprehensive theming system with:
+## 📊 Project Status
 
-### Features
-
-- 🌓 **Dark/Light Mode** - Seamless theme switching
-- 🎨 **Custom Themes** - Create and apply custom color schemes
-- 💾 **Theme Persistence** - Saves user preferences
-- 🔧 **CSS Variables** - Easy customization
-- 📱 **Responsive** - Works across all devices
-
-### Usage
-
-```tsx
-import { useTheme } from "next-themes";
-
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-
-  return (
-    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-      Toggle Theme
-    </button>
-  );
-}
-```
-
-### Creating Custom Themes
-
-Edit `src/app/globals.css`:
-
-```css
-:root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  /* ... more variables */
-}
-
-.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  /* ... more variables */
-}
-```
-
-### Theme Configuration
-
-Configure themes in `tailwind.config.ts`:
-
-```typescript
-module.exports = {
-  darkMode: ["class"],
-  theme: {
-    extend: {
-      colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-      },
-    },
-  },
-};
-```
-
----
-
-## 🔄 CI/CD Integration
-
-### GitHub Actions Workflows
-
-ComicWise includes pre-configured CI/CD workflows:
-
-#### Continuous Integration
-
-```yaml
-# .github/workflows/ci.yml
-- Type checking
-- Linting
-- Unit tests
-- E2E tests
-- Build verification
-```
-
-#### Deployment
-
-```yaml
-# .github/workflows/deploy.yml
-- Docker image building
-- Container registry push
-- Production deployment
-- Health checks
-```
-
-### Pre-commit Hooks
-
-Automatic code quality checks:
-
-```bash
-# Configured via Husky
-- ESLint
-- Prettier
-- Type checking
-- Spell checking
-```
-
-### CI Health Tracking
-
-```bash
-pnpm ci              # Run CI checks locally
-pnpm ci:full         # Complete CI suite
-pnpm ci:test         # Run CI tests
-```
-
----
-
-## 📘 Complete Documentation
-
-### Getting Started
-
-- [Quick Start Guide](docs/SETUP.md)
-- [Docker Setup](docs/DOCKER_ENV_SETUP.md)
-- [Environment Configuration](docs/CONFIG_FILE_INDEX.md)
-
-### Development
-
-- [CLI Reference](docs/CLI_REFERENCE.md)
-- [Workflow Chaining](docs/WORKFLOW_CHAINING.md)
-- [Error Troubleshooting](docs/TROUBLESHOOTING.md)
-- [Pro Tips & Shortcuts](docs/PRO_TIPS.md)
-
-### Deployment
-
-- [Production Deployment](docs/DEPLOYMENT.md)
-- [CI/CD Templates](docs/CICD_TEMPLATES.md)
-- [Environment Variables](.envs/README.md)
-
-### Architecture
-
-- [Project Structure](docs/ARCHITECTURE.md)
-- [Database Schema](docs/DATABASE.md)
-- [API Reference](docs/API.md)
-
----
-
-## 🚀 Project Scaffolding
-
-### Quick Templates
-
-```bash
-# Create new component
-pnpm cli scaffold component <name>
-
-# Create new API route
-pnpm cli scaffold api <route>
-
-# Create new page
-pnpm cli scaffold page <path>
-
-# Create new email template
-pnpm cli scaffold email <name>
-
-# Create full CRUD module
-pnpm cli scaffold crud <resource>
-```
-
-### Template Features
-
-- Pre-configured TypeScript types
-- Built-in error handling
-- Validation schemas
-- Test files
-- Documentation
-
----
+- ✅ Core functionality complete
+- ✅ Authentication system
+- ✅ Admin dashboard
+- ✅ Comic reading interface
+- ✅ Search and filtering
+- 🚧 Mobile app (planned)
+- 🚧 Social features (planned)
+- 🚧 Reading analytics (planned)
 
 ## 🗺️ Roadmap
 
-### In Progress
-
-- [ ] Advanced analytics dashboard
-- [ ] Real-time notifications with WebSockets
-- [ ] AI-powered comic recommendations
-
-### Planned
-
-- [ ] Mobile app (React Native)
-- [ ] Advanced search with Elasticsearch
-- [ ] Social features (follow, activity feed)
+### Q1 2025
+- [ ] Enhanced search with filters
 - [ ] Reading lists and collections
-- [ ] Multi-language support (i18n)
-- [ ] PWA support
-- [ ] GraphQL API
-- [ ] Micro-frontends architecture
+- [ ] User notifications system
+- [ ] Mobile-responsive improvements
 
-### Completed ✅
+### Q2 2025
+- [ ] Social features (following, sharing)
+- [ ] Reading analytics and statistics
+- [ ] Recommendation system
+- [ ] API rate limiting enhancements
 
-- [x] Docker containerization
-- [x] CLI system with 100+ scripts
-- [x] Bulk image upload
-- [x] Redis caching
-- [x] Queue workers
-- [x] Health monitoring
-- [x] Comprehensive theming
-- [x] CI/CD pipelines
-
----
-
-## 🎯 Performance
-
-### Optimizations
-
-- ⚡ **Next.js 16 Turbopack** - Lightning-fast builds
-- 🗜️ **Image Optimization** - Automatic WebP conversion
-- 📦 **Code Splitting** - Route-based chunking
-- 💾 **Redis Caching** - Reduced database queries
-- 🔄 **ISR** - Incremental Static Regeneration
-- 🎨 **CSS-in-JS** - Zero runtime overhead with Tailwind
-
-### Benchmarks
-
-- Lighthouse Score: 95+
-- First Contentful Paint: < 1.5s
-- Time to Interactive: < 3s
-- Build Time: ~45s (with Turbopack)
+### Q3 2025
+- [ ] Mobile application (React Native)
+- [ ] Offline reading support
+- [ ] Advanced admin analytics
+- [ ] Multi-language support
 
 ---
 
-## 🔒 Security Best Practices
+**Made with ❤️ by the ComicWise Team**
 
-- ✅ Environment variable validation
-- ✅ Rate limiting on all API routes
-- ✅ SQL injection prevention
-- ✅ XSS protection
-- ✅ CSRF tokens
-- ✅ Secure headers
-- ✅ Input sanitization
-- ✅ Password hashing (bcrypt)
-- ✅ JWT session management
-- ✅ OAuth 2.0 support
-
----
-
-**Built with ❤️ using Next.js 16 | Powered by PostgreSQL & Redis**
+Last Updated: 2025-12-26
+Version: 1.0.0

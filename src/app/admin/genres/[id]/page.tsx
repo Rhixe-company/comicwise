@@ -10,7 +10,7 @@ export default function EditGenrePage({ params }: { params: { id: string } }) {
       </div>
 
       <Suspense fallback={<div className="text-muted-foreground">Loading genre editor...</div>}>
-        <EditGenreForm params={params} />
+        <EditGenreForm id={params.id} />
       </Suspense>
     </div>
   );

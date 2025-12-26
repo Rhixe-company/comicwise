@@ -15,8 +15,9 @@ export const Choicebox = ({ className, ...props }: ChoiceboxProps) => (
 
 export type ChoiceboxItemProps = RadioGroupPrimitive.RadioGroupItemProps;
 
-export const ChoiceboxItem = ({ className, children, ...props }: ChoiceboxItemProps) => (
+export const ChoiceboxItem = ({ className, children, value = "", ...props }: ChoiceboxItemProps) => (
   <RadioGroupPrimitive.Item
+    value={value}
     asChild
     className={cn(
       "text-left",

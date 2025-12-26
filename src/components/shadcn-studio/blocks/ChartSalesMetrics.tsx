@@ -9,9 +9,7 @@ import {
   TrendingUpIcon,
 } from "lucide-react";
 
-// ts-expect-error - recharts Label export type mismatch
-import * as Recharts from "recharts";
-const { Bar, BarChart, Pie, PieChart } = Recharts;;
+import { Bar, BarChart, Pie, PieChart, Label } from "recharts";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";

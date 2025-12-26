@@ -1,4 +1,4 @@
-/* eslint-disable typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -23,10 +23,9 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import type { DefaultValues, Path, UseFormReturn } from "react-hook-form";
+import type { Path } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
 import type { z } from "zod";
 
 export type FieldType =
@@ -72,10 +71,9 @@ export function BaseForm<T extends z.ZodTypeAny>({
 }: BaseFormProps<T>) {
   type FormValues = z.infer<T>;
 
-  // @ts-expect-error - zodResolver type compatibility issue with react-hook-form generics
   const form = useForm<FormValues>({
     resolver: zodResolver(schema) as any,
-    defaultValues: defaultValues as DefaultValues<FormValues>,
+    defaultValues: defaultValues as any,
   });
 
   const handleSubmit = async (values: FormValues) => {
@@ -88,7 +86,7 @@ export function BaseForm<T extends z.ZodTypeAny>({
     }
   };
 
-  const renderField = (field: FormFieldConfig<T>, formInstance: UseFormReturn<FormValues>) => {
+  const renderField = (field: FormFieldConfig<T>, formInstance: typeof form) => {
     const fieldName = String(field.name) as Path<FormValues>;
 
     switch (field.type) {
@@ -248,5 +246,3 @@ export function BaseForm<T extends z.ZodTypeAny>({
     </Form>
   );
 }
-
-

@@ -7,9 +7,18 @@ import { authOptions } from "authConfig";
 import { eq } from "drizzle-orm";
 import type { Session } from "next-auth";
 import NextAuth from "next-auth";
+import bcrypt from "bcryptjs";
+import appConfig from "@/appConfig";
 
 // Type assertion to satisfy NextAuth's strict typing
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions as any);
+
+/**
+ * Hash password helper
+ */
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, appConfig.security?.bcryptRounds ?? 10);
+}
 
 /**
  * Get the current user's session

@@ -61,7 +61,12 @@ export function parseCLIArgs(args: string[]): SeedConfig {
     }
   });
 
-  if (!config.enabled.users && !config.enabled.comics && !config.enabled.chapters && !config.enabled.all) {
+  if (
+    !config.enabled.users &&
+    !config.enabled.comics &&
+    !config.enabled.chapters &&
+    !config.enabled.all
+  ) {
     config.enabled.all = true;
   }
 

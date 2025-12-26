@@ -1,7 +1,0 @@
-
-> comicwise@0.1.0 type-check C:\Users\Alexa\Desktop\SandBox\comicwise
-> tsc --noEmit
-
-src/components/shadcn-studio/blocks/chart-sales-metrics.tsx(40,12): error TS1005: ':' expected.
-src/components/shadcn-studio/blocks/chart-sales-metrics.tsx(40,16): error TS1005: ',' expected.
-ΓÇëELIFECYCLEΓÇë Command failed with exit code 2.

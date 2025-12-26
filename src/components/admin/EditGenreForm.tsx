@@ -6,19 +6,26 @@
 "use client";
 
 import { BaseForm } from "@/components/admin/BaseForm";
-import { genreSchema } from "@/database/schema";
+import { insertGenreSchema } from "@/lib/validations/genreValidation";
 
-interface EditGenreFormProps {
+export interface EditGenreFormProps {
   id: string | number;
 }
 
 export function EditGenreForm({ id }: EditGenreFormProps) {
   return (
     <BaseForm
-      schema={genreSchema}
-      entityName="genre"
-      entityId={id}
-      fields={[]} // Add fields configuration
+      schema={insertGenreSchema}
+      fields={[
+        { name: "name", label: "Name", type: "text", placeholder: "Enter genre name" },
+        {
+          name: "description",
+          label: "Description",
+          type: "textarea",
+          placeholder: "Enter genre description",
+        },
+      ]}
+      defaultValues={{ name: "", description: null }}
       onSubmit={async (data) => {
         // Add submission logic
         console.log("Submitting:", data);

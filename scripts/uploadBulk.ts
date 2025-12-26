@@ -85,7 +85,15 @@ class BulkUploader {
         // Dynamically import AWS provider if available
         try {
           const { S3Provider } = await import("@/services/upload/providers/s3");
-          this.providers.set("aws", new S3Provider());
+          this.providers.set(
+            "aws",
+            new S3Provider({
+              accessKeyId: env.AWS_ACCESS_KEY_ID,
+              secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+              region: env.AWS_REGION,
+              bucket: env.AWS_S3_BUCKET_NAME,
+            })
+          );
           console.log("✅ AWS S3 initialized");
         } catch (error) {
           console.warn("⚠️  AWS S3 provider not found - skipping");

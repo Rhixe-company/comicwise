@@ -1,6 +1,6 @@
 /**
  * Enhanced Dynamic Seeding System - Core Types & Interfaces
- * 
+ *
  * @module SeedTypes
  * @description Comprehensive type definitions for the dynamic seeding system
  */
@@ -71,16 +71,16 @@ export interface DataSourceConfig {
 export interface ISeeder<T = unknown> {
   /** Entity name */
   readonly entity: string;
-  
+
   /** Validate data against schema */
   validate(data: unknown[]): T[];
-  
+
   /** Transform data if needed */
   transform(data: T[]): T[];
-  
+
   /** Seed data to database */
   seed(data: T[], options?: SeedOptions): Promise<SeedResult>;
-  
+
   /** Clear all data for this entity */
   clear(): Promise<void>;
 }
@@ -128,6 +128,4 @@ export interface ValidationError {
 // EXPORT ALL
 // ═══════════════════════════════════════════════════
 
-export type {
-  z as ZodType
-};
+export type { z as ZodType };

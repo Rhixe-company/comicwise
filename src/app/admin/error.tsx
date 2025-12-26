@@ -1,6 +1,6 @@
 "use client";
 
-import { isDevelopment } from "@/appConfig";
+import { isDevelopment } from "@/lib/clientConfig";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";

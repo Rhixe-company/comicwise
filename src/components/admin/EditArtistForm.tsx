@@ -6,19 +6,22 @@
 "use client";
 
 import { BaseForm } from "@/components/admin/BaseForm";
-import { artistSchema } from "@/database/schema";
+import { insertArtistSchema } from "@/lib/validations/artistValidation";
 
-interface EditArtistFormProps {
+export interface EditArtistFormProps {
   id: string | number;
 }
 
 export function EditArtistForm({ id }: EditArtistFormProps) {
   return (
     <BaseForm
-      schema={artistSchema}
-      entityName="artist"
-      entityId={id}
-      fields={[]} // Add fields configuration
+      schema={insertArtistSchema}
+      fields={[
+        { name: "name", label: "Name", type: "text", placeholder: "Enter artist name" },
+        { name: "bio", label: "Bio", type: "textarea", placeholder: "Enter artist bio" },
+        { name: "image", label: "Image URL", type: "text", placeholder: "Enter image URL" },
+      ]}
+      defaultValues={{ name: "", bio: null, image: null }}
       onSubmit={async (data) => {
         // Add submission logic
         console.log("Submitting:", data);

@@ -1,6 +1,6 @@
-import * as Recharts from "recharts";
-const { Bar, BarChart, Pie, PieChart } = Recharts;;
-("use client");
+"use client";
+
+import { Bar, BarChart, Pie, PieChart, Label } from "recharts";
 
 import {
   BadgePercentIcon,

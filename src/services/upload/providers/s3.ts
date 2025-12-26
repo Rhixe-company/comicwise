@@ -13,7 +13,7 @@ export interface S3Config {
 export class S3Provider {
   constructor(private config: S3Config) {}
 
-  async upload(file: File): Promise<{url: string}> {
+  async upload(file: File): Promise<{ url: string }> {
     throw new Error("S3 upload not implemented yet");
   }
 }

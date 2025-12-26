@@ -1,0 +1,75 @@
+[2025-12-26 20:32:08] [INFO] === Starting Complete Optimization ===
+[2025-12-26 20:32:08] [INFO] Project Root: C:\Users\Alexa\Desktop\SandBox\comicwise
+[2025-12-26 20:32:08] [INFO] WhatIf Mode: False
+[2025-12-26 20:32:08] [INFO] --- Task 8: CamelCase Conversion ---
+[2025-12-26 20:32:08] [INFO] Starting CamelCase conversion...
+[2025-12-26 20:32:10] [INFO] Found 35 files to rename
+[2025-12-26 20:32:11] [WARN] Skipping: GenericCrud.ts already exists
+[2025-12-26 20:32:11] [WARN] Skipping: AuthBackgroundShape.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: BlogComponent01.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: FooterComponent01.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: LoginForm.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: LoginPage01.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: NavbarComponent01.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: Register01.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: RegisterForm.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: ChartSalesMetrics.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: DatatableTransaction.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: DropdownLanguage.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: DropdownProfile.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: StatisticsCard01.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: WidgetProductInsights.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: WidgetTotalEarning.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: DataTable04.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: AlertDialog.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: DropdownMenu.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: InputGroup.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: LoadingSwap.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: NavigationMenu.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: RadioGroup.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: ScrollArea.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: ToggleGroup.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: AppSidebar.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: UseDebounceCallback.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: UseEventCallback.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: UseEventListener.ts already exists
+[2025-12-26 20:32:11] [WARN] Skipping: UseIsomorphicLayoutEffect.tsx already exists
+[2025-12-26 20:32:11] [WARN] Skipping: UseMobile.ts already exists
+[2025-12-26 20:32:12] [WARN] Skipping: UsePagination.ts already exists
+[2025-12-26 20:32:12] [WARN] Skipping: UseUnmount.tsx already exists
+[2025-12-26 20:32:12] [INFO] Renamed: generic-crud.ts -> GenericCrud.ts
+[2025-12-26 20:32:12] [INFO] Renamed: react-email.d.ts -> ReactEmail.d.ts
+[2025-12-26 20:32:12] [INFO] --- Task 9: Project Cleanup ---
+[2025-12-26 20:32:12] [INFO] Starting project cleanup...
+[2025-12-26 20:32:12] [INFO] Removing .backup files...
+[2025-12-26 20:32:23] [INFO] Found 0 backup files
+[2025-12-26 20:32:23] [INFO] Skipping duplicate file search (performance optimization)
+[2025-12-26 20:32:23] [INFO] Removing empty directories...
+[2025-12-26 20:32:36] [INFO] Found 20 empty directories
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [slug]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: read
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [chapterId]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [chapterNumber]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:36] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:37] [INFO] Deleted empty directory: [id]
+[2025-12-26 20:32:37] [INFO] --- Task 10: Remove Unused Packages ---
+[2025-12-26 20:32:37] [INFO] Analyzing unused packages...
+[2025-12-26 20:32:37] [INFO] Running depcheck...
+[2025-12-26 20:34:13] [INFO] Depcheck completed
+[2025-12-26 20:34:13] [WARN] Please review depcheck output and manually remove unused packages
+[2025-12-26 20:34:13] [INFO] === Optimization Complete ===
+[2025-12-26 20:34:13] [INFO] Log file: C:\Users\Alexa\Desktop\SandBox\comicwise\scripts\optimization-log-20251226-203208.txt

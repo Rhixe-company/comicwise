@@ -6,19 +6,22 @@
 "use client";
 
 import { BaseForm } from "@/components/admin/BaseForm";
-import { authorSchema } from "@/database/schema";
+import { insertAuthorSchema } from "@/lib/validations/authorValidation";
 
-interface EditAuthorFormProps {
+export interface EditAuthorFormProps {
   id: string | number;
 }
 
 export function EditAuthorForm({ id }: EditAuthorFormProps) {
   return (
     <BaseForm
-      schema={authorSchema}
-      entityName="author"
-      entityId={id}
-      fields={[]} // Add fields configuration
+      schema={insertAuthorSchema}
+      fields={[
+        { name: "name", label: "Name", type: "text", placeholder: "Enter author name" },
+        { name: "bio", label: "Bio", type: "textarea", placeholder: "Enter author bio" },
+        { name: "image", label: "Image URL", type: "text", placeholder: "Enter image URL" },
+      ]}
+      defaultValues={{ name: "", bio: null, image: null }}
       onSubmit={async (data) => {
         // Add submission logic
         console.log("Submitting:", data);

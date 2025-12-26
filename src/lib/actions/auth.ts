@@ -4,7 +4,8 @@
 // AUTH SERVER ACTIONS (Next.js 16 + Rate Limiting + Emails)
 // ═══════════════════════════════════════════════════
 
-import appConfig, { checkRateLimit } from "@/appConfig";
+import appConfig from "@/appConfig";
+import { checkRateLimit, clearRateLimit, getRateLimitStatus } from "@/lib/ratelimit";
 import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
 import {
@@ -531,4 +532,3 @@ export {
   signOutAction as signOutUser,
   verifyEmailAction as verifyEmail,
 };
-

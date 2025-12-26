@@ -21,7 +21,7 @@ import {
   type ReactNode,
 } from "react";
 import { cn } from "utils";
-import { zxcvbn, zxcvbnOptions } from "zxcvbn-ts/core";
+import { zxcvbn, zxcvbnOptions } from "@zxcvbn-ts/core";
 
 const PasswordInputContext = createContext<{ password: string } | null>(null);
 
@@ -84,7 +84,7 @@ export function PasswordInputStrengthChecker() {
   }, [optionsLoaded, deferredPassword]);
 
   useEffect(() => {
-    Promise.all([import("zxcvbn-ts/language-common"), import("zxcvbn-ts/language-en")])
+    Promise.all([import("@zxcvbn-ts/language-common"), import("@zxcvbn-ts/language-en")])
       .then(([commonModule, englishModule]) => {
         const common =
           (commonModule as { default?: Record<string, unknown> }).default ||
