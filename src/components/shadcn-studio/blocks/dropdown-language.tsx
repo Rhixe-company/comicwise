@@ -9,7 +9,7 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from "ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 
 type Props = {
   trigger: ReactNode;

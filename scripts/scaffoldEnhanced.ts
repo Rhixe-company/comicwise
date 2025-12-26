@@ -55,7 +55,7 @@ export function use${name}(options: Use${name}Options = {}) {
 
   action: (name: string) => `"use server";
 
-import type { ActionResponse } from "types/actions";
+import type { ActionResponse } from "@/types/actions";
 
 export async function ${name}Action(
   data: unknown

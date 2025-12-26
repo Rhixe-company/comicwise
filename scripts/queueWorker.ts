@@ -5,7 +5,7 @@
  */
 
 // TODO: Create lib/queue or remove this import
-// import { emailQueue } from "lib/queue";
+// import { emailQueue } from "@/lib/queue";
 
 console.log("═══════════════════════════════════════════════════════════");
 console.log("  ⚙️  Queue Worker Starting");

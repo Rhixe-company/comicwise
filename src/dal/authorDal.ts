@@ -3,11 +3,11 @@
  * Handles all database operations for authors
  */
 
-import { db } from "db";
+import { db } from "@/database/db";
+import { author } from "@/database/schema";
+import { logger } from "@/lib/logger";
+import type { Author } from "@/typesdatabase";
 import { desc, eq, like } from "drizzle-orm";
-import { logger } from "lib/logger";
-import { author } from "schema";
-import type { Author } from "/typesdatabase";
 
 export class AuthorDal {
   private static instance: AuthorDal;

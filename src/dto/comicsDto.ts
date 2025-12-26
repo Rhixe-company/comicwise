@@ -3,7 +3,7 @@
  * Data Transfer Objects for comic operations
  */
 
-import type { comic } from "schema";
+import type { comic } from "@/database/schema";
 
 export type ComicDto = typeof comic.$inferSelect;
 export type CreateComicDto = typeof comic.$inferInsert;
@@ -55,4 +55,4 @@ export type ComicFiltersDto = {
   limit?: number;
 };
 
-export { createComic } from "actions/comics";
+export { createComic } from "@/lib/actions/comics";

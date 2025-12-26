@@ -1,7 +1,7 @@
 // Typed cache wrapper to unify Upstash and ioredis usages
 import Redis from "ioredis";
 
-import { env } from "@/app-config";
+import { env } from "@/appConfig";
 
 export type CacheValue = string | number | object | null;
 

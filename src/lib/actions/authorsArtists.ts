@@ -4,25 +4,25 @@
 // AUTHORS & ARTISTS CRUD SERVER ACTIONS (Next.js 16)
 // ═══════════════════════════════════════════════════
 
-import appConfig from "@/app-config";
-import { db as database } from "db";
-import { asc, eq, like, sql } from "drizzle-orm";
+import appConfig from "@/appConfig";
+import { db as database } from "@/database/db";
+import { artist, author } from "@/database/schema";
 import type {
   CreateArtistInput,
   CreateAuthorInput,
   PaginationInput,
   UpdateArtistInput,
   UpdateAuthorInput,
-} from "lib/validations";
+} from "@/lib/validations";
 import {
   createArtistSchema,
   createAuthorSchema,
   paginationSchema,
   updateArtistSchema,
   updateAuthorSchema,
-} from "lib/validations";
+} from "@/lib/validations";
+import { asc, eq, like, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { artist, author } from "schema";
 
 export type ActionResult<T = unknown> =
   | { success: true; data: T; message?: string }

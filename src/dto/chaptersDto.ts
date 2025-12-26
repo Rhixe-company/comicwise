@@ -3,7 +3,7 @@
  * Data Transfer Objects for chapter operations
  */
 
-import type { chapter } from "schema";
+import type { chapter } from "@/database/schema";
 
 export type ChapterDto = typeof chapter.$inferSelect;
 export type CreateChapterDto = typeof chapter.$inferInsert;
@@ -30,4 +30,4 @@ export type ChapterNavigationDto = {
   next?: ChapterDto;
 };
 
-export { deleteChapter, updateChapter } from "actions/chapters";
+export { deleteChapter, updateChapter } from "@/lib/actions/chapters";

@@ -14,13 +14,13 @@ import { extname, join } from "path";
 
 const MIGRATION_RULES = [
   // Database
-  { from: /from ['"]\.\.\/\.\.\database\/db['"]/g, to: 'from "db"' },
-  { from: /from ['"]\.\.\/\.\.\/\.\.\database\/db['"]/g, to: 'from "db"' },
-  { from: /from ['"]\database\/db['"]/g, to: 'from "db"' },
+  { from: /from ['"]\.\.\/\.\.\database\/db['"]/g, to: 'from "@/database/db"' },
+  { from: /from ['"]\.\.\/\.\.\/\.\.\database\/db['"]/g, to: 'from "@/database/db"' },
+  { from: /from ['"]\database\/db['"]/g, to: 'from "@/database/db"' },
 
-  { from: /from ['"]\.\.\/\.\.\database\/schema['"]/g, to: 'from "schema"' },
-  { from: /from ['"]\.\.\/\.\.\/\.\.\database\/schema['"]/g, to: 'from "schema"' },
-  { from: /from ['"]\database\/schema['"]/g, to: 'from "schema"' },
+  { from: /from ['"]\.\.\/\.\.\database\/schema['"]/g, to: 'from "@/database/schema"' },
+  { from: /from ['"]\.\.\/\.\.\/\.\.\database\/schema['"]/g, to: 'from "@/database/schema"' },
+  { from: /from ['"]\database\/schema['"]/g, to: 'from "@/database/schema"' },
 
   // Utils
   { from: /from ['"]\.\.\/\.\.\lib\/utils['"]/g, to: 'from "utils"' },

@@ -3,7 +3,7 @@
  * Data Transfer Objects for bookmark operations
  */
 
-import type { bookmark } from "schema";
+import type { bookmark } from "@/database/schema";
 
 export type BookmarkDto = typeof bookmark.$inferSelect;
 export type CreateBookmarkDto = typeof bookmark.$inferInsert;

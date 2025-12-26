@@ -1,8 +1,5 @@
 "use client";
 
-import { BookOpen, FileText, FolderOpen, Palette, Tag, UserCircle, Users } from "lucide-react";
-import { useRouter } from "next/navigation";
-import * as React from "react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -10,7 +7,10 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "ui/command";
+} from "@/components/ui/command";
+import { BookOpen, FileText, FolderOpen, Palette, Tag, UserCircle, Users } from "lucide-react";
+import { useRouter } from "next/navigation";
+import * as React from "react";
 
 const navigationItems = [
   { title: "Dashboard", href: "/admin", icon: FileText },

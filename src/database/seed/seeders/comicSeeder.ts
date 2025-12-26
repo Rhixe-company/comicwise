@@ -2,17 +2,17 @@
  * Comic Seeder
  */
 
-import * as mutations from "database/mutations";
-import * as queries from "database/queries";
-import type { SeedConfig } from "database/seed/config";
-import { ProgressTracker } from "database/seed/logger";
-import { BatchProcessor } from "database/seed/utils/batchProcessor";
-import { createSlug, normalizeDate, validateArray } from "database/seed/utils/helpers";
-import type { MetadataCache } from "database/seed/utils/metadataCache";
-import type { ComicSeed } from "lib/validations";
-import { imageService } from "services/imageService";
-import { comicSeedSchema } from "validations/index";
-import type { ComicStatus } from "/typesdatabase";
+import * as mutations from "@/database/mutations";
+import * as queries from "@/database/queries";
+import type { SeedConfig } from "@/database/seed/config";
+import { ProgressTracker } from "@/database/seed/logger";
+import { BatchProcessor } from "@/database/seed/utils/batchProcessor";
+import { createSlug, normalizeDate, validateArray } from "@/database/seed/utils/helpers";
+import type { MetadataCache } from "@/database/seed/utils/metadataCache";
+import type { ComicSeed } from "@/lib/validations";
+import { comicSeedSchema } from "@/lib/validations/index";
+import { imageService } from "@/services/imageService";
+import type { ComicStatus } from "@/typesdatabase";
 
 /**
  *

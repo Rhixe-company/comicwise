@@ -1,6 +1,6 @@
-import { db as database } from "db";
+import { db as database } from "@/database/db";
+import { artist, author, comic, type as typeTable } from "@/database/schema";
 import { desc, eq, like } from "drizzle-orm";
-import { artist, author, comic, type as typeTable } from "schema";
 
 const COMICS_PER_PAGE = 25;
 

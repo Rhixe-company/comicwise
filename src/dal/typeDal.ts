@@ -3,11 +3,11 @@
  * Handles all database operations for types
  */
 
-import { db } from "db";
+import { db } from "@/database/db";
+import { type as typeTable } from "@/database/schema";
+import { logger } from "@/lib/logger";
+import type { Type } from "@/typesdatabase";
 import { asc, eq } from "drizzle-orm";
-import { logger } from "lib/logger";
-import { type as typeTable } from "schema";
-import type { Type } from "/typesdatabase";
 
 export class TypeDal {
   private static instance: TypeDal;

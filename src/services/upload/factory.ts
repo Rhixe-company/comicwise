@@ -2,9 +2,9 @@
 // UPLOAD PROVIDER FACTORY - Provider selection and instantiation
 // ═══════════════════════════════════════════════════════════════════════════
 
-import { env } from "@/app-config";
+import { env } from "@/appConfig";
 
-import type { UploadProvider, UploadProviderType } from "services/upload/types";
+import type { UploadProvider, UploadProviderType } from "@/services/upload/types";
 
 /**
  * Get the upload provider instance based on environment configuration

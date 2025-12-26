@@ -1,10 +1,10 @@
-import { deleteChapter, updateChapter } from "dto/chaptersDto";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { deleteChapter, updateChapter } from "@/dto/chaptersDto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Button } from "ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
-import { Input } from "ui/input";
-import { Textarea } from "ui/textarea";
 
 export default async function EditChapterForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);

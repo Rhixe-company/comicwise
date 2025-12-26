@@ -1,12 +1,12 @@
 "use client";
 
-import type { DragEndEvent } from "dnd-kit/core";
-import { DndContext, rectIntersection, useDraggable, useDroppable } from "dnd-kit/core";
-import { restrictToVerticalAxis } from "dnd-kit/modifiers";
+import type { DragEndEvent } from "@dnd-kit/core";
+import { DndContext, rectIntersection, useDraggable, useDroppable } from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import type { ReactNode } from "react";
 import { cn } from "utils";
 
-export type { DragEndEvent } from "dnd-kit/core";
+export type { DragEndEvent } from "@dnd-kit/core";
 
 interface Status {
   id: string;

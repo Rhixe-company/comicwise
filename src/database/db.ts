@@ -2,8 +2,8 @@ import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { env, isDevelopment } from "@/app-config";
-import * as schema from "schema";
+import { env, isDevelopment } from "@/appConfig";
+import * as schema from "@/database/schema";
 
 if (!env.DATABASE_URL) {
   console.warn("DATABASE_URL not set — database connections may fail in runtime.");

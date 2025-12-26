@@ -3,7 +3,7 @@
  * Check Database Connection
  */
 
-import { db } from "db";
+import { db } from "@/database/db";
 import { sql } from "drizzle-orm";
 
 async function checkDatabase() {

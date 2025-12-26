@@ -13,28 +13,28 @@ const ROOT_DIR = process.cwd();
 // Import mapping rules
 const importMappings = [
   // App config
-  { from: /from ['"]app-config['"]/g, to: `from "@/app-config"` },
-  { from: /from ['"]appConfig['"]/g, to: `from "@/app-config"` },
+  { from: /from ['"]app-config['"]/g, to: `from "@/appConfig"` },
+  { from: /from ['"]appConfig['"]/g, to: `from "@/appConfig"` },
 
   // Components
   { from: /from ['"]components\/auth['"]/g, to: `from "@/components/auth"` },
-  { from: /from ['"]ui\//g, to: `from "ui/` },
+  { from: /from ['"]ui\//g, to: `from "@/components/ui/` },
 
   // DTO
-  { from: /from [""](\/)?dto\//g, to: `from "dto/` },
+  { from: /from [""](\/)?dto\//g, to: `from "@/dto/` },
 
   // Lib
-  { from: /from [""]lib\/validations['"]/g, to: `from "lib/validations"` },
-  { from: /from ['"]lib\//g, to: `from "lib/` },
+  { from: /from [""]lib\/validations['"]/g, to: `from "@/lib/validations"` },
+  { from: /from ['"]lib\//g, to: `from "@/lib/` },
 
   // Schema
-  { from: /from [""]schema['"]/g, to: `from "schema"` },
+  { from: /from [""]schema['"]/g, to: `from "@/database/schema"` },
 
   // Database
-  { from: /from ['"](\/)?database\//g, to: `from "database/` },
+  { from: /from ['"](\/)?database\//g, to: `from "@/database/` },
 
   // Services
-  { from: /from [""](\/)?services\//g, to: `from "services/` },
+  { from: /from [""](\/)?services\//g, to: `from "@/services/` },
 
   // Eslint imports
   { from: /from [""]eslint\/css['"]/g, to: `from "@eslint/css"` },

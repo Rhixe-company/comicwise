@@ -2,16 +2,16 @@
 // ARTIST DETAIL API
 // ═══════════════════════════════════════════════════
 
-import { deleteArtist, updateArtist } from "database/mutations/artists";
-import { getArtistById } from "database/queries/artists";
-import { artistIdSchema, updateArtistSchema } from "lib/validations";
-import type { NextRequest } from "next/server";
 import {
   deleteGenericEntity,
   getGenericEntity,
   updateGenericEntity,
   zodToValidationResult,
-} from "/app/apilib/generic-crud";
+} from "@/app/apilib/generic-crud";
+import { deleteArtist, updateArtist } from "@/database/mutations/artists";
+import { getArtistById } from "@/database/queries/artists";
+import { artistIdSchema, updateArtistSchema } from "@/lib/validations";
+import type { NextRequest } from "next/server";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

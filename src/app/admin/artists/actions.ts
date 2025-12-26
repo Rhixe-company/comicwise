@@ -5,10 +5,10 @@
 
 "use server";
 
+import { db as database } from "@/database/db";
+import { artist } from "@/database/schema";
 import { requireRole } from "auth";
-import { db as database } from "db";
 import { eq, inArray } from "drizzle-orm";
-import { artist } from "schema";
 import { z } from "zod";
 
 const createArtistSchema = z

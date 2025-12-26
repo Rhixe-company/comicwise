@@ -3,11 +3,11 @@
  * Handles all database operations for artists
  */
 
-import { db } from "db";
+import { db } from "@/database/db";
+import { artist } from "@/database/schema";
+import { logger } from "@/lib/logger";
+import type { Artist } from "@/typesdatabase";
 import { desc, eq, like } from "drizzle-orm";
-import { logger } from "lib/logger";
-import { artist } from "schema";
-import type { Artist } from "/typesdatabase";
 
 export class ArtistDal {
   private static instance: ArtistDal;

@@ -1,9 +1,9 @@
 "use client";
 
-import { isDevelopment } from "@/app-config";
+import { isDevelopment } from "@/appConfig";
+import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
 import { useEffect } from "react";
-import { Button } from "ui/button";
 
 interface ErrorBoundaryProps {
   error: Error & { digest?: string };

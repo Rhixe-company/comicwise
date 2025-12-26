@@ -12,7 +12,7 @@ async function fixScriptErrors() {
   // Fix drizzle.config.ts
   const drizzleConfigPath = path.join(ROOT_DIR, "drizzle.config.ts");
   let content = await fs.readFile(drizzleConfigPath, "utf-8");
-  content = content.replace(/from ['"]app-config['"]/g, 'from "@/app-config"');
+  content = content.replace(/from ['"]app-config['"]/g, 'from "@/appConfig"');
   await fs.writeFile(drizzleConfigPath, content);
   console.log("✓ Fixed drizzle.config.ts");
 
@@ -36,7 +36,7 @@ async function fixScriptErrors() {
     const fullPath = path.join(ROOT_DIR, scriptPath);
     if (await fs.pathExists(fullPath)) {
       content = await fs.readFile(fullPath, "utf-8");
-      content = content.replace(/from ['"]appConfig['"]/g, 'from "@/app-config"');
+      content = content.replace(/from ['"]appConfig['"]/g, 'from "@/appConfig"');
       await fs.writeFile(fullPath, content);
       console.log(`✓ Fixed ${scriptPath}`);
     }

@@ -11,11 +11,11 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { AuthForm, EmailField, NameField, PasswordField } from "@/components/auth";
-import { registerUserAction } from "dto/authDto";
-import type { SignUpInput } from "lib/validations";
-import { signUpSchema } from "lib/validations";
-import { Button } from "ui/button";
-import { Separator } from "ui/separator";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { registerUserAction } from "@/dto/authDto";
+import type { SignUpInput } from "@/lib/validations";
+import { signUpSchema } from "@/lib/validations";
 
 const SignUp = () => {
   const [isPending, startTransition] = useTransition();

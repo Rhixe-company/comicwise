@@ -84,7 +84,7 @@ const IMPORT_PATTERNS: Pattern[] = [
 
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?database\/schema(?:\.ts)?["']/g,
-    to: 'from "schema"',
+    to: 'from "@/database/schema"',
     category: "Schema (File)",
     priority: 1,
   },
@@ -108,7 +108,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   },
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?database\/db(?:\.ts)?["']/g,
-    to: 'from "db"',
+    to: 'from "@/database/db"',
     category: "DB (File)",
     priority: 1,
   },
@@ -126,7 +126,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   },
   {
     from: /from ["'](?:\.\.\/)*app-config(?:\.ts)?["']/g,
-    to: 'from "@/app-config"',
+    to: 'from "@/appConfig"',
     category: "AppConfig (File)",
     priority: 1,
   },
@@ -144,7 +144,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // UI Components
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?components\/ui\/([^"']+)["']/g,
-    to: 'from "ui/$1"',
+    to: 'from "@/components/ui/$1"',
     category: "UI Components",
     priority: 2,
   },
@@ -152,7 +152,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Layout Components
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?components\/layout\/([^"']+)["']/g,
-    to: 'from "layout/$1"',
+    to: 'from "@/components/layout/$1"',
     category: "Layout Components",
     priority: 2,
   },
@@ -160,7 +160,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Email Components
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?components\/emails\/([^"']+)["']/g,
-    to: 'from "emails/$1"',
+    to: 'from "@/components/emails/$1"',
     category: "Email Components",
     priority: 2,
   },
@@ -168,7 +168,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Admin Components
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?components\/admin\/([^"']+)["']/g,
-    to: 'from "admin/$1"',
+    to: 'from "@/components/admin/$1"',
     category: "Admin Components",
     priority: 2,
   },
@@ -176,7 +176,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Actions
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/actions\/([^"']+)["']/g,
-    to: 'from "actions/$1"',
+    to: 'from "@/lib/actions/$1"',
     category: "Actions",
     priority: 2,
   },
@@ -184,7 +184,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Validations
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/validations\/([^"']+)["']/g,
-    to: 'from "validations/$1"',
+    to: 'from "@/lib/validations/$1"',
     category: "Validations",
     priority: 2,
   },
@@ -192,7 +192,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Database Queries
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?database\/queries\/([^"']+)["']/g,
-    to: 'from "queries/$1"',
+    to: 'from "@/database/queries/$1"',
     category: "Queries",
     priority: 2,
   },
@@ -200,7 +200,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Database Mutations
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?database\/mutations\/([^"']+)["']/g,
-    to: 'from "mutations/$1"',
+    to: 'from "@/database/mutations/$1"',
     category: "Mutations",
     priority: 2,
   },
@@ -212,7 +212,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // DTOs
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?dto\/([^"']+)["']/g,
-    to: 'from "dto/$1"',
+    to: 'from "@/dto/$1"',
     category: "DTOs",
     priority: 3,
   },
@@ -220,7 +220,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // DAL (Data Access Layer)
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?dal\/([^"']+)["']/g,
-    to: 'from "dal/$1"',
+    to: 'from "@/dal/$1"',
     category: "DAL",
     priority: 3,
   },
@@ -228,7 +228,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Hooks
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?hooks\/([^"']+)["']/g,
-    to: 'from "hooks/$1"',
+    to: 'from "@/hooks/$1"',
     category: "Hooks",
     priority: 3,
   },
@@ -236,7 +236,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Types
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?types\/([^"']+)["']/g,
-    to: 'from "types/$1"',
+    to: 'from "@/types/$1"',
     category: "Types",
     priority: 3,
   },
@@ -244,7 +244,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Database (general)
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?database\/([^"']+)["']/g,
-    to: 'from "database/$1"',
+    to: 'from "@/database/$1"',
     category: "Database",
     priority: 3,
   },
@@ -252,7 +252,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Services
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?services\/([^"']+)["']/g,
-    to: 'from "services/$1"',
+    to: 'from "@/services/$1"',
     category: "Services",
     priority: 3,
   },
@@ -276,7 +276,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Assets
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?assets\/([^"']+)["']/g,
-    to: 'from "assets/$1"',
+    to: 'from "@/assets/$1"',
     category: "Assets",
     priority: 3,
   },
@@ -300,7 +300,7 @@ const IMPORT_PATTERNS: Pattern[] = [
   // Lib (general - should be after specific lib subdirectories)
   {
     from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/([^"']+)["']/g,
-    to: 'from "lib/$1"',
+    to: 'from "@/lib/$1"',
     category: "Library",
     priority: 3,
   },
@@ -325,37 +325,37 @@ const IMPORT_PATTERNS: Pattern[] = [
 const INVALID_PATTERNS: Pattern[] = [
   {
     from: /from ["']ui\/([^"']+)["']/g,
-    to: 'from "ui/$1"',
+    to: 'from "@/components/ui/$1"',
     category: "Invalid ui",
     priority: 0,
   },
   {
     from: /from ["']components\/([^"']+)["']/g,
-    to: 'from "components/$1"',
+    to: 'from "@/components/$1"',
     category: "Invalid components",
     priority: 0,
   },
   {
     from: /from ["']lib\/([^"']+)["']/g,
-    to: 'from "lib/$1"',
+    to: 'from "@/lib/$1"',
     category: "Invalid lib",
     priority: 0,
   },
   {
     from: /from ["']database\/([^"']+)["']/g,
-    to: 'from "database/$1"',
+    to: 'from "@/database/$1"',
     category: "Invalid database",
     priority: 0,
   },
   {
     from: /from ["']types\/([^"']+)["']/g,
-    to: 'from "/types/$1"',
+    to: 'from "@/types/$1"',
     category: "Invalid types",
     priority: 0,
   },
   {
     from: /from ["']actions\/([^"']+)["']/g,
-    to: 'from "actions/$1"',
+    to: 'from "@/lib/actions/$1"',
     category: "Invalid actions",
     priority: 0,
   },

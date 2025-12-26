@@ -3,7 +3,7 @@
  * Data Transfer Objects for genre operations
  */
 
-import type { genre } from "schema";
+import type { genre } from "@/database/schema";
 
 export type GenreDto = typeof genre.$inferSelect;
 export type CreateGenreDto = typeof genre.$inferInsert;
@@ -26,4 +26,4 @@ export type GenreWithComicsDto = GenreDto & {
   comicCount?: number;
 };
 
-export { deleteGenre, updateGenre } from "actions/genresTypes";
+export { deleteGenre, updateGenre } from "@/lib/actions/genresTypes";

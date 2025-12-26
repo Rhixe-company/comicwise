@@ -2,14 +2,20 @@
 // COMIC ACTIONS - UNIT TESTS
 // ═══════════════════════════════════════════════════
 
-import { createComic, deleteComic, getComicById, getComics, updateComic } from "actions/comic";
+import * as mutations from "@/database/mutations";
+import * as queries from "@/database/queries";
+import {
+  createComic,
+  deleteComic,
+  getComicById,
+  getComics,
+  updateComic,
+} from "@/lib/actions/comic";
 import * as authLib from "auth";
-import * as mutations from "database/mutations";
-import * as queries from "database/queries";
 import type { Mock } from "vitest";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { ComicFilters } from "types";
+import type { ComicFilters } from "@/types";
 
 // Removed unused import
 // Mock dependencies

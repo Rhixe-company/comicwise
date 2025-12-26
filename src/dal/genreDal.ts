@@ -3,11 +3,11 @@
  * Handles all database operations for genres
  */
 
-import { db } from "db";
+import { db } from "@/database/db";
+import { genre } from "@/database/schema";
+import { logger } from "@/lib/logger";
+import type { Genre } from "@/typesdatabase";
 import { asc, eq } from "drizzle-orm";
-import { logger } from "lib/logger";
-import { genre } from "schema";
-import type { Genre } from "/typesdatabase";
 
 export class GenreDal {
   private static instance: GenreDal;

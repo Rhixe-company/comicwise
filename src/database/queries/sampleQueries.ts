@@ -4,15 +4,23 @@
  */
 import { eq, inArray } from "drizzle-orm";
 
-import { db as database } from "db";
-import { bookmark, chapter, comic, comicToGenre, comment, readingProgress, user } from "schema";
+import { db as database } from "@/database/db";
+import {
+  bookmark,
+  chapter,
+  comic,
+  comicToGenre,
+  comment,
+  readingProgress,
+  user,
+} from "@/database/schema";
 import type {
   ChapterWithComments,
   ComicDetails,
   ComicSearchResult,
   ComicWithChapters,
   UserWithStats,
-} from "/typesdatabase";
+} from "@/typesdatabase";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SAMPLE QUERY 1: Comic with Chapters

@@ -1,11 +1,11 @@
+import { ComicCard } from "@/components/ComicCard";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { getUserBookmarks } from "@/database/queries";
 import { auth } from "auth";
-import { ComicCard } from "components/ComicCard";
-import { getUserBookmarks } from "database/queries";
 import { BookmarkX } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Badge } from "ui/badge";
-import { Button } from "ui/button";
 
 export const metadata = {
   title: "My Bookmarks - ComicWise",

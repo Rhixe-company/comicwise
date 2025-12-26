@@ -90,7 +90,7 @@ for (const file of useMobileFiles) {
 
   content = content.replace(
     /import\s*\{\s*useMobile\s*\}\s*from\s*["']hooks\/useMobile["']/g,
-    'import { useIsMobile } from "hooks/useMobile"'
+    'import { useIsMobile } from "@/hooks/useMobile"'
   );
 
   // Also rename usage if needed

@@ -1,2 +1,2 @@
-export * from "hooks/useUnmount";
-export { useUnmount as default } from "hooks/useUnmount";
+export * from "@/hooks/useUnmount";
+export { useUnmount as default } from "@/hooks/useUnmount";

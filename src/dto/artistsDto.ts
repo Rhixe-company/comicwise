@@ -3,7 +3,7 @@
  * Data Transfer Objects for artist operations
  */
 
-import type { artist } from "schema";
+import type { artist } from "@/database/schema";
 
 export type ArtistDto = typeof artist.$inferSelect;
 export type CreateArtistDto = typeof artist.$inferInsert;
@@ -25,4 +25,4 @@ export type ArtistWithComicsDto = ArtistDto & {
   }>;
 };
 
-export { deleteArtist, updateArtist } from "actions/artists";
+export { deleteArtist, updateArtist } from "@/lib/actions/artists";

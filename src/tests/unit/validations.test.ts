@@ -11,7 +11,7 @@ import {
   updateComicSchema,
   updateCommentSchema,
   verifyEmailSchema,
-} from "lib/validations";
+} from "@/lib/validations";
 import { describe, expect, it } from "vitest";
 
 describe("Authentication Validation Schemas", () => {

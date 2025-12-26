@@ -1,13 +1,19 @@
-import { createComic } from "dto/comicsDto";
-import type { CreateComicInput } from "lib/validations";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { createComic } from "@/dto/comicsDto";
+import type { CreateComicInput } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Button } from "ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "ui/card";
-import { Input } from "ui/input";
-import { Label } from "ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "ui/select";
-import { Textarea } from "ui/textarea";
 
 async function handleCreate(formData: FormData) {
   // Build payload from FormData and coerce types to match CreateComicInput

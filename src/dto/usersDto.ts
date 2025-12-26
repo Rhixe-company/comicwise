@@ -3,7 +3,7 @@
  * Data Transfer Objects for user operations
  */
 
-import type { user } from "schema";
+import type { user } from "@/database/schema";
 
 export type UserDto = typeof user.$inferSelect;
 export type CreateUserDto = typeof user.$inferInsert;
@@ -30,4 +30,4 @@ export {
   deleteUserAdmin as deleteUser,
   createUserAdmin as registerUser,
   updateUserAdmin as updateUser,
-} from "actions/usersManagement";
+} from "@/lib/actions/usersManagement";

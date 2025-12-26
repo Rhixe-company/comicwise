@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
 
-import { db as database } from "db";
-import { bookmark } from "schema";
+import { db as database } from "@/database/db";
+import { bookmark } from "@/database/schema";
 
 /**
  *

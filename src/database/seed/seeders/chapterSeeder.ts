@@ -2,20 +2,20 @@
  * Chapter Seeder
  */
 
-import * as mutations from "database/mutations";
-import * as queries from "database/queries";
-import type { SeedConfig } from "database/seed/config";
-import { ProgressTracker } from "database/seed/logger";
-import { BatchProcessor } from "database/seed/utils/batchProcessor";
+import * as mutations from "@/database/mutations";
+import * as queries from "@/database/queries";
+import type { SeedConfig } from "@/database/seed/config";
+import { ProgressTracker } from "@/database/seed/logger";
+import { BatchProcessor } from "@/database/seed/utils/batchProcessor";
 import {
   createSlug,
   extractChapterNumber,
   normalizeDate,
   validateArray,
-} from "database/seed/utils/helpers";
-import type { ChapterSeed } from "lib/validations";
-import { imageService } from "services/imageService";
-import { chapterSeedSchema } from "validations/index";
+} from "@/database/seed/utils/helpers";
+import type { ChapterSeed } from "@/lib/validations";
+import { chapterSeedSchema } from "@/lib/validations/index";
+import { imageService } from "@/services/imageService";
 
 export class ChapterSeeder {
   private options: SeedConfig["options"];

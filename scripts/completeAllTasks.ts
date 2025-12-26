@@ -814,8 +814,8 @@ CLOUDINARY_CLOUD_NAME=""
 Clean imports using configured aliases:
 
 \`\`\`typescript
-import { Button } from "ui/button"
-import { getComics } from "dal/comicDal"
+import { Button } from "@/components/ui/button"
+import { getComics } from "@/dal/comicDal"
 import { Comic } from "typesdatabase"
 \`\`\`
 

@@ -6,10 +6,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-import appConfig from "@/app-config";
+import appConfig from "@/appConfig";
+import { db as database } from "@/database/db";
+import { user as userTable } from "@/database/schema";
 import { DrizzleAdapter } from "authAdapter";
-import { db as database } from "db";
-import { user as userTable } from "schema";
 
 export const authOptions = {
   session: {

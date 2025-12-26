@@ -1,6 +1,6 @@
-import { db as database } from "db";
+import { db as database } from "@/database/db";
+import { passwordResetToken } from "@/database/schema";
 import { eq } from "drizzle-orm";
-import { passwordResetToken } from "schema";
 
 export async function getPasswordResetToken(token: string) {
   return await database.query.passwordResetToken.findFirst({

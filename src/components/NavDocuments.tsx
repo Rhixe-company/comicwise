@@ -1,6 +1,6 @@
 "use client";
 
-import { IconDots, IconFolder, IconShare3, IconTrash, type Icon } from "tabler/icons-react";
+import { IconDots, IconFolder, IconShare3, IconTrash, type Icon } from "@tabler/icons-react";
 
 import {
   DropdownMenu,
@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -17,7 +17,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "ui/sidebar";
+} from "@/components/ui/sidebar";
 
 export function NavDocuments({
   items,

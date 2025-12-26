@@ -2,17 +2,17 @@
 // EMAIL SERVICE - Send Emails with React Email Templates
 // ═══════════════════════════════════════════════════
 
-import appConfig, { isDevelopment } from "@/app-config";
-import AccountUpdatedEmail from "emails/AccountUpdatedEmail";
-import CommentNotificationEmail from "emails/CommentNotificationEmail";
-import NewChapterEmail from "emails/NewChapterEmail";
-import PasswordResetEmail from "emails/PasswordResetEmail";
-import VerificationEmail from "emails/VerificationEmail";
-import WelcomeEmail from "emails/WelcomeEmail";
+import appConfig, { isDevelopment } from "@/appConfig";
+import AccountUpdatedEmail from "@/components/emails/AccountUpdatedEmail";
+import CommentNotificationEmail from "@/components/emails/CommentNotificationEmail";
+import NewChapterEmail from "@/components/emails/NewChapterEmail";
+import PasswordResetEmail from "@/components/emails/PasswordResetEmail";
+import VerificationEmail from "@/components/emails/VerificationEmail";
+import WelcomeEmail from "@/components/emails/WelcomeEmail";
+import { render } from "@react-email/components";
 import nodemailer from "nodemailer";
-import { render } from "react-emailcomponents";
 
-import type { SendEmailOptions } from "types";
+import type { SendEmailOptions } from "@/types";
 
 // ═══════════════════════════════════════════════════
 // NODEMAILER TRANSPORTER SETUP

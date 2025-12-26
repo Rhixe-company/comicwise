@@ -2,16 +2,16 @@
 // TYPE DETAIL API
 // ═══════════════════════════════════════════════════
 
-import { deleteType, updateType } from "database/mutations/types";
-import { getTypeById } from "database/queries/types";
-import { typeIdSchema, updateTypeSchema } from "lib/validations";
-import type { NextRequest } from "next/server";
 import {
   deleteGenericEntity,
   getGenericEntity,
   updateGenericEntity,
   zodToValidationResult,
-} from "/app/apilib/generic-crud";
+} from "@/app/apilib/generic-crud";
+import { deleteType, updateType } from "@/database/mutations/types";
+import { getTypeById } from "@/database/queries/types";
+import { typeIdSchema, updateTypeSchema } from "@/lib/validations";
+import type { NextRequest } from "next/server";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

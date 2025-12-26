@@ -8,7 +8,7 @@
  * - Dynamic data loading from JSON files
  */
 
-import { db as database } from "db";
+import { db as database } from "@/database/db";
 import { sql } from "drizzle-orm";
 import { parseCLIArgs } from "./config";
 import { logger } from "./logger";

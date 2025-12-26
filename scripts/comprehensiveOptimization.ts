@@ -37,7 +37,7 @@ const optimizedTypes = {
 // DATABASE TYPES - Centralized Database Type Definitions
 // ═══════════════════════════════════════════════════
 
-import type * as schema from "schema";
+import type * as schema from "@/database/schema";
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 // User & Auth Models

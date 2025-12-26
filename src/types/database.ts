@@ -3,8 +3,8 @@
 // ═══════════════════════════════════════════════════
 // All database types, relations, and filters in one place
 
+import type * as schema from "@/database/schema";
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import type * as schema from "schema";
 
 // ═══════════════════════════════════════════════════
 // BASE MODELS (Select & Insert)

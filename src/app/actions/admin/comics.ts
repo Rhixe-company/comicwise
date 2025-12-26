@@ -1,10 +1,10 @@
 "use server";
 
-import { db } from "db";
+import { db } from "@/database/db";
+import { comic, comicToGenre } from "@/database/schema";
+import { comicFormSchema, type ComicFormData } from "@/lib/validations";
 import { eq } from "drizzle-orm";
-import { comicFormSchema, type ComicFormData } from "lib/validations";
 import { redirect } from "next/navigation";
-import { comic, comicToGenre } from "schema";
 import { slugify } from "utils";
 
 export async function createComicAction(data: ComicFormData) {

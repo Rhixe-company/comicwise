@@ -5,8 +5,8 @@ import { motion } from "motion/react";
 import * as React from "react";
 import { Children } from "react";
 
+import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { TooltipContent, TooltipProvider, TooltipTrigger } from "ui/tooltip";
 import { cn } from "utils";
 
 // Define types based on components

@@ -1,6 +1,6 @@
-import { db as database } from "db";
+import { db as database } from "@/database/db";
+import { user } from "@/database/schema";
 import { asc, desc, eq, ilike, or, type SQL } from "drizzle-orm";
-import { user } from "schema";
 
 export async function getUserById(userId: string) {
   return await database.query.user.findFirst({

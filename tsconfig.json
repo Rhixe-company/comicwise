@@ -59,7 +59,10 @@
       "types": ["./src/types/*"],
       "ui": ["./src/components/ui/*"],
       "utils": ["./src/lib/utils"],
-      "validations": ["./src/lib/validations/*"]
+      "validations": ["./src/lib/validations/*"],
+      "@/*": ["./src/*"],
+      "@/app-config": ["./appConfig.ts"],
+      "@/appConfig": ["./appConfig.ts"]
     },
     "plugins": [
       {

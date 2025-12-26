@@ -1,15 +1,15 @@
 import { MenuIcon, SearchIcon } from "lucide-react";
 
-import { Button } from "ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 
-import Logo from "/assets/svg/logo";
+import Logo from "@/assets/svg/logo";
 
 type NavigationItem = {
   title: string;

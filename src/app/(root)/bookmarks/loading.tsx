@@ -1,4 +1,4 @@
-import { ComicGridSkeleton } from "ui/skeletons";
+import { ComicGridSkeleton } from "@/components/ui/skeletons";
 
 export default function Loading() {
   return (

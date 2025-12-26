@@ -3,12 +3,12 @@
  * Handles all database operations for users
  */
 
-import * as mutations from "database/mutations";
-import * as queries from "database/queries";
-import { db } from "db";
-import { logger } from "lib/logger";
-import { user } from "schema";
-import type { User } from "/typesdatabase";
+import { db } from "@/database/db";
+import * as mutations from "@/database/mutations";
+import * as queries from "@/database/queries";
+import { user } from "@/database/schema";
+import { logger } from "@/lib/logger";
+import type { User } from "@/typesdatabase";
 
 export class UserDal {
   private static instance: UserDal;

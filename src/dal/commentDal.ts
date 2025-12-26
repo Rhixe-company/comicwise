@@ -3,11 +3,11 @@
  * Handles all database operations for comments
  */
 
-import { db } from "db";
+import { db } from "@/database/db";
+import { comment } from "@/database/schema";
+import { logger } from "@/lib/logger";
+import type { Comment } from "@/typesdatabase";
 import { desc, eq } from "drizzle-orm";
-import { logger } from "lib/logger";
-import { comment } from "schema";
-import type { Comment } from "/typesdatabase";
 
 export class CommentDal {
   private static instance: CommentDal;

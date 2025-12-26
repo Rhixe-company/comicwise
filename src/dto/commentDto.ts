@@ -3,7 +3,7 @@
  * Data Transfer Objects for comment operations
  */
 
-import type { comment } from "schema";
+import type { comment } from "@/database/schema";
 
 export type CommentDto = typeof comment.$inferSelect;
 export type CreateCommentDto = typeof comment.$inferInsert;

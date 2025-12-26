@@ -25,7 +25,7 @@ const importMappings: [RegExp, string][] = [
   [/from ['"]app-config['"]/g, 'from "./app-config"'],
 
   // Local UI components (ensure @ prefix)
-  [/from ['"]components\/ui\/([^'"]+)['"]/g, 'from "ui/$1"'],
+  [/from ['"]components\/ui\/([^'"]+)['"]/g, 'from "@/components/ui/$1"'],
   [/from ['"]lib\/utils['"]/g, 'from "utils"'],
 ];
 
