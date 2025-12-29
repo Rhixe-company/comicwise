@@ -8,6 +8,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { zxcvbn, zxcvbnOptions } from "@zxcvbn-ts/core";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import {
   createContext,
@@ -21,7 +22,6 @@ import {
   type ReactNode,
 } from "react";
 import { cn } from "utils";
-import { zxcvbn, zxcvbnOptions } from "@zxcvbn-ts/core";
 
 const PasswordInputContext = createContext<{ password: string } | null>(null);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart, Pie, PieChart, Label } from "recharts";
+import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
 
 import {
   BadgePercentIcon,

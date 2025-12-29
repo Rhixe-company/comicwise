@@ -2,12 +2,12 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * Universal Seeder - Dynamic JSON Data Import System
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Handles multiple JSON data sources:
  * - users.json
  * - comics.json, comicsdata1.json, comicsdata2.json
  * - chapters.json, chaptersdata1.json, chaptersdata2.json
- * 
+ *
  * Features:
  * - Dynamic data loading from multiple files
  * - Image downloading and uploading to ImageKit
@@ -17,24 +17,24 @@
  * - Error handling and recovery
  */
 
-import { eq, and } from "drizzle-orm";
+import appConfig from "@/appConfig";
 import { db } from "@/database";
 import {
-  user,
-  comic,
-  chapter,
-  author,
   artist,
-  genre,
-  type as comicType,
+  author,
+  chapter,
+  comic,
   comicToGenre,
+  type as comicType,
+  genre,
+  user,
 } from "@/database/schema";
 import { hashPassword } from "auth";
-import { logger } from "../logger";
-import appConfig from "@/appConfig";
-import path from "path";
+import { and, eq } from "drizzle-orm";
 import fs from "fs/promises";
+import path from "path";
 import { z } from "zod";
+import { logger } from "../logger";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // VALIDATION SCHEMAS
@@ -255,7 +255,7 @@ export async function seedUsersFromJSON(jsonFiles: string[] = ["users.json"]) {
       for (const userData of usersData) {
         try {
           const validatedUser = UserSchema.parse(userData);
-          
+
           // Check if user exists
           const existingUser = await db.query.user.findFirst({
             where: eq(user.email, validatedUser.email),
@@ -321,7 +321,7 @@ export async function seedComicsFromJSON(
   for (const jsonFile of jsonFiles) {
     try {
       const filePath = path.join(process.cwd(), jsonFile);
-      
+
       // Check if file exists
       try {
         await fs.access(filePath);
@@ -445,12 +445,15 @@ export async function seedComicsFromJSON(
 
           // Update comic-genre relationships
           await db.delete(comicToGenre).where(eq(comicToGenre.comicId, comicId));
-          
+
           for (const genreId of genreIds) {
-            await db.insert(comicToGenre).values({
-              comicId,
-              genreId,
-            }).onConflictDoNothing();
+            await db
+              .insert(comicToGenre)
+              .values({
+                comicId,
+                genreId,
+              })
+              .onConflictDoNothing();
           }
 
           totalProcessed++;
@@ -484,7 +487,7 @@ export async function seedChaptersFromJSON(
   for (const jsonFile of jsonFiles) {
     try {
       const filePath = path.join(process.cwd(), jsonFile);
-      
+
       // Check if file exists
       try {
         await fs.access(filePath);
@@ -532,10 +535,7 @@ export async function seedChaptersFromJSON(
 
           if (existingChapter) {
             // Update existing chapter
-            await db
-              .update(chapter)
-              .set(chapterPayload)
-              .where(eq(chapter.id, existingChapter.id));
+            await db.update(chapter).set(chapterPayload).where(eq(chapter.id, existingChapter.id));
             totalUpdated++;
             logger.success(`✓ Updated chapter: ${validatedChapter.title}`);
           } else {

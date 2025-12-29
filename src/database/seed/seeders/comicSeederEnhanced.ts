@@ -281,10 +281,10 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
           Array.isArray((item as Record<string, unknown>).genres)
         ) {
           const genres = (item as Record<string, unknown>).genres as Array<{ name: string }>;
-          
+
           // Collect genre relations
           const genreRelations: Array<{ comicId: number; genreId: number }> = [];
-          
+
           for (const g of genres) {
             if (g.name) {
               const genreId = await this.getOrCreateGenre(g.name);
@@ -294,7 +294,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
               });
             }
           }
-          
+
           // Insert all genre relations at once
           if (genreRelations.length > 0) {
             try {

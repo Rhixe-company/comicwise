@@ -5,7 +5,6 @@
 // ═══════════════════════════════════════════════════
 
 import appConfig from "@/appConfig";
-import { checkRateLimit, clearRateLimit, getRateLimitStatus } from "@/lib/ratelimit";
 import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
 import {
@@ -14,6 +13,7 @@ import {
   sendVerificationEmail,
   sendWelcomeEmail,
 } from "@/lib/email";
+import { checkRateLimit } from "@/lib/ratelimit";
 import type {
   ForgotPasswordInput,
   ResendVerificationEmailInput,

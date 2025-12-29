@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "cw": "tsx scripts/cli/cw.ts",
     "prebuild": "pnpm clean:cache",
     "build": "next build",
     "postbuild": "pnpm dlx next-sitemap --config next-sitemap.config.ts",
@@ -24,6 +23,7 @@
     "clean:cache": "rimraf .next/cache",
     "cleanup": "tsx scripts/projectCleanup2025.ts",
     "cleanup:dry-run": "tsx scripts/projectCleanup2025.ts --dry-run",
+    "cw": "tsx scripts/cli/cw.ts",
     "db:check": "drizzle-kit check --config drizzle.config.ts",
     "db:drop": "drizzle-kit drop --config drizzle.config.ts",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",

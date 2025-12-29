@@ -97,7 +97,7 @@ async function seed() {
 
     if (error instanceof Error) {
       logger.error(`Error: ${error.message}`);
-      if (error.stack && typeof config !== 'undefined' && config.options.verbose) {
+      if (error.stack && typeof config !== "undefined" && config.options.verbose) {
         logger.error(`Stack: ${error.stack}`);
       }
     } else {

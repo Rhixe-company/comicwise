@@ -50,19 +50,13 @@ export async function getGenericEntity(
   const validation = options.validateFn({ id });
 
   if (!validation.success) {
-    return NextResponse.json(
-      { error: "Invalid ID", details: validation.errors },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid ID", details: validation.errors }, { status: 400 });
   }
 
   const entity = await options.getFn(id);
 
   if (!entity) {
-    return NextResponse.json(
-      { error: `${options.entityName} not found` },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: `${options.entityName} not found` }, { status: 404 });
   }
 
   return NextResponse.json(entity);
@@ -116,19 +110,13 @@ export async function deleteGenericEntity(
   const validation = options.validateFn({ id });
 
   if (!validation.success) {
-    return NextResponse.json(
-      { error: "Invalid ID", details: validation.errors },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid ID", details: validation.errors }, { status: 400 });
   }
 
   const deleted = await options.deleteFn(id);
 
   if (!deleted) {
-    return NextResponse.json(
-      { error: `${options.entityName} not found` },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: `${options.entityName} not found` }, { status: 404 });
   }
 
   return NextResponse.json({ success: true });

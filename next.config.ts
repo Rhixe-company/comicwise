@@ -57,13 +57,7 @@ const nextConfig: NextConfig = {
   },
 
   // External packages for server-side
-  serverExternalPackages: [
-    "postgres",
-    "libsql/client",
-    "bcryptjs",
-    "sharp",
-    "nodemailer",
-  ],
+  serverExternalPackages: ["postgres", "libsql/client", "bcryptjs", "sharp", "nodemailer"],
 
   // Cache React Server Components
   // cacheComponents: true,

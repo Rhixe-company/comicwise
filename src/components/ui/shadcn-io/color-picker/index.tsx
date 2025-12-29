@@ -76,7 +76,9 @@ export const ColorPicker = ({
   const [lightness, setLightness] = useState(
     (selectedColor as any).lightness() || (defaultColor as any).lightness() || 50
   );
-  const [alpha, setAlpha] = useState((selectedColor as any).alpha() * 100 || (defaultColor as any).alpha() * 100);
+  const [alpha, setAlpha] = useState(
+    (selectedColor as any).alpha() * 100 || (defaultColor as any).alpha() * 100
+  );
   const [mode, setMode] = useState("hex");
 
   // Update color when controlled value changes

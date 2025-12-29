@@ -88,19 +88,13 @@ export async function getGenericEntity(
     const entity = await options.getFn(id);
 
     if (!entity) {
-      return NextResponse.json(
-        { error: `${options.entityName} not found` },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: `${options.entityName} not found` }, { status: 404 });
     }
 
     return NextResponse.json(entity);
   } catch (error) {
     console.error(`Error fetching ${options.entityName}:`, error);
-    return NextResponse.json(
-      { error: `Failed to fetch ${options.entityName}` },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: `Failed to fetch ${options.entityName}` }, { status: 500 });
   }
 }
 
@@ -137,10 +131,7 @@ export async function createGenericEntity<TInput, TOutput>(
     return NextResponse.json(entity, { status: 201 });
   } catch (error) {
     console.error(`Error creating ${entityName}:`, error);
-    return NextResponse.json(
-      { error: `Failed to create ${entityName}` },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: `Failed to create ${entityName}` }, { status: 500 });
   }
 }
 
@@ -186,10 +177,7 @@ export async function updateGenericEntity<T>(
     return NextResponse.json(updatedEntity);
   } catch (error) {
     console.error(`Error updating ${options.entityName}:`, error);
-    return NextResponse.json(
-      { error: `Failed to update ${options.entityName}` },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: `Failed to update ${options.entityName}` }, { status: 500 });
   }
 }
 
@@ -214,10 +202,7 @@ export async function deleteGenericEntity(
 
   const validation = options.validateFn({ id });
   if (!validation.success) {
-    return NextResponse.json(
-      { error: "Invalid ID", details: validation.errors },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid ID", details: validation.errors }, { status: 400 });
   }
 
   try {
@@ -233,9 +218,6 @@ export async function deleteGenericEntity(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error(`Error deleting ${options.entityName}:`, error);
-    return NextResponse.json(
-      { error: `Failed to delete ${options.entityName}` },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: `Failed to delete ${options.entityName}` }, { status: 500 });
   }
 }

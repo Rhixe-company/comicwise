@@ -47,6 +47,16 @@
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
 
+  // ━━━ Auto Rename Tag Configuration ━━━
+  "auto-rename-tag.activationOnLanguage": [
+    "html",
+    "xml",
+    "php",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   // ━━━ Better Comments Configuration ━━━
   "better-comments.tags": [
     {
@@ -341,6 +351,14 @@
   "gitlens.currentLine.enabled": true,
   "gitlens.hovers.currentLine.over": "line",
 
+  "importCost.largePackageColor": "#ff0000",
+  "importCost.mediumPackageColor": "#ffaa00",
+  "importCost.mediumPackageSize": 100,
+  "importCost.showCalculatingDecoration": true,
+
+  "importCost.smallPackageColor": "#00ff00",
+  // ━━━ Import Cost Configuration ━━━
+  "importCost.smallPackageSize": 50,
   // ━━━ JavaScript/TypeScript Configuration ━━━
   "javascript.inlayHints.enumMemberValues.enabled": true,
   "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
@@ -416,6 +434,11 @@
   "search.followSymlinks": false,
   "search.smartCase": true,
   "search.useIgnoreFiles": true,
+
+  // ━━━ Security Configuration ━━━
+  "security.workspace.trust.enabled": true,
+  "security.workspace.trust.startupPrompt": "once",
+  "security.workspace.trust.untrustedFiles": "open",
 
   // ━━━ TailwindCSS Configuration ━━━
   "tailwindCSS.emmetCompletions": true,
@@ -526,10 +549,18 @@
 
   // ━━━ Vitest Configuration ━━━
   "vitest.commandLine": "pnpm test:unit",
+  "vitest.disableWorkspaceWarning": true,
   "vitest.enable": true,
   "vitest.nodeExecutable": "node",
   "vitest.showTerminalOnFailure": true,
-  "vitest.disableWorkspaceWarning": true,
+  // ━━━ Window Configuration ━━━
+  "window.autoDetectColorScheme": false,
+  "window.dialogStyle": "custom",
+  "window.menuBarVisibility": "toggle",
+  "window.restoreWindows": "all",
+  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}",
+  "window.titleBarStyle": "custom",
+
   // ━━━ Workbench Configuration ━━━
   "workbench.colorCustomizations": {
     "editorRuler.foreground": "#2e3440",
@@ -543,45 +574,14 @@
   "workbench.editor.limit.enabled": true,
   "workbench.editor.limit.perEditorGroup": true,
   "workbench.editor.limit.value": 10,
+  "workbench.editor.revealIfOpen": true,
+
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.editor.tabSizingFixedMaxWidth": 160,
   "workbench.iconTheme": "material-icon-theme",
   "workbench.list.smoothScrolling": true,
   "workbench.productIconTheme": "Default",
   "workbench.sideBar.location": "left",
   "workbench.startupEditor": "welcomePageInEmptyWorkbench",
-  "workbench.tree.indent": 20,
-  "workbench.editor.tabSizing": "shrink",
-  "workbench.editor.tabSizingFixedMaxWidth": 160,
-  "workbench.editor.revealIfOpen": true,
-
-  // ━━━ Window Configuration ━━━
-  "window.autoDetectColorScheme": false,
-  "window.dialogStyle": "custom",
-  "window.menuBarVisibility": "toggle",
-  "window.restoreWindows": "all",
-  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}",
-  "window.titleBarStyle": "custom",
-
-  // ━━━ Security Configuration ━━━
-  "security.workspace.trust.enabled": true,
-  "security.workspace.trust.startupPrompt": "once",
-  "security.workspace.trust.untrustedFiles": "open",
-
-  // ━━━ Import Cost Configuration ━━━
-  "importCost.smallPackageSize": 50,
-  "importCost.mediumPackageSize": 100,
-  "importCost.largePackageColor": "#ff0000",
-  "importCost.mediumPackageColor": "#ffaa00",
-  "importCost.smallPackageColor": "#00ff00",
-  "importCost.showCalculatingDecoration": true,
-
-  // ━━━ Auto Rename Tag Configuration ━━━
-  "auto-rename-tag.activationOnLanguage": [
-    "html",
-    "xml",
-    "php",
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ]
+  "workbench.tree.indent": 20
 }

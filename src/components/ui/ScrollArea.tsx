@@ -55,5 +55,4 @@ function ScrollBar({
 
 export { ScrollArea, ScrollBar };
 
-
 export type ScrollAreaProps = React.ComponentPropsWithoutRef<typeof ScrollArea>;

@@ -9,9 +9,11 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-38bdf8?logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-**A modern, full-stack comic reading and management platform built with cutting-edge web technologies.**
+**A modern, full-stack comic reading and management platform built with
+cutting-edge web technologies.**
 
-[Features](#features) • [Quick Start](#quick-start) • [Documentation](#documentation) • [Contributing](#contributing)
+[Features](#features) • [Quick Start](#quick-start) •
+[Documentation](#documentation) • [Contributing](#contributing)
 
 </div>
 
@@ -40,14 +42,17 @@
 - **📚 Extensive Library** - Browse thousands of comics across multiple genres
 - **🔖 Smart Bookmarks** - Save your favorite comics and track reading progress
 - **💬 Community** - Engage with other readers through comments and discussions
-- **🔍 Advanced Search** - Full-text search with filters for genre, author, status
-- **📱 Responsive Design** - Seamless experience across desktop, tablet, and mobile
+- **🔍 Advanced Search** - Full-text search with filters for genre, author,
+  status
+- **📱 Responsive Design** - Seamless experience across desktop, tablet, and
+  mobile
 - **🌙 Dark Mode** - Eye-friendly reading with automatic theme switching
 - **📊 Reading History** - Track your reading habits and discover new content
 
 ### 👨‍💼 **For Administrators**
 
-- **📝 Content Management** - Full CRUD operations for comics, chapters, authors, artists
+- **📝 Content Management** - Full CRUD operations for comics, chapters,
+  authors, artists
 - **👥 User Management** - Role-based access control (Admin, Moderator, User)
 - **📈 Analytics Dashboard** - Track views, engagement, and user statistics
 - **🖼️ Image CDN** - Integrated ImageKit/Cloudinary for optimized delivery
@@ -184,7 +189,8 @@ pnpm db:seed
 pnpm dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to see your application running!
+Visit [http://localhost:3000](http://localhost:3000) to see your application
+running!
 
 ---
 
@@ -437,7 +443,7 @@ export async function GET() {
 }
 
 // In Server Actions
-"use server";
+("use server");
 
 export async function myAction() {
   const session = await auth();
@@ -600,7 +606,8 @@ chore: update dependencies
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
+for details.
 
 ---
 

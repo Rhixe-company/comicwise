@@ -5,10 +5,10 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 
 import chalk from "chalk";
-import { glob } from "glob";
 import fs from "fs-extra";
-import path from "path";
+import { glob } from "glob";
 import ora from "ora";
+import path from "path";
 
 interface RenameOperation {
   from: string;
@@ -160,7 +160,9 @@ class CamelCaseConverter {
         }
       }
 
-      spinner.succeed(`${this.dryRun ? "Would rename" : "Renamed"} ${this.operations.length} files`);
+      spinner.succeed(
+        `${this.dryRun ? "Would rename" : "Renamed"} ${this.operations.length} files`
+      );
     } catch (error) {
       spinner.fail("Failed to execute file renames");
       throw error;
@@ -212,7 +214,9 @@ class CamelCaseConverter {
         }
       }
 
-      spinner.succeed(`${this.dryRun ? "Would update" : "Updated"} imports in ${updatedCount} files`);
+      spinner.succeed(
+        `${this.dryRun ? "Would update" : "Updated"} imports in ${updatedCount} files`
+      );
     } catch (error) {
       spinner.fail("Failed to update imports");
       throw error;
@@ -254,9 +258,7 @@ class CamelCaseConverter {
    */
   async run() {
     console.log(
-      chalk.cyan.bold(
-        `\n📝 Starting CamelCase Conversion ${this.dryRun ? "(DRY RUN)" : ""}\n`
-      )
+      chalk.cyan.bold(`\n📝 Starting CamelCase Conversion ${this.dryRun ? "(DRY RUN)" : ""}\n`)
     );
 
     await this.planFileRenames();

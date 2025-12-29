@@ -5,10 +5,10 @@
  */
 
 import chalk from "chalk";
-import { glob } from "glob";
 import fs from "fs-extra";
-import path from "path";
+import { glob } from "glob";
 import ora from "ora";
+import path from "path";
 
 interface CleanupResult {
   deletedFiles: string[];
@@ -47,10 +47,7 @@ class ProjectCleanup {
   /**
    * Delete files by pattern
    */
-  private async deleteByPattern(
-    pattern: string,
-    description: string
-  ): Promise<number> {
+  private async deleteByPattern(pattern: string, description: string): Promise<number> {
     const files = await glob(pattern, {
       cwd: this.projectRoot,
       ignore: this.IGNORE_PATTERNS,

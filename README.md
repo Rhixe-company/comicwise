@@ -1,6 +1,7 @@
 # ComicWise 📚
 
-> A modern, full-stack comic reading and management platform built with Next.js 15, PostgreSQL, and cutting-edge web technologies.
+> A modern, full-stack comic reading and management platform built with Next.js
+> 15, PostgreSQL, and cutting-edge web technologies.
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.1.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7.2-blue)](https://www.typescriptlang.org/)
@@ -11,6 +12,7 @@
 ## ✨ Features
 
 ### 🎨 User Features
+
 - **Comic Reading**: Seamless comic reading experience with chapter navigation
 - **Bookmarks**: Save your favorite comics and track reading progress
 - **Comments**: Engage with the community through chapter comments
@@ -20,14 +22,18 @@
 - **Responsive Design**: Optimized for all devices and screen sizes
 
 ### 👨‍💼 Admin Features
-- **Content Management**: Full CRUD operations for comics, chapters, authors, and artists
+
+- **Content Management**: Full CRUD operations for comics, chapters, authors,
+  and artists
 - **User Management**: Manage users with role-based access control
 - **Analytics Dashboard**: Track engagement, views, and user statistics
 - **Bulk Operations**: Efficient bulk upload and management tools
 - **Image Management**: Integrated ImageKit CDN for optimized image delivery
 
 ### ⚡ Technical Features
-- **Server Components**: Leverage React 19 Server Components for optimal performance
+
+- **Server Components**: Leverage React 19 Server Components for optimal
+  performance
 - **Caching**: Redis-based caching for lightning-fast response times
 - **Rate Limiting**: Protect your API with built-in rate limiting
 - **Type Safety**: Full TypeScript coverage with strict mode
@@ -234,6 +240,7 @@ docker-compose -f docker-compose.dev.yml up  # Development mode
 ### Technology Stack
 
 #### Frontend
+
 - **Next.js 15.1.3** - React framework with App Router
 - **React 19** - UI library with Server Components
 - **TypeScript 5.7.2** - Type-safe JavaScript
@@ -243,6 +250,7 @@ docker-compose -f docker-compose.dev.yml up  # Development mode
 - **Recharts** - Data visualization
 
 #### Backend
+
 - **Next.js API Routes** - Serverless API
 - **NextAuth.js v5** - Authentication
 - **Drizzle ORM** - Type-safe database ORM
@@ -250,6 +258,7 @@ docker-compose -f docker-compose.dev.yml up  # Development mode
 - **Redis** (Upstash) - Caching and rate limiting
 
 #### DevOps
+
 - **Docker** - Containerization
 - **pnpm** - Fast, disk space efficient package manager
 - **ESLint** - Code linting
@@ -257,6 +266,7 @@ docker-compose -f docker-compose.dev.yml up  # Development mode
 - **Husky** - Git hooks
 
 #### Services
+
 - **ImageKit** - Image CDN and optimization
 - **Resend** - Email delivery
 - **Upstash Redis** - Serverless Redis
@@ -308,6 +318,7 @@ docker-compose down
 ### Environment Variables (Production)
 
 Ensure all required environment variables are set:
+
 - `DATABASE_URL` - Production database connection string
 - `NEXTAUTH_SECRET` - Secure random string for JWT signing
 - `NEXTAUTH_URL` - Production URL
@@ -327,6 +338,7 @@ Ensure all required environment variables are set:
 ## 🎨 Code Style
 
 This project follows:
+
 - **ESLint** configuration for code quality
 - **Prettier** for consistent formatting
 - **TypeScript strict mode** for type safety
@@ -335,11 +347,13 @@ This project follows:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
+for details.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+We welcome contributions! Please see our
+[Contributing Guidelines](CONTRIBUTING.md) for details.
 
 ### Development Workflow
 
@@ -354,7 +368,8 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 ## 📞 Support
 
 - **Issues**: [GitHub Issues](https://github.com/yourusername/comicwise/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/comicwise/discussions)
+- **Discussions**:
+  [GitHub Discussions](https://github.com/yourusername/comicwise/discussions)
 - **Email**: support@comicwise.com
 
 ## 🙏 Acknowledgments
@@ -379,18 +394,21 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 ## 🗺️ Roadmap
 
 ### Q1 2025
+
 - [ ] Enhanced search with filters
 - [ ] Reading lists and collections
 - [ ] User notifications system
 - [ ] Mobile-responsive improvements
 
 ### Q2 2025
+
 - [ ] Social features (following, sharing)
 - [ ] Reading analytics and statistics
 - [ ] Recommendation system
 - [ ] API rate limiting enhancements
 
 ### Q3 2025
+
 - [ ] Mobile application (React Native)
 - [ ] Offline reading support
 - [ ] Advanced admin analytics
@@ -400,5 +418,4 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 **Made with ❤️ by the ComicWise Team**
 
-Last Updated: 2025-12-26
-Version: 1.0.0
+Last Updated: 2025-12-26 Version: 1.0.0

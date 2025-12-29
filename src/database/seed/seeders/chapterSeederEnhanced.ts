@@ -49,7 +49,7 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
   protected prepareData(item: ChapterSeed): typeof chapter.$inferInsert {
     const chapterNum = this.extractChapterNumber(item);
     const title = item.title || `Chapter ${chapterNum}`;
-    
+
     return {
       title,
       slug: this.generateSlug(item),

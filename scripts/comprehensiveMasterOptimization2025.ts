@@ -6,8 +6,8 @@
 // Tasks: All 12 comprehensive optimization tasks
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { exec } from "child_process";
 import chalk from "chalk";
+import { exec } from "child_process";
 import fs from "fs-extra";
 import ora from "ora";
 import path from "path";

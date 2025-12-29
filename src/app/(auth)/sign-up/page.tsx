@@ -13,7 +13,6 @@ import { toast } from "sonner";
 import { AuthForm, EmailField, NameField, PasswordField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { registerUser } from "@/lib/actions/auth";
 import type { SignUpInput } from "@/lib/validations";
 import { signUpSchema } from "@/lib/validations";
 

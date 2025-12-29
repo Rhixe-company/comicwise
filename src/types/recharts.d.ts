@@ -1,5 +1,5 @@
 declare module "recharts" {
-  import type { FC, ReactNode, CSSProperties } from "react";
+  import type { CSSProperties, FC, ReactNode } from "react";
 
   // Core chart components
   export const BarChart: FC<any>;
@@ -57,7 +57,17 @@ declare module "recharts" {
     width?: number;
     height?: number;
     iconSize?: number;
-    iconType?: "line" | "plainline" | "square" | "rect" | "circle" | "cross" | "diamond" | "star" | "triangle" | "wye";
+    iconType?:
+      | "line"
+      | "plainline"
+      | "square"
+      | "rect"
+      | "circle"
+      | "cross"
+      | "diamond"
+      | "star"
+      | "triangle"
+      | "wye";
     layout?: "horizontal" | "vertical";
     align?: "left" | "center" | "right";
     verticalAlign?: "top" | "middle" | "bottom";

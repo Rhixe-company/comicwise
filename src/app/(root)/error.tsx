@@ -1,7 +1,7 @@
 "use client";
 
-import { isDevelopment } from "@/lib/clientConfig";
 import { Button } from "@/components/ui/button";
+import { isDevelopment } from "@/lib/clientConfig";
 import { AlertTriangle } from "lucide-react";
 import { useEffect } from "react";
 
