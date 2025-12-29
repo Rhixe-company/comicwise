@@ -1,86 +1,59 @@
 {
-  "// Categories": "Essential, Recommended, Optional, Theme & UI",
-
-  "// Description": "ComicWise - Recommended VS Code Extensions for Next.js 16 Development",
-  "// Last Updated": "2025-12-29",
   "recommendations": [
-    "// ━━━ ESSENTIAL EXTENSIONS ━━━",
-    "// Core development tools - always install these",
 
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "ms-vscode.vscode-typescript-next",
     "bradlc.vscode-tailwindcss",
 
-    "// ━━━ NEXT.JS & REACT ━━━",
-    "// Framework-specific extensions",
 
     "PulkitGangwar.nextjs-snippets",
     "dsznajder.es7-react-js-snippets",
     "formulahendry.auto-rename-tag",
     "styled-components.vscode-styled-components",
 
-    "// ━━━ DATABASE & BACKEND ━━━",
-    "// Database management and backend tools",
 
     "cweijan.vscode-postgresql-client2",
     "redis.redis-for-vscode",
     "Prisma.prisma",
 
-    "// ━━━ TESTING & QA ━━━",
-    "// Testing frameworks and quality assurance",
 
     "vitest.explorer",
     "ms-playwright.playwright",
     "orta.vscode-jest",
 
-    "// ━━━ ERROR DETECTION & TYPE SAFETY ━━━",
-    "// Enhanced error visualization and type checking",
 
     "usernamehw.errorlens",
     "yoavbls.pretty-ts-errors",
     "kisstkondoros.vscode-gutter-preview",
 
-    "// ━━━ AI & PRODUCTIVITY ━━━",
-    "// AI assistance and productivity boosters",
 
     "github.copilot",
     "github.copilot-chat",
     "GitHub.copilot-mcp",
     "tabnine.tabnine-vscode",
 
-    "// ━━━ CODE QUALITY ━━━",
-    "// Linting, formatting, and code analysis",
 
     "editorconfig.editorconfig",
     "streetsidesoftware.code-spell-checker",
     "wix.vscode-import-cost",
     "christian-kohler.path-intellisense",
 
-    "// ━━━ GIT & VERSION CONTROL ━━━",
-    "// Git tools and collaboration",
 
     "eamodio.gitlens",
     "donjayamanne.githistory",
     "mhutchie.git-graph",
     "github.vscode-pull-request-github",
 
-    "// ━━━ DOCKER & DEVOPS ━━━",
-    "// Containerization and deployment",
-
     "ms-azuretools.vscode-docker",
     "ms-kubernetes-tools.vscode-kubernetes-tools",
 
-    "// ━━━ MARKDOWN & DOCUMENTATION ━━━",
-    "// Documentation and markdown editing",
 
     "yzhang.markdown-all-in-one",
     "davidanson.vscode-markdownlint",
     "bierner.markdown-preview-github-styles",
     "bierner.markdown-mermaid",
 
-    "// ━━━ UTILITIES & HELPERS ━━━",
-    "// General productivity and utilities",
 
     "gruntfuggly.todo-tree",
     "aaron-bond.better-comments",
@@ -88,22 +61,15 @@
     "humao.rest-client",
     "rangav.vscode-thunder-client",
 
-    "// ━━━ WINDOWS SPECIFIC ━━━",
-    "// Windows development tools",
-
     "ms-vscode.powershell",
     "redhat.vscode-yaml",
 
-    "// ━━━ THEME & UI ━━━",
-    "// Visual customization",
 
     "pkief.material-icon-theme",
     "bierner.color-info",
     "naumovs.color-highlight",
     "oderwat.indent-rainbow",
 
-    "// ━━━ OPTIONAL BUT USEFUL ━━━",
-    "// Additional helpful extensions",
 
     "ritwickdey.liveserver",
     "visualstudioexptteam.vscodeintellicode",
@@ -114,15 +80,10 @@
     "ms-vscode-remote.remote-wsl",
     "ms-vscode-remote.remote-containers",
 
-    "// ━━━ CODE SNIPPETS ━━━",
-    "// Additional snippet libraries",
-
     "xabikos.javascriptsnippets",
     "burkeholland.simple-react-snippets",
     "afractal.node-essentials",
 
-    "// ━━━ PERFORMANCE & MONITORING ━━━",
-    "// Performance analysis",
 
     "wix.glean",
     "johnpapa.vscode-peacock",
@@ -130,8 +91,6 @@
   ],
 
   "unwantedRecommendations": [
-    "// ━━━ DEPRECATED OR CONFLICTING ━━━",
-    "// Extensions that conflict or are outdated",
 
     "hookyqr.beautify",
     "dbaeumer.jshint",
@@ -139,8 +98,6 @@
     "octref.vetur",
     "ms-vscode.vscode-typescript-tslint-plugin",
 
-    "// ━━━ LANGUAGE SPECIFIC (NOT NEEDED) ━━━",
-    "// Not using these languages in ComicWise",
 
     "ms-python.python",
     "rust-lang.rust-analyzer",
@@ -148,8 +105,6 @@
     "ms-dotnettools.csharp",
     "redhat.java",
 
-    "// ━━━ ALTERNATIVE TOOLS ━━━",
-    "// We use different tools for these functions",
 
     "ritwickdey.live-sass",
     "syler.sass-indented",

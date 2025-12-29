@@ -1,103 +1,114 @@
-/* eslint-disable zod/require-strict */
 import { z } from "zod";
 
 // ═══════════════════════════════════════════════════
 // ENVIRONMENT SCHEMA (Next.js 16 Optimized)
 // ═══════════════════════════════════════════════════
 
-const environmentSchema = z.object({
-  // ═══════════════════════════════════════════════════
-  // Database Configuration
-  // ═══════════════════════════════════════════════════
-  DATABASE_URL: z.string().url("DATABASE_URL must be a valid URL"),
-  NEON_DATABASE_URL: z.string().url().optional(),
+// Optimized environment schema for robust validation and maintainability
+const environmentSchema = z
+  .object({
+    // ═══════════════════════════════════════════════════
+    // Database Configuration
+    // ═══════════════════════════════════════════════════
+    // Database URLs
+    DATABASE_URL: z.string().url("DATABASE_URL must be a valid URL"),
+    NEON_DATABASE_URL: z.string().url().optional(),
 
-  // ═══════════════════════════════════════════════════
-  // Authentication (Next-Auth v5)
-  // ═══════════════════════════════════════════════════
-  AUTH_SECRET: z.string().min(32, "AUTH_SECRET must be at least 32 characters"),
-  AUTH_URL: z.string().url("AUTH_URL must be a valid URL"),
+    // ═══════════════════════════════════════════════════
+    // Authentication (Next-Auth v5)
+    // ═══════════════════════════════════════════════════
+    // Auth
+    AUTH_SECRET: z.string().min(32, "AUTH_SECRET must be at least 32 characters"),
+    AUTH_URL: z.string().url("AUTH_URL must be a valid URL"),
 
-  // ═══════════════════════════════════════════════════
-  // Upload Services
-  // ═══════════════════════════════════════════════════
-  UPLOAD_PROVIDER: z.enum(["imagekit", "cloudinary", "local", "aws"]).default("local"),
+    // ═══════════════════════════════════════════════════
+    // Upload Services
+    // ═══════════════════════════════════════════════════
+    // Upload provider
+    UPLOAD_PROVIDER: z.enum(["imagekit", "cloudinary", "local", "aws"]).default("local"),
 
-  // ImageKit
-  IMAGEKIT_PUBLIC_KEY: z.string().optional(),
-  IMAGEKIT_PRIVATE_KEY: z.string().optional(),
-  IMAGEKIT_URL_ENDPOINT: z.string().url().optional(),
-  IMAGEKIT_ENABLED: z.string().optional(),
+    // ImageKit
+    IMAGEKIT_PUBLIC_KEY: z.string().optional(),
+    IMAGEKIT_PRIVATE_KEY: z.string().optional(),
+    IMAGEKIT_URL_ENDPOINT: z.string().url().optional(),
+    IMAGEKIT_ENABLED: z.string().optional(),
 
-  // Cloudinary
-  CLOUDINARY_CLOUD_NAME: z.string().optional(),
-  CLOUDINARY_API_KEY: z.string().optional(),
-  CLOUDINARY_API_SECRET: z.string().optional(),
+    // Cloudinary
+    CLOUDINARY_CLOUD_NAME: z.string().optional(),
+    CLOUDINARY_API_KEY: z.string().optional(),
+    CLOUDINARY_API_SECRET: z.string().optional(),
 
-  // AWS S3
-  AWS_REGION: z.string().optional(),
-  AWS_ACCESS_KEY_ID: z.string().optional(),
-  AWS_SECRET_ACCESS_KEY: z.string().optional(),
-  AWS_S3_BUCKET_NAME: z.string().optional(),
+    // AWS S3
+    AWS_REGION: z.string().optional(),
+    AWS_ACCESS_KEY_ID: z.string().optional(),
+    AWS_SECRET_ACCESS_KEY: z.string().optional(),
+    AWS_S3_BUCKET_NAME: z.string().optional(),
 
-  // ═══════════════════════════════════════════════════
-  // Email Configuration (Nodemailer)
-  // ═══════════════════════════════════════════════════
-  EMAIL_SERVER_HOST: z.string().default("smtp.gmail.com"),
-  EMAIL_SERVER_PORT: z.coerce.number().int().positive().default(587),
-  EMAIL_SERVER_USER: z.string().default(""),
-  EMAIL_SERVER_PASSWORD: z.string().default(""),
-  EMAIL_FROM: z.string().email().default("noreplycomicwise.com"),
-  EMAIL_SECURE: z.coerce.boolean().default(false),
+    // ═══════════════════════════════════════════════════
+    // Email Configuration (Nodemailer)
+    // ═══════════════════════════════════════════════════
+    // Email
+    EMAIL_SERVER_HOST: z.string().default("smtp.gmail.com"),
+    EMAIL_SERVER_PORT: z.coerce.number().int().positive().default(587),
+    EMAIL_SERVER_USER: z.string().default(""),
+    EMAIL_SERVER_PASSWORD: z.string().default(""),
+    EMAIL_FROM: z.string().email().default("noreplycomicwise.com"),
+    EMAIL_SECURE: z.coerce.boolean().default(false),
 
-  // Legacy SMTP support (backwards compatibility)
-  SMTP_HOST: z.string().optional(),
-  SMTP_PORT: z.coerce.number().int().positive().optional(),
-  SMTP_USER: z.string().optional(),
-  SMTP_PASSWORD: z.string().optional(),
-  SMTP_FROM: z.string().email().optional(),
-  SMTP_SECURE: z.coerce.boolean().optional(),
+    // Legacy SMTP support (backwards compatibility)
+    SMTP_HOST: z.string().optional(),
+    SMTP_PORT: z.coerce.number().int().positive().optional(),
+    SMTP_USER: z.string().optional(),
+    SMTP_PASSWORD: z.string().optional(),
+    SMTP_FROM: z.string().email().optional(),
+    SMTP_SECURE: z.coerce.boolean().optional(),
 
-  // ═══════════════════════════════════════════════════
-  // Background Jobs (QStash)
-  // ═══════════════════════════════════════════════════
-  QSTASH_TOKEN: z.string().optional(),
-  QSTASH_CURRENT_SIGNING_KEY: z.string().optional(),
-  QSTASH_NEXT_SIGNING_KEY: z.string().optional(),
-  QSTASH_URL: z.string().url().optional(),
+    // ═══════════════════════════════════════════════════
+    // Background Jobs (QStash)
+    // ═══════════════════════════════════════════════════
+    // QStash
+    QSTASH_TOKEN: z.string().optional(),
+    QSTASH_CURRENT_SIGNING_KEY: z.string().optional(),
+    QSTASH_NEXT_SIGNING_KEY: z.string().optional(),
+    QSTASH_URL: z.string().url().optional(),
 
-  // ═══════════════════════════════════════════════════
-  // Redis Configuration (ioredis for caching & BullMQ)
-  // ═══════════════════════════════════════════════════
-  REDIS_HOST: z.string().default("localhost"),
-  REDIS_PORT: z.coerce.number().int().positive().default(6379),
-  REDIS_PASSWORD: z.string().optional(),
-  REDIS_DB: z.coerce.number().int().nonnegative().default(0),
-  REDIS_URL: z.string().optional(),
-  REDIS_TLS_ENABLED: z.coerce.boolean().default(false),
+    // ═══════════════════════════════════════════════════
+    // Redis Configuration (ioredis for caching & BullMQ)
+    // ═══════════════════════════════════════════════════
+    // Redis
+    REDIS_HOST: z.string().default("localhost"),
+    REDIS_PORT: z.coerce.number().int().positive().default(6379),
+    REDIS_PASSWORD: z.string().optional(),
+    REDIS_DB: z.coerce.number().int().nonnegative().default(0),
+    REDIS_URL: z.string().optional(),
+    REDIS_TLS_ENABLED: z.coerce.boolean().default(false),
 
-  // ═══════════════════════════════════════════════════
-  // Rate Limiting (Upstash Redis - Optional Alternative)
-  // ═══════════════════════════════════════════════════
-  UPSTASH_REDIS_REST_URL: z.string().url().optional(),
-  UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
+    // ═══════════════════════════════════════════════════
+    // Rate Limiting (Upstash Redis - Optional Alternative)
+    // ═══════════════════════════════════════════════════
+    // Upstash Redis
+    UPSTASH_REDIS_REST_URL: z.string().url().optional(),
+    UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 
-  // ═══════════════════════════════════════════════════
-  // Application Configuration
-  // ═══════════════════════════════════════════════════
-  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
-  PORT: z.coerce.number().int().positive().optional(),
-  NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
+    // ═══════════════════════════════════════════════════
+    // Application Configuration
+    // ═══════════════════════════════════════════════════
+    // App Environment
+    NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+    PORT: z.coerce.number().int().positive().optional(),
+    NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
 
-  // ═══════════════════════════════════════════════════
-  // OAuth Providers (Optional)
-  // ═══════════════════════════════════════════════════
-  AUTH_GOOGLE_CLIENT_ID: z.string().optional(),
-  AUTH_GOOGLE_CLIENT_SECRET: z.string().optional(),
-  AUTH_GITHUB_CLIENT_ID: z.string().optional(),
-  AUTH_GITHUB_CLIENT_SECRET: z.string().optional(),
-  CUSTOM_PASSWORD: z.string().optional(),
-});
+    // ═══════════════════════════════════════════════════
+    // OAuth Providers (Optional)
+    // ═══════════════════════════════════════════════════
+    // OAuth Providers
+    AUTH_GOOGLE_CLIENT_ID: z.string().optional(),
+    AUTH_GOOGLE_CLIENT_SECRET: z.string().optional(),
+    AUTH_GITHUB_CLIENT_ID: z.string().optional(),
+    AUTH_GITHUB_CLIENT_SECRET: z.string().optional(),
+    CUSTOM_PASSWORD: z.string().optional(),
+  })
+  .passthrough();
 
 // ═══════════════════════════════════════════════════
 // TYPE EXPORTS
@@ -109,9 +120,13 @@ export type Environment = z.infer<typeof environmentSchema>;
 // ENVIRONMENT VALIDATION
 // ═══════════════════════════════════════════════════
 
+/**
+ * Validate and parse environment variables for both development and production.
+ * Ensures all required variables are set and provides helpful warnings.
+ */
 function validateEnvironment(): Environment {
   try {
-    // Parse with fallback support for legacy SMTP variables
+    // Parse with fallback support for legacy SMTP variables and provide clear error output
     const parsedEnvironment = environmentSchema.parse({
       ...process.env,
       PORT: process.env.PORT ?? "3000",
@@ -123,7 +138,6 @@ function validateEnvironment(): Environment {
       EMAIL_SECURE: process.env.EMAIL_SECURE ?? process.env.SMTP_SECURE ?? "false",
       NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
     });
-
     return parsedEnvironment;
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -141,7 +155,6 @@ function validateEnvironment(): Environment {
       if (missingVariables) {
         console.warn(`⚠️  Environment validation warnings:\n  ${missingVariables}\n`);
       }
-
       // Return with defaults for non-critical vars
       return environmentSchema.parse({
         ...process.env,
@@ -213,23 +226,7 @@ export const isDevelopment = env.NODE_ENV === "development";
  */
 export const isTest = env.NODE_ENV === "test";
 
-// Load environment variables early only on the server. We dynamically import
-// `dotenv-safe` and `path` at runtime so this module can be imported from
-// client code without bundling Node-only modules like `fs`.
-if (typeof window === "undefined") {
-  (async () => {
-    try {
-      const dotenvSafe = await import("dotenv-safe");
-      const path = await import("path");
-      dotenvSafe.config({
-        example: (path as typeof import("path")).resolve(process.cwd(), ".env.local"),
-      });
-    } catch {
-      // If dotenv-safe isn't available in the runtime environment, skip config.
-      // This keeps client-side and constrained build environments from failing.
-    }
-  })();
-}
+// (dotenv loading is handled externally for all environments)
 // ═══════════════════════════════════════════════════
 // APP CONFIGURATION (Next.js 16 Optimized)
 // ═══════════════════════════════════════════════════
@@ -240,6 +237,7 @@ if (typeof window === "undefined") {
 // APPLICATION CONFIGURATION
 // ═══════════════════════════════════════════════════
 
+// Main application configuration object
 const appConfig = {
   // ═══════════════════════════════════════════════════
   // App Metadata
@@ -252,6 +250,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Environment Flags
   // ═══════════════════════════════════════════════════
+  // Environment flags
   env: {
     isProduction: isProduction,
     isDevelopment: isDevelopment,
@@ -262,6 +261,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Database Configuration
   // ═══════════════════════════════════════════════════
+  // Database configuration
   database: {
     url: env.DATABASE_URL,
     neonUrl: env.NEON_DATABASE_URL,
@@ -271,6 +271,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Authentication Configuration
   // ═══════════════════════════════════════════════════
+  // Authentication configuration
   auth: {
     secret: env.AUTH_SECRET,
     url: env.AUTH_URL,
@@ -285,6 +286,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Pagination Configuration
   // ═══════════════════════════════════════════════════
+  // Pagination configuration
   pagination: {
     defaultLimit: 12,
     maxLimit: 100,
@@ -296,6 +298,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Session Configuration
   // ═══════════════════════════════════════════════════
+  // Session configuration
   session: {
     maxAge: 7 * 24 * 60 * 60, // 7 days
     updateAge: 24 * 60 * 60, // 1 day
@@ -305,6 +308,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Rate Limiting Configuration
   // ═══════════════════════════════════════════════════
+  // Rate limiting configuration
   rateLimit: {
     default: { requests: 10, window: 10 }, // 10 requests per 10 seconds
     auth: { requests: 5, window: 15 * 60 }, // 5 requests per 15 minutes
@@ -316,6 +320,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Email Configuration
   // ═══════════════════════════════════════════════════
+  // Email configuration
   email: {
     host: env.EMAIL_SERVER_HOST,
     port: env.EMAIL_SERVER_PORT,
@@ -329,6 +334,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Upload Configuration
   // ═══════════════════════════════════════════════════
+  // Upload configuration
   upload: {
     provider: env.UPLOAD_PROVIDER,
     maxFileSize: 10 * 1024 * 1024, // 10MB
@@ -357,6 +363,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Background Jobs Configuration (QStash)
   // ═══════════════════════════════════════════════════
+  // QStash configuration
   qstash: {
     token: env.QSTASH_TOKEN ?? "",
     currentSigningKey: env.QSTASH_CURRENT_SIGNING_KEY ?? "",
@@ -368,6 +375,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Redis Configuration (Upstash)
   // ═══════════════════════════════════════════════════
+  // Redis configuration
   redis: {
     url: env.UPSTASH_REDIS_REST_URL ?? "",
     token: env.UPSTASH_REDIS_REST_TOKEN ?? "",
@@ -377,6 +385,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Security Configuration
   // ═══════════════════════════════════════════════════
+  // Security configuration
   security: {
     bcryptRounds: isProduction ? 12 : 10,
     tokenExpiry: {
@@ -388,6 +397,7 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Feature Flags
   // ═══════════════════════════════════════════════════
+  // Feature flags
   features: {
     comments: true,
     bookmarks: true,

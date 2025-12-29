@@ -139,7 +139,8 @@ async function validateChapterImages(): Promise<ValidationResult> {
 
     // Count uploaded vs external URLs
     const uploadedImages = allChapterImages.filter(
-      (img) => img.imageUrl && (img.imageUrl.includes("/uploads/") || img.imageUrl.includes("imagekit.io"))
+      (img) =>
+        img.imageUrl && (img.imageUrl.includes("/uploads/") || img.imageUrl.includes("imagekit.io"))
     ).length;
 
     const externalImages = allChapterImages.filter(
@@ -291,8 +292,8 @@ async function validateImageIntegrity(): Promise<ValidationResult> {
     const totalChapterImages = await db.select().from(chapterImage);
 
     logger.info(
-      `   Null/empty chapter images:     ${orphanedChapterImages.length}/${totalChapterImages.length}`)
-    ;
+      `   Null/empty chapter images:     ${orphanedChapterImages.length}/${totalChapterImages.length}`
+    );
 
     // Check for proper page numbering
     const chapterImagesWithInvalidPageNumbers = await db

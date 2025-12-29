@@ -12,41 +12,6 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-// // Legacy tables (kept for backward compatibility)
-// export const users = pgTable("users", {
-//   id: serial("id").primaryKey(),
-//   email: varchar("email", { length: 320 }).notNull(),
-//   name: text("name"),
-//   passwordHash: text("password_hash"),
-//   createdAt: timestamp("createdAt").defaultNow().notNull(),
-//   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
-// });
-
-// export const comics = pgTable("comics", {
-//   id: serial("id").primaryKey(),
-//   title: varchar("title", { length: 512 }).notNull(),
-//   slug: varchar("slug", { length: 512 }).notNull(),
-//   description: text("description"),
-//   authorId: integer("authorId").references(() => users.id),
-//   published: boolean("published").default(false).notNull(),
-//   createdAt: timestamp("createdAt").defaultNow().notNull(),
-//   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
-// });
-
-// export const chapters = pgTable("chapters", {
-//   id: serial("id").primaryKey(),
-//   comicId: integer("comicId")
-//     .references(() => comics.id)
-//     .notNull(),
-//   title: varchar("title", { length: 512 }).notNull(),
-//   slug: varchar("slug", { length: 512 }).notNull(),
-//   content: text("content"),
-//   number: integer("number").notNull(),
-//   published: boolean("published").default(false).notNull(),
-//   createdAt: timestamp("createdAt").defaultNow().notNull(),
-//   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
-// });
-
 // ═══════════════════════════════════════════════════
 // CUSTOM SQL TYPES FOR FULL-TEXT SEARCH
 // ═══════════════════════════════════════════════════

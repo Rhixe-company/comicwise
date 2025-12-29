@@ -25,11 +25,21 @@ import {
   chapter,
   chapterImage,
   comic,
+  comicImage,
   comicToGenre,
   type as comicType,
   genre,
   user,
 } from "@/database/schema";
+import { logger } from "@/database/seed/logger";
+import {
+  cacheImage,
+  clearCache,
+  getCachedByHash,
+  getCachedUrl,
+  getCacheStats,
+  getImageHash,
+} from "@/database/seed/utils/imageCache";
 import { imageService } from "@/services/imageService";
 import { hashPassword } from "auth";
 import { and, eq } from "drizzle-orm";
@@ -37,12 +47,6 @@ import fs from "fs/promises";
 import { glob } from "glob";
 import path from "path";
 import { z } from "zod";
-import { logger } from "../logger";
-import imageCache from "../utils/imageCache";
-
-// Destructure imageCache utilities
-const { getImageHash, getCachedUrl, getCachedByHash, cacheImage, getCacheStats, clearCache } =
-  imageCache;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS
@@ -50,6 +54,7 @@ const { getImageHash, getCachedUrl, getCachedByHash, cacheImage, getCacheStats, 
 
 /**
  * Discover JSON files matching a pattern
+ * @param pattern
  */
 async function discoverJSONFiles(pattern: string): Promise<string[]> {
   try {
@@ -65,66 +70,103 @@ async function discoverJSONFiles(pattern: string): Promise<string[]> {
 // VALIDATION SCHEMAS
 // ═══════════════════════════════════════════════════════════════════════════
 
-const UserSchema = z.object({
-  id: z.string().uuid().optional(),
-  email: z.string().email(),
-  name: z.string(),
-  password: z.string().optional(),
-  role: z.enum(["user", "admin", "moderator"]).default("user"),
-  image: z.string().nullable().optional(),
-  emailVerified: z.coerce.date().nullable().optional(),
-  status: z.boolean().optional(),
-  createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional(),
-});
+const UserSchema = z
+  .object({
+    id: z.string().uuid().optional(),
+    email: z.string().email(),
+    name: z.string(),
+    password: z.string().optional(),
+    role: z.enum(["user", "admin", "moderator"]).default("user"),
+    image: z.string().nullable().optional(),
+    emailVerified: z.coerce.date().nullable().optional(),
+    status: z.boolean().optional(),
+    createdAt: z.coerce.date().optional(),
+    updatedAt: z.coerce.date().optional(),
+    lastActivityDate: z.coerce.date().nullable().optional(),
+  })
+  .strict();
 
-const ComicSchema = z.object({
-  title: z.string(),
-  slug: z.string(),
-  description: z.string(),
-  coverImage: z.string().optional(),
-  status: z.enum(["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"]).default("Ongoing"),
-  rating: z.coerce.number().max(9.99).optional(),
-  serialization: z.string().optional(),
-  updatedAt: z.string().optional(),
-  url: z.string().url().optional(),
-  images: z.array(z.object({ url: z.string().url() })).optional(),
-  image_urls: z.array(z.string().url()).optional(),
-  type: z.object({ name: z.string() }).optional(),
-  category: z.string().optional(),
-  author: z.union([z.object({ name: z.string() }), z.string()]).optional(),
-  artist: z.union([z.object({ name: z.string() }), z.string()]).optional(),
-  genres: z.array(z.union([z.object({ name: z.string() }), z.string()])).default([]),
-});
+const ComicSchema = z
+  .object({
+    title: z.string(),
+    slug: z.string(),
+    description: z.string(),
+    coverImage: z.string().optional(),
+    status: z.enum(["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"]).default("Ongoing"),
+    rating: z.coerce.number().max(10.0).optional(),
+    serialization: z.string().optional(),
+    updatedAt: z.string().optional(),
+    updated_at: z.string().optional(),
+    url: z.string().url().optional(),
+    images: z
+      .array(
+        z
+          .object({
+            url: z.string().url(),
+            path: z.string().optional(),
+            checksum: z.string().optional(),
+            status: z.string().optional(),
+          })
+          .strict()
+      )
+      .optional(),
+    numchapters: z.number().optional(),
+    image_urls: z.array(z.string().url()).optional(),
+    type: z.object({ name: z.string() }).strict().optional(),
+    category: z.string().optional(),
+    author: z.object({ name: z.string() }).strict().optional().or(z.string()).optional(),
+    artist: z.object({ name: z.string() }).strict().optional().or(z.string()).optional(),
+    genres: z
+      .array(z.object({ name: z.string() }).strict().optional().or(z.string()).optional())
+      .default([]),
+    spider: z.string().optional(),
+  })
+  .strict();
 
-const ChapterSchema = z.object({
-  // Format 1: chapters.json (nested comic object)
-  name: z.string().optional(), // "Chapter 273"
-  title: z.string().optional(), // "91. Divine Relic (1)"
-  url: z.string().url().optional(),
-  slug: z.string().optional(),
-  chapterNumber: z.coerce.number().optional(),
-  releaseDate: z.coerce.date().optional(),
-  updatedAt: z.string().optional(),
-  updated_at: z.string().optional(),
-  views: z.number().optional(),
-  comic: z
-    .object({
-      title: z.string(),
-      slug: z.string(),
-    })
-    .optional(),
-  comicSlug: z.string().optional(),
-  content: z.string().optional(),
-  images: z.array(z.object({ url: z.string().url() })).optional(),
+const ChapterSchema = z
+  .object({
+    // Format 1: chapters.json (nested comic object)
+    name: z.string().optional(), // "Chapter 273"
+    title: z.string().optional(), // "91. Divine Relic (1)"
+    url: z.string().url().optional(),
+    slug: z.string().optional(),
+    chapterNumber: z.coerce.number().optional(),
+    releaseDate: z.coerce.date().optional(),
+    updatedAt: z.string().optional(),
+    updated_at: z.string().optional(),
+    views: z.number().optional(),
+    comic: z
+      .object({
+        title: z.string(),
+        slug: z.string(),
+      })
+      .strict()
+      .optional(),
+    comicSlug: z.string().optional(),
+    content: z.string().optional(),
+    images: z
+      .array(
+        z
+          .object({
+            url: z.string().url(),
+            path: z.string().optional(),
+            checksum: z.string().optional(),
+            status: z.string().optional(),
+          })
+          .strict()
+      )
+      .optional(),
 
-  // Format 2: chaptersdata*.json (direct properties)
-  comictitle: z.string().optional(),
-  comicslug: z.string().optional(),
-  chaptername: z.string().optional(),
-  chapterslug: z.string().optional(),
-  image_urls: z.array(z.string().url()).optional(),
-});
+    // Format 2: chaptersdata*.json (direct properties)
+    comictitle: z.string().optional(),
+    comicslug: z.string().optional(),
+    chaptername: z.string().optional(),
+    chaptertitle: z.string().optional(),
+    chapterslug: z.string().optional(),
+    image_urls: z.array(z.string().url()).optional(),
+    spider: z.string().optional(),
+  })
+  .strict();
 
 // ═══════════════════════════════════════════════════════════════════════════
 // IMAGE DOWNLOAD & UPLOAD HELPERS - Optimized with Pre-Upload Deduplication
@@ -133,17 +175,23 @@ const ChapterSchema = z.object({
 /**
  * Download and process image with optimized deduplication
  * Checks hash BEFORE uploading to avoid unnecessary uploads
+ * @param imageUrl
+ * @param folder
+ * @param fileName
+ * @param p0
+ * @param _fileName
  */
 async function downloadAndUploadImage(
   imageUrl: string,
   folder: string,
-  fileName: string
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _fileName: string
 ): Promise<string | null> {
   try {
     // OPTIMIZATION 1: Check URL cache first - exact URL match (most efficient)
     const cachedUrl = getCachedUrl(imageUrl);
     if (cachedUrl) {
-      logger.info(`✓ Cache hit (URL): ${imageUrl.substring(0, 80)}...`);
+      logger.info(`✓ Cache hit (URL): ${imageUrl.slice(0, 80)}...`);
       return cachedUrl;
     }
 
@@ -167,8 +215,8 @@ async function downloadAndUploadImage(
       const cachedByHash = getCachedByHash(imageHash);
       if (cachedByHash) {
         logger.info(`✓ Cache hit (Hash): Duplicate content detected, reusing existing upload`);
-        logger.info(`  Original: ${imageUrl.substring(0, 60)}...`);
-        logger.info(`  Cached:   ${cachedByHash.substring(0, 60)}...`);
+        logger.info(`  Original: ${imageUrl.slice(0, 60)}...`);
+        logger.info(`  Cached:   ${cachedByHash.slice(0, 60)}...`);
         cacheImage(imageUrl, cachedByHash, imageHash);
         return cachedByHash;
       }
@@ -181,7 +229,7 @@ async function downloadAndUploadImage(
     const result = await imageService.downloadImage(imageUrl, `comicwise/${folder}`);
 
     if (!result.success || !result.localPath) {
-      logger.warn(`Image service failed: ${result.error || "Unknown error"}`);
+      logger.warn(`Image service failed: ${result.error ?? "Unknown error"}`);
       return imageUrl; // Fallback to original URL
     }
 
@@ -190,10 +238,10 @@ async function downloadAndUploadImage(
     // Cache both URL and hash for future lookups
     cacheImage(imageUrl, uploadedUrl, imageHash);
 
-    logger.success(`✓ Image uploaded: ${uploadedUrl.substring(0, 80)}...`);
+    logger.success(`✓ Image uploaded: ${uploadedUrl.slice(0, 80)}...`);
     return uploadedUrl;
   } catch (error) {
-    logger.error(`Error processing image ${imageUrl.substring(0, 60)}...: ${error}`);
+    logger.error(`Error processing image ${imageUrl.slice(0, 60)}...: ${error}`);
     return imageUrl; // Fallback to original URL
   }
 }
@@ -201,6 +249,9 @@ async function downloadAndUploadImage(
 /**
  * Batch download and upload images with concurrency control
  * Prevents overwhelming the server with simultaneous requests
+ * @param imageUrls
+ * @param folder
+ * @param concurrency
  */
 async function downloadAndUploadImages(
   imageUrls: string[],
@@ -259,7 +310,7 @@ async function findOrCreateAuthor(authorName: string): Promise<number> {
     })
     .returning();
 
-  return newAuthor!.id;
+  return newAuthor.id;
 }
 
 async function findOrCreateArtist(artistName: string): Promise<number> {
@@ -283,7 +334,7 @@ async function findOrCreateArtist(artistName: string): Promise<number> {
     })
     .returning();
 
-  return newArtist!.id;
+  return newArtist.id;
 }
 
 async function findOrCreateType(typeName: string): Promise<number> {
@@ -307,7 +358,7 @@ async function findOrCreateType(typeName: string): Promise<number> {
     })
     .returning();
 
-  return newType!.id;
+  return newType.id;
 }
 
 async function findOrCreateGenre(genreName: string): Promise<number> {
@@ -331,14 +382,14 @@ async function findOrCreateGenre(genreName: string): Promise<number> {
     })
     .returning();
 
-  return newGenre!.id;
+  return newGenre.id;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SEED USERS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function seedUsersFromJSON(jsonFiles: string[] = ["users.json"]) {
+export async function seedUsersFromJSON(jsonFiles: string[] = ["users.json"]): Promise<void> {
   logger.info("🌱 Seeding users from JSON files...");
 
   let totalProcessed = 0;
@@ -350,7 +401,9 @@ export async function seedUsersFromJSON(jsonFiles: string[] = ["users.json"]) {
       const filePath = path.join(process.cwd(), jsonFile);
       const fileContent = await fs.readFile(filePath, "utf-8");
       const rawData = JSON.parse(fileContent);
-      const usersData = Array.isArray(rawData) ? rawData : [rawData];
+      const usersData = Array.isArray(rawData)
+        ? (rawData as Record<string, unknown>[])
+        : [rawData as Record<string, unknown>];
 
       logger.info(`Processing ${usersData.length} users from ${jsonFile}`);
 
@@ -371,7 +424,7 @@ export async function seedUsersFromJSON(jsonFiles: string[] = ["users.json"]) {
             emailVerified: validatedUser.emailVerified ?? new Date(),
             password: validatedUser.password
               ? await hashPassword(validatedUser.password)
-              : await hashPassword(appConfig.customPassword || "Password123!"),
+              : await hashPassword(appConfig.customPassword ?? "Password123!"),
           };
 
           if (existingUser) {
@@ -411,7 +464,7 @@ export async function seedUsersFromJSON(jsonFiles: string[] = ["users.json"]) {
 // SEED COMICS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function seedComicsFromJSON(pattern: string = "comics*.json") {
+export async function seedComicsFromJSON(pattern: string = "comics*.json"): Promise<void> {
   logger.info("🌱 Seeding comics from JSON files...");
 
   // Discover all matching files
@@ -440,7 +493,9 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json") {
 
       const fileContent = await fs.readFile(filePath, "utf-8");
       const rawData = JSON.parse(fileContent);
-      const comicsData = Array.isArray(rawData) ? rawData : [rawData];
+      const comicsData = Array.isArray(rawData)
+        ? (rawData as Record<string, unknown>[])
+        : [rawData as Record<string, unknown>];
 
       logger.info(`📖 Processing ${comicsData.length} comic(s) from ${jsonFile}`);
 
@@ -452,18 +507,23 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json") {
             const validStatuses = ["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"];
             if (!validStatuses.includes(normalizedData.status)) {
               logger.warn(
-                `Invalid status "${normalizedData.status}" for ${comicData.title || comicData.slug}, defaulting to "Ongoing"`
+                `Invalid status "${normalizedData.status}" for ${comicData.title ?? comicData.slug}, defaulting to "Ongoing"`
               );
               normalizedData.status = "Ongoing";
             }
           }
 
-          // Preprocess: Clamp rating to max 9.99
-          if (normalizedData.rating && parseFloat(normalizedData.rating) > 9.99) {
-            logger.warn(
-              `Rating ${normalizedData.rating} exceeds max for ${comicData.title || comicData.slug}, clamping to 9.99`
-            );
-            normalizedData.rating = 9.99;
+          // Preprocess: Clamp rating to [0, 10.00] and ensure number
+          if (normalizedData.rating !== undefined) {
+            let ratingNumber = Number.parseFloat(String(normalizedData.rating));
+            if (isNaN(ratingNumber) || ratingNumber < 0) ratingNumber = 0;
+            if (ratingNumber > 10.0) {
+              logger.warn(
+                `Rating ${normalizedData.rating} exceeds max for ${comicData.title ?? comicData.slug}, clamping to 10.00`
+              );
+              ratingNumber = 10.0;
+            }
+            normalizedData.rating = ratingNumber;
           }
 
           const validatedComic = ComicSchema.parse(normalizedData);
@@ -493,6 +553,43 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json") {
             }
           }
 
+          // Process all comic images (not just cover)
+          // Collect all unique image URLs from images and image_urls
+          const comicImageUrls: string[] = [];
+          if (Array.isArray(validatedComic.images)) {
+            for (const img of validatedComic.images) {
+              if (img?.url && !comicImageUrls.includes(img.url)) {
+                comicImageUrls.push(img.url);
+              }
+            }
+          }
+          if (Array.isArray(validatedComic.image_urls)) {
+            for (const url of validatedComic.image_urls) {
+              if (url && !comicImageUrls.includes(url)) {
+                comicImageUrls.push(url);
+              }
+            }
+          }
+
+          // Download and upload all comic images
+          let processedComicImageUrls: string[] = [];
+          if (comicImageUrls.length > 0) {
+            logger.info(
+              `   📸 Processing ${comicImageUrls.length} images for comic: ${validatedComic.title}`
+            );
+            const uploadedComicImages = await downloadAndUploadImages(
+              comicImageUrls,
+              `comics/${validatedComic.slug}`,
+              5 // concurrency
+            );
+            processedComicImageUrls = uploadedComicImages.filter(
+              (url): url is string => url !== null
+            );
+            logger.info(
+              `   ✓ Processed ${processedComicImageUrls.length}/${comicImageUrls.length} comic images`
+            );
+          }
+
           // Process author
           let authorName = "Unknown Author";
           if (validatedComic.author) {
@@ -503,6 +600,14 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json") {
             }
           }
           const authorId = await findOrCreateAuthor(authorName);
+          if (!authorId) {
+            logger.error(
+              `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Author '${authorName}' not found or could not be created.`
+            );
+            totalErrors++;
+            fileStats.errors++;
+            continue;
+          }
 
           // Process artist
           let artistName = "Unknown Artist";
@@ -514,16 +619,39 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json") {
             }
           }
           const artistId = await findOrCreateArtist(artistName);
+          if (!artistId) {
+            logger.error(
+              `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Artist '${artistName}' not found or could not be created.`
+            );
+            totalErrors++;
+            fileStats.errors++;
+            continue;
+          }
 
           // Process type
-          const typeName = validatedComic.type?.name || validatedComic.category || "Unknown Type";
+          const typeName = validatedComic.type?.name ?? validatedComic.category ?? "Unknown Type";
           const typeId = await findOrCreateType(typeName);
+          if (!typeId) {
+            logger.error(
+              `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Type '${typeName}' not found or could not be created.`
+            );
+            totalErrors++;
+            fileStats.errors++;
+            continue;
+          }
 
           // Process genres
           const genreIds: number[] = [];
-          for (const genre of validatedComic.genres || []) {
+          for (const genre of validatedComic.genres ?? []) {
+            if (!genre) continue;
             const genreName = typeof genre === "string" ? genre : genre.name;
             const genreId = await findOrCreateGenre(genreName);
+            if (!genreId) {
+              logger.error(
+                `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Genre '${genreName}' not found or could not be created.`
+              );
+              continue;
+            }
             genreIds.push(genreId);
           }
 
@@ -537,7 +665,7 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json") {
             title: validatedComic.title,
             slug: validatedComic.slug,
             description: validatedComic.description,
-            coverImage: uploadedCoverImage || "",
+            coverImage: uploadedCoverImage ?? "",
             status: validatedComic.status,
             rating: validatedComic.rating ? validatedComic.rating.toString() : "0",
             authorId,
@@ -547,35 +675,69 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json") {
           };
 
           let comicId: number;
+          try {
+            if (existingComic) {
+              // Update existing comic
+              await db
+                .update(comic)
+                .set({
+                  title: comicPayload.title,
+                  description: comicPayload.description,
+                  coverImage: comicPayload.coverImage,
+                  status: comicPayload.status,
+                  rating: comicPayload.rating ? comicPayload.rating.toString() : "0",
+                  authorId: comicPayload.authorId,
+                  artistId: comicPayload.artistId,
+                  typeId: comicPayload.typeId,
+                  publicationDate: comicPayload.publicationDate,
+                  updatedAt: new Date(),
+                })
+                .where(eq(comic.id, existingComic.id));
+              comicId = existingComic.id;
+              totalUpdated++;
+              fileStats.updated++;
+              logger.success(`✓ Updated comic: ${validatedComic.title}`);
+            } else {
+              // Create new comic
+              const [newComic] = await db.insert(comic).values(comicPayload).returning();
+              comicId = newComic.id;
+              totalCreated++;
+              fileStats.created++;
+              logger.success(`✓ Created comic: ${validatedComic.title}`);
+            }
+          } catch (insertError: any) {
+            // Unique constraint violation or other DB error
+            totalErrors++;
+            fileStats.errors++;
+            let errorDetails = `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Insert error.`;
+            if (insertError?.code) errorDetails += ` Code: ${insertError.code}.`;
+            if (insertError?.constraint) errorDetails += ` Constraint: ${insertError.constraint}.`;
+            if (insertError?.detail) errorDetails += ` Detail: ${insertError.detail}.`;
+            if (insertError?.stack) errorDetails += `\nStack: ${insertError.stack}`;
+            if (insertError?.code === "23505") {
+              logger.error(
+                `${errorDetails} Duplicate entry (unique constraint violation). Skipping.`
+              );
+            } else {
+              logger.error(errorDetails);
+            }
+            continue;
+          }
 
-          if (existingComic) {
-            // Update existing comic
-            await db
-              .update(comic)
-              .set({
-                title: comicPayload.title,
-                description: comicPayload.description,
-                coverImage: comicPayload.coverImage,
-                status: comicPayload.status,
-                rating: comicPayload.rating ? comicPayload.rating.toString() : "0",
-                authorId: comicPayload.authorId,
-                artistId: comicPayload.artistId,
-                typeId: comicPayload.typeId,
-                publicationDate: comicPayload.publicationDate,
-                updatedAt: new Date(),
-              })
-              .where(eq(comic.id, existingComic.id));
-            comicId = existingComic.id;
-            totalUpdated++;
-            fileStats.updated++;
-            logger.success(`✓ Updated comic: ${validatedComic.title}`);
-          } else {
-            // Create new comic
-            const [newComic] = await db.insert(comic).values(comicPayload).returning();
-            comicId = newComic!.id;
-            totalCreated++;
-            fileStats.created++;
-            logger.success(`✓ Created comic: ${validatedComic.title}`);
+          // Save all comic images to comicImage table
+          if (processedComicImageUrls.length > 0) {
+            // Delete existing comic images for this comic
+            await db.delete(comicImage).where(eq(comicImage.comicId, comicId));
+
+            // Insert new comic images
+            const comicImageRecords = processedComicImageUrls.map((imageUrl, index) => ({
+              comicId: comicId,
+              imageUrl: imageUrl,
+              imageOrder: index + 1,
+            }));
+
+            await db.insert(comicImage).values(comicImageRecords);
+            logger.info(`   ✓ Saved ${comicImageRecords.length} images to comicImage table`);
           }
 
           // Update comic-genre relationships
@@ -593,10 +755,12 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json") {
 
           totalProcessed++;
           fileStats.processed++;
-        } catch (error) {
+        } catch (error: any) {
           totalErrors++;
           fileStats.errors++;
-          logger.error(`Failed to process comic: ${error}`);
+          logger.error(
+            `Comic '${comicData.title ?? comicData.slug}' (slug: ${comicData.slug ?? comicData.title}): Failed to process comic: ${error}`
+          );
         }
       }
 
@@ -632,7 +796,7 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json") {
 // SEED CHAPTERS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
+export async function seedChaptersFromJSON(pattern: string = "chapters*.json"): Promise<void> {
   logger.info("🌱 Seeding chapters from JSON files...");
 
   // Discover all matching files
@@ -662,7 +826,9 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
 
       const fileContent = await fs.readFile(filePath, "utf-8");
       const rawData = JSON.parse(fileContent);
-      const chaptersData = Array.isArray(rawData) ? rawData : [rawData];
+      const chaptersData = Array.isArray(rawData)
+        ? (rawData as Record<string, unknown>[])
+        : [rawData as Record<string, unknown>];
 
       logger.info(`📖 Processing ${chaptersData.length} chapter(s) from ${jsonFile}`);
 
@@ -671,23 +837,23 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
           const validatedChapter = ChapterSchema.parse(chapterData);
 
           // Transform data: handle both formats
-          const chapterName = validatedChapter.chaptername || validatedChapter.name || "";
+          const chapterName = validatedChapter.chaptername ?? validatedChapter.name ?? "";
           const chapterTitle =
-            validatedChapter.title || validatedChapter.chaptername || chapterName;
+            validatedChapter.title ?? validatedChapter.chaptername ?? chapterName;
           const chapterNumber = chapterName.match(/chapter\s+(\d+)/i)?.[1]
-            ? parseInt(chapterName.match(/chapter\s+(\d+)/i)![1])
-            : validatedChapter.chapterNumber || 0;
+            ? Number.parseInt(chapterName.match(/chapter\s+(\d+)/i)?.[1] ?? "")
+            : (validatedChapter.chapterNumber ?? 0);
           const chapterSlug =
-            validatedChapter.chapterslug ||
-            validatedChapter.slug ||
-            `${chapterName}-${chapterTitle}`
+            validatedChapter.chapterslug ??
+            validatedChapter.slug ??
+            `${chapterName}`
               .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "-")
-              .replace(/^-+|-+$/g, "");
+              .replaceAll(/[^\da-z]+/g, "-")
+              .replaceAll(/^-+|-+$/g, "");
           const comicSlug =
-            validatedChapter.comicslug ||
-            validatedChapter.comic?.slug ||
-            validatedChapter.comicSlug ||
+            validatedChapter.comicslug ??
+            validatedChapter.comic?.slug ??
+            validatedChapter.comicSlug ??
             "";
 
           if (!comicSlug) {
@@ -717,7 +883,7 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
           // Process chapter images if available
           let processedImageUrls: string[] = [];
           const chapterImageUrls =
-            validatedChapter.image_urls || validatedChapter.images?.map((img) => img.url) || [];
+            validatedChapter.image_urls ?? validatedChapter.images?.map((img) => img.url) ?? [];
 
           if (chapterImageUrls.length > 0) {
             logger.info(
@@ -738,8 +904,8 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
             title: chapterTitle,
             slug: chapterSlug,
             chapterNumber: chapterNumber,
-            releaseDate: validatedChapter.releaseDate || new Date(),
-            views: validatedChapter.views || 0,
+            releaseDate: validatedChapter.releaseDate ?? new Date(),
+            views: validatedChapter.views ?? 0,
             comicId: comicRecord.id,
           };
 
@@ -769,7 +935,7 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
             // Insert new chapter images
             const chapterImageRecords = processedImageUrls.map((imageUrl, index) => ({
               chapterId: chapterId,
-              url: imageUrl,
+              imageUrl: imageUrl,
               pageNumber: index + 1,
             }));
 
@@ -779,10 +945,15 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
 
           totalProcessed++;
           fileStats.processed++;
-        } catch (error) {
+        } catch (error: any) {
           totalErrors++;
           fileStats.errors++;
-          logger.error(`Failed to process chapter: ${error}`);
+          let errorDetails = `Failed to process chapter.`;
+          if (error?.code) errorDetails += ` Code: ${error.code}.`;
+          if (error?.constraint) errorDetails += ` Constraint: ${error.constraint}.`;
+          if (error?.detail) errorDetails += ` Detail: ${error.detail}.`;
+          if (error?.stack) errorDetails += `\nStack: ${error.stack}`;
+          logger.error(errorDetails);
         }
       }
 
@@ -878,7 +1049,7 @@ function validateImageProcessing(): { valid: boolean; issues: string[] } {
   }
 
   return {
-    valid: issues.length === 0 || issues.every((i) => i.startsWith("ℹ️")),
+    valid: issues.length === 0 ? true : issues.every((i) => i.startsWith("ℹ️")),
     issues,
   };
 }
@@ -887,7 +1058,7 @@ function validateImageProcessing(): { valid: boolean; issues: string[] } {
 // MAIN UNIVERSAL SEEDER - Enhanced with Validation
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function seedAllFromJSON() {
+export async function seedAllFromJSON(): Promise<void> {
   const startTime = Date.now();
 
   logger.info("🚀 Starting universal JSON seeding...");

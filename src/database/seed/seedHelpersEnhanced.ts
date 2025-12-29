@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Enhanced Seed Helpers - Optimized with Universal Seeder
  *
@@ -20,63 +21,34 @@ import type { SeedOptions, SeedResult } from "./types";
 
 /**
  * Seed users from JSON files
- * @param options
+ * @param _options
  */
-export async function seedUsers(options: SeedOptions = {}): Promise<SeedResult> {
+export async function seedUsers(_options: SeedOptions = {}): Promise<SeedResult> {
   const startTime = Date.now();
-
   await seedUsersFromJSON(["users.json"]);
-
-  return {
-    inserted: 0, // Actual counts logged by universalSeeder
-    updated: 0,
-    skipped: 0,
-    errors: 0,
-    duration: Date.now() - startTime,
-  };
+  return { inserted: 0, updated: 0, skipped: 0, errors: 0, duration: Date.now() - startTime };
 }
 
 /**
  * Seed comics (with authors, artists, genres, types)
- * @param options
+ * @param _options
  */
-export async function seedComics(options: SeedOptions = {}): Promise<SeedResult> {
+export async function seedComics(_options: SeedOptions = {}): Promise<SeedResult> {
   const startTime = Date.now();
-
   await seedComicsFromJSON("comics*.json");
-
-  return {
-    inserted: 0, // Actual counts logged by universalSeeder
-    updated: 0,
-    skipped: 0,
-    errors: 0,
-    duration: Date.now() - startTime,
-  };
+  return { inserted: 0, updated: 0, skipped: 0, errors: 0, duration: Date.now() - startTime };
 }
 
 /**
  * Seed chapters
- * @param options
+ * @param _options
  */
-export async function seedChapters(options: SeedOptions = {}): Promise<SeedResult> {
+export async function seedChapters(_options: SeedOptions = {}): Promise<SeedResult> {
   const startTime = Date.now();
-
   await seedChaptersFromJSON("chapters*.json");
-
-  return {
-    inserted: 0, // Actual counts logged by universalSeeder
-    updated: 0,
-    skipped: 0,
-    errors: 0,
-    duration: Date.now() - startTime,
-  };
+  return { inserted: 0, updated: 0, skipped: 0, errors: 0, duration: Date.now() - startTime };
 }
-
-/**
- * Seed all entities in correct order using Universal Seeder
- * @param options
- */
-export async function seedAll(options: SeedOptions = {}): Promise<{
+export async function seedAll(_options: SeedOptions = {}): Promise<{
   users: SeedResult;
   comics: SeedResult;
   chapters: SeedResult;
@@ -97,9 +69,9 @@ export async function seedAll(options: SeedOptions = {}): Promise<{
 
 /**
  * Clear all seeded data
- * @param options
+ * @param _options
  */
-export async function clearAll(options: SeedOptions = {}): Promise<void> {
+export async function clearAll(_options: SeedOptions = {}): Promise<void> {
   logger.header("Clearing All Data");
   logger.info("Clear operations not yet implemented in universal seeder");
   logger.info("Use database reset or migration rollback instead");
@@ -118,9 +90,9 @@ export async function resetDatabase(options: SeedOptions = {}): Promise<void> {
 
 /**
  * Validate seed data without inserting
- * @param options
+ * @param _options
  */
-export async function validateSeedData(options: SeedOptions = {}): Promise<{
+export async function validateSeedData(_options: SeedOptions = {}): Promise<{
   users: boolean;
   comics: boolean;
   chapters: boolean;
