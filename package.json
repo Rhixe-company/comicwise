@@ -246,7 +246,6 @@
     "@tailwindcss/postcss": "^4.1.18",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
-    "@types/color": "^4.2.0",
     "@types/color-convert": "^2.0.4",
     "@types/eslint-plugin-jsx-a11y": "^6.10.1",
     "@types/lodash": "^4.17.21",

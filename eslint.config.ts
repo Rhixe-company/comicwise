@@ -25,7 +25,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 const eslintPlugins = {
-  "next/next": eslintNextPlugin,
+  "@next/next": eslintNextPlugin,
   "typescript-eslint": tseslint.plugin,
   zod: zod as any,
   "react-hooks": pluginReactHooks as any,
@@ -79,11 +79,11 @@ const eslintRules = {
   "rest-spread-spacing": "error",
   "template-tag-spacing": "error",
 
-  "next/next/no-html-link-for-pages": "warn",
-  "next/next/no-img-element": "warn",
-  "next/next/no-page-custom-font": "error",
-  "next/next/no-sync-scripts": "error",
-  "next/next/no-css-tags": "error",
+  "@next/next/no-html-link-for-pages": "warn",
+  "@next/next/no-img-element": "warn",
+  "@next/next/no-page-custom-font": "error",
+  "@next/next/no-sync-scripts": "error",
+  "@next/next/no-css-tags": "error",
 
   "typescript-eslint/no-unused-vars": [
     "warn",

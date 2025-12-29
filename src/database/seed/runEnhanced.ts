@@ -28,7 +28,7 @@ import { seedAll, seedChapters, seedComics, seedUsers } from "./seedHelpers";
 
 async function seed() {
   const startTime = Date.now();
-  let config: ReturnType<typeof parseCLIArgs>;
+  let config: ReturnType<typeof parseCLIArgs> | undefined;
 
   try {
     // Parse CLI config
@@ -97,7 +97,7 @@ async function seed() {
 
     if (error instanceof Error) {
       logger.error(`Error: ${error.message}`);
-      if (error.stack && typeof config !== "undefined" && config.options.verbose) {
+      if (error.stack && config?.options?.verbose) {
         logger.error(`Stack: ${error.stack}`);
       }
     } else {

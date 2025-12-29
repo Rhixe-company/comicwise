@@ -108,7 +108,7 @@ export function PasswordInputStrengthChecker() {
         };
 
         if (typeof zxcvbnOptions === "function") {
-          zxcvbnOptions(options as Parameters<typeof zxcvbnOptions>[0]);
+          (zxcvbnOptions as any)(options);
         } else if (zxcvbnOptions && typeof (zxcvbnOptions as any).setOptions === "function") {
           (zxcvbnOptions as any).setOptions(options);
         }

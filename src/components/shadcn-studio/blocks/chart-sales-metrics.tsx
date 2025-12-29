@@ -176,6 +176,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                             </text>
                           );
                         }
+                        return null;
                       }}
                     />
                   </Pie>

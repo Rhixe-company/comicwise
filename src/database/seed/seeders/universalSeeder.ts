@@ -350,7 +350,7 @@ export async function seedComicsFromJSON(
           }
 
           let uploadedCoverImage = coverImageUrl;
-          if (coverImageUrl && appConfig.upload.imageKit?.enabled) {
+          if (coverImageUrl && (appConfig.upload.imageKit as any).enabled) {
             const uploaded = await downloadAndUploadImage(
               coverImageUrl,
               "covers",
