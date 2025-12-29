@@ -8,7 +8,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[dockerfile]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    "editor.defaultFormatter": "docker.docker-vscode-extension"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -202,7 +202,7 @@
     "source.organizeImports": "explicit",
     "source.removeUnusedImports": "explicit",
     "source.addMissingImports": "explicit",
-    "source.sortImports": "never",
+    "source.sortImports": "explicit",
     "source.fixAll": "explicit",
     "source.formatDocument": "explicit"
   },
@@ -224,7 +224,7 @@
   "editor.inlayHints.padding": true,
   "editor.lineHeight": 1.7,
   "editor.linkedEditing": true,
-  "editor.minimap.enabled": true,
+  "editor.minimap.enabled": false,
   "editor.minimap.maxColumn": 120,
   "editor.minimap.renderCharacters": false,
   "editor.minimap.showSlider": "always",
@@ -284,8 +284,8 @@
   ],
   "eslint.workingDirectories": [{ "mode": "auto" }],
 
-  "extensions.autoCheckUpdates": false,
-  "extensions.autoUpdate": false,
+  "extensions.autoCheckUpdates": true,
+  "extensions.autoUpdate": true,
 
   // ━━━ Performance Optimizations ━━━
   "extensions.experimental.affinity": {
@@ -309,8 +309,8 @@
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
-    "**/node_modules": true,
-    "**/.next": true,
+    "**/node_modules": false,
+    "**/.next": false,
     "**/dist": true,
     "**/build": true
   },

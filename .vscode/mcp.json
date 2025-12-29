@@ -39,7 +39,7 @@
     "everything": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-everything"],
-      "disabled": true,
+      "disabled": false,
       "timeout": 30000,
       "description": "Windows Everything search integration (Windows-only, optional)"
     },
