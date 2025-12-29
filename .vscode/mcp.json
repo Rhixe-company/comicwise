@@ -1,66 +1,37 @@
 {
   "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/schema/mcp-config.schema.json",
+  "// Description": "ComicWise - Model Context Protocol Configuration for Next.js 16 + PostgreSQL + Redis Comic Platform",
+  "// Last Updated": "2025-12-29",
+  "// Package Manager": "pnpm",
+  "// Platform": "Windows",
+
   "globalSettings": {
     "retries": 3,
     "cacheEnabled": true,
-    "maxConcurrentRequests": 30,
-    "logFile": "${workspaceFolder}\\.vscode\\mcp-logs.txt",
-    "cacheTTL": 1800,
+    "maxConcurrentRequests": 50,
+    "logFile": "${workspaceFolder}\\.vscode\\logs\\mcp.log",
+    "cacheTTL": 3600,
     "enableMetrics": true,
-    "timeout": 180000,
-    "metricsInterval": 300000,
+    "timeout": 300000,
+    "metricsInterval": 600000,
     "logLevel": "info",
-    "healthCheckInterval": 90000,
+    "healthCheckInterval": 120000,
     "enableCompression": true,
-    "maxLogFileSize": 20971520
+    "maxLogFileSize": 52428800,
+    "enableDetailedErrors": true,
+    "errorNotifications": true
   },
+
   "mcpServers": {
-    "brave-search": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
-      "env": {
-        "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
-      },
-      "disabled": true,
-      "timeout": 45000,
-      "retries": 2,
-      "description": "Web search via Brave Search API (requires API key)"
-    },
-    "everart": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-everart"],
-      "env": {
-        "EVERART_API_KEY": "${env:EVERART_API_KEY}"
-      },
-      "disabled": true,
-      "timeout": 90000,
-      "description": "AI image generation via EverArt API (requires API key)"
-    },
-    "everything": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-everything"],
-      "disabled": false,
-      "timeout": 30000,
-      "description": "Windows Everything search integration (Windows-only, optional)"
-    },
-    "fetch": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-fetch"],
-      "disabled": false,
-      "autoApprove": ["fetch", "get", "post", "put", "delete"],
-      "timeout": 45000,
-      "retries": 3,
-      "description": "HTTP fetch for API testing, external service integration, and web requests"
-    },
+    "// CORE SERVERS - Always Enabled": "Essential for ComicWise development",
+
     "filesystem": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "${workspaceFolder}"
-      ],
-      "timeout": 60000,
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${workspaceFolder}"],
+      "timeout": 90000,
       "retries": 3,
+      "disabled": false,
+      "priority": "high",
       "autoApprove": [
         "read_file",
         "list_directory",
@@ -71,13 +42,19 @@
         "create_directory",
         "move_file",
         "edit_file",
-        "directory_tree"
+        "directory_tree",
+        "list_allowed_directories"
       ],
-      "description": "Local filesystem operations with full read/write capabilities for ComicWise project",
-      "env": {},
-      "disabled": false
+      "description": "Core filesystem operations for ComicWise project - full read/write access"
     },
+
     "git": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git", "${workspaceFolder}"],
+      "timeout": 60000,
+      "retries": 3,
+      "disabled": false,
+      "priority": "high",
       "autoApprove": [
         "git_status",
         "git_log",
@@ -86,20 +63,21 @@
         "list_branches",
         "git_branch",
         "git_commit",
-        "git_add"
+        "git_add",
+        "git_checkout",
+        "git_reset",
+        "git_stash"
       ],
-      "timeout": 45000,
-      "disabled": false,
-      "description": "Git version control operations",
-      "command": "npx",
-      "retries": 2,
-      "args": ["-y", "@modelcontextprotocol/server-git", "${workspaceFolder}"]
+      "description": "Git version control integration with full repository access"
     },
+
     "github": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
-      "timeout": 90000,
+      "timeout": 120000,
       "retries": 3,
+      "disabled": false,
+      "priority": "high",
       "autoApprove": [
         "search_repositories",
         "get_file_contents",
@@ -110,65 +88,23 @@
         "get_issue",
         "search_issues",
         "create_issue",
-        "update_issue"
+        "update_issue",
+        "create_pull_request",
+        "get_pull_request"
       ],
-      "description": "GitHub integration for repository management and collaboration",
+      "description": "GitHub API integration for repository management and collaboration",
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${env:GITHUB_TOKEN}"
-      },
-      "disabled": false
+      }
     },
-    "memory": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"],
-      "disabled": false,
-      "autoApprove": [
-        "read_memory",
-        "store_memory",
-        "delete_memory",
-        "list_memories",
-        "search_memory"
-      ],
-      "timeout": 20000,
-      "retries": 2,
-      "description": "Persistent memory across AI sessions for context retention and knowledge base"
-    },
-    "next-devtools": {
-      "command": "npx",
-      "args": ["-y", "next-devtools-mcp@latest"],
-      "disabled": false,
-      "autoApprove": [
-        "analyze_bundle",
-        "check_performance",
-        "optimize_images",
-        "inspect_routes",
-        "analyze_build"
-      ],
-      "timeout": 60000,
-      "retries": 2,
-      "description": "Next.js 16 development tools with Turbopack optimization and performance analysis"
-    },
-    "playwright": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-playwright"],
-      "disabled": false,
-      "autoApprove": [
-        "playwright_navigate",
-        "playwright_screenshot",
-        "playwright_click",
-        "playwright_fill",
-        "playwright_evaluate",
-        "playwright_select"
-      ],
-      "timeout": 120000,
-      "retries": 2,
-      "description": "Playwright E2E testing automation and browser control for ComicWise testing"
-    },
+
     "postgres": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-postgres"],
-      "timeout": 60000,
+      "timeout": 90000,
       "retries": 3,
+      "disabled": false,
+      "priority": "high",
       "autoApprove": [
         "list_tables",
         "describe_table",
@@ -177,21 +113,158 @@
         "get_table_info",
         "list_columns",
         "get_indexes",
-        "get_constraints"
+        "get_constraints",
+        "get_foreign_keys",
+        "analyze_query"
       ],
-      "description": "PostgreSQL database operations for ComicWise",
+      "description": "PostgreSQL database operations for ComicWise schema (comics, chapters, users, etc.)",
       "env": {
         "DATABASE_URL": "${env:DATABASE_URL}"
-      },
-      "disabled": false
+      }
     },
-    "puppeteer": {
+
+    "typescript": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
-      "disabled": true,
-      "timeout": 90000,
-      "description": "Puppeteer web scraping and automation (alternative to Playwright)"
+      "args": ["-y", "@modelcontextprotocol/server-typescript"],
+      "timeout": 60000,
+      "retries": 3,
+      "disabled": false,
+      "priority": "high",
+      "autoApprove": [
+        "analyze_types",
+        "find_references",
+        "get_diagnostics",
+        "get_completions",
+        "get_definition",
+        "rename_symbol",
+        "organize_imports",
+        "fix_all"
+      ],
+      "description": "TypeScript language server for type checking and intelligent refactoring"
     },
+
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "disabled": false,
+      "priority": "high",
+      "autoApprove": [
+        "read_memory",
+        "store_memory",
+        "delete_memory",
+        "list_memories",
+        "search_memory",
+        "update_memory"
+      ],
+      "timeout": 30000,
+      "retries": 2,
+      "description": "Persistent memory across AI sessions for context retention and project knowledge"
+    },
+
+    "// DEVELOPMENT TOOLS": "Enhanced development experience",
+
+    "next-devtools": {
+      "command": "npx",
+      "args": ["-y", "next-devtools-mcp@latest"],
+      "disabled": false,
+      "priority": "medium",
+      "autoApprove": [
+        "analyze_bundle",
+        "check_performance",
+        "optimize_images",
+        "inspect_routes",
+        "analyze_build",
+        "check_cache",
+        "validate_config"
+      ],
+      "timeout": 90000,
+      "retries": 2,
+      "description": "Next.js 16 development tools with Turbopack optimization and performance analysis"
+    },
+
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"],
+      "disabled": false,
+      "priority": "medium",
+      "autoApprove": [
+        "list_components",
+        "add_component",
+        "diff_component",
+        "update_component",
+        "remove_component",
+        "init_config"
+      ],
+      "timeout": 120000,
+      "retries": 2,
+      "description": "shadcn/ui component management for Next.js 16 with Radix UI primitives"
+    },
+
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "disabled": false,
+      "priority": "medium",
+      "autoApprove": ["think", "analyze", "reason", "plan", "solve", "optimize"],
+      "timeout": 120000,
+      "retries": 2,
+      "description": "Enhanced AI reasoning for complex problem-solving and architecture optimization"
+    },
+
+    "// TESTING & AUTOMATION": "Testing and quality assurance",
+
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-playwright"],
+      "disabled": false,
+      "priority": "medium",
+      "autoApprove": [
+        "playwright_navigate",
+        "playwright_screenshot",
+        "playwright_click",
+        "playwright_fill",
+        "playwright_evaluate",
+        "playwright_select",
+        "playwright_wait",
+        "playwright_assert"
+      ],
+      "timeout": 180000,
+      "retries": 2,
+      "description": "Playwright E2E testing automation for ComicWise user flows"
+    },
+
+    "// EXTERNAL INTEGRATIONS": "Optional external services",
+
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "disabled": false,
+      "priority": "low",
+      "autoApprove": ["fetch", "get", "post", "put", "delete", "patch"],
+      "timeout": 60000,
+      "retries": 3,
+      "description": "HTTP fetch for API testing, external services, and web scraping"
+    },
+
+    "time": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-time"],
+      "disabled": false,
+      "priority": "low",
+      "autoApprove": [
+        "get_current_time",
+        "convert_timezone",
+        "format_date",
+        "add_duration",
+        "calculate_difference"
+      ],
+      "timeout": 15000,
+      "retries": 1,
+      "description": "Time and timezone utilities for scheduling and logging"
+    },
+
+    "// OPTIONAL SERVERS": "Enable when needed",
+
     "redis": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-redis"],
@@ -199,90 +272,121 @@
         "REDIS_URL": "${env:REDIS_URL}"
       },
       "disabled": true,
-      "autoApprove": ["get", "set", "del", "keys", "info", "flushdb"],
+      "priority": "low",
+      "autoApprove": [
+        "get",
+        "set",
+        "del",
+        "keys",
+        "info",
+        "flushdb",
+        "expire",
+        "ttl",
+        "hget",
+        "hset"
+      ],
       "timeout": 30000,
       "retries": 2,
-      "description": "Redis cache management for ComicWise (enable when Redis is running)"
+      "description": "Redis cache management (enable when Redis is running locally)"
     },
-    "sequential-thinking": {
+
+    "brave-search": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-      "disabled": false,
-      "autoApprove": ["think", "analyze", "reason", "plan"],
-      "timeout": 90000,
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
+      },
+      "disabled": true,
+      "priority": "low",
+      "timeout": 60000,
       "retries": 2,
-      "description": "Enhanced AI reasoning for complex problem-solving and code optimization"
+      "description": "Web search via Brave API (requires API key)"
     },
-    "shadcn": {
+
+    "everart": {
       "command": "npx",
-      "args": ["shadcn@latest", "mcp"],
-      "disabled": false,
-      "autoApprove": [
-        "list_components",
-        "add_component",
-        "diff_component",
-        "update_component",
-        "remove_component"
-      ],
-      "timeout": 90000,
-      "retries": 2,
-      "description": "shadcn/ui component library management and installation for Next.js 16"
+      "args": ["-y", "@modelcontextprotocol/server-everart"],
+      "env": {
+        "EVERART_API_KEY": "${env:EVERART_API_KEY}"
+      },
+      "disabled": true,
+      "priority": "low",
+      "timeout": 120000,
+      "description": "AI image generation via EverArt (requires API key)"
     },
+
+    "everything": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-everything"],
+      "disabled": true,
+      "priority": "low",
+      "timeout": 30000,
+      "description": "Windows Everything search (Windows-only, requires Everything installed)"
+    },
+
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "disabled": true,
+      "priority": "low",
+      "timeout": 120000,
+      "description": "Puppeteer web automation (alternative to Playwright, disabled by default)"
+    },
+
     "sqlite": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-sqlite",
-        "${workspaceFolder}\\data"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-sqlite", "${workspaceFolder}\\data"],
       "disabled": true,
-      "description": "SQLite database support (disabled - using PostgreSQL)"
-    },
-    "time": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-time"],
-      "disabled": false,
-      "autoApprove": ["get_current_time", "convert_timezone", "format_date"],
-      "timeout": 10000,
-      "retries": 1,
-      "description": "Current time and timezone information for scheduling and logging"
-    },
-    "typescript": {
-      "autoApprove": [
-        "analyze_types",
-        "find_references",
-        "get_diagnostics",
-        "get_completions"
-      ],
-      "timeout": 45000,
-      "disabled": false,
-      "description": "TypeScript language server for type checking and refactoring",
-      "command": "npx",
-      "retries": 2,
-      "args": ["-y", "@modelcontextprotocol/server-typescript"]
+      "priority": "low",
+      "description": "SQLite database (not used - ComicWise uses PostgreSQL)"
     }
   },
+
   "performanceSettings": {
     "enableLazyLoading": true,
     "preloadServers": [
       "filesystem",
+      "git",
       "github",
       "postgres",
-      "git",
       "typescript",
-      "memory"
+      "memory",
+      "next-devtools"
     ],
-    "connectionPoolSize": 8,
-    "keepAliveInterval": 45000,
-    "requestBatchSize": 15,
+    "connectionPoolSize": 10,
+    "keepAliveInterval": 60000,
+    "requestBatchSize": 20,
     "enableRequestBatching": true,
     "enableResponseCaching": true,
-    "cacheDuration": 300
+    "cacheDuration": 600,
+    "maxMemoryUsage": 2048,
+    "gcInterval": 300000
   },
+
   "windowsSpecific": {
     "pathSeparator": "\\",
     "shellExecutable": "powershell.exe",
     "encodingFix": true,
-    "useWindowsPaths": true
+    "useWindowsPaths": true,
+    "longPathSupport": true,
+    "caseInsensitive": true
+  },
+
+  "loggingSettings": {
+    "enableFileLogging": true,
+    "enableConsoleLogging": false,
+    "logRotation": true,
+    "maxLogFiles": 5,
+    "logFormat": "json",
+    "includeTimestamp": true,
+    "includeServerName": true
+  },
+
+  "securitySettings": {
+    "enableSandboxing": true,
+    "allowedDomains": ["localhost", "*.vercel.app", "*.comicwise.com"],
+    "restrictFileAccess": false,
+    "enableAuditLog": true,
+    "auditLogPath": "${workspaceFolder}\\.vscode\\logs\\audit.log"
   }
 }

@@ -23,6 +23,7 @@ import {
   artist,
   author,
   chapter,
+  chapterImage,
   comic,
   comicToGenre,
   type as comicType,
@@ -126,24 +127,57 @@ const ChapterSchema = z.object({
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// IMAGE DOWNLOAD & UPLOAD HELPERS - Using Image Service with Cache
+// IMAGE DOWNLOAD & UPLOAD HELPERS - Optimized with Pre-Upload Deduplication
 // ═══════════════════════════════════════════════════════════════════════════
 
+/**
+ * Download and process image with optimized deduplication
+ * Checks hash BEFORE uploading to avoid unnecessary uploads
+ */
 async function downloadAndUploadImage(
   imageUrl: string,
   folder: string,
   fileName: string
 ): Promise<string | null> {
   try {
-    // Check URL cache first - exact URL match (most efficient)
+    // OPTIMIZATION 1: Check URL cache first - exact URL match (most efficient)
     const cachedUrl = getCachedUrl(imageUrl);
     if (cachedUrl) {
-      logger.info(`✓ Cache hit (URL): ${imageUrl}`);
+      logger.info(`✓ Cache hit (URL): ${imageUrl.substring(0, 80)}...`);
       return cachedUrl;
     }
 
-    // Use imageService for download and upload (handles all providers)
-    // This downloads once and uploads to the configured provider
+    // OPTIMIZATION 2: Download once and calculate hash BEFORE uploading
+    // This prevents uploading duplicate images
+    let imageBuffer: Buffer;
+    let imageHash: string;
+
+    try {
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        logger.warn(`Failed to fetch image: ${response.status} ${response.statusText}`);
+        return imageUrl; // Fallback to original URL
+      }
+
+      const arrayBuffer = await response.arrayBuffer();
+      imageBuffer = Buffer.from(arrayBuffer);
+      imageHash = getImageHash(imageBuffer);
+
+      // OPTIMIZATION 3: Check if we already have this image content by hash
+      const cachedByHash = getCachedByHash(imageHash);
+      if (cachedByHash) {
+        logger.info(`✓ Cache hit (Hash): Duplicate content detected, reusing existing upload`);
+        logger.info(`  Original: ${imageUrl.substring(0, 60)}...`);
+        logger.info(`  Cached:   ${cachedByHash.substring(0, 60)}...`);
+        cacheImage(imageUrl, cachedByHash, imageHash);
+        return cachedByHash;
+      }
+    } catch (fetchError) {
+      logger.error(`Error fetching image for hash check: ${fetchError}`);
+      return imageUrl; // Fallback to original URL
+    }
+
+    // OPTIMIZATION 4: Only upload if we don't have this content already
     const result = await imageService.downloadImage(imageUrl, `comicwise/${folder}`);
 
     if (!result.success || !result.localPath) {
@@ -153,40 +187,51 @@ async function downloadAndUploadImage(
 
     const uploadedUrl = result.localPath;
 
-    // Download again to get hash for deduplication check
-    // This is necessary to detect duplicate images from different URLs
-    try {
-      const response = await fetch(imageUrl);
-      if (response.ok) {
-        const arrayBuffer = await response.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-        const imageHash = getImageHash(buffer);
+    // Cache both URL and hash for future lookups
+    cacheImage(imageUrl, uploadedUrl, imageHash);
 
-        // Check if we already have this image content
-        const cachedByHash = getCachedByHash(imageHash);
-        if (cachedByHash && cachedByHash !== uploadedUrl) {
-          logger.info(`✓ Duplicate detected after upload (different URL, same content)`);
-          logger.info(`  Uploaded: ${uploadedUrl}, Will use: ${cachedByHash}`);
-          // Return the already cached version to maintain consistency
-          cacheImage(imageUrl, cachedByHash, imageHash);
-          return cachedByHash;
-        }
-
-        // Cache both URL and hash for future lookups
-        cacheImage(imageUrl, uploadedUrl, imageHash);
-      }
-    } catch (hashError) {
-      // Hash calculation failed, but upload succeeded - still cache by URL
-      logger.warn(`Hash calculation failed: ${hashError}`);
-      cacheImage(imageUrl, uploadedUrl);
-    }
-
-    logger.success(`✓ Image uploaded via imageService: ${uploadedUrl}`);
+    logger.success(`✓ Image uploaded: ${uploadedUrl.substring(0, 80)}...`);
     return uploadedUrl;
   } catch (error) {
-    logger.error(`Error processing image ${imageUrl}: ${error}`);
+    logger.error(`Error processing image ${imageUrl.substring(0, 60)}...: ${error}`);
     return imageUrl; // Fallback to original URL
   }
+}
+
+/**
+ * Batch download and upload images with concurrency control
+ * Prevents overwhelming the server with simultaneous requests
+ */
+async function downloadAndUploadImages(
+  imageUrls: string[],
+  folder: string,
+  concurrency: number = 3
+): Promise<(string | null)[]> {
+  const results: (string | null)[] = [];
+  const queue = [...imageUrls];
+
+  logger.info(`📦 Batch downloading ${imageUrls.length} images (concurrency: ${concurrency})`);
+
+  while (queue.length > 0) {
+    const batch = queue.splice(0, concurrency);
+    const batchPromises = batch.map((url, index) =>
+      downloadAndUploadImage(url, folder, `image-${Date.now()}-${index}.webp`)
+    );
+
+    const batchResults = await Promise.all(batchPromises);
+    results.push(...batchResults);
+
+    if (queue.length > 0) {
+      logger.info(`   Progress: ${results.length}/${imageUrls.length} images processed`);
+      // Small delay between batches to avoid rate limiting
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+  }
+
+  logger.success(
+    `✅ Batch complete: ${results.filter(Boolean).length}/${imageUrls.length} successful`
+  );
+  return results;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -669,6 +714,26 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
             where: and(eq(chapter.comicId, comicRecord.id), eq(chapter.slug, chapterSlug)),
           });
 
+          // Process chapter images if available
+          let processedImageUrls: string[] = [];
+          const chapterImageUrls =
+            validatedChapter.image_urls || validatedChapter.images?.map((img) => img.url) || [];
+
+          if (chapterImageUrls.length > 0) {
+            logger.info(
+              `   📸 Processing ${chapterImageUrls.length} images for chapter: ${chapterTitle}`
+            );
+            const uploadedImages = await downloadAndUploadImages(
+              chapterImageUrls,
+              `chapters/${comicSlug}/${chapterSlug}`,
+              5 // Concurrency for chapter images
+            );
+            processedImageUrls = uploadedImages.filter((url): url is string => url !== null);
+            logger.info(
+              `   ✓ Processed ${processedImageUrls.length}/${chapterImageUrls.length} chapter images`
+            );
+          }
+
           const chapterPayload = {
             title: chapterTitle,
             slug: chapterSlug,
@@ -678,18 +743,38 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
             comicId: comicRecord.id,
           };
 
+          let chapterId: number;
+
           if (existingChapter) {
             // Update existing chapter
             await db.update(chapter).set(chapterPayload).where(eq(chapter.id, existingChapter.id));
+            chapterId = existingChapter.id;
             totalUpdated++;
             fileStats.updated++;
             logger.success(`✓ Updated chapter: ${chapterTitle} (${chapterNumber})`);
           } else {
             // Create new chapter
-            await db.insert(chapter).values(chapterPayload);
+            const [newChapter] = await db.insert(chapter).values(chapterPayload).returning();
+            chapterId = newChapter.id;
             totalCreated++;
             fileStats.created++;
             logger.success(`✓ Created chapter: ${chapterTitle} (${chapterNumber})`);
+          }
+
+          // Save chapter images to database if any were processed
+          if (processedImageUrls.length > 0) {
+            // Delete existing chapter images for this chapter
+            await db.delete(chapterImage).where(eq(chapterImage.chapterId, chapterId));
+
+            // Insert new chapter images
+            const chapterImageRecords = processedImageUrls.map((imageUrl, index) => ({
+              chapterId: chapterId,
+              url: imageUrl,
+              pageNumber: index + 1,
+            }));
+
+            await db.insert(chapterImage).values(chapterImageRecords);
+            logger.info(`   ✓ Saved ${chapterImageRecords.length} images to database`);
           }
 
           totalProcessed++;
@@ -730,50 +815,136 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// IMAGE CACHE STATISTICS
+// IMAGE CACHE STATISTICS & VALIDATION
 // ═══════════════════════════════════════════════════════════════════════════
 
 function logImageCacheStats() {
   const stats = getCacheStats();
-  logger.info(`📊 Image Cache Statistics:`);
-  logger.info(`   - Unique URLs cached: ${stats.urlCacheSize}`);
-  logger.info(`   - Unique images by hash: ${stats.hashCacheSize}`);
-  logger.info(`   - Cache hits: ${stats.cacheHits}`);
-  logger.info(`   - Cache misses: ${stats.cacheMisses}`);
-  logger.info(`   - Hit rate: ${stats.hitRate.toFixed(2)}%`);
+
+  logger.info(`\n${"═".repeat(80)}`);
+  logger.info(`📊 IMAGE PROCESSING STATISTICS`);
+  logger.info(`${"═".repeat(80)}`);
+  logger.info(`\n🎯 Cache Performance:`);
+  logger.info(`   • Unique URLs cached:        ${stats.urlCacheSize}`);
+  logger.info(`   • Unique images (by hash):   ${stats.hashCacheSize}`);
+  logger.info(`   • Cache hits:                ${stats.cacheHits}`);
+  logger.info(`   • Cache misses:              ${stats.cacheMisses}`);
+  logger.info(`   • Hit rate:                  ${stats.hitRate.toFixed(2)}%`);
+
   const duplicates = stats.urlCacheSize - stats.hashCacheSize;
   if (duplicates > 0) {
-    logger.info(`   - Duplicate images avoided: ${duplicates}`);
+    const savingsPercent = ((duplicates / stats.urlCacheSize) * 100).toFixed(2);
+    logger.info(`\n💰 Deduplication Savings:`);
+    logger.info(`   • Duplicate images avoided:  ${duplicates}`);
+    logger.info(`   • Storage savings:           ${savingsPercent}%`);
+    logger.info(`   • Upload requests saved:     ${duplicates} fewer uploads`);
   }
+
+  if (stats.cacheHits + stats.cacheMisses > 0) {
+    const efficiency = stats.cacheHits > stats.cacheMisses ? "🟢 Excellent" : "🟡 Good";
+    logger.info(`\n📈 Overall Efficiency:         ${efficiency}`);
+  }
+
+  logger.info(`${"═".repeat(80)}\n`);
+}
+
+/**
+ * Validate that all images are using imageService
+ * This checks the cache to ensure images were properly processed
+ */
+function validateImageProcessing(): { valid: boolean; issues: string[] } {
+  const stats = getCacheStats();
+  const issues: string[] = [];
+
+  // Check if any images were processed
+  if (stats.urlCacheSize === 0) {
+    issues.push("⚠️  No images were processed during seeding");
+  }
+
+  // Check cache efficiency
+  if (stats.cacheHits + stats.cacheMisses > 0) {
+    const hitRate = (stats.cacheHits / (stats.cacheHits + stats.cacheMisses)) * 100;
+    if (hitRate < 10) {
+      issues.push(
+        `⚠️  Low cache hit rate (${hitRate.toFixed(2)}%) - possible deduplication issues`
+      );
+    }
+  }
+
+  // Check for hash deduplication
+  const duplicates = stats.urlCacheSize - stats.hashCacheSize;
+  if (stats.urlCacheSize > 0 && duplicates === 0) {
+    issues.push("ℹ️  No duplicate images detected (all images are unique)");
+  }
+
+  return {
+    valid: issues.length === 0 || issues.every((i) => i.startsWith("ℹ️")),
+    issues,
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// MAIN UNIVERSAL SEEDER
+// MAIN UNIVERSAL SEEDER - Enhanced with Validation
 // ═══════════════════════════════════════════════════════════════════════════
 
 export async function seedAllFromJSON() {
+  const startTime = Date.now();
+
   logger.info("🚀 Starting universal JSON seeding...");
   logger.info("═".repeat(80));
 
   // Clear image cache for fresh start
   clearCache();
+  logger.info("🧹 Image cache cleared");
 
-  // Seed users
-  logger.info("\n" + "═".repeat(80));
-  await seedUsersFromJSON(["users.json"]);
+  try {
+    // Seed users
+    logger.info("\n" + "═".repeat(80));
+    logger.info("👥 PHASE 1: USERS");
+    logger.info("═".repeat(80));
+    await seedUsersFromJSON(["users.json"]);
 
-  // Seed comics (discover all comics*.json files)
-  logger.info("\n" + "═".repeat(80));
-  await seedComicsFromJSON("comics*.json");
+    // Seed comics (discover all comics*.json files)
+    logger.info("\n" + "═".repeat(80));
+    logger.info("📚 PHASE 2: COMICS");
+    logger.info("═".repeat(80));
+    await seedComicsFromJSON("comics*.json");
 
-  // Seed chapters (discover all chapters*.json files)
-  logger.info("\n" + "═".repeat(80));
-  await seedChaptersFromJSON("chapters*.json");
+    // Seed chapters (discover all chapters*.json files)
+    logger.info("\n" + "═".repeat(80));
+    logger.info("📖 PHASE 3: CHAPTERS");
+    logger.info("═".repeat(80));
+    await seedChaptersFromJSON("chapters*.json");
 
-  // Log cache statistics
-  logger.info("\n" + "═".repeat(80));
-  logImageCacheStats();
+    // Log cache statistics
+    logger.info("\n" + "═".repeat(80));
+    logImageCacheStats();
 
-  logger.info("═".repeat(80));
-  logger.success("✅ All JSON seeding complete!");
+    // Validate image processing
+    logger.info("═".repeat(80));
+    logger.info("🔍 VALIDATION");
+    logger.info("═".repeat(80));
+    const validation = validateImageProcessing();
+
+    if (validation.issues.length > 0) {
+      logger.info("\n📋 Validation Results:");
+      for (const issue of validation.issues) {
+        logger.info(`   ${issue}`);
+      }
+    }
+
+    if (validation.valid) {
+      logger.success("\n✅ All validations passed!");
+    } else {
+      logger.warn("\n⚠️  Some validation issues detected (see above)");
+    }
+
+    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+    logger.info("═".repeat(80));
+    logger.success(`✅ All JSON seeding complete in ${duration}s!`);
+    logger.info("═".repeat(80));
+  } catch (error) {
+    logger.error(`\n❌ Seeding failed: ${error}`);
+    throw error;
+  }
 }

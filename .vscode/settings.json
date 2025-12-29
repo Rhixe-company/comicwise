@@ -24,12 +24,12 @@
   },
   "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one",
-    "editor.wordWrap": "on",
     "editor.quickSuggestions": {
       "comments": "on",
       "strings": "on",
       "other": "on"
-    }
+    },
+    "editor.wordWrap": "on"
   },
   "[powershell]": {
     "editor.defaultFormatter": "ms-vscode.powershell"

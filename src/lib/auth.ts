@@ -4,9 +4,8 @@ import { user } from "@/database/schema";
 import { authOptions } from "authConfig";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-import type { Session } from "next-auth";
+import type { NextAuthConfig, Session } from "next-auth";
 import NextAuth from "next-auth";
-import type { NextAuthConfig } from "next-auth";
 // Type assertion to satisfy NextAuth's strict typing
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions as NextAuthConfig);
 

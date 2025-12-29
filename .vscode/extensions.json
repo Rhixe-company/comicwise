@@ -1,48 +1,158 @@
 {
+  "// Categories": "Essential, Recommended, Optional, Theme & UI",
+
+  "// Description": "ComicWise - Recommended VS Code Extensions for Next.js 16 Development",
+  "// Last Updated": "2025-12-29",
   "recommendations": [
+    "// ━━━ ESSENTIAL EXTENSIONS ━━━",
+    "// Core development tools - always install these",
+
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "ms-vscode.vscode-typescript-next",
-    "usernamehw.errorlens",
-    "yoavbls.pretty-ts-errors",
     "bradlc.vscode-tailwindcss",
-    "dsznajder.es7-react-js-snippets",
+
+    "// ━━━ NEXT.JS & REACT ━━━",
+    "// Framework-specific extensions",
+
     "PulkitGangwar.nextjs-snippets",
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag",
+    "styled-components.vscode-styled-components",
+
+    "// ━━━ DATABASE & BACKEND ━━━",
+    "// Database management and backend tools",
+
     "cweijan.vscode-postgresql-client2",
     "redis.redis-for-vscode",
+    "Prisma.prisma",
+
+    "// ━━━ TESTING & QA ━━━",
+    "// Testing frameworks and quality assurance",
+
     "vitest.explorer",
     "ms-playwright.playwright",
-    "streetsidesoftware.code-spell-checker",
-    "eamodio.gitlens",
+    "orta.vscode-jest",
+
+    "// ━━━ ERROR DETECTION & TYPE SAFETY ━━━",
+    "// Enhanced error visualization and type checking",
+
+    "usernamehw.errorlens",
+    "yoavbls.pretty-ts-errors",
+    "kisstkondoros.vscode-gutter-preview",
+
+    "// ━━━ AI & PRODUCTIVITY ━━━",
+    "// AI assistance and productivity boosters",
+
     "github.copilot",
     "github.copilot-chat",
     "GitHub.copilot-mcp",
-    "ms-azuretools.vscode-docker",
-    "christian-kohler.path-intellisense",
+    "tabnine.tabnine-vscode",
+
+    "// ━━━ CODE QUALITY ━━━",
+    "// Linting, formatting, and code analysis",
+
     "editorconfig.editorconfig",
+    "streetsidesoftware.code-spell-checker",
+    "wix.vscode-import-cost",
+    "christian-kohler.path-intellisense",
+
+    "// ━━━ GIT & VERSION CONTROL ━━━",
+    "// Git tools and collaboration",
+
+    "eamodio.gitlens",
+    "donjayamanne.githistory",
+    "mhutchie.git-graph",
+    "github.vscode-pull-request-github",
+
+    "// ━━━ DOCKER & DEVOPS ━━━",
+    "// Containerization and deployment",
+
+    "ms-azuretools.vscode-docker",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+
+    "// ━━━ MARKDOWN & DOCUMENTATION ━━━",
+    "// Documentation and markdown editing",
+
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "bierner.markdown-preview-github-styles",
+    "bierner.markdown-mermaid",
+
+    "// ━━━ UTILITIES & HELPERS ━━━",
+    "// General productivity and utilities",
+
     "gruntfuggly.todo-tree",
-    "pkief.material-icon-theme",
+    "aaron-bond.better-comments",
+    "mikestead.dotenv",
+    "humao.rest-client",
+    "rangav.vscode-thunder-client",
+
+    "// ━━━ WINDOWS SPECIFIC ━━━",
+    "// Windows development tools",
+
     "ms-vscode.powershell",
     "redhat.vscode-yaml",
-    "mikestead.dotenv",
-    "aaron-bond.better-comments",
-    "yzhang.markdown-all-in-one",
-    "formulahendry.auto-rename-tag",
-    "wix.vscode-import-cost",
-    "styled-components.vscode-styled-components",
-    "prisma.prisma",
-    "humao.rest-client",
+
+    "// ━━━ THEME & UI ━━━",
+    "// Visual customization",
+
+    "pkief.material-icon-theme",
+    "bierner.color-info",
+    "naumovs.color-highlight",
+    "oderwat.indent-rainbow",
+
+    "// ━━━ OPTIONAL BUT USEFUL ━━━",
+    "// Additional helpful extensions",
+
     "ritwickdey.liveserver",
-    "bierner.color-info"
+    "visualstudioexptteam.vscodeintellicode",
+    "christian-kohler.npm-intellisense",
+    "alefragnani.bookmarks",
+    "wayou.vscode-todo-highlight",
+    "pranaygp.vscode-css-peek",
+    "ms-vscode-remote.remote-wsl",
+    "ms-vscode-remote.remote-containers",
+
+    "// ━━━ CODE SNIPPETS ━━━",
+    "// Additional snippet libraries",
+
+    "xabikos.javascriptsnippets",
+    "burkeholland.simple-react-snippets",
+    "afractal.node-essentials",
+
+    "// ━━━ PERFORMANCE & MONITORING ━━━",
+    "// Performance analysis",
+
+    "wix.glean",
+    "johnpapa.vscode-peacock",
+    "pflannery.vscode-versionlens"
   ],
+
   "unwantedRecommendations": [
+    "// ━━━ DEPRECATED OR CONFLICTING ━━━",
+    "// Extensions that conflict or are outdated",
+
     "hookyqr.beautify",
     "dbaeumer.jshint",
     "eg2.tslint",
     "octref.vetur",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+
+    "// ━━━ LANGUAGE SPECIFIC (NOT NEEDED) ━━━",
+    "// Not using these languages in ComicWise",
+
     "ms-python.python",
     "rust-lang.rust-analyzer",
     "golang.go",
-    "ms-vscode.vscode-typescript-tslint-plugin"
+    "ms-dotnettools.csharp",
+    "redhat.java",
+
+    "// ━━━ ALTERNATIVE TOOLS ━━━",
+    "// We use different tools for these functions",
+
+    "ritwickdey.live-sass",
+    "syler.sass-indented",
+    "mrmlnc.vscode-scss"
   ]
 }

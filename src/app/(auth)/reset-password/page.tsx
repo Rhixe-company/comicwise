@@ -16,7 +16,6 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import { resetPassword } from "@/lib/actions/auth";
 import type { ResetPasswordInput } from "@/lib/validations";
 import { resetPasswordSchema } from "@/lib/validations";
-import type { result } from "lodash";
 
 function ResetPasswordForm() {
   const [isPending, startTransition] = useTransition();

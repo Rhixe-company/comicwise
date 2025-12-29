@@ -15,7 +15,6 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import { resendVerificationEmail } from "@/lib/actions/auth";
 import type { ResendVerificationEmailInput } from "@/lib/validations";
 import { resendVerificationEmailSchema } from "@/lib/validations";
-import type { result } from "lodash";
 
 export default function ResendVerificationPage() {
   const [isPending, startTransition] = useTransition();
