@@ -44,13 +44,3 @@ export type SessionDto = {
   user: UserDto;
   expires: string;
 };
-
-export {
-  forgotPasswordAction,
-  registerUserAction,
-  resendVerificationEmailAction,
-  resetPasswordAction,
-  signInAction,
-  signOutAction,
-  verifyEmailAction,
-} from "@/lib/actions/auth";

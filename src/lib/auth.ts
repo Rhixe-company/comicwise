@@ -1,6 +1,3 @@
-/**
- * Server-side authentication helpers
- */
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
@@ -9,9 +6,9 @@ import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import type { Session } from "next-auth";
 import NextAuth from "next-auth";
-
+import type { NextAuthConfig } from "next-auth";
 // Type assertion to satisfy NextAuth's strict typing
-export const { handlers, auth, signIn, signOut } = NextAuth(authOptions as any);
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions as NextAuthConfig);
 
 /**
  * Hash password helper

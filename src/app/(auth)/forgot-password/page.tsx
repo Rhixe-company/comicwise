@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { AuthForm, EmailField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { forgotPasswordAction } from "@/dto/authDto";
+import { forgotPassword } from "@/lib/actions/auth";
 import type { ForgotPasswordInput } from "@/lib/validations";
 import { forgotPasswordSchema } from "@/lib/validations";
 
@@ -26,7 +26,7 @@ export default function ForgotPasswordPage() {
 
     startTransition(async () => {
       try {
-        const result = await forgotPasswordAction(data);
+        const result = await forgotPassword(data);
 
         if (!result.success) {
           setError(result.error || "Failed to send reset link");
@@ -35,8 +35,8 @@ export default function ForgotPasswordPage() {
           setIsSubmitted(true);
           toast.success("Password reset link sent!");
         }
-      } catch (err) {
-        console.error("Forgot password error:", err);
+      } catch (error_) {
+        console.error("Forgot password error:", error_);
         setError("An unexpected error occurred. Please try again.");
         toast.error("Failed to send reset link");
       }

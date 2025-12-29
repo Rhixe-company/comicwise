@@ -1,6 +1,9 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /dashboard
 
 # Host
 Host: http://localhost:3000

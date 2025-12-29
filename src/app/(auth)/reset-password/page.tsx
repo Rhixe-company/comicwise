@@ -13,9 +13,10 @@ import { toast } from "sonner";
 import { AuthForm, PasswordField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { resetPasswordAction } from "@/dto/authDto";
+import { resetPassword } from "@/lib/actions/auth";
 import type { ResetPasswordInput } from "@/lib/validations";
 import { resetPasswordSchema } from "@/lib/validations";
+import type { result } from "lodash";
 
 function ResetPasswordForm() {
   const [isPending, startTransition] = useTransition();
@@ -47,7 +48,7 @@ function ResetPasswordForm() {
 
     startTransition(async () => {
       try {
-        const result = await resetPasswordAction({
+        const result = await resetPassword({
           ...data,
           token,
         });

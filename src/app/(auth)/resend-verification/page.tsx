@@ -12,9 +12,10 @@ import { toast } from "sonner";
 import { AuthForm, EmailField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { resendVerificationEmailAction } from "@/dto/authDto";
+import { resendVerificationEmail } from "@/lib/actions/auth";
 import type { ResendVerificationEmailInput } from "@/lib/validations";
 import { resendVerificationEmailSchema } from "@/lib/validations";
+import type { result } from "lodash";
 
 export default function ResendVerificationPage() {
   const [isPending, startTransition] = useTransition();
@@ -26,7 +27,7 @@ export default function ResendVerificationPage() {
 
     startTransition(async () => {
       try {
-        const result = await resendVerificationEmailAction(data);
+        const result = await resendVerificationEmail(data);
 
         if (!result.success) {
           setError(result.error || "Failed to send verification email");
@@ -35,8 +36,8 @@ export default function ResendVerificationPage() {
           setIsSubmitted(true);
           toast.success("Verification email sent!");
         }
-      } catch (err) {
-        console.error("Resend verification error:", err);
+      } catch (error_) {
+        console.error("Resend verification error:", error_);
         setError("An unexpected error occurred. Please try again.");
         toast.error("Failed to send verification email");
       }
@@ -70,9 +71,9 @@ export default function ResendVerificationPage() {
             <button
               onClick={() => setIsSubmitted(false)}
               className={`
-              text-primary
-              hover:underline
-            `}
+                text-primary
+                hover:underline
+              `}
             >
               Try again
             </button>

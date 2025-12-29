@@ -1,6 +1,6 @@
 import * as bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-import type { User as AuthUser, Session } from "next-auth";
+import type { User as AuthUser, NextAuthConfig, Session } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
@@ -11,7 +11,7 @@ import { db as database } from "@/database/db";
 import { user as userTable } from "@/database/schema";
 import { DrizzleAdapter } from "authAdapter";
 
-export const authOptions = {
+export const authOptions: NextAuthConfig = {
   session: {
     strategy: "jwt" as const,
     maxAge: appConfig.session.maxAge,
@@ -98,13 +98,7 @@ export const authOptions = {
       : []),
   ],
   callbacks: {
-    async signIn({
-      user,
-      account,
-    }: {
-      user: AuthUser | undefined;
-      account?: Record<string, unknown>;
-    }) {
+    async signIn({ user, account }) {
       if (!account) return false;
 
       if (account.provider === "credentials") {
@@ -182,9 +176,6 @@ export const authOptions = {
     },
     async signOut() {
       console.log("👋 User signed out");
-    },
-    async error({ error }: { error: unknown }) {
-      console.error("❌ Auth error:", error);
     },
   },
   secret: appConfig.auth.secret,

@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "pnpm clean:cache",
     "build": "next build",
-    "postbuild": "pnpm dlx next-sitemap --config next-sitemap.config.ts",
+    "postbuild": "pnpm dlx next-sitemap --config nextSitemap.config.ts",
     "build:analyze": "cross-env ANALYZE=true next build",
     "build:debug": "next build --debug",
     "build:standalone": "cross-env NEXT_OUTPUT_MODE=standalone next build",
