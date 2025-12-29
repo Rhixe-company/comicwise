@@ -222,9 +222,9 @@ const eslintRules = {
         camelCase: true,
       },
       ignore: [
-        "^[A-Z].*\\.tsx?$", // React components (PascalCase)
-        "^use[A-Z].*\\.tsx?$", // React hooks (camelCase with 'use' prefix)
-        "README\\.md$",
+        String.raw`^[A-Z].*\.tsx?$`, // React components (PascalCase)
+        String.raw`^use[A-Z].*\.tsx?$`, // React hooks (camelCase with 'use' prefix)
+        String.raw`README\.md$`,
       ],
     },
   ],
@@ -312,7 +312,7 @@ const eslintSettings = {
     },
   },
   "better-tailwindcss": {
-    entryPoint: "styles/globals.css",
+    entryPoint: "src/styles/globals.css",
     tailwindConfig: "",
     attributes: ["class", "className"],
     callees: [
@@ -378,10 +378,10 @@ const eslintConfig: Linter.Config[] = [
     },
     rules: {
       ...js.configs.recommended.rules,
-      ...(tseslint.configs.recommended?.[0]?.rules ?? {}),
+      ...tseslint.configs.recommended?.[0]?.rules,
       ...eslintNextPlugin.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
-      ...(pluginBetterTailwindcss.configs["recommended-warn"]?.rules ?? {}),
+      ...pluginBetterTailwindcss.configs["recommended-warn"]?.rules,
       ...(eslintRules as any),
     },
   },
@@ -474,7 +474,7 @@ const eslintConfig: Linter.Config[] = [
       "**/drizzle/**",
       "**/coverage/**",
       "**/.turbo/**",
-      "styles/globals.css",
+      "src/styles/globals.css",
       "**/docs/**",
     ],
   },

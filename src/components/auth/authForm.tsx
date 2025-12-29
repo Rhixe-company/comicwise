@@ -60,7 +60,7 @@ export function AuthForm<T extends FieldValues>({
   isLoading = false,
   submitLabel = "Submit",
   className,
-}: AuthFormProperties<T>) {
+}: Readonly<AuthFormProperties<T>>) {
   const form = useForm<T>({
     // @ts-expect-error - zodResolver type compatibility with generic schemas
     resolver: zodResolver(schema) as any,
@@ -68,7 +68,6 @@ export function AuthForm<T extends FieldValues>({
   });
 
   const handleSubmit = async (data: T) => {
-    // @ts-expect-error - Type compatibility with generic form
     await onSubmit(data, form);
   };
 

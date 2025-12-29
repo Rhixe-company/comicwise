@@ -60,7 +60,7 @@ interface BaseFormProps<T extends z.ZodTypeAny> {
   className?: string;
 }
 
-export function BaseForm<T extends z.ZodTypeAny>({
+export function BaseForm<T extends z.ZodType<any, any, any>>({
   schema,
   fields,
   defaultValues,
@@ -68,12 +68,12 @@ export function BaseForm<T extends z.ZodTypeAny>({
   submitLabel = "Submit",
   isLoading = false,
   className = "",
-}: BaseFormProps<T>) {
+}: Readonly<BaseFormProps<T>>) {
   type FormValues = z.infer<T>;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema) as any,
-    defaultValues: defaultValues as any,
+    defaultValues: defaultValues as FormValues,
   });
 
   const handleSubmit = async (values: FormValues) => {
@@ -191,7 +191,7 @@ export function BaseForm<T extends z.ZodTypeAny>({
                     disabled={field.disabled}
                     {...formField}
                     value={formField.value as number}
-                    onChange={(e) => formField.onChange(parseFloat(e.target.value) || 0)}
+                    onChange={(e) => formField.onChange(Number.parseFloat(e.target.value) || 0)}
                   />
                 </FormControl>
                 {field.description && <FormDescription>{field.description}</FormDescription>}

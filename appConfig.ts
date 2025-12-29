@@ -27,6 +27,7 @@ const environmentSchema = z.object({
   IMAGEKIT_PUBLIC_KEY: z.string().optional(),
   IMAGEKIT_PRIVATE_KEY: z.string().optional(),
   IMAGEKIT_URL_ENDPOINT: z.string().url().optional(),
+  IMAGEKIT_ENABLED: z.boolean(),
 
   // Cloudinary
   CLOUDINARY_CLOUD_NAME: z.string().optional(),
@@ -333,7 +334,7 @@ const appConfig = {
       publicKey: env.IMAGEKIT_PUBLIC_KEY ?? "",
       privateKey: env.IMAGEKIT_PRIVATE_KEY ?? "",
       urlEndpoint: env.IMAGEKIT_URL_ENDPOINT ?? "",
-      enabled: hasEnvironment("IMAGEKIT_PUBLIC_KEY"),
+      enabled: env.IMAGEKIT_ENABLED,
     },
     cloudinary: {
       cloudName: env.CLOUDINARY_CLOUD_NAME ?? "",

@@ -127,7 +127,7 @@ async function downloadAndUploadImage(
     logger.success(`Uploaded image: ${uploadResult.url}`);
     return uploadResult.url;
   } catch (error) {
-    logger.error(`Error uploading image ${imageUrl}:`, error);
+    logger.error(`Error uploading image ${imageUrl}: ${error}`);
     return imageUrl; // Fallback to original URL
   }
 }
@@ -292,11 +292,11 @@ export async function seedUsersFromJSON(jsonFiles: string[] = ["users.json"]) {
 
           totalProcessed++;
         } catch (error) {
-          logger.error(`Failed to process user:`, error);
+          logger.error(`Failed to process user: ${error}`);
         }
       }
     } catch (error) {
-      logger.error(`Failed to read ${jsonFile}:`, error);
+      logger.error(`Failed to read ${jsonFile}: ${error}`);
     }
   }
 
@@ -458,11 +458,11 @@ export async function seedComicsFromJSON(
 
           totalProcessed++;
         } catch (error) {
-          logger.error(`Failed to process comic:`, error);
+          logger.error(`Failed to process comic: ${error}`);
         }
       }
     } catch (error) {
-      logger.error(`Failed to read ${jsonFile}:`, error);
+      logger.error(`Failed to read ${jsonFile}: ${error}`);
     }
   }
 
@@ -547,11 +547,11 @@ export async function seedChaptersFromJSON(
 
           totalProcessed++;
         } catch (error) {
-          logger.error(`Failed to process chapter:`, error);
+          logger.error(`Failed to process chapter: ${error}`);
         }
       }
     } catch (error) {
-      logger.error(`Failed to read ${jsonFile}:`, error);
+      logger.error(`Failed to read ${jsonFile}: ${error}`);
     }
   }
 

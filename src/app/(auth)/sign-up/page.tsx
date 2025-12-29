@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { AuthForm, EmailField, NameField, PasswordField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { registerUserAction } from "@/lib/actions/auth";
 import type { SignUpInput } from "@/lib/validations";
 import { signUpSchema } from "@/lib/validations";
 
@@ -28,12 +29,12 @@ const SignUp = () => {
       try {
         const result = await registerUserAction(data);
 
-        if (!result?.success) {
-          setError(result.error || "Failed to create account");
-          toast.error(result.error || "Failed to create account");
-        } else {
+        if (result?.success) {
           toast.success("Account created! Please check your email to verify your account.");
           router.push("/verify-request");
+        } else {
+          setError(result.error || "Failed to create account");
+          toast.error(result.error || "Failed to create account");
         }
       } catch (error_) {
         console.error("Sign up error:", error_);

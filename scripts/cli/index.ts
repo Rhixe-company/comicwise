@@ -14,7 +14,6 @@ import { ci } from "./commands/ci";
 import { db as database } from "./commands/db";
 import { health } from "./commands/health";
 import { queue } from "./commands/queue";
-// import { scaffold } from "./commands/scaffold";
 import { upload } from "./commands/upload";
 
 const program = new Command();
@@ -42,12 +41,6 @@ program
   .command("queue <action>")
   .description("Queue management (worker, stats, clean)")
   .action(queue);
-program
-  .command("scaffold <template>")
-  .description("Scaffold templates (component, page, action, api)")
-  .option("-n, --name <name>", "Name")
-  .option("-p, --path <path>", "Path")
-  .action(scaffold);
 program
   .command("upload <action>")
   .description("Upload operations (bulk, test)")
