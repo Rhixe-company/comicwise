@@ -1,10 +1,37 @@
 import { z } from "zod";
 
-// ═══════════════════════════════════════════════════
-// ENVIRONMENT SCHEMA (Next.js 16 Optimized)
-// ═══════════════════════════════════════════════════
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ComicWise Application Configuration Module (Enhanced v2.0.0)
+ * ═══════════════════════════════════════════════════════════════════════════
+ *
+ * Purpose:
+ *   - Centralized environment variable validation using Zod
+ *   - Type-safe configuration management for all environments
+ *   - Flexible feature flags and conditional settings
+ *   - Cross-platform support (Windows, Linux, macOS)
+ *
+ * Framework: Next.js 16 | Runtime: Node.js 20+ | Package Manager: pnpm
+ *
+ * Features:
+ *   ✅ Comprehensive Zod schema validation
+ *   ✅ Environment-aware configuration
+ *   ✅ Helper functions for type-safe access
+ *   ✅ Production-ready security defaults
+ *
+ * Usage:
+ *   import { env, appConfig, isDevelopment } from "@/appConfig"
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
 
-// Optimized environment schema for robust validation and maintainability
+// ═══════════════════════════════════════════════════════════════════════════
+// ENVIRONMENT SCHEMA (Next.js 16 Optimized)
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Comprehensive Zod schema for environment variable validation.
+ * Validates and coerces all required and optional environment variables.
+ */
 const environmentSchema = z
   .object({
     // ═══════════════════════════════════════════════════
@@ -52,7 +79,7 @@ const environmentSchema = z
     EMAIL_SERVER_PORT: z.coerce.number().int().positive().default(587),
     EMAIL_SERVER_USER: z.string().default(""),
     EMAIL_SERVER_PASSWORD: z.string().default(""),
-    EMAIL_FROM: z.string().email().default("noreplycomicwise.com"),
+    EMAIL_FROM: z.string().email().default("noreply@comicwise.com"),
     EMAIL_SECURE: z.coerce.boolean().default(false),
 
     // Legacy SMTP support (backwards compatibility)

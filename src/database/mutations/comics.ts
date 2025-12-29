@@ -19,6 +19,7 @@ interface CreateComicData {
 /**
  *
  * param data
+ * @param data
  */
 export async function createComic(data: CreateComicData): Promise<typeof comic.$inferSelect> {
   const { genreIds, ...comicData } = data;
@@ -70,6 +71,8 @@ interface UpdateComicData {
  *
  * param comicId
  * param data
+ * @param comicId
+ * @param data
  */
 export async function updateComic(
   comicId: number,
@@ -105,6 +108,7 @@ export async function updateComic(
 /**
  *
  * param comicId
+ * @param comicId
  */
 export async function deleteComic(comicId: number): Promise<typeof comic.$inferSelect | undefined> {
   await database.delete(chapter).where(eq(chapter.comicId, comicId));
@@ -119,6 +123,7 @@ export async function deleteComic(comicId: number): Promise<typeof comic.$inferS
 /**
  *
  * param comicId
+ * @param comicId
  */
 export async function incrementViews(
   comicId: number
@@ -138,6 +143,8 @@ export async function incrementViews(
  *
  * param comicId
  * param newRating
+ * @param comicId
+ * @param newRating
  */
 export async function updateComicRating(
   comicId: number,

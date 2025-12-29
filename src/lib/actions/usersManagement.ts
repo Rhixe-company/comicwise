@@ -11,7 +11,8 @@ import { sendAccountUpdatedEmail, sendWelcomeEmail } from "@/lib/email";
 import type { CreateUserInput, UpdateUserInput, UserFilterInput } from "@/lib/validations";
 import { createUserSchema, updateUserSchema, userFilterSchema } from "@/lib/validations";
 import bcrypt from "bcryptjs";
-import { asc, desc, eq, like, or, sql, type SQL } from "drizzle-orm";
+import { asc, desc, eq, like, or, sql  } from "drizzle-orm";
+import type {SQL} from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export type ActionResult<T = unknown> =
@@ -247,7 +248,7 @@ export async function listUsers(input?: UserFilterInput) {
     }
 
     if (role) {
-      conditions.push(eq(user.role, role) as SQL<unknown>);
+      conditions.push(eq(user.role, role));
     }
 
     const whereClause = conditions.length > 0 ? conditions[0] : undefined;
@@ -277,16 +278,27 @@ export async function listUsers(input?: UserFilterInput) {
       .$dynamic();
 
     // Apply ordering
-    if (sortBy === "name") {
+    switch (sortBy) {
+    case "name":
       usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.name) : asc(user.name));
-    } else if (sortBy === "email") {
+    
+    break;
+    
+    case "email":
       usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.email) : asc(user.email));
-    } else if (sortBy === "role") {
+    
+    break;
+    
+    case "role":
       usersQuery = usersQuery.orderBy(sortOrder === "desc" ? desc(user.role) : asc(user.role));
-    } else {
+    
+    break;
+    
+    default:
       usersQuery = usersQuery.orderBy(
         sortOrder === "desc" ? desc(user.createdAt) : asc(user.createdAt)
       );
+    
     }
 
     const results = await usersQuery.limit(limit).offset(offset);

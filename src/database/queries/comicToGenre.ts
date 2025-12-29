@@ -6,6 +6,7 @@ import { comicToGenre } from "@/database/schema";
 /**
  *
  * param comicId
+ * @param comicId
  */
 export async function getComicGenres(comicId: number) {
   return await database.query.comicToGenre.findMany({
@@ -19,6 +20,7 @@ export async function getComicGenres(comicId: number) {
 /**
  *
  * param genreId
+ * @param genreId
  */
 export async function getGenreComics(genreId: number) {
   return await database.query.comicToGenre.findMany({

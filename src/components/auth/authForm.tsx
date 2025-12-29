@@ -47,6 +47,18 @@ export interface AuthFormProperties<T extends FieldValues> {
  * param root0.isLoading
  * param root0.submitLabel
  * param root0.className
+ * @param root0
+ * @param root0.title
+ * @param root0.description
+ * @param root0.schema
+ * @param root0.defaultValues
+ * @param root0.onSubmit
+ * @param root0.children
+ * @param root0.footer
+ * @param root0.error
+ * @param root0.isLoading
+ * @param root0.submitLabel
+ * @param root0.className
  */
 export function AuthForm<T extends FieldValues>({
   title,

@@ -15,7 +15,7 @@ function fix(file: string, updates: Array<{ from: string; to: string }>) {
   updates.forEach(({ from, to }) => {
     if (!content.includes(from)) {
       console.log(`⚠️  Pattern not found in ${file}:`);
-      console.log(`    Looking for: ${from.substring(0, 60)}...`);
+      console.log(`    Looking for: ${from.slice(0, 60)}...`);
     } else {
       content = content.replace(from, to);
     }

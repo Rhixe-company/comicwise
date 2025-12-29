@@ -8,12 +8,20 @@ import LoginForm from "@/components/shadcn-studio/blocks/login-page-01/login-for
 
 const Login = () => {
   return (
-    <div className="relative flex h-auto min-h-screen items-center justify-center overflow-x-hidden px-4 py-10 sm:px-6 lg:px-8">
+    <div className={`
+      relative flex h-auto min-h-screen items-center justify-center
+      overflow-x-hidden px-4 py-10
+      sm:px-6
+      lg:px-8
+    `}>
       <div className="absolute">
         <AuthBackgroundShape />
       </div>
 
-      <Card className="z-1 w-full border-none shadow-md sm:max-w-lg">
+      <Card className={`
+        z-1 w-full border-none shadow-md
+        sm:max-w-lg
+      `}>
         <CardHeader className="gap-6">
           <Logo className="gap-3" />
 
@@ -26,15 +34,21 @@ const Login = () => {
         </CardHeader>
 
         <CardContent>
-          <p className="text-muted-foreground mb-6">
+          <p className="mb-6 text-muted-foreground">
             Login with{" "}
-            <a href="" className="text-card-foreground hover:underline">
+            <a href="" className={`
+              text-card-foreground
+              hover:underline
+            `}>
               Magic Link
             </a>
           </p>
 
           {/* Quick Login Buttons */}
-          <div className="mb-6 flex flex-wrap gap-4 sm:gap-6">
+          <div className={`
+            mb-6 flex flex-wrap gap-4
+            sm:gap-6
+          `}>
             <Button variant="outline" className="grow">
               Login as User
             </Button>
@@ -47,9 +61,12 @@ const Login = () => {
           <div className="space-y-4">
             <LoginForm />
 
-            <p className="text-muted-foreground text-center">
+            <p className="text-center text-muted-foreground">
               New on our platform?{" "}
-              <a href="" className="text-card-foreground hover:underline">
+              <a href="" className={`
+                text-card-foreground
+                hover:underline
+              `}>
                 Create an account
               </a>
             </p>

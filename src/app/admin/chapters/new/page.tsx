@@ -170,7 +170,7 @@ export default function NewChapterPage() {
                   <FormItem>
                     <FormLabel>Comic *</FormLabel>
                     <Select
-                      onValueChange={(value) => field.onChange(parseInt(value))}
+                      onValueChange={(value) => field.onChange(Number.parseInt(value))}
                       defaultValue={field.value?.toString()}
                     >
                       <FormControl>
@@ -193,9 +193,9 @@ export default function NewChapterPage() {
 
               <div
                 className={`
-                grid gap-6
-                md:grid-cols-2
-              `}
+                  grid gap-6
+                  md:grid-cols-2
+                `}
               >
                 <FormField
                   control={form.control}
@@ -209,7 +209,7 @@ export default function NewChapterPage() {
                           min="0"
                           step="0.1"
                           {...field}
-                          onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                          onChange={(e) => field.onChange(Number.parseFloat(e.target.value))}
                         />
                       </FormControl>
                       <FormMessage />

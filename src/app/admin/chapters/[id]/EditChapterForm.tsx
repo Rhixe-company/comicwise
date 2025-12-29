@@ -83,9 +83,9 @@ export default async function EditChapterForm({ params }: { params: { id: string
 
             <div
               className={`
-              grid gap-6
-              md:grid-cols-2
-            `}
+                grid gap-6
+                md:grid-cols-2
+              `}
             >
               <div>
                 <label htmlFor="chapterNumber" className="sr-only">

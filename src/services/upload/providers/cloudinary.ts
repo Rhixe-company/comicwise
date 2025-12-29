@@ -24,12 +24,14 @@ cloudinary.config({
 });
 
 // Type assertion for cloudinary.url (SDK types incomplete)
-type CloudinaryUrlFn = (publicId: string, options: Record<string, unknown>) => string;
-const getCloudinaryUrl = (cloudinary as unknown as { url: CloudinaryUrlFn }).url.bind(cloudinary);
+type CloudinaryUrlFunction = (publicId: string, options: Record<string, unknown>) => string;
+const getCloudinaryUrl = (cloudinary as unknown as { url: CloudinaryUrlFunction }).url.bind(cloudinary);
 
 export class CloudinaryProvider implements UploadProvider {
   /**
    * Upload file to Cloudinary
+   * @param file
+   * @param options
    */
   async upload(
     file: File | Buffer,
@@ -103,6 +105,7 @@ export class CloudinaryProvider implements UploadProvider {
 
   /**
    * Delete file from Cloudinary
+   * @param publicId
    */
   async delete(publicId: string): Promise<boolean> {
     try {
@@ -116,6 +119,8 @@ export class CloudinaryProvider implements UploadProvider {
 
   /**
    * Get optimized URL with transformations
+   * @param publicId
+   * @param transformation
    */
   getUrl(publicId: string, transformation?: Record<string, unknown>): string {
     return getCloudinaryUrl(publicId, {
@@ -131,6 +136,9 @@ export class CloudinaryProvider implements UploadProvider {
 
   /**
    * Get thumbnail URL
+   * @param publicId
+   * @param width
+   * @param height
    */
   getThumbnailUrl(publicId: string, width = 300, height = 300): string {
     return this.getUrl(publicId, {
@@ -143,6 +151,7 @@ export class CloudinaryProvider implements UploadProvider {
 
   /**
    * Get responsive image URLs
+   * @param publicId
    */
   getResponsiveUrls(publicId: string): Record<string, string> {
     return {

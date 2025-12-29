@@ -94,6 +94,7 @@ export interface UseImageUploadReturn {
  *   </>
  * );
  * ```
+ * @param options
  */
 export function useImageUpload(options: UseImageUploadOptions = {}): UseImageUploadReturn {
   const {
@@ -113,6 +114,7 @@ export function useImageUpload(options: UseImageUploadOptions = {}): UseImageUpl
   /**
    * Validate the selected file for type and size.
    * Returns null when valid, otherwise an error message string.
+   * @param file
    */
   function validateFile(file: File): string | null {
     if (file.size > maxSizeMB * 1024 * 1024) {
@@ -178,8 +180,8 @@ export function useImageUpload(options: UseImageUploadOptions = {}): UseImageUpl
 
       // Clear success state after short delay
       setTimeout(() => setSuccess(false), 2000);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to upload image. Please try again.");
+    } catch (error_) {
+      setError(error_ instanceof Error ? error_.message : "Failed to upload image. Please try again.");
       setUploadProgress(0);
     } finally {
       setIsUploading(false);

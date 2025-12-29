@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+ 
 // ESLint 9.x Flat Config for Next.js 16 + React 19 + TypeScript 5
 import css from "@eslint/css";
 import js from "@eslint/js";

@@ -6,7 +6,8 @@
  */
 
 import { user } from "@/database/schema";
-import { userSeedSchema, type UserSeed } from "@/lib/validations";
+import { userSeedSchema  } from "@/lib/validations";
+import type {UserSeed} from "@/lib/validations";
 import { eq, sql } from "drizzle-orm";
 import { BaseSeeder, database } from "../baseSeeder";
 import { logger } from "../logger";
@@ -37,6 +38,7 @@ export class UserSeederEnhanced extends BaseSeeder<UserSeed> {
 
   /**
    * Prepare user data for insertion
+   * @param item
    */
   protected prepareData(item: UserSeed): typeof user.$inferInsert {
     return {
@@ -54,6 +56,8 @@ export class UserSeederEnhanced extends BaseSeeder<UserSeed> {
 
   /**
    * Insert batch with upsert logic
+   * @param batch
+   * @param options
    */
   protected async insertBatch(
     batch: UserSeed[],
@@ -105,6 +109,7 @@ export class UserSeederEnhanced extends BaseSeeder<UserSeed> {
 
   /**
    * Bulk insert with conflict resolution
+   * @param batch
    */
   protected async bulkInsert(batch: UserSeed[]): Promise<number> {
     const prepared = batch.map((item) => this.prepareData(item));

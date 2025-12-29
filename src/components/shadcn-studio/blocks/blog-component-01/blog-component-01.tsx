@@ -20,23 +20,46 @@ type BlogCard = {
 
 const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
   return (
-    <section className="py-8 sm:py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className={`
+      py-8
+      sm:py-16
+      lg:py-24
+    `}>
+      <div className={`
+        mx-auto max-w-7xl px-4
+        sm:px-6
+        lg:px-8
+      `}>
         {/* Header */}
-        <div className="mb-12 space-y-4 text-center sm:mb-16 lg:mb-24">
-          <p className="text-primary text-sm font-medium uppercase">Blog list</p>
-          <h2 className="text-2xl font-semibold md:text-3xl lg:text-4xl">
+        <div className={`
+          mb-12 space-y-4 text-center
+          sm:mb-16
+          lg:mb-24
+        `}>
+          <p className="text-sm font-medium text-primary uppercase">Blog list</p>
+          <h2 className={`
+            text-2xl font-semibold
+            md:text-3xl
+            lg:text-4xl
+          `}>
             Plan your upcoming journey.
           </h2>
-          <p className="text-muted-foreground text-xl">
+          <p className="text-xl text-muted-foreground">
             Explore new destinations, indulge in local cuisines, and immerse yourself in diverse
             cultures.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className={`
+          grid grid-cols-1 gap-6
+          md:grid-cols-2
+          lg:grid-cols-3
+        `}>
           {blogCards.map((item, index) => (
-            <Card className="pt-0 shadow-none max-lg:last:col-span-full" key={index}>
+            <Card className={`
+              pt-0 shadow-none
+              max-lg:last:col-span-full
+            `} key={index}>
               <CardContent className="px-0">
                 <img
                   src={item.img}
@@ -51,10 +74,16 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
                 <CardDescription className="text-base">{item.description}</CardDescription>
               </CardHeader>
               <CardFooter>
-                <Button className="group rounded-lg text-base has-[>svg]:px-6" size="lg" asChild>
+                <Button className={`
+                  group rounded-lg text-base
+                  has-[>svg]:px-6
+                `} size="lg" asChild>
                   <a href={item.blogLink}>
                     Read More
-                    <ArrowRightIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                    <ArrowRightIcon className={`
+                      transition-transform duration-200
+                      group-hover:translate-x-0.5
+                    `} />
                   </a>
                 </Button>
               </CardFooter>

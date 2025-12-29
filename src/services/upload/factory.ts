@@ -55,6 +55,7 @@ export function getConfiguredProvider(): UploadProviderType {
  * Check if a provider is available
  * param providerType - Provider to check
  * returns true if provider credentials are configured
+ * @param providerType
  */
 export function isProviderAvailable(providerType: UploadProviderType): boolean {
   switch (providerType) {

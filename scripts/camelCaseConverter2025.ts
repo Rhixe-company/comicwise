@@ -49,24 +49,27 @@ class CamelCaseConverter {
 
   /**
    * Convert kebab-case or snake_case to PascalCase for components
+   * @param str
    */
   private toPascalCase(str: string): string {
     return str
-      .replace(/[-_](.)/g, (_, char) => char.toUpperCase())
+      .replaceAll(/[_-](.)/g, (_, char) => char.toUpperCase())
       .replace(/^(.)/, (char) => char.toUpperCase());
   }
 
   /**
    * Convert kebab-case or snake_case to camelCase
+   * @param str
    */
   private toCamelCase(str: string): string {
     return str
-      .replace(/[-_](.)/g, (_, char) => char.toUpperCase())
+      .replaceAll(/[_-](.)/g, (_, char) => char.toUpperCase())
       .replace(/^(.)/, (char) => char.toLowerCase());
   }
 
   /**
    * Check if filename should be PascalCase (components, classes)
+   * @param filePath
    */
   private shouldBePascalCase(filePath: string): boolean {
     const fileName = path.basename(filePath, path.extname(filePath));
@@ -118,7 +121,7 @@ class CamelCaseConverter {
         }
 
         // Skip if already in correct case
-        const hasKebabOrSnake = /[-_]/.test(baseName);
+        const hasKebabOrSnake = /[_-]/.test(baseName);
         if (!hasKebabOrSnake) {
           continue;
         }

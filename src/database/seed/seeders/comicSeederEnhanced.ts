@@ -6,7 +6,8 @@
  */
 
 import { artist, author, comic, comicToGenre, type as comicType, genre } from "@/database/schema";
-import { comicSeedSchema, type ComicSeed } from "@/lib/validations";
+import { comicSeedSchema  } from "@/lib/validations";
+import type {ComicSeed} from "@/lib/validations";
 import { eq } from "drizzle-orm";
 import { BaseSeeder, database } from "../baseSeeder";
 import { logger } from "../logger";
@@ -16,9 +17,9 @@ import type { SeedOptions, SeedResult } from "../types";
 function slugify(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replaceAll(/[^\s\w-]/g, "")
+    .replaceAll(/[\s_-]+/g, "-")
+    .replaceAll(/^-+|-+$/g, "");
 }
 
 // ═══════════════════════════════════════════════════
@@ -57,6 +58,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
 
   /**
    * Prepare comic data for insertion
+   * @param item
    */
   protected prepareData(item: ComicSeed): typeof comic.$inferInsert {
     return {
@@ -65,7 +67,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
       description: item.description || "",
       coverImage: this.extractCoverImage(item) || "",
       status: this.mapStatus(item.status),
-      rating: item.rating ? String(parseFloat(String(item.rating))) : null,
+      rating: item.rating ? String(Number.parseFloat(String(item.rating))) : null,
       publicationDate: item.updatedAt ? new Date(item.updatedAt) : new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -74,6 +76,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
 
   /**
    * Extract cover image from various formats
+   * @param item
    */
   private extractCoverImage(item: ComicSeed): string | null {
     // Handle different image formats
@@ -91,6 +94,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
 
   /**
    * Map status to enum
+   * @param status
    */
   private mapStatus(
     status?: string
@@ -107,6 +111,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
 
   /**
    * Get or create author
+   * @param name
    */
   private async getOrCreateAuthor(name: string): Promise<number> {
     if (this.authorCache.has(name)) {
@@ -128,6 +133,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
 
   /**
    * Get or create artist
+   * @param name
    */
   private async getOrCreateArtist(name: string): Promise<number> {
     if (this.artistCache.has(name)) {
@@ -149,6 +155,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
 
   /**
    * Get or create genre
+   * @param name
    */
   private async getOrCreateGenre(name: string): Promise<number> {
     if (this.genreCache.has(name)) {
@@ -170,6 +177,7 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
 
   /**
    * Get or create type
+   * @param name
    */
   private async getOrCreateType(name: string): Promise<number> {
     if (this.typeCache.has(name)) {
@@ -195,6 +203,8 @@ export class ComicSeederEnhanced extends BaseSeeder<ComicSeed> {
 
   /**
    * Insert batch with relations
+   * @param batch
+   * @param options
    */
   protected async insertBatch(
     batch: ComicSeed[],

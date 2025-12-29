@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { type ComponentProps } from "react";
+import type {ComponentProps} from "react";
 import { cn } from "utils";
 
 export function NumberInput({
@@ -7,7 +7,7 @@ export function NumberInput({
   value,
   ...props
 }: Omit<ComponentProps<typeof Input>, "type" | "onChange" | "value"> & {
-  onChange: (value: number | null) => void;
+  onChange(value: number | null): void;
   value: undefined | null | number;
 }) {
   return (
@@ -31,7 +31,11 @@ export function InputGroupNumberInput({
     <NumberInput
       data-slot="input-group-control"
       className={cn(
-        "flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent",
+        `
+          flex-1 rounded-none border-0 bg-transparent shadow-none
+          focus-visible:ring-0
+          dark:bg-transparent
+        `,
         className
       )}
       {...props}

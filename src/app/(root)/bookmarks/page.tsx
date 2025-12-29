@@ -43,9 +43,9 @@ export default async function BookmarksPage() {
       <div className="mb-8">
         <h1
           className={`
-          mb-2 text-3xl font-bold
-          md:text-4xl
-        `}
+            mb-2 text-3xl font-bold
+            md:text-4xl
+          `}
         >
           My Bookmarks
         </h1>
@@ -56,10 +56,10 @@ export default async function BookmarksPage() {
 
       <div
         className={`
-        grid grid-cols-2 gap-4
-        md:grid-cols-3 md:gap-6
-        lg:grid-cols-4
-      `}
+          grid grid-cols-2 gap-4
+          md:grid-cols-3 md:gap-6
+          lg:grid-cols-4
+        `}
       >
         {bookmarks.map(({ bookmark, comic, chapter }) => {
           if (!comic) return null;
@@ -72,9 +72,9 @@ export default async function BookmarksPage() {
                   <Link href={`/comics/${comic.id}/read/${chapter.id}`}>
                     <Badge
                       className={`
-                      cursor-pointer
-                      hover:bg-primary/90
-                    `}
+                        cursor-pointer
+                        hover:bg-primary/90
+                      `}
                       variant="default"
                     >
                       Continue: Ch. {chapter.chapterNumber}

@@ -64,6 +64,7 @@ export type UploadType = "comic-cover" | "chapter-image" | "avatar" | "general";
 
 /**
  * Upload an image to ImageKit
+ * @param options
  */
 export async function uploadImage(options: UploadOptions): Promise<UploadResult> {
   try {
@@ -97,6 +98,9 @@ export async function uploadImage(options: UploadOptions): Promise<UploadResult>
 
 /**
  * Upload comic cover image
+ * @param file
+ * @param comicId
+ * @param fileName
  */
 export async function uploadComicCover(
   file: Buffer | string,
@@ -114,6 +118,10 @@ export async function uploadComicCover(
 
 /**
  * Upload chapter image
+ * @param file
+ * @param chapterId
+ * @param fileName
+ * @param sequence
  */
 export async function uploadChapterImage(
   file: Buffer | string,
@@ -137,6 +145,9 @@ export async function uploadChapterImage(
 
 /**
  * Upload user avatar
+ * @param file
+ * @param userId
+ * @param fileName
  */
 export async function uploadAvatar(
   file: Buffer | string,
@@ -154,6 +165,9 @@ export async function uploadAvatar(
 
 /**
  * Batch upload multiple images
+ * @param files
+ * @param folder
+ * @param tags
  */
 export async function uploadMultipleImages(
   files: Array<{ file: Buffer | string; fileName: string }>,
@@ -173,14 +187,10 @@ export async function uploadMultipleImages(
   );
 
   return results.map((result) => {
-    if (result.status === "fulfilled") {
-      return result.value;
-    } else {
-      return {
+    return result.status === "fulfilled" ? result.value : {
         success: false,
         error: result.reason instanceof Error ? result.reason.message : "Upload failed",
       };
-    }
   });
 }
 
@@ -190,6 +200,7 @@ export async function uploadMultipleImages(
 
 /**
  * Delete an image from ImageKit
+ * @param fileId
  */
 export async function deleteImage(fileId: string): Promise<DeleteResult> {
   try {
@@ -208,19 +219,16 @@ export async function deleteImage(fileId: string): Promise<DeleteResult> {
 
 /**
  * Delete multiple images
+ * @param fileIds
  */
 export async function deleteMultipleImages(fileIds: string[]): Promise<DeleteResult[]> {
   const results = await Promise.allSettled(fileIds.map((fileId) => deleteImage(fileId)));
 
   return results.map((result) => {
-    if (result.status === "fulfilled") {
-      return result.value;
-    } else {
-      return {
+    return result.status === "fulfilled" ? result.value : {
         success: false,
         error: result.reason instanceof Error ? result.reason.message : "Delete failed",
       };
-    }
   });
 }
 
@@ -242,6 +250,13 @@ export function getAuthenticationParameters(): {
 
 /**
  * Generate URL with transformations
+ * @param filePath
+ * @param options
+ * @param options.width
+ * @param options.height
+ * @param options.quality
+ * @param options.format
+ * @param options.blur
  */
 export function getOptimizedUrl(
   filePath: string,
@@ -281,6 +296,8 @@ export function getOptimizedUrl(
 
 /**
  * Generate thumbnail URL
+ * @param filePath
+ * @param size
  */
 export function getThumbnailUrl(
   filePath: string,
@@ -301,6 +318,7 @@ export function getThumbnailUrl(
 
 /**
  * Generate responsive image URLs
+ * @param filePath
  */
 export function getResponsiveUrls(filePath: string): {
   thumbnail: string;
@@ -320,6 +338,8 @@ export function getResponsiveUrls(filePath: string): {
 
 /**
  * List files from a folder
+ * @param folder
+ * @param limit
  */
 export async function listFiles(folder: string = "/comicwise", limit: number = 50) {
   try {
@@ -345,6 +365,7 @@ export async function listFiles(folder: string = "/comicwise", limit: number = 5
 
 /**
  * Get file details
+ * @param fileId
  */
 export async function getFileDetails(fileId: string) {
   try {
@@ -370,6 +391,7 @@ export async function getFileDetails(fileId: string) {
 
 /**
  * Validate image file
+ * @param file
  */
 export function validateImageFile(file: File): { valid: boolean; error?: string } {
   // Check file size (10MB max)
@@ -392,6 +414,7 @@ export function validateImageFile(file: File): { valid: boolean; error?: string 
 
 /**
  * Convert File to Buffer
+ * @param file
  */
 export async function fileToBuffer(file: File): Promise<Buffer> {
   const arrayBuffer = await file.arrayBuffer();
@@ -400,16 +423,18 @@ export async function fileToBuffer(file: File): Promise<Buffer> {
 
 /**
  * Generate unique filename
+ * @param originalName
+ * @param prefix
  */
 export function generateUniqueFileName(originalName: string, prefix?: string): string {
   const timestamp = Date.now();
-  const randomString = Math.random().toString(36).substring(2, 10);
+  const randomString = Math.random().toString(36).slice(2, 10);
   const extension = originalName.split(".").pop()?.toLowerCase() || "jpg";
   const baseName = originalName
     .split(".")
     .slice(0, -1)
     .join(".")
-    .replace(/[^a-z0-9]/gi, "-");
+    .replaceAll(/[^\da-z]/gi, "-");
 
   if (prefix) {
     return `${prefix}-${baseName}-${timestamp}-${randomString}.${extension}`;
@@ -433,6 +458,10 @@ export interface OptimizationOptions {
 
 /**
  * Upload with automatic optimization
+ * @param file
+ * @param fileName
+ * @param folder
+ * @param options
  */
 export async function uploadOptimizedImage(
   file: Buffer | string,
@@ -451,23 +480,23 @@ export async function uploadOptimizedImage(
       lossless: false,
     };
 
-    const opts = { ...defaultOptions, ...options };
+    const options_ = { ...defaultOptions, ...options };
 
     // Build transformation string
     const transformations: string[] = [];
-    if (opts.quality) {
-      transformations.push(`q-${opts.quality}`);
+    if (options_.quality) {
+      transformations.push(`q-${options_.quality}`);
     }
-    if (opts.format) {
-      transformations.push(`f-${opts.format}`);
+    if (options_.format) {
+      transformations.push(`f-${options_.format}`);
     }
-    if (opts.maxWidth) {
-      transformations.push(`w-${opts.maxWidth}`);
+    if (options_.maxWidth) {
+      transformations.push(`w-${options_.maxWidth}`);
     }
-    if (opts.maxHeight) {
-      transformations.push(`h-${opts.maxHeight}`);
+    if (options_.maxHeight) {
+      transformations.push(`h-${options_.maxHeight}`);
     }
-    if (opts.progressive) {
+    if (options_.progressive) {
       transformations.push("pr-true");
     }
 
@@ -500,6 +529,8 @@ export async function uploadOptimizedImage(
 
 /**
  * Upload comic cover with optimization
+ * @param file
+ * @param fileName
  */
 export async function uploadOptimizedComicCover(
   file: Buffer | string,
@@ -516,6 +547,8 @@ export async function uploadOptimizedComicCover(
 
 /**
  * Upload chapter image with optimization
+ * @param file
+ * @param fileName
  */
 export async function uploadOptimizedChapterImage(
   file: Buffer | string,
@@ -533,6 +566,7 @@ export async function uploadOptimizedChapterImage(
 
 /**
  * Bulk optimize existing images
+ * @param fileIds
  */
 export async function bulkOptimizeImages(fileIds: string[]): Promise<{
   success: boolean;
@@ -588,6 +622,8 @@ export async function bulkOptimizeImages(fileIds: string[]): Promise<{
 
 /**
  * Generate srcset for responsive images
+ * @param filePath
+ * @param widths
  */
 export function generateSrcSet(
   filePath: string,
@@ -603,6 +639,8 @@ export function generateSrcSet(
 
 /**
  * Generate picture element sources for multiple formats
+ * @param filePath
+ * @param widths
  */
 export function generatePictureSources(
   filePath: string,
@@ -627,6 +665,10 @@ export function generatePictureSources(
 
 /**
  * Compress image before upload
+ * @param file
+ * @param fileName
+ * @param folder
+ * @param targetSizeKB
  */
 export async function compressAndUpload(
   file: File,
@@ -683,6 +725,7 @@ export async function compressAndUpload(
 
 /**
  * Get image metadata
+ * @param fileId
  */
 export async function getImageMetadata(fileId: string): Promise<{
   success: boolean;
@@ -739,6 +782,9 @@ export async function getImageMetadata(fileId: string): Promise<{
 
 /**
  * Smart crop for comic covers (auto-detect main subject)
+ * @param filePath
+ * @param width
+ * @param height
  */
 export function getSmartCroppedUrl(filePath: string, width: number, height: number): string {
   const ik = getImageKitInstance();
@@ -759,6 +805,7 @@ export function getSmartCroppedUrl(filePath: string, width: number, height: numb
 
 /**
  * Lazy load placeholder (blur hash)
+ * @param filePath
  */
 export function getLazyLoadPlaceholder(filePath: string): string {
   return getOptimizedUrl(filePath, {

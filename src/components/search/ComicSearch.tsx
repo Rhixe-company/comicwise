@@ -103,7 +103,9 @@ export function ComicSearchAutocomplete() {
   return (
     <div ref={containerRef} className="relative w-full">
       <div className="relative">
-        <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <SearchIcon className={`
+          absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground
+        `} />
         <input
           ref={inputRef}
           type="text"
@@ -116,26 +118,41 @@ export function ComicSearchAutocomplete() {
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
           className={cn(
-            "w-full pl-10 pr-4 py-2 rounded-lg border border-input bg-background",
+            `
+              w-full rounded-lg border border-input bg-background py-2 pr-4
+              pl-10
+            `,
             "placeholder:text-muted-foreground",
-            "focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            `
+              focus:border-transparent focus:ring-2 focus:ring-primary
+              focus:outline-none
+            `
           )}
         />
       </div>
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-full mt-2 w-full rounded-lg border border-input bg-popover shadow-md z-50">
+        <div className={`
+          absolute top-full z-50 mt-2 w-full rounded-lg border border-input
+          bg-popover shadow-md
+        `}>
           {isLoading ? (
             <div className="flex items-center justify-center p-4">
-              <div className="animate-spin h-4 w-4 border-2 border-primary border-r-transparent rounded-full" />
+              <div className={`
+                h-4 w-4 animate-spin rounded-full border-2 border-primary
+                border-r-transparent
+              `} />
             </div>
           ) : (
             <>
               {/* Search Results */}
               {query.length >= 2 && results.length > 0 && (
                 <div className="border-b">
-                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  <div className={`
+                    px-3 py-2 text-xs font-semibold tracking-wide
+                    text-muted-foreground uppercase
+                  `}>
                     Results
                   </div>
                   {results.map((result) => (
@@ -143,13 +160,18 @@ export function ComicSearchAutocomplete() {
                       key={result.id}
                       onClick={() => handleSearch(result.title)}
                       className={cn(
-                        "w-full text-left px-3 py-2 hover:bg-accent transition-colors",
+                        `
+                          w-full px-3 py-2 text-left transition-colors
+                          hover:bg-accent
+                        `,
                         "truncate text-sm"
                       )}
                     >
                       <div className="font-medium">{result.title}</div>
                       {result.description && (
-                        <div className="text-xs text-muted-foreground line-clamp-1">
+                        <div className={`
+                          line-clamp-1 text-xs text-muted-foreground
+                        `}>
                           {result.description}
                         </div>
                       )}
@@ -161,7 +183,10 @@ export function ComicSearchAutocomplete() {
               {/* Suggestions */}
               {suggestions.length > 0 && (
                 <div className="border-b">
-                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  <div className={`
+                    px-3 py-2 text-xs font-semibold tracking-wide
+                    text-muted-foreground uppercase
+                  `}>
                     Suggestions
                   </div>
                   {suggestions.map((suggestion) => (
@@ -169,12 +194,17 @@ export function ComicSearchAutocomplete() {
                       key={suggestion.query}
                       onClick={() => handleSearch(suggestion.query)}
                       className={cn(
-                        "w-full text-left px-3 py-2 hover:bg-accent transition-colors",
+                        `
+                          w-full px-3 py-2 text-left transition-colors
+                          hover:bg-accent
+                        `,
                         "flex items-center justify-between"
                       )}
                     >
                       <span className="text-sm">{suggestion.query}</span>
-                      {suggestion.trending && <TrendingUp className="h-3 w-3 text-orange-500" />}
+                      {suggestion.trending && <TrendingUp className={`
+                        h-3 w-3 text-orange-500
+                      `} />}
                       {suggestion.count && (
                         <span className="text-xs text-muted-foreground">{suggestion.count}</span>
                       )}
@@ -186,7 +216,10 @@ export function ComicSearchAutocomplete() {
               {/* Recent Searches */}
               {query.length < 2 && recentSearches.length > 0 && (
                 <div>
-                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  <div className={`
+                    px-3 py-2 text-xs font-semibold tracking-wide
+                    text-muted-foreground uppercase
+                  `}>
                     Recent Searches
                   </div>
                   {recentSearches.map((search) => (
@@ -194,7 +227,10 @@ export function ComicSearchAutocomplete() {
                       key={search}
                       onClick={() => handleSearch(search)}
                       className={cn(
-                        "w-full text-left px-3 py-2 hover:bg-accent transition-colors",
+                        `
+                          w-full px-3 py-2 text-left transition-colors
+                          hover:bg-accent
+                        `,
                         "flex items-center gap-2 text-sm"
                       )}
                     >
@@ -207,13 +243,17 @@ export function ComicSearchAutocomplete() {
 
               {/* Empty State */}
               {query.length >= 2 && results.length === 0 && suggestions.length === 0 && (
-                <div className="px-3 py-8 text-center text-sm text-muted-foreground">
+                <div className={`
+                  px-3 py-8 text-center text-sm text-muted-foreground
+                `}>
                   No results found for "{query}"
                 </div>
               )}
 
               {query.length < 2 && recentSearches.length === 0 && (
-                <div className="px-3 py-4 text-center text-sm text-muted-foreground">
+                <div className={`
+                  px-3 py-4 text-center text-sm text-muted-foreground
+                `}>
                   Type at least 2 characters to search
                 </div>
               )}
@@ -241,16 +281,25 @@ export function ComicSearchBox() {
   return (
     <form onSubmit={handleSearch} className="w-full max-w-md">
       <div className="relative">
-        <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+        <SearchIcon className={`
+          pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2
+          text-muted-foreground
+        `} />
         <input
           type="search"
           placeholder="Search comics..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className={cn(
-            "w-full pl-10 pr-4 py-2 rounded-lg border border-input bg-background",
+            `
+              w-full rounded-lg border border-input bg-background py-2 pr-4
+              pl-10
+            `,
             "placeholder:text-muted-foreground",
-            "focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            `
+              focus:border-transparent focus:ring-2 focus:ring-primary
+              focus:outline-none
+            `
           )}
         />
       </div>

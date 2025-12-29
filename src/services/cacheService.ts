@@ -1,5 +1,5 @@
 import { env } from "@/appConfig";
-import { createCacheClient } from "@/lib/cache";
+import type { createCacheClient } from "@/lib/cache";
 /**
  * Redis Cache Service
  * Provides caching layer for database database/queries and API responses
@@ -52,6 +52,7 @@ export class CacheService {
 
   /**
    * Get value from cache
+   * @param key
    */
   async get<T>(key: string): Promise<T | null> {
     try {
@@ -65,6 +66,9 @@ export class CacheService {
 
   /**
    * Set value in cache
+   * @param key
+   * @param value
+   * @param options
    */
   async set<T>(key: string, value: T, options?: CacheOptions): Promise<void> {
     try {
@@ -80,6 +84,7 @@ export class CacheService {
 
   /**
    * Delete value from cache
+   * @param key
    */
   async delete(key: string): Promise<void> {
     try {
@@ -91,6 +96,7 @@ export class CacheService {
 
   /**
    * Delete multiple keys matching a pattern
+   * @param pattern
    */
   async deletePattern(pattern: string): Promise<void> {
     try {
@@ -107,6 +113,7 @@ export class CacheService {
    * Invalidate cache by tags
    * Note: Upstash Redis REST API doesn't support set operations
    * Use pattern-based deletion instead
+   * @param tag
    */
   async invalidateByTag(tag: string): Promise<void> {
     try {
@@ -131,6 +138,9 @@ export class CacheService {
 
   /**
    * Get or set cached value with function
+   * @param key
+   * @param fn
+   * @param options
    */
   async getOrSet<T>(key: string, fn: () => Promise<T>, options?: CacheOptions): Promise<T> {
     // Try to get from cache
@@ -147,6 +157,7 @@ export class CacheService {
 
   /**
    * Check if key exists in cache
+   * @param key
    */
   async exists(key: string): Promise<boolean> {
     try {
@@ -160,6 +171,7 @@ export class CacheService {
 
   /**
    * Get remaining TTL for a key
+   * @param key
    */
   async ttl(key: string): Promise<number> {
     try {
@@ -172,6 +184,8 @@ export class CacheService {
 
   /**
    * Increment a counter in cache
+   * @param key
+   * @param amount
    */
   async increment(key: string, amount: number = 1): Promise<number> {
     try {
@@ -187,6 +201,8 @@ export class CacheService {
 
   /**
    * Decrement a counter in cache
+   * @param key
+   * @param amount
    */
   async decrement(key: string, amount: number = 1): Promise<number> {
     try {

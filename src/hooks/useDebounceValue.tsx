@@ -17,6 +17,9 @@ interface UseDebounceValueOptions<T> {
  * param delay The delay in milliseconds before the value is updated (default is 500ms)
  * param options Optional configurations for the debouncing behavior
  * returns An array containing the debounced value and the function to update it
+ * @param initialValue
+ * @param delay
+ * @param options
  */
 export function useDebounceValue<T>(
   initialValue: T | (() => T),

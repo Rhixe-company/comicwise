@@ -9,22 +9,22 @@ interface PageProps {
 
 export default async function ChapterReaderPage({ params }: PageProps) {
   const { chapterId } = await params;
-  const chapterIdNum = parseInt(chapterId);
+  const chapterIdNumber = Number.parseInt(chapterId);
 
-  if (isNaN(chapterIdNum)) {
+  if (isNaN(chapterIdNumber)) {
     notFound();
   }
 
-  const chapter = await getChapter(chapterIdNum);
+  const chapter = await getChapter(chapterIdNumber);
 
   if (!chapter?.comic) {
     notFound();
   }
 
   const [nextChapter, prevChapter] = await Promise.all([
-    getNextChapter(chapterIdNum),
-    getPreviousChapter(chapterIdNum),
-    incrementChapterViews(chapterIdNum),
+    getNextChapter(chapterIdNumber),
+    getPreviousChapter(chapterIdNumber),
+    incrementChapterViews(chapterIdNumber),
   ]);
 
   return (

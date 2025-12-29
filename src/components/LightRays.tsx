@@ -31,12 +31,12 @@ interface LightRaysProps {
 const DEFAULT_COLOR = "ffffff";
 
 const hexToRgb = (hex: string): [number, number, number] => {
-  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const m = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex);
   return m && m.length >= 4
     ? [
-        parseInt(m[1] ?? "ff", 16) / 255,
-        parseInt(m[2] ?? "ff", 16) / 255,
-        parseInt(m[3] ?? "ff", 16) / 255,
+        Number.parseInt(m[1] ?? "ff", 16) / 255,
+        Number.parseInt(m[2] ?? "ff", 16) / 255,
+        Number.parseInt(m[3] ?? "ff", 16) / 255,
       ]
     : [1, 1, 1];
 };
@@ -360,9 +360,9 @@ void main() {
         if (renderer) {
           try {
             const canvas = renderer.gl.canvas;
-            const loseContextExt = renderer.gl.getExtension("WEBGL_lose_context");
-            if (loseContextExt) {
-              loseContextExt.loseContext();
+            const loseContextExtension = renderer.gl.getExtension("WEBGL_lose_context");
+            if (loseContextExtension) {
+              loseContextExtension.loseContext();
             }
 
             if (canvas && canvas.parentNode) {

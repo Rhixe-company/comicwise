@@ -7,7 +7,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { lazy, Suspense } from "react";
 
 const Toaster = lazy(() =>
-  import("@/components/ui/sonner").then((mod) => ({ default: mod.Toaster }))
+  import("@/components/ui/sonner").then((module_) => ({ default: module_.Toaster }))
 );
 
 type AppProps = {

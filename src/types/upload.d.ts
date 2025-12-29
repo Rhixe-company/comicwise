@@ -54,8 +54,8 @@ export interface UploadResult {
  */
 export interface BulkUploadOptions extends UploadOptions {
   concurrency?: number;
-  onProgress?: (current: number, total: number, filename: string) => void;
-  onError?: (filename: string, error: Error) => void;
+  onProgress?(current: number, total: number, filename: string): void;
+  onError?(filename: string, error: Error): void;
   skipExisting?: boolean;
 }
 

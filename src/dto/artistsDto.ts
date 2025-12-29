@@ -9,12 +9,12 @@ export type ArtistDto = typeof artist.$inferSelect;
 export type CreateArtistDto = typeof artist.$inferInsert;
 export type UpdateArtistDto = Partial<CreateArtistDto>;
 
-export type ArtistListDto = {
+export interface ArtistListDto {
   artists: ArtistDto[];
   total: number;
   page: number;
   limit: number;
-};
+}
 
 export type ArtistWithComicsDto = ArtistDto & {
   comics?: Array<{

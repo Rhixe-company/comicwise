@@ -6,6 +6,7 @@ import { bookmark, chapter, comic, user } from "@/database/schema";
 /**
  *
  * param userId
+ * @param userId
  */
 export async function getUserBookmarks(userId: string) {
   const bookmarks = await database
@@ -27,6 +28,8 @@ export async function getUserBookmarks(userId: string) {
  *
  * param userId
  * param comicId
+ * @param userId
+ * @param comicId
  */
 export async function isBookmarked(userId: string, comicId: number): Promise<boolean> {
   const result = await database
@@ -42,6 +45,8 @@ export async function isBookmarked(userId: string, comicId: number): Promise<boo
  *
  * param userId
  * param comicId
+ * @param userId
+ * @param comicId
  */
 export async function getBookmarkWithProgress(userId: string, comicId: number) {
   const result = await database
@@ -60,6 +65,7 @@ export async function getBookmarkWithProgress(userId: string, comicId: number) {
 /**
  *
  * param userId
+ * @param userId
  */
 export async function getBookmarkCount(userId: string): Promise<number> {
   const result = await database
@@ -73,6 +79,7 @@ export async function getBookmarkCount(userId: string): Promise<number> {
 /**
  *
  * param comicId
+ * @param comicId
  */
 export async function getUsersBookmarkedComic(comicId: number) {
   const bookmarks = await database

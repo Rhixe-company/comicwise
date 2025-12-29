@@ -45,6 +45,7 @@ interface ActionResponse<T = unknown> {
 
 /**
  * Create new author (Admin only)
+ * @param input
  */
 export async function createAuthor(input: unknown): Promise<ActionResponse<{ id: number }>> {
   try {
@@ -106,6 +107,8 @@ export async function createAuthor(input: unknown): Promise<ActionResponse<{ id:
 
 /**
  * Update existing author (Admin only)
+ * @param id
+ * @param input
  */
 export async function updateAuthor(
   id: number,
@@ -173,6 +176,7 @@ export async function updateAuthor(
 
 /**
  * Delete author (Admin only)
+ * @param id
  */
 export async function deleteAuthor(id: number): Promise<ActionResponse> {
   try {
@@ -223,6 +227,7 @@ export async function deleteAuthor(id: number): Promise<ActionResponse> {
 
 /**
  * Bulk delete authors (Admin only)
+ * @param ids
  */
 export async function bulkDeleteAuthors(ids: number[]): Promise<ActionResponse> {
   try {

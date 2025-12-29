@@ -12,7 +12,7 @@ export const insertChapterSchema = z.object({
   releaseDate: z.coerce.date(),
   comicId: z.number().int().positive("Comic ID is required"),
   views: z.number().int().nonnegative().default(0).optional(),
-});
+}).strict();
 
 export const updateChapterSchema = insertChapterSchema.partial();
 

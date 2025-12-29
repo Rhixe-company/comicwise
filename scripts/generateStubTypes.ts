@@ -11,7 +11,7 @@ async function exists(p: string) {
 }
 
 function safeFilename(pkgName: string) {
-  return pkgName.replace(/^/, "").replace(/\//g, "__");
+  return pkgName.replace(/^/, "").replaceAll('/', "__");
 }
 
 async function hasBundledTypes(packageDir: string) {
@@ -107,7 +107,7 @@ async function main() {
   );
 }
 
-main().catch((err) => {
-  console.error(err);
+main().catch((error) => {
+  console.error(error);
   process.exit(1);
 });

@@ -13,64 +13,64 @@ const ROOT_DIR = process.cwd();
 // Define all import replacements needed
 const importReplacements: Array<[RegExp, string]> = [
   // App config
-  [/from ['"]@\/app-config['"]/g, 'from "@/appConfig"'],
+  [/from ["']@\/app-config["']/g, 'from "@/appConfig"'],
 
   // Components - fix missing @ prefix
-  [/from ['"]components\/([^'"]+)['"]/g, 'from "@/components/$1"'],
-  [/from ['"]ui\/([^'"]+)['"]/g, 'from "@/components/ui/$1"'],
-  [/from ['"]admin\/([^'"]+)['"]/g, 'from "@/components/admin/$1"'],
-  [/from ['"]emails\/([^'"]+)['"]/g, 'from "@/components/emails/$1"'],
-  [/from ['"]layout\/([^'"]+)['"]/g, 'from "@/components/layout/$1"'],
+  [/from ["']components\/([^"']+)["']/g, 'from "@/components/$1"'],
+  [/from ["']ui\/([^"']+)["']/g, 'from "@/components/ui/$1"'],
+  [/from ["']admin\/([^"']+)["']/g, 'from "@/components/admin/$1"'],
+  [/from ["']emails\/([^"']+)["']/g, 'from "@/components/emails/$1"'],
+  [/from ["']layout\/([^"']+)["']/g, 'from "@/components/layout/$1"'],
 
   // Database - fix missing @ prefix
-  [/from ['"]database\/([^'"]+)['"]/g, 'from "@/database/$1"'],
-  [/from ['"]queries\/([^'"]+)['"]/g, 'from "@/database/queries/$1"'],
-  [/from ['"]mutations\/([^'"]+)['"]/g, 'from "@/database/mutations/$1"'],
-  [/from ['"]schema['"]/g, 'from "@/database/schema"'],
-  [/from ['"]db['"]/g, 'from "@/database/db"'],
+  [/from ["']database\/([^"']+)["']/g, 'from "@/database/$1"'],
+  [/from ["']queries\/([^"']+)["']/g, 'from "@/database/queries/$1"'],
+  [/from ["']mutations\/([^"']+)["']/g, 'from "@/database/mutations/$1"'],
+  [/from ["']schema["']/g, 'from "@/database/schema"'],
+  [/from ["']db["']/g, 'from "@/database/db"'],
 
   // DTO - fix missing @ prefix
-  [/from ['"]dto\/([^'"]+)['"]/g, 'from "@/dto/$1"'],
+  [/from ["']dto\/([^"']+)["']/g, 'from "@/dto/$1"'],
 
   // Lib - fix missing @ prefix
-  [/from ['"]lib\/([^'"]+)['"]/g, 'from "@/lib/$1"'],
-  [/from ['"]actions\/([^'"]+)['"]/g, 'from "@/lib/actions/$1"'],
-  [/from ['"]validations\/([^'"]+)['"]/g, 'from "@/lib/validations/$1"'],
-  [/from ['"]validations['"]/g, 'from "@/lib/validations"'],
+  [/from ["']lib\/([^"']+)["']/g, 'from "@/lib/$1"'],
+  [/from ["']actions\/([^"']+)["']/g, 'from "@/lib/actions/$1"'],
+  [/from ["']validations\/([^"']+)["']/g, 'from "@/lib/validations/$1"'],
+  [/from ["']validations["']/g, 'from "@/lib/validations"'],
 
   // Services - fix missing @ prefix
-  [/from ['"]services\/([^'"]+)['"]/g, 'from "@/services/$1"'],
+  [/from ["']services\/([^"']+)["']/g, 'from "@/services/$1"'],
 
   // DAL - fix missing @ prefix
-  [/from ['"]dal\/([^'"]+)['"]/g, 'from "@/dal/$1"'],
+  [/from ["']dal\/([^"']+)["']/g, 'from "@/dal/$1"'],
 
   // Hooks - fix missing @ prefix
-  [/from ['"]hooks\/([^'"]+)['"]/g, 'from "@/hooks/$1"'],
+  [/from ["']hooks\/([^"']+)["']/g, 'from "@/hooks/$1"'],
 
   // Types - fix missing @ prefix
-  [/from ['"]types['"]/g, 'from "@/types"'],
-  [/from ['"]types\/([^'"]+)['"]/g, 'from "@/types/$1"'],
-  [/from ['"]\/types([^'"]*)['"]/g, 'from "@/types$1"'],
+  [/from ["']types["']/g, 'from "@/types"'],
+  [/from ["']types\/([^"']+)["']/g, 'from "@/types/$1"'],
+  [/from ["']\/types([^"']*)["']/g, 'from "@/types$1"'],
 
   // Assets - fix missing @ prefix
-  [/from ['"]assets\/([^'"]+)['"]/g, 'from "@/assets/$1"'],
-  [/from ['"]\/assets\/([^'"]+)['"]/g, 'from "@/assets/$1"'],
+  [/from ["']assets\/([^"']+)["']/g, 'from "@/assets/$1"'],
+  [/from ["']\/assets\/([^"']+)["']/g, 'from "@/assets/$1"'],
 
   // App routes - fix leading slash
-  [/from ['"]\/app\/([^'"]+)['"]/g, 'from "@/app/$1"'],
+  [/from ["']\/app\/([^"']+)["']/g, 'from "@/app/$1"'],
 
   // Third-party packages - add missing @ prefix
-  [/from ['"]radix-ui\/([^'"]+)['"]/g, 'from "@radix-ui/$1"'],
-  [/from ['"]tanstack\/([^'"]+)['"]/g, 'from "@tanstack/$1"'],
-  [/from ['"]hookform\/([^'"]+)['"]/g, 'from "@hookform/$1"'],
-  [/from ['"]dnd-kit\/([^'"]+)['"]/g, 'from "@dnd-kit/$1"'],
-  [/from ['"]testing-library\/([^'"]+)['"]/g, 'from "@testing-library/$1"'],
-  [/from ['"]tabler\/([^'"]+)['"]/g, 'from "@tabler/$1"'],
-  [/from ['"]t3-oss\/([^'"]+)['"]/g, 'from "@t3-oss/$1"'],
-  [/from ['"]aws-sdk\/([^'"]+)['"]/g, 'from "@aws-sdk/$1"'],
-  [/from ['"]auth\/([^'"]+)['"]/g, 'from "@auth/$1"'],
-  [/from ['"]tiptap\/([^'"]+)['"]/g, 'from "@tiptap/$1"'],
-  [/from ['"]react-emailcomponents['"]/g, 'from "@react-email/components"'],
+  [/from ["']radix-ui\/([^"']+)["']/g, 'from "@radix-ui/$1"'],
+  [/from ["']tanstack\/([^"']+)["']/g, 'from "@tanstack/$1"'],
+  [/from ["']hookform\/([^"']+)["']/g, 'from "@hookform/$1"'],
+  [/from ["']dnd-kit\/([^"']+)["']/g, 'from "@dnd-kit/$1"'],
+  [/from ["']testing-library\/([^"']+)["']/g, 'from "@testing-library/$1"'],
+  [/from ["']tabler\/([^"']+)["']/g, 'from "@tabler/$1"'],
+  [/from ["']t3-oss\/([^"']+)["']/g, 'from "@t3-oss/$1"'],
+  [/from ["']aws-sdk\/([^"']+)["']/g, 'from "@aws-sdk/$1"'],
+  [/from ["']auth\/([^"']+)["']/g, 'from "@auth/$1"'],
+  [/from ["']tiptap\/([^"']+)["']/g, 'from "@tiptap/$1"'],
+  [/from ["']react-emailcomponents["']/g, 'from "@react-email/components"'],
 ];
 
 async function fixFile(filePath: string): Promise<number> {

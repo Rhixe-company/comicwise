@@ -29,7 +29,7 @@ function fix(filePath: string, pattern: string | RegExp, replacement: string, de
       return;
     }
 
-    let content = fs.readFileSync(fullPath, "utf-8");
+    const content = fs.readFileSync(fullPath, "utf-8");
     const updated = content.replace(pattern, replacement);
 
     if (content !== updated) {
@@ -83,7 +83,7 @@ const adminPages = [
 adminPages.forEach(([resource, form]) => {
   fix(
     `src/app/admin/${resource}/[id]/page.tsx`,
-    /from ['"]app\/admin\/[^'"]+['"]/,
+    /from ["']app\/admin\/[^"']+["']/,
     `from "@/components/admin/${form}"`,
     `Fix ${resource} admin page import`
   );
@@ -92,7 +92,7 @@ adminPages.forEach(([resource, form]) => {
 // Fix 11: Admin users page
 fix(
   "src/app/admin/users/page.tsx",
-  /from ['"]database['"]/,
+  /from ["']database["']/,
   'from "schema"',
   "Fix admin users import"
 );
@@ -118,7 +118,7 @@ fix(
 // Fix 16: Dashboard page
 fix(
   "src/app/dashboard/page.tsx",
-  /from ['"]app\/dashboard\/data\.json['"]/,
+  /from ["']app\/dashboard\/data\.json["']/,
   'from "@/app/dashboard/data.json"',
   "Fix dashboard data import"
 );
@@ -126,7 +126,7 @@ fix(
 // Fix 17: Providers
 fix(
   "src/app/Providers.tsx",
-  /from ['"]ui\/sonner['"]/,
+  /from ["']ui\/sonner["']/,
   'from "@/components/ui/sonner"',
   "Fix sonner import"
 );
@@ -172,7 +172,7 @@ fix(
 // Fix 21: DashboardCharts recharts imports
 fix(
   "src/components/admin/DashboardCharts.tsx",
-  /^import \{[^}]+\} from ['"]recharts['"]/m,
+  /^import {[^}]+} from ["']recharts["']/m,
   `import {
   Bar,
   BarChart,
@@ -202,7 +202,7 @@ fix(
 // Fix 23: BookmarkButton
 fix(
   "src/components/BookmarkButton.tsx",
-  /from ['"]stores\/bookmarkStore['"]/,
+  /from ["']stores\/bookmarkStore["']/,
   'from "@/stores/bookmarkStore"',
   "Fix BookmarkButton import"
 );
@@ -211,7 +211,7 @@ fix(
 ["ChartAreaInteractive.tsx", "DataTable.tsx"].forEach((file) => {
   fix(
     `src/components/${file}`,
-    /from ['"]\/hooks\/use-mobile['"]/g,
+    /from ["']\/hooks\/use-mobile["']/g,
     'from "@/hooks/use-mobile"',
     `Fix ${file} hook import`
   );
@@ -220,14 +220,14 @@ fix(
 // Fix 26: Components index
 fix(
   "src/components/index.ts",
-  /export \{ ClientDate \} from ['"]\.\/ClientDate['"]/,
+  /export { ClientDate } from ["']\.\/ClientDate["']/,
   'export { default as ClientDate } from "./ClientDate"',
   "Fix ClientDate export"
 );
 
 fix(
   "src/components/index.ts",
-  /export \{ CurrentYear \} from ['"]\.\/CurrentYear['"]/,
+  /export { CurrentYear } from ["']\.\/CurrentYear["']/,
   'export { default as CurrentYear } from "./CurrentYear"',
   "Fix CurrentYear export"
 );
@@ -261,7 +261,7 @@ shadcnBlocks.forEach((file) => {
 // Fix 34: datatable-transaction
 fix(
   "src/components/shadcn-studio/blocks/datatable-transaction.tsx",
-  /from ['"]\/hooks\/use-pagination['"]/g,
+  /from ["']\/hooks\/use-pagination["']/g,
   'from "@/hooks/use-pagination"',
   "Fix datatable-transaction hook import"
 );
@@ -270,7 +270,7 @@ fix(
 ["data-table-04.tsx", "DataTable04.tsx"].forEach((file) => {
   fix(
     `src/components/shadcn-studio/data-table/${file}`,
-    /declare module ['"]tanstack\/react-table['"]/g,
+    /declare module ["']tanstack\/react-table["']/g,
     'declare module "@tanstack/react-table"',
     `Fix ${file} module declaration`
   );
@@ -304,7 +304,7 @@ fix(
 // Fix 39: ScrollArea
 fix(
   "src/components/ui/scroll-area.tsx",
-  /export \{ ScrollAreaProps \}/,
+  /export { ScrollAreaProps }/,
   "export type { ScrollArea as ScrollAreaProps }",
   "Fix ScrollArea export"
 );
@@ -323,13 +323,13 @@ try {
   const fullPath = path.join(projectRoot, colorPickerPath);
   if (fs.existsSync(fullPath)) {
     let content = fs.readFileSync(fullPath, "utf-8");
-    content = content.replace(/anyPickerProps/g, "any");
-    content = content.replace(/anyPickerSelectionProps/g, "any");
-    content = content.replace(/anyPickerHueProps/g, "any");
-    content = content.replace(/anyPickerAlphaProps/g, "any");
-    content = content.replace(/anyPickerEyeDropperProps/g, "any");
-    content = content.replace(/anyPickerOutputProps/g, "any");
-    content = content.replace(/anyPickerFormatProps/g, "any");
+    content = content.replaceAll('anyPickerProps', "any");
+    content = content.replaceAll('anyPickerSelectionProps', "any");
+    content = content.replaceAll('anyPickerHueProps', "any");
+    content = content.replaceAll('anyPickerAlphaProps', "any");
+    content = content.replaceAll('anyPickerEyeDropperProps', "any");
+    content = content.replaceAll('anyPickerOutputProps', "any");
+    content = content.replaceAll('anyPickerFormatProps', "any");
     fs.writeFileSync(fullPath, content, "utf-8");
     console.log(`✅ Fix color picker types`);
     totalFixes++;
@@ -341,7 +341,7 @@ try {
 // Fix 42: Dropzone
 fix(
   "src/components/ui/shadcn-io/dropzone/index.tsx",
-  /import \{[^}]*FileRejection[^}]*\} from ['"]react-dropzone['"]/,
+  /import {[^}]*FileRejection[^}]*} from ["']react-dropzone["']/,
   'import type { FileRejection } from "react-dropzone"',
   "Fix Dropzone FileRejection import"
 );
@@ -357,7 +357,7 @@ fix(
 // Fix 44: Sidebar
 fix(
   "src/components/ui/sidebar.tsx",
-  /from ['"]\/hooks\/use-mobile['"]/g,
+  /from ["']\/hooks\/use-mobile["']/g,
   'from "@/hooks/use-mobile"',
   "Fix sidebar hook import"
 );
@@ -383,7 +383,7 @@ dalFiles.forEach((file) => {
 ["chapters.ts", "comics.ts"].forEach((file) => {
   fix(
     `src/database/mutations/${file}`,
-    /from ['"]lib\/utils['"]/g,
+    /from ["']lib\/utils["']/g,
     'from "@/lib/utils"',
     `Fix ${file} mutation import`
   );

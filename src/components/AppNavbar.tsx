@@ -49,17 +49,17 @@ export function AppNavbar() {
     >
       <div
         className={`
-        container mx-auto flex h-16 items-center justify-between px-4
-      `}
+          container mx-auto flex h-16 items-center justify-between px-4
+        `}
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-xl font-bold">
           <BookOpen className="h-6 w-6" />
           <span
             className={`
-            hidden
-            sm:inline
-          `}
+              hidden
+              sm:inline
+            `}
           >
             ComicWise
           </span>
@@ -68,9 +68,9 @@ export function AppNavbar() {
         {/* Desktop Navigation */}
         <div
           className={`
-          hidden items-center gap-6
-          md:flex
-        `}
+            hidden items-center gap-6
+            md:flex
+          `}
         >
           {navLinks.map((link) => {
             if (link.protected && status !== "authenticated") {
@@ -98,9 +98,9 @@ export function AppNavbar() {
         <form
           onSubmit={handleSearch}
           className={`
-          mx-6 hidden max-w-sm flex-1
-          lg:flex
-        `}
+            mx-6 hidden max-w-sm flex-1
+            lg:flex
+          `}
         >
           <div className="relative w-full">
             <Search
@@ -128,9 +128,9 @@ export function AppNavbar() {
               <Link
                 href="/bookmarks"
                 className={`
-                hidden
-                md:inline-block
-              `}
+                  hidden
+                  md:inline-block
+                `}
               >
                 <Button variant="ghost" size="icon">
                   <Bookmark className="h-5 w-5" />
@@ -156,9 +156,9 @@ export function AppNavbar() {
           ) : (
             <div
               className={`
-              hidden gap-2
-              md:flex
-            `}
+                hidden gap-2
+                md:flex
+              `}
             >
               <Link href="/sign-in">
                 <Button variant="ghost" size="sm">
@@ -187,9 +187,9 @@ export function AppNavbar() {
       {isMobileMenuOpen && (
         <div
           className={`
-          border-t
-          md:hidden
-        `}
+            border-t
+            md:hidden
+          `}
         >
           <div className="container mx-auto space-y-4 px-4 py-4">
             {/* Mobile Search */}

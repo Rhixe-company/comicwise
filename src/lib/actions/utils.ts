@@ -6,6 +6,8 @@ import type { ActionResponse } from "@/types";
 
 /**
  * Create a successful action response
+ * @param data
+ * @param message
  */
 export function success<T>(data: T, message?: string): ActionResponse<T> {
   return {
@@ -17,6 +19,7 @@ export function success<T>(data: T, message?: string): ActionResponse<T> {
 
 /**
  * Create an error action response
+ * @param errorMessage
  */
 export function error<T = never>(errorMessage: string): ActionResponse<T> {
   return {
@@ -27,6 +30,7 @@ export function error<T = never>(errorMessage: string): ActionResponse<T> {
 
 /**
  * Create a validation error response
+ * @param message
  */
 export function validationError<T = never>(message: string): ActionResponse<T> {
   return {

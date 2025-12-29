@@ -17,10 +17,10 @@ async function LatestComics() {
   return (
     <div
       className={`
-      grid grid-cols-2 gap-4
-      md:grid-cols-3 md:gap-6
-      lg:grid-cols-4
-    `}
+        grid grid-cols-2 gap-4
+        md:grid-cols-3 md:gap-6
+        lg:grid-cols-4
+      `}
     >
       {comics.map((comic) => (
         <ComicCard key={comic.id} comic={comic} authorName={null} typeName={null} />
@@ -35,10 +35,10 @@ async function PopularComics() {
   return (
     <div
       className={`
-      grid grid-cols-2 gap-4
-      md:grid-cols-3 md:gap-6
-      lg:grid-cols-4
-    `}
+        grid grid-cols-2 gap-4
+        md:grid-cols-3 md:gap-6
+        lg:grid-cols-4
+      `}
     >
       {comics.map((comic) => (
         <ComicCard key={comic.id} comic={comic} authorName={null} typeName={null} />
@@ -51,10 +51,10 @@ function ComicGridSkeleton() {
   return (
     <div
       className={`
-      grid grid-cols-2 gap-6
-      md:grid-cols-3
-      lg:grid-cols-4
-    `}
+        grid grid-cols-2 gap-6
+        md:grid-cols-3
+        lg:grid-cols-4
+      `}
     >
       {Array.from({ length: 8 }).map((_, i) => (
         <div key={i} className="space-y-3">
@@ -73,15 +73,15 @@ export default function HomePage() {
       {/* Hero Section */}
       <section
         className={`
-        space-y-4 py-8 text-center
-        md:py-16
-      `}
+          space-y-4 py-8 text-center
+          md:py-16
+        `}
       >
         <h1
           className={`
-          text-4xl font-bold tracking-tight
-          md:text-6xl
-        `}
+            text-4xl font-bold tracking-tight
+            md:text-6xl
+          `}
         >
           Welcome to ComicWise
         </h1>
@@ -138,15 +138,15 @@ export default function HomePage() {
       {/* CTA Section */}
       <section
         className={`
-        space-y-4 rounded-lg bg-muted p-8 text-center
-        md:p-12
-      `}
+          space-y-4 rounded-lg bg-muted p-8 text-center
+          md:p-12
+        `}
       >
         <h2
           className={`
-          text-2xl font-bold
-          md:text-3xl
-        `}
+            text-2xl font-bold
+            md:text-3xl
+          `}
         >
           Join Our Community
         </h2>

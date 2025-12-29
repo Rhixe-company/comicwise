@@ -33,14 +33,14 @@ async function ComicsGrid({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const sortByParam = (searchParams.sort as string) || "latest";
+  const sortByParameter = (searchParams.sort as string) || "latest";
 
   const filters: ComicFilters = {
     search: typeof searchParams.search === "string" ? searchParams.search : undefined,
     typeId: searchParams.type ? Number(searchParams.type) : undefined,
     status:
       typeof searchParams.status === "string" ? (searchParams.status as ComicStatus) : undefined,
-    sortBy: sortByParam as "latest" | "rating" | "title" | "views",
+    sortBy: sortByParameter as "latest" | "rating" | "title" | "views",
     page: searchParams.page ? Number(searchParams.page) : 1,
     limit: 12,
   };
@@ -60,10 +60,10 @@ async function ComicsGrid({
     <>
       <div
         className={`
-        grid grid-cols-2 gap-4
-        md:grid-cols-3 md:gap-6
-        lg:grid-cols-4
-      `}
+          grid grid-cols-2 gap-4
+          md:grid-cols-3 md:gap-6
+          lg:grid-cols-4
+        `}
       >
         {comics.map((comic) => (
           <ComicCard
@@ -92,10 +92,10 @@ function LoadingSkeleton() {
   return (
     <div
       className={`
-      grid grid-cols-2 gap-4
-      md:grid-cols-3 md:gap-6
-      lg:grid-cols-4
-    `}
+        grid grid-cols-2 gap-4
+        md:grid-cols-3 md:gap-6
+        lg:grid-cols-4
+      `}
     >
       {Array.from({ length: 12 }).map((_, i) => (
         <div key={i} className="space-y-3">
@@ -120,9 +120,9 @@ export default async function ComicsPage({ searchParams }: PageProps) {
       <div className="mb-8">
         <h1
           className={`
-          mb-2 text-3xl font-bold
-          md:text-4xl
-        `}
+            mb-2 text-3xl font-bold
+            md:text-4xl
+          `}
         >
           Browse Comics
         </h1>

@@ -29,13 +29,13 @@ interface Comic {
 
 interface ComicsTableProps {
   comics: Comic[];
-  onDelete: (id: number) => Promise<void>;
-  onBulkDelete?: (ids: number[]) => Promise<void>;
+  onDelete(id: number): Promise<void>;
+  onBulkDelete?(ids: number[]): Promise<void>;
   currentPage: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
-  onNextPage: () => void;
-  onPrevPage: () => void;
+  onNextPage(): void;
+  onPrevPage(): void;
   isLoading?: boolean;
 }
 
@@ -147,7 +147,9 @@ export function ComicsTable({
               <TableBody>
                 {comics.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={7} className={`
+                      py-8 text-center text-muted-foreground
+                    `}>
                       No comics found
                     </TableCell>
                   </TableRow>
@@ -163,7 +165,9 @@ export function ComicsTable({
                         />
                       </TableCell>
                       <TableCell>
-                        <div className="relative h-10 w-8 overflow-hidden rounded">
+                        <div className={`
+                          relative h-10 w-8 overflow-hidden rounded
+                        `}>
                           <Image
                             src={comic.coverImage}
                             alt={comic.title}
@@ -240,7 +244,9 @@ export function ComicsTable({
           </div>
 
           {selectedIds.length > 0 && (
-            <div className="mt-4 flex items-center justify-between border-t pt-4">
+            <div className={`
+              mt-4 flex items-center justify-between border-t pt-4
+            `}>
               <p className="text-sm text-muted-foreground">{selectedIds.length} selected</p>
               {onBulkDelete && (
                 <Button

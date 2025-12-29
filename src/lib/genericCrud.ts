@@ -15,6 +15,7 @@ type ValidationResult<T> =
 
 /**
  * Convert Zod SafeParseResult to ValidationResult format
+ * @param schema
  */
 export function zodToValidationResult<T>(
   schema: ZodSchema<T>
@@ -103,8 +104,8 @@ export async function listGenericEntity<TFilters, TOutput>(
 
     const filters = {
       search: searchParams.get("search") || undefined,
-      page: searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1,
-      limit: searchParams.get("limit") ? parseInt(searchParams.get("limit")!) : 50,
+      page: searchParams.get("page") ? Number.parseInt(searchParams.get("page")!) : 1,
+      limit: searchParams.get("limit") ? Number.parseInt(searchParams.get("limit")!) : 50,
       sortBy: searchParams.get("sortBy") || "name",
       sortOrder: (searchParams.get("sortOrder") as "asc" | "desc") || "asc",
     };
@@ -161,7 +162,7 @@ export async function getGenericEntity<TOutput>(
   }
 ): Promise<NextResponse> {
   try {
-    const validation = validateFn({ id: parseInt(id) });
+    const validation = validateFn({ id: Number.parseInt(id) });
 
     if (!validation.success) {
       return NextResponse.json(
@@ -217,7 +218,7 @@ export async function updateGenericEntity<TInput, TOutput>(
       }
     }
 
-    const idValidation = idValidateFn({ id: parseInt(id) });
+    const idValidation = idValidateFn({ id: Number.parseInt(id) });
 
     if (!idValidation.success) {
       return NextResponse.json(
@@ -276,7 +277,7 @@ export async function deleteGenericEntity(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const validation = validateFn({ id: parseInt(id) });
+    const validation = validateFn({ id: Number.parseInt(id) });
 
     if (!validation.success) {
       return NextResponse.json(

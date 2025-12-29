@@ -29,6 +29,7 @@ import type {
 /**
  * Get comic with all its chapters
  * param comicId
+ * @param comicId
  */
 export async function getComicWithChapters(comicId: number): Promise<ComicWithChapters | null> {
   // Query comic
@@ -58,6 +59,7 @@ export async function getComicWithChapters(comicId: number): Promise<ComicWithCh
 /**
  * Get chapter with all comments and commenter info
  * param chapterId
+ * @param chapterId
  */
 export async function getChapterWithComments(
   chapterId: number
@@ -103,6 +105,9 @@ export async function getChapterWithComments(
  * param _query
  * param limit
  * param offset
+ * @param _query
+ * @param limit
+ * @param offset
  */
 export async function searchComics(
   _query: string,
@@ -132,6 +137,7 @@ export async function searchComics(
 /**
  * Get user profile with reading statistics
  * param userId
+ * @param userId
  */
 export async function getUserWithStats(userId: string): Promise<UserWithStats | null> {
   const userData = await database.query.user.findFirst({
@@ -180,6 +186,7 @@ export async function getUserWithStats(userId: string): Promise<UserWithStats | 
 /**
  * Get complete comic details with all relations
  * param comicId
+ * @param comicId
  */
 export async function getComicDetails(comicId: number): Promise<ComicWithDetails | null> {
   const comicData = await database.query.comic.findFirst({
@@ -213,6 +220,8 @@ export async function getComicDetails(comicId: number): Promise<ComicWithDetails
  * Get paginated list of comics with basic info
  * param limit
  * param offset
+ * @param limit
+ * @param offset
  */
 export async function getPaginatedComics(limit: number = 12, offset: number = 0) {
   const comics = await database.query.comic.findMany({
@@ -250,6 +259,8 @@ export async function getPaginatedComics(limit: number = 12, offset: number = 0)
  * Get all comics in a specific genre
  * param genreId
  * param limit
+ * @param genreId
+ * @param limit
  */
 export async function getComicsByGenre(
   genreId: number,
@@ -288,6 +299,7 @@ export async function getComicsByGenre(
 /**
  * Get all comics bookmarked by user
  * param userId
+ * @param userId
  */
 export async function getUserBookmarks(userId: string) {
   const bookmarks = await database.query.bookmark.findMany({

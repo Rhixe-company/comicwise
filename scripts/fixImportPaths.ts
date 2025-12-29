@@ -61,7 +61,7 @@ async function fixImportsInFile(filePath: string): Promise<number> {
 
   for (const [incorrect, correct] of Object.entries(importMappings)) {
     if (content.includes(incorrect)) {
-      const regex = new RegExp(incorrect.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+      const regex = new RegExp(incorrect.replaceAll(/[$()*+.?[\\\]^{|}]/g, "\\$&"), "g");
       content = content.replace(regex, correct);
       changes++;
     }

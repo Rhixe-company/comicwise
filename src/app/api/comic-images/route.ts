@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Comic ID is required" }, { status: 400 });
     }
 
-    const images = await getComicImages(parseInt(comicId));
+    const images = await getComicImages(Number.parseInt(comicId));
 
     return NextResponse.json({
       success: true,

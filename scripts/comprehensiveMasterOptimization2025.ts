@@ -32,6 +32,8 @@ class ComprehensiveMasterOptimization {
 
   /**
    * Log task execution
+   * @param message
+   * @param type
    */
   private log(message: string, type: "info" | "success" | "error" | "warning" = "info") {
     const icons = {
@@ -53,6 +55,7 @@ class ComprehensiveMasterOptimization {
 
   /**
    * Add task result
+   * @param result
    */
   private addResult(result: TaskResult) {
     this.results.push(result);
@@ -274,9 +277,9 @@ class ComprehensiveMasterOptimization {
       spinner.text = "Running type-check...";
       const { stderr: typeErrors } = await execAsync("pnpm type-check", {
         cwd: this.projectRoot,
-      }).catch((e) => e);
+      }).catch((error) => error);
 
-      if (typeErrors && typeErrors.includes("error TS")) {
+      if (typeErrors?.includes("error TS")) {
         spinner.text = "Type errors detected, attempting auto-fix...";
         // Auto-fix will be handled in manual fixes section
       }
@@ -288,7 +291,7 @@ class ComprehensiveMasterOptimization {
         message: "Type-check analysis completed",
         details: typeErrors ? "Some errors need manual fixing" : "No errors found",
       });
-    } catch (error) {
+    } catch {
       spinner.warn("Type-check completed with errors");
       this.addResult({
         task: "Task 10: Type-Check & Lint",

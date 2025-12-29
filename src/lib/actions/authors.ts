@@ -37,11 +37,11 @@ export async function createAuthor(formData: FormData): Promise<ActionResponse<{
 
     revalidatePath("/admin/authors");
     return { success: true, data: { id: author.id } };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Create author error:", err);
+    console.error("Create author error:", error_);
     return error("Failed to create author");
   }
 }
@@ -59,11 +59,11 @@ export async function updateAuthor(authorId: number, formData: FormData): Promis
     revalidatePath(`/admin/authors/${authorId}`);
 
     return { success: true };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Update author error:", err);
+    console.error("Update author error:", error_);
     return error("Failed to update author");
   }
 }
@@ -74,8 +74,8 @@ export async function deleteAuthor(authorId: number): Promise<ActionResponse> {
     revalidatePath("/admin/authors");
 
     return { success: true };
-  } catch (err) {
-    console.error("Delete author error:", err);
+  } catch (error_) {
+    console.error("Delete author error:", error_);
     return error("Failed to delete author");
   }
 }

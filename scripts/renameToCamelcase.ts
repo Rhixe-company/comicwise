@@ -16,7 +16,7 @@ console.log(chalk.cyan("╚═════════════════�
 
 function toCamelCase(str: string): string {
   return str
-    .split(/[-_\s]/)
+    .split(/[\s_-]/)
     .map((word, index) => {
       if (index === 0) {
         return word.charAt(0).toLowerCase() + word.slice(1);
@@ -28,7 +28,7 @@ function toCamelCase(str: string): string {
 
 function toPascalCase(str: string): string {
   return str
-    .split(/[-_\s]/)
+    .split(/[\s_-]/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join("");
 }

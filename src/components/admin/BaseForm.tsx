@@ -156,8 +156,9 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
             render={({ field: formField }) => (
               <FormItem
                 className={`
-                flex flex-row items-center justify-between rounded-lg border p-4
-              `}
+                  flex flex-row items-center justify-between rounded-lg border
+                  p-4
+                `}
               >
                 <div className="space-y-0.5">
                   <FormLabel className="text-base">{field.label}</FormLabel>
@@ -233,9 +234,9 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         className={`
-        space-y-6
-        ${className}
-      `}
+          space-y-6
+          ${className}
+        `}
       >
         {fields.map((field) => renderField(field, form))}
         <Button type="submit" disabled={isLoading}>

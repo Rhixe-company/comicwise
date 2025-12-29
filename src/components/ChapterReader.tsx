@@ -42,7 +42,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
 
   const totalPages = images.length;
 
-  const handlePrevPage = useCallback(() => {
+  const handlePreviousPage = useCallback(() => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -73,7 +73,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
-        handlePrevPage();
+        handlePreviousPage();
       }
       if (e.key === "ArrowRight") {
         handleNextPage();
@@ -85,7 +85,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [handlePrevPage, handleNextPage, toggleFullscreen]);
+  }, [handlePreviousPage, handleNextPage, toggleFullscreen]);
 
   const currentImage = images[currentPage - 1];
 
@@ -94,13 +94,13 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
       {/* Header */}
       <div
         className={`
-        sticky top-0 z-50 border-b border-white/10 bg-black/90 backdrop-blur
-      `}
+          sticky top-0 z-50 border-b border-white/10 bg-black/90 backdrop-blur
+        `}
       >
         <div
           className={`
-          container mx-auto flex h-16 items-center justify-between px-4
-        `}
+            container mx-auto flex h-16 items-center justify-between px-4
+          `}
         >
           <div className="flex items-center gap-4">
             <Link href={`/comics/${comic.id}`}>
@@ -110,9 +110,9 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
             </Link>
             <div
               className={`
-              hidden
-              md:block
-            `}
+                hidden
+                md:block
+              `}
             >
               <h2 className="font-semibold">{comic.title}</h2>
               <p className="text-sm text-gray-400">{chapter.title}</p>
@@ -136,9 +136,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
                 <Minimize className="h-5 w-5" />
               ) : (
                 <Maximize
-                  className={`
-                h-5 w-5
-              `}
+                  className={`h-5 w-5`}
                 />
               )}
             </Button>
@@ -167,7 +165,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
 
           {/* Navigation */}
           <div className="mt-6 flex items-center justify-between gap-4">
-            <Button onClick={handlePrevPage} disabled={currentPage === 1 && !prevChapter} size="lg">
+            <Button onClick={handlePreviousPage} disabled={currentPage === 1 && !prevChapter} size="lg">
               <ChevronLeft className="mr-2 h-5 w-5" />
               {currentPage === 1 && prevChapter ? "Previous Chapter" : "Previous"}
             </Button>
@@ -192,9 +190,9 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
           {/* Page Thumbnails */}
           <div
             className={`
-            mt-8 grid grid-cols-5 gap-2
-            md:grid-cols-10
-          `}
+              mt-8 grid grid-cols-5 gap-2
+              md:grid-cols-10
+            `}
           >
             {images.map((image, index) => (
               <button

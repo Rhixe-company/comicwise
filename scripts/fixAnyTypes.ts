@@ -12,9 +12,9 @@
 import { readFileSync, writeFileSync } from "fs";
 import { globSync } from "glob";
 
-const args = process.argv.slice(2);
-const DRY_RUN = args.includes("--dry-run");
-const AUTO_FIX = args.includes("--fix");
+const args = new Set(process.argv.slice(2));
+const DRY_RUN = args.has("--dry-run");
+const AUTO_FIX = args.has("--fix");
 
 console.log("🔍 Searching for 'any' types...\n");
 
@@ -44,7 +44,7 @@ for (const file of tsFiles) {
     }
 
     const anyMatches = [
-      ...line.matchAll(/:\s*any(?:\s|;|,|\)|\||&)/g),
+      ...line.matchAll(/:\s*any[\s&),;|]/g),
       ...line.matchAll(/<unknown>/g),
       ...line.matchAll(/as\s+any/g),
     ];
@@ -122,8 +122,8 @@ for (const [file, locations] of Object.entries(fileGroups)) {
       if (loc.suggestion) {
         // Simple replacements
         content = content.replace(/:\s*any(?=\s|;|,|\)|\||&)/, `: ${loc.suggestion}`);
-        content = content.replace(/<unknown>/g, `<${loc.suggestion}>`);
-        content = content.replace(/as\s+any/g, `as ${loc.suggestion}`);
+        content = content.replaceAll('<unknown>', `<${loc.suggestion}>`);
+        content = content.replaceAll(/as\s+any/g, `as ${loc.suggestion}`);
         modified = true;
         fixedCount++;
       }

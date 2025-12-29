@@ -119,7 +119,7 @@ function fixDatabaseAdapter() {
 
   // Ensure database export doesn't include .db property
   if (content.includes("export { database }") && content.includes("database.db")) {
-    content = content.replace(/database\.db/g, "database");
+    content = content.replaceAll('database.db', "database");
     fs.writeFileSync(dbPath, content, "utf-8");
     console.log("  ✓ Fixed database.db reference");
   } else {
@@ -134,7 +134,7 @@ function runEslintFix() {
       stdio: "inherit",
     });
     console.log("  ✓ ESLint fix completed");
-  } catch (error) {
+  } catch {
     console.log("  ⚠️  ESLint fix completed with warnings");
   }
 }
@@ -146,7 +146,7 @@ function runTypeCheck() {
       stdio: "inherit",
     });
     console.log("  ✓ Type-check passed");
-  } catch (error) {
+  } catch {
     console.log("  ⚠️  Type-check found errors (see output above)");
   }
 }

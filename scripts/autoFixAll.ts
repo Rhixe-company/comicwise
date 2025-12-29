@@ -51,7 +51,7 @@ for (const file of files) {
   let fileFixed = false;
 
   for (const [oldImport, newImport] of Object.entries(actionImportMap)) {
-    const regex = new RegExp(`from ["']${oldImport.replace(/\//g, "\\/")}["']`, "g");
+    const regex = new RegExp(`from ["']${oldImport.replaceAll('/', "\\/")}["']`, "g");
     if (regex.test(content)) {
       content = content.replace(regex, `from "${newImport}"`);
       fileFixed = true;
@@ -83,13 +83,13 @@ for (const file of useMobileFiles) {
   const original = content;
 
   // Fix incorrect import
-  content = content.replace(
-    /import\s*\{\s*useMobile\s*\}\s*from\s*["']\.\/useMobile["']/g,
+  content = content.replaceAll(
+    /import\s*{\s*useMobile\s*}\s*from\s*["']\.\/useMobile["']/g,
     'import { useIsMobile } from "./useMobile"'
   );
 
-  content = content.replace(
-    /import\s*\{\s*useMobile\s*\}\s*from\s*["']hooks\/useMobile["']/g,
+  content = content.replaceAll(
+    /import\s*{\s*useMobile\s*}\s*from\s*["']hooks\/useMobile["']/g,
     'import { useIsMobile } from "@/hooks/useMobile"'
   );
 
@@ -116,7 +116,7 @@ if (existsSync(utilsFile)) {
 
   // Replace circular import
   content = content.replace(
-    /import\s*\{\s*error,\s*success\s*\}\s*from\s*["'].*["']/,
+    /import\s*{\s*error,\s*success\s*}\s*from\s*["'].*["']/,
     `export function success<T>(data: T, message?: string) {
   return { success: true as const, data, message };
 }
@@ -150,9 +150,9 @@ for (const file of rateLimitFiles) {
   const original = content;
 
   // Fix window type
-  content = content.replace(/window:\s*30\s*\*\s*1000/g, 'window: "30s"');
-  content = content.replace(/window:\s*60\s*\*\s*1000/g, 'window: "60s"');
-  content = content.replace(/window:\s*10\s*\*\s*1000/g, 'window: "10s"');
+  content = content.replaceAll(/window:\s*30\s*\*\s*1000/g, 'window: "30s"');
+  content = content.replaceAll(/window:\s*60\s*\*\s*1000/g, 'window: "60s"');
+  content = content.replaceAll(/window:\s*10\s*\*\s*1000/g, 'window: "10s"');
 
   if (content !== original) {
     writeFileSync(file, content, "utf8");

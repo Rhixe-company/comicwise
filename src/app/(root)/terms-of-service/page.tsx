@@ -21,10 +21,10 @@ export default function TermsOfServicePage() {
         </CardHeader>
         <CardContent
           className={`
-          prose
-          dark:prose-invert
-          max-w-none
-        `}
+            prose
+            dark:prose-invert
+            max-w-none
+          `}
         >
           <section className="mb-8">
             <h2 className="mb-4 text-2xl font-semibold">Agreement to Terms</h2>
@@ -171,9 +171,9 @@ export default function TermsOfServicePage() {
               <a
                 href="/dmca"
                 className={`
-                text-primary
-                hover:underline
-              `}
+                  text-primary
+                  hover:underline
+                `}
               >
                 DMCA Policy
               </a>{" "}

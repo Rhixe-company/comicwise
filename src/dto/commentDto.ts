@@ -9,12 +9,12 @@ export type CommentDto = typeof comment.$inferSelect;
 export type CreateCommentDto = typeof comment.$inferInsert;
 export type UpdateCommentDto = Partial<CreateCommentDto>;
 
-export type CommentListDto = {
+export interface CommentListDto {
   comments: CommentDto[];
   total: number;
   page: number;
   limit: number;
-};
+}
 
 export type CommentWithUserDto = CommentDto & {
   user?: {

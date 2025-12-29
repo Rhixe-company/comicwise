@@ -19,9 +19,9 @@ export function ThemeToggle() {
         <Button variant="ghost" size="icon" className="h-8 w-8">
           <Sun
             className={`
-            h-4 w-4 scale-100 rotate-0 transition-all
-            dark:scale-0 dark:-rotate-90
-          `}
+              h-4 w-4 scale-100 rotate-0 transition-all
+              dark:scale-0 dark:-rotate-90
+            `}
           />
           <Moon
             className={`

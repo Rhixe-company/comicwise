@@ -73,7 +73,7 @@ export const columns: ColumnDef<Item>[] = [
     accessorKey: "amount",
     header: "Amount",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const amount = Number.parseFloat(row.getValue("amount"));
 
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -155,9 +155,9 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
                     <TableHead
                       key={header.id}
                       className={`
-                      h-14 text-muted-foreground
-                      first:pl-4
-                    `}
+                        h-14 text-muted-foreground
+                        first:pl-4
+                      `}
                     >
                       {header.isPlaceholder
                         ? null
@@ -192,10 +192,10 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
       <div
         className={`
-        flex items-center justify-between gap-3 px-6 py-4
-        max-sm:flex-col
-        md:max-lg:flex-col
-      `}
+          flex items-center justify-between gap-3 px-6 py-4
+          max-sm:flex-col
+          md:max-lg:flex-col
+        `}
       >
         <p className="text-sm whitespace-nowrap text-muted-foreground" aria-live="polite">
           Showing{" "}

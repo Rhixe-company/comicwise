@@ -17,7 +17,7 @@
  * - Error handling and recovery
  */
 
-import appConfig from "@/appConfig";
+import appConfig from "appConfig";
 import { db } from "@/database";
 import {
   artist,

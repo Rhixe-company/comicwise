@@ -12,7 +12,7 @@ export const insertUserSchema = z.object({
   image: z.string().url("Must be a valid URL").optional().nullable(),
   password: z.string().min(8, "Password must be at least 8 characters").optional(),
   role: z.enum(["user", "admin", "moderator"]).default("user"),
-});
+}).strict();
 
 export const updateUserSchema = insertUserSchema.partial();
 

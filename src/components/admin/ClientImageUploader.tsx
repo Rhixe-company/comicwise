@@ -47,6 +47,19 @@ interface ClientImageUploaderProps {
  *   maxSize={10}
  * />
  * ```
+ * @param root0
+ * @param root0.value
+ * @param root0.onChange
+ * @param root0.onRemove
+ * @param root0.onUploadComplete
+ * @param root0.disabled
+ * @param root0.className
+ * @param root0.label
+ * @param root0.accept
+ * @param root0.maxSize
+ * @param root0.type
+ * @param root0.uploadType
+ * @param root0.targetInputId
  */
 export default function ClientImageUploader({
   value,
@@ -107,7 +120,10 @@ export default function ClientImageUploader({
   return (
     <div className={cn("space-y-4", className)}>
       {value ? (
-        <div className="relative aspect-video w-full max-w-md overflow-hidden rounded-lg border bg-muted">
+        <div className={`
+          relative aspect-video w-full max-w-md overflow-hidden rounded-lg
+          border bg-muted
+        `}>
           <Image
             src={value}
             alt="Uploaded image"
@@ -193,7 +209,9 @@ export default function ClientImageUploader({
       />
 
       {error && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
+        <div className={`
+          rounded-md bg-destructive/15 p-3 text-sm text-destructive
+        `}>{error}</div>
       )}
     </div>
   );

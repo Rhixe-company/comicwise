@@ -36,7 +36,7 @@ export function ComicsListContent({ initialComics, hasNextPage, nextCursor }: Co
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
   const [currentPage, setCurrentPage] = useState(1);
   const [canGoNext] = useState(hasNextPage);
-  const [canGoPrev, setCanGoPrev] = useState(false);
+  const [canGoPrevious, setCanGoPrevious] = useState(false);
 
   const handleDelete = useCallback(
     async (id: number) => {
@@ -113,12 +113,12 @@ export function ComicsListContent({ initialComics, hasNextPage, nextCursor }: Co
     if (canGoNext && nextCursor) {
       router.push(`/admin/comics?cursor=${nextCursor}`);
       setCurrentPage(currentPage + 1);
-      setCanGoPrev(true);
+      setCanGoPrevious(true);
     }
   };
 
-  const handlePrevPage = () => {
-    if (canGoPrev) {
+  const handlePreviousPage = () => {
+    if (canGoPrevious) {
       router.back();
       setCurrentPage(currentPage - 1);
     }
@@ -167,9 +167,9 @@ export function ComicsListContent({ initialComics, hasNextPage, nextCursor }: Co
         onBulkDelete={handleBulkDelete}
         currentPage={currentPage}
         hasNextPage={canGoNext}
-        hasPrevPage={canGoPrev}
+        hasPrevPage={canGoPrevious}
         onNextPage={handleNextPage}
-        onPrevPage={handlePrevPage}
+        onPrevPage={handlePreviousPage}
         isLoading={isLoading}
       />
     </div>

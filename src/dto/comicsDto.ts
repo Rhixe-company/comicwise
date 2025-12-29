@@ -9,12 +9,12 @@ export type ComicDto = typeof comic.$inferSelect;
 export type CreateComicDto = typeof comic.$inferInsert;
 export type UpdateComicDto = Partial<CreateComicDto>;
 
-export type ComicListDto = {
+export interface ComicListDto {
   comics: ComicDto[];
   total: number;
   page: number;
   limit: number;
-};
+}
 
 export type ComicWithRelationsDto = ComicDto & {
   author?: {
@@ -41,7 +41,7 @@ export type ComicWithRelationsDto = ComicDto & {
   }>;
 };
 
-export type ComicFiltersDto = {
+export interface ComicFiltersDto {
   search?: string;
   status?: string;
   genreIds?: number[];
@@ -53,6 +53,6 @@ export type ComicFiltersDto = {
   sortOrder?: "asc" | "desc";
   page?: number;
   limit?: number;
-};
+}
 
 export { createComic } from "@/lib/actions/comics";

@@ -27,35 +27,31 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
     return {
       raw: rawClient as Record<string, unknown>,
       async get(key: string) {
-        const getFn = (rawClient as Record<string, unknown>).get as
+        const getFunction = (rawClient as Record<string, unknown>).get as
           | ((k: string) => Promise<string | null>)
           | undefined;
-        if (!getFn) return null;
-        const result = await getFn(key);
-        return (result as string | null) ?? null;
+        if (!getFunction) return null;
+        const result = await getFunction(key);
+        return (result) ?? null;
       },
       async set(key: string, value: string, ttlSeconds?: number) {
-        const setFn = (rawClient as Record<string, unknown>).set as
-          | ((k: string, v: string, opts?: unknown) => Promise<void>)
+        const setFunction = (rawClient as Record<string, unknown>).set as
+          | ((k: string, v: string, options?: unknown) => Promise<void>)
           | undefined;
-        if (!setFn) return;
-        if (ttlSeconds) {
-          await setFn(key, value, { ex: ttlSeconds });
-        } else {
-          await setFn(key, value);
-        }
+        if (!setFunction) return;
+        await (ttlSeconds ? setFunction(key, value, { ex: ttlSeconds }) : setFunction(key, value));
       },
       async del(key: string) {
-        const delFn = (rawClient as Record<string, unknown>).del as
+        const delFunction = (rawClient as Record<string, unknown>).del as
           | ((k: string) => Promise<number>)
           | undefined;
-        if (delFn) await delFn(key);
+        if (delFunction) await delFunction(key);
       },
       async clear() {
         const client = rawClient as Record<string, unknown>;
-        const flushdbFn = client.flushdb as (() => Promise<void>) | undefined;
-        if (typeof flushdbFn === "function") {
-          await flushdbFn();
+        const flushdbFunction = client.flushdb as (() => Promise<void>) | undefined;
+        if (typeof flushdbFunction === "function") {
+          await flushdbFunction();
         }
       },
     };
@@ -73,11 +69,7 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
         return await client.get(key);
       },
       async set(key: string, value: string, ttlSeconds?: number) {
-        if (ttlSeconds) {
-          await client.set(key, value, "EX", ttlSeconds);
-        } else {
-          await client.set(key, value);
-        }
+        await (ttlSeconds ? client.set(key, value, "EX", ttlSeconds) : client.set(key, value));
       },
       async del(key: string) {
         await client.del(key);
@@ -249,6 +241,7 @@ export class RedisCache {
 
   /**
    * Get value from cache
+   * @param key
    */
   async get<T>(key: string): Promise<T | null> {
     try {
@@ -265,17 +258,16 @@ export class RedisCache {
 
   /**
    * Set value in cache with optional TTL
+   * @param key
+   * @param value
+   * @param options
    */
   async set<T>(key: string, value: T, options?: CacheOptions): Promise<boolean> {
     try {
       const serialized = JSON.stringify(value);
       const ttl = options?.ttl || CACHE_TTL.MEDIUM;
 
-      if (ttl > 0) {
-        await this.redis.setex(key, ttl, serialized);
-      } else {
-        await this.redis.set(key, serialized);
-      }
+      await (ttl > 0 ? this.redis.setex(key, ttl, serialized) : this.redis.set(key, serialized));
 
       // Store tags for invalidation
       if (options?.tags && options.tags.length > 0) {
@@ -291,6 +283,7 @@ export class RedisCache {
 
   /**
    * Delete value from cache
+   * @param key
    */
   async delete(key: string): Promise<boolean> {
     try {
@@ -304,6 +297,7 @@ export class RedisCache {
 
   /**
    * Delete multiple keys
+   * @param keys
    */
   async deleteMany(keys: string[]): Promise<boolean> {
     try {
@@ -320,6 +314,7 @@ export class RedisCache {
 
   /**
    * Check if key exists
+   * @param key
    */
   async exists(key: string): Promise<boolean> {
     try {
@@ -333,6 +328,7 @@ export class RedisCache {
 
   /**
    * Get TTL for a key (in seconds)
+   * @param key
    */
   async getTTL(key: string): Promise<number> {
     try {
@@ -345,6 +341,8 @@ export class RedisCache {
 
   /**
    * Set TTL for a key
+   * @param key
+   * @param ttl
    */
   async setTTL(key: string, ttl: number): Promise<boolean> {
     try {
@@ -358,6 +356,7 @@ export class RedisCache {
 
   /**
    * Delete all keys matching a pattern
+   * @param pattern
    */
   async deletePattern(pattern: string): Promise<number> {
     try {
@@ -375,6 +374,7 @@ export class RedisCache {
 
   /**
    * Get all keys matching a pattern
+   * @param pattern
    */
   async getKeys(pattern: string): Promise<string[]> {
     try {
@@ -387,6 +387,8 @@ export class RedisCache {
 
   /**
    * Increment a counter
+   * @param key
+   * @param amount
    */
   async increment(key: string, amount = 1): Promise<number> {
     try {
@@ -399,6 +401,8 @@ export class RedisCache {
 
   /**
    * Decrement a counter
+   * @param key
+   * @param amount
    */
   async decrement(key: string, amount = 1): Promise<number> {
     try {
@@ -411,6 +415,8 @@ export class RedisCache {
 
   /**
    * Add multiple items to a set
+   * @param key
+   * @param {...any} members
    */
   async addToSet(key: string, ...members: string[]): Promise<boolean> {
     try {
@@ -424,6 +430,7 @@ export class RedisCache {
 
   /**
    * Get all members of a set
+   * @param key
    */
   async getSet(key: string): Promise<string[]> {
     try {
@@ -436,6 +443,8 @@ export class RedisCache {
 
   /**
    * Remove member from set
+   * @param key
+   * @param member
    */
   async removeFromSet(key: string, member: string): Promise<boolean> {
     try {
@@ -449,6 +458,8 @@ export class RedisCache {
 
   /**
    * Check if member exists in set
+   * @param key
+   * @param member
    */
   async isInSet(key: string, member: string): Promise<boolean> {
     try {
@@ -462,6 +473,9 @@ export class RedisCache {
 
   /**
    * Add item to sorted set with score
+   * @param key
+   * @param score
+   * @param member
    */
   async addToSortedSet(key: string, score: number, member: string): Promise<boolean> {
     try {
@@ -475,6 +489,8 @@ export class RedisCache {
 
   /**
    * Get top N items from sorted set (highest scores first)
+   * @param key
+   * @param count
    */
   async getTopFromSortedSet(
     key: string,
@@ -486,8 +502,8 @@ export class RedisCache {
 
       for (let i = 0; i < results.length; i += 2) {
         items.push({
-          member: results[i]!,
-          score: parseFloat(results[i + 1]!),
+          member: results[i],
+          score: Number.parseFloat(results[i + 1]),
         });
       }
 
@@ -500,6 +516,9 @@ export class RedisCache {
 
   /**
    * Increment score in sorted set
+   * @param key
+   * @param member
+   * @param increment
    */
   async incrementScoreInSortedSet(key: string, member: string, increment: number): Promise<number> {
     try {
@@ -514,8 +533,12 @@ export class RedisCache {
 
   /**
    * Cache-aside pattern: get from cache or fetch from source
+   * @param key
+   * @param fetchFn
+   * @param fetchFunction
+   * @param options
    */
-  async getOrSet<T>(key: string, fetchFn: () => Promise<T>, options?: CacheOptions): Promise<T> {
+  async getOrSet<T>(key: string, fetchFunction: () => Promise<T>, options?: CacheOptions): Promise<T> {
     // Try to get from cache first
     const cached = await this.get<T>(key);
     if (cached !== null) {
@@ -523,7 +546,7 @@ export class RedisCache {
     }
 
     // Fetch from source
-    const data = await fetchFn();
+    const data = await fetchFunction();
 
     // Store in cache (don't wait)
     this.set(key, data, options).catch((error) => {
@@ -535,6 +558,8 @@ export class RedisCache {
 
   /**
    * Add tags to a key for grouped invalidation
+   * @param key
+   * @param tags
    */
   private async addTagsToKey(key: string, tags: string[]): Promise<void> {
     try {
@@ -553,6 +578,7 @@ export class RedisCache {
 
   /**
    * Invalidate all keys with a specific tag
+   * @param tag
    */
   async invalidateByTag(tag: string): Promise<number> {
     try {
@@ -578,11 +604,11 @@ export class RedisCache {
 
   async flushAll(): Promise<boolean> {
     try {
-      const flushFn = (this.redis as unknown as Record<string, unknown>).flushdatabase as
+      const flushFunction = (this.redis as unknown as Record<string, unknown>).flushdatabase as
         | (() => Promise<void>)
         | undefined;
-      if (flushFn) {
-        await flushFn();
+      if (flushFunction) {
+        await flushFunction();
       }
       console.warn("⚠️  Cache flushed");
       return true;
@@ -603,21 +629,21 @@ export class RedisCache {
     hitRate: number;
   }> {
     try {
-      const infoFn = (this.redis as unknown as Record<string, unknown>).info as
+      const infoFunction = (this.redis as unknown as Record<string, unknown>).info as
         | ((type: string) => Promise<string>)
         | undefined;
-      const info = infoFn ? await infoFn("stats") : "";
-      const memory = infoFn ? await infoFn("memory") : "";
-      const databasesizeFn = (this.redis as unknown as Record<string, unknown>).databasesize as
+      const info = infoFunction ? await infoFunction("stats") : "";
+      const memory = infoFunction ? await infoFunction("memory") : "";
+      const databasesizeFunction = (this.redis as unknown as Record<string, unknown>).databasesize as
         | (() => Promise<number>)
         | undefined;
-      const databasesize = databasesizeFn ? await databasesizeFn() : 0;
+      const databasesize = databasesizeFunction ? await databasesizeFunction() : 0;
 
       const stats = {
         keys: databasesize,
-        memory: memory.match(/used_memory_human:([^\r\n]+)/)?.[1] || "N/A",
-        hits: parseInt(info.match(/keyspace_hits:(\d+)/)?.[1] || "0"),
-        misses: parseInt(info.match(/keyspace_misses:(\d+)/)?.[1] || "0"),
+        memory: memory.match(/used_memory_human:([^\n\r]+)/)?.[1] || "N/A",
+        hits: Number.parseInt(info.match(/keyspace_hits:(\d+)/)?.[1] || "0"),
+        misses: Number.parseInt(info.match(/keyspace_misses:(\d+)/)?.[1] || "0"),
         hitRate: 0,
       };
 

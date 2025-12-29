@@ -59,7 +59,7 @@ export interface DataSourceConfig {
   /** Optional Zod schema for validation */
   schema?: z.ZodType<unknown>;
   /** Transformation function before seeding */
-  transform?: (data: unknown) => unknown;
+  transform?(data: unknown): unknown;
   /** Unique identifier field */
   uniqueField?: string;
 }

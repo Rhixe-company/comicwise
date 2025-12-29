@@ -17,7 +17,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
   try {
     const { id } = await params;
 
-    const validation = chapterIdSchema.safeParse({ id: parseInt(id) });
+    const validation = chapterIdSchema.safeParse({ id: Number.parseInt(id) });
 
     if (!validation.success) {
       return NextResponse.json(
@@ -63,7 +63,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const { id } = await params;
     const body = await request.json();
 
-    const idValidation = chapterIdSchema.safeParse({ id: parseInt(id) });
+    const idValidation = chapterIdSchema.safeParse({ id: Number.parseInt(id) });
 
     if (!idValidation.success) {
       return NextResponse.json(
@@ -125,7 +125,7 @@ export async function DELETE(
 
     const { id } = await params;
 
-    const validation = chapterIdSchema.safeParse({ id: parseInt(id) });
+    const validation = chapterIdSchema.safeParse({ id: Number.parseInt(id) });
 
     if (!validation.success) {
       return NextResponse.json(

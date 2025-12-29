@@ -9,38 +9,38 @@ export type UserDto = typeof user.$inferSelect;
 export type CreateUserDto = typeof user.$inferInsert;
 export type UpdateUserDto = Partial<CreateUserDto>;
 
-export type SignInDto = {
+export interface SignInDto {
   email: string;
   password: string;
-};
+}
 
-export type SignUpDto = {
+export interface SignUpDto {
   email: string;
   password: string;
   name?: string;
-};
+}
 
-export type VerifyEmailDto = {
+export interface VerifyEmailDto {
   token: string;
-};
+}
 
-export type ResetPasswordDto = {
+export interface ResetPasswordDto {
   token: string;
   password: string;
-};
+}
 
-export type RequestPasswordResetDto = {
+export interface RequestPasswordResetDto {
   email: string;
-};
+}
 
-export type AuthResponseDto = {
+export interface AuthResponseDto {
   success: boolean;
   message?: string;
   user?: UserDto;
   error?: string;
-};
+}
 
-export type SessionDto = {
+export interface SessionDto {
   user: UserDto;
   expires: string;
-};
+}

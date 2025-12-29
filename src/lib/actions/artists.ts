@@ -37,11 +37,11 @@ export async function createArtist(formData: FormData): Promise<ActionResponse<{
 
     revalidatePath("/admin/artists");
     return { success: true, data: { id: artist.id } };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Create artist error:", err);
+    console.error("Create artist error:", error_);
     return error("Failed to create artist");
   }
 }
@@ -59,11 +59,11 @@ export async function updateArtist(artistId: number, formData: FormData): Promis
     revalidatePath(`/admin/artists/${artistId}`);
 
     return { success: true };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Update artist error:", err);
+    console.error("Update artist error:", error_);
     return error("Failed to update artist");
   }
 }
@@ -74,8 +74,8 @@ export async function deleteArtist(artistId: number): Promise<ActionResponse> {
     revalidatePath("/admin/artists");
 
     return { success: true };
-  } catch (err) {
-    console.error("Delete artist error:", err);
+  } catch (error_) {
+    console.error("Delete artist error:", error_);
     return error("Failed to delete artist");
   }
 }

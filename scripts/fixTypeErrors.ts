@@ -20,19 +20,19 @@ interface Fix {
 const fixes: Fix[] = [
   // Fix DTO imports - should use index file
   {
-    pattern: /from ['"]\/dto\/(\w+)Dto['"]/g,
+    pattern: /from ["']\/dto\/(\w+)Dto["']/g,
     replacement: 'from "/dto"',
     description: "DTO imports should use index",
   },
   // Fix lib/validations imports
   {
-    pattern: /from ['"]\lib\/validations['"]/g,
+    pattern: /from ["']lib\/validations["']/g,
     replacement: 'from "@/lib/validations"',
     description: "Validations import",
   },
   // Fix database queries/mutations imports
   {
-    pattern: /from ['"]\database\/(queries|mutations)['"]/g,
+    pattern: /from ["']\database\/(queries|mutations)["']/g,
     replacement: 'from "@/database/$1"',
     description: "Database queries/mutations",
   },

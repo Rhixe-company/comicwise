@@ -49,6 +49,8 @@ export {
  *
  * param file
  * param options
+ * @param file
+ * @param options
  */
 export async function uploadImage(
   file: File | Buffer,
@@ -61,6 +63,7 @@ export async function uploadImage(
 /**
  *
  * param publicId
+ * @param publicId
  */
 export async function deleteImage(publicId: string): Promise<boolean> {
   const provider = await getUploadProvider();
@@ -71,6 +74,8 @@ export async function deleteImage(publicId: string): Promise<boolean> {
  *
  * param publicId
  * param transformation
+ * @param publicId
+ * @param transformation
  */
 export async function getImageUrl(
   publicId: string,

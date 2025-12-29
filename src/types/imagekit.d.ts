@@ -55,7 +55,7 @@ declare module "imagekit" {
     getAuthenticationParameters(): { token: string; expire: number; signature: string } {
       throw new Error("Method not implemented.");
     }
-    url(arg0: { path: string; transformation: { [key: string]: string | number }[] }): string {
+    url(argument0: { path: string; transformation: { [key: string]: string | number }[] }): string {
       throw new Error("Method not implemented.");
     }
     getFileMetadata(fileId: string) {

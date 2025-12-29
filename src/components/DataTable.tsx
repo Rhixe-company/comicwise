@@ -190,9 +190,9 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         {row.original.status === "Done" ? (
           <IconCircleCheckFilled
             className={`
-            fill-green-500
-            dark:fill-green-400
-          `}
+              fill-green-500
+              dark:fill-green-400
+            `}
           />
         ) : (
           <IconLoader />
@@ -360,6 +360,8 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
  *
  * param root0
  * param root0.data
+ * @param root0
+ * @param root0.data
  */
 export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[] }) {
   const [data, setData] = React.useState(() => initialData);
@@ -420,9 +422,9 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
     <Tabs defaultValue="outline" className="w-full flex-col justify-start gap-6">
       <div
         className={`
-        flex items-center justify-between px-4
-        lg:px-6
-      `}
+          flex items-center justify-between px-4
+          lg:px-6
+        `}
       >
         <Label htmlFor="view-selector" className="sr-only">
           View
@@ -430,9 +432,9 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
         <Select defaultValue="outline">
           <SelectTrigger
             className={`
-            flex w-fit
-            4xl/main:hidden
-          `}
+              4xl/main:hidden
+              flex w-fit
+            `}
             size="sm"
             id="view-selector"
           >
@@ -447,11 +449,12 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
         </Select>
         <TabsList
           className={`
-          hidden
-          **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full
-          **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1
-          4xl/main:flex
-        `}
+            4xl/main:flex
+            hidden
+            **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full
+            **:data-[slot=badge]:bg-muted-foreground/30
+            **:data-[slot=badge]:px-1
+          `}
         >
           <TabsTrigger value="outline">Outline</TabsTrigger>
           <TabsTrigger value="past-performance">
@@ -469,9 +472,9 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                 <IconLayoutColumns />
                 <span
                   className={`
-                  hidden
-                  lg:inline
-                `}
+                    hidden
+                    lg:inline
+                  `}
                 >
                   Customize Columns
                 </span>
@@ -501,9 +504,9 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
             <IconPlus />
             <span
               className={`
-              hidden
-              lg:inline
-            `}
+                hidden
+                lg:inline
+              `}
             >
               Add Section
             </span>
@@ -552,9 +555,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                   <TableRow>
                     <TableCell
                       colSpan={columns.length}
-                      className={`
-                      h-24 text-center
-                    `}
+                      className={`h-24 text-center`}
                     >
                       No results.
                     </TableCell>
@@ -567,24 +568,24 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
         <div className="flex items-center justify-between px-4">
           <div
             className={`
-            hidden flex-1 text-sm text-muted-foreground
-            lg:flex
-          `}
+              hidden flex-1 text-sm text-muted-foreground
+              lg:flex
+            `}
           >
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
           <div
             className={`
-            flex w-full items-center gap-8
-            lg:w-fit
-          `}
+              flex w-full items-center gap-8
+              lg:w-fit
+            `}
           >
             <div
               className={`
-              hidden items-center gap-2
-              lg:flex
-            `}
+                hidden items-center gap-2
+                lg:flex
+              `}
             >
               <Label htmlFor="rows-per-page" className="text-sm font-medium">
                 Rows per page
@@ -609,16 +610,16 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
             </div>
             <div
               className={`
-              flex w-fit items-center justify-center text-sm font-medium
-            `}
+                flex w-fit items-center justify-center text-sm font-medium
+              `}
             >
               Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
             </div>
             <div
               className={`
-              ml-auto flex items-center gap-2
-              lg:ml-0
-            `}
+                ml-auto flex items-center gap-2
+                lg:ml-0
+              `}
             >
               <Button
                 variant="outline"
@@ -672,40 +673,40 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
       <TabsContent
         value="past-performance"
         className={`
-        flex flex-col px-4
-        lg:px-6
-      `}
+          flex flex-col px-4
+          lg:px-6
+        `}
       >
         <div
           className={`
-          aspect-video w-full flex-1 rounded-lg border border-dashed
-        `}
+            aspect-video w-full flex-1 rounded-lg border border-dashed
+          `}
         />
       </TabsContent>
       <TabsContent
         value="key-personnel"
         className={`
-        flex flex-col px-4
-        lg:px-6
-      `}
+          flex flex-col px-4
+          lg:px-6
+        `}
       >
         <div
           className={`
-          aspect-video w-full flex-1 rounded-lg border border-dashed
-        `}
+            aspect-video w-full flex-1 rounded-lg border border-dashed
+          `}
         />
       </TabsContent>
       <TabsContent
         value="focus-documents"
         className={`
-        flex flex-col px-4
-        lg:px-6
-      `}
+          flex flex-col px-4
+          lg:px-6
+        `}
       >
         <div
           className={`
-          aspect-video w-full flex-1 rounded-lg border border-dashed
-        `}
+            aspect-video w-full flex-1 rounded-lg border border-dashed
+          `}
         />
       </TabsContent>
     </Tabs>
@@ -793,9 +794,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                 <div className="flex gap-2 leading-none font-medium">
                   Trending up by 5.2% this month{" "}
                   <IconTrendingUp
-                    className={`
-                    size-4
-                  `}
+                    className={`size-4`}
                   />
                 </div>
                 <div className="text-muted-foreground">

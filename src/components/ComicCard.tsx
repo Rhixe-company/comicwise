@@ -16,9 +16,9 @@ export function ComicCard({ comic, authorName, typeName }: ComicCardProps) {
     <Link href={`/comics/${comic.id}`}>
       <Card
         className={`
-        group overflow-hidden transition-all
-        hover:shadow-lg
-      `}
+          group overflow-hidden transition-all
+          hover:shadow-lg
+        `}
       >
         <div className="relative aspect-2/3 overflow-hidden">
           <Image
@@ -46,8 +46,8 @@ export function ComicCard({ comic, authorName, typeName }: ComicCardProps) {
 
         <CardFooter
           className={`
-          flex items-center gap-4 p-4 pt-0 text-sm text-muted-foreground
-        `}
+            flex items-center gap-4 p-4 pt-0 text-sm text-muted-foreground
+          `}
         >
           {comic.rating && (
             <div className="flex items-center gap-1">

@@ -22,10 +22,10 @@ export default function DMCAPage() {
         </CardHeader>
         <CardContent
           className={`
-          prose
-          dark:prose-invert
-          max-w-none
-        `}
+            prose
+            dark:prose-invert
+            max-w-none
+          `}
         >
           <section className="mb-8">
             <h2 className="mb-4 text-2xl font-semibold">Copyright Policy</h2>

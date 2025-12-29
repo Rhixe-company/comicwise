@@ -19,8 +19,8 @@ export default function AdminError({ error, reset }: ErrorBoundaryProps) {
   return (
     <div
       className={`
-      flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4
-    `}
+        flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4
+      `}
     >
       <div className="mx-auto max-w-lg text-center">
         <div className="mb-6 flex justify-center">
@@ -36,9 +36,9 @@ export default function AdminError({ error, reset }: ErrorBoundaryProps) {
         {error.digest && (
           <div
             className={`
-            mb-6 rounded-md bg-muted px-3 py-2 font-mono text-sm
-            text-muted-foreground
-          `}
+              mb-6 rounded-md bg-muted px-3 py-2 font-mono text-sm
+              text-muted-foreground
+            `}
           >
             Error ID: {error.digest}
           </div>
@@ -46,9 +46,9 @@ export default function AdminError({ error, reset }: ErrorBoundaryProps) {
 
         <div
           className={`
-          flex flex-col gap-3
-          sm:flex-row sm:justify-center
-        `}
+            flex flex-col gap-3
+            sm:flex-row sm:justify-center
+          `}
         >
           <Button onClick={reset} size="lg">
             Try Again
@@ -65,9 +65,9 @@ export default function AdminError({ error, reset }: ErrorBoundaryProps) {
         {isDevelopment && (
           <details
             className={`
-            mt-8 rounded-lg border border-destructive/50 bg-destructive/10 p-4
-            text-left
-          `}
+              mt-8 rounded-lg border border-destructive/50 bg-destructive/10 p-4
+              text-left
+            `}
           >
             <summary className="cursor-pointer font-semibold text-destructive">
               Debug Information

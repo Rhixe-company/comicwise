@@ -9,12 +9,12 @@ export type AuthorDto = typeof author.$inferSelect;
 export type CreateAuthorDto = typeof author.$inferInsert;
 export type UpdateAuthorDto = Partial<CreateAuthorDto>;
 
-export type AuthorListDto = {
+export interface AuthorListDto {
   authors: AuthorDto[];
   total: number;
   page: number;
   limit: number;
-};
+}
 
 export type AuthorWithComicsDto = AuthorDto & {
   comics?: Array<{

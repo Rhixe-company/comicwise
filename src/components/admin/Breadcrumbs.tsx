@@ -25,9 +25,9 @@ export function Breadcrumbs() {
       <Link
         href="/admin"
         className={`
-        flex items-center transition-colors
-        hover:text-foreground
-      `}
+          flex items-center transition-colors
+          hover:text-foreground
+        `}
       >
         <Home className="h-4 w-4" />
       </Link>
@@ -42,9 +42,9 @@ export function Breadcrumbs() {
               <Link
                 href={crumb.href}
                 className={`
-                transition-colors
-                hover:text-foreground
-              `}
+                  transition-colors
+                  hover:text-foreground
+                `}
               >
                 {crumb.label}
               </Link>

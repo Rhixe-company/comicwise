@@ -16,7 +16,7 @@ import type { NextRequest } from "next/server";
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   return getGenericEntity(id, {
-    getFn: async (idVal) => getTypeById(Number(idVal)),
+    getFn: async (idValue) => getTypeById(Number(idValue)),
     validateFn: zodToValidationResult(typeIdSchema),
     entityName: "type",
   });
@@ -27,8 +27,8 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   const body = await request.json();
 
   return updateGenericEntity(id, body, {
-    updateFn: async (idVal, data) =>
-      updateType(Number(idVal), data as { name?: string; description?: string | null }),
+    updateFn: async (idValue, data) =>
+      updateType(Number(idValue), data as { name?: string; description?: string | null }),
     idValidateFn: zodToValidationResult(typeIdSchema),
     dataValidateFn: zodToValidationResult(updateTypeSchema),
     entityName: "type",

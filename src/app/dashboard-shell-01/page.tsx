@@ -49,9 +49,8 @@ import {
 } from "@/components/ui/sidebar";
 
 import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
-import TransactionDatatable, {
-  type Item,
-} from "@/components/shadcn-studio/blocks/datatable-transaction";
+import TransactionDatatable from "@/components/shadcn-studio/blocks/datatable-transaction";
+import type {Item} from "@/components/shadcn-studio/blocks/datatable-transaction";
 import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
 import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
 import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
@@ -368,7 +367,7 @@ const DashboardShell = () => {
                         <span>Dashboard</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="bg-primary/10 rounded-full">5</SidebarMenuBadge>
+                    <SidebarMenuBadge className="rounded-full bg-primary/10">5</SidebarMenuBadge>
                   </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
@@ -408,7 +407,7 @@ const DashboardShell = () => {
                         <span>Hashtag Performance</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="bg-primary/10 rounded-full">3</SidebarMenuBadge>
+                    <SidebarMenuBadge className="rounded-full bg-primary/10">3</SidebarMenuBadge>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
@@ -495,12 +494,22 @@ const DashboardShell = () => {
           </SidebarContent>
         </Sidebar>
         <div className="flex flex-1 flex-col">
-          <header className="bg-card sticky top-0 z-50 border-b">
-            <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-2 sm:px-6">
+          <header className="sticky top-0 z-50 border-b bg-card">
+            <div className={`
+              mx-auto flex max-w-7xl items-center justify-between gap-6 px-4
+              py-2
+              sm:px-6
+            `}>
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="[&_svg]:!size-5" />
-                <Separator orientation="vertical" className="hidden !h-4 sm:block" />
-                <Breadcrumb className="hidden sm:block">
+                <Separator orientation="vertical" className={`
+                  hidden !h-4
+                  sm:block
+                `} />
+                <Breadcrumb className={`
+                  hidden
+                  sm:block
+                `}>
                   <BreadcrumbList>
                     <BreadcrumbItem>
                       <BreadcrumbLink href="">Home</BreadcrumbLink>
@@ -537,10 +546,20 @@ const DashboardShell = () => {
               </div>
             </div>
           </header>
-          <main className="mx-auto size-full max-w-7xl flex-1 px-4 py-6 sm:px-6">
-            <div className="grid grid-cols-2 gap-6 lg:grid-cols-3">
+          <main className={`
+            mx-auto size-full max-w-7xl flex-1 px-4 py-6
+            sm:px-6
+          `}>
+            <div className={`
+              grid grid-cols-2 gap-6
+              lg:grid-cols-3
+            `}>
               {/* Statistics Cards */}
-              <div className="col-span-full grid gap-6 sm:grid-cols-3 md:max-lg:grid-cols-1">
+              <div className={`
+                col-span-full grid gap-6
+                sm:grid-cols-3
+                md:max-lg:grid-cols-1
+              `}>
                 {StatisticsCardData.map((card, index) => (
                   <StatisticsCard
                     key={index}
@@ -552,9 +571,16 @@ const DashboardShell = () => {
                 ))}
               </div>
 
-              <div className="grid gap-6 max-xl:col-span-full lg:max-xl:grid-cols-2">
+              <div className={`
+                grid gap-6
+                max-xl:col-span-full
+                lg:max-xl:grid-cols-2
+              `}>
                 {/* Product Insights Card */}
-                <ProductInsightsCard className="justify-between gap-3 [&>[data-slot=card-content]]:space-y-5" />
+                <ProductInsightsCard className={`
+                  justify-between gap-3
+                  [&>[data-slot=card-content]]:space-y-5
+                `} />
 
                 {/* Total Earning Card */}
                 <TotalEarningCard
@@ -564,11 +590,19 @@ const DashboardShell = () => {
                   percentage={10}
                   comparisonText="Compare to last year ($84,325)"
                   earningData={earningData}
-                  className="justify-between gap-5 sm:min-w-0 [&>[data-slot=card-content]]:space-y-7"
+                  className={`
+                    justify-between gap-5
+                    sm:min-w-0
+                    [&>[data-slot=card-content]]:space-y-7
+                  `}
                 />
               </div>
 
-              <SalesMetricsCard className="col-span-full xl:col-span-2 [&>[data-slot=card-content]]:space-y-6" />
+              <SalesMetricsCard className={`
+                col-span-full
+                xl:col-span-2
+                [&>[data-slot=card-content]]:space-y-6
+              `} />
 
               <Card className="col-span-full w-full py-0">
                 <TransactionDatatable data={transactionData} />
@@ -576,8 +610,16 @@ const DashboardShell = () => {
             </div>
           </main>
           <footer>
-            <div className="text-muted-foreground mx-auto flex size-full max-w-7xl items-center justify-between gap-3 px-4 py-3 max-sm:flex-col sm:gap-6 sm:px-6">
-              <p className="text-sm text-balance max-sm:text-center">
+            <div className={`
+              mx-auto flex size-full max-w-7xl items-center justify-between
+              gap-3 px-4 py-3 text-muted-foreground
+              max-sm:flex-col
+              sm:gap-6 sm:px-6
+            `}>
+              <p className={`
+                text-sm text-balance
+                max-sm:text-center
+              `}>
                 {`©${new Date().getFullYear()}`}{" "}
                 <a href="" className="text-primary">
                   shadcn/studio

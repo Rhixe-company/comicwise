@@ -54,6 +54,7 @@ export class ImageService {
    * Generate a hash for the image URL to use as filename
    * Ensures unique filenames regardless of source URL
    * param url
+   * @param url
    */
   private generateHash(url: string): string {
     return crypto.createHash("md5").update(url).digest("hex");
@@ -63,6 +64,7 @@ export class ImageService {
    * Extract file extension from URL
    * Defaults to .webp if no extension found
    * param url
+   * @param url
    */
   private getExtension(url: string): string {
     try {
@@ -82,6 +84,9 @@ export class ImageService {
    * param subDirectory - Subdirectory in storage (e.g., "avatars", "comics/123")
    * param retries - Number of retry attempts (default: 2)
    * returns ImageDownloadResult with success status and URL/error details
+   * @param url
+   * @param subDirectory
+   * @param retries
    */
   async downloadImage(
     url: string,
@@ -199,6 +204,8 @@ export class ImageService {
    * Silently falls back without logging to reduce noise
    * param url
    * param errorMessage
+   * @param url
+   * @param errorMessage
    */
   private createPlaceholderResult(url: string, errorMessage?: string): ImageDownloadResult {
     const placeholderUrl = "/placeholder-comic.jpg";
@@ -206,7 +213,7 @@ export class ImageService {
 
     // Only log if it's not a common error
     if (errorMessage && !errorMessage.includes("404") && !errorMessage.includes("403")) {
-      console.warn(`Image fallback for ${url.substring(0, 60)}...: ${errorMessage}`);
+      console.warn(`Image fallback for ${url.slice(0, 60)}...: ${errorMessage}`);
     }
 
     return {
@@ -224,6 +231,9 @@ export class ImageService {
    * param subDirectory - Subdirectory in storage
    * param concurrency - Maximum parallel downloads (default: 5)
    * returns Array of download results
+   * @param urls
+   * @param subDirectory
+   * @param concurrency
    */
   async downloadImageBatch(
     urls: string[],
@@ -251,6 +261,8 @@ export class ImageService {
    * param url - Image URL or local path
    * param subDirectory - Where to store if downloading
    * returns Public URL (local or remote) or null if processing failed
+   * @param url
+   * @param subDirectory
    */
   async processImageUrl(
     url: string | null | undefined,

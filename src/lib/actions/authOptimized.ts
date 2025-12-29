@@ -552,7 +552,7 @@ export async function updatePasswordActionOptimized(
       where: eq(user.id, userId),
     });
 
-    if (!existingUser || !existingUser.password) {
+    if (!existingUser?.password) {
       return { success: false, error: "User not found" };
     }
 

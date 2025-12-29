@@ -6,6 +6,7 @@ import { artist } from "@/database/schema";
 /**
  *
  * param artistId
+ * @param artistId
  */
 export async function getArtistById(artistId: number) {
   return await database.query.artist.findFirst({
@@ -28,6 +29,12 @@ export async function getArtistByName(name: string) {
  * param parameters.sortBy
  * param parameters.sortOrder
  * param parameters.search
+ * @param parameters
+ * @param parameters.limit
+ * @param parameters.offset
+ * @param parameters.sortBy
+ * @param parameters.sortOrder
+ * @param parameters.search
  */
 export async function getArtists(parameters?: {
   limit?: number;
@@ -60,6 +67,8 @@ export async function getArtists(parameters?: {
  *
  * param parameters
  * param parameters.search
+ * @param parameters
+ * @param parameters.search
  */
 export async function getArtistCount(parameters?: { search?: string }) {
   const { search } = parameters || {};
@@ -83,6 +92,12 @@ export async function getArtistCount(parameters?: { search?: string }) {
  * param filters.limit
  * param filters.sortBy
  * param filters.sortOrder
+ * @param filters
+ * @param filters.search
+ * @param filters.page
+ * @param filters.limit
+ * @param filters.sortBy
+ * @param filters.sortOrder
  */
 export async function getAllArtists(filters?: {
   search?: string;

@@ -1,6 +1,7 @@
 "use client";
 
-import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
+import useEmblaCarousel from "embla-carousel-react";
+import type {UseEmblaCarouselType} from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import * as React from "react";
 
@@ -12,18 +13,18 @@ type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
-type CarouselProps = {
+interface CarouselProps {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: "horizontal" | "vertical";
-  setApi?: (api: CarouselApi) => void;
-};
+  setApi?(api: CarouselApi): void;
+}
 
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
   api: ReturnType<typeof useEmblaCarousel>[1];
-  scrollPrev: () => void;
-  scrollNext: () => void;
+  scrollPrev(): void;
+  scrollNext(): void;
   canScrollPrev: boolean;
   canScrollNext: boolean;
 } & CarouselProps;
@@ -56,16 +57,16 @@ function Carousel({
     },
     plugins
   );
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
+  const [canScrollPrevious, setCanScrollPrevious] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
 
   const onSelect = React.useCallback((api: CarouselApi) => {
     if (!api) return;
-    setCanScrollPrev(api.canScrollPrev());
+    setCanScrollPrevious(api.canScrollPrev());
     setCanScrollNext(api.canScrollNext());
   }, []);
 
-  const scrollPrev = React.useCallback(() => {
+  const scrollPrevious = React.useCallback(() => {
     api?.scrollPrev();
   }, [api]);
 
@@ -77,13 +78,13 @@ function Carousel({
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === "ArrowLeft") {
         event.preventDefault();
-        scrollPrev();
+        scrollPrevious();
       } else if (event.key === "ArrowRight") {
         event.preventDefault();
         scrollNext();
       }
     },
-    [scrollPrev, scrollNext]
+    [scrollPrevious, scrollNext]
   );
 
   React.useEffect(() => {
@@ -109,9 +110,9 @@ function Carousel({
         api: api,
         opts,
         orientation: orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
-        scrollPrev,
+        scrollPrev: scrollPrevious,
         scrollNext,
-        canScrollPrev,
+        canScrollPrev: canScrollPrevious,
         canScrollNext,
       }}
     >

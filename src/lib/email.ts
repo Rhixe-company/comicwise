@@ -59,6 +59,11 @@ export interface SendEmailParams {
 
 /**
  * Send email using configured transporter
+ * @param root0
+ * @param root0.to
+ * @param root0.subject
+ * @param root0.html
+ * @param root0.text
  */
 export async function sendEmail({ to, subject, html, text }: SendEmailParams) {
   if (!(appConfig.email?.enabled ?? false)) {
@@ -92,6 +97,9 @@ export async function sendEmail({ to, subject, html, text }: SendEmailParams) {
 
 /**
  * Send welcome email to new users
+ * @param params
+ * @param params.name
+ * @param params.email
  */
 export async function sendWelcomeEmail(params: { name: string; email: string }) {
   const html = await render(WelcomeEmail({ name: params.name, email: params.email }));
@@ -105,6 +113,10 @@ export async function sendWelcomeEmail(params: { name: string; email: string }) 
 
 /**
  * Send email verification link
+ * @param params
+ * @param params.name
+ * @param params.email
+ * @param params.verificationToken
  */
 export async function sendVerificationEmail(params: {
   name: string;
@@ -128,6 +140,11 @@ export async function sendVerificationEmail(params: {
 
 /**
  * Send password reset email
+ * @param params
+ * @param params.name
+ * @param params.email
+ * @param params.resetToken
+ * @param params.ipAddress
  */
 export async function sendPasswordResetEmail(params: {
   name: string;
@@ -152,6 +169,12 @@ export async function sendPasswordResetEmail(params: {
 
 /**
  * Send account updated notification
+ * @param params
+ * @param params.name
+ * @param params.email
+ * @param params.changeType
+ * @param params.changeDetails
+ * @param params.ipAddress
  */
 export async function sendAccountUpdatedEmail(params: {
   name: string;
@@ -179,6 +202,15 @@ export async function sendAccountUpdatedEmail(params: {
 
 /**
  * Send new chapter notification
+ * @param params
+ * @param params.userName
+ * @param params.userEmail
+ * @param params.comicTitle
+ * @param params.comicCoverUrl
+ * @param params.chapterNumber
+ * @param params.chapterTitle
+ * @param params.chapterSlug
+ * @param params.releaseDate
  */
 export async function sendNewChapterEmail(params: {
   userName: string;
@@ -214,6 +246,13 @@ export async function sendNewChapterEmail(params: {
 
 /**
  * Send new chapter notification (simplified)
+ * @param params
+ * @param params.to
+ * @param params.userName
+ * @param params.comicTitle
+ * @param params.chapterTitle
+ * @param params.chapterNumber
+ * @param params.chapterUrl
  */
 export async function sendNewChapterNotification(params: {
   to: string;
@@ -245,6 +284,16 @@ export async function sendNewChapterNotification(params: {
 
 /**
  * Send comment notification
+ * @param params
+ * @param params.userName
+ * @param params.userEmail
+ * @param params.commenterName
+ * @param params.commenterAvatar
+ * @param params.commentText
+ * @param params.comicTitle
+ * @param params.chapterNumber
+ * @param params.commentId
+ * @param params.commentType
  */
 export async function sendCommentNotificationEmail(params: {
   userName: string;
@@ -299,6 +348,8 @@ export async function sendCommentNotificationEmail(params: {
 
 /**
  * Send email to multiple recipients (for notifications)
+ * @param recipients
+ * @param emailGenerator
  */
 export async function sendBulkEmails(
   recipients: string[],

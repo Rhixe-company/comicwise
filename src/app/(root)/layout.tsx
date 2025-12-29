@@ -15,14 +15,14 @@ export default function RootLayout({
       <main className="flex-1">{children}</main>
       <footer
         className={`
-        border-t py-6
-        md:py-8
-      `}
+          border-t py-6
+          md:py-8
+        `}
       >
         <div
           className={`
-          container mx-auto px-4 text-center text-sm text-muted-foreground
-        `}
+            container mx-auto px-4 text-center text-sm text-muted-foreground
+          `}
         >
           <p>
             © <CurrentYear /> ComicWise. All rights reserved.

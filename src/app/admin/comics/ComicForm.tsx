@@ -131,9 +131,9 @@ export default function ComicForm() {
 
           <div
             className={`
-            grid gap-6
-            md:grid-cols-3
-          `}
+              grid gap-6
+              md:grid-cols-3
+            `}
           >
             {/* Author ID */}
             <div className="space-y-2">

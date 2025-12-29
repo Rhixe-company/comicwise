@@ -9,7 +9,8 @@ import { db as database } from "@/database/db";
 import { chapter, chapterImage, comic } from "@/database/schema";
 import type { ChapterFilterInput, CreateChapterInput, UpdateChapterInput } from "@/lib/validations";
 import { chapterFilterSchema, createChapterSchema, updateChapterSchema } from "@/lib/validations";
-import { and, desc, eq, sql, type SQL } from "drizzle-orm";
+import { and, desc, eq, sql  } from "drizzle-orm";
+import type {SQL} from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "utils";
 
@@ -207,10 +208,10 @@ export async function listChapters(input?: ChapterFilterInput) {
 
     const conditions: SQL<unknown>[] = [];
     if (comicId) {
-      conditions.push(eq(chapter.comicId, comicId) as SQL<unknown>);
+      conditions.push(eq(chapter.comicId, comicId));
     }
 
-    const whereClause = conditions.length > 0 ? and(...(conditions as SQL<unknown>[])) : undefined;
+    const whereClause = conditions.length > 0 ? and(...(conditions)) : undefined;
 
     // Get total count
     const [countResult] = await database

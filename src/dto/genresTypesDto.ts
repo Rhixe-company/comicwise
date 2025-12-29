@@ -6,15 +6,15 @@
 import type { GenreDto } from "@/dto/genresDto";
 import type { TypeDto } from "@/dto/typesDto";
 
-export type GenresTypesDto = {
+export interface GenresTypesDto {
   genres: GenreDto[];
   types: TypeDto[];
-};
+}
 
-export type GenresTypesWithCountsDto = {
+export interface GenresTypesWithCountsDto {
   genres: Array<GenreDto & { comicCount: number }>;
   types: Array<TypeDto & { comicCount: number }>;
-};
+}
 
 export type { CreateGenreDto, UpdateGenreDto } from "@/dto/genresDto";
 export type { CreateTypeDto, UpdateTypeDto } from "@/dto/typesDto";

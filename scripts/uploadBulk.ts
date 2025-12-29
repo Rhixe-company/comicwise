@@ -95,7 +95,7 @@ class BulkUploader {
             })
           );
           console.log("✅ AWS S3 initialized");
-        } catch (error) {
+        } catch {
           console.warn("⚠️  AWS S3 provider not found - skipping");
         }
       } else {
@@ -112,6 +112,7 @@ class BulkUploader {
 
   /**
    * Check if provider should be used based on options
+   * @param provider
    */
   private shouldUseProvider(provider: string): boolean {
     if (!this.options.provider || this.options.provider === "all") {
@@ -122,6 +123,8 @@ class BulkUploader {
 
   /**
    * Scan directory for image files
+   * @param dir
+   * @param baseDir
    */
   private scanDirectory(dir: string, baseDir: string = dir): string[] {
     const files: string[] = [];
@@ -153,6 +156,8 @@ class BulkUploader {
 
   /**
    * Upload single file to all configured providers
+   * @param filePath
+   * @param baseDir
    */
   private async uploadFile(filePath: string, baseDir: string): Promise<void> {
     const relativePath = relative(baseDir, filePath);
@@ -167,7 +172,7 @@ class BulkUploader {
     console.log(`\n📤 Uploading: ${relativePath} (${(fileSize / 1024).toFixed(2)} KB)`);
 
     if (this.options.dryRun) {
-      console.log("   [DRY RUN] Would upload to:", Array.from(this.providers.keys()).join(", "));
+      console.log("   [DRY RUN] Would upload to:", [...this.providers.keys()].join(", "));
       return;
     }
 
@@ -254,7 +259,7 @@ class BulkUploader {
     // Upload files
     for (let i = 0; i < files.length; i++) {
       console.log(`\n[${i + 1}/${files.length}]`);
-      await this.uploadFile(files[i]!, fullPath);
+      await this.uploadFile(files[i], fullPath);
 
       // Small delay between files
       if (i < files.length - 1) {
@@ -268,6 +273,7 @@ class BulkUploader {
 
   /**
    * Print upload summary
+   * @param startTime
    */
   private printSummary(startTime: number): void {
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
@@ -435,7 +441,7 @@ async function main() {
 }
 
 // Run if executed directly
-if (import.meta.url === `file://${process.argv[1]!.replace(/\\/g, "/")}`) {
+if (import.meta.url === `file://${process.argv[1].replaceAll('\\', "/")}`) {
   main();
 }
 

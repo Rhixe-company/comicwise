@@ -159,6 +159,7 @@ export const UPLOAD_CONSTRAINTS: Record<UploadType, UploadConstraints> = {
  * Get upload constraints for a specific upload type
  * param type - Upload type
  * returns Upload constraints
+ * @param type
  */
 export function getUploadConstraints(type: UploadType): UploadConstraints {
   return UPLOAD_CONSTRAINTS[type] || UPLOAD_CONSTRAINTS.general;

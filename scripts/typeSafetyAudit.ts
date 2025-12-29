@@ -206,10 +206,10 @@ function autoFixFile(filePath: string, dryRun = true): number {
     let fixes = 0;
 
     // Replace ': any' with ': unknown' in simple cases
-    const anyMatches = content.match(/:\s*any\b(?!\[\])/g);
+    const anyMatches = content.match(/:\s*any\b(?!\[])/g);
     if (anyMatches) {
       fixes += anyMatches.length;
-      content = content.replace(/:\s*any\b(?!\[\])/g, ": unknown");
+      content = content.replaceAll(/:\s*any\b(?!\[])/g, ": unknown");
     }
 
     if (fixes > 0 && !dryRun) {
@@ -273,7 +273,7 @@ async function main() {
 }
 
 // Run if executed directly
-const isMainModule = import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}`;
+const isMainModule = import.meta.url === `file://${process.argv[1].replaceAll('\\', "/")}`;
 if (isMainModule) {
   main();
 }

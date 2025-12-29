@@ -13,38 +13,38 @@ const ROOT_DIR = process.cwd();
 // Import mapping rules
 const importMappings = [
   // App config
-  { from: /from ['"]app-config['"]/g, to: `from "@/appConfig"` },
-  { from: /from ['"]appConfig['"]/g, to: `from "@/appConfig"` },
+  { from: /from ["']app-config["']/g, to: `from "@/appConfig"` },
+  { from: /from ["']appConfig["']/g, to: `from "@/appConfig"` },
 
   // Components
-  { from: /from ['"]components\/auth['"]/g, to: `from "@/components/auth"` },
-  { from: /from ['"]ui\//g, to: `from "@/components/ui/` },
+  { from: /from ["']components\/auth["']/g, to: `from "@/components/auth"` },
+  { from: /from ["']ui\//g, to: `from "@/components/ui/` },
 
   // DTO
-  { from: /from [""](\/)?dto\//g, to: `from "@/dto/` },
+  { from: /from "(\/)?dto\//g, to: `from "@/dto/` },
 
   // Lib
-  { from: /from [""]lib\/validations['"]/g, to: `from "@/lib/validations"` },
-  { from: /from ['"]lib\//g, to: `from "@/lib/` },
+  { from: /from "lib\/validations["']/g, to: `from "@/lib/validations"` },
+  { from: /from ["']lib\//g, to: `from "@/lib/` },
 
   // Schema
-  { from: /from [""]schema['"]/g, to: `from "@/database/schema"` },
+  { from: /from "schema["']/g, to: `from "@/database/schema"` },
 
   // Database
-  { from: /from ['"](\/)?database\//g, to: `from "@/database/` },
+  { from: /from ["'](\/)?database\//g, to: `from "@/database/` },
 
   // Services
-  { from: /from [""](\/)?services\//g, to: `from "@/services/` },
+  { from: /from "(\/)?services\//g, to: `from "@/services/` },
 
   // Eslint imports
-  { from: /from [""]eslint\/css['"]/g, to: `from "@eslint/css"` },
-  { from: /from ['"]eslint\/js['"]/g, to: `from "@eslint/js"` },
-  { from: /from ['"]eslint\/json['"]/g, to: `from "@eslint/json"` },
-  { from: /from ['"]eslint\/markdown['"]/g, to: `from "@eslint/markdown"` },
-  { from: /from ['"]next\/eslint-plugin-next['"]/g, to: `from "@next/eslint-plugin-next"` },
+  { from: /from "eslint\/css["']/g, to: `from "@eslint/css"` },
+  { from: /from ["']eslint\/js["']/g, to: `from "@eslint/js"` },
+  { from: /from ["']eslint\/json["']/g, to: `from "@eslint/json"` },
+  { from: /from ["']eslint\/markdown["']/g, to: `from "@eslint/markdown"` },
+  { from: /from ["']next\/eslint-plugin-next["']/g, to: `from "@next/eslint-plugin-next"` },
 
   // Playwright
-  { from: /from ['"]playwright\/test['"]/g, to: `from "@playwright/test"` },
+  { from: /from ["']playwright\/test["']/g, to: `from "@playwright/test"` },
 ];
 
 async function fixImports(filePath: string): Promise<number> {

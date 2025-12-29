@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable typescript-eslint/no-unsafe-assignment */
 "use client";
 
 import { useId, useMemo, useState } from "react";
@@ -46,13 +50,12 @@ import {
 import { cn } from "utils";
 
 declare module "@tanstack/react-table" {
-  // eslint-disable-next-line typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
     filterVariant?: "text" | "range" | "select";
   }
 }
 
-type Item = {
+interface Item {
   id: string;
   product: string;
   productImage: string;
@@ -60,7 +63,7 @@ type Item = {
   price: number;
   availability: "In Stock" | "Out of Stock" | "Limited";
   rating: number;
-};
+}
 
 const columns: ColumnDef<Item>[] = [
   {
@@ -108,7 +111,9 @@ const columns: ColumnDef<Item>[] = [
     header: "Availability",
     accessorKey: "availability",
     cell: ({ row }) => {
-      const availability = row.getValue("availability") as string;
+      const availabiltityTypses = ["In Stock", "Out of Stock", "Limited"] as const;
+      type AvailabilityType = (typeof availabiltityTypses)[number];
+      const availability: AvailabilityType = row.getValue("availability");
 
       const styles = {
         "In Stock":
@@ -120,7 +125,15 @@ const columns: ColumnDef<Item>[] = [
       }[availability];
 
       return (
-        <Badge className={(cn("border-none focus-visible:outline-none"), styles)}>
+        <Badge
+          className={
+            (cn(`
+              border-none
+              focus-visible:outline-none
+            `),
+            styles)
+          }
+        >
           {row.getValue("availability")}
         </Badge>
       );
@@ -266,7 +279,12 @@ const DataTableWithColumnFilterDemo = () => {
               <TableRow key={headerGroup.id} className="bg-muted/50">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="relative h-10 border-t select-none">
+                    <TableHead
+                      key={header.id}
+                      className={`
+                      relative h-10 border-t select-none
+                    `}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}
@@ -298,7 +316,7 @@ const DataTableWithColumnFilterDemo = () => {
         </Table>
       </div>
 
-      <p className="text-muted-foreground mt-4 text-center text-sm">
+      <p className="mt-4 text-center text-sm text-muted-foreground">
         Data table with column filter
       </p>
     </div>
@@ -314,7 +332,7 @@ function Filter({ column }: { column: Column<any, unknown> }) {
   const sortedUniqueValues = useMemo(() => {
     if (filterVariant === "range") return [];
 
-    const values = Array.from(column.getFacetedUniqueValues().keys());
+    const values = [...column.getFacetedUniqueValues().keys()];
 
     const flattenedValues = values.reduce((acc: string[], curr) => {
       if (Array.isArray(curr)) {
@@ -324,7 +342,7 @@ function Filter({ column }: { column: Column<any, unknown> }) {
       return [...acc, curr];
     }, []);
 
-    return Array.from(new Set(flattenedValues)).sort();
+    return [...new Set(flattenedValues)].sort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [column.getFacetedUniqueValues(), filterVariant]);
 
@@ -335,7 +353,15 @@ function Filter({ column }: { column: Column<any, unknown> }) {
         <div className="flex">
           <Input
             id={`${id}-range-1`}
-            className="flex-1 rounded-r-none [-moz-appearance:_textfield] focus:z-10 [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+            className={`
+              flex-1 rounded-r-none
+              [-moz-appearance:_textfield]
+              focus:z-10
+              [&::-webkit-inner-spin-button]:m-0
+              [&::-webkit-inner-spin-button]:appearance-none
+              [&::-webkit-outer-spin-button]:m-0
+              [&::-webkit-outer-spin-button]:appearance-none
+            `}
             value={(columnFilterValue as [number, number])?.[0] ?? ""}
             onChange={(e) =>
               column.setFilterValue((old: [number, number]) => [
@@ -349,7 +375,15 @@ function Filter({ column }: { column: Column<any, unknown> }) {
           />
           <Input
             id={`${id}-range-2`}
-            className="-ms-px flex-1 rounded-l-none [-moz-appearance:_textfield] focus:z-10 [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+            className={`
+              -ms-px flex-1 rounded-l-none
+              [-moz-appearance:_textfield]
+              focus:z-10
+              [&::-webkit-inner-spin-button]:m-0
+              [&::-webkit-inner-spin-button]:appearance-none
+              [&::-webkit-outer-spin-button]:m-0
+              [&::-webkit-outer-spin-button]:appearance-none
+            `}
             value={(columnFilterValue as [number, number])?.[1] ?? ""}
             onChange={(e) =>
               column.setFilterValue((old: [number, number]) => [
@@ -404,7 +438,13 @@ function Filter({ column }: { column: Column<any, unknown> }) {
           placeholder={`Search ${columnHeader.toLowerCase()}`}
           type="text"
         />
-        <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50">
+        <div
+          className={`
+            pointer-events-none absolute inset-y-0 left-0 flex items-center
+            justify-center pl-3 text-muted-foreground/80
+            peer-disabled:opacity-50
+          `}
+        >
           <SearchIcon size={16} />
         </div>
       </div>

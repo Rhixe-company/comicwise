@@ -103,9 +103,9 @@ export class ProgressTracker {
   private log(status: string, message?: string) {
     const percentage = Math.round((this.current / this.total) * 100);
     const elapsed = ((Date.now() - this.startTime) / 1000).toFixed(1);
-    const msg = message ? ` - ${message}` : "";
+    const message_ = message ? ` - ${message}` : "";
     console.log(
-      `[${this.name}] ${this.current}/${this.total} (${percentage}%) - ${elapsed}s - ${status}${msg}`
+      `[${this.name}] ${this.current}/${this.total} (${percentage}%) - ${elapsed}s - ${status}${message_}`
     );
   }
 

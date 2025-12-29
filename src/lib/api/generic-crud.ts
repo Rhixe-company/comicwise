@@ -19,6 +19,7 @@ type TypedValidationResult<T> =
 
 /**
  * Convert Zod schema to validation result format
+ * @param schema
  */
 export function zodToValidationResult<T extends z.ZodTypeAny>(
   schema: T
@@ -48,6 +49,7 @@ export function zodToValidationResult<T extends z.ZodTypeAny>(
 
 /**
  * Typed version for validation with data
+ * @param schema
  */
 export function zodToTypedValidationResult<T>(
   schema: ZodSchema<T>
@@ -69,8 +71,8 @@ export function zodToTypedValidationResult<T>(
 // ═══════════════════════════════════════════════════
 
 interface GetEntityOptions {
-  getFn: (id: string) => Promise<unknown | null>;
-  validateFn: (data: unknown) => ValidationResult;
+  getFn(id: string): Promise<unknown | null>;
+  validateFn(data: unknown): ValidationResult;
   entityName: string;
 }
 
@@ -140,9 +142,9 @@ export async function createGenericEntity<TInput, TOutput>(
 // ═══════════════════════════════════════════════════
 
 interface UpdateEntityOptions<T> {
-  updateFn: (id: string, data: T) => Promise<unknown>;
-  idValidateFn: (data: unknown) => ValidationResult;
-  dataValidateFn: (data: unknown) => ValidationResult;
+  updateFn(id: string, data: T): Promise<unknown>;
+  idValidateFn(data: unknown): ValidationResult;
+  dataValidateFn(data: unknown): ValidationResult;
   entityName: string;
 }
 
@@ -186,8 +188,8 @@ export async function updateGenericEntity<T>(
 // ═══════════════════════════════════════════════════
 
 interface DeleteEntityOptions {
-  deleteFn: (id: string) => Promise<boolean>;
-  validateFn: (data: unknown) => ValidationResult;
+  deleteFn(id: string): Promise<boolean>;
+  validateFn(data: unknown): ValidationResult;
   entityName: string;
 }
 

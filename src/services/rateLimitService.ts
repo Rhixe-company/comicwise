@@ -33,6 +33,7 @@ export class RateLimiter {
 
   /**
    * Check if request is within rate limit
+   * @param identifier
    */
   async check(identifier: string): Promise<RateLimitResult> {
     const key = `ratelimit:${identifier}`;
@@ -98,6 +99,7 @@ export class RateLimiter {
 
   /**
    * Reset rate limit for identifier
+   * @param identifier
    */
   async reset(identifier: string): Promise<void> {
     try {
@@ -168,6 +170,8 @@ export const rateLimiters = {
 /**
  * Get rate limit identifier from request
  * Uses IP address or user ID
+ * @param request
+ * @param userId
  */
 export function getRateLimitIdentifier(request: Request, userId?: string): string {
   if (userId) {
@@ -183,6 +187,9 @@ export function getRateLimitIdentifier(request: Request, userId?: string): strin
 
 /**
  * Rate limit middleware for API routes
+ * @param request
+ * @param limiter
+ * @param identifier
  */
 export async function rateLimit(
   request: Request,
@@ -195,6 +202,7 @@ export async function rateLimit(
 
 /**
  * Create rate limit response
+ * @param result
  */
 export function createRateLimitResponse(result: RateLimitResult): Response {
   return new Response(

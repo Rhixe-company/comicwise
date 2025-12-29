@@ -18,6 +18,7 @@ import * as React from "react";
  *   return <div>Hello world</div>;
  * }
  * ```
+ * @param fn
  */
 export function useUnmount(fn: () => void): void {
   if (typeof fn !== "function") {

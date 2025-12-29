@@ -45,6 +45,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
 
   /**
    * Validate data against schema
+   * @param data
    */
   validate(data: unknown[]): T[] {
     if (!this.schema || this.defaultOptions.skipValidation) {
@@ -55,8 +56,8 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
       try {
         return this.schema!.parse(item);
       } catch (error) {
-        const errorMsg = error instanceof Error ? error.message : String(error);
-        logger.warn(`Validation error: ${errorMsg}`);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        logger.warn(`Validation error: ${errorMessage}`);
         throw error;
       }
     });
@@ -64,6 +65,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
 
   /**
    * Transform data (default: no transformation)
+   * @param data
    */
   transform(data: T[]): T[] {
     return data;
@@ -71,9 +73,11 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
 
   /**
    * Main seeding logic
+   * @param data
+   * @param options
    */
   async seed(data?: T[], options: SeedOptions = {}): Promise<SeedResult> {
-    const opts = { ...this.defaultOptions, ...options };
+    const options_ = { ...this.defaultOptions, ...options };
     const startTime = Date.now();
 
     logger.section(`Seeding ${this.entity}`);
@@ -99,7 +103,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
       }
 
       // Validate
-      if (!opts.skipValidation && this.schema) {
+      if (!options_.skipValidation && this.schema) {
         logger.info(`Validating ${records.length} records...`);
         records = this.validate(records);
       }
@@ -109,7 +113,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
       records = this.transform(records);
 
       // Dry run check
-      if (opts.dryRun) {
+      if (options_.dryRun) {
         logger.info(`DRY RUN: Would insert ${records.length} records`);
         return {
           inserted: 0,
@@ -121,7 +125,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
       }
 
       // Insert with batching
-      const result = await this.batchInsert(records, opts);
+      const result = await this.batchInsert(records, options_);
 
       logger.success(
         `${this.entity}: ${result.inserted} inserted, ${result.updated} updated, ${result.skipped} skipped, ${result.errors} errors`
@@ -132,14 +136,16 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
         duration: Date.now() - startTime,
       };
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : String(error);
-      logger.error(`Failed to seed ${this.entity}: ${errorMsg}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error(`Failed to seed ${this.entity}: ${errorMessage}`);
       throw error;
     }
   }
 
   /**
    * Batch insert with progress tracking
+   * @param records
+   * @param options
    */
   protected async batchInsert(
     records: T[],
@@ -171,8 +177,8 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
           );
         }
       } catch (error) {
-        const errorMsg = error instanceof Error ? error.message : String(error);
-        logger.error(`Batch ${i + 1} failed: ${errorMsg}`);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        logger.error(`Batch ${i + 1} failed: ${errorMessage}`);
         errors += batch.length;
       }
     }
@@ -200,6 +206,8 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
 
   /**
    * Create batches from array
+   * @param items
+   * @param batchSize
    */
   protected createBatches<R>(items: R[], batchSize: number): R[][] {
     const batches: R[][] = [];
@@ -211,6 +219,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
 
   /**
    * Execute in transaction
+   * @param callback
    */
   protected async executeInTransaction<R>(callback: (tx: unknown) => Promise<R>): Promise<R> {
     return database.transaction(callback);

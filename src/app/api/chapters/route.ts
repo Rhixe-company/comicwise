@@ -21,10 +21,10 @@ export async function GET(request: NextRequest) {
     const searchParams = new URL(request.url).searchParams;
 
     const filters = {
-      comicId: searchParams.get("comicId") ? parseInt(searchParams.get("comicId")!) : undefined,
+      comicId: searchParams.get("comicId") ? Number.parseInt(searchParams.get("comicId")!) : undefined,
       search: searchParams.get("search") || undefined,
-      page: searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1,
-      limit: searchParams.get("limit") ? parseInt(searchParams.get("limit")!) : 12,
+      page: searchParams.get("page") ? Number.parseInt(searchParams.get("page")!) : 1,
+      limit: searchParams.get("limit") ? Number.parseInt(searchParams.get("limit")!) : 12,
       sortBy: searchParams.get("sortBy") || "chapterNumber",
       sortOrder: (searchParams.get("sortOrder") as "asc" | "desc") || "asc",
     };
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
               chapterUrl: `${env.NEXT_PUBLIC_APP_URL}/comics/${validation.data.comicId}/chapters/${newChapter.id}`,
             })
           )
-        ).catch((err) => console.error("Failed to send notifications:", err));
+        ).catch((error) => console.error("Failed to send notifications:", error));
       } catch (emailError) {
         console.error("Email notification error:", emailError);
         // Don't fail the request if emails fail

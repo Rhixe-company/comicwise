@@ -20,8 +20,9 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
   return (
     <div
       className={`
-      flex min-h-screen flex-col items-center justify-center bg-background px-4
-    `}
+        flex min-h-screen flex-col items-center justify-center bg-background
+        px-4
+      `}
     >
       <div className="mx-auto max-w-md text-center">
         <div className="mb-6 flex justify-center">
@@ -40,9 +41,9 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
 
         <div
           className={`
-          flex flex-col gap-3
-          sm:flex-row sm:justify-center
-        `}
+            flex flex-col gap-3
+            sm:flex-row sm:justify-center
+          `}
         >
           <Button onClick={reset} size="lg">
             Try Again
@@ -56,8 +57,8 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
         {isDevelopment && (
           <details
             className={`
-            mt-8 rounded-lg border border-border bg-muted p-4 text-left
-          `}
+              mt-8 rounded-lg border border-border bg-muted p-4 text-left
+            `}
           >
             <summary className="cursor-pointer font-semibold">Error Details</summary>
             <pre className="mt-2 overflow-auto text-xs">

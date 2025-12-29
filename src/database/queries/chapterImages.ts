@@ -6,6 +6,7 @@ import { chapterImage } from "@/database/schema";
 /**
  *
  * param imageId
+ * @param imageId
  */
 export async function getChapterImageById(imageId: number) {
   return await database.query.chapterImage.findFirst({
@@ -16,6 +17,7 @@ export async function getChapterImageById(imageId: number) {
 /**
  *
  * param chapterId
+ * @param chapterId
  */
 export async function getChapterImages(chapterId: number) {
   return await database.query.chapterImage.findMany({
@@ -27,6 +29,7 @@ export async function getChapterImages(chapterId: number) {
 /**
  *
  * param chapterId
+ * @param chapterId
  */
 export async function getChapterImageCount(chapterId: number) {
   const images = await database

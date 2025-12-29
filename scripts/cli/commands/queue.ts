@@ -5,6 +5,8 @@ import ora from "ora";
  *
  * param action
  * param options
+ * @param action
+ * @param options
  */
 export async function queue(action: string, options: any) {
   const spinner = ora(`Queue ${action}...`).start();

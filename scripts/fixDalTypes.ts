@@ -19,13 +19,13 @@ async function fixDalFiles() {
     for (const entity of serialIdEntities) {
       if (file.toLowerCase().includes(entity.toLowerCase())) {
         // Replace id: string with id: number
-        content = content.replace(/async findById\(id: string\)/g, "async findById(id: number)");
-        content = content.replace(/async update\(id: string,/g, "async update(id: number,");
-        content = content.replace(/async delete\(id: string\)/g, "async delete(id: number)");
+        content = content.replaceAll('async findById(id: string)', "async findById(id: number)");
+        content = content.replaceAll('async update(id: string,', "async update(id: number,");
+        content = content.replaceAll('async delete(id: string)', "async delete(id: number)");
 
         // Remove slug-based methods for entities without slugs
         if (!["comic", "chapter"].includes(entity)) {
-          content = content.replace(/async findBySlug\(slug: string\)[^}]+}\s+}/gs, "");
+          content = content.replaceAll(/async findBySlug\(slug: string\)[^}]+}\s+}/gs, "");
         }
       }
     }

@@ -6,6 +6,8 @@ import ora from "ora";
  *
  * param action
  * param options
+ * @param action
+ * @param options
  */
 export async function db(action: string, options: any) {
   const spinner = ora(`Database ${action}...`).start();

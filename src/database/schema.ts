@@ -1,3 +1,4 @@
+import type { SQL } from "drizzle-orm";
 import { sql } from "drizzle-orm";
 import {
   boolean,
@@ -17,7 +18,7 @@ import {
 // ═══════════════════════════════════════════════════
 
 // tsvector type for PostgreSQL full-text search
-export const tsvector = (name: string) => {
+export const tsvector: (name: string) => SQL<string> = (name: string) => {
   return sql<string>`${sql.raw(name)} tsvector`;
 };
 

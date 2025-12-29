@@ -175,7 +175,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Comic ID is required" }, { status: 400 });
     }
 
-    const deletedBookmark = await removeBookmark(session.user.id, parseInt(comicId));
+    const deletedBookmark = await removeBookmark(session.user.id, Number.parseInt(comicId));
 
     if (!deletedBookmark) {
       return NextResponse.json({ error: "Bookmark not found" }, { status: 404 });

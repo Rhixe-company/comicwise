@@ -9,6 +9,10 @@ import { artist } from "@/database/schema";
  * param data.name
  * param data.bio
  * param data.image
+ * @param data
+ * @param data.name
+ * @param data.bio
+ * @param data.image
  */
 export async function createArtist(data: {
   name: string;
@@ -34,6 +38,11 @@ export async function createArtist(data: {
  * param data.name
  * param data.bio
  * param data.image
+ * @param artistId
+ * @param data
+ * @param data.name
+ * @param data.bio
+ * @param data.image
  */
 export async function updateArtist(
   artistId: number,
@@ -59,6 +68,7 @@ export async function updateArtist(
 /**
  *
  * param artistId
+ * @param artistId
  */
 export async function deleteArtist(
   artistId: number

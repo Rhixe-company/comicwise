@@ -40,7 +40,7 @@ const centerAspectCrop = (
   );
 
 const getCroppedPngImage = async (
-  imageSrc: HTMLImageElement,
+  imageSource: HTMLImageElement,
   scaleFactor: number,
   pixelCrop: PixelCrop,
   maxImageSize: number
@@ -52,15 +52,15 @@ const getCroppedPngImage = async (
     throw new Error("Context is null, this should never happen.");
   }
 
-  const scaleX = imageSrc.naturalWidth / imageSrc.width;
-  const scaleY = imageSrc.naturalHeight / imageSrc.height;
+  const scaleX = imageSource.naturalWidth / imageSource.width;
+  const scaleY = imageSource.naturalHeight / imageSource.height;
 
   ctx.imageSmoothingEnabled = false;
   canvas.width = pixelCrop.width;
   canvas.height = pixelCrop.height;
 
   ctx.drawImage(
-    imageSrc,
+    imageSource,
     pixelCrop.x * scaleX,
     pixelCrop.y * scaleY,
     pixelCrop.width * scaleX,
@@ -76,7 +76,7 @@ const getCroppedPngImage = async (
   const blob = await response.blob();
 
   if (blob.size > maxImageSize) {
-    return await getCroppedPngImage(imageSrc, scaleFactor * 0.9, pixelCrop, maxImageSize);
+    return await getCroppedPngImage(imageSource, scaleFactor * 0.9, pixelCrop, maxImageSize);
   }
 
   return croppedImageUrl;
@@ -127,14 +127,14 @@ export const ImageCrop = ({
   ...reactCropProps
 }: ImageCropProps) => {
   const imgRef = useRef<HTMLImageElement | null>(null);
-  const [imgSrc, setImgSrc] = useState<string>("");
+  const [imgSource, setImgSource] = useState<string>("");
   const [crop, setCrop] = useState<PercentCrop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
   const [initialCrop, setInitialCrop] = useState<PercentCrop>();
 
   useEffect(() => {
     const reader = new FileReader();
-    reader.addEventListener("load", () => setImgSrc(reader.result?.toString() || ""));
+    reader.addEventListener("load", () => setImgSource(reader.result?.toString() || ""));
     reader.readAsDataURL(file);
   }, [file]);
 
@@ -179,7 +179,7 @@ export const ImageCrop = ({
   const contextValue: ImageCropContextType = {
     file,
     maxImageSize,
-    imgSrc,
+    imgSrc: imgSource,
     crop,
     completedCrop,
     imgRef,

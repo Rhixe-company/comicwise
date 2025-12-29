@@ -5,7 +5,7 @@ import { cn } from "utils";
 
 export type ImageZoomProps = any & {
   isZoomed?: boolean;
-  onZoomChange?: (isZoomed: boolean) => void;
+  onZoomChange?(isZoomed: boolean): void;
   className?: string;
   backdropClassName?: string;
 };

@@ -19,8 +19,8 @@ if (existsSync(proxyFile)) {
 
   // Comment out the auth middleware usage if it's causing issues
   if (content.includes("export default auth((req)")) {
-    content = content.replace(
-      /export default auth\(\(req\)/g,
+    content = content.replaceAll(
+      'export default auth((req)',
       "// Commented out due to type issues - configure as needed\n// export default auth((req)"
     );
     writeFileSync(proxyFile, content, "utf8");
@@ -44,8 +44,8 @@ for (const file of componentFiles) {
 
     // Add ts-expect-error before problematic imports
     if (file.includes("chart-sales-metrics")) {
-      content = content.replace(
-        /import \{ Label \} from "recharts"/g,
+      content = content.replaceAll(
+        'import { Label } from "recharts"',
         "// ts-expect-error - recharts type mismatch\nimport Label from 'recharts'"
       );
     }
@@ -85,8 +85,8 @@ for (const actionFile of actionsWithIssues) {
   const original = content;
 
   // Fix rate limit window type
-  content = content.replace(/window:\s*\d+\s*\*\s*1000/g, (match) => {
-    const seconds = parseInt(match.match(/\d+/)?.[0] || "30");
+  content = content.replaceAll(/window:\s*\d+\s*\*\s*1000/g, (match) => {
+    const seconds = Number.parseInt(match.match(/\d+/)?.[0] || "30");
     return `window: "${seconds}s"`;
   });
 

@@ -166,8 +166,9 @@ export default function NewAuthorPage() {
                         {profileImage && (
                           <div
                             className={`
-                            relative h-32 w-32 overflow-hidden rounded-lg border
-                          `}
+                              relative h-32 w-32 overflow-hidden rounded-lg
+                              border
+                            `}
                           >
                             <Image
                               src={profileImage}

@@ -10,7 +10,8 @@ import { comic, comicToGenre } from "@/database/schema";
 import type { ComicFilterInput, CreateComicInput, UpdateComicInput } from "@/lib/validations";
 import { comicFilterSchema, createComicSchema, updateComicSchema } from "@/lib/validations";
 import type { Genre } from "@/types/database";
-import { and, desc, eq, like, sql, type SQL } from "drizzle-orm";
+import { and, desc, eq, like, sql  } from "drizzle-orm";
+import type {SQL} from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "utils";
 
@@ -211,30 +212,30 @@ export async function listComics(input?: ComicFilterInput) {
     const conditions: SQL<unknown>[] = [];
 
     if (search) {
-      conditions.push(like(comic.title, `%${search}%`) as SQL<unknown>);
+      conditions.push(like(comic.title, `%${search}%`));
     }
 
     if (status) {
-      conditions.push(eq(comic.status, status) as SQL<unknown>);
+      conditions.push(eq(comic.status, status));
     }
 
     if (typeId) {
-      conditions.push(eq(comic.typeId, typeId) as SQL<unknown>);
+      conditions.push(eq(comic.typeId, typeId));
     }
 
     if (authorId) {
-      conditions.push(eq(comic.authorId, authorId) as SQL<unknown>);
+      conditions.push(eq(comic.authorId, authorId));
     }
 
     if (artistId) {
-      conditions.push(eq(comic.artistId, artistId) as SQL<unknown>);
+      conditions.push(eq(comic.artistId, artistId));
     }
 
     if (minRating !== undefined) {
-      conditions.push(sql`CAST(${comic.rating} AS DECIMAL) >= ${minRating}` as SQL<unknown>);
+      conditions.push(sql`CAST(${comic.rating} AS DECIMAL) >= ${minRating}`);
     }
 
-    const whereClause = conditions.length > 0 ? and(...(conditions as SQL<unknown>[])) : undefined;
+    const whereClause = conditions.length > 0 ? and(...(conditions)) : undefined;
 
     // Get total count
     const [countResult] = await database

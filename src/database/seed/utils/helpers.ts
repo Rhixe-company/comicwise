@@ -18,6 +18,8 @@ import { z } from "zod";
  * Validate data against a schema
  * param data
  * param schema
+ * @param data
+ * @param schema
  */
 export function validateData<T>(data: unknown, schema: ZodType<T>): T {
   try {
@@ -39,6 +41,8 @@ export function validateData<T>(data: unknown, schema: ZodType<T>): T {
  * Validate array of data
  * param data
  * param schema
+ * @param data
+ * @param schema
  */
 export function validateArray<T>(data: unknown[], schema: ZodType<T>): T[] {
   return data.map((item, index) => {
@@ -65,6 +69,8 @@ export function validateArray<T>(data: unknown[], schema: ZodType<T>): T[] {
  * Safe validation that returns result with errors
  * param data
  * param schema
+ * @param data
+ * @param schema
  */
 export function safeValidate<T>(
   data: unknown,
@@ -80,6 +86,7 @@ export function safeValidate<T>(
 /**
  * Get validation schema by type
  * param type
+ * @param type
  */
 export function getValidationSchema(type: string): ZodType {
   const schemas: Record<string, ZodType> = {
@@ -102,6 +109,7 @@ export function getValidationSchema(type: string): ZodType {
 /**
  * Create a URL-friendly slug from text
  * param text
+ * @param text
  */
 export function createSlug(text: string): string {
   return text
@@ -115,6 +123,7 @@ export function createSlug(text: string): string {
 /**
  * Extract chapter number from chapter name
  * param chapterName
+ * @param chapterName
  */
 export function extractChapterNumber(chapterName: string): number {
   const match = chapterName.match(/chapter\s*(\d+)/i);
@@ -125,6 +134,7 @@ export function extractChapterNumber(chapterName: string): number {
  * Normalize date string to Date object
  * param dateStr
  * param dateString
+ * @param dateString
  */
 export function normalizeDate(dateString: string | Date | null | undefined): Date {
   if (!dateString) {
@@ -175,6 +185,8 @@ export function normalizeDate(dateString: string | Date | null | undefined): Dat
  * param items
  * param keyFn
  * param keyFunction
+ * @param items
+ * @param keyFunction
  */
 export function deduplicateByKey<T>(items: T[], keyFunction: (item: T) => string): T[] {
   const seen = new Set<string>();
@@ -193,6 +205,9 @@ export function deduplicateByKey<T>(items: T[], keyFunction: (item: T) => string
  * param items
  * param processor
  * param batchSize
+ * @param items
+ * @param processor
+ * @param batchSize
  */
 export async function batchProcess<T, R>(
   items: T[],
@@ -222,6 +237,7 @@ export async function batchProcess<T, R>(
 /**
  * Sleep for specified milliseconds
  * param ms
+ * @param ms
  */
 export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));

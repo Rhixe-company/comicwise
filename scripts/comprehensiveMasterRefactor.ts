@@ -403,7 +403,7 @@ async function task13_FixLinting(): Promise<TaskResult> {
       message: "Type-check and linting passed",
       timestamp: new Date(),
     };
-  } catch (error) {
+  } catch {
     return {
       taskNumber: 13,
       taskName: "Fix Linting",

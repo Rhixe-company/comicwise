@@ -9,12 +9,12 @@ export type ChapterDto = typeof chapter.$inferSelect;
 export type CreateChapterDto = typeof chapter.$inferInsert;
 export type UpdateChapterDto = Partial<CreateChapterDto>;
 
-export type ChapterListDto = {
+export interface ChapterListDto {
   chapters: ChapterDto[];
   total: number;
   page: number;
   limit: number;
-};
+}
 
 export type ChapterWithImagesDto = ChapterDto & {
   images?: Array<{
@@ -24,10 +24,10 @@ export type ChapterWithImagesDto = ChapterDto & {
   }>;
 };
 
-export type ChapterNavigationDto = {
+export interface ChapterNavigationDto {
   current: ChapterDto;
   previous?: ChapterDto;
   next?: ChapterDto;
-};
+}
 
 export { deleteChapter, updateChapter } from "@/lib/actions/chapters";

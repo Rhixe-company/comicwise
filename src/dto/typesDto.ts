@@ -9,12 +9,12 @@ export type TypeDto = typeof typeTable.$inferSelect;
 export type CreateTypeDto = typeof typeTable.$inferInsert;
 export type UpdateTypeDto = Partial<CreateTypeDto>;
 
-export type TypeListDto = {
+export interface TypeListDto {
   types: TypeDto[];
   total: number;
   page: number;
   limit: number;
-};
+}
 
 export type TypeWithComicsDto = TypeDto & {
   comics?: Array<{

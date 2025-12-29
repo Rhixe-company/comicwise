@@ -10,6 +10,7 @@ import { authenticator } from "@/database/schema";
 /**
  *
  * param credentialID
+ * @param credentialID
  */
 export async function getAuthenticatorByCredentialId(credentialID: string) {
   return await database.query.authenticator.findFirst({
@@ -20,6 +21,7 @@ export async function getAuthenticatorByCredentialId(credentialID: string) {
 /**
  *
  * param userId
+ * @param userId
  */
 export async function getAuthenticatorsByUserId(userId: string) {
   return await database.query.authenticator.findMany({
@@ -31,6 +33,8 @@ export async function getAuthenticatorsByUserId(userId: string) {
  *
  * param userId
  * param credentialID
+ * @param userId
+ * @param credentialID
  */
 export async function getAuthenticator(userId: string, credentialID: string) {
   return await database.query.authenticator.findFirst({

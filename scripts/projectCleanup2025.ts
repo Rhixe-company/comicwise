@@ -46,6 +46,8 @@ class ProjectCleanup {
 
   /**
    * Delete files by pattern
+   * @param pattern
+   * @param description
    */
   private async deleteByPattern(pattern: string, description: string): Promise<number> {
     const files = await glob(pattern, {
@@ -165,7 +167,7 @@ class ProjectCleanup {
             this.result.deletedFiles.push(file);
             this.result.freedSpace += stats.size;
             count++;
-          } catch (error) {
+          } catch {
             // Skip if file already deleted
           }
         }
@@ -211,7 +213,7 @@ class ProjectCleanup {
             this.result.deletedFiles.push(file);
             this.result.freedSpace += stats.size;
             count++;
-          } catch (error) {
+          } catch {
             // Skip if already deleted
           }
         }
@@ -226,6 +228,7 @@ class ProjectCleanup {
 
   /**
    * Format file size
+   * @param bytes
    */
   private formatSize(bytes: number): string {
     const units = ["B", "KB", "MB", "GB"];

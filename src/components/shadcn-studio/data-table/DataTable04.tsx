@@ -125,9 +125,9 @@ const columns: ColumnDef<Item>[] = [
         <Badge
           className={
             (cn(`
-          border-none
-          focus-visible:outline-none
-        `),
+              border-none
+              focus-visible:outline-none
+            `),
             styleClass)
           }
         >
@@ -278,9 +278,7 @@ const DataTableWithColumnFilterDemo = () => {
                   return (
                     <TableHead
                       key={header.id}
-                      className={`
-                      relative h-10 border-t select-none
-                    `}
+                      className={`relative h-10 border-t select-none`}
                     >
                       {header.isPlaceholder
                         ? null
@@ -329,7 +327,7 @@ function Filter({ column }: { column: Column<any, unknown> }) {
   const sortedUniqueValues = useMemo(() => {
     if (filterVariant === "range") return [];
 
-    const values = Array.from(column.getFacetedUniqueValues().keys());
+    const values = [...column.getFacetedUniqueValues().keys()];
 
     const flattenedValues = values.reduce((acc: string[], curr) => {
       if (Array.isArray(curr)) {
@@ -339,7 +337,7 @@ function Filter({ column }: { column: Column<any, unknown> }) {
       return [...acc, curr];
     }, []);
 
-    return Array.from(new Set(flattenedValues)).sort();
+    return [...new Set(flattenedValues)].sort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [column.getFacetedUniqueValues(), filterVariant]);
 
@@ -437,10 +435,10 @@ function Filter({ column }: { column: Column<any, unknown> }) {
         />
         <div
           className={`
-          pointer-events-none absolute inset-y-0 left-0 flex items-center
-          justify-center pl-3 text-muted-foreground/80
-          peer-disabled:opacity-50
-        `}
+            pointer-events-none absolute inset-y-0 left-0 flex items-center
+            justify-center pl-3 text-muted-foreground/80
+            peer-disabled:opacity-50
+          `}
         >
           <SearchIcon size={16} />
         </div>

@@ -1,0 +1,323 @@
+name: "🚀 ComicWise CI/CD Pipeline"
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "20"
+  PNPM_VERSION: "10"
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # SETUP - Initialize environment and cache
+  # ═══════════════════════════════════════════════════════════════════════════
+  setup:
+    name: "⚙️ Setup Environment"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "📥 Checkout code"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "📦 Setup pnpm"
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: "🔧 Setup Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: "📚 Install dependencies"
+        run: pnpm install --frozen-lockfile
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # LINT - Run ESLint and Prettier
+  # ═══════════════════════════════════════════════════════════════════════════
+  lint:
+    name: "🎨 Lint & Format"
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: "🔍 Run ESLint"
+        run: pnpm lint
+        continue-on-error: true
+
+      - name: "📝 Check formatting"
+        run: pnpm format:check
+        continue-on-error: true
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # TYPE-CHECK - TypeScript type checking
+  # ═══════════════════════════════════════════════════════════════════════════
+  type-check:
+    name: "🔎 Type Check"
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: "📋 Generate Drizzle types"
+        run: pnpm postinstall
+        continue-on-error: true
+
+      - name: "🔍 Type check"
+        run: pnpm type-check
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # UNIT TESTS - Run Vitest
+  # ═══════════════════════════════════════════════════════════════════════════
+  unit-tests:
+    name: "✅ Unit Tests"
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: "🧪 Run unit tests"
+        run: pnpm test:unit:run
+        continue-on-error: true
+
+      - name: "📊 Generate coverage"
+        run: pnpm test:unit:coverage
+        continue-on-error: true
+
+      - name: "📈 Upload coverage"
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/coverage-final.json
+          flags: unittests
+        continue-on-error: true
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # BUILD - Build Next.js application
+  # ═══════════════════════════════════════════════════════════════════════════
+  build:
+    name: "🏗️ Build"
+    runs-on: ubuntu-latest
+    needs: [lint, type-check]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: "🔧 Generate Drizzle types"
+        run: pnpm postinstall
+        continue-on-error: true
+
+      - name: "🏗️ Build application"
+        run: pnpm build
+
+      - name: "💾 Cache build"
+        uses: actions/cache@v3
+        with:
+          path: .next
+          key: "${{ runner.os }}-next-build-${{ github.sha }}"
+          restore-keys: |
+            ${{ runner.os }}-next-build-
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # E2E TESTS - Run Playwright tests
+  # ═══════════════════════════════════════════════════════════════════════════
+  e2e-tests:
+    name: "🎭 E2E Tests"
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: "🎭 Run Playwright tests"
+        run: pnpm test --reporter=html
+        continue-on-error: true
+
+      - name: "📊 Upload test report"
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # SECURITY - Scan for vulnerabilities
+  # ═══════════════════════════════════════════════════════════════════════════
+  security:
+    name: "🔐 Security Scan"
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: "🔍 Run npm audit"
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: "🛡️ Run Snyk scan"
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # ANALYSIS - Code quality and performance analysis
+  # ═══════════════════════════════════════════════════════════════════════════
+  analysis:
+    name: "📊 Code Analysis"
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: "📈 Run comprehensive analysis"
+        run: tsx scripts/analyzeProjectComprehensive.ts
+        continue-on-error: true
+
+      - name: "📤 Upload analysis report"
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: analysis-report
+          path: reports/
+          retention-days: 30
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # DEPLOY - Deploy to production
+  # ═══════════════════════════════════════════════════════════════════════════
+  deploy:
+    name: "🚀 Deploy"
+    runs-on: ubuntu-latest
+    needs: [build, unit-tests, security]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://comicwise.com
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "🌐 Deploy to Vercel"
+        uses: vercel/action@master
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          production: true
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: "✅ Deployment successful"
+        run: echo "✅ Application deployed to production!"
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # NOTIFY - Send notifications on status
+  # ═══════════════════════════════════════════════════════════════════════════
+  notify:
+    name: "📢 Notify"
+    runs-on: ubuntu-latest
+    needs: [lint, type-check, unit-tests, build]
+    if: always()
+    steps:
+      - name: "🎯 Check job status"
+        run: |
+          echo "Lint: ${{ needs.lint.result }}"
+          echo "Type Check: ${{ needs.type-check.result }}"
+          echo "Unit Tests: ${{ needs.unit-tests.result }}"
+          echo "Build: ${{ needs.build.result }}"
+
+      - name: "📊 Report status"
+        uses: 8398a7/action-slack@v3
+        if: always()
+        with:
+          status: ${{ job.status }}
+          text: "ComicWise CI/CD - Branch: ${{ github.ref_name }} - ${{ job.status }}"
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        continue-on-error: true

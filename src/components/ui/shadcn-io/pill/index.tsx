@@ -39,9 +39,9 @@ export const PillButton = ({ className, ...props }: PillButtonProps) => (
   <Button
     className={cn(
       `
-      -my-2 -mr-2 size-6 rounded-full p-0.5
-      hover:bg-foreground/5
-    `,
+        -my-2 -mr-2 size-6 rounded-full p-0.5
+        hover:bg-foreground/5
+      `,
       className
     )}
     size="icon"

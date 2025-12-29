@@ -166,8 +166,8 @@ export function ChartAreaInteractive() {
         <CardDescription>
           <span
             className={`
-              hidden
               [540px]/card:block
+              hidden
             `}
           >
             Total for the last 3 months
@@ -181,9 +181,9 @@ export function ChartAreaInteractive() {
             onValueChange={setTimeRange}
             variant="outline"
             className={`
+              [767px]/card:flex
               hidden
               *:data-[slot=toggle-group-item]:!px-4
-              [767px]/card:flex
             `}
           >
             <ToggleGroupItem value="90d">Last 3 months</ToggleGroupItem>
@@ -193,10 +193,10 @@ export function ChartAreaInteractive() {
           <Select value={timeRange} onValueChange={setTimeRange}>
             <SelectTrigger
               className={`
+                [767px]/card:hidden
                 flex w-40
                 **:data-[slot=select-value]:block
                 **:data-[slot=select-value]:truncate
-                [767px]/card:hidden
               `}
               size="sm"
               aria-label="Select a value"
@@ -223,9 +223,13 @@ export function ChartAreaInteractive() {
           sm:px-6 sm:pt-6
         `}
       >
-        <ChartContainer config={chartConfig} className={`aspect-auto h-[250px] w-full`}>
+        <ChartContainer config={chartConfig} className={`
+          aspect-auto h-[250px] w-full
+        `}>
           {/* Chart commented out due to recharts compatibility */}
-          <div className="flex items-center justify-center h-full text-muted-foreground">
+          <div className={`
+            flex h-full items-center justify-center text-muted-foreground
+          `}>
             Chart temporarily disabled
           </div>
           {/* <AreaChart data={filteredData}>

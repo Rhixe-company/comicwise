@@ -8,9 +8,9 @@ export default function ProfileLoading() {
 
       <div
         className={`
-        grid gap-8
-        md:grid-cols-[300px_1fr]
-      `}
+          grid gap-8
+          md:grid-cols-[300px_1fr]
+        `}
       >
         {/* Sidebar Skeleton */}
         <div className="space-y-6">

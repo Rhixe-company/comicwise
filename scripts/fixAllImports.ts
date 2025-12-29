@@ -14,31 +14,31 @@ interface ImportMapping {
 
 const importMappings: ImportMapping[] = [
   // UI Components
-  { pattern: /from\s+['"]ui\/(.*?)['"]/g, replacement: 'from "@/components/ui/$1"' },
+  { pattern: /from\s+["']ui\/(.*?)["']/g, replacement: 'from "@/components/ui/$1"' },
 
   // Components
-  { pattern: /from\s+['"]components\/(.*?)['"]/g, replacement: 'from "@/components/$1"' },
+  { pattern: /from\s+["']components\/(.*?)["']/g, replacement: 'from "@/components/$1"' },
 
   // Database
-  { pattern: /from\s+['"]database\/(.*?)['"]/g, replacement: 'from "@/database/$1"' },
+  { pattern: /from\s+["']database\/(.*?)["']/g, replacement: 'from "@/database/$1"' },
 
   // Lib/Validations
   {
-    pattern: /from\s+['"]lib\/validations(?:\/(.*?))?['"]/g,
+    pattern: /from\s+["']lib\/validations(?:\/(.*?))?["']/g,
     replacement: 'from "@/lib/validations$1"',
   },
 
   // DTO with leading slash (incorrect)
-  { pattern: /from\s+['"]\/dto\/(.*?)['"]/g, replacement: 'from "@/dto/$1"' },
+  { pattern: /from\s+["']\/dto\/(.*?)["']/g, replacement: 'from "@/dto/$1"' },
 
   // Types with incorrect path
-  { pattern: /from\s+['"]\/types\/(.*?)['"]/g, replacement: 'from "@/types/$1"' },
+  { pattern: /from\s+["']\/types\/(.*?)["']/g, replacement: 'from "@/types/$1"' },
 
   // Services with leading slash
-  { pattern: /from\s+['"]\/services\/(.*?)['"]/g, replacement: 'from "@/services/$1"' },
+  { pattern: /from\s+["']\/services\/(.*?)["']/g, replacement: 'from "@/services/$1"' },
 
   // Combined typesdatabase path
-  { pattern: /from\s+['"]\/typesdatabase['"]/g, replacement: 'from "@/typesdatabase"' },
+  { pattern: /from\s+["']\/typesdatabase["']/g, replacement: 'from "@/typesdatabase"' },
 ];
 
 async function fixFile(filePath: string): Promise<{ fixed: boolean; changes: number }> {

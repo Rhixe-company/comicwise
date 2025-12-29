@@ -30,9 +30,9 @@ export default function RootError({ error, reset }: ErrorBoundaryProps) {
 
         <div
           className={`
-          flex flex-col gap-3
-          sm:flex-row sm:justify-center
-        `}
+            flex flex-col gap-3
+            sm:flex-row sm:justify-center
+          `}
         >
           <Button onClick={reset}>Try Again</Button>
           <Button variant="outline" asChild>
@@ -43,8 +43,8 @@ export default function RootError({ error, reset }: ErrorBoundaryProps) {
         {isDevelopment && (
           <details
             className={`
-            mt-6 rounded-lg border border-border bg-muted p-4 text-left
-          `}
+              mt-6 rounded-lg border border-border bg-muted p-4 text-left
+            `}
           >
             <summary className="cursor-pointer text-sm font-semibold">
               Development Error Details

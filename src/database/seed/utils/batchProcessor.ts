@@ -27,6 +27,8 @@ export class BatchProcessor<T, R = void> {
 
   /**
    * Process items in batches with concurrency control
+   * @param items
+   * @param processor
    */
   async process(items: T[], processor: (item: T) => Promise<R>): Promise<R[]> {
     const results: R[] = [];
@@ -52,6 +54,8 @@ export class BatchProcessor<T, R = void> {
 
   /**
    * Process items in batches with transaction support
+   * @param items
+   * @param processor
    */
   async processInTransaction<TResult>(
     items: T[],
@@ -84,6 +88,8 @@ export class BatchProcessor<T, R = void> {
 
   /**
    * Process a single batch with concurrency control
+   * @param batch
+   * @param processor
    */
   private async processBatch(batch: T[], processor: (item: T) => Promise<R>): Promise<R[]> {
     const results: R[] = [];
@@ -114,6 +120,7 @@ export class BatchProcessor<T, R = void> {
 
   /**
    * Create batches from items
+   * @param items
    */
   private createBatches(items: T[]): T[][] {
     const batches: T[][] = [];
@@ -125,6 +132,7 @@ export class BatchProcessor<T, R = void> {
 
   /**
    * Create concurrent chunks for processing
+   * @param items
    */
   private createConcurrentChunks(items: T[]): T[][] {
     const chunks: T[][] = [];
@@ -137,6 +145,9 @@ export class BatchProcessor<T, R = void> {
 
 /**
  * Helper function for simple batch processing
+ * @param items
+ * @param processor
+ * @param options
  */
 export async function processBatch<T, R = void>(
   items: T[],
@@ -149,6 +160,9 @@ export async function processBatch<T, R = void>(
 
 /**
  * Helper function for transactional batch processing
+ * @param items
+ * @param processor
+ * @param options
  */
 export async function processBatchInTransaction<T, R>(
   items: T[],

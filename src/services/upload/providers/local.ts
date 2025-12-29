@@ -28,6 +28,8 @@ export class LocalProvider implements UploadProvider {
 
   /**
    * Upload file to local file system
+   * @param file
+   * @param options
    */
   async upload(
     file: File | Buffer,
@@ -72,15 +74,15 @@ export class LocalProvider implements UploadProvider {
 
       // Generate unique filename
       const hash = crypto.randomBytes(16).toString("hex");
-      const ext = options.transformation?.format
+      const extension = options.transformation?.format
         ? `.${options.transformation.format}`
         : path.extname(originalName) || ".jpg";
       // If filename already has extension, use as-is; otherwise append extension
       const filename = options.filename
         ? path.extname(options.filename)
           ? options.filename
-          : `${options.filename}${ext}`
-        : `${hash}${ext}`;
+          : `${options.filename}${extension}`
+        : `${hash}${extension}`;
 
       // Create directory structure
       const folder = options.folder || "general";
@@ -102,7 +104,7 @@ export class LocalProvider implements UploadProvider {
         url,
         publicId,
         size: stats.size,
-        format: ext.replace(".", ""),
+        format: extension.replace(".", ""),
         success: true,
       };
     } catch (error) {
@@ -119,6 +121,7 @@ export class LocalProvider implements UploadProvider {
 
   /**
    * Delete file from local file system
+   * @param publicId
    */
   async delete(publicId: string): Promise<boolean> {
     try {
@@ -133,6 +136,8 @@ export class LocalProvider implements UploadProvider {
 
   /**
    * Get URL for local file
+   * @param publicId
+   * @param _transformation
    */
   getUrl(publicId: string, _transformation?: Record<string, unknown>): string {
     return `${this.publicPath}/${publicId}`;
@@ -140,6 +145,7 @@ export class LocalProvider implements UploadProvider {
 
   /**
    * Get thumbnail URL (local provider doesn't generate thumbnails)
+   * @param publicId
    */
   getThumbnailUrl(publicId: string): string {
     return this.getUrl(publicId);
@@ -147,6 +153,7 @@ export class LocalProvider implements UploadProvider {
 
   /**
    * List files in directory
+   * @param folder
    */
   async listFiles(folder = "general"): Promise<string[]> {
     try {
@@ -161,6 +168,7 @@ export class LocalProvider implements UploadProvider {
 
   /**
    * Get file stats
+   * @param publicId
    */
   async getFileStats(publicId: string): Promise<{
     size: number;

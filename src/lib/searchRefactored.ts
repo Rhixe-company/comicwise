@@ -95,6 +95,7 @@ interface SearchConditions {
 /**
  *
  * param filters
+ * @param filters
  */
 export async function searchComics(filters: AdvancedSearchFilters = {}): Promise<SearchResponse> {
   const {
@@ -498,7 +499,7 @@ async function getComicGenres(comicIds: number[]): Promise<Record<number, string
       genresMap[row.comicId] = [];
     }
     if (row.genreName) {
-      genresMap[row.comicId]!.push(row.genreName);
+      genresMap[row.comicId].push(row.genreName);
     }
   }
 
@@ -513,6 +514,8 @@ async function getComicGenres(comicIds: number[]): Promise<Record<number, string
  *
  * param query
  * param limit
+ * @param query
+ * @param limit
  */
 export async function getSearchSuggestions(
   query: string,
@@ -561,6 +564,7 @@ export async function getSearchSuggestions(
 /**
  *
  * param limit
+ * @param limit
  */
 export async function getPopularSearches(limit: number = 10): Promise<string[]> {
   const topComics = await db
@@ -576,6 +580,8 @@ export async function getPopularSearches(limit: number = 10): Promise<string[]> 
  *
  * param days
  * param limit
+ * @param days
+ * @param limit
  */
 export async function getTrendingComics(
   days: number = 7,

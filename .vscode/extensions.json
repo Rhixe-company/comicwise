@@ -1,44 +1,29 @@
 {
   "recommendations": [
-
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "ms-vscode.vscode-typescript-next",
+
     "bradlc.vscode-tailwindcss",
-
-
     "PulkitGangwar.nextjs-snippets",
     "dsznajder.es7-react-js-snippets",
     "formulahendry.auto-rename-tag",
-    "styled-components.vscode-styled-components",
-
+    "pranaygp.vscode-css-peek",
 
     "cweijan.vscode-postgresql-client2",
     "redis.redis-for-vscode",
     "Prisma.prisma",
 
-
     "vitest.explorer",
     "ms-playwright.playwright",
     "orta.vscode-jest",
 
-
-    "usernamehw.errorlens",
-    "yoavbls.pretty-ts-errors",
-    "kisstkondoros.vscode-gutter-preview",
-
-
     "github.copilot",
     "github.copilot-chat",
     "GitHub.copilot-mcp",
-    "tabnine.tabnine-vscode",
-
-
-    "editorconfig.editorconfig",
-    "streetsidesoftware.code-spell-checker",
-    "wix.vscode-import-cost",
-    "christian-kohler.path-intellisense",
-
+    "usernamehw.errorlens",
+    "yoavbls.pretty-ts-errors",
+    "kisstkondoros.vscode-gutter-preview",
 
     "eamodio.gitlens",
     "donjayamanne.githistory",
@@ -48,12 +33,10 @@
     "ms-azuretools.vscode-docker",
     "ms-kubernetes-tools.vscode-kubernetes-tools",
 
-
     "yzhang.markdown-all-in-one",
     "davidanson.vscode-markdownlint",
     "bierner.markdown-preview-github-styles",
     "bierner.markdown-mermaid",
-
 
     "gruntfuggly.todo-tree",
     "aaron-bond.better-comments",
@@ -63,51 +46,48 @@
 
     "ms-vscode.powershell",
     "redhat.vscode-yaml",
-
+    "editorconfig.editorconfig",
 
     "pkief.material-icon-theme",
     "bierner.color-info",
     "naumovs.color-highlight",
     "oderwat.indent-rainbow",
 
-
-    "ritwickdey.liveserver",
-    "visualstudioexptteam.vscodeintellicode",
-    "christian-kohler.npm-intellisense",
-    "alefragnani.bookmarks",
-    "wayou.vscode-todo-highlight",
-    "pranaygp.vscode-css-peek",
-    "ms-vscode-remote.remote-wsl",
-    "ms-vscode-remote.remote-containers",
-
     "xabikos.javascriptsnippets",
     "burkeholland.simple-react-snippets",
     "afractal.node-essentials",
-
-
+    "christian-kohler.path-intellisense",
+    "christian-kohler.npm-intellisense",
     "wix.glean",
+
+    "ritwickdey.liveserver",
+    "visualstudioexptteam.vscodeintellicode",
+    "alefragnani.bookmarks",
+    "wayou.vscode-todo-highlight",
     "johnpapa.vscode-peacock",
-    "pflannery.vscode-versionlens"
+    "pflannery.vscode-versionlens",
+
+    "ms-vscode-remote.remote-wsl",
+    "ms-vscode-remote.remote-containers",
+
+    "streetsidesoftware.code-spell-checker",
+    "wix.vscode-import-cost"
   ],
 
   "unwantedRecommendations": [
-
     "hookyqr.beautify",
     "dbaeumer.jshint",
     "eg2.tslint",
     "octref.vetur",
     "ms-vscode.vscode-typescript-tslint-plugin",
-
+    "ritwickdey.live-sass",
+    "syler.sass-indented",
+    "mrmlnc.vscode-scss",
 
     "ms-python.python",
     "rust-lang.rust-analyzer",
     "golang.go",
     "ms-dotnettools.csharp",
-    "redhat.java",
-
-
-    "ritwickdey.live-sass",
-    "syler.sass-indented",
-    "mrmlnc.vscode-scss"
+    "redhat.java"
   ]
 }

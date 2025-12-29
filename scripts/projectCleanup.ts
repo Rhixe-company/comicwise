@@ -22,9 +22,9 @@ import path from "path";
 // CONFIGURATION
 // ═══════════════════════════════════════════════════
 
-const args = process.argv.slice(2);
-const DRY_RUN = args.includes("--dry-run");
-const AGGRESSIVE = args.includes("--aggressive");
+const args = new Set(process.argv.slice(2));
+const DRY_RUN = args.has("--dry-run");
+const AGGRESSIVE = args.has("--aggressive");
 
 interface CleanupResult {
   duplicateFiles: string[];
@@ -128,7 +128,7 @@ for (const file of allFiles) {
       console.log(chalk.gray(`  - ${file} (${sizeMB} MB)`));
       result.largeFiles.push(file);
     }
-  } catch (error) {
+  } catch {
     // Skip files that can't be accessed
   }
 }
@@ -152,7 +152,7 @@ if (!DRY_RUN && result.oldReports.length > 0) {
     try {
       unlinkSync(file);
       console.log(chalk.green(`  ✓ Deleted: ${file}`));
-    } catch (error) {
+    } catch {
       console.log(chalk.red(`  ✗ Failed to delete: ${file}`));
     }
   }

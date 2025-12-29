@@ -138,9 +138,9 @@ const NotificationMenu = ({
         {notificationCount > 0 && (
           <Badge
             className={`
-            absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center
-            p-0 text-xs
-          `}
+              absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center
+              p-0 text-xs
+            `}
           >
             {notificationCount > 9 ? "9+" : notificationCount}
           </Badge>
@@ -328,9 +328,9 @@ export const Navbar05 = React.forwardRef<HTMLElement, Navbar05Props>(
       >
         <div
           className={`
-          container mx-auto flex h-16 max-w-screen-2xl items-center
-          justify-between gap-4
-        `}
+            container mx-auto flex h-16 max-w-screen-2xl items-center
+            justify-between gap-4
+          `}
         >
           {/* Left side */}
           <div className="flex items-center gap-2">
@@ -389,9 +389,9 @@ export const Navbar05 = React.forwardRef<HTMLElement, Navbar05Props>(
                 <div className="text-2xl">{logo}</div>
                 <span
                   className={`
-                  hidden text-xl font-bold
-                  sm:inline-block
-                `}
+                    hidden text-xl font-bold
+                    sm:inline-block
+                  `}
                 >
                   shadcn.io
                 </span>

@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { UploadIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
-import { useDropzone, type DropzoneOptions } from "react-dropzone";
+import { useDropzone  } from "react-dropzone";
+import type {DropzoneOptions} from "react-dropzone";
 import { cn } from "utils";
 
 interface DropzoneContextType {
@@ -32,7 +33,7 @@ export type DropzoneProps = Omit<DropzoneOptions, "onDrop"> & {
   src?: File[];
   className?: string;
   onDrop?(acceptedFiles: File[], fileRejections: unknown[], event: unknown): void;
-  onError?: (error: Error) => void;
+  onError?(error: Error): void;
   children?: ReactNode;
 };
 
@@ -123,9 +124,9 @@ export const DropzoneContent = ({ children, className }: DropzoneContentProps) =
     <div className={cn("flex flex-col items-center justify-center", className)}>
       <div
         className={`
-        flex size-8 items-center justify-center rounded-md bg-muted
-        text-muted-foreground
-      `}
+          flex size-8 items-center justify-center rounded-md bg-muted
+          text-muted-foreground
+        `}
       >
         <UploadIcon size={16} />
       </div>
@@ -178,9 +179,9 @@ export const DropzoneEmptyState = ({ children, className }: DropzoneEmptyStatePr
     <div className={cn("flex flex-col items-center justify-center", className)}>
       <div
         className={`
-        flex size-8 items-center justify-center rounded-md bg-muted
-        text-muted-foreground
-      `}
+          flex size-8 items-center justify-center rounded-md bg-muted
+          text-muted-foreground
+        `}
       >
         <UploadIcon size={16} />
       </div>

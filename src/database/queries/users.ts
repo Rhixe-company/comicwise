@@ -1,6 +1,7 @@
 import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
-import { asc, desc, eq, ilike, or, type SQL } from "drizzle-orm";
+import { asc, desc, eq, ilike, or  } from "drizzle-orm";
+import type {SQL} from "drizzle-orm";
 
 export async function getUserById(userId: string) {
   return await database.query.user.findFirst({
@@ -41,11 +42,11 @@ export async function getUsers(params?: {
     );
   }
   if (role) {
-    conditions.push(eq(user.role, role) as SQL<unknown>);
+    conditions.push(eq(user.role, role));
   }
 
   if (conditions.length > 0) {
-    query = query.where(or(...(conditions as SQL<unknown>[])));
+    query = query.where(or(...(conditions)));
   }
 
   // Apply sorting
@@ -74,7 +75,7 @@ export async function getUserCount(params?: {
     );
   }
   if (role) {
-    conditions.push(eq(user.role, role) as SQL<unknown>);
+    conditions.push(eq(user.role, role));
   }
 
   if (conditions.length > 0) {

@@ -4,6 +4,7 @@ import fs from "fs";
 /**
  *
  * param options
+ * @param options
  */
 export async function health<T>(options: T) {
   console.log(chalk.bold("\n🏥 System Health Check\n"));

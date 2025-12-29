@@ -17,7 +17,7 @@ import path from "path";
 function ensureImport(content) {
   if (/useImageUpload/.test(content)) return content;
   // Find the last import and insert after it
-  const m = content.match(/(import[\s\S]*?from\s+['"][^'"]+['"];?\s*)+/);
+  const m = content.match(/(import[\S\s]*?from\s+["'][^"']+["'];?\s*)+/);
   if (m) {
     const insertAt = m[0].length;
     const before = content.slice(0, insertAt);
@@ -29,7 +29,7 @@ function ensureImport(content) {
 
 function transform(content) {
   // Remove async function handleImageUpload(...) { ... }
-  const funcRe = /async function handleImageUpload\([\s\S]*?\n}\n\n/;
+  const funcRe = /async function handleImageUpload\([\S\s]*?\n}\n\n/;
   let out = content.replace(funcRe, "");
 
   // Add hook usage: const { fileInputRef, isUploading, handleFileSelect } = useImageUpload({ uploadType: 'avatar', onChange: (url) => form?.setValue ? form.setValue("profileImage", url) : document.getElementById("profile-upload")?.value = url, onUploadComplete: (url) => { try { const { toast } = await import("sonner"); toast.success("Image uploaded successfully"); } catch {}}});
@@ -43,7 +43,7 @@ function transform(content) {
   // Only add once
   if (!/useImageUpload\(/.test(out)) {
     // place after the last import block
-    const lastImportMatch = out.match(/(import[\s\S]*?from\s+['"][^'"]+['"];?\s*)+/);
+    const lastImportMatch = out.match(/(import[\S\s]*?from\s+["'][^"']+["'];?\s*)+/);
     if (lastImportMatch) {
       const idx = lastImportMatch[0].length;
       out = out.slice(0, idx) + "\n" + hookSnippet + out.slice(idx);
@@ -53,10 +53,10 @@ function transform(content) {
   }
 
   // Replace onChange={handleImageUpload} -> onChange={handleFileSelect}
-  out = out.replace(/onChange=\{handleImageUpload\}/g, "onChange={handleFileSelect}");
+  out = out.replaceAll('onChange={handleImageUpload}', "onChange={handleFileSelect}");
 
   // Replace clicks that invoke document.getElementById(...).click() to use ref
-  out = out.replace(
+  out = out.replaceAll(
     /document.getElementById\(([^)]+)\)\?\.click\(\)/g,
     "fileInputRef.current?.click()"
   );

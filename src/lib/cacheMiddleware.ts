@@ -32,6 +32,8 @@ export interface CacheMiddlewareConfig {
  * Generate cache key from request
  * param request
  * param config
+ * @param request
+ * @param config
  */
 async function generateCacheKey(
   request: NextRequest,
@@ -93,6 +95,8 @@ async function generateCacheKey(
  * ```
  * param handler
  * param config
+ * @param handler
+ * @param config
  */
 export function withCache(
   handler: (request: NextRequest) => Promise<NextResponse>,
@@ -203,6 +207,10 @@ export function withCache(
  * param options.prefix
  * param options.pattern
  * param options.tags
+ * @param options
+ * @param options.prefix
+ * @param options.pattern
+ * @param options.tags
  */
 export async function invalidateCache(options: {
   prefix?: string;
@@ -246,6 +254,11 @@ export async function invalidateCache(options: {
  * param config.patterns
  * param config.tags
  * param config.invalidate
+ * @param handler
+ * @param config
+ * @param config.patterns
+ * @param config.tags
+ * @param config.invalidate
  */
 export function withCacheInvalidation(
   handler: (request: NextRequest) => Promise<NextResponse>,
@@ -303,6 +316,13 @@ export function withCacheInvalidation(
  * param config.invalidate.patterns
  * param config.invalidate.tags
  * param config.invalidate.invalidate
+ * @param handler
+ * @param config
+ * @param config.cache
+ * @param config.invalidate
+ * @param config.invalidate.patterns
+ * @param config.invalidate.tags
+ * @param config.invalidate.invalidate
  */
 export function withSmartCache(
   handler: (request: NextRequest) => Promise<NextResponse>,
@@ -335,6 +355,10 @@ export function withSmartCache(
  * param options
  * param options.window
  * param options.max
+ * @param identifier
+ * @param options
+ * @param options.window
+ * @param options.max
  */
 export async function rateLimit(
   identifier: string,
@@ -375,6 +399,11 @@ export async function rateLimit(
  * param options.window
  * param options.max
  * param options.keyGenerator
+ * @param handler
+ * @param options
+ * @param options.window
+ * @param options.max
+ * @param options.keyGenerator
  */
 export function withRateLimit(
   handler: (request: NextRequest) => Promise<NextResponse>,

@@ -203,8 +203,8 @@ export function EnhancedDataTable<TData, TValue>({
       {enableRowSelection && selectedRowCount > 0 && (
         <div
           className={`
-          flex items-center justify-between rounded-md bg-muted px-4 py-2
-        `}
+            flex items-center justify-between rounded-md bg-muted px-4 py-2
+          `}
         >
           <span className="text-sm">
             {selectedRowCount} of {table.getFilteredRowModel().rows.length} row(s) selected
@@ -265,8 +265,8 @@ export function EnhancedDataTable<TData, TValue>({
       {/* Pagination Info */}
       <div
         className={`
-        flex items-center justify-between text-sm text-muted-foreground
-      `}
+          flex items-center justify-between text-sm text-muted-foreground
+        `}
       >
         <div>
           Showing {table.getFilteredRowModel().rows.length} of {data.length} result(s)

@@ -2,6 +2,8 @@
 
 > **A modern, full-stack web comic reading and management platform built with
 > Next.js 16, PostgreSQL, and cutting-edge web technologies.**
+>
+> **Version 2.0.0** | **Last Updated: 2025-12-29** | **Production Ready** ✨
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.3-blue?logo=react)](https://react.dev/)

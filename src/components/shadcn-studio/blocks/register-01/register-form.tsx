@@ -47,7 +47,11 @@ const RegisterForm = () => {
             variant="ghost"
             size="icon"
             onClick={() => setIsPasswordVisible((prevState) => !prevState)}
-            className="text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
+            className={`
+              absolute inset-y-0 right-0 rounded-l-none text-muted-foreground
+              hover:bg-transparent
+              focus-visible:ring-ring/50
+            `}
           >
             {isPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
             <span className="sr-only">{isPasswordVisible ? "Hide password" : "Show password"}</span>
@@ -71,7 +75,11 @@ const RegisterForm = () => {
             variant="ghost"
             size="icon"
             onClick={() => setIsConfirmPasswordVisible((prevState) => !prevState)}
-            className="text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
+            className={`
+              absolute inset-y-0 right-0 rounded-l-none text-muted-foreground
+              hover:bg-transparent
+              focus-visible:ring-ring/50
+            `}
           >
             {isConfirmPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
             <span className="sr-only">

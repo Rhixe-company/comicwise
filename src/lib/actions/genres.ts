@@ -30,11 +30,11 @@ export async function createGenre(formData: FormData): Promise<ActionResponse<{ 
 
     revalidatePath("/admin/genres");
     return { success: true, data: { id: genre.id } };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Create genre error:", err);
+    console.error("Create genre error:", error_);
     return error("Failed to create genre");
   }
 }
@@ -51,11 +51,11 @@ export async function updateGenre(genreId: number, formData: FormData): Promise<
     revalidatePath(`/admin/genres/${genreId}`);
 
     return { success: true };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Update genre error:", err);
+    console.error("Update genre error:", error_);
     return error("Failed to update genre");
   }
 }
@@ -66,8 +66,8 @@ export async function deleteGenre(genreId: number): Promise<ActionResponse> {
     revalidatePath("/admin/genres");
 
     return { success: true };
-  } catch (err) {
-    console.error("Delete genre error:", err);
+  } catch (error_) {
+    console.error("Delete genre error:", error_);
     return error("Failed to delete genre");
   }
 }

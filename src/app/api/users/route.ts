@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
           : searchParams.get("emailVerified") === "false"
             ? false
             : undefined,
-      page: searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1,
-      limit: searchParams.get("limit") ? parseInt(searchParams.get("limit")!) : 12,
+      page: searchParams.get("page") ? Number.parseInt(searchParams.get("page")!) : 1,
+      limit: searchParams.get("limit") ? Number.parseInt(searchParams.get("limit")!) : 12,
       sortBy: searchParams.get("sortBy") || "createdAt",
       sortOrder: (searchParams.get("sortOrder") as "asc" | "desc") || "desc",
     };

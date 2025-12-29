@@ -30,6 +30,7 @@ export interface ReadingHistory {
 /**
  * Save reading progress for a chapter
  * param data
+ * @param data
  */
 export async function saveReadingProgress(data: SaveProgressData) {
   try {
@@ -99,6 +100,7 @@ export async function saveReadingProgress(data: SaveProgressData) {
 /**
  * Get reading progress for a chapter
  * param chapterId
+ * @param chapterId
  */
 export async function getReadingProgress(chapterId: number) {
   try {
@@ -128,6 +130,7 @@ export async function getReadingProgress(chapterId: number) {
 /**
  * Get reading history for user
  * param limit
+ * @param limit
  */
 export async function getReadingHistory(
   limit = 20
@@ -184,6 +187,7 @@ export async function getReadingHistory(
 /**
  * Get continue reading list (comics with progress)
  * param limit
+ * @param limit
  */
 export async function getContinueReading(limit = 10) {
   try {
@@ -227,6 +231,7 @@ export async function getContinueReading(limit = 10) {
 /**
  * Delete reading progress
  * param progressId
+ * @param progressId
  */
 export async function deleteReadingProgress(progressId: number) {
   try {

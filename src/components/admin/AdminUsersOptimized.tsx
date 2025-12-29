@@ -25,10 +25,11 @@ import {
 } from "@/components/ui/select";
 import {
   createUserSchema,
-  updateUserSchema,
-  type CreateUserInput,
-  type UpdateUserInput,
+  updateUserSchema
+  
+  
 } from "@/lib/validations";
+import type {CreateUserInput, UpdateUserInput} from "@/lib/validations";
 import type { User } from "@/types/database";
 import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -41,12 +42,12 @@ import { toast } from "sonner";
 
 interface AdminUsersProps {
   users: User[];
-  createUserAction: (data: CreateUserInput) => Promise<{ success: boolean; error?: string }>;
-  updateUserAction: (
+  createUserAction(data: CreateUserInput): Promise<{ success: boolean; error?: string }>;
+  updateUserAction(
     id: string,
     data: UpdateUserInput
-  ) => Promise<{ success: boolean; error?: string }>;
-  deleteUserAction: (id: string) => Promise<{ success: boolean; error?: string }>;
+  ): Promise<{ success: boolean; error?: string }>;
+  deleteUserAction(id: string): Promise<{ success: boolean; error?: string }>;
 }
 
 // ═══════════════════════════════════════════════════

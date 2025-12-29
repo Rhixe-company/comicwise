@@ -22,9 +22,9 @@ import path from "path";
 // CONFIGURATION
 // ═══════════════════════════════════════════════════
 
-const args = process.argv.slice(2);
-const DRY_RUN = args.includes("--dry-run");
-const VERBOSE = args.includes("--verbose");
+const args = new Set(process.argv.slice(2));
+const DRY_RUN = args.has("--dry-run");
+const VERBOSE = args.has("--verbose");
 
 const TYPES_DIR = "types";
 const TYPE_FILES = globSync(`${TYPES_DIR}/**/*.{ts,d.ts}`, {
@@ -121,7 +121,7 @@ for (const file of TYPE_FILES) {
 
 console.log(chalk.yellow("\n📊 Analysis Results:\n"));
 
-const duplicates = Array.from(allExports.entries())
+const duplicates = [...allExports.entries()]
   .filter(([_, locations]) => locations.length > 1)
   .map(([name, locations]) => ({ name, locations }));
 
@@ -178,7 +178,7 @@ for (const file of sourceFiles) {
   }
 }
 
-const unusedExports = Array.from(allExports.keys()).filter(
+const unusedExports = [...allExports.keys()].filter(
   (name) => !allImportedTypes.has(name) && !name.startsWith("Insert")
 );
 

@@ -9,6 +9,8 @@ import { env } from "@/appConfig";
  * param url - Original image URL
  * param widths - Array of widths to generate (default: [320, 640, 1024, 1920])
  * returns srcset string for use in img tag
+ * @param url
+ * @param widths
  */
 export function getResponsiveSrcSet(
   url: string,
@@ -21,6 +23,7 @@ export function getResponsiveSrcSet(
  * Get full CDN URL for an image path
  * param path - Image path or URL
  * returns Full URL with app base
+ * @param path
  */
 export function getImageUrl(path: string): string {
   if (!path) return "";
@@ -46,6 +49,10 @@ export function getImageUrl(path: string): string {
  * param height - Optional image height
  * param quality - Image quality (1-100, default 80)
  * returns Transformed image URL
+ * @param url
+ * @param width
+ * @param height
+ * @param quality
  */
 export function transformImage(
   url: string,
@@ -77,6 +84,7 @@ export function transformImage(
  * Note: Actual deletion should be handled via API endpoint
  * param url - Image URL to delete
  * returns Promise resolving to success boolean
+ * @param url
  */
 export async function deleteImage(url: string): Promise<boolean> {
   if (!url) return false;
@@ -101,6 +109,9 @@ export async function deleteImage(url: string): Promise<boolean> {
  * param width - Thumbnail width (default: 300)
  * param height - Thumbnail height (default: 300)
  * returns Thumbnail URL
+ * @param url
+ * @param width
+ * @param height
  */
 export function getThumbnailUrl(url: string, width: number = 300, height: number = 300): string {
   return transformImage(url, width, height, 80);
@@ -111,6 +122,7 @@ export function getThumbnailUrl(url: string, width: number = 300, height: number
  * Works with local paths and CDN URLs
  * param url - Image URL
  * returns Public ID or filename
+ * @param url
  */
 export function getPublicIdFromUrl(url: string): string {
   if (!url) return "";
@@ -123,8 +135,8 @@ export function getPublicIdFromUrl(url: string): string {
 
   // For CDN URLs, extract the last path segment
   try {
-    const urlObj = new URL(url);
-    const pathSegments = urlObj.pathname.split("/").filter((s) => s);
+    const urlObject = new URL(url);
+    const pathSegments = urlObject.pathname.split("/").filter((s) => s);
     return pathSegments[pathSegments.length - 1] || "";
   } catch {
     // If not a valid URL, return the last segment
@@ -136,6 +148,7 @@ export function getPublicIdFromUrl(url: string): string {
  * Validate if a URL is a valid image URL
  * param url - URL to validate
  * returns true if URL appears to be an image
+ * @param url
  */
 export function isValidImageUrl(url: string): boolean {
   if (!url) return false;
@@ -143,7 +156,7 @@ export function isValidImageUrl(url: string): boolean {
   const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif", ".svg"];
   const lowerUrl = url.toLowerCase();
 
-  return imageExtensions.some((ext) => lowerUrl.includes(ext));
+  return imageExtensions.some((extension) => lowerUrl.includes(extension));
 }
 
 /**
@@ -164,6 +177,8 @@ interface ImageDimensions {
  * param width - Image width
  * param height - Image height
  * returns Aspect ratio as decimal
+ * @param width
+ * @param height
  */
 export function getAspectRatio(width: number, height: number): number {
   return width / height;
@@ -175,6 +190,9 @@ export function getAspectRatio(width: number, height: number): number {
  * param originalHeight - Original image height
  * param targetWidth - Target width
  * returns Dimensions maintaining aspect ratio
+ * @param originalWidth
+ * @param originalHeight
+ * @param targetWidth
  */
 export function getOptimizedDimensions(
   originalWidth: number,

@@ -81,11 +81,11 @@ export async function registerWorkflow(formData: FormData): Promise<ActionRespon
     await sendVerificationEmail(data.email, data.name, token);
 
     return { success: true, data: { userId: newUser.id } };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues?.[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues?.[0]?.message || "Validation error");
     }
-    console.error("Registration error:", err);
+    console.error("Registration error:", error_);
     return error("Failed to register user");
   }
 }
@@ -137,11 +137,11 @@ export async function forgotPasswordWorkflow(formData: FormData): Promise<Action
     await sendPasswordResetEmail(data.email, existingUser.name || "User", token);
 
     return { success: true };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues?.[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues?.[0]?.message || "Validation error");
     }
-    console.error("Forgot password error:", err);
+    console.error("Forgot password error:", error_);
     return error("Failed to process request");
   }
 }
@@ -171,11 +171,11 @@ export async function resetPasswordWorkflow(formData: FormData): Promise<ActionR
     await database.delete(passwordResetToken).where(eq(passwordResetToken.token, data.token));
 
     return { success: true };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues?.[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues?.[0]?.message || "Validation error");
     }
-    console.error("Reset password error:", err);
+    console.error("Reset password error:", error_);
     return error("Failed to reset password");
   }
 }
@@ -213,11 +213,11 @@ export async function verifyEmailWorkflow(formData: FormData): Promise<ActionRes
     await sendWelcomeEmail(existingUser.email, existingUser.name || "User");
 
     return { success: true };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues?.[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues?.[0]?.message || "Validation error");
     }
-    console.error("Verify email error:", err);
+    console.error("Verify email error:", error_);
     return error("Failed to verify email");
   }
 }
@@ -267,8 +267,8 @@ export async function resendVerificationEmail(email: string): Promise<ActionResp
     await sendVerificationEmail(email, existingUser.name || "User", token);
 
     return { success: true };
-  } catch (err) {
-    console.error("Resend verification error:", err);
+  } catch (error_) {
+    console.error("Resend verification error:", error_);
     return error("Failed to resend verification email");
   }
 }

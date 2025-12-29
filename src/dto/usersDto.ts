@@ -9,12 +9,12 @@ export type UserDto = typeof user.$inferSelect;
 export type CreateUserDto = typeof user.$inferInsert;
 export type UpdateUserDto = Partial<CreateUserDto>;
 
-export type UserListDto = {
+export interface UserListDto {
   users: UserDto[];
   total: number;
   page: number;
   limit: number;
-};
+}
 
 export type UserWithBookmarksDto = UserDto & {
   bookmarks?: Array<{

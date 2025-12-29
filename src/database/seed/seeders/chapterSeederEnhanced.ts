@@ -6,7 +6,8 @@
  */
 
 import { chapter, comic } from "@/database/schema";
-import { chapterSeedSchema, type ChapterSeed } from "@/lib/validations";
+import { chapterSeedSchema  } from "@/lib/validations";
+import type {ChapterSeed} from "@/lib/validations";
 import { eq } from "drizzle-orm";
 import { BaseSeeder, database } from "../baseSeeder";
 import { logger } from "../logger";
@@ -45,15 +46,16 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
 
   /**
    * Prepare chapter data for insertion
+   * @param item
    */
   protected prepareData(item: ChapterSeed): typeof chapter.$inferInsert {
-    const chapterNum = this.extractChapterNumber(item);
-    const title = item.title || `Chapter ${chapterNum}`;
+    const chapterNumber = this.extractChapterNumber(item);
+    const title = item.title || `Chapter ${chapterNumber}`;
 
     return {
       title,
       slug: this.generateSlug(item),
-      chapterNumber: chapterNum,
+      chapterNumber: chapterNumber,
       releaseDate: item.updatedAt ? new Date(item.updatedAt) : new Date(),
       comicId: 0, // Will be set later
     };
@@ -61,6 +63,7 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
 
   /**
    * Generate slug from chapter data
+   * @param item
    */
   private generateSlug(item: ChapterSeed): string {
     if (item.slug && typeof item.slug === "string" && item.slug.trim()) {
@@ -73,17 +76,18 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
         ? ((item as Record<string, unknown>).comic as { slug?: string }).slug
         : "";
 
-    const chapterNum = this.extractChapterNumber(item);
+    const chapterNumber = this.extractChapterNumber(item);
 
     if (comicSlug) {
-      return `${comicSlug}-chapter-${chapterNum}`;
+      return `${comicSlug}-chapter-${chapterNumber}`;
     }
 
-    return `chapter-${chapterNum}-${Date.now()}`;
+    return `chapter-${chapterNumber}-${Date.now()}`;
   }
 
   /**
    * Extract chapter number from various formats
+   * @param item
    */
   private extractChapterNumber(item: ChapterSeed): number {
     // Try direct number field
@@ -99,13 +103,13 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
     if (item.name) {
       const match = item.name.match(/chapter\s*(\d+)/i);
       if (match && match[1]) {
-        return parseInt(match[1], 10);
+        return Number.parseInt(match[1], 10);
       }
 
       // Try just number
-      const numMatch = item.name.match(/(\d+)/);
-      if (numMatch && numMatch[1]) {
-        return parseInt(numMatch[1], 10);
+      const numberMatch = item.name.match(/(\d+)/);
+      if (numberMatch && numberMatch[1]) {
+        return Number.parseInt(numberMatch[1], 10);
       }
     }
 
@@ -114,6 +118,7 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
 
   /**
    * Get comic ID by slug
+   * @param slug
    */
   private async getComicIdBySlug(slug: string): Promise<number | null> {
     if (this.comicCache.has(slug)) {
@@ -132,6 +137,7 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
 
   /**
    * Extract images from chapter data
+   * @param item
    */
   private extractImages(item: ChapterSeed): string[] {
     const images: string[] = [];
@@ -154,6 +160,8 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
 
   /**
    * Insert batch with comic relations
+   * @param batch
+   * @param options
    */
   protected async insertBatch(
     batch: ChapterSeed[],

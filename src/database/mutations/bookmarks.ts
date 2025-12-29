@@ -8,6 +8,9 @@ import { bookmark } from "@/database/schema";
  * param userId
  * param comicId
  * param chapterId
+ * @param userId
+ * @param comicId
+ * @param chapterId
  */
 export async function addBookmark(
   userId: string,
@@ -37,6 +40,8 @@ export async function addBookmark(
  *
  * param userId
  * param comicId
+ * @param userId
+ * @param comicId
  */
 export async function removeBookmark(
   userId: string,
@@ -55,6 +60,9 @@ export async function removeBookmark(
  * param userId
  * param comicId
  * param chapterId
+ * @param userId
+ * @param comicId
+ * @param chapterId
  */
 export async function updateReadingProgress(
   userId: string,
@@ -78,6 +86,9 @@ export async function updateReadingProgress(
  * param userId
  * param comicId
  * param notes
+ * @param userId
+ * @param comicId
+ * @param notes
  */
 export async function updateBookmarkNotes(
   userId: string,

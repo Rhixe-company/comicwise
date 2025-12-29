@@ -21,7 +21,7 @@ const seedOptionsSchema = z.object({
   dryRun: z.boolean().optional(),
   skipValidation: z.boolean().optional(),
   forceOverwrite: z.boolean().optional(),
-});
+}).strict();
 
 function validateOptions(body: unknown): SeedOptions {
   try {
@@ -55,16 +55,30 @@ export async function POST(request: Request) {
     const entities = body.entities || "all";
 
     let result;
-    if (entities === "all") {
+    switch (entities) {
+    case "all":
       result = await seedAll(options);
-    } else if (entities === "users") {
+    
+    break;
+    
+    case "users":
       result = await seedUsers(options);
-    } else if (entities === "comics") {
+    
+    break;
+    
+    case "comics":
       result = await seedComics(options);
-    } else if (entities === "chapters") {
+    
+    break;
+    
+    case "chapters":
       result = await seedChapters(options);
-    } else {
+    
+    break;
+    
+    default:
       return errorResponse("Invalid entity specified", 400);
+    
     }
 
     return successResponse({ message: "Seeding completed successfully", results: result });
@@ -101,16 +115,30 @@ export async function PATCH(request: Request) {
     const upsertOptions = { ...options, forceOverwrite: true };
 
     let result;
-    if (entities === "all") {
+    switch (entities) {
+    case "all":
       result = await seedAll(upsertOptions);
-    } else if (entities === "users") {
+    
+    break;
+    
+    case "users":
       result = await seedUsers(upsertOptions);
-    } else if (entities === "comics") {
+    
+    break;
+    
+    case "comics":
       result = await seedComics(upsertOptions);
-    } else if (entities === "chapters") {
+    
+    break;
+    
+    case "chapters":
       result = await seedChapters(upsertOptions);
-    } else {
+    
+    break;
+    
+    default:
       return errorResponse("Invalid entity specified", 400);
+    
     }
 
     return successResponse({ message: "Upsert completed successfully", results: result });

@@ -5,17 +5,17 @@ const actionsDir = join(process.cwd(), "src", "lib", "actions");
 const dtoDir = join(process.cwd(), "src", "lib", "dto");
 
 // Files to keep
-const utilsFiles = ["utils.ts"];
+const utilsFiles = new Set(["utils.ts"]);
 
 console.log("Migrating actions to DTO pattern...\n");
 
 // Get all action files except utils
 const actionFiles = readdirSync(actionsDir).filter(
-  (f) => f.endsWith(".ts") && !utilsFiles.includes(f)
+  (f) => f.endsWith(".ts") && !utilsFiles.has(f)
 );
 
 let migratedCount = 0;
-let errors = [];
+const errors = [];
 
 for (const file of actionFiles) {
   const baseName = file.replace(".ts", "");

@@ -757,7 +757,7 @@ export const comicSeedSchema = z
     status: z
       .string()
       .default("Ongoing")
-      .transform((val) => {
+      .transform((value) => {
         const statusMap: Record<string, string> = {
           ongoing: "Ongoing",
           hiatus: "Hiatus",
@@ -766,7 +766,7 @@ export const comicSeedSchema = z
           "coming soon": "Coming Soon",
           coming_soon: "Coming Soon",
         };
-        const normalized = val.toLowerCase();
+        const normalized = value.toLowerCase();
         return statusMap[normalized] || "Ongoing";
       }),
     category: z.string().optional(),
@@ -794,17 +794,17 @@ export const comicSeedSchema = z
       .default([]),
     updated_at: z
       .union([z.string(), z.date()])
-      .transform((val) => {
-        if (!val) return undefined;
-        const date = typeof val === "string" ? new Date(val) : val;
+      .transform((value) => {
+        if (!value) return undefined;
+        const date = typeof value === "string" ? new Date(value) : value;
         return isNaN(date.getTime()) ? undefined : date;
       })
       .optional(),
     updatedAt: z
       .union([z.string(), z.date()])
-      .transform((val) => {
-        if (!val) return undefined;
-        const date = typeof val === "string" ? new Date(val) : val;
+      .transform((value) => {
+        if (!value) return undefined;
+        const date = typeof value === "string" ? new Date(value) : value;
         return isNaN(date.getTime()) ? undefined : date;
       })
       .optional(),
@@ -825,9 +825,9 @@ export const comicSeedSchema = z
     numchapters: z.number().optional(),
     publicationDate: z
       .union([z.string(), z.date()])
-      .transform((val) => {
-        if (!val) return undefined;
-        const date = typeof val === "string" ? new Date(val) : val;
+      .transform((value) => {
+        if (!value) return undefined;
+        const date = typeof value === "string" ? new Date(value) : value;
         return isNaN(date.getTime()) ? undefined : date;
       })
       .optional(),
@@ -852,26 +852,26 @@ export const chapterSeedSchema = z
     chapterslug: z.string().optional(),
     updated_at: z
       .union([z.string(), z.date()])
-      .transform((val) => {
-        if (!val) return undefined;
-        const date = typeof val === "string" ? new Date(val) : val;
+      .transform((value) => {
+        if (!value) return undefined;
+        const date = typeof value === "string" ? new Date(value) : value;
         return isNaN(date.getTime()) ? undefined : date;
       })
       .optional(),
     updatedAt: z
       .union([z.string(), z.date()])
-      .transform((val) => {
-        if (!val) return undefined;
-        const date = typeof val === "string" ? new Date(val) : val;
+      .transform((value) => {
+        if (!value) return undefined;
+        const date = typeof value === "string" ? new Date(value) : value;
         return isNaN(date.getTime()) ? undefined : date;
       })
       .optional(),
     spider: z.string().optional(),
     releaseDate: z
       .union([z.string(), z.date()])
-      .transform((val) => {
-        if (!val) return undefined;
-        const date = typeof val === "string" ? new Date(val) : val;
+      .transform((value) => {
+        if (!value) return undefined;
+        const date = typeof value === "string" ? new Date(value) : value;
         return isNaN(date.getTime()) ? undefined : date;
       })
       .optional(),

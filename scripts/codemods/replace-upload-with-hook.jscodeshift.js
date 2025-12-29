@@ -18,7 +18,7 @@ module.exports = function transformer(file, api) {
     root.find(j.FunctionDeclaration, { id: { name: "handleImageUpload" } }).size() > 0 ||
     root.find(j.VariableDeclarator, { id: { name: "handleImageUpload" } }).size() > 0;
 
-  if (!hasHandleFn && file.source.indexOf("handleImageUpload") === -1) {
+  if (!hasHandleFn && !file.source.includes("handleImageUpload")) {
     return null; // nothing to do
   }
 

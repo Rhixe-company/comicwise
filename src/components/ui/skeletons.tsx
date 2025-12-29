@@ -14,12 +14,12 @@ export function ComicGridSkeleton({ count = 12 }: { count?: number }) {
   return (
     <div
       className={`
-      grid grid-cols-2 gap-4
-      sm:grid-cols-3
-      md:grid-cols-4
-      lg:grid-cols-5
-      xl:grid-cols-6
-    `}
+        grid grid-cols-2 gap-4
+        sm:grid-cols-3
+        md:grid-cols-4
+        lg:grid-cols-5
+        xl:grid-cols-6
+      `}
     >
       {Array.from({ length: count }).map((_, i) => (
         <ComicCardSkeleton key={i} />
@@ -35,8 +35,8 @@ export function ChapterListSkeleton({ count = 10 }: { count?: number }) {
         <div
           key={i}
           className={`
-          flex items-center gap-3 rounded-md border border-border p-3
-        `}
+            flex items-center gap-3 rounded-md border border-border p-3
+          `}
         >
           <Skeleton className="h-16 w-16 rounded-md" />
           <div className="flex-1 space-y-2">
@@ -54,9 +54,9 @@ export function ComicDetailSkeleton() {
     <div className="container mx-auto px-4 py-8">
       <div
         className={`
-        grid gap-8
-        md:grid-cols-[300px_1fr]
-      `}
+          grid gap-8
+          md:grid-cols-[300px_1fr]
+        `}
       >
         <div className="space-y-4">
           <Skeleton className="aspect-3/4 w-full rounded-lg" />
@@ -122,9 +122,9 @@ export function AdminTableSkeleton({ rows = 10 }: { rows?: number }) {
           <div
             key={i}
             className={`
-            border-b border-border p-4
-            last:border-0
-          `}
+              border-b border-border p-4
+              last:border-0
+            `}
           >
             <div className="flex gap-4">
               <Skeleton className="h-5 w-1/4" />

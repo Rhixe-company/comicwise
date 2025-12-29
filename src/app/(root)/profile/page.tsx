@@ -33,18 +33,18 @@ export default async function ProfilePage() {
     <div className="container mx-auto max-w-4xl px-4 py-8">
       <h1
         className={`
-        mb-8 text-3xl font-bold
-        md:text-4xl
-      `}
+          mb-8 text-3xl font-bold
+          md:text-4xl
+        `}
       >
         My Profile
       </h1>
 
       <div
         className={`
-        grid gap-8
-        md:grid-cols-[300px_1fr]
-      `}
+          grid gap-8
+          md:grid-cols-[300px_1fr]
+        `}
       >
         {/* Sidebar */}
         <div className="space-y-6">

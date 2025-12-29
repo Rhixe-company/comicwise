@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Chapter ID is required" }, { status: 400 });
     }
 
-    const images = await getChapterImages(parseInt(chapterId));
+    const images = await getChapterImages(Number.parseInt(chapterId));
 
     return NextResponse.json({
       success: true,

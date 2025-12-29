@@ -25,6 +25,12 @@ interface InteractiveGridPatternProps extends React.SVGProps<SVGSVGElement> {
  *
  * see InteractiveGridPatternProps for the props interface.
  * returns A React component.
+ * @param root0
+ * @param root0.width
+ * @param root0.height
+ * @param root0.squares
+ * @param root0.className
+ * @param root0.squaresClassName
  */
 export function InteractiveGridPattern({
   width = 40,

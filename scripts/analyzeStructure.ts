@@ -104,7 +104,7 @@ async function checkDuplicateCode(): Promise<void> {
     componentNames.get(basename)!.push(component);
   }
 
-  const duplicates = Array.from(componentNames.entries()).filter(([_, files]) => files.length > 1);
+  const duplicates = [...componentNames.entries()].filter(([_, files]) => files.length > 1);
 
   if (duplicates.length > 0) {
     log(`⚠️  Found ${duplicates.length} duplicate component names:`, "warn");

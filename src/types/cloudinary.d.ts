@@ -60,7 +60,7 @@ declare module "cloudinary" {
     };
     search: {
       expression(expr: string): {
-        max_results(num: number): {
+        max_results(number_: number): {
           execute(): Promise<SearchResult>;
         };
       };

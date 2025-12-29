@@ -8,6 +8,7 @@ import path from "path";
 export class FileUtils {
   /**
    * Read and parse a JSON file
+   * @param filePath
    */
   async readJsonFile<T>(filePath: string): Promise<T> {
     const content = await fs.readFile(filePath, "utf-8");
@@ -16,6 +17,7 @@ export class FileUtils {
 
   /**
    * Find files matching a glob pattern
+   * @param pattern
    */
   async findJsonFiles(pattern: string): Promise<string[]> {
     try {
@@ -32,7 +34,7 @@ export class FileUtils {
       // Handle wildcard patterns
       const dir = path.dirname(pattern);
       const basePattern = path.basename(pattern);
-      const regex = new RegExp("^" + basePattern.replace(/\*/g, ".*").replace(/\?/g, ".") + "$");
+      const regex = new RegExp("^" + basePattern.replaceAll('*', ".*").replaceAll('?', ".") + "$");
 
       const files = await fs.readdir(dir);
       const matches = files
@@ -48,6 +50,7 @@ export class FileUtils {
 
   /**
    * Read multiple JSON files and merge data
+   * @param patterns
    */
   async readMultipleJsonFiles<T>(patterns: string[]): Promise<T[]> {
     const allData: T[] = [];

@@ -22,6 +22,7 @@ export class DataLoader<T = unknown> {
 
   /**
    * Load data from single or multiple JSON files
+   * @param sources
    */
   async load(sources: string | string[]): Promise<T[]> {
     const sourcesArray = Array.isArray(sources) ? sources : [sources];
@@ -48,6 +49,7 @@ export class DataLoader<T = unknown> {
 
   /**
    * Resolve file paths (supports glob patterns)
+   * @param pattern
    */
   private async resolveFiles(pattern: string): Promise<string[]> {
     // If it's a direct file path and exists, return it
@@ -72,6 +74,7 @@ export class DataLoader<T = unknown> {
 
   /**
    * Load and parse a single JSON file
+   * @param filePath
    */
   private async loadFile(filePath: string): Promise<T[]> {
     try {
@@ -95,6 +98,7 @@ export class DataLoader<T = unknown> {
 
   /**
    * Validate data against Zod schema
+   * @param data
    */
   private validate(data: unknown[]): T[] {
     if (!this.schema) {
@@ -131,6 +135,9 @@ export class DataLoader<T = unknown> {
 
   /**
    * Load data from multiple sources with fallback
+   * @param entity
+   * @param sources
+   * @param schema
    */
   static async loadWithFallback<T>(
     entity: string,
@@ -143,6 +150,7 @@ export class DataLoader<T = unknown> {
 
   /**
    * Check if any source files exist
+   * @param sources
    */
   static async hasData(sources: string[]): Promise<boolean> {
     for (const source of sources) {
@@ -165,6 +173,8 @@ export class DataLoader<T = unknown> {
 
 /**
  * Load JSON data from files
+ * @param sources
+ * @param schema
  */
 export async function loadJsonData<T = unknown>(
   sources: string | string[],
@@ -177,6 +187,7 @@ export async function loadJsonData<T = unknown>(
 
 /**
  * Check if data files exist
+ * @param sources
  */
 export async function dataExists(sources: string | string[]): Promise<boolean> {
   const sourcesArray = Array.isArray(sources) ? sources : [sources];
@@ -185,6 +196,7 @@ export async function dataExists(sources: string | string[]): Promise<boolean> {
 
 /**
  * Get all matching files for a pattern
+ * @param pattern
  */
 export async function getDataFiles(pattern: string): Promise<string[]> {
   return glob(pattern, {

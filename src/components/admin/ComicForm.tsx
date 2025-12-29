@@ -33,9 +33,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface ComicFormProps {
-  onSubmit: (
+  onSubmit(
     data: z.infer<typeof comicFormSchema>
-  ) => Promise<{ success: boolean; error?: string } | void>;
+  ): Promise<{ success: boolean; error?: string } | void>;
   initialData?: Partial<z.infer<typeof comicFormSchema>>;
   isLoading?: boolean;
   submitLabel?: string;
@@ -109,7 +109,9 @@ export function ComicForm({
       )}
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(handleFormSubmit)} className={`
+          space-y-6
+        `}>
           {/* Cover Image Upload */}
           <Card>
             <CardHeader>
@@ -119,7 +121,9 @@ export function ComicForm({
             <CardContent className="space-y-4">
               <div className="flex gap-6">
                 {coverImageValue && (
-                  <div className="relative h-48 w-32 overflow-hidden rounded-lg border">
+                  <div className={`
+                    relative h-48 w-32 overflow-hidden rounded-lg border
+                  `}>
                     <Image
                       src={coverImageValue}
                       alt="Cover preview"
@@ -224,7 +228,9 @@ export function ComicForm({
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Comic description" className="min-h-32" {...field} />
+                      <Textarea placeholder="Comic description" className={`
+                        min-h-32
+                      `} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

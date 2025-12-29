@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server";
 
-type GetFn = (id: string | number) => Promise<unknown>;
-type UpdateFn = (id: string | number, data: unknown) => Promise<unknown>;
-type DeleteFn = (id: string | number) => Promise<unknown | boolean>;
+type GetFunction = (id: string | number) => Promise<unknown>;
+type UpdateFunction = (id: string | number, data: unknown) => Promise<unknown>;
+type DeleteFunction = (id: string | number) => Promise<unknown | boolean>;
 
 interface ValidationResult {
   success: boolean;
   value?: unknown;
 }
 
-type ValidationFn = (value: unknown) => ValidationResult;
+type ValidationFunction = (value: unknown) => ValidationResult;
 
 export function zodToValidationResult(_schema: unknown) {
   // Return a simple validator function that always accepts (stub)
@@ -18,61 +18,61 @@ export function zodToValidationResult(_schema: unknown) {
 
 export async function getGenericEntity(
   id: string | number,
-  opts: { getFn: GetFn; validateFn?: ValidationFn; entityName?: string }
+  options: { getFn: GetFunction; validateFn?: ValidationFunction; entityName?: string }
 ) {
   try {
-    const data = await opts.getFn(id);
+    const data = await options.getFn(id);
     if (!data)
       return NextResponse.json(
-        { error: `${opts.entityName || "entity"} not found` },
+        { error: `${options.entityName || "entity"} not found` },
         { status: 404 }
       );
     return NextResponse.json(data);
-  } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 });
   }
 }
 
 export async function updateGenericEntity(
   id: string | number,
   body: unknown,
-  opts: {
-    updateFn: UpdateFn;
-    idValidateFn?: ValidationFn;
-    dataValidateFn?: ValidationFn;
+  options: {
+    updateFn: UpdateFunction;
+    idValidateFn?: ValidationFunction;
+    dataValidateFn?: ValidationFunction;
     entityName?: string;
   }
 ) {
   try {
     // naive validation stubs
-    if (opts.idValidateFn) {
-      const r = opts.idValidateFn(id);
+    if (options.idValidateFn) {
+      const r = options.idValidateFn(id);
       if (r?.success === false) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
     }
-    if (opts.dataValidateFn) {
-      const r = opts.dataValidateFn(body);
+    if (options.dataValidateFn) {
+      const r = options.dataValidateFn(body);
       if (r?.success === false)
         return NextResponse.json({ error: "Invalid data" }, { status: 400 });
     }
-    const result = await opts.updateFn(id, body);
+    const result = await options.updateFn(id, body);
     return NextResponse.json(result);
-  } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 });
   }
 }
 
 export async function deleteGenericEntity(
   id: string | number,
-  opts: { deleteFn: DeleteFn; validateFn?: ValidationFn; entityName?: string }
+  options: { deleteFn: DeleteFunction; validateFn?: ValidationFunction; entityName?: string }
 ) {
   try {
-    if (opts.validateFn) {
-      const r = opts.validateFn(id);
+    if (options.validateFn) {
+      const r = options.validateFn(id);
       if (r?.success === false) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
     }
-    const result = await opts.deleteFn(id);
+    const result = await options.deleteFn(id);
     return NextResponse.json({ success: !!result });
-  } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 });
   }
 }

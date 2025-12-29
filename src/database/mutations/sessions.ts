@@ -13,6 +13,10 @@ import { session } from "@/database/schema";
  * param data.sessionToken
  * param data.userId
  * param data.expires
+ * @param data
+ * @param data.sessionToken
+ * @param data.userId
+ * @param data.expires
  */
 export async function createSession(data: {
   sessionToken: string;
@@ -28,6 +32,9 @@ export async function createSession(data: {
  * param sessionToken
  * param data
  * param data.expires
+ * @param sessionToken
+ * @param data
+ * @param data.expires
  */
 export async function updateSession(
   sessionToken: string,
@@ -44,6 +51,7 @@ export async function updateSession(
 /**
  *
  * param sessionToken
+ * @param sessionToken
  */
 export async function deleteSession(
   sessionToken: string
@@ -58,6 +66,7 @@ export async function deleteSession(
 /**
  *
  * param userId
+ * @param userId
  */
 export async function deleteSessionsByUserId(
   userId: string

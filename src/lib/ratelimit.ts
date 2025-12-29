@@ -70,10 +70,10 @@ export async function checkRateLimit(
 }
 
 function parseWindow(window: string): number {
-  const match = window.match(/^(\d+)([smhd])$/);
+  const match = window.match(/^(\d+)([dhms])$/);
   if (!match) return 60;
 
-  const value = parseInt(match[1]);
+  const value = Number.parseInt(match[1]);
   const unit = match[2];
 
   switch (unit) {

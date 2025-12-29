@@ -38,8 +38,8 @@ export function zodToValidationResult<T extends z.ZodTypeAny>(
 }
 
 interface GetEntityOptions {
-  getFn: (id: string) => Promise<unknown | null>;
-  validateFn: (data: unknown) => ValidationResult;
+  getFn(id: string): Promise<unknown | null>;
+  validateFn(data: unknown): ValidationResult;
   entityName: string;
 }
 
@@ -63,9 +63,9 @@ export async function getGenericEntity(
 }
 
 interface UpdateEntityOptions {
-  updateFn: (id: string, data: unknown) => Promise<unknown>;
-  idValidateFn: (data: unknown) => ValidationResult;
-  dataValidateFn: (data: unknown) => ValidationResult;
+  updateFn(id: string, data: unknown): Promise<unknown>;
+  idValidateFn(data: unknown): ValidationResult;
+  dataValidateFn(data: unknown): ValidationResult;
   entityName: string;
 }
 
@@ -98,8 +98,8 @@ export async function updateGenericEntity(
 }
 
 interface DeleteEntityOptions {
-  deleteFn: (id: string) => Promise<boolean>;
-  validateFn: (data: unknown) => ValidationResult;
+  deleteFn(id: string): Promise<boolean>;
+  validateFn(data: unknown): ValidationResult;
   entityName: string;
 }
 

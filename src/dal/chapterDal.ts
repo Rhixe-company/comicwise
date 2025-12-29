@@ -48,12 +48,12 @@ export class ChapterDal {
   async findByComicId(comicId: number, order: "asc" | "desc" = "asc"): Promise<Chapter[]> {
     try {
       this.logger.debug({ comicId, order }, "Finding chapters by comic ID");
-      const orderFn = order === "asc" ? asc : desc;
+      const orderFunction = order === "asc" ? asc : desc;
       const results = await db
         .select()
         .from(chapter)
         .where(eq(chapter.comicId, comicId))
-        .orderBy(orderFn(chapter.chapterNumber));
+        .orderBy(orderFunction(chapter.chapterNumber));
       return results;
     } catch (error) {
       this.logger.error({ error, comicId }, "Failed to find chapters by comic ID");

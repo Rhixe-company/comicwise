@@ -107,8 +107,8 @@ export function AppSidebar() {
           ComicWise v1.0.0 • Press{" "}
           <kbd
             className={`
-            rounded bg-muted px-1.5 py-0.5 text-[10px] font-semibold
-          `}
+              rounded bg-muted px-1.5 py-0.5 text-[10px] font-semibold
+            `}
           >
             ⌘K
           </kbd>{" "}

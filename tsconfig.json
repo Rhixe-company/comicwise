@@ -29,14 +29,16 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "paths": {
-      "@": ["./src/*"],
+      "@/*": ["./src/*"],
+      "@/appConfig": ["./appConfig.ts"],
       "actions": ["./src/lib/actions/*"],
       "admin": ["./src/components/admin/*"],
-      "appConfig": ["./app-config"],
+      "appConfig": ["./appConfig.ts"],
       "assets": ["./src/assets/*"],
       "auth": ["./src/lib/auth"],
       "authAdapter": ["./src/lib/authAdapter"],
       "authConfig": ["./src/lib/authConfig"],
+      "components": ["./src/components/*"],
       "dal": ["./src/dal/*"],
       "database": ["./src/database/*"],
       "db": ["./src/database/db"],
@@ -59,10 +61,7 @@
       "types": ["./src/types/*"],
       "ui": ["./src/components/ui/*"],
       "utils": ["./src/lib/utils"],
-      "validations": ["./src/lib/validations/*"],
-      "@/*": ["./src/*"],
-      "@/app-config": ["./appConfig.ts"],
-      "@/appConfig": ["./appConfig.ts"]
+      "validations": ["./src/lib/validations/*"]
     },
     "plugins": [
       {

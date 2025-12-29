@@ -11,7 +11,7 @@ export interface CliCommand {
   category: CliCommandCategory;
   aliases?: string[];
   options?: CliCommandOption[];
-  action: (...args: any[]) => Promise<void> | void;
+  action(...args: any[]): Promise<void> | void;
   examples?: string[];
 }
 

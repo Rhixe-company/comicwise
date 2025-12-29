@@ -12,14 +12,14 @@ async function fixScriptErrors() {
   // Fix drizzle.config.ts
   const drizzleConfigPath = path.join(ROOT_DIR, "drizzle.config.ts");
   let content = await fs.readFile(drizzleConfigPath, "utf-8");
-  content = content.replace(/from ['"]app-config['"]/g, 'from "@/appConfig"');
+  content = content.replaceAll(/from ["']app-config["']/g, 'from "@/appConfig"');
   await fs.writeFile(drizzleConfigPath, content);
   console.log("✓ Fixed drizzle.config.ts");
 
   // Fix playwright.config.ts
   const playwrightConfigPath = path.join(ROOT_DIR, "playwright.config.ts");
   content = await fs.readFile(playwrightConfigPath, "utf-8");
-  content = content.replace(/from ['"]playwright\/test['"]/g, 'from "@playwright/test"');
+  content = content.replaceAll(/from ["']playwright\/test["']/g, 'from "@playwright/test"');
   await fs.writeFile(playwrightConfigPath, content);
   console.log("✓ Fixed playwright.config.ts");
 
@@ -36,7 +36,7 @@ async function fixScriptErrors() {
     const fullPath = path.join(ROOT_DIR, scriptPath);
     if (await fs.pathExists(fullPath)) {
       content = await fs.readFile(fullPath, "utf-8");
-      content = content.replace(/from ['"]appConfig['"]/g, 'from "@/appConfig"');
+      content = content.replaceAll(/from ["']appConfig["']/g, 'from "@/appConfig"');
       await fs.writeFile(fullPath, content);
       console.log(`✓ Fixed ${scriptPath}`);
     }
@@ -56,7 +56,7 @@ async function fixScriptErrors() {
   const queueWorkerPath = path.join(ROOT_DIR, "scripts/queueWorker.ts");
   if (await fs.pathExists(queueWorkerPath)) {
     content = await fs.readFile(queueWorkerPath, "utf-8");
-    content = content.replace(/emailQueue\./g, "// emailQueue.");
+    content = content.replaceAll('emailQueue.', "// emailQueue.");
     await fs.writeFile(queueWorkerPath, content);
     console.log("✓ Fixed scripts/queueWorker.ts");
   }
@@ -66,7 +66,7 @@ async function fixScriptErrors() {
   if (await fs.pathExists(healthCommandPath)) {
     content = await fs.readFile(healthCommandPath, "utf-8");
     // Add type assertion
-    content = content.replace(/if \(options\.verbose\)/g, "if ((options as any).verbose)");
+    content = content.replaceAll('if (options.verbose)', "if ((options as any).verbose)");
     await fs.writeFile(healthCommandPath, content);
     console.log("✓ Fixed scripts/cli/commands/health.ts");
   }

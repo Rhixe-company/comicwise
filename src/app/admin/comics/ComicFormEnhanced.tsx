@@ -169,7 +169,10 @@ export function ComicFormEnhanced({
           {/* Genre Multi-Select */}
           <div className="space-y-2">
             <Label>Genres</Label>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+            <div className={`
+              grid grid-cols-2 gap-3
+              md:grid-cols-3
+            `}>
               {genres.map((genre) => (
                 <label key={genre.id} className="flex items-center gap-2">
                   <input

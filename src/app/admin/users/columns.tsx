@@ -37,7 +37,7 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "role",
     header: "Role",
     cell: ({ row }) => {
-      const role = row.getValue("role") as string;
+      const role = String(row.getValue("role") ?? "");
       return <Badge variant={role === "admin" ? "default" : "secondary"}>{role}</Badge>;
     },
   },
@@ -53,8 +53,11 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "createdAt",
     header: "Created",
     cell: ({ row }) => {
-      const date = row.getValue("createdAt") as Date;
-      return new Date(date).toLocaleDateString();
+      const value = row.getValue("createdAt");
+      if (!value) return "";
+      const date = new Date(String(value));
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleDateString();
     },
   },
   {
@@ -95,9 +98,7 @@ export const columns: ColumnDef<User>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleDelete}
-              className={`
-              text-destructive
-            `}
+              className={`text-destructive`}
             >
               <Trash className="mr-2 h-4 w-4" />
               Delete

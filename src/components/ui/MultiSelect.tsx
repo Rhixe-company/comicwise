@@ -19,20 +19,21 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState,
-  type ComponentPropsWithoutRef,
-  type ReactNode,
+  useState
+  
+  
 } from "react";
+import type {ComponentPropsWithoutRef, ReactNode} from "react";
 import { cn } from "utils";
 
-type MultiSelectContextType = {
+interface MultiSelectContextType {
   open: boolean;
-  setOpen: (open: boolean) => void;
+  setOpen(open: boolean): void;
   selectedValues: Set<string>;
-  toggleValue: (value: string) => void;
+  toggleValue(value: string): void;
   items: Map<string, ReactNode>;
-  onItemAdded: (value: string, label: ReactNode) => void;
-};
+  onItemAdded(value: string, label: ReactNode): void;
+}
 const MultiSelectContext = createContext<MultiSelectContextType | null>(null);
 
 export function MultiSelect({
@@ -44,7 +45,7 @@ export function MultiSelect({
   children: ReactNode;
   values?: string[];
   defaultValues?: string[];
-  onValuesChange?: (values: string[]) => void;
+  onValuesChange?(values: string[]): void;
 }) {
   const [open, setOpen] = useState(false);
   const [internalValues, setInternalValues] = useState(new Set<string>(values ?? defaultValues));
@@ -108,7 +109,22 @@ export function MultiSelectTrigger({
         role={props.role ?? "combobox"}
         aria-expanded={props["aria-expanded"] ?? open}
         className={cn(
-          "flex h-auto min-h-9 w-fit items-center justify-between gap-2 overflow-hidden rounded-md border border-input bg-transparent px-3 py-1.5 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[placeholder]:text-muted-foreground dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
+          `
+            flex h-auto min-h-9 w-fit items-center justify-between gap-2
+            overflow-hidden rounded-md border border-input bg-transparent px-3
+            py-1.5 text-sm whitespace-nowrap shadow-xs
+            transition-[color,box-shadow] outline-none
+            focus-visible:border-ring focus-visible:ring-[3px]
+            focus-visible:ring-ring/50
+            disabled:cursor-not-allowed disabled:opacity-50
+            aria-invalid:border-destructive aria-invalid:ring-destructive/20
+            data-[placeholder]:text-muted-foreground
+            dark:bg-input/30 dark:hover:bg-input/50
+            dark:aria-invalid:ring-destructive/40
+            [&_svg]:pointer-events-none [&_svg]:shrink-0
+            [&_svg:not([class*='size-'])]:size-4
+            [&_svg:not([class*='text-'])]:text-muted-foreground
+          `,
           className
         )}
       >
@@ -148,7 +164,7 @@ export function MultiSelectValue({
     items.forEach((child) => child.style.removeProperty("display"));
     let amount = 0;
     for (let i = items.length - 1; i >= 0; i--) {
-      const child = items[i]!;
+      const child = items[i];
       if (containerElement.scrollWidth <= containerElement.clientWidth) {
         break;
       }
@@ -184,7 +200,9 @@ export function MultiSelectValue({
 
   if (selectedValues.size === 0 && placeholder) {
     return (
-      <span className="min-w-0 overflow-hidden font-normal text-muted-foreground">
+      <span className={`
+        min-w-0 overflow-hidden font-normal text-muted-foreground
+      `}>
         {placeholder}
       </span>
     );
@@ -219,7 +237,10 @@ export function MultiSelectValue({
           >
             {items.get(value)}
             {clickToRemove && (
-              <XIcon className="size-2 text-muted-foreground group-hover:text-destructive" />
+              <XIcon className={`
+                size-2 text-muted-foreground
+                group-hover:text-destructive
+              `} />
             )}
           </Badge>
         ))}
@@ -324,12 +345,12 @@ function useMultiSelectContext() {
 }
 
 function debounce<T extends (...args: never[]) => void>(
-  func: T,
+  function_: T,
   wait: number
 ): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
   return function (this: unknown, ...args: Parameters<T>) {
     if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
+    timeout = setTimeout(() => function_.apply(this, args), wait);
   };
 }

@@ -71,6 +71,7 @@ async function checkAuthRateLimit(identifier: string): Promise<boolean> {
 /**
  *
  * param input
+ * @param input
  */
 export async function registerUserAction(input: SignUpInput): Promise<AuthActionResponse> {
   try {
@@ -174,6 +175,7 @@ export async function registerUserAction(input: SignUpInput): Promise<AuthAction
 /**
  *
  * param input
+ * @param input
  */
 export async function verifyEmailAction(input: VerifyEmailInput): Promise<AuthActionResponse> {
   try {
@@ -231,6 +233,7 @@ export async function verifyEmailAction(input: VerifyEmailInput): Promise<AuthAc
 /**
  *
  * param input
+ * @param input
  */
 export async function resendVerificationEmailAction(
   input: ResendVerificationEmailInput
@@ -310,6 +313,7 @@ export async function resendVerificationEmailAction(
 /**
  *
  * param input
+ * @param input
  */
 export async function forgotPasswordAction(
   input: ForgotPasswordInput
@@ -384,6 +388,7 @@ export async function forgotPasswordAction(
 /**
  *
  * param input
+ * @param input
  */
 export async function resetPasswordAction(input: ResetPasswordInput): Promise<AuthActionResponse> {
   try {
@@ -468,6 +473,8 @@ export async function resetPasswordAction(input: ResetPasswordInput): Promise<Au
  *
  * param email
  * param password
+ * @param email
+ * @param password
  */
 export async function signInAction(email: string, password: string): Promise<AuthActionResponse> {
   try {

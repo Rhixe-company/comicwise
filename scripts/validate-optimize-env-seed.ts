@@ -30,7 +30,7 @@ async function main() {
   const required = ["DATABASE_URL", "AUTH_SECRET", "AUTH_URL"];
   let missing = false;
   for (const key of required) {
-    if (!env[key as keyof typeof env]) {
+    if (!env[key]) {
       console.warn(`⚠️  Missing required environment variable: ${key}`);
       missing = true;
     }

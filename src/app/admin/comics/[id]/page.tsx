@@ -17,7 +17,7 @@ interface ComicDetailPageProps {
 
 export async function generateMetadata({ params }: ComicDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const comic = await getComicById(parseInt(id));
+  const comic = await getComicById(Number.parseInt(id));
 
   if (!comic) {
     return { title: "Comic Not Found" };
@@ -121,7 +121,7 @@ export default async function ComicDetailPage({ params }: ComicDetailPageProps) 
       </div>
 
       <Suspense fallback={<div>Loading comic...</div>}>
-        <ComicEditForm id={parseInt(id)} />
+        <ComicEditForm id={Number.parseInt(id)} />
       </Suspense>
     </div>
   );

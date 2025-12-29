@@ -28,16 +28,16 @@ async function ComicDetails({ comicId }: { comicId: number }) {
       {/* Comic Header */}
       <div
         className={`
-        grid gap-8
-        md:grid-cols-[300px_1fr]
-      `}
+          grid gap-8
+          md:grid-cols-[300px_1fr]
+        `}
       >
         {/* Cover Image */}
         <div
           className={`
-          relative aspect-2/3 overflow-hidden rounded-lg
-          md:aspect-auto md:h-[450px]
-        `}
+            relative aspect-2/3 overflow-hidden rounded-lg
+            md:aspect-auto md:h-[450px]
+          `}
         >
           <Image
             src={comic.coverImage || "/placeholder-comic.png"}
@@ -53,16 +53,16 @@ async function ComicDetails({ comicId }: { comicId: number }) {
           <div>
             <h1
               className={`
-              mb-2 text-3xl font-bold
-              md:text-4xl
-            `}
+                mb-2 text-3xl font-bold
+                md:text-4xl
+              `}
             >
               {comic.title}
             </h1>
             <div
               className={`
-              flex flex-wrap items-center gap-2 text-sm text-muted-foreground
-            `}
+                flex flex-wrap items-center gap-2 text-sm text-muted-foreground
+              `}
             >
               {comic.author && <span>By {comic.author.name}</span>}
               {comic.artist && <span>• Art by {comic.artist.name}</span>}
@@ -133,9 +133,9 @@ async function ComicDetails({ comicId }: { comicId: number }) {
               <Link key={chapter.id} href={`/comics/${comic.id}/read/${chapter.id}`}>
                 <Card
                   className={`
-                  transition-colors
-                  hover:bg-muted
-                `}
+                    transition-colors
+                    hover:bg-muted
+                  `}
                 >
                   <CardContent className="flex items-center justify-between p-4">
                     <div>
@@ -146,8 +146,8 @@ async function ComicDetails({ comicId }: { comicId: number }) {
                     </div>
                     <div
                       className={`
-                      flex items-center gap-2 text-sm text-muted-foreground
-                    `}
+                        flex items-center gap-2 text-sm text-muted-foreground
+                      `}
                     >
                       <Eye className="h-4 w-4" />
                       <span>{Number(chapter.views)}</span>
@@ -173,9 +173,9 @@ async function RecommendedComics({ comicId }: { comicId: number }) {
       <h2 className="mb-6 text-2xl font-bold">You Might Also Like</h2>
       <div
         className={`
-        grid grid-cols-2 gap-4
-        md:grid-cols-4
-      `}
+          grid grid-cols-2 gap-4
+          md:grid-cols-4
+        `}
       >
         {recommended.map((comic) => (
           <ComicCard key={comic.id} comic={comic} authorName={null} typeName={comic.typeName} />
@@ -189,15 +189,15 @@ function LoadingSkeleton() {
   return (
     <div
       className={`
-      grid gap-8
-      md:grid-cols-[300px_1fr]
-    `}
+        grid gap-8
+        md:grid-cols-[300px_1fr]
+      `}
     >
       <Skeleton
         className={`
-        aspect-2/3
-        md:h-[450px]
-      `}
+          aspect-2/3
+          md:h-[450px]
+        `}
       />
       <div className="space-y-4">
         <Skeleton className="h-10 w-3/4" />
@@ -210,7 +210,7 @@ function LoadingSkeleton() {
 
 export default async function ComicDetailPage({ params }: PageProps) {
   const { id } = await params;
-  const comicId = parseInt(id);
+  const comicId = Number.parseInt(id);
 
   if (isNaN(comicId)) {
     notFound();

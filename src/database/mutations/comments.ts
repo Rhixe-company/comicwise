@@ -9,6 +9,10 @@ import { comment } from "@/database/schema";
  * param data.content
  * param data.userId
  * param data.chapterId
+ * @param data
+ * @param data.content
+ * @param data.userId
+ * @param data.chapterId
  */
 export async function createComment(data: {
   content: string;
@@ -33,6 +37,9 @@ export async function createComment(data: {
  * param commentId
  * param data
  * param data.content
+ * @param commentId
+ * @param data
+ * @param data.content
  */
 export async function updateComment(
   commentId: number,
@@ -54,6 +61,7 @@ export async function updateComment(
 /**
  *
  * param commentId
+ * @param commentId
  */
 export async function deleteComment(
   commentId: number

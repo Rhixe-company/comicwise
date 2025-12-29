@@ -9,12 +9,12 @@ export type GenreDto = typeof genre.$inferSelect;
 export type CreateGenreDto = typeof genre.$inferInsert;
 export type UpdateGenreDto = Partial<CreateGenreDto>;
 
-export type GenreListDto = {
+export interface GenreListDto {
   genres: GenreDto[];
   total: number;
   page: number;
   limit: number;
-};
+}
 
 export type GenreWithComicsDto = GenreDto & {
   comics?: Array<{

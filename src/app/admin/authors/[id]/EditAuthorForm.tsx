@@ -103,8 +103,8 @@ export default async function EditAuthorForm({ params }: { params: { id: string 
               {author.profileImage && (
                 <div
                   className={`
-                  relative mt-2 h-32 w-32 overflow-hidden rounded-lg border
-                `}
+                    relative mt-2 h-32 w-32 overflow-hidden rounded-lg border
+                  `}
                 >
                   <Image
                     src={author.profileImage}

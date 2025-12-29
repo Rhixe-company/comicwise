@@ -8,6 +8,7 @@ import { useCallback, useRef } from "react";
  *
  * This hook ensures that the callback always has access to the latest values
  * while maintaining a stable reference, preventing unnecessary re-renders.
+ * @param fn
  */
 export function useEventCallback<Args extends unknown[], R>(
   fn: (...args: Args) => R

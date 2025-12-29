@@ -25,9 +25,9 @@ const StatisticsCard = ({
       <CardHeader className="flex items-center">
         <div
           className={`
-          flex size-8 shrink-0 items-center justify-center rounded-md
-          bg-primary/10 text-primary
-        `}
+            flex size-8 shrink-0 items-center justify-center rounded-md
+            bg-primary/10 text-primary
+          `}
         >
           {icon}
         </div>

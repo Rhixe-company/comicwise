@@ -7,6 +7,8 @@ import { comicToGenre } from "@/database/schema";
  *
  * param comicId
  * param genreId
+ * @param comicId
+ * @param genreId
  */
 export async function addGenreToComic(
   comicId: number,
@@ -26,6 +28,8 @@ export async function addGenreToComic(
  *
  * param comicId
  * param genreIds
+ * @param comicId
+ * @param genreIds
  */
 export async function addGenresToComic(
   comicId: number,
@@ -42,6 +46,8 @@ export async function addGenresToComic(
  *
  * param comicId
  * param genreId
+ * @param comicId
+ * @param genreId
  */
 export async function removeGenreFromComic(
   comicId: number,
@@ -57,6 +63,7 @@ export async function removeGenreFromComic(
 /**
  *
  * param comicId
+ * @param comicId
  */
 export async function removeAllGenresFromComic(
   comicId: number
@@ -72,6 +79,8 @@ export async function removeAllGenresFromComic(
  *
  * param comicId
  * param genreIds
+ * @param comicId
+ * @param genreIds
  */
 export async function updateComicGenres(
   comicId: number,

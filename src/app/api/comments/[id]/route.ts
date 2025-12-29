@@ -17,7 +17,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
   try {
     const { id } = await params;
 
-    const validation = commentIdSchema.safeParse({ id: parseInt(id) });
+    const validation = commentIdSchema.safeParse({ id: Number.parseInt(id) });
 
     if (!validation.success) {
       return NextResponse.json(
@@ -63,7 +63,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const { id } = await params;
     const body = await request.json();
 
-    const idValidation = commentIdSchema.safeParse({ id: parseInt(id) });
+    const idValidation = commentIdSchema.safeParse({ id: Number.parseInt(id) });
 
     if (!idValidation.success) {
       return NextResponse.json(
@@ -129,7 +129,7 @@ export async function DELETE(
 
     const { id } = await params;
 
-    const validation = commentIdSchema.safeParse({ id: parseInt(id) });
+    const validation = commentIdSchema.safeParse({ id: Number.parseInt(id) });
 
     if (!validation.success) {
       return NextResponse.json(

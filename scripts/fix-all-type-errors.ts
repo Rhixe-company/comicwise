@@ -20,7 +20,7 @@ const fixes: Fix[] = [
   // Fix 1: components/index.ts - Change default imports to named exports
   {
     file: "src/components/index.ts",
-    search: /export \{ default as (\w+) \} from ['"]\.\/(\w+)['"]/g,
+    search: /export { default as (\w+) } from ["']\.\/(\w+)["']/g,
     replace: 'export { $1 } from "./$2"',
     description: "Fix default imports in components/index.ts",
   },
@@ -28,7 +28,7 @@ const fixes: Fix[] = [
   // Fix 2: Remove /admin export from components/index.ts
   {
     file: "src/components/index.ts",
-    search: /export \* from ['"]\.\/admin['"]/g,
+    search: /export \* from ["']\.\/admin["']/g,
     replace: "// Admin components have their own barrel export",
     description: "Remove admin export from components/index.ts",
   },
@@ -36,7 +36,7 @@ const fixes: Fix[] = [
   // Fix 3: Fix database schema exports
   {
     file: "src/app/admin/page.tsx",
-    search: /from ['"]database['"]/g,
+    search: /from ["']database["']/g,
     replace: 'from "@/database/schema"',
     description: "Fix database schema imports",
   },
@@ -44,7 +44,7 @@ const fixes: Fix[] = [
   // Fix 4: Fix readingProgress import
   {
     file: "src/services/readingProgressService.ts",
-    search: /from ['"]database['"]/g,
+    search: /from ["']database["']/g,
     replace: 'from "@/database/schema"',
     description: "Fix database imports in readingProgressService",
   },
@@ -114,11 +114,7 @@ async function applyFixes() {
     let content = await fs.readFile(filePath, "utf-8");
     const original = content;
 
-    if (typeof fix.search === "string") {
-      content = content.replace(new RegExp(fix.search, "g"), fix.replace);
-    } else {
-      content = content.replace(fix.search, fix.replace);
-    }
+    content = typeof fix.search === "string" ? content.replaceAll(new RegExp(fix.search, "g"), fix.replace) : content.replace(fix.search, fix.replace);
 
     if (content !== original) {
       await fs.writeFile(filePath, content);
@@ -223,14 +219,14 @@ async function fixSpecificFiles() {
     let content = await fs.readFile(baseFormPath, "utf-8");
 
     // Fix generic constraint
-    content = content.replace(
-      /interface BaseFormProps<T extends ZodType = ZodType>/g,
+    content = content.replaceAll(
+      'interface BaseFormProps<T extends ZodType = ZodType>',
       "interface BaseFormProps<T extends ZodType<any, any, any> = ZodType<any, any, any>>"
     );
 
     // Fix resolver type
-    content = content.replace(
-      /const form = useForm<z\.output<T>>\(/g,
+    content = content.replaceAll(
+      'const form = useForm<z.output<T>>(',
       "const form = useForm<any>("
     );
 
@@ -243,7 +239,7 @@ async function fixSpecificFiles() {
   if (await fs.pathExists(authFormPath)) {
     let content = await fs.readFile(authFormPath, "utf-8");
 
-    content = content.replace(/const form = useForm<T>\(/g, "const form = useForm<any>(");
+    content = content.replaceAll('const form = useForm<T>(', "const form = useForm<any>(");
 
     await fs.writeFile(authFormPath, content);
     console.log("✓ Fixed authForm.tsx types");
@@ -269,10 +265,10 @@ async function fixSpecificFiles() {
     let content = await fs.readFile(imagekitPath, "utf-8");
 
     // Fix type assertions
-    content = content.replace(/result\./g, "(result as any).");
+    content = content.replaceAll('result.', "(result as any).");
 
     // Fix transformation property
-    content = content.replace(/transformation: \[/g, "// transformation: [");
+    content = content.replaceAll('transformation: [', "// transformation: [");
 
     await fs.writeFile(imagekitPath, content);
     console.log("✓ Fixed imagekit.ts type issues");
@@ -284,9 +280,9 @@ async function fixSpecificFiles() {
     let content = await fs.readFile(colorPickerPath, "utf-8");
 
     // Fix Color type usage
-    content = content.replace(/: Color/g, ": any");
+    content = content.replaceAll(': Color', ": any");
 
-    content = content.replace(/Record<string, unknown>/g, "any");
+    content = content.replaceAll('Record<string, unknown>', "any");
 
     await fs.writeFile(colorPickerPath, content);
     console.log("✓ Fixed color-picker type issues");
@@ -301,7 +297,7 @@ async function fixSpecificFiles() {
     let content = await fs.readFile(dataTable04Path, "utf-8");
 
     // Remove invalid module augmentation
-    content = content.replace(/declare module ['"]@tanstack\/react-table['"] \{[^}]+\}/gs, "");
+    content = content.replaceAll(/declare module ["']@tanstack\/react-table["'] {[^}]+}/gs, "");
 
     await fs.writeFile(dataTable04Path, content);
     console.log("✓ Fixed DataTable04 module augmentation");
@@ -315,7 +311,7 @@ async function fixSpecificFiles() {
   if (await fs.pathExists(dataTablePath)) {
     let content = await fs.readFile(dataTablePath, "utf-8");
 
-    content = content.replace(/declare module ['"]@tanstack\/react-table['"] \{[^}]+\}/gs, "");
+    content = content.replaceAll(/declare module ["']@tanstack\/react-table["'] {[^}]+}/gs, "");
 
     await fs.writeFile(dataTablePath, content);
     console.log("✓ Fixed data-table-04 module augmentation");
@@ -330,22 +326,22 @@ async function fixSpecificFiles() {
     let content = await fs.readFile(chartPath, "utf-8");
 
     // Import Label differently
-    content = content.replace(
-      /import \{[^}]*Label[^}]*\} from ['"]recharts['"]/g,
+    content = content.replaceAll(
+      /import {[^}]*Label[^}]*} from ["']recharts["']/g,
       'import { Label as RechartsLabel } from "recharts"'
     );
 
-    content = content.replace(/<Label /g, "<RechartsLabel ");
+    content = content.replaceAll('<Label ', "<RechartsLabel ");
 
-    content = content.replace(/<\/Label>/g, "</RechartsLabel>");
+    content = content.replaceAll('</Label>', "</RechartsLabel>");
 
     // Add return statement
-    content = content.replace(
-      /const renderActiveShape = \(props: any\) => \{/g,
+    content = content.replaceAll(
+      'const renderActiveShape = (props: any) => {',
       "const renderActiveShape = (props: any): React.ReactElement | null => {"
     );
 
-    content = content.replace(/\}\s*;\s*$/m, "  return null;\n};");
+    content = content.replace(/}\s*;\s*$/m, "  return null;\n};");
 
     await fs.writeFile(chartPath, content);
     console.log("✓ Fixed chart-sales-metrics issues");

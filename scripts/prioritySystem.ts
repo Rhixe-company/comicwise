@@ -67,7 +67,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
     name: "Immediate",
     description: "Blocking dev/build/test - Must complete first",
     icon: "🔴",
-    color: "\x1b[31m", // Red
+    color: "\x1B[31m", // Red
     totalHours: 3,
     tasks: [
       {
@@ -130,7 +130,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
     name: "High Priority",
     description: "Must complete before merge",
     icon: "🟠",
-    color: "\x1b[33m", // Yellow
+    color: "\x1B[33m", // Yellow
     totalHours: 9,
     tasks: [
       {
@@ -193,7 +193,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
     name: "Medium Priority",
     description: "Important enhancements - after P0 & P1",
     icon: "🟡",
-    color: "\x1b[36m", // Cyan
+    color: "\x1B[36m", // Cyan
     totalHours: 15,
     tasks: [
       {
@@ -278,7 +278,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
     name: "Low Priority",
     description: "Nice-to-have or future improvements",
     icon: "🟢",
-    color: "\x1b[32m", // Green
+    color: "\x1B[32m", // Green
     totalHours: 20,
     tasks: [
       {
@@ -364,7 +364,7 @@ const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {
     name: "Optional Improvements",
     description: "Future enhancements based on priority",
     icon: "💡",
-    color: "\x1b[35m", // Magenta
+    color: "\x1B[35m", // Magenta
     totalHours: 0,
     tasks: [
       {
@@ -409,19 +409,19 @@ function canRunTask(task: Task, allTasks: Task[]): boolean {
 }
 
 function colorText(text: string, color: string): string {
-  return `${color}${text}\x1b[0m`;
+  return `${color}${text}\x1B[0m`;
 }
 
 function logVerbose(message: string): void {
   if (ENV.verbose) {
-    console.log(colorText(`  [VERBOSE] ${message}`, "\x1b[90m"));
+    console.log(colorText(`  [VERBOSE] ${message}`, "\x1B[90m"));
   }
 }
 
 function executeCommand(cmd: string): { success: boolean; output?: string } {
   logVerbose(`Executing: ${cmd}`);
   if (ENV.dryRun) {
-    console.log(colorText(`   [DRY RUN] ${cmd}`, "\x1b[33m"));
+    console.log(colorText(`   [DRY RUN] ${cmd}`, "\x1B[33m"));
     return { success: true };
   }
   try {
@@ -429,7 +429,7 @@ function executeCommand(cmd: string): { success: boolean; output?: string } {
     return { success: true, output };
   } catch (error) {
     if (ENV.continueOnError) {
-      console.error(colorText(`   ⚠️  Command failed (continuing): ${cmd}`, "\x1b[33m"));
+      console.error(colorText(`   ⚠️  Command failed (continuing): ${cmd}`, "\x1B[33m"));
       return { success: false };
     }
     throw error;
@@ -441,9 +441,9 @@ function executeCommand(cmd: string): { success: boolean; output?: string } {
 // ═══════════════════════════════════════════════════════════════════════════
 
 function listTasks(): void {
-  console.log("\n" + colorText("═══════════════════════════════════════════════════", "\x1b[36m"));
-  console.log(colorText("ComicWise Priority System - Task List", "\x1b[1m"));
-  console.log(colorText("═══════════════════════════════════════════════════\n", "\x1b[36m"));
+  console.log("\n" + colorText("═══════════════════════════════════════════════════", "\x1B[36m"));
+  console.log(colorText("ComicWise Priority System - Task List", "\x1B[1m"));
+  console.log(colorText("═══════════════════════════════════════════════════\n", "\x1B[36m"));
 
   const allTasks = getAllTasks();
 
@@ -453,7 +453,7 @@ function listTasks(): void {
     const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
 
     console.log(
-      colorText(`\n${group.icon} ${group.level}: ${group.name}`, group.color + "\x1b[1m")
+      colorText(`\n${group.icon} ${group.level}: ${group.name}`, group.color + "\x1B[1m")
     );
     console.log(`   ${group.description}`);
     console.log(
@@ -475,10 +475,10 @@ function listTasks(): void {
   console.log(
     colorText(
       `\n\n📊 OVERALL PROGRESS: ${totalCompleted}/${totalTasks} tasks (${totalProgress}%)`,
-      "\x1b[33m\x1b[1m"
+      "\x1B[33m\x1B[1m"
     )
   );
-  console.log(colorText("═══════════════════════════════════════════════════\n", "\x1b[36m"));
+  console.log(colorText("═══════════════════════════════════════════════════\n", "\x1B[36m"));
 }
 
 function showStatus(): void {
@@ -486,8 +486,8 @@ function showStatus(): void {
   const completed = allTasks.filter((t) => t.completed).length;
   const total = allTasks.length;
 
-  console.log("\n" + colorText("Priority System Status", "\x1b[1m"));
-  console.log(colorText("═══════════════════════════════════════════════════\n", "\x1b[36m"));
+  console.log("\n" + colorText("Priority System Status", "\x1B[1m"));
+  console.log(colorText("═══════════════════════════════════════════════════\n", "\x1B[36m"));
 
   for (const [, group] of Object.entries(PRIORITY_SYSTEM)) {
     const groupCompleted = group.tasks.filter((t) => t.completed).length;
@@ -502,17 +502,17 @@ function showStatus(): void {
   console.log(
     colorText(
       `\n📊 TOTAL: ${completed}/${total} (${Math.round((completed / total) * 100)}%) complete`,
-      "\x1b[33m"
+      "\x1B[33m"
     )
   );
-  console.log(colorText("═══════════════════════════════════════════════════\n", "\x1b[36m"));
+  console.log(colorText("═══════════════════════════════════════════════════\n", "\x1B[36m"));
 
   if (ENV.dryRun) {
-    console.log(colorText("⚠️  Running in DRY RUN mode - no commands executed", "\x1b[33m"));
+    console.log(colorText("⚠️  Running in DRY RUN mode - no commands executed", "\x1B[33m"));
   }
   if (ENV.continueOnError) {
     console.log(
-      colorText("⚠️  Running with CONTINUE_ON_ERROR - will skip failed commands", "\x1b[33m")
+      colorText("⚠️  Running with CONTINUE_ON_ERROR - will skip failed commands", "\x1B[33m")
     );
   }
 }
@@ -529,27 +529,27 @@ function runTasks(priority: string): void {
   const readyTasks = group.tasks.filter((t) => !t.completed && canRunTask(t, allTasks));
 
   if (readyTasks.length === 0) {
-    console.log(colorText(`\n✅ All ${group.level} tasks completed!`, "\x1b[32m"));
+    console.log(colorText(`\n✅ All ${group.level} tasks completed!`, "\x1B[32m"));
     return;
   }
 
   console.log(
     colorText(
       `\n\n${group.icon} Running ${group.level} tasks (${readyTasks.length} task(s))\n`,
-      group.color + "\x1b[1m"
+      group.color + "\x1B[1m"
     )
   );
 
   let tasksFailed = 0;
 
   for (const task of readyTasks) {
-    console.log(colorText(`\n▶️  ${task.name}`, group.color + "\x1b[1m"));
+    console.log(colorText(`\n▶️  ${task.name}`, group.color + "\x1B[1m"));
     console.log(`   ${task.description}\n`);
 
     logVerbose(`Running ${task.id}`);
 
     for (const cmd of task.commands) {
-      console.log(colorText(`   $ ${cmd}`, "\x1b[90m"));
+      console.log(colorText(`   $ ${cmd}`, "\x1B[90m"));
       const result = executeCommand(cmd);
       if (!result.success) {
         tasksFailed++;
@@ -562,7 +562,7 @@ function runTasks(priority: string): void {
       }
     }
 
-    console.log(colorText(`\n   Acceptance Criteria:`, "\x1b[36m"));
+    console.log(colorText(`\n   Acceptance Criteria:`, "\x1B[36m"));
     for (const criterion of task.acceptance) {
       console.log(`   ☐ ${criterion}`);
     }
@@ -571,21 +571,21 @@ function runTasks(priority: string): void {
       console.log(
         colorText(
           `\n   ⏸️  Verify acceptance criteria above are met, then press Enter...`,
-          "\x1b[33m"
+          "\x1B[33m"
         )
       );
-      console.log(colorText(`      or set SKIP_VALIDATION=1 to auto-mark complete`, "\x1b[33m"));
+      console.log(colorText(`      or set SKIP_VALIDATION=1 to auto-mark complete`, "\x1B[33m"));
     }
 
     task.completed = true;
-    console.log(colorText(`   ✅ Task marked complete`, "\x1b[32m"));
+    console.log(colorText(`   ✅ Task marked complete`, "\x1B[32m"));
   }
 
   if (tasksFailed > 0) {
-    console.log(colorText(`\n⚠️  ${tasksFailed} task(s) had command failures`, "\x1b[33m"));
+    console.log(colorText(`\n⚠️  ${tasksFailed} task(s) had command failures`, "\x1B[33m"));
   }
 
-  console.log(colorText("\n✅ Priority level tasks completed!", "\x1b[32m\x1b[1m"));
+  console.log(colorText("\n✅ Priority level tasks completed!", "\x1B[32m\x1B[1m"));
 }
 
 function completeTask(taskId: string): void {
@@ -600,13 +600,13 @@ function completeTask(taskId: string): void {
   const completed = allTasks.filter((t) => t.completed).length;
   const total = allTasks.length;
 
-  console.log(colorText(`\n✅ Task marked complete: ${taskId}`, "\x1b[32m\x1b[1m"));
+  console.log(colorText(`\n✅ Task marked complete: ${taskId}`, "\x1B[32m\x1B[1m"));
   console.log(`📊 Progress: ${completed}/${total} (${Math.round((completed / total) * 100)}%)\n`);
   console.log(
-    colorText("Note: Progress is tracked in-memory. For persistent tracking,", "\x1b[90m")
+    colorText("Note: Progress is tracked in-memory. For persistent tracking,", "\x1B[90m")
   );
   console.log(
-    colorText("update PRIORITY_SYSTEM_CHECKLIST.md manually or use git tracking.", "\x1b[90m\n")
+    colorText("update PRIORITY_SYSTEM_CHECKLIST.md manually or use git tracking.", "\x1B[90m\n")
   );
 }
 
@@ -615,12 +615,12 @@ function completeAllRemaining(): void {
   const remaining = allTasks.filter((t) => !t.completed);
 
   if (remaining.length === 0) {
-    console.log(colorText("\n✅ All tasks already completed!", "\x1b[32m\x1b[1m"));
+    console.log(colorText("\n✅ All tasks already completed!", "\x1B[32m\x1B[1m"));
     return;
   }
 
   console.log(
-    colorText(`\n\n🚀 Running ALL REMAINING TASKS (${remaining.length} tasks)\n`, "\x1b[35m\x1b[1m")
+    colorText(`\n\n🚀 Running ALL REMAINING TASKS (${remaining.length} tasks)\n`, "\x1B[35m\x1B[1m")
   );
 
   const groups = ["P0", "P1", "P2", "P3", "Enhancement"];
@@ -634,7 +634,7 @@ function completeAllRemaining(): void {
     console.log(
       colorText(
         `\n\n${group.icon} ${group.level} (${tasksToRun.length} task(s))`,
-        group.color + "\x1b[1m"
+        group.color + "\x1B[1m"
       )
     );
     runTasks(priority);

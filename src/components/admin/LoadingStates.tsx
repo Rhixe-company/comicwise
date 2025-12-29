@@ -68,9 +68,7 @@ export function StatCardSkeleton() {
   return (
     <Card>
       <CardHeader
-        className={`
-        flex flex-row items-center justify-between space-y-0 pb-2
-      `}
+        className={`flex flex-row items-center justify-between space-y-0 pb-2`}
       >
         <Skeleton className="h-4 w-[100px]" />
         <Skeleton className="h-4 w-4" />
@@ -93,10 +91,10 @@ export function DashboardSkeleton() {
 
       <div
         className={`
-        grid gap-4
-        md:grid-cols-2
-        lg:grid-cols-4
-      `}
+          grid gap-4
+          md:grid-cols-2
+          lg:grid-cols-4
+        `}
       >
         {Array.from({ length: 4 }).map((_, i) => (
           <StatCardSkeleton key={i} />
@@ -105,9 +103,9 @@ export function DashboardSkeleton() {
 
       <div
         className={`
-        grid gap-4
-        md:grid-cols-2
-      `}
+          grid gap-4
+          md:grid-cols-2
+        `}
       >
         <Card>
           <CardHeader>
@@ -151,11 +149,11 @@ export function CardGridSkeleton({ count = 12 }: { count?: number }) {
   return (
     <div
       className={`
-      grid gap-4
-      sm:grid-cols-2
-      lg:grid-cols-3
-      xl:grid-cols-4
-    `}
+        grid gap-4
+        sm:grid-cols-2
+        lg:grid-cols-3
+        xl:grid-cols-4
+      `}
     >
       {Array.from({ length: count }).map((_, i) => (
         <Card key={i}>

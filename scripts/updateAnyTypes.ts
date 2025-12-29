@@ -28,7 +28,7 @@ interface Replacement {
 const replacements: Replacement[] = [
   // Function parameters with any
   {
-    from: /\(([^:)]+):\s*any\)/g,
+    from: /\(([^):]+):\s*any\)/g,
     to: "<T>($1: T)",
     description: "Function parameter any -> generic T",
   },
@@ -45,7 +45,7 @@ const replacements: Replacement[] = [
   },
   // Array of any
   {
-    from: /:\s*any\[\]/g,
+    from: /:\s*any\[]/g,
     to: ": unknown[]",
     description: "any[] -> unknown[]",
   },

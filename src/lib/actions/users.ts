@@ -62,11 +62,11 @@ export async function registerUser(formData: FormData): Promise<ActionResponse<{
     await sendWelcomeEmail(user.email, user.name || "User");
 
     return { success: true, data: { id: user.id } };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Register user error:", err);
+    console.error("Register user error:", error_);
     return error("Failed to register user");
   }
 }
@@ -85,11 +85,11 @@ export async function updateUser(userId: string, formData: FormData): Promise<Ac
     revalidatePath(`/admin/users/${userId}`);
 
     return { success: true };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Update user error:", err);
+    console.error("Update user error:", error_);
     return error("Failed to update user");
   }
 }
@@ -100,8 +100,8 @@ export async function deleteUser(userId: string): Promise<ActionResponse> {
     revalidatePath("/admin/users");
 
     return { success: true };
-  } catch (err) {
-    console.error("Delete user error:", err);
+  } catch (error_) {
+    console.error("Delete user error:", error_);
     return error("Failed to delete user");
   }
 }
@@ -140,8 +140,8 @@ export async function requestPasswordReset(email: string): Promise<ActionRespons
     await sendPasswordResetEmail(email, user.name || "User", token);
 
     return { success: true };
-  } catch (err) {
-    console.error("Password reset request error:", err);
+  } catch (error_) {
+    console.error("Password reset request error:", error_);
     return error("Failed to process password reset request");
   }
 }
@@ -173,8 +173,8 @@ export async function resetPassword(token: string, newPassword: string): Promise
     await mutations.deletePasswordResetToken(token);
 
     return { success: true };
-  } catch (err) {
-    console.error("Reset password error:", err);
+  } catch (error_) {
+    console.error("Reset password error:", error_);
     return error("Failed to reset password");
   }
 }

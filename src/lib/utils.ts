@@ -28,20 +28,20 @@ export const formatRelativeTime = (date: Date | string | number): string => {
   return "Just now";
 };
 
-export const truncate = (str: string, length: number): string => {
-  return str.length > length ? `${str.slice(0, length)}...` : str;
+export const truncate = (string_: string, length: number): string => {
+  return string_.length > length ? `${string_.slice(0, length)}...` : string_;
 };
 
-export const slugify = (str: string): string => {
-  if (!str) return "";
-  return str
+export const slugify = (string_: string): string => {
+  if (!string_) return "";
+  return string_
     .toString()
     .normalize("NFKD")
-    .replace(/\p{Diacritic}/gu, "")
+    .replaceAll(/\p{Diacritic}/gu, "")
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
+    .replaceAll(/[^\da-z]+/g, "-")
+    .replaceAll(/^-+|-+$/g, "")
     .slice(0, 200);
 };
 
@@ -72,10 +72,10 @@ export function isRegExpMatch(match: RegExpExecArray | null | undefined, index =
 }
 
 export function safeGet<T, K extends keyof T>(
-  obj: T | null | undefined,
+  object: T | null | undefined,
   key: K,
   fallback?: T[K]
 ): T[K] | undefined {
-  if (!obj) return fallback;
-  return obj[key] ?? fallback;
+  if (!object) return fallback;
+  return object[key] ?? fallback;
 }

@@ -4,13 +4,14 @@ import { user } from "@/database/schema";
 import { authOptions } from "authConfig";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-import type { NextAuthConfig, Session } from "next-auth";
+import type { Session } from "next-auth";
 import NextAuth from "next-auth";
 // Type assertion to satisfy NextAuth's strict typing
-export const { handlers, auth, signIn, signOut } = NextAuth(authOptions as NextAuthConfig);
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
 
 /**
  * Hash password helper
+ * @param password
  */
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, appConfig.security?.bcryptRounds ?? 10);
@@ -72,6 +73,7 @@ export async function isAuthenticated(): Promise<boolean> {
 /**
  * Check if user has specific role
  * param requiredRole
+ * @param requiredRole
  */
 export async function hasRole(requiredRole: "admin" | "moderator" | "user"): Promise<boolean> {
   const currentUser = await getCurrentUser();
@@ -104,6 +106,7 @@ export async function requireAuth(): Promise<typeof user.$inferSelect> {
 /**
  * Require specific role - throw error if not authorized
  * param requiredRole
+ * @param requiredRole
  */
 export async function requireRole(
   requiredRole: "admin" | "moderator"

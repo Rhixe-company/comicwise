@@ -12,21 +12,21 @@ const ROOT_DIR = process.cwd();
 
 const importMappings: [RegExp, string][] = [
   // Radix UI packages
-  [/from ['"]radix-ui\/react-(\w+)['"]/g, 'from "@radix-ui/react-$1"'],
+  [/from ["']radix-ui\/react-(\w+)["']/g, 'from "@radix-ui/react-$1"'],
 
   // TanStack packages
-  [/from ['"]tanstack\/react-table['"]/g, 'from "@tanstack/react-table"'],
-  [/from ['"]tanstack\/react-query['"]/g, 'from "@tanstack/react-query"'],
+  [/from ["']tanstack\/react-table["']/g, 'from "@tanstack/react-table"'],
+  [/from ["']tanstack\/react-query["']/g, 'from "@tanstack/react-query"'],
 
   // Hookform
-  [/from ['"]hookform\/resolvers\/zod['"]/g, 'from "@hookform/resolvers/zod"'],
+  [/from ["']hookform\/resolvers\/zod["']/g, 'from "@hookform/resolvers/zod"'],
 
   // App config - use relative import from root
-  [/from ['"]app-config['"]/g, 'from "./app-config"'],
+  [/from ["']app-config["']/g, 'from "./app-config"'],
 
   // Local UI components (ensure @ prefix)
-  [/from ['"]components\/ui\/([^'"]+)['"]/g, 'from "@/components/ui/$1"'],
-  [/from ['"]lib\/utils['"]/g, 'from "utils"'],
+  [/from ["']components\/ui\/([^"']+)["']/g, 'from "@/components/ui/$1"'],
+  [/from ["']lib\/utils["']/g, 'from "utils"'],
 ];
 
 async function fixFile(filePath: string): Promise<boolean> {

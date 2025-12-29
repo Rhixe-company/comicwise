@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     const file = formData.get("file") as File | null;
     const type = formData.get("type") as string | null;
     const entityId = formData.get("entityId") as string | null;
-    const sequenceStr = formData.get("sequence") as string | null;
+    const sequenceString = formData.get("sequence") as string | null;
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       file,
       type: type || "general",
       entityId: entityId || undefined,
-      sequence: sequenceStr ? parseInt(sequenceStr, 10) : undefined,
+      sequence: sequenceString ? Number.parseInt(sequenceString, 10) : undefined,
     });
 
     if (!validation.success) {
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
           file: buffer,
           fileName,
           folder: "/comicwise/general",
-          tags: ["general", session.user.id!],
+          tags: ["general", session.user.id],
         });
         break;
     }
@@ -230,7 +230,7 @@ export async function PUT(request: NextRequest) {
 
       // Generate unique filename
       const timestamp = Date.now();
-      const randomString = Math.random().toString(36).substring(2, 15);
+      const randomString = Math.random().toString(36).slice(2, 15);
       const extension = file.name.split(".").pop();
       const filename = `${validation.data.type}-${timestamp}-${i}-${randomString}.${extension}`;
 

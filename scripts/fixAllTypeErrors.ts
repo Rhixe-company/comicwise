@@ -21,13 +21,15 @@ const BACKUP_SUFFIX = ".backup";
 interface Fix {
   file: string;
   description: string;
-  apply: () => void;
+  apply(): void;
 }
 
 const fixes: Fix[] = [];
 
 /**
  * Utility: Backup and update file
+ * @param filePath
+ * @param newContent
  */
 function updateFile(filePath: string, newContent: string) {
   const fullPath = join(ROOT, filePath);
@@ -381,10 +383,10 @@ fixes.push({
     );
 
     // Fix the control type issues
-    content = content.replace(/control={form\.control}/g, "control={form.control as any}");
+    content = content.replaceAll('control={form.control}', "control={form.control as any}");
 
     // Fix the FormProvider type
-    content = content.replace(/<FormProvider \{\.\.\.form\}>/, "<FormProvider {...(form as any)}>");
+    content = content.replace(/<FormProvider {\.{3}form}>/, "<FormProvider {...(form as any)}>");
 
     updateFile("src/components/admin/BaseForm.tsx", content);
   },
@@ -404,7 +406,7 @@ fixes.push({
       "resolver: zodResolver(comicFormSchema) as any"
     );
 
-    content = content.replace(/control={form\.control}/g, "control={form.control as any}");
+    content = content.replaceAll('control={form.control}', "control={form.control as any}");
 
     updateFile("src/components/admin/ComicForm.tsx", content);
   },
@@ -438,7 +440,7 @@ fixes.push({
     let content = readFileSync(join(ROOT, "src/components/admin/DashboardCharts.tsx"), "utf-8");
 
     content = content.replace(
-      /import \{[^}]+\} from "recharts";/,
+      /import {[^}]+} from "recharts";/,
       `import * as Recharts from "recharts";
 
 const {
@@ -475,13 +477,13 @@ fixes.push({
     );
 
     content = content.replace(
-      /import \{ Bar, BarChart[^}]+\} from "recharts"/,
+      /import { Bar, BarChart[^}]+} from "recharts"/,
       'import * as Recharts from "recharts";\nconst { Bar, BarChart, Pie, PieChart } = Recharts;'
     );
 
     // Fix the return issue
     content = content.replace(
-      /const CustomTooltip = \(\{ active, payload \}: any\) => \{/,
+      /const CustomTooltip = \({ active, payload }: any\) => {/,
       "const CustomTooltip = ({ active, payload }: any): React.ReactElement | null => {"
     );
 
@@ -502,7 +504,7 @@ fixes.push({
     );
 
     content = content.replace(
-      /import \{[^}]*Bar[^}]*\} from "recharts"/,
+      /import {[^}]*Bar[^}]*} from "recharts"/,
       'import * as Recharts from "recharts";\nconst { Bar, BarChart, Pie, PieChart } = Recharts;'
     );
 
@@ -523,7 +525,7 @@ fixes.push({
     );
 
     content = content.replace(
-      /import \{ Bar, BarChart \} from "recharts"/,
+      /import { Bar, BarChart } from "recharts"/,
       'import * as Recharts from "recharts";\nconst { Bar, BarChart } = Recharts;'
     );
 
@@ -544,7 +546,7 @@ fixes.push({
     );
 
     content = content.replace(
-      /import \{ Bar, BarChart \} from "recharts"/,
+      /import { Bar, BarChart } from "recharts"/,
       'import * as Recharts from "recharts";\nconst { Bar, BarChart } = Recharts;'
     );
 
@@ -570,14 +572,14 @@ fixes.push({
 const Recharts = RechartsPrimitive as any;`
     );
 
-    content = content.replace(
-      /RechartsPrimitive\.ResponsiveContainer/g,
+    content = content.replaceAll(
+      'RechartsPrimitive.ResponsiveContainer',
       "Recharts.ResponsiveContainer"
     );
 
-    content = content.replace(/RechartsPrimitive\.Tooltip/g, "Recharts.Tooltip");
+    content = content.replaceAll('RechartsPrimitive.Tooltip', "Recharts.Tooltip");
 
-    content = content.replace(/RechartsPrimitive\.Legend/g, "Recharts.Legend");
+    content = content.replaceAll('RechartsPrimitive.Legend', "Recharts.Legend");
 
     updateFile("src/components/ui/chart.tsx", content);
   },
@@ -596,7 +598,7 @@ fixes.push({
     content = content.replace(/const Slot: React\.FC<OTPProps> =/, "const Slot: any =");
 
     // Fix ref issue
-    content = content.replace(/<Slot/g, "<Slot {...props}");
+    content = content.replaceAll('<Slot', "<Slot {...props}");
 
     updateFile("src/components/ui/InputOtp.tsx", content);
   },
@@ -612,7 +614,7 @@ fixes.push({
     let content = readFileSync(join(ROOT, "src/components/ui/scroll-area.tsx"), "utf-8");
 
     content = content.replace(
-      /export \{ ScrollAreaProps \} from "\.\/ScrollArea"/,
+      /export { ScrollAreaProps } from "\.\/ScrollArea"/,
       'export type { ScrollAreaProps } from "./ScrollArea"'
     );
 
@@ -663,10 +665,10 @@ type ColorType = any;`
     );
 
     // Replace all Color usage with any
-    content = content.replace(/\(color: Color\)/g, "(color: any)");
+    content = content.replaceAll('(color: Color)', "(color: any)");
 
     // Fix 'any' as value usage
-    content = content.replace(/\{any\}/g, "{number}");
+    content = content.replaceAll('{any}', "{number}");
 
     updateFile("src/components/ui/shadcn-io/color-picker/index.tsx", content);
   },
@@ -692,7 +694,7 @@ fixes.push({
 
     // Add interface for DropzoneProps with all needed properties
     content = content.replace(
-      /interface DropzoneProps extends DropzoneOptions \{/,
+      /interface DropzoneProps extends DropzoneOptions {/,
       `interface FileRejection {
   file: File;
   errors: Array<{ code: string; message: string }>;
@@ -708,13 +710,13 @@ interface DropzoneProps extends DropzoneOptions {
 
     // Fix destructuring
     content = content.replace(
-      /const \{ maxSize, minSize, maxFiles[^}]*\} = restProps;/,
+      /const { maxSize, minSize, maxFiles[^}]*} = restProps;/,
       "const { maxSize, minSize, maxFiles, onError, disabled, ...dropzoneRest } = restProps;"
     );
 
     // Fix useDropzone call
     content = content.replace(
-      /const \{ getRootProps[^}]*\} = useDropzone\(\{/,
+      /const { getRootProps[^}]*} = useDropzone\({/,
       "const { getRootProps, getInputProps, isDragActive } = useDropzone({"
     );
 

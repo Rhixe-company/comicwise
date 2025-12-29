@@ -9,6 +9,7 @@ import { account, authenticator, session, user, verificationToken } from "@/data
  * Initialize Drizzle ORM adapter for NextAuth v5
  * Maps Drizzle schema tables to NextAuth tables
  * param database - Drizzle database instance
+ * @param database
  */
 export function DrizzleAdapter(database: NodePgDatabase<typeof schema>): Adapter {
   // Initialize the standard Drizzle adapter with your database instance and schema
@@ -24,6 +25,7 @@ export function DrizzleAdapter(database: NodePgDatabase<typeof schema>): Adapter
     /**
      * Override the `createUser` method to include the custom field logic.
      * param user
+     * @param user
      */
     async createUser(user) {
       // Add custom logic here, e.g., generating a default username
@@ -39,6 +41,7 @@ export function DrizzleAdapter(database: NodePgDatabase<typeof schema>): Adapter
     /**
      * Override the `updateUser` method if needed for custom fields.
      * param user
+     * @param user
      */
     async updateUser(user) {
       // You can add logic to handle updates to the 'username' field here

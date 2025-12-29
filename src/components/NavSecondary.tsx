@@ -1,6 +1,6 @@
 "use client";
 
-import { type Icon } from "@tabler/icons-react";
+import type {Icon} from "@tabler/icons-react";
 import * as React from "react";
 
 import {

@@ -17,7 +17,7 @@ export interface BaseButtonProps extends BaseComponentProps {
   disabled?: boolean;
   loading?: boolean;
   type?: "button" | "submit" | "reset";
-  onClick?: () => void;
+  onClick?(): void;
 }
 
 export interface BaseInputProps extends BaseComponentProps {
@@ -29,7 +29,7 @@ export interface BaseInputProps extends BaseComponentProps {
   disabled?: boolean;
   required?: boolean;
   readOnly?: boolean;
-  onChange?: (value: string) => void;
+  onChange?(value: string): void;
 }
 
 // ═══════════════════════════════════════════════════
@@ -48,7 +48,7 @@ export interface LayoutProps {
 
 export interface ErrorProps {
   error: Error & { digest?: string };
-  reset: () => void;
+  reset(): void;
 }
 
 // ═══════════════════════════════════════════════════
@@ -61,7 +61,7 @@ export interface CardProps extends BaseComponentProps {
   image?: string;
   imageAlt?: string;
   footer?: ReactNode;
-  onClick?: () => void;
+  onClick?(): void;
   href?: string;
 }
 
@@ -73,7 +73,7 @@ export interface TableColumn<T = unknown> {
   key: string;
   label: string;
   sortable?: boolean;
-  render?: (value: unknown, row: T) => ReactNode;
+  render?(value: unknown, row: T): ReactNode;
   width?: string;
   align?: "left" | "center" | "right";
 }
@@ -83,10 +83,10 @@ export interface TableProps<T = unknown> {
   columns: TableColumn<T>[];
   loading?: boolean;
   emptyMessage?: string;
-  onRowClick?: (row: T) => void;
+  onRowClick?(row: T): void;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
-  onSort?: (column: string) => void;
+  onSort?(column: string): void;
 }
 
 // ═══════════════════════════════════════════════════
@@ -100,7 +100,7 @@ export interface FormFieldProps extends BaseInputProps {
 }
 
 export interface FormProps extends BaseComponentProps {
-  onSubmit: (data: FormData) => void | Promise<void>;
+  onSubmit(data: FormData): void | Promise<void>;
   loading?: boolean;
   error?: string;
   success?: boolean;
@@ -112,7 +112,7 @@ export interface FormProps extends BaseComponentProps {
 
 export interface ModalProps extends BaseComponentProps {
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onOpenChange(open: boolean): void;
   title?: string;
   description?: string;
   footer?: ReactNode;
@@ -133,8 +133,8 @@ export interface PaginationProps {
   totalPages: number;
   pageSize: number;
   totalItems: number;
-  onPageChange: (page: number) => void;
-  onPageSizeChange?: (size: number) => void;
+  onPageChange(page: number): void;
+  onPageSizeChange?(size: number): void;
 }
 
 // ═══════════════════════════════════════════════════
@@ -143,11 +143,11 @@ export interface PaginationProps {
 
 export interface SearchProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange(value: string): void;
   placeholder?: string;
   debounce?: number;
   loading?: boolean;
-  onSearch?: (value: string) => void;
+  onSearch?(value: string): void;
 }
 
 // ═══════════════════════════════════════════════════
@@ -162,7 +162,7 @@ export interface FilterOption {
 export interface FilterProps {
   options: FilterOption[];
   value?: string | string[];
-  onChange: (value: string | string[]) => void;
+  onChange(value: string | string[]): void;
   label?: string;
   multiple?: boolean;
   searchable?: boolean;
@@ -181,8 +181,8 @@ export interface ImageProps {
   priority?: boolean;
   className?: string;
   loading?: "lazy" | "eager";
-  onLoad?: () => void;
-  onError?: () => void;
+  onLoad?(): void;
+  onError?(): void;
 }
 
 // ═══════════════════════════════════════════════════
@@ -209,7 +209,7 @@ export interface ComicCardProps {
   author?: string;
   artist?: string;
   genres?: string[];
-  onClick?: () => void;
+  onClick?(): void;
 }
 
 export interface ChapterListProps {
@@ -222,7 +222,7 @@ export interface ChapterListProps {
     views?: number;
   }>;
   comicId: number;
-  onChapterClick?: (chapterId: number) => void;
+  onChapterClick?(chapterId: number): void;
 }
 
 export interface ChapterReaderProps {
@@ -233,13 +233,13 @@ export interface ChapterReaderProps {
     pageNumber: number;
   }>;
   currentPage?: number;
-  onPageChange?: (page: number) => void;
+  onPageChange?(page: number): void;
 }
 
 export interface BookmarkButtonProps {
   comicId: number;
   isBookmarked?: boolean;
-  onToggle?: (bookmarked: boolean) => void;
+  onToggle?(bookmarked: boolean): void;
 }
 
 export interface CommentListProps {
@@ -251,9 +251,9 @@ export interface CommentListProps {
     userImage?: string;
     createdAt: Date | string;
   }>;
-  onReply?: (commentId: number) => void;
-  onDelete?: (commentId: number) => void;
-  onEdit?: (commentId: number, content: string) => void;
+  onReply?(commentId: number): void;
+  onDelete?(commentId: number): void;
+  onEdit?(commentId: number, content: string): void;
 }
 
 export interface ReadingProgressProps {

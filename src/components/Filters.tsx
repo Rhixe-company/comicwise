@@ -87,9 +87,9 @@ export function Filters({ types, genres }: FiltersProps) {
       {/* Mobile Toggle */}
       <div
         className={`
-        mb-4
-        md:hidden
-      `}
+          mb-4
+          md:hidden
+        `}
       >
         <Button variant="outline" className="w-full" onClick={() => setIsOpen(!isOpen)}>
           <SlidersHorizontal className="mr-2 h-4 w-4" />
@@ -100,9 +100,9 @@ export function Filters({ types, genres }: FiltersProps) {
       {/* Filters Panel */}
       <Card
         className={`
-        mb-6
-        ${isOpen ? "block" : "hidden md:block"}
-      `}
+          mb-6
+          ${isOpen ? "block" : "hidden md:block"}
+        `}
       >
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
@@ -112,9 +112,7 @@ export function Filters({ types, genres }: FiltersProps) {
                 variant="ghost"
                 size="sm"
                 onClick={resetFilters}
-                className={`
-                text-sm
-              `}
+                className={`text-sm`}
               >
                 Reset
               </Button>
@@ -202,9 +200,7 @@ export function Filters({ types, genres }: FiltersProps) {
                   {genre.name}
                   {selectedGenres.includes(genre.id) && (
                     <X
-                      className={`
-                    ml-1 h-3 w-3
-                  `}
+                      className={`ml-1 h-3 w-3`}
                     />
                   )}
                 </Badge>

@@ -9,12 +9,12 @@ export type BookmarkDto = typeof bookmark.$inferSelect;
 export type CreateBookmarkDto = typeof bookmark.$inferInsert;
 export type UpdateBookmarkDto = Partial<CreateBookmarkDto>;
 
-export type BookmarkListDto = {
+export interface BookmarkListDto {
   bookmarks: BookmarkDto[];
   total: number;
   page: number;
   limit: number;
-};
+}
 
 export type BookmarkWithComicDto = BookmarkDto & {
   comic?: {

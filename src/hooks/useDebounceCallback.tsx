@@ -23,43 +23,43 @@ export type DebouncedState<T extends (...args: never[]) => unknown> = ((
   ControlFunctions;
 
 export function useDebounceCallback<T extends (...args: never[]) => unknown>(
-  func: T,
+  function_: T,
   delay = 500,
   options?: DebounceOptions
 ): DebouncedState<T> {
-  const debouncedFunc = React.useRef<ReturnType<typeof debounce>>(null);
+  const debouncedFunction = React.useRef<ReturnType<typeof debounce>>(null);
 
   useUnmount(() => {
-    if (debouncedFunc.current) {
-      debouncedFunc.current.cancel();
+    if (debouncedFunction.current) {
+      debouncedFunction.current.cancel();
     }
   });
 
   const debounced = React.useMemo(() => {
-    const debouncedFuncInstance = debounce(func, delay, options);
+    const debouncedFunctionInstance = debounce(function_, delay, options);
 
-    const wrappedFunc: DebouncedState<T> = (...args: Parameters<T>) => {
-      return debouncedFuncInstance(...args);
+    const wrappedFunction: DebouncedState<T> = (...args: Parameters<T>) => {
+      return debouncedFunctionInstance(...args);
     };
 
-    wrappedFunc.cancel = () => {
-      debouncedFuncInstance.cancel();
+    wrappedFunction.cancel = () => {
+      debouncedFunctionInstance.cancel();
     };
 
-    wrappedFunc.isPending = () => {
-      return !!debouncedFunc.current;
+    wrappedFunction.isPending = () => {
+      return !!debouncedFunction.current;
     };
 
-    wrappedFunc.flush = () => {
-      return debouncedFuncInstance.flush();
+    wrappedFunction.flush = () => {
+      return debouncedFunctionInstance.flush();
     };
 
-    return wrappedFunc;
-  }, [func, delay, options]);
+    return wrappedFunction;
+  }, [function_, delay, options]);
 
   React.useEffect(() => {
-    debouncedFunc.current = debounce(func, delay, options);
-  }, [func, delay, options]);
+    debouncedFunction.current = debounce(function_, delay, options);
+  }, [function_, delay, options]);
 
   return debounced;
 }

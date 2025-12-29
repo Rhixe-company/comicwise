@@ -10,6 +10,10 @@ import { comicImage } from "@/database/schema";
  * param data.comicId
  * param data.imageUrl
  * param data.imageOrder
+ * @param data
+ * @param data.comicId
+ * @param data.imageUrl
+ * @param data.imageOrder
  */
 export async function createComicImage(data: {
   comicId: number;
@@ -25,12 +29,13 @@ export async function createComicImage(data: {
       createdAt: new Date(),
     })
     .returning();
-  return newImage!;
+  return newImage;
 }
 
 /**
  *
  * param images
+ * @param images
  */
 export async function createComicImages(
   images: Array<{
@@ -57,6 +62,10 @@ export async function createComicImages(
  * param data
  * param data.imageUrl
  * param data.imageOrder
+ * @param imageId
+ * @param data
+ * @param data.imageUrl
+ * @param data.imageOrder
  */
 export async function updateComicImage(
   imageId: number,
@@ -76,6 +85,7 @@ export async function updateComicImage(
 /**
  *
  * param imageId
+ * @param imageId
  */
 export async function deleteComicImage(
   imageId: number
@@ -87,6 +97,7 @@ export async function deleteComicImage(
 /**
  *
  * param comicId
+ * @param comicId
  */
 export async function deleteComicImages(
   comicId: number

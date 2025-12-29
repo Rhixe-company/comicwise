@@ -35,8 +35,8 @@ export default function VerifyRequestPage() {
           <h3 className="mb-2 font-semibold">What&apos;s next?</h3>
           <ul
             className={`
-            list-inside list-disc space-y-1 text-sm text-muted-foreground
-          `}
+              list-inside list-disc space-y-1 text-sm text-muted-foreground
+            `}
           >
             <li>Check your inbox (and spam folder)</li>
             <li>Click the verification link</li>
@@ -53,9 +53,9 @@ export default function VerifyRequestPage() {
           <Link
             href="/resend-verification"
             className={`
-            text-primary
-            hover:underline
-          `}
+              text-primary
+              hover:underline
+            `}
           >
             Resend
           </Link>

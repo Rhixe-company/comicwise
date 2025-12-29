@@ -22,9 +22,9 @@ import * as path from "path";
 // CONFIGURATION
 // ═══════════════════════════════════════════════════
 
-const args = process.argv.slice(2);
-const DRY_RUN = args.includes("--dry-run");
-const VERBOSE = args.includes("--verbose");
+const args = new Set(process.argv.slice(2));
+const DRY_RUN = args.has("--dry-run");
+const VERBOSE = args.has("--verbose");
 
 const srcDir = path.join(process.cwd(), "src");
 
@@ -423,7 +423,7 @@ async function updateAllImports() {
 
         for (const pattern of patterns) {
           if (content.includes(pattern.old)) {
-            const regex = new RegExp(pattern.old.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+            const regex = new RegExp(pattern.old.replaceAll(/[$()*+.?[\\\]^{|}]/g, "\\$&"), "g");
             content = content.replace(regex, pattern.new);
             updated = true;
             changeCount++;
@@ -480,7 +480,7 @@ function getAllTsFiles(dir: string): string[] {
           files.push(fullPath);
         }
       }
-    } catch (error) {
+    } catch {
       // Skip directories we can't read
     }
   }
@@ -491,7 +491,7 @@ function getAllTsFiles(dir: string): string[] {
 
 function toPascalCase(str: string): string {
   return str
-    .replace(/[-_](.)/g, (_, c) => c.toUpperCase())
+    .replaceAll(/[_-](.)/g, (_, c) => c.toUpperCase())
     .replace(/^(.)/, (_, c) => c.toUpperCase());
 }
 

@@ -2,7 +2,8 @@
 
 import { db } from "@/database/db";
 import { comic, comicToGenre } from "@/database/schema";
-import { comicFormSchema, type ComicFormData } from "@/lib/validations";
+import { comicFormSchema  } from "@/lib/validations";
+import type {ComicFormData} from "@/lib/validations";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { slugify } from "utils";
@@ -33,9 +34,9 @@ export async function createComicAction(data: ComicFormData) {
         coverImage: validated.coverImage,
         status: validated.status,
         publicationDate: validated.publicationDate,
-        authorId: validated.authorId ? parseInt(validated.authorId) : null,
-        artistId: validated.artistId ? parseInt(validated.artistId) : null,
-        typeId: validated.typeId ? parseInt(validated.typeId) : null,
+        authorId: validated.authorId ? Number.parseInt(validated.authorId) : null,
+        artistId: validated.artistId ? Number.parseInt(validated.artistId) : null,
+        typeId: validated.typeId ? Number.parseInt(validated.typeId) : null,
         views: 0,
         rating: "0",
         createdAt: new Date(),
@@ -52,7 +53,7 @@ export async function createComicAction(data: ComicFormData) {
       await db.insert(comicToGenre).values(
         validated.genreIds.map((genreId) => ({
           comicId: newComic.id,
-          genreId: parseInt(genreId),
+          genreId: Number.parseInt(genreId),
         }))
       );
     }
@@ -92,9 +93,9 @@ export async function updateComicAction(comicId: number, data: ComicFormData) {
         coverImage: validated.coverImage,
         status: validated.status,
         publicationDate: validated.publicationDate,
-        authorId: validated.authorId ? parseInt(validated.authorId) : null,
-        artistId: validated.artistId ? parseInt(validated.artistId) : null,
-        typeId: validated.typeId ? parseInt(validated.typeId) : null,
+        authorId: validated.authorId ? Number.parseInt(validated.authorId) : null,
+        artistId: validated.artistId ? Number.parseInt(validated.artistId) : null,
+        typeId: validated.typeId ? Number.parseInt(validated.typeId) : null,
         updatedAt: new Date(),
       })
       .where(eq(comic.id, comicId))
@@ -112,7 +113,7 @@ export async function updateComicAction(comicId: number, data: ComicFormData) {
         await db.insert(comicToGenre).values(
           validated.genreIds.map((genreId) => ({
             comicId,
-            genreId: parseInt(genreId),
+            genreId: Number.parseInt(genreId),
           }))
         );
       }

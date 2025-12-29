@@ -90,6 +90,8 @@ emailWorker.on("error", (err) => {
 
 /**
  * Add an email to the queue
+ * @param params
+ * @param priority
  */
 export async function queueEmail(params: SendEmailParams, priority: number = 0) {
   try {
@@ -107,6 +109,7 @@ export async function queueEmail(params: SendEmailParams, priority: number = 0) 
 
 /**
  * Add a high-priority email to the queue (processes first)
+ * @param params
  */
 export async function queueUrgentEmail(params: SendEmailParams) {
   return queueEmail(params, 0);
@@ -114,6 +117,7 @@ export async function queueUrgentEmail(params: SendEmailParams) {
 
 /**
  * Add a normal email to the queue
+ * @param params
  */
 export async function queueNormalEmail(params: SendEmailParams) {
   return queueEmail(params, 5);
@@ -121,6 +125,7 @@ export async function queueNormalEmail(params: SendEmailParams) {
 
 /**
  * Add a low-priority email to the queue (processes last)
+ * @param params
  */
 export async function queueLowPriorityEmail(params: SendEmailParams) {
   return queueEmail(params, 10);

@@ -48,11 +48,11 @@ export async function createComment(
 
     revalidatePath(`/comics/[id]/chapters/[chapterId]`);
     return { success: true, data: { id: comment.id } };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Create comment error:", err);
+    console.error("Create comment error:", error_);
     return error("Failed to create comment");
   }
 }
@@ -70,11 +70,11 @@ export async function updateComment(
     revalidatePath(`/comics/[id]/chapters/[chapterId]`);
 
     return { success: true };
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return error(err.issues[0]?.message || "Validation error");
+  } catch (error_) {
+    if (error_ instanceof z.ZodError) {
+      return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Update comment error:", err);
+    console.error("Update comment error:", error_);
     return error("Failed to update comment");
   }
 }
@@ -85,8 +85,8 @@ export async function deleteComment(commentId: number): Promise<ActionResponse> 
     revalidatePath(`/comics/[id]/chapters/[chapterId]`);
 
     return { success: true };
-  } catch (err) {
-    console.error("Delete comment error:", err);
+  } catch (error_) {
+    console.error("Delete comment error:", error_);
     return error("Failed to delete comment");
   }
 }

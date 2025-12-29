@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
     const searchParams = new URL(request.url).searchParams;
 
     const chapterId = searchParams.get("chapterId");
-    const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "20");
+    const page = Number.parseInt(searchParams.get("page") || "1");
+    const limit = Number.parseInt(searchParams.get("limit") || "20");
     const sortOrder = (searchParams.get("sortOrder") as "asc" | "desc") || "desc";
 
     if (!chapterId) {
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     }
 
     const offset = (page - 1) * limit;
-    const comments = await getCommentsByChapter(parseInt(chapterId), {
+    const comments = await getCommentsByChapter(Number.parseInt(chapterId), {
       limit,
       offset,
       sortOrder,
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
               commentType: "new",
             })
           )
-        ).catch((err) => console.error("Failed to send comment notifications:", err));
+        ).catch((error) => console.error("Failed to send comment notifications:", error));
       } catch (emailError) {
         console.error("Email notification error:", emailError);
       }

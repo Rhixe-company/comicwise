@@ -456,7 +456,7 @@ function processFile(filePath: string, stats: Stats): boolean {
 }
 
 function createBackup() {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const timestamp = new Date().toISOString().replaceAll(/[.:]/g, "-");
   const backupDir = `.import-backup-${timestamp}`;
 
   try {
@@ -525,7 +525,7 @@ function main() {
 
   if (stats.replacementsByCategory.size > 0) {
     log("Replacements by category:", "info");
-    const sorted = Array.from(stats.replacementsByCategory.entries()).sort((a, b) => b[1] - a[1]);
+    const sorted = [...stats.replacementsByCategory.entries()].sort((a, b) => b[1] - a[1]);
     for (const [category, count] of sorted) {
       log(`  ${category.padEnd(30)} ${count}`, "info");
     }

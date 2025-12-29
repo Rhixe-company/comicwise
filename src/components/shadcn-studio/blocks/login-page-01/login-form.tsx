@@ -38,7 +38,11 @@ const LoginForm = () => {
             variant="ghost"
             size="icon"
             onClick={() => setIsVisible((prevState) => !prevState)}
-            className="text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
+            className={`
+              absolute inset-y-0 right-0 rounded-l-none text-muted-foreground
+              hover:bg-transparent
+              focus-visible:ring-ring/50
+            `}
           >
             {isVisible ? <EyeOffIcon /> : <EyeIcon />}
             <span className="sr-only">{isVisible ? "Hide password" : "Show password"}</span>

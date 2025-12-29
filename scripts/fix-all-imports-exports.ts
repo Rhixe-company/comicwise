@@ -94,9 +94,9 @@ async function fixAppConfig() {
         let content = await fs.readFile(filePath, "utf-8");
 
         // Fix various app-config import variations
-        content = content.replace(/from ['"]app-config['"]/g, `from "${actualPath}"`);
-        content = content.replace(/from ['"]@\/app-config['"]/g, `from "${actualPath}"`);
-        content = content.replace(/from ['"]appConfig['"]/g, `from "${actualPath}"`);
+        content = content.replaceAll(/from ["']app-config["']/g, `from "${actualPath}"`);
+        content = content.replaceAll(/from ["']@\/app-config["']/g, `from "${actualPath}"`);
+        content = content.replaceAll(/from ["']appConfig["']/g, `from "${actualPath}"`);
 
         await fs.writeFile(filePath, content);
         console.log(`✓ Fixed ${file}`);
@@ -116,12 +116,12 @@ async function fixServiceImports() {
     let content = await fs.readFile(uploadBulkPath, "utf-8");
 
     // Fix service imports
-    content = content.replace(
-      /from ['"]\/services\/upload\/providers\/(\w+)['"]/g,
+    content = content.replaceAll(
+      /from ["']\/services\/upload\/providers\/(\w+)["']/g,
       'from "@/services/upload/providers/$1"'
     );
-    content = content.replace(
-      /from ['"]@\/services\/upload\/providers\/(\w+)['"]/g,
+    content = content.replaceAll(
+      /from ["']@\/services\/upload\/providers\/(\w+)["']/g,
       'from "@/services/upload/providers/$1"'
     );
 
@@ -148,19 +148,19 @@ async function fixModuleImports() {
     const originalContent = content;
 
     // Fix component imports
-    content = content.replace(/from ['"]@\/components\/auth['"]/g, 'from "@/components/auth"');
-    content = content.replace(
-      /from ['"]@\/components\/ui\/([^'"]+)['"]/g,
+    content = content.replaceAll(/from ["']@\/components\/auth["']/g, 'from "@/components/auth"');
+    content = content.replaceAll(
+      /from ["']@\/components\/ui\/([^"']+)["']/g,
       'from "@/components/ui/$1"'
     );
 
     // Fix dto imports
-    content = content.replace(/from ['"]@\/dto\/(\w+)['"]/g, 'from "@/dto/$1"');
+    content = content.replaceAll(/from ["']@\/dto\/(\w+)["']/g, 'from "@/dto/$1"');
 
     // Fix lib/validations imports
-    content = content.replace(/from ['"]@\/lib\/validations['"]/g, 'from "@/lib/validations"');
-    content = content.replace(
-      /from ['"]@\/lib\/validations\/([^'"]+)['"]/g,
+    content = content.replaceAll(/from ["']@\/lib\/validations["']/g, 'from "@/lib/validations"');
+    content = content.replaceAll(
+      /from ["']@\/lib\/validations\/([^"']+)["']/g,
       'from "@/lib/validations/$1"'
     );
 
@@ -183,7 +183,7 @@ async function fixScriptIssues() {
     let content = await fs.readFile(fixAllErrorsAutoPath, "utf-8");
 
     // Fix the invalid regex replacement
-    content = content.replace(/\.replace\(database,\s*g\)/g, '.replace(/database/g, "db")');
+    content = content.replaceAll(/\.replace\(database,\s*g\)/g, '.replace(/database/g, "db")');
 
     await fs.writeFile(fixAllErrorsAutoPath, content);
     console.log("✓ Fixed scripts/fixAllErrorsAuto.ts");
@@ -195,7 +195,7 @@ async function fixScriptIssues() {
     let content = await fs.readFile(healthCommandPath, "utf-8");
 
     // Fix type assertion for options.verbose
-    content = content.replace(/if \(options\.verbose\)/g, "if ((options as any).verbose)");
+    content = content.replaceAll('if (options.verbose)', "if ((options as any).verbose)");
 
     await fs.writeFile(healthCommandPath, content);
     console.log("✓ Fixed scripts/cli/commands/health.ts");

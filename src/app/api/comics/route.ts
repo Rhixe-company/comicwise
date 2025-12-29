@@ -22,15 +22,15 @@ export async function GET(request: NextRequest) {
     const filters = {
       search: searchParams.get("search") || undefined,
       status: searchParams.get("status") || undefined,
-      typeId: searchParams.get("typeId") ? parseInt(searchParams.get("typeId")!) : undefined,
-      authorId: searchParams.get("authorId") ? parseInt(searchParams.get("authorId")!) : undefined,
-      artistId: searchParams.get("artistId") ? parseInt(searchParams.get("artistId")!) : undefined,
+      typeId: searchParams.get("typeId") ? Number.parseInt(searchParams.get("typeId")!) : undefined,
+      authorId: searchParams.get("authorId") ? Number.parseInt(searchParams.get("authorId")!) : undefined,
+      artistId: searchParams.get("artistId") ? Number.parseInt(searchParams.get("artistId")!) : undefined,
       minRating: searchParams.get("minRating")
-        ? parseFloat(searchParams.get("minRating")!)
+        ? Number.parseFloat(searchParams.get("minRating")!)
         : undefined,
       genreIds: searchParams.get("genreIds")?.split(",").map(Number) || undefined,
-      page: searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1,
-      limit: searchParams.get("limit") ? parseInt(searchParams.get("limit")!) : 12,
+      page: searchParams.get("page") ? Number.parseInt(searchParams.get("page")!) : 1,
+      limit: searchParams.get("limit") ? Number.parseInt(searchParams.get("limit")!) : 12,
       sortBy: searchParams.get("sortBy") || "latest",
       sortOrder: (searchParams.get("sortOrder") as "asc" | "desc") || "desc",
     };

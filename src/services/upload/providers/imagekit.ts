@@ -3,7 +3,7 @@
 // Next.js 16.0.7 + ImageKit Integration
 // ═══════════════════════════════════════════════════
 
-// eslint-disable-next-line typescript-eslint/ban-ts-comment
+ 
 // ts-nocheck - ImageKit SDK has incomplete type definitions
 import { env } from "@/appConfig";
 import ImageKit from "imagekit";
@@ -27,6 +27,8 @@ const imagekit = new ImageKit({
 export class ImageKitProvider implements UploadProvider {
   /**
    * Upload file to ImageKit with improved error handling
+   * @param file
+   * @param options
    */
   async upload(
     file: File | Buffer,
@@ -123,6 +125,7 @@ export class ImageKitProvider implements UploadProvider {
 
   /**
    * Delete file from ImageKit
+   * @param publicId
    */
   async delete(publicId: string): Promise<boolean> {
     try {
@@ -136,6 +139,8 @@ export class ImageKitProvider implements UploadProvider {
 
   /**
    * Get optimized URL with transformations
+   * @param publicId
+   * @param transformation
    */
   getUrl(publicId: string, transformation?: Record<string, unknown>): string {
     try {
@@ -151,6 +156,9 @@ export class ImageKitProvider implements UploadProvider {
 
   /**
    * Get thumbnail URL
+   * @param url
+   * @param width
+   * @param height
    */
   getThumbnailUrl(url: string, width = 300, height = 300): string {
     return imagekit.url({
@@ -168,6 +176,7 @@ export class ImageKitProvider implements UploadProvider {
 
   /**
    * Get responsive image URLs
+   * @param url
    */
   getResponsiveUrls(url: string): Record<string, string> {
     return {
@@ -180,6 +189,7 @@ export class ImageKitProvider implements UploadProvider {
 
   /**
    * Helper: Build transformation string
+   * @param transformation
    */
   private buildTransformation(transformation?: Record<string, unknown>): Array<{
     [key: string]: string;
@@ -189,7 +199,7 @@ export class ImageKitProvider implements UploadProvider {
     }
 
     const transformationArray: Array<{ [key: string]: string }> = [];
-    const transformObj: { [key: string]: string } = {};
+    const transformObject: { [key: string]: string } = {};
 
     const allowedKeys = [
       "width",
@@ -211,16 +221,18 @@ export class ImageKitProvider implements UploadProvider {
         typeof transformation[allowedKey] !== "object" &&
         typeof transformation[allowedKey] !== "function"
       ) {
-        transformObj[allowedKey] = String(transformation[allowedKey]);
+        transformObject[allowedKey] = String(transformation[allowedKey]);
       }
     }
 
-    transformationArray.push(transformObj);
+    transformationArray.push(transformObject);
     return transformationArray;
   }
 
   /**
    * Helper: Get transformed URL
+   * @param url
+   * @param transformation
    */
   private getTransformedUrl(url: string, transformation: Record<string, unknown>): string {
     return imagekit.url({
@@ -231,6 +243,8 @@ export class ImageKitProvider implements UploadProvider {
 
   /**
    * Bulk upload images
+   * @param files
+   * @param options
    */
   async bulkUpload(
     files: Array<File | Buffer>,
