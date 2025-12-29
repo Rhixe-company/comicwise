@@ -1,6 +1,7 @@
 # 🎨 ComicWise
 
-> **A modern, full-stack web comic reading and management platform built with Next.js 16, PostgreSQL, and cutting-edge web technologies.**
+> **A modern, full-stack web comic reading and management platform built with
+> Next.js 16, PostgreSQL, and cutting-edge web technologies.**
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.3-blue?logo=react)](https://react.dev/)
@@ -34,7 +35,8 @@
 
 ### 👥 For Users
 
-- 📚 **Comic Library**: Browse thousands of comics with advanced search and filtering
+- 📚 **Comic Library**: Browse thousands of comics with advanced search and
+  filtering
 - 🔖 **Bookmarks**: Save your favorite comics and track reading progress
 - 📖 **Seamless Reading**: Optimized chapter navigation with image preloading
 - 💬 **Comments**: Engage with the community through chapter discussions
@@ -46,10 +48,12 @@
 ### 👨‍💼 For Administrators
 
 - 📊 **Admin Dashboard**: Comprehensive analytics and management interface
-- ✏️ **Content Management**: Full CRUD operations for comics, chapters, authors, artists
+- ✏️ **Content Management**: Full CRUD operations for comics, chapters, authors,
+  artists
 - 👥 **User Management**: Role-based access control (user, admin, moderator)
 - 📤 **Bulk Upload**: Efficient batch operations for multiple comics
-- 🖼️ **Image Management**: Multi-provider support (ImageKit, Cloudinary, AWS S3, Local)
+- 🖼️ **Image Management**: Multi-provider support (ImageKit, Cloudinary, AWS S3,
+  Local)
 - 📈 **Analytics**: Track views, engagement, and user statistics
 - 🔐 **Security**: Rate limiting, input validation, and secure authentication
 
@@ -72,18 +76,19 @@
 
 ### Core
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| [Next.js](https://nextjs.org/) | 16.1.1 | React framework with App Router |
-| [React](https://react.dev/) | 19.2.3 | UI library with Server Components |
-| [TypeScript](https://www.typescriptlang.org/) | 5.x | Type-safe development |
-| [PostgreSQL](https://www.postgresql.org/) | 15+ | Primary database |
-| [Drizzle ORM](https://orm.drizzle.team/) | 0.45.1 | Type-safe database toolkit |
-| [Redis](https://redis.io/) | Latest | Caching and queue management |
+| Technology                                    | Version | Purpose                           |
+| --------------------------------------------- | ------- | --------------------------------- |
+| [Next.js](https://nextjs.org/)                | 16.1.1  | React framework with App Router   |
+| [React](https://react.dev/)                   | 19.2.3  | UI library with Server Components |
+| [TypeScript](https://www.typescriptlang.org/) | 5.x     | Type-safe development             |
+| [PostgreSQL](https://www.postgresql.org/)     | 15+     | Primary database                  |
+| [Drizzle ORM](https://orm.drizzle.team/)      | 0.45.1  | Type-safe database toolkit        |
+| [Redis](https://redis.io/)                    | Latest  | Caching and queue management      |
 
 ### Authentication & Security
 
-- **NextAuth.js v5** - Authentication with OAuth (Google, GitHub) and credentials
+- **NextAuth.js v5** - Authentication with OAuth (Google, GitHub) and
+  credentials
 - **Zod** - Runtime validation and type inference
 - **bcryptjs** - Password hashing
 - **Rate Limiting** - API protection with Upstash
@@ -298,6 +303,7 @@ pnpm db:seed:verbose
 ```
 
 Place your JSON data files in the project root:
+
 - `users.json` - User accounts
 - `comics.json` - Comic metadata
 - `chapters.json` - Chapter content
@@ -320,6 +326,7 @@ pnpm dev:https
 ```
 
 The application will be available at:
+
 - **HTTP**: http://localhost:3000
 - **Debug**: http://localhost:3000 (inspector on port 9229)
 
@@ -454,7 +461,8 @@ pnpm docker:clean
 
 ### Environment Variables (Production)
 
-Ensure all required environment variables are set in your production environment:
+Ensure all required environment variables are set in your production
+environment:
 
 ```env
 NODE_ENV="production"
@@ -501,7 +509,8 @@ comicwise/
 └── package.json          # Dependencies
 ```
 
-For detailed structure, see [Project Structure Documentation](./docs/PROJECT_STRUCTURE.md).
+For detailed structure, see
+[Project Structure Documentation](./docs/PROJECT_STRUCTURE.md).
 
 ---
 
@@ -509,43 +518,43 @@ For detailed structure, see [Project Structure Documentation](./docs/PROJECT_STR
 
 ### Development
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start development server |
+| Command          | Description                 |
+| ---------------- | --------------------------- |
+| `pnpm dev`       | Start development server    |
 | `pnpm dev:debug` | Start with Node.js debugger |
-| `pnpm build` | Build for production |
-| `pnpm start` | Start production server |
-| `pnpm clean` | Clean build artifacts |
+| `pnpm build`     | Build for production        |
+| `pnpm start`     | Start production server     |
+| `pnpm clean`     | Clean build artifacts       |
 
 ### Database
 
-| Command | Description |
-|---------|-------------|
-| `pnpm db:generate` | Generate migrations |
-| `pnpm db:push` | Push schema to database |
-| `pnpm db:migrate` | Run migrations |
-| `pnpm db:studio` | Open Drizzle Studio |
-| `pnpm db:seed` | Seed database |
-| `pnpm db:reset` | Reset database |
+| Command            | Description             |
+| ------------------ | ----------------------- |
+| `pnpm db:generate` | Generate migrations     |
+| `pnpm db:push`     | Push schema to database |
+| `pnpm db:migrate`  | Run migrations          |
+| `pnpm db:studio`   | Open Drizzle Studio     |
+| `pnpm db:seed`     | Seed database           |
+| `pnpm db:reset`    | Reset database          |
 
 ### Code Quality
 
-| Command | Description |
-|---------|-------------|
-| `pnpm type-check` | TypeScript type checking |
-| `pnpm lint` | Run ESLint |
-| `pnpm lint:fix` | Fix linting errors |
-| `pnpm format` | Format code with Prettier |
-| `pnpm validate` | Run all quality checks |
+| Command           | Description               |
+| ----------------- | ------------------------- |
+| `pnpm type-check` | TypeScript type checking  |
+| `pnpm lint`       | Run ESLint                |
+| `pnpm lint:fix`   | Fix linting errors        |
+| `pnpm format`     | Format code with Prettier |
+| `pnpm validate`   | Run all quality checks    |
 
 ### Testing
 
-| Command | Description |
-|---------|-------------|
-| `pnpm test:unit` | Run unit tests |
-| `pnpm test` | Run E2E tests |
-| `pnpm test:ui` | E2E tests with UI |
-| `pnpm test:all` | Run all tests |
+| Command              | Description              |
+| -------------------- | ------------------------ |
+| `pnpm test:unit`     | Run unit tests           |
+| `pnpm test`          | Run E2E tests            |
+| `pnpm test:ui`       | E2E tests with UI        |
+| `pnpm test:all`      | Run all tests            |
 | `pnpm test:coverage` | Generate coverage report |
 
 For a complete list, see [Scripts Reference](./docs/SCRIPTS_REFERENCE.md).
@@ -559,7 +568,8 @@ We welcome contributions from the community! Here's how you can help:
 ### Getting Started
 
 1. **Fork** the repository
-2. **Clone** your fork: `git clone https://github.com/yourusername/comicwise.git`
+2. **Clone** your fork:
+   `git clone https://github.com/yourusername/comicwise.git`
 3. **Create** a branch: `git checkout -b feature/amazing-feature`
 4. **Make** your changes
 5. **Test** your changes: `pnpm validate && pnpm test:all`
@@ -588,7 +598,8 @@ For more details, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE)
+file for details.
 
 ---
 
@@ -609,13 +620,15 @@ Built with amazing open-source projects:
 
 - **Documentation**: [docs/](./docs/)
 - **Issues**: [GitHub Issues](https://github.com/yourusername/comicwise/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/comicwise/discussions)
+- **Discussions**:
+  [GitHub Discussions](https://github.com/yourusername/comicwise/discussions)
 
 ---
 
 <div align="center">
 
-**[Website](https://comicwise.com)** • **[Documentation](./docs/)** • **[Changelog](CHANGELOG.md)**
+**[Website](https://comicwise.com)** • **[Documentation](./docs/)** •
+**[Changelog](CHANGELOG.md)**
 
 Made with ❤️ by the ComicWise team
 

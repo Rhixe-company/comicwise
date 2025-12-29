@@ -49,8 +49,7 @@ async function validateComicCoverImages(): Promise<ValidationResult> {
     // Count comics with uploaded images (ImageKit URLs)
     const comicsWithUploadedImages = allComics.filter(
       (c) =>
-        c.coverImage &&
-        (c.coverImage.includes("/uploads/") || c.coverImage.includes("imagekit.io"))
+        c.coverImage && (c.coverImage.includes("/uploads/") || c.coverImage.includes("imagekit.io"))
     ).length;
 
     // Count comics with external URLs (not uploaded)
@@ -63,8 +62,12 @@ async function validateComicCoverImages(): Promise<ValidationResult> {
     ).length;
 
     logger.info(`   Total comics:                  ${totalComics}`);
-    logger.info(`   Comics with cover images:      ${comicsWithImages} (${((comicsWithImages / totalComics) * 100).toFixed(1)}%)`);
-    logger.info(`   Comics with uploaded images:   ${comicsWithUploadedImages} (${((comicsWithUploadedImages / totalComics) * 100).toFixed(1)}%)`);
+    logger.info(
+      `   Comics with cover images:      ${comicsWithImages} (${((comicsWithImages / totalComics) * 100).toFixed(1)}%)`
+    );
+    logger.info(
+      `   Comics with uploaded images:   ${comicsWithUploadedImages} (${((comicsWithUploadedImages / totalComics) * 100).toFixed(1)}%)`
+    );
     logger.info(`   Comics with external URLs:     ${comicsWithExternalUrls}`);
 
     const coverageRate = (comicsWithImages / totalComics) * 100;
@@ -136,23 +139,25 @@ async function validateChapterImages(): Promise<ValidationResult> {
 
     // Count uploaded vs external URLs
     const uploadedImages = allChapterImages.filter(
-      (img) =>
-        img.url &&
-        (img.url.includes("/uploads/") || img.url.includes("imagekit.io"))
+      (img) => img.imageUrl && (img.imageUrl.includes("/uploads/") || img.imageUrl.includes("imagekit.io"))
     ).length;
 
     const externalImages = allChapterImages.filter(
       (img) =>
-        img.url &&
-        (img.url.startsWith("http://") || img.url.startsWith("https://")) &&
-        !img.url.includes("/uploads/") &&
-        !img.url.includes("imagekit.io")
+        img.imageUrl &&
+        (img.imageUrl.startsWith("http://") || img.imageUrl.startsWith("https://")) &&
+        !img.imageUrl.includes("/uploads/") &&
+        !img.imageUrl.includes("imagekit.io")
     ).length;
 
     logger.info(`   Total chapters:                ${totalChapters}`);
-    logger.info(`   Chapters with images:          ${chaptersWithImagesCount} (${((chaptersWithImagesCount / totalChapters) * 100).toFixed(1)}%)`);
+    logger.info(
+      `   Chapters with images:          ${chaptersWithImagesCount} (${((chaptersWithImagesCount / totalChapters) * 100).toFixed(1)}%)`
+    );
     logger.info(`   Total chapter images:          ${totalChapterImages}`);
-    logger.info(`   Uploaded images:               ${uploadedImages} (${((uploadedImages / totalChapterImages) * 100).toFixed(1)}%)`);
+    logger.info(
+      `   Uploaded images:               ${uploadedImages} (${((uploadedImages / totalChapterImages) * 100).toFixed(1)}%)`
+    );
     logger.info(`   External URL images:           ${externalImages}`);
 
     if (totalChapterImages > 0) {
@@ -204,23 +209,22 @@ async function validateImageServiceUsage(): Promise<ValidationResult> {
       .from(comic)
       .where(sql`${comic.coverImage} LIKE '%/uploads/%'`);
 
-    const totalComicsWithImages = await db
-      .select()
-      .from(comic)
-      .where(isNotNull(comic.coverImage));
+    const totalComicsWithImages = await db.select().from(comic).where(isNotNull(comic.coverImage));
 
     const comicUploadRate =
       totalComicsWithImages.length > 0
         ? (comicsWithUploadPath.length / totalComicsWithImages.length) * 100
         : 0;
 
-    logger.info(`   Comics using imageService:     ${comicsWithUploadPath.length}/${totalComicsWithImages.length} (${comicUploadRate.toFixed(1)}%)`);
+    logger.info(
+      `   Comics using imageService:     ${comicsWithUploadPath.length}/${totalComicsWithImages.length} (${comicUploadRate.toFixed(1)}%)`
+    );
 
     // Check chapter images
     const chapterImagesWithUploadPath = await db
       .select()
       .from(chapterImage)
-      .where(sql`${chapterImage.url} LIKE '%/uploads/%'`);
+      .where(sql`${chapterImage.imageUrl} LIKE '%/uploads/%'`);
 
     const totalChapterImages = await db.select().from(chapterImage);
 
@@ -229,7 +233,9 @@ async function validateImageServiceUsage(): Promise<ValidationResult> {
         ? (chapterImagesWithUploadPath.length / totalChapterImages.length) * 100
         : 0;
 
-    logger.info(`   Chapter images via imageService: ${chapterImagesWithUploadPath.length}/${totalChapterImages.length} (${chapterUploadRate.toFixed(1)}%)`);
+    logger.info(
+      `   Chapter images via imageService: ${chapterImagesWithUploadPath.length}/${totalChapterImages.length} (${chapterUploadRate.toFixed(1)}%)`
+    );
 
     const overallRate = (comicUploadRate + chapterUploadRate) / 2;
 
@@ -272,17 +278,21 @@ async function validateImageIntegrity(): Promise<ValidationResult> {
 
     const totalComics = await db.select().from(comic);
 
-    logger.info(`   Comics with null/empty images: ${comicsWithNullImages.length}/${totalComics.length}`);
+    logger.info(
+      `   Comics with null/empty images: ${comicsWithNullImages.length}/${totalComics.length}`
+    );
 
     // Check for broken chapter image references
     const orphanedChapterImages = await db
       .select()
       .from(chapterImage)
-      .where(sql`${chapterImage.url} IS NULL OR ${chapterImage.url} = ''`);
+      .where(sql`${chapterImage.imageUrl} IS NULL OR ${chapterImage.imageUrl} = ''`);
 
     const totalChapterImages = await db.select().from(chapterImage);
 
-    logger.info(`   Null/empty chapter images:     ${orphanedChapterImages.length}/${totalChapterImages.length}`);
+    logger.info(
+      `   Null/empty chapter images:     ${orphanedChapterImages.length}/${totalChapterImages.length}`)
+    ;
 
     // Check for proper page numbering
     const chapterImagesWithInvalidPageNumbers = await db
@@ -290,7 +300,9 @@ async function validateImageIntegrity(): Promise<ValidationResult> {
       .from(chapterImage)
       .where(sql`${chapterImage.pageNumber} IS NULL OR ${chapterImage.pageNumber} <= 0`);
 
-    logger.info(`   Invalid page numbers:          ${chapterImagesWithInvalidPageNumbers.length}/${totalChapterImages.length}`);
+    logger.info(
+      `   Invalid page numbers:          ${chapterImagesWithInvalidPageNumbers.length}/${totalChapterImages.length}`
+    );
 
     const hasIssues =
       comicsWithNullImages.length > totalComics.length * 0.1 ||

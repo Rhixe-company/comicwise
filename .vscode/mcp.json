@@ -22,12 +22,26 @@
     "errorNotifications": true
   },
 
+  "loggingSettings": {
+    "enableFileLogging": true,
+    "enableConsoleLogging": false,
+    "logRotation": true,
+    "maxLogFiles": 5,
+    "logFormat": "json",
+    "includeTimestamp": true,
+    "includeServerName": true
+  },
+
   "mcpServers": {
     "// CORE SERVERS - Always Enabled": "Essential for ComicWise development",
 
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${workspaceFolder}"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
+      ],
       "timeout": 90000,
       "retries": 3,
       "disabled": false,
@@ -205,7 +219,14 @@
       "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
       "disabled": false,
       "priority": "medium",
-      "autoApprove": ["think", "analyze", "reason", "plan", "solve", "optimize"],
+      "autoApprove": [
+        "think",
+        "analyze",
+        "reason",
+        "plan",
+        "solve",
+        "optimize"
+      ],
       "timeout": 120000,
       "retries": 2,
       "description": "Enhanced AI reasoning for complex problem-solving and architecture optimization"
@@ -335,7 +356,11 @@
 
     "sqlite": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sqlite", "${workspaceFolder}\\data"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "${workspaceFolder}\\data"
+      ],
       "disabled": true,
       "priority": "low",
       "description": "SQLite database (not used - ComicWise uses PostgreSQL)"
@@ -363,6 +388,13 @@
     "gcInterval": 300000
   },
 
+  "securitySettings": {
+    "enableSandboxing": true,
+    "allowedDomains": ["localhost", "*.vercel.app", "*.comicwise.com"],
+    "restrictFileAccess": false,
+    "enableAuditLog": true,
+    "auditLogPath": "${workspaceFolder}\\.vscode\\logs\\audit.log"
+  },
   "windowsSpecific": {
     "pathSeparator": "\\",
     "shellExecutable": "powershell.exe",
@@ -370,23 +402,5 @@
     "useWindowsPaths": true,
     "longPathSupport": true,
     "caseInsensitive": true
-  },
-
-  "loggingSettings": {
-    "enableFileLogging": true,
-    "enableConsoleLogging": false,
-    "logRotation": true,
-    "maxLogFiles": 5,
-    "logFormat": "json",
-    "includeTimestamp": true,
-    "includeServerName": true
-  },
-
-  "securitySettings": {
-    "enableSandboxing": true,
-    "allowedDomains": ["localhost", "*.vercel.app", "*.comicwise.com"],
-    "restrictFileAccess": false,
-    "enableAuditLog": true,
-    "auditLogPath": "${workspaceFolder}\\.vscode\\logs\\audit.log"
   }
 }
