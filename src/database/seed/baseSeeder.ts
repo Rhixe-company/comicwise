@@ -193,6 +193,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
    */
   async clear(): Promise<void> {
     logger.info(`Clearing ${this.entity} table...`);
+    // eslint-disable-next-line drizzle/enforce-delete-with-where
     await database.delete(this.table);
     logger.success(`${this.entity} table cleared`);
   }

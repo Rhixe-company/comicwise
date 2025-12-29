@@ -21,10 +21,10 @@
 
 import { db as database } from "@/database/db";
 import { sql } from "drizzle-orm";
-import { parseCLIArgs } from "./config";
+import { parseCLIArgs } from "./configEnhanced";
 import { logger } from "./logger";
-import type { SeedOptions } from "./seedHelpers";
-import { seedAll, seedChapters, seedComics, seedUsers } from "./seedHelpers";
+import type { SeedOptions } from "./seedHelpersEnhanced";
+import { seedAll, seedChapters, seedComics, seedUsers } from "./seedHelpersEnhanced";
 
 async function seed() {
   const startTime = Date.now();
@@ -53,9 +53,9 @@ async function seed() {
     // Run seeding based on enabled entities
     const { enabled } = config;
 
-    if (enabled.users && enabled.comics && enabled.chapters) {
+    if (enabled.all || (enabled.users && enabled.comics && enabled.chapters)) {
       // Seed all entities - most efficient
-      logger.info("Seeding all entities...\n");
+      logger.section("Seeding All Entities");
       await seedAll(options);
     } else {
       // Selective seeding

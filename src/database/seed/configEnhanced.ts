@@ -44,20 +44,21 @@ export function parseCLIArgs(args: string[]): SeedConfig {
     },
   };
 
-  args.forEach((arg) => {
-    if (arg === "--users") config.enabled.users = true;
-    if (arg === "--comics") config.enabled.comics = true;
-    if (arg === "--chapters") config.enabled.chapters = true;
-    if (arg === "--all") config.enabled.all = true;
-    if (arg === "--verbose" || arg === "-v") config.options.verbose = true;
-    if (arg === "--dry-run") config.options.dryRun = true;
-    if (arg === "--skip-validation") config.options.skipValidation = true;
-    if (arg === "--skip-images") config.options.skipImageDownload = true;
-    if (arg === "--force" || arg === "-f") config.options.forceOverwrite = true;
-    if (arg === "--clear") config.mode = "clear";
-    if (arg === "--reset") config.mode = "reset";
-    if (arg.startsWith("--batch-size=")) {
-      config.options.batchSize = parseInt(arg.split("=")[1] || "", 10) || DEFAULT_BATCH_SIZE;
+  args.forEach((argument) => {
+    if (argument === "--users") config.enabled.users = true;
+    if (argument === "--comics") config.enabled.comics = true;
+    if (argument === "--chapters") config.enabled.chapters = true;
+    if (argument === "--all") config.enabled.all = true;
+    if (argument === "--verbose" || argument === "-v") config.options.verbose = true;
+    if (argument === "--dry-run") config.options.dryRun = true;
+    if (argument === "--skip-validation") config.options.skipValidation = true;
+    if (argument === "--skip-images") config.options.skipImageDownload = true;
+    if (argument === "--force" || argument === "-f") config.options.forceOverwrite = true;
+    if (argument === "--clear") config.mode = "clear";
+    if (argument === "--reset") config.mode = "reset";
+    if (argument.startsWith("--batch-size=")) {
+      config.options.batchSize =
+        Number.parseInt(argument.split("=")[1] || "", 10) || DEFAULT_BATCH_SIZE;
     }
   });
 

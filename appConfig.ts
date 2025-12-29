@@ -27,7 +27,7 @@ const environmentSchema = z.object({
   IMAGEKIT_PUBLIC_KEY: z.string().optional(),
   IMAGEKIT_PRIVATE_KEY: z.string().optional(),
   IMAGEKIT_URL_ENDPOINT: z.string().url().optional(),
-  IMAGEKIT_ENABLED: z.boolean(),
+  IMAGEKIT_ENABLED: z.string().optional(),
 
   // Cloudinary
   CLOUDINARY_CLOUD_NAME: z.string().optional(),
@@ -178,6 +178,7 @@ export const env = validateEnvironment();
 /**
  * Check if a specific environment variable is set
  * param key
+ * @param key
  */
 export function hasEnvironment(key: keyof Environment): boolean {
   return !!env[key];
@@ -187,6 +188,8 @@ export function hasEnvironment(key: keyof Environment): boolean {
  * Get environment variable with type safety
  * param key
  * param defaultValue
+ * @param key
+ * @param defaultValue
  */
 export function getEnv<K extends keyof Environment>(
   key: K,

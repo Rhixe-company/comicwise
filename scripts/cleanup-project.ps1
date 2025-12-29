@@ -92,13 +92,6 @@ $filesToRemove = @(
     "THEMING_IMPLEMENTATION_PLAN.md",
     "VSCODE_SETUP_COMPLETE.md",
     "build_output.txt",
-    "chapters.json",
-    "chaptersdata1.json",
-    "chaptersdata2.json",
-    "comics.json",
-    "comicsdata1.json",
-    "comicsdata2.json",
-    "users.json",
     "prompt.txt",
     "fix-build-errors.ps1",
     "fix-final.ps1",
@@ -108,83 +101,164 @@ $filesToRemove = @(
 # Unused files in src to remove
 $srcFilesToRemove = @()
 
+# Old seeding files to remove (replaced by Enhanced versions)
+$seedFilesToRemove = @(
+  "src/database/seed/config.ts",
+  "src/database/seed/run.ts",
+  "src/database/seed/seedHelpers.ts",
+  "src/database/seed/orchestrator.ts",
+  "src/database/seed/seeders/userSeeder.ts",
+  "src/database/seed/seeders/comicSeeder.ts",
+  "src/database/seed/seeders/chapterSeeder.ts"
+)
+
 $removedCount = 0
 $skippedCount = 0
 $totalSize = 0
 
-Write-Host "🗑️  Cleaning up documentation and temporary files...`n" -ForegroundColor Yellow
+# Clean up backup files first
+Write-Host "🗑️  Removing all .backup files...`n" -ForegroundColor Yellow
+
+$backupFiles = Get-ChildItem -Path (Join-Path $PSScriptRoot "..") -Filter "*.backup_*" -Recurse -File |
+Where-Object { $_.FullName -notlike "*node_modules*" -and $_.FullName -notlike "*.git*" }
+
+foreach ($file in $backupFiles) {
+  $relativePath = $file.FullName.Replace((Join-Path $PSScriptRoot ".."), "").TrimStart("\")
+  $fileSize = $file.Length
+  $totalSize += $fileSize
+
+  if ($Verbose) {
+    $sizeStr = if ($fileSize -gt 1MB) {
+      "{0:N2} MB" -f ($fileSize / 1MB)
+    }
+    elseif ($fileSize -gt 1KB) {
+      "{0:N2} KB" -f ($fileSize / 1KB)
+    }
+    else {
+      "$fileSize bytes"
+    }
+    Write-Host "  📄 $relativePath ($sizeStr)" -ForegroundColor Gray
+  }
+
+  if (-not $DryRun) {
+    Remove-Item $file.FullName -Force
+    $removedCount++
+  }
+  else {
+    Write-Host "  [DRY RUN] Would remove: $relativePath" -ForegroundColor Yellow
+    $removedCount++
+  }
+}
+
+Write-Host "`n🗑️  Removing old seeding files...`n" -ForegroundColor Yellow
+
+foreach ($file in $seedFilesToRemove) {
+  $filePath = Join-Path $PSScriptRoot ".." $file
+
+  if (Test-Path $filePath) {
+    $fileInfo = Get-Item $filePath
+    $fileSize = $fileInfo.Length
+    $totalSize += $fileSize
+
+    if ($Verbose) {
+      Write-Host "  📄 $file" -ForegroundColor Gray
+    }
+
+    if (-not $DryRun) {
+      Remove-Item $filePath -Force
+      $removedCount++
+    }
+    else {
+      Write-Host "  [DRY RUN] Would remove: $file" -ForegroundColor Yellow
+      $removedCount++
+    }
+  }
+  else {
+    $skippedCount++
+    if ($Verbose) {
+      Write-Host "  ⚠️  Not found: $file" -ForegroundColor DarkGray
+    }
+  }
+}
+
+Write-Host "`n🗑️  Cleaning up documentation and temporary files...`n" -ForegroundColor Yellow
 
 foreach ($file in $filesToRemove) {
-    $filePath = Join-Path $PSScriptRoot ".." $file
-    
-    if (Test-Path $filePath) {
-        $fileInfo = Get-Item $filePath
-        $fileSize = $fileInfo.Length
-        $totalSize += $fileSize
-        
-        $sizeStr = if ($fileSize -gt 1MB) { 
-            "{0:N2} MB" -f ($fileSize / 1MB) 
-        } elseif ($fileSize -gt 1KB) { 
-            "{0:N2} KB" -f ($fileSize / 1KB) 
-        } else { 
-            "$fileSize bytes" 
-        }
-        
-        if ($Verbose) {
-            Write-Host "  📄 $file ($sizeStr)" -ForegroundColor Gray
-        }
-        
-        if (-not $DryRun) {
-            Remove-Item $filePath -Force
-            $removedCount++
-        } else {
-            Write-Host "  [DRY RUN] Would remove: $file" -ForegroundColor Yellow
-            $removedCount++
-        }
-    } else {
-        $skippedCount++
-        if ($Verbose) {
-            Write-Host "  ⚠️  Not found: $file" -ForegroundColor DarkGray
-        }
+  $filePath = Join-Path $PSScriptRoot ".." $file
+
+  if (Test-Path $filePath) {
+    $fileInfo = Get-Item $filePath
+    $fileSize = $fileInfo.Length
+    $totalSize += $fileSize
+
+    $sizeStr = if ($fileSize -gt 1MB) {
+      "{0:N2} MB" -f ($fileSize / 1MB)
     }
+    elseif ($fileSize -gt 1KB) {
+      "{0:N2} KB" -f ($fileSize / 1KB)
+    }
+    else {
+      "$fileSize bytes"
+    }
+
+    if ($Verbose) {
+      Write-Host "  📄 $file ($sizeStr)" -ForegroundColor Gray
+    }
+
+    if (-not $DryRun) {
+      Remove-Item $filePath -Force
+      $removedCount++
+    }
+    else {
+      Write-Host "  [DRY RUN] Would remove: $file" -ForegroundColor Yellow
+      $removedCount++
+    }
+  }
+  else {
+    $skippedCount++
+    if ($Verbose) {
+      Write-Host "  ⚠️  Not found: $file" -ForegroundColor DarkGray
+    }
+  }
 }
 
 Write-Host "`n🗑️  Cleaning up src directory...`n" -ForegroundColor Yellow
 
 foreach ($file in $srcFilesToRemove) {
-    $filePath = Join-Path $PSScriptRoot ".." "src" $file
-    
-    if (Test-Path $filePath) {
-        $fileInfo = Get-Item $filePath
-        $fileSize = $fileInfo.Length
-        $totalSize += $fileSize
-        
-        if ($Verbose) {
-            Write-Host "  📄 src/$file" -ForegroundColor Gray
-        }
-        
-        if (-not $DryRun) {
-            Remove-Item $filePath -Force
-            $removedCount++
-        } else {
-            Write-Host "  [DRY RUN] Would remove: src/$file" -ForegroundColor Yellow
-            $removedCount++
-        }
+  $filePath = Join-Path $PSScriptRoot ".." "src" $file
+
+  if (Test-Path $filePath) {
+    $fileInfo = Get-Item $filePath
+    $fileSize = $fileInfo.Length
+    $totalSize += $fileSize
+
+    if ($Verbose) {
+      Write-Host "  📄 src/$file" -ForegroundColor Gray
     }
+
+    if (-not $DryRun) {
+      Remove-Item $filePath -Force
+      $removedCount++
+    }
+    else {
+      Write-Host "  [DRY RUN] Would remove: src/$file" -ForegroundColor Yellow
+      $removedCount++
+    }
+  }
 }
 
 # Clean up empty directories
 Write-Host "`n📁 Checking for empty directories...`n" -ForegroundColor Yellow
 
 $emptyDirs = Get-ChildItem -Path (Join-Path $PSScriptRoot "..") -Directory -Recurse |
-    Where-Object { (Get-ChildItem $_.FullName -Force).Count -eq 0 } |
-    Where-Object { $_.FullName -notlike "*node_modules*" -and $_.FullName -notlike "*.git*" }
+Where-Object { (Get-ChildItem $_.FullName -Force).Count -eq 0 } |
+Where-Object { $_.FullName -notlike "*node_modules*" -and $_.FullName -notlike "*.git*" }
 
 foreach ($dir in $emptyDirs) {
-    if ($Verbose) {
-        Write-Host "  📁 $($dir.FullName)" -ForegroundColor Gray
-    }
-    
+  if ($Verbose) {
+    Write-Host "  📁 $($dir.FullName)" -ForegroundColor Gray
+  }
+
     if (-not $DryRun) {
         Remove-Item $dir.FullName -Force
     } else {
@@ -201,12 +275,12 @@ Write-Host "Files removed:        $removedCount" -ForegroundColor Green
 Write-Host "Files not found:      $skippedCount" -ForegroundColor Yellow
 Write-Host "Empty dirs removed:   $($emptyDirs.Count)" -ForegroundColor Green
 
-$totalSizeStr = if ($totalSize -gt 1MB) { 
-    "{0:N2} MB" -f ($totalSize / 1MB) 
-} elseif ($totalSize -gt 1KB) { 
-    "{0:N2} KB" -f ($totalSize / 1KB) 
-} else { 
-    "$totalSize bytes" 
+$totalSizeStr = if ($totalSize -gt 1MB) {
+    "{0:N2} MB" -f ($totalSize / 1MB)
+} elseif ($totalSize -gt 1KB) {
+    "{0:N2} KB" -f ($totalSize / 1KB)
+} else {
+    "$totalSize bytes"
 }
 
 Write-Host "Space freed:          $totalSizeStr" -ForegroundColor Green

@@ -29,12 +29,36 @@ import {
   genre,
   user,
 } from "@/database/schema";
+import { imageService } from "@/services/imageService";
 import { hashPassword } from "auth";
 import { and, eq } from "drizzle-orm";
 import fs from "fs/promises";
+import { glob } from "glob";
 import path from "path";
 import { z } from "zod";
 import { logger } from "../logger";
+import imageCache from "../utils/imageCache";
+
+// Destructure imageCache utilities
+const { getImageHash, getCachedUrl, getCachedByHash, cacheImage, getCacheStats, clearCache } =
+  imageCache;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HELPER FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Discover JSON files matching a pattern
+ */
+async function discoverJSONFiles(pattern: string): Promise<string[]> {
+  try {
+    const files = await glob(pattern, { cwd: process.cwd() });
+    return files.sort(); // Sort alphabetically for consistent processing
+  } catch (error) {
+    logger.error(`Failed to discover files matching ${pattern}: ${error}`);
+    return [];
+  }
+}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // VALIDATION SCHEMAS
@@ -59,7 +83,7 @@ const ComicSchema = z.object({
   description: z.string(),
   coverImage: z.string().optional(),
   status: z.enum(["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"]).default("Ongoing"),
-  rating: z.coerce.number().optional(),
+  rating: z.coerce.number().max(9.99).optional(),
   serialization: z.string().optional(),
   updatedAt: z.string().optional(),
   url: z.string().url().optional(),
@@ -69,22 +93,40 @@ const ComicSchema = z.object({
   category: z.string().optional(),
   author: z.union([z.object({ name: z.string() }), z.string()]).optional(),
   artist: z.union([z.object({ name: z.string() }), z.string()]).optional(),
-  genres: z.array(z.union([z.object({ name: z.string() }), z.string()])),
+  genres: z.array(z.union([z.object({ name: z.string() }), z.string()])).default([]),
 });
 
 const ChapterSchema = z.object({
-  title: z.string(),
-  slug: z.string(),
-  chapterNumber: z.coerce.number(),
+  // Format 1: chapters.json (nested comic object)
+  name: z.string().optional(), // "Chapter 273"
+  title: z.string().optional(), // "91. Divine Relic (1)"
+  url: z.string().url().optional(),
+  slug: z.string().optional(),
+  chapterNumber: z.coerce.number().optional(),
   releaseDate: z.coerce.date().optional(),
+  updatedAt: z.string().optional(),
+  updated_at: z.string().optional(),
   views: z.number().optional(),
+  comic: z
+    .object({
+      title: z.string(),
+      slug: z.string(),
+    })
+    .optional(),
   comicSlug: z.string().optional(),
   content: z.string().optional(),
-  images: z.array(z.string().url()).optional(),
+  images: z.array(z.object({ url: z.string().url() })).optional(),
+
+  // Format 2: chaptersdata*.json (direct properties)
+  comictitle: z.string().optional(),
+  comicslug: z.string().optional(),
+  chaptername: z.string().optional(),
+  chapterslug: z.string().optional(),
+  image_urls: z.array(z.string().url()).optional(),
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// IMAGE DOWNLOAD & UPLOAD HELPERS
+// IMAGE DOWNLOAD & UPLOAD HELPERS - Using Image Service with Cache
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function downloadAndUploadImage(
@@ -93,41 +135,56 @@ async function downloadAndUploadImage(
   fileName: string
 ): Promise<string | null> {
   try {
-    // If ImageKit is not configured, return original URL
-    const imageKitConfig = appConfig.upload.imageKit;
-    if (!imageKitConfig || !imageKitConfig.publicKey) {
-      logger.info(`ImageKit not configured, using original URL: ${imageUrl}`);
-      return imageUrl;
+    // Check URL cache first - exact URL match (most efficient)
+    const cachedUrl = getCachedUrl(imageUrl);
+    if (cachedUrl) {
+      logger.info(`✓ Cache hit (URL): ${imageUrl}`);
+      return cachedUrl;
     }
 
-    // Download image
-    const response = await fetch(imageUrl);
-    if (!response.ok) {
-      logger.warn(`Failed to download image: ${imageUrl}`);
-      return null;
+    // Use imageService for download and upload (handles all providers)
+    // This downloads once and uploads to the configured provider
+    const result = await imageService.downloadImage(imageUrl, `comicwise/${folder}`);
+
+    if (!result.success || !result.localPath) {
+      logger.warn(`Image service failed: ${result.error || "Unknown error"}`);
+      return imageUrl; // Fallback to original URL
     }
 
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const uploadedUrl = result.localPath;
 
-    // Upload to ImageKit
-    const ImageKit = (await import("imagekit")).default;
-    const imagekit = new ImageKit({
-      publicKey: imageKitConfig.publicKey,
-      privateKey: imageKitConfig.privateKey,
-      urlEndpoint: imageKitConfig.urlEndpoint,
-    });
+    // Download again to get hash for deduplication check
+    // This is necessary to detect duplicate images from different URLs
+    try {
+      const response = await fetch(imageUrl);
+      if (response.ok) {
+        const arrayBuffer = await response.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const imageHash = getImageHash(buffer);
 
-    const uploadResult = await imagekit.upload({
-      file: buffer,
-      fileName: fileName,
-      folder: `comicwise/${folder}`,
-    });
+        // Check if we already have this image content
+        const cachedByHash = getCachedByHash(imageHash);
+        if (cachedByHash && cachedByHash !== uploadedUrl) {
+          logger.info(`✓ Duplicate detected after upload (different URL, same content)`);
+          logger.info(`  Uploaded: ${uploadedUrl}, Will use: ${cachedByHash}`);
+          // Return the already cached version to maintain consistency
+          cacheImage(imageUrl, cachedByHash, imageHash);
+          return cachedByHash;
+        }
 
-    logger.success(`Uploaded image: ${uploadResult.url}`);
-    return uploadResult.url;
+        // Cache both URL and hash for future lookups
+        cacheImage(imageUrl, uploadedUrl, imageHash);
+      }
+    } catch (hashError) {
+      // Hash calculation failed, but upload succeeded - still cache by URL
+      logger.warn(`Hash calculation failed: ${hashError}`);
+      cacheImage(imageUrl, uploadedUrl);
+    }
+
+    logger.success(`✓ Image uploaded via imageService: ${uploadedUrl}`);
+    return uploadedUrl;
   } catch (error) {
-    logger.error(`Error uploading image ${imageUrl}: ${error}`);
+    logger.error(`Error processing image ${imageUrl}: ${error}`);
     return imageUrl; // Fallback to original URL
   }
 }
@@ -309,38 +366,64 @@ export async function seedUsersFromJSON(jsonFiles: string[] = ["users.json"]) {
 // SEED COMICS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function seedComicsFromJSON(
-  jsonFiles: string[] = ["comics.json", "comicsdata1.json", "comicsdata2.json"]
-) {
+export async function seedComicsFromJSON(pattern: string = "comics*.json") {
   logger.info("🌱 Seeding comics from JSON files...");
+
+  // Discover all matching files
+  const jsonFiles = await discoverJSONFiles(pattern);
+  if (jsonFiles.length === 0) {
+    logger.warn(`No files found matching pattern: ${pattern}`);
+    return;
+  }
+
+  logger.info(`📁 Discovered ${jsonFiles.length} file(s): ${jsonFiles.join(", ")}`);
 
   let totalProcessed = 0;
   let totalCreated = 0;
   let totalUpdated = 0;
+  let totalErrors = 0;
+  const fileResults: Record<
+    string,
+    { processed: number; created: number; updated: number; errors: number }
+  > = {};
 
   for (const jsonFile of jsonFiles) {
+    const fileStats = { processed: 0, created: 0, updated: 0, errors: 0 };
+
     try {
       const filePath = path.join(process.cwd(), jsonFile);
-
-      // Check if file exists
-      try {
-        await fs.access(filePath);
-      } catch {
-        logger.warn(`File not found: ${jsonFile}, skipping...`);
-        continue;
-      }
 
       const fileContent = await fs.readFile(filePath, "utf-8");
       const rawData = JSON.parse(fileContent);
       const comicsData = Array.isArray(rawData) ? rawData : [rawData];
 
-      logger.info(`Processing ${comicsData.length} comics from ${jsonFile}`);
+      logger.info(`📖 Processing ${comicsData.length} comic(s) from ${jsonFile}`);
 
       for (const comicData of comicsData) {
         try {
-          const validatedComic = ComicSchema.parse(comicData);
+          // Preprocess: Normalize status field
+          const normalizedData = { ...comicData };
+          if (normalizedData.status && typeof normalizedData.status === "string") {
+            const validStatuses = ["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"];
+            if (!validStatuses.includes(normalizedData.status)) {
+              logger.warn(
+                `Invalid status "${normalizedData.status}" for ${comicData.title || comicData.slug}, defaulting to "Ongoing"`
+              );
+              normalizedData.status = "Ongoing";
+            }
+          }
 
-          // Download and upload cover image
+          // Preprocess: Clamp rating to max 9.99
+          if (normalizedData.rating && parseFloat(normalizedData.rating) > 9.99) {
+            logger.warn(
+              `Rating ${normalizedData.rating} exceeds max for ${comicData.title || comicData.slug}, clamping to 9.99`
+            );
+            normalizedData.rating = 9.99;
+          }
+
+          const validatedComic = ComicSchema.parse(normalizedData);
+
+          // Download and upload cover image if URL exists
           let coverImageUrl = validatedComic.coverImage;
           if (!coverImageUrl && validatedComic.images && validatedComic.images.length > 0) {
             coverImageUrl = validatedComic.images[0]?.url;
@@ -350,7 +433,11 @@ export async function seedComicsFromJSON(
           }
 
           let uploadedCoverImage = coverImageUrl;
-          if (coverImageUrl && (appConfig.upload.imageKit as any).enabled) {
+          // Only upload external images (http/https), not local paths
+          if (
+            coverImageUrl &&
+            (coverImageUrl.startsWith("http://") || coverImageUrl.startsWith("https://"))
+          ) {
             const uploaded = await downloadAndUploadImage(
               coverImageUrl,
               "covers",
@@ -395,9 +482,10 @@ export async function seedComicsFromJSON(
             genreIds.push(genreId);
           }
 
-          // Check if comic exists
+          // Check if comic exists by slug or title (both have unique constraints)
           const existingComic = await db.query.comic.findFirst({
-            where: eq(comic.slug, validatedComic.slug),
+            where: (table, { eq, or }) =>
+              or(eq(table.slug, validatedComic.slug), eq(table.title, validatedComic.title)),
           });
 
           const comicPayload = {
@@ -434,12 +522,14 @@ export async function seedComicsFromJSON(
               .where(eq(comic.id, existingComic.id));
             comicId = existingComic.id;
             totalUpdated++;
+            fileStats.updated++;
             logger.success(`✓ Updated comic: ${validatedComic.title}`);
           } else {
             // Create new comic
             const [newComic] = await db.insert(comic).values(comicPayload).returning();
             comicId = newComic!.id;
             totalCreated++;
+            fileStats.created++;
             logger.success(`✓ Created comic: ${validatedComic.title}`);
           }
 
@@ -457,77 +547,132 @@ export async function seedComicsFromJSON(
           }
 
           totalProcessed++;
+          fileStats.processed++;
         } catch (error) {
+          totalErrors++;
+          fileStats.errors++;
           logger.error(`Failed to process comic: ${error}`);
         }
       }
+
+      // Store file results
+      fileResults[jsonFile] = fileStats;
+      logger.info(
+        `✓ ${jsonFile}: ${fileStats.processed} processed, ${fileStats.created} created, ${fileStats.updated} updated, ${fileStats.errors} errors`
+      );
     } catch (error) {
+      totalErrors++;
       logger.error(`Failed to read ${jsonFile}: ${error}`);
+      fileResults[jsonFile] = { processed: 0, created: 0, updated: 0, errors: 1 };
     }
   }
 
+  // Summary report
   logger.success(
-    `✅ Comics seeding complete: ${totalProcessed} processed, ${totalCreated} created, ${totalUpdated} updated`
+    `✅ Comics seeding complete: ${totalProcessed} processed, ${totalCreated} created, ${totalUpdated} updated, ${totalErrors} errors`
   );
+
+  // Detailed file breakdown
+  if (Object.keys(fileResults).length > 0) {
+    logger.info("\n📊 Detailed File Results:");
+    for (const [file, stats] of Object.entries(fileResults)) {
+      logger.info(
+        `   ${file}: ${stats.processed} processed, ${stats.created} created, ${stats.updated} updated, ${stats.errors} errors`
+      );
+    }
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SEED CHAPTERS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function seedChaptersFromJSON(
-  jsonFiles: string[] = ["chapters.json", "chaptersdata1.json", "chaptersdata2.json"]
-) {
+export async function seedChaptersFromJSON(pattern: string = "chapters*.json") {
   logger.info("🌱 Seeding chapters from JSON files...");
+
+  // Discover all matching files
+  const jsonFiles = await discoverJSONFiles(pattern);
+  if (jsonFiles.length === 0) {
+    logger.warn(`No files found matching pattern: ${pattern}`);
+    return;
+  }
+
+  logger.info(`📁 Discovered ${jsonFiles.length} file(s): ${jsonFiles.join(", ")}`);
 
   let totalProcessed = 0;
   let totalCreated = 0;
   let totalUpdated = 0;
+  let totalErrors = 0;
+  let totalSkipped = 0;
+  const fileResults: Record<
+    string,
+    { processed: number; created: number; updated: number; errors: number; skipped: number }
+  > = {};
 
   for (const jsonFile of jsonFiles) {
+    const fileStats = { processed: 0, created: 0, updated: 0, errors: 0, skipped: 0 };
+
     try {
       const filePath = path.join(process.cwd(), jsonFile);
-
-      // Check if file exists
-      try {
-        await fs.access(filePath);
-      } catch {
-        logger.warn(`File not found: ${jsonFile}, skipping...`);
-        continue;
-      }
 
       const fileContent = await fs.readFile(filePath, "utf-8");
       const rawData = JSON.parse(fileContent);
       const chaptersData = Array.isArray(rawData) ? rawData : [rawData];
 
-      logger.info(`Processing ${chaptersData.length} chapters from ${jsonFile}`);
+      logger.info(`📖 Processing ${chaptersData.length} chapter(s) from ${jsonFile}`);
 
       for (const chapterData of chaptersData) {
         try {
           const validatedChapter = ChapterSchema.parse(chapterData);
 
+          // Transform data: handle both formats
+          const chapterName = validatedChapter.chaptername || validatedChapter.name || "";
+          const chapterTitle =
+            validatedChapter.title || validatedChapter.chaptername || chapterName;
+          const chapterNumber = chapterName.match(/chapter\s+(\d+)/i)?.[1]
+            ? parseInt(chapterName.match(/chapter\s+(\d+)/i)![1])
+            : validatedChapter.chapterNumber || 0;
+          const chapterSlug =
+            validatedChapter.chapterslug ||
+            validatedChapter.slug ||
+            `${chapterName}-${chapterTitle}`
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/^-+|-+$/g, "");
+          const comicSlug =
+            validatedChapter.comicslug ||
+            validatedChapter.comic?.slug ||
+            validatedChapter.comicSlug ||
+            "";
+
+          if (!comicSlug) {
+            logger.warn(`⚠ Missing comic slug for chapter: ${chapterTitle}`);
+            totalSkipped++;
+            fileStats.skipped++;
+            continue;
+          }
+
           // Find comic by slug
           const comicRecord = await db.query.comic.findFirst({
-            where: eq(comic.slug, validatedChapter.comicSlug || ""),
+            where: eq(comic.slug, comicSlug),
           });
 
           if (!comicRecord) {
-            logger.warn(`Comic not found for chapter: ${validatedChapter.title}`);
+            logger.warn(`⚠ Comic not found for chapter: ${chapterTitle} (comic: ${comicSlug})`);
+            totalSkipped++;
+            fileStats.skipped++;
             continue;
           }
 
           // Check if chapter exists
           const existingChapter = await db.query.chapter.findFirst({
-            where: and(
-              eq(chapter.comicId, comicRecord.id),
-              eq(chapter.slug, validatedChapter.slug)
-            ),
+            where: and(eq(chapter.comicId, comicRecord.id), eq(chapter.slug, chapterSlug)),
           });
 
           const chapterPayload = {
-            title: validatedChapter.title,
-            slug: validatedChapter.slug,
-            chapterNumber: validatedChapter.chapterNumber,
+            title: chapterTitle,
+            slug: chapterSlug,
+            chapterNumber: chapterNumber,
             releaseDate: validatedChapter.releaseDate || new Date(),
             views: validatedChapter.views || 0,
             comicId: comicRecord.id,
@@ -537,27 +682,69 @@ export async function seedChaptersFromJSON(
             // Update existing chapter
             await db.update(chapter).set(chapterPayload).where(eq(chapter.id, existingChapter.id));
             totalUpdated++;
-            logger.success(`✓ Updated chapter: ${validatedChapter.title}`);
+            fileStats.updated++;
+            logger.success(`✓ Updated chapter: ${chapterTitle} (${chapterNumber})`);
           } else {
             // Create new chapter
             await db.insert(chapter).values(chapterPayload);
             totalCreated++;
-            logger.success(`✓ Created chapter: ${validatedChapter.title}`);
+            fileStats.created++;
+            logger.success(`✓ Created chapter: ${chapterTitle} (${chapterNumber})`);
           }
 
           totalProcessed++;
+          fileStats.processed++;
         } catch (error) {
+          totalErrors++;
+          fileStats.errors++;
           logger.error(`Failed to process chapter: ${error}`);
         }
       }
+
+      // Store file results
+      fileResults[jsonFile] = fileStats;
+      logger.info(
+        `✓ ${jsonFile}: ${fileStats.processed} processed, ${fileStats.created} created, ${fileStats.updated} updated, ${fileStats.skipped} skipped, ${fileStats.errors} errors`
+      );
     } catch (error) {
+      totalErrors++;
       logger.error(`Failed to read ${jsonFile}: ${error}`);
+      fileResults[jsonFile] = { processed: 0, created: 0, updated: 0, errors: 1, skipped: 0 };
     }
   }
 
+  // Summary report
   logger.success(
-    `✅ Chapters seeding complete: ${totalProcessed} processed, ${totalCreated} created, ${totalUpdated} updated`
+    `✅ Chapters seeding complete: ${totalProcessed} processed, ${totalCreated} created, ${totalUpdated} updated, ${totalSkipped} skipped, ${totalErrors} errors`
   );
+
+  // Detailed file breakdown
+  if (Object.keys(fileResults).length > 0) {
+    logger.info("\n📊 Detailed File Results:");
+    for (const [file, stats] of Object.entries(fileResults)) {
+      logger.info(
+        `   ${file}: ${stats.processed} processed, ${stats.created} created, ${stats.updated} updated, ${stats.skipped} skipped, ${stats.errors} errors`
+      );
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// IMAGE CACHE STATISTICS
+// ═══════════════════════════════════════════════════════════════════════════
+
+function logImageCacheStats() {
+  const stats = getCacheStats();
+  logger.info(`📊 Image Cache Statistics:`);
+  logger.info(`   - Unique URLs cached: ${stats.urlCacheSize}`);
+  logger.info(`   - Unique images by hash: ${stats.hashCacheSize}`);
+  logger.info(`   - Cache hits: ${stats.cacheHits}`);
+  logger.info(`   - Cache misses: ${stats.cacheMisses}`);
+  logger.info(`   - Hit rate: ${stats.hitRate.toFixed(2)}%`);
+  const duplicates = stats.urlCacheSize - stats.hashCacheSize;
+  if (duplicates > 0) {
+    logger.info(`   - Duplicate images avoided: ${duplicates}`);
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -566,15 +753,27 @@ export async function seedChaptersFromJSON(
 
 export async function seedAllFromJSON() {
   logger.info("🚀 Starting universal JSON seeding...");
+  logger.info("═".repeat(80));
+
+  // Clear image cache for fresh start
+  clearCache();
 
   // Seed users
+  logger.info("\n" + "═".repeat(80));
   await seedUsersFromJSON(["users.json"]);
 
-  // Seed comics
-  await seedComicsFromJSON(["comics.json", "comicsdata1.json", "comicsdata2.json"]);
+  // Seed comics (discover all comics*.json files)
+  logger.info("\n" + "═".repeat(80));
+  await seedComicsFromJSON("comics*.json");
 
-  // Seed chapters
-  await seedChaptersFromJSON(["chapters.json", "chaptersdata1.json", "chaptersdata2.json"]);
+  // Seed chapters (discover all chapters*.json files)
+  logger.info("\n" + "═".repeat(80));
+  await seedChaptersFromJSON("chapters*.json");
 
+  // Log cache statistics
+  logger.info("\n" + "═".repeat(80));
+  logImageCacheStats();
+
+  logger.info("═".repeat(80));
   logger.success("✅ All JSON seeding complete!");
 }

@@ -70,14 +70,11 @@ export const ColorPicker = ({
   const selectedColor = Color(value);
   const defaultColor = Color(defaultValue);
 
-
   const [hue, setHue] = useState(selectedColor.hue() || defaultColor.hue() || 0);
   const [saturation, setSaturation] = useState(
-
     selectedColor.saturationl() || defaultColor.saturationl() || 100
   );
   const [lightness, setLightness] = useState(
-
     selectedColor.lightness() || defaultColor.lightness() || 50
   );
 
@@ -88,7 +85,6 @@ export const ColorPicker = ({
   useEffect(() => {
     if (value) {
       const color = Color(value);
-
 
       setHue(color.red());
 
@@ -103,7 +99,6 @@ export const ColorPicker = ({
   // Notify parent of changes
   useEffect(() => {
     if (onChange) {
-
       const color = Color.hsl(hue, saturation, lightness).alpha(alpha / 100);
       const rgbArray = color.array();
 
@@ -129,7 +124,7 @@ export const ColorPicker = ({
       <div className={cn("flex size-full flex-col gap-4", className)} {...(props as any)} />
     </ColorPickerContext.Provider>
   );
-};;
+};
 
 export type ColorPickerSelectionProps = HTMLAttributes<HTMLDivElement>;
 
@@ -269,7 +264,6 @@ export const ColorPickerEyeDropper = ({ className, ...props }: ColorPickerEyeDro
       const eyeDropper = new EyeDropper();
       const result = await eyeDropper.open();
       const color = Color(result.sRGBHex);
-
 
       setHue(color.hue());
 
@@ -447,4 +441,4 @@ export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProp
   }
 
   return null;
-};;
+};
