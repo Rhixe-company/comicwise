@@ -22,33 +22,33 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
   return (
     <section
       className={`
-      py-8
-      sm:py-16
-      lg:py-24
-    `}
+        py-8
+        sm:py-16
+        lg:py-24
+      `}
     >
       <div
         className={`
-        mx-auto max-w-7xl px-4
-        sm:px-6
-        lg:px-8
-      `}
+          mx-auto max-w-7xl px-4
+          sm:px-6
+          lg:px-8
+        `}
       >
         {/* Header */}
         <div
           className={`
-          mb-12 space-y-4 text-center
-          sm:mb-16
-          lg:mb-24
-        `}
+            mb-12 space-y-4 text-center
+            sm:mb-16
+            lg:mb-24
+          `}
         >
           <p className="text-sm font-medium text-primary uppercase">Blog list</p>
           <h2
             className={`
-            text-2xl font-semibold
-            md:text-3xl
-            lg:text-4xl
-          `}
+              text-2xl font-semibold
+              md:text-3xl
+              lg:text-4xl
+            `}
           >
             Plan your upcoming journey.
           </h2>
@@ -60,17 +60,17 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
 
         <div
           className={`
-          grid grid-cols-1 gap-6
-          md:grid-cols-2
-          lg:grid-cols-3
-        `}
+            grid grid-cols-1 gap-6
+            md:grid-cols-2
+            lg:grid-cols-3
+          `}
         >
           {blogCards.map((item, index) => (
             <Card
               className={`
-              pt-0 shadow-none
-              max-lg:last:col-span-full
-            `}
+                pt-0 shadow-none
+                max-lg:last:col-span-full
+              `}
               key={index}
             >
               <CardContent className="px-0">
@@ -89,9 +89,9 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
               <CardFooter>
                 <Button
                   className={`
-                  group rounded-lg text-base
-                  has-[>svg]:px-6
-                `}
+                    group rounded-lg text-base
+                    has-[>svg]:px-6
+                  `}
                   size="lg"
                   asChild
                 >
@@ -99,9 +99,9 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
                     Read More
                     <ArrowRightIcon
                       className={`
-                      transition-transform duration-200
-                      group-hover:translate-x-0.5
-                    `}
+                        transition-transform duration-200
+                        group-hover:translate-x-0.5
+                      `}
                     />
                   </a>
                 </Button>

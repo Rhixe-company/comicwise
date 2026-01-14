@@ -281,9 +281,7 @@ const DataTableWithColumnFilterDemo = () => {
                   return (
                     <TableHead
                       key={header.id}
-                      className={`
-                      relative h-10 border-t select-none
-                    `}
+                      className={`relative h-10 border-t select-none`}
                     >
                       {header.isPlaceholder
                         ? null

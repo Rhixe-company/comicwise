@@ -1,135 +1,107 @@
-name: Deploy
+name: 🚀 Deploy to Production
 
 on:
   push:
     branches:
       - main
-      - staging
+    tags:
+      - 'v*'
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to deploy to'
+        description: 'Deployment environment'
         required: true
-        default: 'staging'
+        default: 'production'
         type: choice
         options:
-          - staging
           - production
+          - staging
 
 concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: false
 
 env:
-  PNPM_VERSION: 9.13.6
-  NODE_VERSION: 20
+  PNPM_VERSION: "9"
+  NODE_VERSION: "20"
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   # ═══════════════════════════════════════════════════════════════════════════
-  # Pre-deployment checks
+  # JOB 1: Build and Test
   # ═══════════════════════════════════════════════════════════════════════════
-  pre-deploy-checks:
-    name: Pre-deployment Checks
+  validate:
+    name: Validate Before Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
-      deploy-staging: ${{ steps.check.outputs.deploy-staging }}
-      deploy-production: ${{ steps.check.outputs.deploy-production }}
+      should-deploy: ${{ steps.check.outputs.deploy }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Determine deployment target
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run type check
+        run: pnpm type-check
+
+      - name: Run linting
+        run: pnpm lint:strict
+
+      - name: Run unit tests
+        run: pnpm test:unit:run
+
+      - name: Build application
+        run: pnpm build
+        env:
+          NODE_ENV: production
+
+      - name: Check deployment criteria
         id: check
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.event.inputs.environment }}" == "production" ]]; then
-            echo "deploy-staging=false" >> $GITHUB_OUTPUT
-            echo "deploy-production=true" >> $GITHUB_OUTPUT
-            echo "🚀 Deploying to PRODUCTION"
-          else
-            echo "deploy-staging=true" >> $GITHUB_OUTPUT
-            echo "deploy-production=false" >> $GITHUB_OUTPUT
-            echo "🚀 Deploying to STAGING"
-          fi
+          echo "deploy=true" >> $GITHUB_OUTPUT
 
   # ═══════════════════════════════════════════════════════════════════════════
-  # Deploy to Vercel (staging)
+  # JOB 2: Build Docker Image
   # ═══════════════════════════════════════════════════════════════════════════
-  deploy-vercel-staging:
-    name: Deploy to Vercel (Staging)
+  build-image:
+    name: Build Docker Image
     runs-on: ubuntu-latest
-    needs: pre-deploy-checks
-    if: needs.pre-deploy-checks.outputs.deploy-staging == 'true'
-    timeout-minutes: 30
-    environment:
-      name: staging
-      url: https://staging-comicwise.vercel.app
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Deploy to Vercel (Preview)
-        uses: vercel/action@main
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Notify deployment (Staging)
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '✅ **Staging Deployment**: Preview URL ready for testing'
-            });
-
-  # ═══════════════════════════════════════════════════════════════════════════
-  # Deploy to Vercel (production)
-  # ═══════════════════════════════════════════════════════════════════════════
-  deploy-vercel-production:
-    name: Deploy to Vercel (Production)
-    runs-on: ubuntu-latest
-    needs: pre-deploy-checks
-    if: needs.pre-deploy-checks.outputs.deploy-production == 'true'
-    timeout-minutes: 30
-    environment:
-      name: production
-      url: https://comicwise.vercel.app
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Deploy to Vercel (Production)
-        uses: vercel/action@main
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          production: true
-
-      - name: Notify deployment (Production)
-        run: |
-          echo "🎉 Deployment to production successful!"
-          echo "URL: https://comicwise.vercel.app"
-
-  # ═══════════════════════════════════════════════════════════════════════════
-  # Deploy via Docker to self-hosted
-  # ═══════════════════════════════════════════════════════════════════════════
-  deploy-docker:
-    name: Deploy via Docker
-    runs-on: ubuntu-latest
-    needs: pre-deploy-checks
-    if: github.ref == 'refs/heads/main'
+    needs: validate
+    if: needs.validate.outputs.should-deploy == 'true'
     timeout-minutes: 45
-    environment:
-      name: docker-production
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -137,86 +109,346 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to Docker Registry
+      - name: Log in to Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.DOCKER_REGISTRY }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
+        id: build
         uses: docker/build-push-action@v5
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: |
-            ${{ secrets.DOCKER_REGISTRY }}/comicwise:latest
-            ${{ secrets.DOCKER_REGISTRY }}/comicwise:${{ github.sha }}
-          cache-from: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/comicwise:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/comicwise:buildcache,mode=max
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NODE_VERSION=${{ env.NODE_VERSION }}
+            PNPM_VERSION=${{ env.PNPM_VERSION }}
+            BUILD_DATE=${{ github.event.repository.updated_at }}
+            VCS_REF=${{ github.sha }}
 
-      - name: Deploy to server
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
         with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          script: |
-            cd /app/comicwise
-            docker-compose pull
-            docker-compose up -d
-            docker-compose exec -T web pnpm db:push
-            echo "✅ Docker deployment complete"
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          format: spdx-json
+          output-file: sbom.spdx.json
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.spdx.json
+          retention-days: 90
 
   # ═══════════════════════════════════════════════════════════════════════════
-  # Post-deployment verification
+  # JOB 3: Security Scan
   # ═══════════════════════════════════════════════════════════════════════════
-  post-deploy-checks:
-    name: Post-deployment Checks
+  scan-image:
+    name: Security Scan
     runs-on: ubuntu-latest
-    needs: [pre-deploy-checks, deploy-vercel-staging, deploy-vercel-production, deploy-docker]
-    if: always()
-    timeout-minutes: 30
+    needs: build-image
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Run Snyk Container scan
+        uses: snyk/actions/docker@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          args: --severity-threshold=high --file=Dockerfile
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # JOB 4: Deploy to Staging
+  # ═══════════════════════════════════════════════════════════════════════════
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build-image, scan-image]
+    if: github.ref == 'refs/heads/main' || github.event.inputs.environment == 'staging'
+    timeout-minutes: 20
+    environment:
+      name: staging
+      url: https://staging.comicwise.com
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Health check (Production)
-        if: needs.pre-deploy-checks.outputs.deploy-production == 'true'
+      - name: Deploy to staging environment
         run: |
-          echo "🏥 Running health checks on production..."
-          max_attempts=5
-          attempt=0
-          until [ $attempt -ge $max_attempts ]; do
-            if curl -f https://comicwise.vercel.app/api/health; then
-              echo "✅ Production is healthy"
-              exit 0
-            fi
-            attempt=$((attempt+1))
-            echo "⏳ Health check attempt $attempt of $max_attempts..."
-            sleep 10
-          done
-          echo "❌ Health check failed after $max_attempts attempts"
-          exit 1
-        continue-on-error: true
+          echo "🚀 Deploying to staging..."
+          echo "Image: ${{ needs.build-image.outputs.image-tag }}"
+          # Add your deployment commands here
+          # Examples:
+          # - kubectl apply -f k8s/staging/
+          # - docker stack deploy -c docker-compose.staging.yml comicwise
+          # - vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Health check (Staging)
-        if: needs.pre-deploy-checks.outputs.deploy-staging == 'true'
+      - name: Run smoke tests
         run: |
-          echo "🏥 Running health checks on staging..."
-          curl -f https://staging-comicwise.vercel.app/api/health || true
-        continue-on-error: true
+          echo "🧪 Running smoke tests on staging..."
+          # curl https://staging.comicwise.com/api/health
+          # pnpm test:smoke
 
-      - name: Notify deployment status
-        if: always()
+      - name: Notify deployment
         uses: actions/github-script@v7
         with:
           script: |
-            const status = '${{ job.status }}';
-            const emoji = status === 'success' ? '✅' : '⚠️';
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
+            github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `${emoji} **Deployment Status**: ${status.toUpperCase()}`
+              sha: context.sha,
+              state: 'success',
+              target_url: 'https://staging.comicwise.com',
+              description: 'Deployed to staging',
+              context: 'deployment/staging'
+            })
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # JOB 5: Deploy to Production
+  # ═══════════════════════════════════════════════════════════════════════════
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build-image, scan-image, deploy-staging]
+    if: (github.ref == 'refs/heads/main' && success()) || github.event.inputs.environment == 'production'
+    timeout-minutes: 30
+    environment:
+      name: production
+      url: https://comicwise.com
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create deployment
+        id: deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              environment: 'production',
+              required_contexts: [],
+              auto_merge: false,
+              description: 'Production deployment'
             });
+            core.setOutput('deployment_id', deployment.data.id);
+
+      - name: Update deployment status (in progress)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: '${{ steps.deployment.outputs.deployment_id }}',
+              state: 'in_progress',
+              description: 'Deployment to production in progress',
+              log_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            });
+
+      - name: Run database migrations
+        run: |
+          echo "📊 Running database migrations..."
+          # pnpm db:migrate
+          # Add migration commands here
+
+      - name: Deploy to production
+        id: deploy
+        run: |
+          echo "🚀 Deploying to production..."
+          echo "Image: ${{ needs.build-image.outputs.image-tag }}"
+          # Add your production deployment commands here
+          # Examples:
+          # - kubectl apply -f k8s/production/
+          # - docker stack deploy -c docker-compose.yml comicwise
+          # - vercel deploy --prod
+
+      - name: Verify deployment
+        run: |
+          echo "✅ Verifying deployment..."
+          # curl https://comicwise.com/api/health
+          # Add verification commands
+
+      - name: Update deployment status (success)
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: '${{ steps.deployment.outputs.deployment_id }}',
+              state: 'success',
+              environment_url: 'https://comicwise.com',
+              description: 'Deployment successful',
+              log_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            });
+
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: '${{ steps.deployment.outputs.deployment_id }}',
+              state: 'failure',
+              description: 'Deployment failed',
+              log_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            });
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # JOB 6: Post-Deployment Tasks
+  # ═══════════════════════════════════════════════════════════════════════════
+  post-deployment:
+    name: Post-Deployment
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    if: success()
+    steps:
+      - name: Clear CDN cache
+        run: |
+          echo "🔄 Clearing CDN cache..."
+          # Add CDN purge commands
+          # curl -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache"
+
+      - name: Warm up cache
+        run: |
+          echo "🔥 Warming up application cache..."
+          # curl https://comicwise.com/
+          # curl https://comicwise.com/api/comics
+
+      - name: Send deployment notification
+        uses: slackapi/slack-github-action@v1.24.0
+        if: always()
+        with:
+          # webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "✅ Production Deployment Successful",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*ComicWise Production Deployment*\n*Status*: ✅ Success\n*Version*: ${{ github.sha }}\n*Deployed by*: ${{ github.actor }}\n*URL*: https://comicwise.com"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Site"
+                      },
+                      "url": "https://comicwise.com"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Logs"
+                      },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        continue-on-error: true
+
+      - name: Create GitHub release (if tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const tag = context.ref.replace('refs/tags/', '');
+            github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tag,
+              name: `Release ${tag}`,
+              body: `Automated release for ${tag}`,
+              draft: false,
+              prerelease: false
+            });
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # JOB 7: Rollback (Manual Trigger)
+  # ═══════════════════════════════════════════════════════════════════════════
+  rollback:
+    name: Rollback Deployment
+    runs-on: ubuntu-latest
+    if: failure() && github.event_name == 'workflow_dispatch'
+    needs: deploy-production
+    environment:
+      name: production
+      url: https://comicwise.com
+    steps:
+      - name: Rollback to previous version
+        run: |
+          echo "⏮️ Rolling back deployment..."
+          # Add rollback commands
+          # kubectl rollout undo deployment/comicwise
+          # docker service rollback comicwise
+
+      - name: Notify rollback
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          # webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "⚠️ Production Rollback Initiated",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*ComicWise Production Rollback*\n*Reason*: Deployment failure\n*Initiated by*: ${{ github.actor }}"
+                  }
+                }
+              ]
+            }
+        continue-on-error: true

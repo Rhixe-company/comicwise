@@ -348,7 +348,7 @@ const eslintConfig: Linter.Config[] = [
       js,
       jsdoc,
       prettier,
-    },
+    } as any,
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
@@ -433,18 +433,18 @@ const eslintConfig: Linter.Config[] = [
   // JSON files
   {
     files: ["**/*.jsonc"],
-    plugins: { json },
+    plugins: { json } as any,
     language: "json/jsonc",
   },
   {
     files: ["**/*.json5"],
-    plugins: { json },
+    plugins: { json } as any,
     language: "json/json5",
   },
   // Markdown files
   {
     files: ["**/*.md"],
-    plugins: { markdown },
+    plugins: { markdown } as any,
     language: "markdown/commonmark",
     rules: {
       "no-irregular-whitespace": "off",
@@ -453,13 +453,13 @@ const eslintConfig: Linter.Config[] = [
   // CSS files
   {
     files: ["**/*.css"],
-    plugins: { css },
+    plugins: { css } as any,
     language: "css/css",
     rules: {
       "css/no-invalid-syntax": "warn",
     },
   },
-  prettierConfig,
+  prettierConfig as any,
   {
     ignores: [
       "**/.next/**",

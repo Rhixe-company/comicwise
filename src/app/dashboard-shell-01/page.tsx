@@ -497,25 +497,25 @@ const DashboardShell = () => {
           <header className="sticky top-0 z-50 border-b bg-card">
             <div
               className={`
-              mx-auto flex max-w-7xl items-center justify-between gap-6 px-4
-              py-2
-              sm:px-6
-            `}
+                mx-auto flex max-w-7xl items-center justify-between gap-6 px-4
+                py-2
+                sm:px-6
+              `}
             >
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="[&_svg]:!size-5" />
                 <Separator
                   orientation="vertical"
                   className={`
-                  hidden !h-4
-                  sm:block
-                `}
+                    hidden !h-4
+                    sm:block
+                  `}
                 />
                 <Breadcrumb
                   className={`
-                  hidden
-                  sm:block
-                `}
+                    hidden
+                    sm:block
+                  `}
                 >
                   <BreadcrumbList>
                     <BreadcrumbItem>
@@ -555,23 +555,23 @@ const DashboardShell = () => {
           </header>
           <main
             className={`
-            mx-auto size-full max-w-7xl flex-1 px-4 py-6
-            sm:px-6
-          `}
+              mx-auto size-full max-w-7xl flex-1 px-4 py-6
+              sm:px-6
+            `}
           >
             <div
               className={`
-              grid grid-cols-2 gap-6
-              lg:grid-cols-3
-            `}
+                grid grid-cols-2 gap-6
+                lg:grid-cols-3
+              `}
             >
               {/* Statistics Cards */}
               <div
                 className={`
-                col-span-full grid gap-6
-                sm:grid-cols-3
-                md:max-lg:grid-cols-1
-              `}
+                  col-span-full grid gap-6
+                  sm:grid-cols-3
+                  md:max-lg:grid-cols-1
+                `}
               >
                 {StatisticsCardData.map((card, index) => (
                   <StatisticsCard
@@ -586,17 +586,17 @@ const DashboardShell = () => {
 
               <div
                 className={`
-                grid gap-6
-                max-xl:col-span-full
-                lg:max-xl:grid-cols-2
-              `}
+                  grid gap-6
+                  max-xl:col-span-full
+                  lg:max-xl:grid-cols-2
+                `}
               >
                 {/* Product Insights Card */}
                 <ProductInsightsCard
                   className={`
-                  justify-between gap-3
-                  [&>[data-slot=card-content]]:space-y-5
-                `}
+                    justify-between gap-3
+                    [&>[data-slot=card-content]]:space-y-5
+                  `}
                 />
 
                 {/* Total Earning Card */}
@@ -617,10 +617,10 @@ const DashboardShell = () => {
 
               <SalesMetricsCard
                 className={`
-                col-span-full
-                xl:col-span-2
-                [&>[data-slot=card-content]]:space-y-6
-              `}
+                  col-span-full
+                  xl:col-span-2
+                  [&>[data-slot=card-content]]:space-y-6
+                `}
               />
 
               <Card className="col-span-full w-full py-0">
@@ -631,17 +631,17 @@ const DashboardShell = () => {
           <footer>
             <div
               className={`
-              mx-auto flex size-full max-w-7xl items-center justify-between
-              gap-3 px-4 py-3 text-muted-foreground
-              max-sm:flex-col
-              sm:gap-6 sm:px-6
-            `}
+                mx-auto flex size-full max-w-7xl items-center justify-between
+                gap-3 px-4 py-3 text-muted-foreground
+                max-sm:flex-col
+                sm:gap-6 sm:px-6
+              `}
             >
               <p
                 className={`
-                text-sm text-balance
-                max-sm:text-center
-              `}
+                  text-sm text-balance
+                  max-sm:text-center
+                `}
               >
                 {`©${new Date().getFullYear()}`}{" "}
                 <a href="" className="text-primary">

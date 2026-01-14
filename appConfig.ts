@@ -38,15 +38,30 @@ const environmentSchema = z
     // Database Configuration
     // ═══════════════════════════════════════════════════
     // Database URLs
-    DATABASE_URL: z.string().url("DATABASE_URL must be a valid URL"),
-    NEON_DATABASE_URL: z.string().url().optional(),
+    DATABASE_URL: z
+      .string()
+      .url("DATABASE_URL must be a valid URL")
+      .optional()
+      .or(z.literal(""))
+      .default(""),
+    NEON_DATABASE_URL: z.string().url().optional().or(z.literal("")).default(""),
 
     // ═══════════════════════════════════════════════════
     // Authentication (Next-Auth v5)
     // ═══════════════════════════════════════════════════
     // Auth
-    AUTH_SECRET: z.string().min(32, "AUTH_SECRET must be at least 32 characters"),
-    AUTH_URL: z.string().url("AUTH_URL must be a valid URL"),
+    AUTH_SECRET: z
+      .string()
+      .min(32, "AUTH_SECRET must be at least 32 characters")
+      .optional()
+      .or(z.literal(""))
+      .default(""),
+    AUTH_URL: z
+      .string()
+      .url("AUTH_URL must be a valid URL")
+      .optional()
+      .or(z.literal(""))
+      .default(""),
 
     // ═══════════════════════════════════════════════════
     // Upload Services
@@ -79,7 +94,7 @@ const environmentSchema = z
     EMAIL_SERVER_PORT: z.coerce.number().int().positive().default(587),
     EMAIL_SERVER_USER: z.string().default(""),
     EMAIL_SERVER_PASSWORD: z.string().default(""),
-    EMAIL_FROM: z.string().email().default("noreply@comicwise.com"),
+    EMAIL_FROM: z.string().email("Invalid email address").default("noreply@comicwise.com"),
     EMAIL_SECURE: z.coerce.boolean().default(false),
 
     // Legacy SMTP support (backwards compatibility)
@@ -163,7 +178,7 @@ function validateEnvironment(): Environment {
       EMAIL_SERVER_USER: process.env["EMAIL_SERVER_USER"] ?? process.env["SMTP_USER"] ?? "",
       EMAIL_SERVER_PASSWORD:
         process.env["EMAIL_SERVER_PASSWORD"] ?? process.env["SMTP_PASSWORD"] ?? "",
-      EMAIL_FROM: process.env["EMAIL_FROM"] ?? process.env["SMTP_FROM"] ?? "noreplycomicwise.com",
+      EMAIL_FROM: process.env["EMAIL_FROM"] ?? process.env["SMTP_FROM"] ?? "noreply@comicwise.com",
       EMAIL_SECURE: process.env["EMAIL_SECURE"] ?? process.env["SMTP_SECURE"] ?? "false",
       NEXT_PUBLIC_APP_URL: process.env["NEXT_PUBLIC_APP_URL"] ?? "http://localhost:3000",
     });
@@ -185,25 +200,30 @@ function validateEnvironment(): Environment {
         console.warn(`⚠️  Environment validation warnings:\n  ${missingVariables}\n`);
       }
       // Return with defaults for non-critical vars
-      const data = environmentSchema.parse({
+      const data = environmentSchema.safeParse({
         ...process.env,
         PORT: process.env["PORT"] ?? "3000",
         DATABASE_URL: process.env["DATABASE_URL"] ?? "",
-        NEXTAUTH_SECRET: process.env["AUTH_SECRET"] ?? "",
-        NEXTAUTH_URL: process.env["AUTH_URL"] ?? "",
+        AUTH_SECRET: process.env["AUTH_SECRET"] ?? "",
+        AUTH_URL: process.env["AUTH_URL"] ?? "",
         EMAIL_SERVER_HOST:
           process.env["EMAIL_SERVER_HOST"] ?? process.env["SMTP_HOST"] ?? "smtp.gmail.com",
         EMAIL_SERVER_PORT: process.env["EMAIL_SERVER_PORT"] ?? process.env["SMTP_PORT"] ?? "587",
         EMAIL_SERVER_USER: process.env["EMAIL_SERVER_USER"] ?? process.env["SMTP_USER"] ?? "",
         EMAIL_SERVER_PASSWORD:
           process.env["EMAIL_SERVER_PASSWORD"] ?? process.env["SMTP_PASSWORD"] ?? "",
-        EMAIL_FROM: process.env["EMAIL_FROM"] ?? process.env["SMTP_FROM"] ?? "noreplycomicwise.com",
+        EMAIL_FROM:
+          process.env["EMAIL_FROM"] ?? process.env["SMTP_FROM"] ?? "noreply@comicwise.com",
         EMAIL_SECURE: process.env["EMAIL_SECURE"] ?? process.env["SMTP_SECURE"] ?? "false",
         NEXT_PUBLIC_APP_URL: process.env["NEXT_PUBLIC_APP_URL"] ?? "http://localhost:3000",
         NODE_ENV: process.env.NODE_ENV ?? "development",
         UPLOAD_PROVIDER: process.env["UPLOAD_PROVIDER"] ?? "local",
       });
-      return data;
+      return data.success
+        ? data.data
+        : (() => {
+            throw error;
+          })();
     }
     throw error;
   }

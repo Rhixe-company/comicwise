@@ -192,9 +192,7 @@ export function MultiSelectValue({
   if (selectedValues.size === 0 && placeholder) {
     return (
       <span
-        className={`
-        min-w-0 overflow-hidden font-normal text-muted-foreground
-      `}
+        className={`min-w-0 overflow-hidden font-normal text-muted-foreground`}
       >
         {placeholder}
       </span>
@@ -232,9 +230,9 @@ export function MultiSelectValue({
             {clickToRemove && (
               <XIcon
                 className={`
-                size-2 text-muted-foreground
-                group-hover:text-destructive
-              `}
+                  size-2 text-muted-foreground
+                  group-hover:text-destructive
+                `}
               />
             )}
           </Badge>

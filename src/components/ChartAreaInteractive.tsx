@@ -225,15 +225,13 @@ export function ChartAreaInteractive() {
       >
         <ChartContainer
           config={chartConfig}
-          className={`
-          aspect-auto h-[250px] w-full
-        `}
+          className={`aspect-auto h-[250px] w-full`}
         >
           {/* Chart commented out due to recharts compatibility */}
           <div
             className={`
-            flex h-full items-center justify-center text-muted-foreground
-          `}
+              flex h-full items-center justify-center text-muted-foreground
+            `}
           >
             Chart temporarily disabled
           </div>

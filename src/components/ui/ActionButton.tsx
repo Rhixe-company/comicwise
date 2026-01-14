@@ -69,9 +69,7 @@ export function ActionButton({
     >
       <LoadingSwap
         isLoading={isLoading}
-        className={`
-        inline-flex items-center gap-2
-      `}
+        className={`inline-flex items-center gap-2`}
       >
         {props.children}
       </LoadingSwap>

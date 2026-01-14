@@ -102,13 +102,13 @@ export class ChapterSeederEnhanced extends BaseSeeder<ChapterSeed> {
     // Try extracting from name
     if (item.name) {
       const match = item.name.match(/chapter\s*(\d+)/i);
-      if (match && match[1]) {
+      if (match?.[1]) {
         return Number.parseInt(match[1], 10);
       }
 
       // Try just number
       const numberMatch = item.name.match(/(\d+)/);
-      if (numberMatch && numberMatch[1]) {
+      if (numberMatch?.[1]) {
         return Number.parseInt(numberMatch[1], 10);
       }
     }

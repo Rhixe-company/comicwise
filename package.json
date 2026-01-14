@@ -244,6 +244,8 @@
     "@testing-library/react": "^16.3.1",
     "@types/color-convert": "^2.0.4",
     "@types/eslint-plugin-jsx-a11y": "^6.10.1",
+    "@types/eslint-plugin-security": "^3.0.0",
+    "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.21",
     "@types/lodash.debounce": "^4.0.9",
     "@types/ms": "^2.1.0",

@@ -54,7 +54,7 @@ function ChartContainer({
         data-chart={chartId}
         className={cn(
           `
-            flex aspect-video justify-center text-xs
+            flex aspect-video justify-center text-xs w-full
             [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground
             [&_.recharts-cartesian-grid_line[stroke='ccc']]:stroke-border/50
             [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border
@@ -73,7 +73,9 @@ function ChartContainer({
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>{children}</RechartsPrimitive.ResponsiveContainer>
+        <RechartsPrimitive.ResponsiveContainer width="100%" height="100%">
+          {children}
+        </RechartsPrimitive.ResponsiveContainer>
       </div>
     </ChartContext.Provider>
   );
@@ -240,8 +242,8 @@ function ChartTooltipContent({
                       {item.value && (
                         <span
                           className={`
-                          font-mono font-medium text-foreground tabular-nums
-                        `}
+                            font-mono font-medium text-foreground tabular-nums
+                          `}
                         >
                           {item.value.toLocaleString()}
                         </span>
@@ -352,3 +354,4 @@ export {
   ChartTooltip,
   ChartTooltipContent,
 };
+

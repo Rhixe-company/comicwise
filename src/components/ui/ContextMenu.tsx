@@ -190,9 +190,9 @@ function ContextMenuCheckboxItem({
     >
       <span
         className={`
-        pointer-events-none absolute left-2 flex size-3.5 items-center
-        justify-center
-      `}
+          pointer-events-none absolute left-2 flex size-3.5 items-center
+          justify-center
+        `}
       >
         <ContextMenuPrimitive.ItemIndicator>
           <CheckIcon className="size-4" />
@@ -226,9 +226,9 @@ function ContextMenuRadioItem({
     >
       <span
         className={`
-        pointer-events-none absolute left-2 flex size-3.5 items-center
-        justify-center
-      `}
+          pointer-events-none absolute left-2 flex size-3.5 items-center
+          justify-center
+        `}
       >
         <ContextMenuPrimitive.ItemIndicator>
           <CircleIcon className="size-2 fill-current" />
@@ -252,9 +252,9 @@ function ContextMenuLabel({
       data-inset={inset}
       className={cn(
         `
-        px-2 py-1.5 text-sm font-medium text-foreground
-        data-[inset]:pl-8
-      `,
+          px-2 py-1.5 text-sm font-medium text-foreground
+          data-[inset]:pl-8
+        `,
         className
       )}
       {...props}

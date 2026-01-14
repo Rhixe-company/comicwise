@@ -27,7 +27,7 @@ const seedOptionsSchema = z
 
 function validateOptions(body: unknown): SeedOptions {
   try {
-    return seedOptionsSchema.parse(body || {});
+    return seedOptionsSchema.parse(body ?? {});
   } catch (error) {
     throw new Error(`Invalid seed options: ${error}`);
   }
@@ -53,8 +53,8 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const options = validateOptions(body.options || {});
-    const entities = body.entities || "all";
+    const options = validateOptions(body.options ?? {});
+    const entities = body.entities ?? "all";
 
     let result;
     switch (entities) {
@@ -100,7 +100,7 @@ export async function DELETE() {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const options = validateOptions(body.options || {});
+    const options = validateOptions(body.options ?? {});
     await resetDatabase(options);
     return successResponse({ message: "Database reset successfully" });
   } catch (error) {
@@ -111,8 +111,8 @@ export async function PUT(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    const options = validateOptions(body.options || {});
-    const entities = body.entities || "all";
+    const options = validateOptions(body.options ?? {});
+    const entities = body.entities ?? "all";
     const upsertOptions = { ...options, forceOverwrite: true };
 
     let result;

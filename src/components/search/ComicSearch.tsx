@@ -105,8 +105,9 @@ export function ComicSearchAutocomplete() {
       <div className="relative">
         <SearchIcon
           className={`
-          absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground
-        `}
+            absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2
+            text-muted-foreground
+          `}
         />
         <input
           ref={inputRef}
@@ -137,17 +138,17 @@ export function ComicSearchAutocomplete() {
       {isOpen && (
         <div
           className={`
-          absolute top-full z-50 mt-2 w-full rounded-lg border border-input
-          bg-popover shadow-md
-        `}
+            absolute top-full z-50 mt-2 w-full rounded-lg border border-input
+            bg-popover shadow-md
+          `}
         >
           {isLoading ? (
             <div className="flex items-center justify-center p-4">
               <div
                 className={`
-                h-4 w-4 animate-spin rounded-full border-2 border-primary
-                border-r-transparent
-              `}
+                  h-4 w-4 animate-spin rounded-full border-2 border-primary
+                  border-r-transparent
+                `}
               />
             </div>
           ) : (
@@ -157,9 +158,9 @@ export function ComicSearchAutocomplete() {
                 <div className="border-b">
                   <div
                     className={`
-                    px-3 py-2 text-xs font-semibold tracking-wide
-                    text-muted-foreground uppercase
-                  `}
+                      px-3 py-2 text-xs font-semibold tracking-wide
+                      text-muted-foreground uppercase
+                    `}
                   >
                     Results
                   </div>
@@ -179,8 +180,8 @@ export function ComicSearchAutocomplete() {
                       {result.description && (
                         <div
                           className={`
-                          line-clamp-1 text-xs text-muted-foreground
-                        `}
+                            line-clamp-1 text-xs text-muted-foreground
+                          `}
                         >
                           {result.description}
                         </div>
@@ -195,9 +196,9 @@ export function ComicSearchAutocomplete() {
                 <div className="border-b">
                   <div
                     className={`
-                    px-3 py-2 text-xs font-semibold tracking-wide
-                    text-muted-foreground uppercase
-                  `}
+                      px-3 py-2 text-xs font-semibold tracking-wide
+                      text-muted-foreground uppercase
+                    `}
                   >
                     Suggestions
                   </div>
@@ -216,9 +217,7 @@ export function ComicSearchAutocomplete() {
                       <span className="text-sm">{suggestion.query}</span>
                       {suggestion.trending && (
                         <TrendingUp
-                          className={`
-                        h-3 w-3 text-orange-500
-                      `}
+                          className={`h-3 w-3 text-orange-500`}
                         />
                       )}
                       {suggestion.count && (
@@ -234,9 +233,9 @@ export function ComicSearchAutocomplete() {
                 <div>
                   <div
                     className={`
-                    px-3 py-2 text-xs font-semibold tracking-wide
-                    text-muted-foreground uppercase
-                  `}
+                      px-3 py-2 text-xs font-semibold tracking-wide
+                      text-muted-foreground uppercase
+                    `}
                   >
                     Recent Searches
                   </div>
@@ -263,8 +262,8 @@ export function ComicSearchAutocomplete() {
               {query.length >= 2 && results.length === 0 && suggestions.length === 0 && (
                 <div
                   className={`
-                  px-3 py-8 text-center text-sm text-muted-foreground
-                `}
+                    px-3 py-8 text-center text-sm text-muted-foreground
+                  `}
                 >
                   No results found for "{query}"
                 </div>
@@ -273,8 +272,8 @@ export function ComicSearchAutocomplete() {
               {query.length < 2 && recentSearches.length === 0 && (
                 <div
                   className={`
-                  px-3 py-4 text-center text-sm text-muted-foreground
-                `}
+                    px-3 py-4 text-center text-sm text-muted-foreground
+                  `}
                 >
                   Type at least 2 characters to search
                 </div>
@@ -305,9 +304,9 @@ export function ComicSearchBox() {
       <div className="relative">
         <SearchIcon
           className={`
-          pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2
-          text-muted-foreground
-        `}
+            pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2
+            text-muted-foreground
+          `}
         />
         <input
           type="search"

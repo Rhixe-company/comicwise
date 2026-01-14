@@ -1,13 +1,16 @@
+/* eslint-disable typescript-eslint/no-unsafe-assignment */
+/* eslint-disable typescript-eslint/no-explicit-any */
+/* eslint-disable typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // ═══════════════════════════════════════════════════
 // IMAGEKIT UPLOAD PROVIDER
 // Next.js 16.0.7 + ImageKit Integration
 // ═══════════════════════════════════════════════════
 
-// ts-nocheck - ImageKit SDK has incomplete type definitions
 import { env } from "@/appConfig";
-import ImageKit from "imagekit";
-
+import { logger } from "@/database/seed/logger";
 import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
+import ImageKit from "imagekit";
 
 // Validate ImageKit configuration
 if (!env.IMAGEKIT_PUBLIC_KEY || !env.IMAGEKIT_PRIVATE_KEY || !env.IMAGEKIT_URL_ENDPOINT) {
@@ -66,13 +69,15 @@ export class ImageKitProvider implements UploadProvider {
       }
 
       // Prepare transformation options
-      const transformation = options.transformation || undefined;
+      const transformation = options.transformation ?? undefined;
+
+      logger.info(`${transformation}`);
 
       // Upload to ImageKit with timeout
       const uploadPromise = imagekit.upload({
         file: buffer,
-        fileName: options.filename || `image-${Date.now()}`,
-        folder: options.folder || "/comicwise",
+        fileName: options.filename ?? `image-${Date.now()}`,
+        folder: options.folder ?? "/comicwise",
         tags: options.tags,
         useUniqueFileName: !options.filename,
       });
@@ -100,13 +105,13 @@ export class ImageKitProvider implements UploadProvider {
       if (error instanceof Error) {
         errorMessage = error.message;
         // Check for common ImageKit errors
-        if (errorMessage.includes("timeout") || errorMessage.includes("ETIMEDOUT")) {
+        if (errorMessage.includes("timeout") ?? errorMessage.includes("ETIMEDOUT")) {
           errorMessage = "Upload timeout - image may be too large or network is slow";
-        } else if (errorMessage.includes("ECONNREFUSED") || errorMessage.includes("ENOTFOUND")) {
+        } else if (errorMessage.includes("ECONNREFUSED") ?? errorMessage.includes("ENOTFOUND")) {
           errorMessage = "Network connection failed";
-        } else if (errorMessage.includes("401") || errorMessage.includes("Unauthorized")) {
+        } else if (errorMessage.includes("401") ?? errorMessage.includes("Unauthorized")) {
           errorMessage = "ImageKit authentication failed - check API keys";
-        } else if (errorMessage.includes("413") || errorMessage.includes("too large")) {
+        } else if (errorMessage.includes("413") ?? errorMessage.includes("too large")) {
           errorMessage = "File size exceeds ImageKit limits";
         }
       }

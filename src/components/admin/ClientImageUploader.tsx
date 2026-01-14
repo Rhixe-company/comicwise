@@ -122,9 +122,9 @@ export default function ClientImageUploader({
       {value ? (
         <div
           className={`
-          relative aspect-video w-full max-w-md overflow-hidden rounded-lg
-          border bg-muted
-        `}
+            relative aspect-video w-full max-w-md overflow-hidden rounded-lg
+            border bg-muted
+          `}
         >
           <Image
             src={value}
@@ -212,9 +212,7 @@ export default function ClientImageUploader({
 
       {error && (
         <div
-          className={`
-          rounded-md bg-destructive/15 p-3 text-sm text-destructive
-        `}
+          className={`rounded-md bg-destructive/15 p-3 text-sm text-destructive`}
         >
           {error}
         </div>

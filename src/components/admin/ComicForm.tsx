@@ -111,9 +111,7 @@ export function ComicForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleFormSubmit)}
-          className={`
-          space-y-6
-        `}
+          className={`space-y-6`}
         >
           {/* Cover Image Upload */}
           <Card>
@@ -126,8 +124,8 @@ export function ComicForm({
                 {coverImageValue && (
                   <div
                     className={`
-                    relative h-48 w-32 overflow-hidden rounded-lg border
-                  `}
+                      relative h-48 w-32 overflow-hidden rounded-lg border
+                    `}
                   >
                     <Image
                       src={coverImageValue}
@@ -235,9 +233,7 @@ export function ComicForm({
                     <FormControl>
                       <Textarea
                         placeholder="Comic description"
-                        className={`
-                        min-h-32
-                      `}
+                        className={`min-h-32`}
                         {...field}
                       />
                     </FormControl>

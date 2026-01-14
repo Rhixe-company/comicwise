@@ -108,7 +108,9 @@ export function DataTable<T extends Record<string, unknown> & { id: number | str
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length + 1} className={`h-24 text-center`}>
+                <TableCell colSpan={columns.length + 1} className={`
+                  h-24 text-center
+                `}>
                   No results.
                 </TableCell>
               </TableRow>

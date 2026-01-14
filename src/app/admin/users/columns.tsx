@@ -96,7 +96,9 @@ export const columns: ColumnDef<User>[] = [
                 Edit
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDelete} className={`text-destructive`}>
+            <DropdownMenuItem onClick={handleDelete} className={`
+              text-destructive
+            `}>
               <Trash className="mr-2 h-4 w-4" />
               Delete
             </DropdownMenuItem>

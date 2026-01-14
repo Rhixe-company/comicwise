@@ -158,9 +158,9 @@ function MenubarCheckboxItem({
     >
       <span
         className={`
-        pointer-events-none absolute left-2 flex size-3.5 items-center
-        justify-center
-      `}
+          pointer-events-none absolute left-2 flex size-3.5 items-center
+          justify-center
+        `}
       >
         <MenubarPrimitive.ItemIndicator>
           <CheckIcon className="size-4" />
@@ -194,9 +194,9 @@ function MenubarRadioItem({
     >
       <span
         className={`
-        pointer-events-none absolute left-2 flex size-3.5 items-center
-        justify-center
-      `}
+          pointer-events-none absolute left-2 flex size-3.5 items-center
+          justify-center
+        `}
       >
         <MenubarPrimitive.ItemIndicator>
           <CircleIcon className="size-2 fill-current" />
@@ -220,9 +220,9 @@ function MenubarLabel({
       data-inset={inset}
       className={cn(
         `
-        px-2 py-1.5 text-sm font-medium
-        data-[inset]:pl-8
-      `,
+          px-2 py-1.5 text-sm font-medium
+          data-[inset]:pl-8
+        `,
         className
       )}
       {...props}

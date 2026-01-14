@@ -95,15 +95,15 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
       <CardContent className="space-y-4">
         <div
           className={`
-          grid gap-6
-          lg:grid-cols-5
-        `}
+            grid gap-6
+            lg:grid-cols-5
+          `}
         >
           <div
             className={`
-            flex flex-col gap-7
-            lg:col-span-3
-          `}
+              flex flex-col gap-7
+              lg:col-span-3
+            `}
           >
             <span className="text-lg font-semibold">Sales metrics</span>
             <div className="flex items-center gap-3">
@@ -120,22 +120,22 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
 
             <div
               className={`
-              grid gap-4
-              sm:grid-cols-2
-            `}
+                grid gap-4
+                sm:grid-cols-2
+              `}
             >
               {MetricsData.map((metric, index) => (
                 <div
                   key={index}
                   className={`
-                  flex items-center gap-3 rounded-md border px-4 py-2
-                `}
+                    flex items-center gap-3 rounded-md border px-4 py-2
+                  `}
                 >
                   <Avatar className="size-8.5 rounded-sm">
                     <AvatarFallback
                       className={`
-                      shrink-0 rounded-sm bg-primary/10 text-primary
-                    `}
+                        shrink-0 rounded-sm bg-primary/10 text-primary
+                      `}
                     >
                       {metric.icons}
                     </AvatarFallback>
@@ -152,9 +152,9 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
           </div>
           <Card
             className={`
-            gap-4 py-4 shadow-none
-            lg:col-span-2
-          `}
+              gap-4 py-4 shadow-none
+              lg:col-span-2
+            `}
           >
             <CardHeader className="gap-1">
               <CardTitle className="text-lg font-semibold">Revenue goal</CardTitle>
@@ -163,9 +163,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
             <CardContent className="px-0">
               <ChartContainer
                 config={revenueChartConfig}
-                className={`
-                h-38.5 w-full
-              `}
+                className={`h-38.5 w-full`}
               >
                 <PieChart margin={{ top: 0, bottom: 0, left: 0, right: 0 }}>
                   <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
@@ -225,17 +223,17 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
         <Card className="shadow-none">
           <CardContent
             className={`
-            grid gap-4 px-4
-            lg:grid-cols-5
-          `}
+              grid gap-4 px-4
+              lg:grid-cols-5
+            `}
           >
             <div className="flex flex-col justify-center gap-6">
               <span className="text-lg font-semibold">Sales plan</span>
               <span
                 className={`
-                max-lg:5xl
-                text-6xl
-              `}
+                  max-lg:5xl
+                  text-6xl
+                `}
               >
                 {salesPlanPercentage}%
               </span>
@@ -245,9 +243,9 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
             </div>
             <div
               className={`
-              flex flex-col gap-6 text-lg
-              md:col-span-4
-            `}
+                flex flex-col gap-6 text-lg
+                md:col-span-4
+              `}
             >
               <span className="font-medium">Cohort analysis indicators</span>
               <span className="text-wrap text-muted-foreground">
@@ -256,9 +254,9 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               </span>
               <div
                 className={`
-                grid gap-6
-                md:grid-cols-2
-              `}
+                  grid gap-6
+                  md:grid-cols-2
+                `}
               >
                 <div className="flex items-center gap-2">
                   <ChartNoAxesCombinedIcon className="size-6" />
@@ -272,9 +270,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
 
               <ChartContainer
                 config={salesChartConfig}
-                className={`
-                h-7.75 w-full
-              `}
+                className={`h-7.75 w-full`}
               >
                 <BarChart
                   accessibilityLayer

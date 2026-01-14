@@ -517,36 +517,36 @@ jobs:
   # ═══════════════════════════════════════════════════════════════════════════
   # Optional: Slack Notification on Failure
   # ═══════════════════════════════════════════════════════════════════════════
-  notify-slack:
-    name: Notify Slack
-    runs-on: ubuntu-latest
-    needs: [install-and-type-check, lint-and-format, unit-tests, build]
-    if: failure() && github.event_name == 'push'
+  # notify-slack:
+  #   name: Notify Slack
+  #   runs-on: ubuntu-latest
+  #   needs: [install-and-type-check, lint-and-format, unit-tests, build]
+  #   if: failure() && github.event_name == 'push'
 
-    steps:
-      - name: Send Slack notification
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          payload: |
-            {
-              "text": "🚨 CI Pipeline Failed",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*CI Pipeline Failed*\n*Repository*: ${{ github.repository }}\n*Branch*: ${{ github.ref_name }}\n*Commit*: <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>\n*Author*: ${{ github.actor }}"
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View CI Run>"
-                  }
-                }
-              ]
-            }
-        continue-on-error: true
+  #   steps:
+  #     - name: Send Slack notification
+  #       uses: slackapi/slack-github-action@v1.24.0
+  #       with:
+  #         webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #         payload: |
+  #           {
+  #             "text": "🚨 CI Pipeline Failed",
+  #             "blocks": [
+  #               {
+  #                 "type": "section",
+  #                 "text": {
+  #                   "type": "mrkdwn",
+  #                   "text": "*CI Pipeline Failed*\n*Repository*: ${{ github.repository }}\n*Branch*: ${{ github.ref_name }}\n*Commit*: <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>\n*Author*: ${{ github.actor }}"
+  #                 }
+  #               },
+  #               {
+  #                 "type": "section",
+  #                 "text": {
+  #                   "type": "mrkdwn",
+  #                   "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View CI Run>"
+  #                 }
+  #               }
+  #             ]
+  #           }
+  #       continue-on-error: true
 

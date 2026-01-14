@@ -61,9 +61,9 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof
       size="default"
       className={cn(
         `
-        gap-1 px-2.5
-        sm:pl-2.5
-      `,
+          gap-1 px-2.5
+          sm:pl-2.5
+        `,
         className
       )}
       {...props}
@@ -71,9 +71,9 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof
       <ChevronLeftIcon />
       <span
         className={`
-        hidden
-        sm:block
-      `}
+          hidden
+          sm:block
+        `}
       >
         Previous
       </span>
@@ -88,18 +88,18 @@ function PaginationNext({ className, ...props }: React.ComponentProps<typeof Pag
       size="default"
       className={cn(
         `
-        gap-1 px-2.5
-        sm:pr-2.5
-      `,
+          gap-1 px-2.5
+          sm:pr-2.5
+        `,
         className
       )}
       {...props}
     >
       <span
         className={`
-        hidden
-        sm:block
-      `}
+          hidden
+          sm:block
+        `}
       >
         Next
       </span>

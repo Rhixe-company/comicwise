@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  * Universal Seeder - Dynamic JSON Data Import System
@@ -285,9 +286,285 @@ async function downloadAndUploadImages(
   return results;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// FIND OR CREATE HELPERS
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * Normalize and validate comic data before processing
+ * Reduces cognitive complexity by extracting data transformation logic
+ * @param comicData
+ */
+export function normalizeComicData(comicData: Record<string, unknown>): Record<string, unknown> {
+  const normalizedData = { ...comicData };
+
+  // Normalize status field
+  if (normalizedData.status && typeof normalizedData.status === "string") {
+    const validStatuses = ["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"];
+    if (!validStatuses.includes(normalizedData.status)) {
+      logger.warn(
+        `Invalid status "${normalizedData.status}" for ${comicData.title ?? comicData.slug}, defaulting to "Ongoing"`
+      );
+      normalizedData.status = "Ongoing";
+    }
+  }
+
+  // Clamp rating to [0, 10.00]
+  if (normalizedData.rating !== undefined) {
+    let ratingNumber = Number.parseFloat(String(normalizedData.rating));
+    if (isNaN(ratingNumber) || ratingNumber < 0) ratingNumber = 0;
+    if (ratingNumber > 10.0) {
+      logger.warn(
+        `Rating ${normalizedData.rating} exceeds max for ${comicData.title ?? comicData.slug}, clamping to 10.00`
+      );
+      ratingNumber = 10.0;
+    }
+    normalizedData.rating = ratingNumber;
+  }
+
+  return normalizedData;
+}
+
+/**
+ * Extract cover image URL from comic data
+ * Reduces cognitive complexity by isolating image extraction logic
+ * @param validatedComic
+ */
+export function extractCoverImageUrl(validatedComic: any): string | null {
+  if (validatedComic.coverImage) return validatedComic.coverImage;
+  if (validatedComic.images?.length > 0) return validatedComic.images[0]?.url;
+  if (validatedComic.image_urls?.length > 0) return validatedComic.image_urls[0];
+  return null;
+}
+
+/**
+ * Extract all unique comic image URLs from various sources
+ * Reduces cognitive complexity by consolidating image URL collection
+ * @param validatedComic
+ */
+export function extractComicImageUrls(validatedComic: any): string[] {
+  const comicImageUrls: string[] = [];
+
+  if (Array.isArray(validatedComic.images)) {
+    for (const img of validatedComic.images) {
+      if (img?.url && !comicImageUrls.includes(img.url)) {
+        comicImageUrls.push(img.url);
+      }
+    }
+  }
+
+  if (Array.isArray(validatedComic.image_urls)) {
+    for (const url of validatedComic.image_urls) {
+      if (url && !comicImageUrls.includes(url)) {
+        comicImageUrls.push(url);
+      }
+    }
+  }
+
+  return comicImageUrls;
+}
+
+/**
+ * Extract author name from various data formats
+ * Reduces cognitive complexity by handling different author formats
+ * @param validatedComic
+ */
+export function extractAuthorName(validatedComic: any): string {
+  if (typeof validatedComic.author === "string") return validatedComic.author;
+  if (validatedComic.author?.name) return validatedComic.author.name;
+  return "Unknown Author";
+}
+
+/**
+ * Extract artist name from various data formats
+ * @param validatedComic
+ */
+export function extractArtistName(validatedComic: any): string {
+  if (typeof validatedComic.artist === "string") return validatedComic.artist;
+  if (validatedComic.artist?.name) return validatedComic.artist.name;
+  return "Unknown Artist";
+}
+
+/**
+ * Process and create/update a single comic
+ * Extracted to reduce cognitive complexity in seedComicsFromJSON
+ * @param validatedComic
+ * @param normalizedData
+ * @param uploadedCoverImage
+ * @param processedComicImageUrls
+ * @param authorId
+ * @param artistId
+ * @param typeId
+ * @param genreIds
+ */
+export async function processComicRecord(
+  validatedComic: any,
+  normalizedData: Record<string, unknown>,
+  uploadedCoverImage: string | null,
+  processedComicImageUrls: string[],
+  authorId: number,
+  artistId: number,
+  typeId: number,
+  genreIds: number[]
+): Promise<{ success: boolean; comicId?: number; error?: string }> {
+  try {
+    const comicPayload = {
+      title: validatedComic.title,
+      slug: validatedComic.slug,
+      description: validatedComic.description,
+      coverImage: uploadedCoverImage ?? "",
+      status: validatedComic.status,
+      rating: validatedComic.rating ? validatedComic.rating.toString() : "0",
+      authorId,
+      artistId,
+      typeId,
+      publicationDate: new Date(),
+    };
+
+    // Check if comic exists
+    const existingComic = await db.query.comic.findFirst({
+      where: (table, { eq, or }) =>
+        or(eq(table.slug, validatedComic.slug), eq(table.title, validatedComic.title)),
+    });
+
+    let comicId: number;
+
+    if (existingComic) {
+      await db
+        .update(comic)
+        .set({
+          ...comicPayload,
+          updatedAt: new Date(),
+        })
+        .where(eq(comic.id, existingComic.id));
+      comicId = existingComic.id;
+      logger.success(`✓ Updated comic: ${validatedComic.title}`);
+    } else {
+      const [newComic] = await db.insert(comic).values(comicPayload).returning();
+      comicId = newComic.id;
+      logger.success(`✓ Created comic: ${validatedComic.title}`);
+    }
+
+    // Save comic images
+    if (processedComicImageUrls.length > 0) {
+      await db.delete(comicImage).where(eq(comicImage.comicId, comicId));
+      const comicImageRecords = processedComicImageUrls.map((imageUrl, index) => ({
+        comicId,
+        imageUrl,
+        imageOrder: index + 1,
+      }));
+      await db.insert(comicImage).values(comicImageRecords);
+      logger.info(`   ✓ Saved ${comicImageRecords.length} images to comicImage table`);
+    }
+
+    // Update comic-genre relationships
+    await db.delete(comicToGenre).where(eq(comicToGenre.comicId, comicId));
+    for (const genreId of genreIds) {
+      await db.insert(comicToGenre).values({ comicId, genreId }).onConflictDoNothing();
+    }
+
+    return { success: true, comicId };
+  } catch (error: any) {
+    let errorDetails = `Failed to process comic: ${error}`;
+    if (error?.code === "23505") {
+      errorDetails = `Duplicate entry (unique constraint violation). Skipping.`;
+    }
+    return { success: false, error: errorDetails };
+  }
+}
+
+/**
+ * Extract and normalize chapter metadata from various formats
+ * Reduces cognitive complexity in seedChaptersFromJSON
+ * @param validatedChapter
+ */
+function extractChapterMetadata(validatedChapter: any): {
+  chapterName: string;
+  chapterTitle: string;
+  chapterNumber: number;
+  chapterSlug: string;
+  comicSlug: string;
+  imageUrls: string[];
+} {
+  const chapterName = validatedChapter.chaptername ?? validatedChapter.name ?? "";
+  const chapterTitle = validatedChapter.title ?? validatedChapter.chaptername ?? chapterName;
+  const chapterNumber = chapterName.match(/chapter\s+(\d+)/i)?.[1]
+    ? Number.parseInt(chapterName.match(/chapter\s+(\d+)/i)?.[1] ?? "")
+    : (validatedChapter.chapterNumber ?? 0);
+  const chapterSlug =
+    validatedChapter.chapterslug ??
+    validatedChapter.slug ??
+    `${chapterName}`
+      .toLowerCase()
+      .replaceAll(/[^\da-z]+/g, "-")
+      .replaceAll(/^-+|-+$/g, "");
+  const comicSlug =
+    validatedChapter.comicslug ?? validatedChapter.comic?.slug ?? validatedChapter.comicSlug ?? "";
+
+  const imageUrls =
+    validatedChapter.image_urls ?? validatedChapter.images?.map((img: any) => img.url) ?? [];
+
+  return { chapterName, chapterTitle, chapterNumber, chapterSlug, comicSlug, imageUrls };
+}
+
+/**
+ * Process and create/update a single chapter with images
+ * Extracted to reduce cognitive complexity in seedChaptersFromJSON
+ * @param validatedChapter
+ * @param metadata
+ * @param comicRecord
+ * @param processedImageUrls
+ */
+async function processChapterRecord(
+  validatedChapter: any,
+  metadata: ReturnType<typeof extractChapterMetadata>,
+  comicRecord: any,
+  processedImageUrls: string[]
+): Promise<{ success: boolean; chapterId?: number; error?: string }> {
+  try {
+    const chapterPayload = {
+      title: metadata.chapterTitle,
+      slug: metadata.chapterSlug,
+      chapterNumber: metadata.chapterNumber,
+      releaseDate: validatedChapter.releaseDate ?? new Date(),
+      views: validatedChapter.views ?? 0,
+      comicId: comicRecord.id,
+    };
+
+    // Check if chapter exists
+    const existingChapter = await db.query.chapter.findFirst({
+      where: and(eq(chapter.comicId, comicRecord.id), eq(chapter.slug, metadata.chapterSlug)),
+    });
+
+    let chapterId: number;
+
+    if (existingChapter) {
+      await db.update(chapter).set(chapterPayload).where(eq(chapter.id, existingChapter.id));
+      chapterId = existingChapter.id;
+      logger.success(`✓ Updated chapter: ${metadata.chapterTitle} (${metadata.chapterNumber})`);
+    } else {
+      const [newChapter] = await db.insert(chapter).values(chapterPayload).returning();
+      chapterId = newChapter.id;
+      logger.success(`✓ Created chapter: ${metadata.chapterTitle} (${metadata.chapterNumber})`);
+    }
+
+    // Save chapter images
+    if (processedImageUrls.length > 0) {
+      await db.delete(chapterImage).where(eq(chapterImage.chapterId, chapterId));
+      const chapterImageRecords = processedImageUrls.map((imageUrl, index) => ({
+        chapterId,
+        imageUrl,
+        pageNumber: index + 1,
+      }));
+      await db.insert(chapterImage).values(chapterImageRecords);
+      logger.info(`   ✓ Saved ${chapterImageRecords.length} images to database`);
+    }
+
+    return { success: true, chapterId };
+  } catch (error: any) {
+    let errorDetails = `Failed to process chapter.`;
+    if (error?.code) errorDetails += ` Code: ${error.code}.`;
+    if (error?.constraint) errorDetails += ` Constraint: ${error.constraint}.`;
+    if (error?.detail) errorDetails += ` Detail: ${error.detail}.`;
+    return { success: false, error: errorDetails };
+  }
+}
 
 async function findOrCreateAuthor(authorName: string): Promise<number> {
   if (!authorName || authorName === "_") {
@@ -490,7 +767,6 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
 
     try {
       const filePath = path.join(process.cwd(), jsonFile);
-
       const fileContent = await fs.readFile(filePath, "utf-8");
       const rawData = JSON.parse(fileContent);
       const comicsData = Array.isArray(rawData)
@@ -501,44 +777,13 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
 
       for (const comicData of comicsData) {
         try {
-          // Preprocess: Normalize status field
-          const normalizedData = { ...comicData };
-          if (normalizedData.status && typeof normalizedData.status === "string") {
-            const validStatuses = ["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"];
-            if (!validStatuses.includes(normalizedData.status)) {
-              logger.warn(
-                `Invalid status "${normalizedData.status}" for ${comicData.title ?? comicData.slug}, defaulting to "Ongoing"`
-              );
-              normalizedData.status = "Ongoing";
-            }
-          }
-
-          // Preprocess: Clamp rating to [0, 10.00] and ensure number
-          if (normalizedData.rating !== undefined) {
-            let ratingNumber = Number.parseFloat(String(normalizedData.rating));
-            if (isNaN(ratingNumber) || ratingNumber < 0) ratingNumber = 0;
-            if (ratingNumber > 10.0) {
-              logger.warn(
-                `Rating ${normalizedData.rating} exceeds max for ${comicData.title ?? comicData.slug}, clamping to 10.00`
-              );
-              ratingNumber = 10.0;
-            }
-            normalizedData.rating = ratingNumber;
-          }
-
+          // Normalize comic data
+          const normalizedData = normalizeComicData(comicData);
           const validatedComic = ComicSchema.parse(normalizedData);
 
-          // Download and upload cover image if URL exists
-          let coverImageUrl = validatedComic.coverImage;
-          if (!coverImageUrl && validatedComic.images && validatedComic.images.length > 0) {
-            coverImageUrl = validatedComic.images[0]?.url;
-          }
-          if (!coverImageUrl && validatedComic.image_urls && validatedComic.image_urls.length > 0) {
-            coverImageUrl = validatedComic.image_urls[0];
-          }
-
+          // Process cover image
+          const coverImageUrl = extractCoverImageUrl(validatedComic);
           let uploadedCoverImage = coverImageUrl;
-          // Only upload external images (http/https), not local paths
           if (
             coverImageUrl &&
             (coverImageUrl.startsWith("http://") || coverImageUrl.startsWith("https://"))
@@ -548,30 +793,11 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
               "covers",
               `${validatedComic.slug}.webp`
             );
-            if (uploaded) {
-              uploadedCoverImage = uploaded;
-            }
+            if (uploaded) uploadedCoverImage = uploaded;
           }
 
-          // Process all comic images (not just cover)
-          // Collect all unique image URLs from images and image_urls
-          const comicImageUrls: string[] = [];
-          if (Array.isArray(validatedComic.images)) {
-            for (const img of validatedComic.images) {
-              if (img?.url && !comicImageUrls.includes(img.url)) {
-                comicImageUrls.push(img.url);
-              }
-            }
-          }
-          if (Array.isArray(validatedComic.image_urls)) {
-            for (const url of validatedComic.image_urls) {
-              if (url && !comicImageUrls.includes(url)) {
-                comicImageUrls.push(url);
-              }
-            }
-          }
-
-          // Download and upload all comic images
+          // Process all comic images
+          const comicImageUrls = extractComicImageUrls(validatedComic);
           let processedComicImageUrls: string[] = [];
           if (comicImageUrls.length > 0) {
             logger.info(
@@ -580,7 +806,7 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
             const uploadedComicImages = await downloadAndUploadImages(
               comicImageUrls,
               `comics/${validatedComic.slug}`,
-              5 // concurrency
+              5
             );
             processedComicImageUrls = uploadedComicImages.filter(
               (url): url is string => url !== null
@@ -590,57 +816,38 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
             );
           }
 
-          // Process author
-          let authorName = "Unknown Author";
-          if (validatedComic.author) {
-            if (typeof validatedComic.author === "string") {
-              authorName = validatedComic.author;
-            } else if (validatedComic.author.name) {
-              authorName = validatedComic.author.name;
-            }
-          }
-          const authorId = await findOrCreateAuthor(authorName);
+          // Get or create author, artist, type, and genres
+          const authorId = await findOrCreateAuthor(extractAuthorName(validatedComic));
           if (!authorId) {
             logger.error(
-              `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Author '${authorName}' not found or could not be created.`
+              `Comic '${validatedComic.title}': Author not found or could not be created.`
             );
             totalErrors++;
             fileStats.errors++;
             continue;
           }
 
-          // Process artist
-          let artistName = "Unknown Artist";
-          if (validatedComic.artist) {
-            if (typeof validatedComic.artist === "string") {
-              artistName = validatedComic.artist;
-            } else if (validatedComic.artist.name) {
-              artistName = validatedComic.artist.name;
-            }
-          }
-          const artistId = await findOrCreateArtist(artistName);
+          const artistId = await findOrCreateArtist(extractArtistName(validatedComic));
           if (!artistId) {
             logger.error(
-              `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Artist '${artistName}' not found or could not be created.`
+              `Comic '${validatedComic.title}': Artist not found or could not be created.`
             );
             totalErrors++;
             fileStats.errors++;
             continue;
           }
 
-          // Process type
           const typeName = validatedComic.type?.name ?? validatedComic.category ?? "Unknown Type";
           const typeId = await findOrCreateType(typeName);
           if (!typeId) {
             logger.error(
-              `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Type '${typeName}' not found or could not be created.`
+              `Comic '${validatedComic.title}': Type not found or could not be created.`
             );
             totalErrors++;
             fileStats.errors++;
             continue;
           }
 
-          // Process genres
           const genreIds: number[] = [];
           for (const genre of validatedComic.genres ?? []) {
             if (!genre) continue;
@@ -648,123 +855,54 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
             const genreId = await findOrCreateGenre(genreName);
             if (!genreId) {
               logger.error(
-                `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Genre '${genreName}' not found or could not be created.`
+                `Comic '${validatedComic.title}': Genre not found or could not be created.`
               );
               continue;
             }
             genreIds.push(genreId);
           }
 
-          // Check if comic exists by slug or title (both have unique constraints)
-          const existingComic = await db.query.comic.findFirst({
-            where: (table, { eq, or }) =>
-              or(eq(table.slug, validatedComic.slug), eq(table.title, validatedComic.title)),
-          });
-
-          const comicPayload = {
-            title: validatedComic.title,
-            slug: validatedComic.slug,
-            description: validatedComic.description,
-            coverImage: uploadedCoverImage ?? "",
-            status: validatedComic.status,
-            rating: validatedComic.rating ? validatedComic.rating.toString() : "0",
+          // Process and create/update comic
+          const result = await processComicRecord(
+            validatedComic,
+            normalizedData,
+            uploadedCoverImage,
+            processedComicImageUrls,
             authorId,
             artistId,
             typeId,
-            publicationDate: new Date(),
-          };
+            genreIds
+          );
 
-          let comicId: number;
-          try {
+          if (result.success) {
+            // Determine if created or updated
+            const existingComic = await db.query.comic.findFirst({
+              where: (table, { eq, or }) =>
+                or(eq(table.slug, validatedComic.slug), eq(table.title, validatedComic.title)),
+            });
             if (existingComic) {
-              // Update existing comic
-              await db
-                .update(comic)
-                .set({
-                  title: comicPayload.title,
-                  description: comicPayload.description,
-                  coverImage: comicPayload.coverImage,
-                  status: comicPayload.status,
-                  rating: comicPayload.rating ? comicPayload.rating.toString() : "0",
-                  authorId: comicPayload.authorId,
-                  artistId: comicPayload.artistId,
-                  typeId: comicPayload.typeId,
-                  publicationDate: comicPayload.publicationDate,
-                  updatedAt: new Date(),
-                })
-                .where(eq(comic.id, existingComic.id));
-              comicId = existingComic.id;
               totalUpdated++;
               fileStats.updated++;
-              logger.success(`✓ Updated comic: ${validatedComic.title}`);
             } else {
-              // Create new comic
-              const [newComic] = await db.insert(comic).values(comicPayload).returning();
-              comicId = newComic.id;
               totalCreated++;
               fileStats.created++;
-              logger.success(`✓ Created comic: ${validatedComic.title}`);
             }
-          } catch (insertError: any) {
-            // Unique constraint violation or other DB error
+            totalProcessed++;
+            fileStats.processed++;
+          } else {
             totalErrors++;
             fileStats.errors++;
-            let errorDetails = `Comic '${validatedComic.title}' (slug: ${validatedComic.slug}): Insert error.`;
-            if (insertError?.code) errorDetails += ` Code: ${insertError.code}.`;
-            if (insertError?.constraint) errorDetails += ` Constraint: ${insertError.constraint}.`;
-            if (insertError?.detail) errorDetails += ` Detail: ${insertError.detail}.`;
-            if (insertError?.stack) errorDetails += `\nStack: ${insertError.stack}`;
-            if (insertError?.code === "23505") {
-              logger.error(
-                `${errorDetails} Duplicate entry (unique constraint violation). Skipping.`
-              );
-            } else {
-              logger.error(errorDetails);
-            }
-            continue;
+            logger.error(`${result.error}`);
           }
-
-          // Save all comic images to comicImage table
-          if (processedComicImageUrls.length > 0) {
-            // Delete existing comic images for this comic
-            await db.delete(comicImage).where(eq(comicImage.comicId, comicId));
-
-            // Insert new comic images
-            const comicImageRecords = processedComicImageUrls.map((imageUrl, index) => ({
-              comicId: comicId,
-              imageUrl: imageUrl,
-              imageOrder: index + 1,
-            }));
-
-            await db.insert(comicImage).values(comicImageRecords);
-            logger.info(`   ✓ Saved ${comicImageRecords.length} images to comicImage table`);
-          }
-
-          // Update comic-genre relationships
-          await db.delete(comicToGenre).where(eq(comicToGenre.comicId, comicId));
-
-          for (const genreId of genreIds) {
-            await db
-              .insert(comicToGenre)
-              .values({
-                comicId,
-                genreId,
-              })
-              .onConflictDoNothing();
-          }
-
-          totalProcessed++;
-          fileStats.processed++;
         } catch (error: any) {
           totalErrors++;
           fileStats.errors++;
           logger.error(
-            `Comic '${comicData.title ?? comicData.slug}' (slug: ${comicData.slug ?? comicData.title}): Failed to process comic: ${error}`
+            `Comic '${comicData.title ?? comicData.slug}': Failed to process comic: ${error}`
           );
         }
       }
 
-      // Store file results
       fileResults[jsonFile] = fileStats;
       logger.info(
         `✓ ${jsonFile}: ${fileStats.processed} processed, ${fileStats.created} created, ${fileStats.updated} updated, ${fileStats.errors} errors`
@@ -776,12 +914,10 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
     }
   }
 
-  // Summary report
   logger.success(
     `✅ Comics seeding complete: ${totalProcessed} processed, ${totalCreated} created, ${totalUpdated} updated, ${totalErrors} errors`
   );
 
-  // Detailed file breakdown
   if (Object.keys(fileResults).length > 0) {
     logger.info("\n📊 Detailed File Results:");
     for (const [file, stats] of Object.entries(fileResults)) {
@@ -823,7 +959,6 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json"): 
 
     try {
       const filePath = path.join(process.cwd(), jsonFile);
-
       const fileContent = await fs.readFile(filePath, "utf-8");
       const rawData = JSON.parse(fileContent);
       const chaptersData = Array.isArray(rawData)
@@ -835,29 +970,11 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json"): 
       for (const chapterData of chaptersData) {
         try {
           const validatedChapter = ChapterSchema.parse(chapterData);
+          const metadata = extractChapterMetadata(validatedChapter);
 
-          // Transform data: handle both formats
-          const chapterName = validatedChapter.chaptername ?? validatedChapter.name ?? "";
-          const chapterTitle =
-            validatedChapter.title ?? validatedChapter.chaptername ?? chapterName;
-          const chapterNumber = chapterName.match(/chapter\s+(\d+)/i)?.[1]
-            ? Number.parseInt(chapterName.match(/chapter\s+(\d+)/i)?.[1] ?? "")
-            : (validatedChapter.chapterNumber ?? 0);
-          const chapterSlug =
-            validatedChapter.chapterslug ??
-            validatedChapter.slug ??
-            `${chapterName}`
-              .toLowerCase()
-              .replaceAll(/[^\da-z]+/g, "-")
-              .replaceAll(/^-+|-+$/g, "");
-          const comicSlug =
-            validatedChapter.comicslug ??
-            validatedChapter.comic?.slug ??
-            validatedChapter.comicSlug ??
-            "";
-
-          if (!comicSlug) {
-            logger.warn(`⚠ Missing comic slug for chapter: ${chapterTitle}`);
+          // Validate comic slug exists
+          if (!metadata.comicSlug) {
+            logger.warn(`⚠ Missing comic slug for chapter: ${metadata.chapterTitle}`);
             totalSkipped++;
             fileStats.skipped++;
             continue;
@@ -865,99 +982,72 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json"): 
 
           // Find comic by slug
           const comicRecord = await db.query.comic.findFirst({
-            where: eq(comic.slug, comicSlug),
+            where: eq(comic.slug, metadata.comicSlug),
           });
 
           if (!comicRecord) {
-            logger.warn(`⚠ Comic not found for chapter: ${chapterTitle} (comic: ${comicSlug})`);
+            logger.warn(
+              `⚠ Comic not found for chapter: ${metadata.chapterTitle} (comic: ${metadata.comicSlug})`
+            );
             totalSkipped++;
             fileStats.skipped++;
             continue;
           }
 
-          // Check if chapter exists
-          const existingChapter = await db.query.chapter.findFirst({
-            where: and(eq(chapter.comicId, comicRecord.id), eq(chapter.slug, chapterSlug)),
-          });
-
           // Process chapter images if available
           let processedImageUrls: string[] = [];
-          const chapterImageUrls =
-            validatedChapter.image_urls ?? validatedChapter.images?.map((img) => img.url) ?? [];
-
-          if (chapterImageUrls.length > 0) {
+          if (metadata.imageUrls.length > 0) {
             logger.info(
-              `   📸 Processing ${chapterImageUrls.length} images for chapter: ${chapterTitle}`
+              `   📸 Processing ${metadata.imageUrls.length} images for chapter: ${metadata.chapterTitle}`
             );
             const uploadedImages = await downloadAndUploadImages(
-              chapterImageUrls,
-              `chapters/${comicSlug}/${chapterSlug}`,
-              5 // Concurrency for chapter images
+              metadata.imageUrls,
+              `chapters/${metadata.comicSlug}/${metadata.chapterSlug}`,
+              5
             );
             processedImageUrls = uploadedImages.filter((url): url is string => url !== null);
             logger.info(
-              `   ✓ Processed ${processedImageUrls.length}/${chapterImageUrls.length} chapter images`
+              `   ✓ Processed ${processedImageUrls.length}/${metadata.imageUrls.length} chapter images`
             );
           }
 
-          const chapterPayload = {
-            title: chapterTitle,
-            slug: chapterSlug,
-            chapterNumber: chapterNumber,
-            releaseDate: validatedChapter.releaseDate ?? new Date(),
-            views: validatedChapter.views ?? 0,
-            comicId: comicRecord.id,
-          };
+          // Process and create/update chapter
+          const result = await processChapterRecord(
+            validatedChapter,
+            metadata,
+            comicRecord,
+            processedImageUrls
+          );
 
-          let chapterId: number;
-
-          if (existingChapter) {
-            // Update existing chapter
-            await db.update(chapter).set(chapterPayload).where(eq(chapter.id, existingChapter.id));
-            chapterId = existingChapter.id;
-            totalUpdated++;
-            fileStats.updated++;
-            logger.success(`✓ Updated chapter: ${chapterTitle} (${chapterNumber})`);
+          if (result.success) {
+            // Check if it was created or updated
+            const existingChapter = await db.query.chapter.findFirst({
+              where: and(
+                eq(chapter.comicId, comicRecord.id),
+                eq(chapter.slug, metadata.chapterSlug)
+              ),
+            });
+            if (existingChapter) {
+              totalUpdated++;
+              fileStats.updated++;
+            } else {
+              totalCreated++;
+              fileStats.created++;
+            }
+            totalProcessed++;
+            fileStats.processed++;
           } else {
-            // Create new chapter
-            const [newChapter] = await db.insert(chapter).values(chapterPayload).returning();
-            chapterId = newChapter.id;
-            totalCreated++;
-            fileStats.created++;
-            logger.success(`✓ Created chapter: ${chapterTitle} (${chapterNumber})`);
+            totalErrors++;
+            fileStats.errors++;
+            logger.error(`${result.error}`);
           }
-
-          // Save chapter images to database if any were processed
-          if (processedImageUrls.length > 0) {
-            // Delete existing chapter images for this chapter
-            await db.delete(chapterImage).where(eq(chapterImage.chapterId, chapterId));
-
-            // Insert new chapter images
-            const chapterImageRecords = processedImageUrls.map((imageUrl, index) => ({
-              chapterId: chapterId,
-              imageUrl: imageUrl,
-              pageNumber: index + 1,
-            }));
-
-            await db.insert(chapterImage).values(chapterImageRecords);
-            logger.info(`   ✓ Saved ${chapterImageRecords.length} images to database`);
-          }
-
-          totalProcessed++;
-          fileStats.processed++;
         } catch (error: any) {
           totalErrors++;
           fileStats.errors++;
-          let errorDetails = `Failed to process chapter.`;
-          if (error?.code) errorDetails += ` Code: ${error.code}.`;
-          if (error?.constraint) errorDetails += ` Constraint: ${error.constraint}.`;
-          if (error?.detail) errorDetails += ` Detail: ${error.detail}.`;
-          if (error?.stack) errorDetails += `\nStack: ${error.stack}`;
-          logger.error(errorDetails);
+          logger.error(`Failed to process chapter: ${error}`);
         }
       }
 
-      // Store file results
       fileResults[jsonFile] = fileStats;
       logger.info(
         `✓ ${jsonFile}: ${fileStats.processed} processed, ${fileStats.created} created, ${fileStats.updated} updated, ${fileStats.skipped} skipped, ${fileStats.errors} errors`
@@ -969,12 +1059,10 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json"): 
     }
   }
 
-  // Summary report
   logger.success(
     `✅ Chapters seeding complete: ${totalProcessed} processed, ${totalCreated} created, ${totalUpdated} updated, ${totalSkipped} skipped, ${totalErrors} errors`
   );
 
-  // Detailed file breakdown
   if (Object.keys(fileResults).length > 0) {
     logger.info("\n📊 Detailed File Results:");
     for (const [file, stats] of Object.entries(fileResults)) {

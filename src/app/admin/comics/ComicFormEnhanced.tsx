@@ -171,9 +171,9 @@ export function ComicFormEnhanced({
             <Label>Genres</Label>
             <div
               className={`
-              grid grid-cols-2 gap-3
-              md:grid-cols-3
-            `}
+                grid grid-cols-2 gap-3
+                md:grid-cols-3
+              `}
             >
               {genres.map((genre) => (
                 <label key={genre.id} className="flex items-center gap-2">

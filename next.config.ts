@@ -55,7 +55,7 @@ const nextConfig: NextConfig = {
     // Partial Prerendering (Next.js 16)
     // ppr: "incremental",
   },
-
+  
   // External packages for server-side
   serverExternalPackages: ["postgres", "libsql/client", "bcryptjs", "sharp", "nodemailer"],
 

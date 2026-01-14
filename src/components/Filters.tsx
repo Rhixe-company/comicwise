@@ -108,7 +108,9 @@ export function Filters({ types, genres }: FiltersProps) {
           <CardTitle className="flex items-center justify-between">
             <span>Filters</span>
             {hasActiveFilters && (
-              <Button variant="ghost" size="sm" onClick={resetFilters} className={`text-sm`}>
+              <Button variant="ghost" size="sm" onClick={resetFilters} className={`
+                text-sm
+              `}>
                 Reset
               </Button>
             )}
@@ -193,7 +195,9 @@ export function Filters({ types, genres }: FiltersProps) {
                   onClick={() => toggleGenre(genre.id)}
                 >
                   {genre.name}
-                  {selectedGenres.includes(genre.id) && <X className={`ml-1 h-3 w-3`} />}
+                  {selectedGenres.includes(genre.id) && <X className={`
+                    ml-1 h-3 w-3
+                  `} />}
                 </Badge>
               ))}
             </div>

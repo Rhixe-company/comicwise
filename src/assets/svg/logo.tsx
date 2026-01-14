@@ -16,9 +16,7 @@ const Logo = (props: SVGAttributes<SVGElement>) => {
         height="328"
         rx="164"
         fill="black"
-        className={`
-        dark:fill-white
-      `}
+        className={`dark:fill-white`}
       />
       <path
         d="M165.018 72.3008V132.771C165.018 152.653 148.9 168.771 129.018 168.771H70.2288"

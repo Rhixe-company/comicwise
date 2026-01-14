@@ -48,9 +48,9 @@ export function NavDocuments({
                 <SidebarMenuAction
                   showOnHover
                   className={`
-                  rounded-sm
-                  data-[state=open]:bg-accent
-                `}
+                    rounded-sm
+                    data-[state=open]:bg-accent
+                  `}
                 >
                   <IconDots />
                   <span className="sr-only">More</span>

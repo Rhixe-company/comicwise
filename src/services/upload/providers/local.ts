@@ -61,7 +61,7 @@ export class LocalProvider implements UploadProvider {
       if (options.transformation) {
         let sharpInstance = sharp(buffer);
         const { width, height, quality, format } = options.transformation;
-        if (width || height) {
+        if (width ?? height) {
           sharpInstance = sharpInstance.resize(width, height);
         }
         if (format) {
@@ -76,7 +76,7 @@ export class LocalProvider implements UploadProvider {
       const hash = crypto.randomBytes(16).toString("hex");
       const extension = options.transformation?.format
         ? `.${options.transformation.format}`
-        : path.extname(originalName) || ".jpg";
+        : (path.extname(originalName) ?? ".jpg");
       // If filename already has extension, use as-is; otherwise append extension
       const filename = options.filename
         ? path.extname(options.filename)
@@ -85,7 +85,7 @@ export class LocalProvider implements UploadProvider {
         : `${hash}${extension}`;
 
       // Create directory structure
-      const folder = options.folder || "general";
+      const folder = options.folder ?? "general";
       const uploadPath = path.join(this.uploadDir, folder);
       await fs.mkdir(uploadPath, { recursive: true });
 
@@ -137,9 +137,10 @@ export class LocalProvider implements UploadProvider {
   /**
    * Get URL for local file
    * @param publicId
-   * @param _transformation
+   * @param transformation
    */
-  getUrl(publicId: string, _transformation?: Record<string, unknown>): string {
+  getUrl(publicId: string, transformation?: Record<string, unknown>): string {
+    console.log(`${transformation}`);
     return `${this.publicPath}/${publicId}`;
   }
 

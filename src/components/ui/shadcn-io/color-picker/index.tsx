@@ -220,19 +220,20 @@ export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => 
     >
       <Slider.Track
         className={`
-        relative my-0.5 h-3 w-full grow rounded-full
-        bg-[linear-gradient(90deg,#FF0000,#FFFF00,#00FF00,#00FFFF,#0000FF,#FF00FF,#FF0000)]
-      `}
+          relative my-0.5 h-3 w-full grow rounded-full
+          bg-[linear-gradient(90deg,#FF0000,#FFFF00,#00FF00,#00FFFF,#0000FF,#FF00FF,#FF0000)]
+        `}
       >
         <Slider.Range className="absolute h-full" />
       </Slider.Track>
       <Slider.Thumb
         className={`
-        block h-4 w-4 rounded-full border border-primary/50 bg-background shadow
-        transition-colors
-        focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none
-        disabled:pointer-events-none disabled:opacity-50
-      `}
+          block h-4 w-4 rounded-full border border-primary/50 bg-background
+          shadow transition-colors
+          focus-visible:ring-1 focus-visible:ring-ring
+          focus-visible:outline-none
+          disabled:pointer-events-none disabled:opacity-50
+        `}
       />
     </Slider.Root>
   );
@@ -261,19 +262,20 @@ export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps)
       >
         <div
           className={`
-          absolute inset-0 rounded-full bg-gradient-to-r from-transparent
-          to-black/50
-        `}
+            absolute inset-0 rounded-full bg-gradient-to-r from-transparent
+            to-black/50
+          `}
         />
         <Slider.Range className="absolute h-full rounded-full bg-transparent" />
       </Slider.Track>
       <Slider.Thumb
         className={`
-        block h-4 w-4 rounded-full border border-primary/50 bg-background shadow
-        transition-colors
-        focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none
-        disabled:pointer-events-none disabled:opacity-50
-      `}
+          block h-4 w-4 rounded-full border border-primary/50 bg-background
+          shadow transition-colors
+          focus-visible:ring-1 focus-visible:ring-ring
+          focus-visible:outline-none
+          disabled:pointer-events-none disabled:opacity-50
+        `}
       />
     </Slider.Root>
   );
@@ -355,8 +357,9 @@ const PercentageInput = ({ className, ...props }: PercentageInputProps) => {
       />
       <span
         className={`
-        absolute top-1/2 right-2 -translate-y-1/2 text-xs text-muted-foreground
-      `}
+          absolute top-1/2 right-2 -translate-y-1/2 text-xs
+          text-muted-foreground
+        `}
       >
         %
       </span>
