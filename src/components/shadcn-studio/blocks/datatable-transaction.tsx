@@ -152,10 +152,13 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className={`
+                    <TableHead
+                      key={header.id}
+                      className={`
                       h-14 text-muted-foreground
                       first:pl-4
-                    `}>
+                    `}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}
@@ -187,11 +190,13 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
         </Table>
       </div>
 
-      <div className={`
+      <div
+        className={`
         flex items-center justify-between gap-3 px-6 py-4
         max-sm:flex-col
         md:max-lg:flex-col
-      `}>
+      `}
+      >
         <p className="text-sm whitespace-nowrap text-muted-foreground" aria-live="polite">
           Showing{" "}
           <span>

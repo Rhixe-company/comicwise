@@ -5,11 +5,13 @@
 
 import { z } from "zod";
 
-export const insertArtistSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  bio: z.string().optional().nullable(),
-  image: z.string().url("Must be a valid URL").optional().nullable(),
-}).strict();
+export const insertArtistSchema = z
+  .object({
+    name: z.string().min(1, "Name is required"),
+    bio: z.string().optional().nullable(),
+    image: z.string().url("Must be a valid URL").optional().nullable(),
+  })
+  .strict();
 
 export const updateArtistSchema = insertArtistSchema.partial();
 

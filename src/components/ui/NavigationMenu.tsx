@@ -39,9 +39,12 @@ function NavigationMenuList({
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
-      className={cn(`
+      className={cn(
+        `
         group flex flex-1 list-none items-center justify-center gap-1
-      `, className)}
+      `,
+        className
+      )}
       {...props}
     />
   );
@@ -148,9 +151,11 @@ function NavigationMenuViewport({
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>) {
   return (
-    <div className={cn(`
+    <div
+      className={cn(`
       absolute top-full left-0 isolate z-50 flex justify-center
-    `)}>
+    `)}
+    >
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
         className={cn(
@@ -218,9 +223,11 @@ function NavigationMenuIndicator({
       )}
       {...props}
     >
-      <div className={`
+      <div
+        className={`
         relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md
-      `} />
+      `}
+      />
     </NavigationMenuPrimitive.Indicator>
   );
 }

@@ -192,21 +192,28 @@ const ApplicationShell = () => {
         </Sidebar>
         <div className="flex flex-1 flex-col">
           <header className="sticky top-0 z-50 border-b bg-card">
-            <div className={`
+            <div
+              className={`
               mx-auto flex max-w-7xl items-center justify-between gap-6 px-4
               py-2
               sm:px-6
-            `}>
+            `}
+            >
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="[&_svg]:!size-5" />
-                <Separator orientation="vertical" className={`
+                <Separator
+                  orientation="vertical"
+                  className={`
                   hidden !h-4
                   sm:block
-                `} />
-                <Breadcrumb className={`
+                `}
+                />
+                <Breadcrumb
+                  className={`
                   hidden
                   sm:block
-                `}>
+                `}
+                >
                   <BreadcrumbList>
                     <BreadcrumbItem>
                       <BreadcrumbLink href="">Home</BreadcrumbLink>
@@ -243,30 +250,38 @@ const ApplicationShell = () => {
               </div>
             </div>
           </header>
-          <main className={`
+          <main
+            className={`
             mx-auto size-full max-w-7xl flex-1 px-4 py-6
             sm:px-6
-          `}>
+          `}
+          >
             <Card className="h-250">
               <CardContent className="h-full">
-                <div className={`
+                <div
+                  className={`
                   h-full rounded-md border
                   bg-[repeating-linear-gradient(45deg,var(--muted),var(--muted)_1px,var(--card)_2px,var(--card)_15px)]
-                `} />
+                `}
+                />
               </CardContent>
             </Card>
           </main>
           <footer>
-            <div className={`
+            <div
+              className={`
               mx-auto flex size-full max-w-7xl items-center justify-between
               gap-3 px-4 py-3 text-muted-foreground
               max-sm:flex-col
               sm:gap-6 sm:px-6
-            `}>
-              <p className={`
+            `}
+            >
+              <p
+                className={`
                 text-sm text-balance
                 max-sm:text-center
-              `}>
+              `}
+              >
                 {`©${new Date().getFullYear()}`}{" "}
                 <a href="" className="text-primary">
                   shadcn/studio

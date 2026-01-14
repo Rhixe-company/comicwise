@@ -17,7 +17,6 @@
  * - Error handling and recovery
  */
 
-import appConfig from "appConfig";
 import { db } from "@/database";
 import {
   artist,
@@ -41,6 +40,7 @@ import {
   getImageHash,
 } from "@/database/seed/utils/imageCache";
 import { imageService } from "@/services/imageService";
+import appConfig from "appConfig";
 import { hashPassword } from "auth";
 import { and, eq } from "drizzle-orm";
 import fs from "fs/promises";

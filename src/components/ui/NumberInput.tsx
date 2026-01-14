@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import type {ComponentProps} from "react";
+import type { ComponentProps } from "react";
 import { cn } from "utils";
 
 export function NumberInput({

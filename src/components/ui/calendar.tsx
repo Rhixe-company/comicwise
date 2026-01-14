@@ -2,8 +2,8 @@
 
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import * as React from "react";
-import { DayPicker, getDefaultClassNames  } from "react-day-picker";
-import type {DayButton} from "react-day-picker";
+import type { DayButton } from "react-day-picker";
+import { DayPicker, getDefaultClassNames } from "react-day-picker";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "utils";
@@ -43,10 +43,13 @@ function Calendar({
       }}
       classNames={{
         root: cn("w-fit", defaultClassNames.root),
-        months: cn(`
+        months: cn(
+          `
           relative flex flex-col gap-4
           md:flex-row
-        `, defaultClassNames.months),
+        `,
+          defaultClassNames.months
+        ),
         month: cn("flex w-full flex-col gap-4", defaultClassNames.month),
         nav: cn(
           `
@@ -166,9 +169,11 @@ function Calendar({
         WeekNumber: ({ children, ...props }) => {
           return (
             <td {...props}>
-              <div className={`
+              <div
+                className={`
                 flex size-(--cell-size) items-center justify-center text-center
-              `}>
+              `}
+              >
                 {children}
               </div>
             </td>

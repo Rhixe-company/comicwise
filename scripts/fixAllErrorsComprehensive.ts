@@ -323,13 +323,13 @@ try {
   const fullPath = path.join(projectRoot, colorPickerPath);
   if (fs.existsSync(fullPath)) {
     let content = fs.readFileSync(fullPath, "utf-8");
-    content = content.replaceAll('anyPickerProps', "any");
-    content = content.replaceAll('anyPickerSelectionProps', "any");
-    content = content.replaceAll('anyPickerHueProps', "any");
-    content = content.replaceAll('anyPickerAlphaProps', "any");
-    content = content.replaceAll('anyPickerEyeDropperProps', "any");
-    content = content.replaceAll('anyPickerOutputProps', "any");
-    content = content.replaceAll('anyPickerFormatProps', "any");
+    content = content.replaceAll("anyPickerProps", "any");
+    content = content.replaceAll("anyPickerSelectionProps", "any");
+    content = content.replaceAll("anyPickerHueProps", "any");
+    content = content.replaceAll("anyPickerAlphaProps", "any");
+    content = content.replaceAll("anyPickerEyeDropperProps", "any");
+    content = content.replaceAll("anyPickerOutputProps", "any");
+    content = content.replaceAll("anyPickerFormatProps", "any");
     fs.writeFileSync(fullPath, content, "utf-8");
     console.log(`✅ Fix color picker types`);
     totalFixes++;

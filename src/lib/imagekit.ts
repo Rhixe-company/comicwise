@@ -187,10 +187,12 @@ export async function uploadMultipleImages(
   );
 
   return results.map((result) => {
-    return result.status === "fulfilled" ? result.value : {
-        success: false,
-        error: result.reason instanceof Error ? result.reason.message : "Upload failed",
-      };
+    return result.status === "fulfilled"
+      ? result.value
+      : {
+          success: false,
+          error: result.reason instanceof Error ? result.reason.message : "Upload failed",
+        };
   });
 }
 
@@ -225,10 +227,12 @@ export async function deleteMultipleImages(fileIds: string[]): Promise<DeleteRes
   const results = await Promise.allSettled(fileIds.map((fileId) => deleteImage(fileId)));
 
   return results.map((result) => {
-    return result.status === "fulfilled" ? result.value : {
-        success: false,
-        error: result.reason instanceof Error ? result.reason.message : "Delete failed",
-      };
+    return result.status === "fulfilled"
+      ? result.value
+      : {
+          success: false,
+          error: result.reason instanceof Error ? result.reason.message : "Delete failed",
+        };
   });
 }
 

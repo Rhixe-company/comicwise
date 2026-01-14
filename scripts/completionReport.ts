@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * ComicWise - Comprehensive Project Completion Report
- * 
+ *
  * Provides detailed summary of all optimization tasks completed
  * Usage: pnpm tsx scripts/completionReport.ts
  */
@@ -43,7 +43,13 @@ const tasks: CompletionTask[] = [
     name: ".vscode Configuration",
     status: "✓",
     description: "Optimized VS Code settings, extensions, launch configs, and tasks",
-    files: [".vscode/settings.json", ".vscode/extensions.json", ".vscode/launch.json", ".vscode/tasks.json", ".vscode/mcp.json"],
+    files: [
+      ".vscode/settings.json",
+      ".vscode/extensions.json",
+      ".vscode/launch.json",
+      ".vscode/tasks.json",
+      ".vscode/mcp.json",
+    ],
   },
 
   // PHASE 2
@@ -124,7 +130,8 @@ const tasks: CompletionTask[] = [
     phase: 4,
     name: "Setup Prompt Documentation",
     status: "✓",
-    description: "Enhanced Setup.prompt.md with comprehensive setup instructions and best practices",
+    description:
+      "Enhanced Setup.prompt.md with comprehensive setup instructions and best practices",
     files: [".github/prompts/Setup.prompt.md"],
   },
   {
@@ -242,9 +249,11 @@ function printReport() {
 
   // File statistics
   if (fs.existsSync(ROOT_DIR)) {
-    const scripts = fs.readdirSync(path.join(ROOT_DIR, "scripts"))
+    const scripts = fs
+      .readdirSync(path.join(ROOT_DIR, "scripts"))
       .filter((f) => f.endsWith(".ts")).length;
-    const docs = fs.readdirSync(path.join(ROOT_DIR, "docs"))
+    const docs = fs
+      .readdirSync(path.join(ROOT_DIR, "docs"))
       .filter((f) => f.endsWith(".md")).length;
 
     console.log(`${"═".repeat(70)}`);

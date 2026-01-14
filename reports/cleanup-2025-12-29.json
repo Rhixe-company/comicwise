@@ -1,15 +1,5 @@
 {
-  "timestamp": "2025-12-29T20:08:45.913Z",
   "dryRun": true,
-  "statistics": {
-    "backupFilesFound": 7,
-    "backupFilesRemoved": 7,
-    "duplicatesFound": 0,
-    "duplicatesRemoved": 0,
-    "unusedFilesFound": 0,
-    "unusedFilesRemoved": 0,
-    "spaceFreed": 91441
-  },
   "files": {
     "backups": [
       "C:\\Users\\Alexa\\Desktop\\SandBox\\comicwise\\.vscode\\extensions.json.backup",
@@ -22,5 +12,15 @@
     ],
     "duplicates": [],
     "unused": []
-  }
+  },
+  "statistics": {
+    "backupFilesFound": 7,
+    "backupFilesRemoved": 7,
+    "duplicatesFound": 0,
+    "duplicatesRemoved": 0,
+    "unusedFilesFound": 0,
+    "unusedFilesRemoved": 0,
+    "spaceFreed": 91441
+  },
+  "timestamp": "2025-12-29T20:08:45.913Z"
 }

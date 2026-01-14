@@ -122,7 +122,7 @@ for (const [file, locations] of Object.entries(fileGroups)) {
       if (loc.suggestion) {
         // Simple replacements
         content = content.replace(/:\s*any(?=\s|;|,|\)|\||&)/, `: ${loc.suggestion}`);
-        content = content.replaceAll('<unknown>', `<${loc.suggestion}>`);
+        content = content.replaceAll("<unknown>", `<${loc.suggestion}>`);
         content = content.replaceAll(/as\s+any/g, `as ${loc.suggestion}`);
         modified = true;
         fixedCount++;

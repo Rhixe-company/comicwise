@@ -1,4 +1,5 @@
- 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable typescript-eslint/no-unsafe-assignment */
 // ESLint 9.x Flat Config for Next.js 16 + React 19 + TypeScript 5
 import css from "@eslint/css";
 import js from "@eslint/js";
@@ -8,7 +9,7 @@ import eslintNextPlugin from "@next/eslint-plugin-next";
 import type { Linter } from "eslint";
 import prettierConfig from "eslint-config-prettier";
 import pluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
-import * as pluginDrizzle from "eslint-plugin-drizzle";
+import * as drizzle from "eslint-plugin-drizzle";
 import importPlugin from "eslint-plugin-import";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsxA11y from "eslint-plugin-jsx-a11y";
@@ -23,26 +24,6 @@ import unused from "eslint-plugin-unused-imports";
 import zod from "eslint-plugin-zod";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-
-const eslintPlugins = {
-  "@next/next": eslintNextPlugin,
-  "typescript-eslint": tseslint.plugin,
-  zod: zod as any,
-  "react-hooks": pluginReactHooks as any,
-  "jsx-a11y": jsxA11y,
-  "better-tailwindcss": pluginBetterTailwindcss,
-  "simple-import-sort": simpleImportSort,
-  "unused-imports": unused,
-  import: importPlugin,
-  react: pluginReact,
-  drizzle: pluginDrizzle,
-  security,
-  sonarjs,
-  unicorn,
-  js,
-  jsdoc,
-  prettier,
-};
 
 const eslintRules = {
   "no-unused-vars": "off",
@@ -346,11 +327,27 @@ const eslintSettings = {
 
 const eslintConfig: Linter.Config[] = [
   js.configs.recommended,
-  ...(tseslint.configs.recommended as Linter.Config[]),
+  ...tseslint.configs.recommended,
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     plugins: {
-      ...eslintPlugins,
+      "@next/next": eslintNextPlugin,
+      "typescript-eslint": tseslint.plugin,
+      zod: zod as any,
+      "react-hooks": pluginReactHooks as any,
+      "jsx-a11y": jsxA11y,
+      "better-tailwindcss": pluginBetterTailwindcss,
+      "simple-import-sort": simpleImportSort,
+      "unused-imports": unused,
+      import: importPlugin,
+      react: pluginReact,
+      drizzle,
+      security,
+      sonarjs,
+      unicorn,
+      js,
+      jsdoc,
+      prettier,
     },
     languageOptions: {
       parser: tseslint.parser,

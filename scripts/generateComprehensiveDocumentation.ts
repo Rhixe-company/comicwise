@@ -28,8 +28,8 @@
  */
 
 import * as fs from "fs";
-import * as path from "path";
 import { globSync } from "glob";
+import * as path from "path";
 
 const rootDir = process.cwd();
 const docsDir = path.join(rootDir, "docs/generated");
@@ -484,7 +484,10 @@ async function main() {
     log(`  - SETUP.md (Setup instructions)`);
     log(`  - ARCHITECTURE.md (Architecture guide)\n`);
   } catch (error) {
-    log(`Error generating documentation: ${error instanceof Error ? error.message : String(error)}`, "red");
+    log(
+      `Error generating documentation: ${error instanceof Error ? error.message : String(error)}`,
+      "red"
+    );
     process.exit(1);
   }
 }

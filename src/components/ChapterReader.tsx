@@ -132,13 +132,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
                 md:inline-flex
               `}
             >
-              {isFullscreen ? (
-                <Minimize className="h-5 w-5" />
-              ) : (
-                <Maximize
-                  className={`h-5 w-5`}
-                />
-              )}
+              {isFullscreen ? <Minimize className="h-5 w-5" /> : <Maximize className={`h-5 w-5`} />}
             </Button>
           </div>
         </div>
@@ -165,7 +159,11 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
 
           {/* Navigation */}
           <div className="mt-6 flex items-center justify-between gap-4">
-            <Button onClick={handlePreviousPage} disabled={currentPage === 1 && !prevChapter} size="lg">
+            <Button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1 && !prevChapter}
+              size="lg"
+            >
               <ChevronLeft className="mr-2 h-5 w-5" />
               {currentPage === 1 && prevChapter ? "Previous Chapter" : "Previous"}
             </Button>

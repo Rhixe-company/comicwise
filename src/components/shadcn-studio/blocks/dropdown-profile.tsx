@@ -32,9 +32,11 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
     <DropdownMenu defaultOpen={defaultOpen}>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent className="w-80" align={align || "end"}>
-        <DropdownMenuLabel className={`
+        <DropdownMenuLabel
+          className={`
           flex items-center gap-4 px-4 py-2.5 font-normal
-        `}>
+        `}
+        >
           <div className="relative">
             <Avatar className="size-10">
               <AvatarImage
@@ -43,10 +45,12 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
               />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
-            <span className={`
+            <span
+              className={`
               absolute right-0 bottom-0 block size-2 rounded-full bg-green-600
               ring-2 ring-card
-            `} />
+            `}
+            />
           </div>
           <div className="flex flex-1 flex-col items-start">
             <span className="text-lg font-semibold text-foreground">John Doe</span>
@@ -90,9 +94,12 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem variant="destructive" className={`
+        <DropdownMenuItem
+          variant="destructive"
+          className={`
           px-4 py-2.5 text-base
-        `}>
+        `}
+        >
           <LogOutIcon className="size-5" />
           <span>Logout</span>
         </DropdownMenuItem>

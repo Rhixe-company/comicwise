@@ -15,11 +15,11 @@
  * Usage: pnpm tsx scripts/masterOptimization.ts [--phase=1-5] [--dry-run]
  */
 
+import chalk from "chalk";
+import { execSync } from "child_process";
 import fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
-import { execSync } from "child_process";
-import chalk from "chalk";
 
 interface Phase {
   name: string;
@@ -98,9 +98,7 @@ class MasterOptimizer {
       });
       return output;
     } catch (error) {
-      throw new Error(
-        `Command failed: ${command}\n${(error as any).message}`
-      );
+      throw new Error(`Command failed: ${command}\n${(error as any).message}`);
     }
   }
 
@@ -119,9 +117,7 @@ class MasterOptimizer {
 
       // Validate environment
       const envContent = fs.readFileSync(envFile, "utf-8");
-      const envVars = envContent
-        .split("\n")
-        .filter((line) => line && !line.startsWith("#"));
+      const envVars = envContent.split("\n").filter((line) => line && !line.startsWith("#"));
       this.success(`Environment file validated: ${envVars.length} variables`);
     } catch (error) {
       this.error(`Phase 1.1 failed: ${(error as any).message}`);
@@ -166,9 +162,7 @@ class MasterOptimizer {
         if (fs.existsSync(vscodeFile)) {
           // Already has backups, validate structure
           const content = JSON.parse(fs.readFileSync(vscodeFile, "utf-8"));
-          this.success(
-            `.vscode/${file} validated (${JSON.stringify(content).length} bytes)`
-          );
+          this.success(`.vscode/${file} validated (${JSON.stringify(content).length} bytes)`);
         }
       } catch (error) {
         this.warn(`Could not validate .vscode/${file}: ${(error as any).message}`);
@@ -185,9 +179,7 @@ class MasterOptimizer {
       const files = fs.readdirSync(seedDir);
       const tsFiles = files.filter((f) => f.endsWith(".ts"));
 
-      this.success(
-        `Seed system analyzed: ${tsFiles.length} TypeScript files found`
-      );
+      this.success(`Seed system analyzed: ${tsFiles.length} TypeScript files found`);
 
       tsFiles.forEach((f) => this.log(`    - ${f}`, "gray"));
     } catch (error) {
@@ -212,17 +204,12 @@ class MasterOptimizer {
 
     this.section("Step 2.3: Validate image service");
     try {
-      const imageService = path.join(
-        ROOT_DIR,
-        "src/services/imageService.ts"
-      );
+      const imageService = path.join(ROOT_DIR, "src/services/imageService.ts");
       if (fs.existsSync(imageService)) {
         const content = fs.readFileSync(imageService, "utf-8");
-        const hasFunctions = [
-          "downloadImage",
-          "saveImage",
-          "uploadImage",
-        ].filter((fn) => content.includes(fn));
+        const hasFunctions = ["downloadImage", "saveImage", "uploadImage"].filter((fn) =>
+          content.includes(fn)
+        );
         this.success(`Image service has ${hasFunctions.length} key functions`);
       }
     } catch (error) {
@@ -290,9 +277,7 @@ class MasterOptimizer {
     try {
       const workflowsDir = path.join(ROOT_DIR, ".github/workflows");
       if (fs.existsSync(workflowsDir)) {
-        const workflows = fs.readdirSync(workflowsDir).filter((f) =>
-          f.endsWith(".yml")
-        );
+        const workflows = fs.readdirSync(workflowsDir).filter((f) => f.endsWith(".yml"));
         this.success(`${workflows.length} workflow(s) found`);
         workflows.forEach((w) => this.log(`    - ${w}`, "gray"));
       } else {
@@ -339,9 +324,7 @@ class MasterOptimizer {
       const backups = findBackups();
       this.success(`Found ${backups.length} backup file(s)`);
       if (backups.length > 0) {
-        backups.slice(0, 5).forEach((b) =>
-          this.log(`    - ${path.relative(ROOT_DIR, b)}`, "gray")
-        );
+        backups.slice(0, 5).forEach((b) => this.log(`    - ${path.relative(ROOT_DIR, b)}`, "gray"));
         if (backups.length > 5) {
           this.log(`    ... and ${backups.length - 5} more`, "gray");
         }
@@ -353,12 +336,9 @@ class MasterOptimizer {
     this.section("Step 5.2: Check for unused packages");
     try {
       const packageJsonPath = path.join(ROOT_DIR, "package.json");
-      const packageJson = JSON.parse(
-        fs.readFileSync(packageJsonPath, "utf-8")
-      );
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
       const depsCount = Object.keys(packageJson.dependencies || {}).length;
-      const devDepsCount = Object.keys(packageJson.devDependencies || {})
-        .length;
+      const devDepsCount = Object.keys(packageJson.devDependencies || {}).length;
       this.success(
         `Dependencies: ${depsCount} prod + ${devDepsCount} dev = ${depsCount + devDepsCount} total`
       );

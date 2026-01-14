@@ -25,7 +25,9 @@ cloudinary.config({
 
 // Type assertion for cloudinary.url (SDK types incomplete)
 type CloudinaryUrlFunction = (publicId: string, options: Record<string, unknown>) => string;
-const getCloudinaryUrl = (cloudinary as unknown as { url: CloudinaryUrlFunction }).url.bind(cloudinary);
+const getCloudinaryUrl = (cloudinary as unknown as { url: CloudinaryUrlFunction }).url.bind(
+  cloudinary
+);
 
 export class CloudinaryProvider implements UploadProvider {
   /**

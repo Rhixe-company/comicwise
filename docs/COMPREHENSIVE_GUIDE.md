@@ -19,27 +19,26 @@ Generated: 2025-12-29T20:05:26.815Z
 
 # Project Overview
 
-
-ComicWise is a full-featured web comic reading and management platform built with modern web technologies.
+ComicWise is a full-featured web comic reading and management platform built
+with modern web technologies.
 
 ### Key Features
 
 - **Authentication**: NextAuth v5 with OAuth and credentials
 - **Database**: PostgreSQL with Drizzle ORM
 - **Caching**: Redis for performance optimization
-- **Image Management**: Multi-provider support (ImageKit, Cloudinary, AWS S3, Local)
+- **Image Management**: Multi-provider support (ImageKit, Cloudinary, AWS S3,
+  Local)
 - **Search**: Full-text search across comics, authors, and artists
 - **Admin Panel**: Comprehensive content and user management
 - **API**: RESTful endpoints with rate limiting
 - **Background Jobs**: Queue system with BullMQ
 - **Email**: Automated notifications with React Email
 - **SEO**: Optimized metadata and sitemaps
-    
 
 ---
 
 # Quick Start
-
 
 ## Prerequisites
 
@@ -72,12 +71,10 @@ pnpm dev
 ```
 
 The application will be available at `http://localhost:3000`
-    
 
 ---
 
 # Detailed Setup
-
 
 ### Environment Configuration
 
@@ -138,34 +135,32 @@ pnpm docker:logs
 # Stop services
 pnpm docker:down
 ```
-    
 
 ---
 
 # Environment Variables
 
-
 ### Required Variables
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| DATABASE_URL | PostgreSQL connection string | postgresql://... |
-| AUTH_SECRET | NextAuth secret (min 32 chars) | long-random-string |
-| AUTH_URL | Auth callback URL | http://localhost:3000/api/auth |
-| NODE_ENV | Environment mode | development, production |
-| NEXT_PUBLIC_APP_URL | Public app URL | http://localhost:3000 |
+| Variable            | Description                    | Example                        |
+| ------------------- | ------------------------------ | ------------------------------ |
+| DATABASE_URL        | PostgreSQL connection string   | postgresql://...               |
+| AUTH_SECRET         | NextAuth secret (min 32 chars) | long-random-string             |
+| AUTH_URL            | Auth callback URL              | http://localhost:3000/api/auth |
+| NODE_ENV            | Environment mode               | development, production        |
+| NEXT_PUBLIC_APP_URL | Public app URL                 | http://localhost:3000          |
 
 ### Optional Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| UPLOAD_PROVIDER | Image upload service | local |
-| IMAGEKIT_PUBLIC_KEY | ImageKit public key | - |
-| CLOUDINARY_CLOUD_NAME | Cloudinary cloud name | - |
-| AWS_REGION | AWS region | - |
-| REDIS_HOST | Redis hostname | localhost |
-| REDIS_PORT | Redis port | 6379 |
-| EMAIL_SERVER_HOST | SMTP host | smtp.gmail.com |
+| Variable              | Description           | Default        |
+| --------------------- | --------------------- | -------------- |
+| UPLOAD_PROVIDER       | Image upload service  | local          |
+| IMAGEKIT_PUBLIC_KEY   | ImageKit public key   | -              |
+| CLOUDINARY_CLOUD_NAME | Cloudinary cloud name | -              |
+| AWS_REGION            | AWS region            | -              |
+| REDIS_HOST            | Redis hostname        | localhost      |
+| REDIS_PORT            | Redis port            | 6379           |
+| EMAIL_SERVER_HOST     | SMTP host             | smtp.gmail.com |
 
 ### Validation
 
@@ -174,12 +169,10 @@ Validate your environment configuration:
 ```bash
 pnpm tsx scripts/envValidator.ts --report
 ```
-    
 
 ---
 
 # Database
-
 
 ### Schema
 
@@ -216,12 +209,10 @@ Access database through Drizzle Studio:
 ```bash
 pnpm db:studio
 ```
-    
 
 ---
 
 # Database Seeding
-
 
 ### Seed Data Files
 
@@ -276,12 +267,10 @@ Example seed data structure (users.json):
   }
 ]
 ```
-    
 
 ---
 
 # API Reference
-
 
 ### Authentication Endpoints
 
@@ -327,12 +316,10 @@ API requests are rate-limited based on user role:
 - **Unauthenticated**: 10 requests per minute
 - **Authenticated User**: 100 requests per minute
 - **Admin**: 500 requests per minute
-    
 
 ---
 
 # Testing
-
 
 ### Unit Tests
 
@@ -382,12 +369,10 @@ pnpm ci:full
 # Type check, lint, and test
 pnpm validate
 ```
-    
 
 ---
 
 # Deployment
-
 
 ### Production Build
 
@@ -433,12 +418,10 @@ docker build -t comicwise:latest .
 # Run container
 docker run -p 3000:3000 --env-file .env.local comicwise:latest
 ```
-    
 
 ---
 
 # Troubleshooting
-
 
 ### Common Issues
 
@@ -507,7 +490,5 @@ pnpm health:db
 pnpm health:redis
 pnpm health:check
 ```
-    
 
 ---
-

@@ -19,40 +19,56 @@ type NavigationItem = {
 const Navbar = ({ navigationData }: { navigationData: NavigationItem }) => {
   return (
     <header className="sticky top-0 z-50 bg-background">
-      <div className={`
+      <div
+        className={`
         mx-auto flex max-w-7xl items-center justify-between gap-8 px-4 py-7
         sm:px-6
-      `}>
-        <div className={`
+      `}
+      >
+        <div
+          className={`
           flex flex-1 items-center gap-8 font-medium text-muted-foreground
           md:justify-center
           lg:gap-16
-        `}>
-          <a href="" className={`
+        `}
+        >
+          <a
+            href=""
+            className={`
             hover:text-primary
             max-md:hidden
-          `}>
+          `}
+          >
             Home
           </a>
-          <a href="" className={`
+          <a
+            href=""
+            className={`
             hover:text-primary
             max-md:hidden
-          `}>
+          `}
+          >
             Products
           </a>
           <a href="">
             <Logo className="gap-3 text-foreground" />
           </a>
-          <a href="" className={`
+          <a
+            href=""
+            className={`
             hover:text-primary
             max-md:hidden
-          `}>
+          `}
+          >
             About Us
           </a>
-          <a href="" className={`
+          <a
+            href=""
+            className={`
             hover:text-primary
             max-md:hidden
-          `}>
+          `}
+          >
             Contacts
           </a>
         </div>

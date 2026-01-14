@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
-import { cva  } from "class-variance-authority";
-import type {VariantProps} from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import * as React from "react";
 
 import { Separator } from "@/components/ui/separator";
@@ -114,10 +114,13 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-content"
-      className={cn(`
+      className={cn(
+        `
         flex flex-1 flex-col gap-1
         [&+[data-slot=item-content]]:flex-none
-      `, className)}
+      `,
+        className
+      )}
       {...props}
     />
   );
@@ -127,9 +130,12 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-title"
-      className={cn(`
+      className={cn(
+        `
         flex w-fit items-center gap-2 text-sm leading-snug font-medium
-      `, className)}
+      `,
+        className
+      )}
       {...props}
     />
   );

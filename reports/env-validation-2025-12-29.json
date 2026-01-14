@@ -1,7 +1,13 @@
 {
-  "isValid": true,
-  "timestamp": "2025-12-29T20:08:36.722Z",
   "environment": "development",
+  "isValid": true,
+  "summary": {
+    "required": 5,
+    "optional": 25,
+    "missing": 0,
+    "invalid": 1
+  },
+  "timestamp": "2025-12-29T20:08:36.722Z",
   "variables": [
     {
       "name": "DATABASE_URL",
@@ -189,11 +195,5 @@
       "value": "S*k***4_Q",
       "validation": "valid"
     }
-  ],
-  "summary": {
-    "required": 5,
-    "optional": 25,
-    "missing": 0,
-    "invalid": 1
-  }
+  ]
 }

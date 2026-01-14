@@ -23,8 +23,12 @@ export async function GET(request: NextRequest) {
       search: searchParams.get("search") || undefined,
       status: searchParams.get("status") || undefined,
       typeId: searchParams.get("typeId") ? Number.parseInt(searchParams.get("typeId")!) : undefined,
-      authorId: searchParams.get("authorId") ? Number.parseInt(searchParams.get("authorId")!) : undefined,
-      artistId: searchParams.get("artistId") ? Number.parseInt(searchParams.get("artistId")!) : undefined,
+      authorId: searchParams.get("authorId")
+        ? Number.parseInt(searchParams.get("authorId")!)
+        : undefined,
+      artistId: searchParams.get("artistId")
+        ? Number.parseInt(searchParams.get("artistId")!)
+        : undefined,
       minRating: searchParams.get("minRating")
         ? Number.parseFloat(searchParams.get("minRating")!)
         : undefined,

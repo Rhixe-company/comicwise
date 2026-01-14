@@ -1,15 +1,15 @@
 #!/usr/bin/env tsx
 /**
  * ComicWise - Package Analyzer & Cleanup
- * 
+ *
  * Analyzes package.json and identifies unused dependencies
  * Usage: pnpm tsx scripts/analyzePackages.ts [--remove] [--report]
  */
 
+import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import chalk from "chalk";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,9 +55,7 @@ class PackageAnalyzer {
   async analyze(): Promise<void> {
     this.log("Analyzing packages...\n");
 
-    const packageJson = JSON.parse(
-      fs.readFileSync(this.packageJsonPath, "utf-8")
-    );
+    const packageJson = JSON.parse(fs.readFileSync(this.packageJsonPath, "utf-8"));
 
     const deps = packageJson.dependencies || {};
     const devDeps = packageJson.devDependencies || {};
@@ -193,10 +191,7 @@ class PackageAnalyzer {
         this.log("\n✓ All packages appear to be in use", "success");
       } else {
         this.log(`\n⚠ Found ${summary} potentially unused packages`, "warn");
-        this.log(
-          "Note: Manual review recommended - some packages may be used indirectly",
-          "info"
-        );
+        this.log("Note: Manual review recommended - some packages may be used indirectly", "info");
       }
     } catch (error) {
       this.log(`Error: ${(error as any).message}`, "error");

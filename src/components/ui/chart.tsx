@@ -45,7 +45,7 @@ function ChartContainer({
   children: React.ComponentProps<typeof RechartsPrimitive.ResponsiveContainer>["children"];
 }) {
   const uniqueId = React.useId();
-  const chartId = `chart-${id || uniqueId.replaceAll(':', "")}`;
+  const chartId = `chart-${id || uniqueId.replaceAll(":", "")}`;
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -143,9 +143,7 @@ function ChartTooltipContent({
     const key = `${labelKey || item?.dataKey || item?.name || "value"}`;
     const itemConfig = getPayloadConfigFromPayload(config, item, key);
     const value =
-      !labelKey && typeof label === "string"
-        ? config[label]?.label || label
-        : itemConfig?.label;
+      !labelKey && typeof label === "string" ? config[label]?.label || label : itemConfig?.label;
 
     if (labelFormatter) {
       return (
@@ -240,9 +238,11 @@ function ChartTooltipContent({
                         </span>
                       </div>
                       {item.value && (
-                        <span className={`
+                        <span
+                          className={`
                           font-mono font-medium text-foreground tabular-nums
-                        `}>
+                        `}
+                        >
                           {item.value.toLocaleString()}
                         </span>
                       )}

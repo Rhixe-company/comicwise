@@ -1,7 +1,7 @@
 import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
-import { asc, desc, eq, ilike, or  } from "drizzle-orm";
-import type {SQL} from "drizzle-orm";
+import type { SQL } from "drizzle-orm";
+import { asc, desc, eq, ilike, or } from "drizzle-orm";
 
 export async function getUserById(userId: string) {
   return await database.query.user.findFirst({
@@ -46,7 +46,7 @@ export async function getUsers(params?: {
   }
 
   if (conditions.length > 0) {
-    query = query.where(or(...(conditions)));
+    query = query.where(or(...conditions));
   }
 
   // Apply sorting

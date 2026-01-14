@@ -88,21 +88,25 @@ pnpm docker:down
 ## Available Commands
 
 ### Development
+
 - `pnpm dev` - Start dev server
 - `pnpm dev:debug` - Start with Node debugger
 - `pnpm build` - Build for production
 
 ### Database
+
 - `pnpm db:push` - Push schema changes
 - `pnpm db:seed` - Seed with sample data
 - `pnpm db:reset` - Reset entire database
 
 ### Testing
+
 - `pnpm test:unit` - Run unit tests
 - `pnpm test` - Run E2E tests
 - `pnpm validate` - Lint, type-check, format check
 
 ### Code Quality
+
 - `pnpm lint` - Run ESLint
 - `pnpm lint:fix` - Fix linting issues
 - `pnpm format` - Format code with Prettier
@@ -111,15 +115,18 @@ pnpm docker:down
 ## Troubleshooting
 
 ### Database Connection Failed
+
 - Ensure PostgreSQL is running
 - Check DATABASE_URL in .env.local
 - Verify credentials and port
 
 ### Module Not Found Errors
+
 - Run `pnpm install` again
 - Clear node_modules: `pnpm clean:all && pnpm install`
 
 ### Port 3000 Already in Use
-- Change PORT in .env.local
-- Or kill existing process: `lsof -i :3000 | grep LISTEN | awk '{print $2}' | xargs kill`
 
+- Change PORT in .env.local
+- Or kill existing process:
+  `lsof -i :3000 | grep LISTEN | awk '{print $2}' | xargs kill`

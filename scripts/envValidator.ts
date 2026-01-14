@@ -1,15 +1,15 @@
 #!/usr/bin/env tsx
 /**
  * Environment Configuration Validator & Optimizer
- * 
+ *
  * Validates and optimizes .env.local and appConfig.ts for development/production
  * Usage: pnpm tsx scripts/envValidator.ts [--fix] [--report]
  */
 
+import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import chalk from "chalk";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -80,11 +80,7 @@ const OPTIONAL_VARS = [
   "CUSTOM_PASSWORD",
 ];
 
-const RECOMMENDED_VARS = [
-  "IMAGEKIT_ENABLED",
-  "EMAIL_SECURE",
-  "REDIS_TLS_ENABLED",
-];
+const RECOMMENDED_VARS = ["IMAGEKIT_ENABLED", "EMAIL_SECURE", "REDIS_TLS_ENABLED"];
 
 class EnvValidator {
   private envPath = path.join(ROOT_DIR, ".env.local");
@@ -248,14 +244,7 @@ class EnvValidator {
   }
 
   private maskSensitive(name: string, value: string): string {
-    const sensitive = [
-      "SECRET",
-      "PASSWORD",
-      "KEY",
-      "TOKEN",
-      "API",
-      "PRIVATE",
-    ];
+    const sensitive = ["SECRET", "PASSWORD", "KEY", "TOKEN", "API", "PRIVATE"];
 
     if (sensitive.some((s) => name.includes(s))) {
       return value.slice(0, 3) + "***" + value.slice(Math.max(0, value.length - 3));

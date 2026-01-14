@@ -1,5 +1,6 @@
 declare module "@/appConfig" {
   export const env: {
+    CI: any;
     REDIS_DB: number;
     REDIS_TLS_ENABLED: boolean;
     DATABASE_URL: string;

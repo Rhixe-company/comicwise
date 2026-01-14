@@ -10,9 +10,7 @@ const utilsFiles = new Set(["utils.ts"]);
 console.log("Migrating actions to DTO pattern...\n");
 
 // Get all action files except utils
-const actionFiles = readdirSync(actionsDir).filter(
-  (f) => f.endsWith(".ts") && !utilsFiles.has(f)
-);
+const actionFiles = readdirSync(actionsDir).filter((f) => f.endsWith(".ts") && !utilsFiles.has(f));
 
 let migratedCount = 0;
 const errors = [];

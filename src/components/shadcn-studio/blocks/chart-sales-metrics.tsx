@@ -13,13 +13,8 @@ import {
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent
-} from "@/components/ui/chart";
-import type {ChartConfig} from "@/components/ui/chart";
+import type { ChartConfig } from "@/components/ui/chart";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 const salesPlanPercentage = 54;
 const totalBars = 24;
@@ -98,14 +93,18 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
   return (
     <Card className={className}>
       <CardContent className="space-y-4">
-        <div className={`
+        <div
+          className={`
           grid gap-6
           lg:grid-cols-5
-        `}>
-          <div className={`
+        `}
+        >
+          <div
+            className={`
             flex flex-col gap-7
             lg:col-span-3
-          `}>
+          `}
+          >
             <span className="text-lg font-semibold">Sales metrics</span>
             <div className="flex items-center gap-3">
               <img
@@ -119,18 +118,25 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               </div>
             </div>
 
-            <div className={`
+            <div
+              className={`
               grid gap-4
               sm:grid-cols-2
-            `}>
+            `}
+            >
               {MetricsData.map((metric, index) => (
-                <div key={index} className={`
+                <div
+                  key={index}
+                  className={`
                   flex items-center gap-3 rounded-md border px-4 py-2
-                `}>
+                `}
+                >
                   <Avatar className="size-8.5 rounded-sm">
-                    <AvatarFallback className={`
+                    <AvatarFallback
+                      className={`
                       shrink-0 rounded-sm bg-primary/10 text-primary
-                    `}>
+                    `}
+                    >
                       {metric.icons}
                     </AvatarFallback>
                   </Avatar>
@@ -144,18 +150,23 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               ))}
             </div>
           </div>
-          <Card className={`
+          <Card
+            className={`
             gap-4 py-4 shadow-none
             lg:col-span-2
-          `}>
+          `}
+          >
             <CardHeader className="gap-1">
               <CardTitle className="text-lg font-semibold">Revenue goal</CardTitle>
             </CardHeader>
 
             <CardContent className="px-0">
-              <ChartContainer config={revenueChartConfig} className={`
+              <ChartContainer
+                config={revenueChartConfig}
+                className={`
                 h-38.5 w-full
-              `}>
+              `}
+              >
                 <PieChart margin={{ top: 0, bottom: 0, left: 0, right: 0 }}>
                   <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
                   <Pie
@@ -212,33 +223,43 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
           </Card>
         </div>
         <Card className="shadow-none">
-          <CardContent className={`
+          <CardContent
+            className={`
             grid gap-4 px-4
             lg:grid-cols-5
-          `}>
+          `}
+          >
             <div className="flex flex-col justify-center gap-6">
               <span className="text-lg font-semibold">Sales plan</span>
-              <span className={`
+              <span
+                className={`
                 max-lg:5xl
                 text-6xl
-              `}>{salesPlanPercentage}%</span>
+              `}
+              >
+                {salesPlanPercentage}%
+              </span>
               <span className="text-sm text-muted-foreground">
                 Percentage profit from total sales
               </span>
             </div>
-            <div className={`
+            <div
+              className={`
               flex flex-col gap-6 text-lg
               md:col-span-4
-            `}>
+            `}
+            >
               <span className="font-medium">Cohort analysis indicators</span>
               <span className="text-wrap text-muted-foreground">
                 Analyzes the behaviour of a group of users who joined a product/service at the same
                 time. over a certain period.
               </span>
-              <div className={`
+              <div
+                className={`
                 grid gap-6
                 md:grid-cols-2
-              `}>
+              `}
+              >
                 <div className="flex items-center gap-2">
                   <ChartNoAxesCombinedIcon className="size-6" />
                   <span className="text-lg font-medium">Open Statistics</span>
@@ -249,9 +270,12 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                 </div>
               </div>
 
-              <ChartContainer config={salesChartConfig} className={`
+              <ChartContainer
+                config={salesChartConfig}
+                className={`
                 h-7.75 w-full
-              `}>
+              `}
+              >
                 <BarChart
                   accessibilityLayer
                   data={salesChartData}

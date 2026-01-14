@@ -53,7 +53,7 @@ function transform(content) {
   }
 
   // Replace onChange={handleImageUpload} -> onChange={handleFileSelect}
-  out = out.replaceAll('onChange={handleImageUpload}', "onChange={handleFileSelect}");
+  out = out.replaceAll("onChange={handleImageUpload}", "onChange={handleFileSelect}");
 
   // Replace clicks that invoke document.getElementById(...).click() to use ref
   out = out.replaceAll(

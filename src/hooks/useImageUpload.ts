@@ -181,7 +181,9 @@ export function useImageUpload(options: UseImageUploadOptions = {}): UseImageUpl
       // Clear success state after short delay
       setTimeout(() => setSuccess(false), 2000);
     } catch (error_) {
-      setError(error_ instanceof Error ? error_.message : "Failed to upload image. Please try again.");
+      setError(
+        error_ instanceof Error ? error_.message : "Failed to upload image. Please try again."
+      );
       setUploadProgress(0);
     } finally {
       setIsUploading(false);

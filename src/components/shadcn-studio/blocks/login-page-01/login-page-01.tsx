@@ -8,20 +8,24 @@ import LoginForm from "@/components/shadcn-studio/blocks/login-page-01/login-for
 
 const Login = () => {
   return (
-    <div className={`
+    <div
+      className={`
       relative flex h-auto min-h-screen items-center justify-center
       overflow-x-hidden px-4 py-10
       sm:px-6
       lg:px-8
-    `}>
+    `}
+    >
       <div className="absolute">
         <AuthBackgroundShape />
       </div>
 
-      <Card className={`
+      <Card
+        className={`
         z-1 w-full border-none shadow-md
         sm:max-w-lg
-      `}>
+      `}
+      >
         <CardHeader className="gap-6">
           <Logo className="gap-3" />
 
@@ -36,19 +40,24 @@ const Login = () => {
         <CardContent>
           <p className="mb-6 text-muted-foreground">
             Login with{" "}
-            <a href="" className={`
+            <a
+              href=""
+              className={`
               text-card-foreground
               hover:underline
-            `}>
+            `}
+            >
               Magic Link
             </a>
           </p>
 
           {/* Quick Login Buttons */}
-          <div className={`
+          <div
+            className={`
             mb-6 flex flex-wrap gap-4
             sm:gap-6
-          `}>
+          `}
+          >
             <Button variant="outline" className="grow">
               Login as User
             </Button>
@@ -63,10 +72,13 @@ const Login = () => {
 
             <p className="text-center text-muted-foreground">
               New on our platform?{" "}
-              <a href="" className={`
+              <a
+                href=""
+                className={`
                 text-card-foreground
                 hover:underline
-              `}>
+              `}
+              >
                 Create an account
               </a>
             </p>

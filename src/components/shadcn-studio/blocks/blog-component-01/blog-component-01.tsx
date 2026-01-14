@@ -20,28 +20,36 @@ type BlogCard = {
 
 const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
   return (
-    <section className={`
+    <section
+      className={`
       py-8
       sm:py-16
       lg:py-24
-    `}>
-      <div className={`
+    `}
+    >
+      <div
+        className={`
         mx-auto max-w-7xl px-4
         sm:px-6
         lg:px-8
-      `}>
+      `}
+      >
         {/* Header */}
-        <div className={`
+        <div
+          className={`
           mb-12 space-y-4 text-center
           sm:mb-16
           lg:mb-24
-        `}>
+        `}
+        >
           <p className="text-sm font-medium text-primary uppercase">Blog list</p>
-          <h2 className={`
+          <h2
+            className={`
             text-2xl font-semibold
             md:text-3xl
             lg:text-4xl
-          `}>
+          `}
+          >
             Plan your upcoming journey.
           </h2>
           <p className="text-xl text-muted-foreground">
@@ -50,16 +58,21 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
           </p>
         </div>
 
-        <div className={`
+        <div
+          className={`
           grid grid-cols-1 gap-6
           md:grid-cols-2
           lg:grid-cols-3
-        `}>
+        `}
+        >
           {blogCards.map((item, index) => (
-            <Card className={`
+            <Card
+              className={`
               pt-0 shadow-none
               max-lg:last:col-span-full
-            `} key={index}>
+            `}
+              key={index}
+            >
               <CardContent className="px-0">
                 <img
                   src={item.img}
@@ -74,16 +87,22 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
                 <CardDescription className="text-base">{item.description}</CardDescription>
               </CardHeader>
               <CardFooter>
-                <Button className={`
+                <Button
+                  className={`
                   group rounded-lg text-base
                   has-[>svg]:px-6
-                `} size="lg" asChild>
+                `}
+                  size="lg"
+                  asChild
+                >
                   <a href={item.blogLink}>
                     Read More
-                    <ArrowRightIcon className={`
+                    <ArrowRightIcon
+                      className={`
                       transition-transform duration-200
                       group-hover:translate-x-0.5
-                    `} />
+                    `}
+                    />
                   </a>
                 </Button>
               </CardFooter>

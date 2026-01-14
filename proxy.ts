@@ -10,6 +10,7 @@
 // ═══════════════════════════════════════════════════
 
 import { auth } from "auth";
+import type { NextAuthRequest } from "next-auth";
 import { NextResponse } from "next/server";
 
 // ═══════════════════════════════════════════════════
@@ -67,7 +68,7 @@ function matchRoute(pathname: string, routes: readonly string[]): boolean {
 // MIDDLEWARE HANDLER
 // ═══════════════════════════════════════════════════
 
-export default auth((req) => {
+export default auth((req: NextAuthRequest): NextResponse<unknown> => {
   const { pathname } = req.nextUrl;
   const isAuthenticated = !!req.auth;
 
@@ -108,7 +109,7 @@ export default auth((req) => {
 
   if (isAdminRoute) {
     const authRecord = req.auth as unknown as Record<string, unknown> | undefined;
-    const userRole = (authRecord?.user as Record<string, unknown> | undefined)?.role as
+    const userRole = (authRecord?.["user"] as Record<string, unknown> | undefined)?.["role"] as
       | string
       | undefined;
 

@@ -23,13 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  createUserSchema,
-  updateUserSchema
-  
-  
-} from "@/lib/validations";
-import type {CreateUserInput, UpdateUserInput} from "@/lib/validations";
+import type { CreateUserInput, UpdateUserInput } from "@/lib/validations";
+import { createUserSchema, updateUserSchema } from "@/lib/validations";
 import type { User } from "@/types/database";
 import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";

@@ -4,8 +4,8 @@
 
 import { db } from "@/database/db";
 import { artist, author, comic, comicToGenre, type as comicType } from "@/database/schema";
-import { and, asc, desc, eq, ilike, or, sql  } from "drizzle-orm";
-import type {SQL} from "drizzle-orm";
+import type { SQL } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, or, sql } from "drizzle-orm";
 // ═══════════════════════════════════════════════════
 // TYPE DEFINITIONS
 // ═══════════════════════════════════════════════════
@@ -128,11 +128,13 @@ export async function fullTextSearch(
       case "relevance":
       default:
         // Rank by relevance if search query provided
-        orderBy = tsQuery ? sql`ts_rank(searchVector, to_tsquery('english', ${tsQuery})) DESC` : desc(comic.createdAt);
+        orderBy = tsQuery
+          ? sql`ts_rank(searchVector, to_tsquery('english', ${tsQuery})) DESC`
+          : desc(comic.createdAt);
     }
 
     // Execute search query
-    const whereClause = conditions.length > 0 ? and(...(conditions)) : undefined;
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
     const results = await db
       .select({
@@ -262,7 +264,7 @@ export async function simpleSearch(
         orderBy = sortOrder(comic.createdAt);
     }
 
-    const whereClause = conditions.length > 0 ? and(...(conditions)) : undefined;
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
     const results = await db
       .select({

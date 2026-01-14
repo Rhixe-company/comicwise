@@ -195,7 +195,7 @@ async function fixScriptIssues() {
     let content = await fs.readFile(healthCommandPath, "utf-8");
 
     // Fix type assertion for options.verbose
-    content = content.replaceAll('if (options.verbose)', "if ((options as any).verbose)");
+    content = content.replaceAll("if (options.verbose)", "if ((options as any).verbose)");
 
     await fs.writeFile(healthCommandPath, content);
     console.log("✓ Fixed scripts/cli/commands/health.ts");

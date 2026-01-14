@@ -34,7 +34,7 @@ export class FileUtils {
       // Handle wildcard patterns
       const dir = path.dirname(pattern);
       const basePattern = path.basename(pattern);
-      const regex = new RegExp("^" + basePattern.replaceAll('*', ".*").replaceAll('?', ".") + "$");
+      const regex = new RegExp("^" + basePattern.replaceAll("*", ".*").replaceAll("?", ".") + "$");
 
       const files = await fs.readdir(dir);
       const matches = files

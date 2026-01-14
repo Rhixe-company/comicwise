@@ -23,10 +23,12 @@ const StatisticsCard = ({
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="flex items-center">
-        <div className={`
+        <div
+          className={`
           flex size-8 shrink-0 items-center justify-center rounded-md
           bg-primary/10 text-primary
-        `}>
+        `}
+        >
           {icon}
         </div>
         <span className="text-2xl">{value}</span>

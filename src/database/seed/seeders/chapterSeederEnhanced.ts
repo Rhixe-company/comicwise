@@ -6,8 +6,8 @@
  */
 
 import { chapter, comic } from "@/database/schema";
-import { chapterSeedSchema  } from "@/lib/validations";
-import type {ChapterSeed} from "@/lib/validations";
+import type { ChapterSeed } from "@/lib/validations";
+import { chapterSeedSchema } from "@/lib/validations";
 import { eq } from "drizzle-orm";
 import { BaseSeeder, database } from "../baseSeeder";
 import { logger } from "../logger";

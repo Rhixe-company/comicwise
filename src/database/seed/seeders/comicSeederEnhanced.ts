@@ -6,8 +6,8 @@
  */
 
 import { artist, author, comic, comicToGenre, type as comicType, genre } from "@/database/schema";
-import { comicSeedSchema  } from "@/lib/validations";
-import type {ComicSeed} from "@/lib/validations";
+import type { ComicSeed } from "@/lib/validations";
+import { comicSeedSchema } from "@/lib/validations";
 import { eq } from "drizzle-orm";
 import { BaseSeeder, database } from "../baseSeeder";
 import { logger } from "../logger";

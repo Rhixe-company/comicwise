@@ -156,14 +156,16 @@ function validateEnvironment(): Environment {
     // Parse with fallback support for legacy SMTP variables and provide clear error output
     const parsedEnvironment = environmentSchema.parse({
       ...process.env,
-      PORT: process.env.PORT ?? "3000",
-      EMAIL_SERVER_HOST: process.env.EMAIL_SERVER_HOST ?? process.env.SMTP_HOST ?? "smtp.gmail.com",
-      EMAIL_SERVER_PORT: process.env.EMAIL_SERVER_PORT ?? process.env.SMTP_PORT ?? "587",
-      EMAIL_SERVER_USER: process.env.EMAIL_SERVER_USER ?? process.env.SMTP_USER ?? "",
-      EMAIL_SERVER_PASSWORD: process.env.EMAIL_SERVER_PASSWORD ?? process.env.SMTP_PASSWORD ?? "",
-      EMAIL_FROM: process.env.EMAIL_FROM ?? process.env.SMTP_FROM ?? "noreplycomicwise.com",
-      EMAIL_SECURE: process.env.EMAIL_SECURE ?? process.env.SMTP_SECURE ?? "false",
-      NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+      PORT: process.env["PORT"] ?? "3000",
+      EMAIL_SERVER_HOST:
+        process.env["EMAIL_SERVER_HOST"] ?? process.env["SMTP_HOST"] ?? "smtp.gmail.com",
+      EMAIL_SERVER_PORT: process.env["EMAIL_SERVER_PORT"] ?? process.env["SMTP_PORT"] ?? "587",
+      EMAIL_SERVER_USER: process.env["EMAIL_SERVER_USER"] ?? process.env["SMTP_USER"] ?? "",
+      EMAIL_SERVER_PASSWORD:
+        process.env["EMAIL_SERVER_PASSWORD"] ?? process.env["SMTP_PASSWORD"] ?? "",
+      EMAIL_FROM: process.env["EMAIL_FROM"] ?? process.env["SMTP_FROM"] ?? "noreplycomicwise.com",
+      EMAIL_SECURE: process.env["EMAIL_SECURE"] ?? process.env["SMTP_SECURE"] ?? "false",
+      NEXT_PUBLIC_APP_URL: process.env["NEXT_PUBLIC_APP_URL"] ?? "http://localhost:3000",
     });
     return parsedEnvironment;
   } catch (error) {
@@ -183,23 +185,25 @@ function validateEnvironment(): Environment {
         console.warn(`⚠️  Environment validation warnings:\n  ${missingVariables}\n`);
       }
       // Return with defaults for non-critical vars
-      return environmentSchema.parse({
+      const data = environmentSchema.parse({
         ...process.env,
-        PORT: process.env.PORT ?? "3000",
-        DATABASE_URL: process.env.DATABASE_URL ?? "",
-        NEXTAUTH_SECRET: process.env.AUTH_SECRET ?? "",
-        NEXTAUTH_URL: process.env.AUTH_URL ?? "",
+        PORT: process.env["PORT"] ?? "3000",
+        DATABASE_URL: process.env["DATABASE_URL"] ?? "",
+        NEXTAUTH_SECRET: process.env["AUTH_SECRET"] ?? "",
+        NEXTAUTH_URL: process.env["AUTH_URL"] ?? "",
         EMAIL_SERVER_HOST:
-          process.env.EMAIL_SERVER_HOST ?? process.env.SMTP_HOST ?? "smtp.gmail.com",
-        EMAIL_SERVER_PORT: process.env.EMAIL_SERVER_PORT ?? process.env.SMTP_PORT ?? "587",
-        EMAIL_SERVER_USER: process.env.EMAIL_SERVER_USER ?? process.env.SMTP_USER ?? "",
-        EMAIL_SERVER_PASSWORD: process.env.EMAIL_SERVER_PASSWORD ?? process.env.SMTP_PASSWORD ?? "",
-        EMAIL_FROM: process.env.EMAIL_FROM ?? process.env.SMTP_FROM ?? "noreplycomicwise.com",
-        EMAIL_SECURE: process.env.EMAIL_SECURE ?? process.env.SMTP_SECURE ?? "false",
-        NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+          process.env["EMAIL_SERVER_HOST"] ?? process.env["SMTP_HOST"] ?? "smtp.gmail.com",
+        EMAIL_SERVER_PORT: process.env["EMAIL_SERVER_PORT"] ?? process.env["SMTP_PORT"] ?? "587",
+        EMAIL_SERVER_USER: process.env["EMAIL_SERVER_USER"] ?? process.env["SMTP_USER"] ?? "",
+        EMAIL_SERVER_PASSWORD:
+          process.env["EMAIL_SERVER_PASSWORD"] ?? process.env["SMTP_PASSWORD"] ?? "",
+        EMAIL_FROM: process.env["EMAIL_FROM"] ?? process.env["SMTP_FROM"] ?? "noreplycomicwise.com",
+        EMAIL_SECURE: process.env["EMAIL_SECURE"] ?? process.env["SMTP_SECURE"] ?? "false",
+        NEXT_PUBLIC_APP_URL: process.env["NEXT_PUBLIC_APP_URL"] ?? "http://localhost:3000",
         NODE_ENV: process.env.NODE_ENV ?? "development",
-        UPLOAD_PROVIDER: process.env.UPLOAD_PROVIDER ?? "local",
+        UPLOAD_PROVIDER: process.env["UPLOAD_PROVIDER"] ?? "local",
       });
+      return data;
     }
     throw error;
   }

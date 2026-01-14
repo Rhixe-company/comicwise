@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { UploadIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
-import { useDropzone  } from "react-dropzone";
-import type {DropzoneOptions} from "react-dropzone";
+import type { DropzoneOptions } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import { cn } from "utils";
 
 interface DropzoneContextType {

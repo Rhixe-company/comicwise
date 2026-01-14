@@ -6,8 +6,8 @@
  */
 
 import { user } from "@/database/schema";
-import { userSeedSchema  } from "@/lib/validations";
-import type {UserSeed} from "@/lib/validations";
+import type { UserSeed } from "@/lib/validations";
+import { userSeedSchema } from "@/lib/validations";
 import { eq, sql } from "drizzle-orm";
 import { BaseSeeder, database } from "../baseSeeder";
 import { logger } from "../logger";

@@ -273,7 +273,7 @@ async function main() {
 }
 
 // Run if executed directly
-const isMainModule = import.meta.url === `file://${process.argv[1].replaceAll('\\', "/")}`;
+const isMainModule = import.meta.url === `file://${process.argv[1].replaceAll("\\", "/")}`;
 if (isMainModule) {
   main();
 }

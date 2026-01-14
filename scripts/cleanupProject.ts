@@ -28,8 +28,8 @@
  */
 
 import * as fs from "fs";
-import * as path from "path";
 import { globSync } from "glob";
+import * as path from "path";
 
 const rootDir = process.cwd();
 const args = new Set(process.argv.slice(2));
@@ -89,7 +89,10 @@ function removeBackupFiles(): CleanupStats {
       try {
         const stats_file = fs.statSync(file);
         if (dryRun) {
-          log(`  [DRY-RUN] Would remove: ${path.relative(rootDir, file)} (${stats_file.size} bytes)`, "yellow");
+          log(
+            `  [DRY-RUN] Would remove: ${path.relative(rootDir, file)} (${stats_file.size} bytes)`,
+            "yellow"
+          );
         } else {
           fs.unlinkSync(file);
           log(`  ✓ Removed: ${path.relative(rootDir, file)}`, "green");
@@ -245,7 +248,12 @@ function findUnusedComponents(): string[] {
 // GENERATE CLEANUP REPORT
 // ═══════════════════════════════════════════════════════════════════════════
 
-function generateReport(backupStats: CleanupStats, tempStats: CleanupStats, duplicates: any[], unused: string[]) {
+function generateReport(
+  backupStats: CleanupStats,
+  tempStats: CleanupStats,
+  duplicates: any[],
+  unused: string[]
+) {
   let report = `# ComicWise Project Cleanup Report\n\n`;
   report += `**Generated:** ${new Date().toLocaleString()}\n`;
   report += `**Mode:** ${dryRun ? "DRY-RUN (No changes made)" : "APPLIED (Changes saved)"}\n\n`;
@@ -314,8 +322,14 @@ async function main() {
 
     section("Cleanup Report");
 
-    log(`Backup Files: ${backupStats.filesRemoved} removed, ${backupStats.filesPreserved} preserved`, "cyan");
-    log(`Temporary Files: ${tempStats.filesRemoved} removed, ${tempStats.filesPreserved} preserved`, "cyan");
+    log(
+      `Backup Files: ${backupStats.filesRemoved} removed, ${backupStats.filesPreserved} preserved`,
+      "cyan"
+    );
+    log(
+      `Temporary Files: ${tempStats.filesRemoved} removed, ${tempStats.filesPreserved} preserved`,
+      "cyan"
+    );
 
     if (duplicates.length > 0) {
       log(`\n⚠️  Found ${duplicates.length} duplicate file groups`, "yellow");

@@ -87,8 +87,12 @@ async function handleSearch(searchParams: URLSearchParams) {
     publicationYearTo: searchParams.get("yearTo")
       ? Number.parseInt(searchParams.get("yearTo")!)
       : undefined,
-    minViews: searchParams.get("minViews") ? Number.parseInt(searchParams.get("minViews")!) : undefined,
-    maxViews: searchParams.get("maxViews") ? Number.parseInt(searchParams.get("maxViews")!) : undefined,
+    minViews: searchParams.get("minViews")
+      ? Number.parseInt(searchParams.get("minViews")!)
+      : undefined,
+    maxViews: searchParams.get("maxViews")
+      ? Number.parseInt(searchParams.get("maxViews")!)
+      : undefined,
     sortBy:
       (searchParams.get("sortBy") as
         | "title"

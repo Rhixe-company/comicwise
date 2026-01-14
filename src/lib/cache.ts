@@ -32,7 +32,7 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
           | undefined;
         if (!getFunction) return null;
         const result = await getFunction(key);
-        return (result) ?? null;
+        return result ?? null;
       },
       async set(key: string, value: string, ttlSeconds?: number) {
         const setFunction = (rawClient as Record<string, unknown>).set as
@@ -538,7 +538,11 @@ export class RedisCache {
    * @param fetchFunction
    * @param options
    */
-  async getOrSet<T>(key: string, fetchFunction: () => Promise<T>, options?: CacheOptions): Promise<T> {
+  async getOrSet<T>(
+    key: string,
+    fetchFunction: () => Promise<T>,
+    options?: CacheOptions
+  ): Promise<T> {
     // Try to get from cache first
     const cached = await this.get<T>(key);
     if (cached !== null) {
@@ -634,9 +638,8 @@ export class RedisCache {
         | undefined;
       const info = infoFunction ? await infoFunction("stats") : "";
       const memory = infoFunction ? await infoFunction("memory") : "";
-      const databasesizeFunction = (this.redis as unknown as Record<string, unknown>).databasesize as
-        | (() => Promise<number>)
-        | undefined;
+      const databasesizeFunction = (this.redis as unknown as Record<string, unknown>)
+        .databasesize as (() => Promise<number>) | undefined;
       const databasesize = databasesizeFunction ? await databasesizeFunction() : 0;
 
       const stats = {

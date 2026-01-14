@@ -120,10 +120,12 @@ export default function ClientImageUploader({
   return (
     <div className={cn("space-y-4", className)}>
       {value ? (
-        <div className={`
+        <div
+          className={`
           relative aspect-video w-full max-w-md overflow-hidden rounded-lg
           border bg-muted
-        `}>
+        `}
+        >
           <Image
             src={value}
             alt="Uploaded image"
@@ -209,9 +211,13 @@ export default function ClientImageUploader({
       />
 
       {error && (
-        <div className={`
+        <div
+          className={`
           rounded-md bg-destructive/15 p-3 text-sm text-destructive
-        `}>{error}</div>
+        `}
+        >
+          {error}
+        </div>
       )}
     </div>
   );

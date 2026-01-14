@@ -24,8 +24,8 @@
  */
 
 import * as fs from "fs";
-import * as path from "path";
 import { globSync } from "glob";
+import * as path from "path";
 
 interface AnalysisResult {
   timestamp: string;
@@ -168,7 +168,9 @@ function analyzeCodeQuality() {
     if (anyMatches) stats.anyTypes += anyMatches.length;
 
     // Count functions longer than 100 lines
-    const functionMatches = content.match(/(?:function|const\s+\w+\s*=)\s*(?:async)?\s*(?:\([^)]*\)|function)/g);
+    const functionMatches = content.match(
+      /(?:function|const\s+\w+\s*=)\s*(?:async)?\s*(?:\([^)]*\)|function)/g
+    );
     if (functionMatches) {
       for (const _ of functionMatches) {
         // Rough estimate
@@ -204,7 +206,9 @@ function analyzeArchitecture() {
   };
 
   const components = globSync(`${rootDir}/src/components/**/*.tsx`).length;
-  const pages = globSync(`${rootDir}/src/app/**/*.tsx`).filter((f) => f.includes("page.tsx")).length;
+  const pages = globSync(`${rootDir}/src/app/**/*.tsx`).filter((f) =>
+    f.includes("page.tsx")
+  ).length;
   const api = globSync(`${rootDir}/src/app/api/**/*.ts`).length;
 
   log(`  ✓ ${components} UI components`);
@@ -337,11 +341,24 @@ function generateReport() {
   const security = report.sections.security as any;
   const quality = report.sections.codeQuality as any;
 
-  report.summary.criticalIssues = (security.criticalIssues?.length || 0) + (deps.vulnerableCount || 0);
-  report.summary.warningIssues = (deps.warnings?.length || 0) + (security.warnings?.length || 0) + (quality.warnings?.length || 0);
-  report.summary.overallScore = Math.max(50, 100 - report.summary.criticalIssues * 10 - report.summary.warningIssues * 2);
+  report.summary.criticalIssues =
+    (security.criticalIssues?.length || 0) + (deps.vulnerableCount || 0);
+  report.summary.warningIssues =
+    (deps.warnings?.length || 0) +
+    (security.warnings?.length || 0) +
+    (quality.warnings?.length || 0);
+  report.summary.overallScore = Math.max(
+    50,
+    100 - report.summary.criticalIssues * 10 - report.summary.warningIssues * 2
+  );
   report.summary.status =
-    report.summary.overallScore >= 85 ? "excellent" : report.summary.overallScore >= 70 ? "good" : report.summary.overallScore >= 50 ? "fair" : "poor";
+    report.summary.overallScore >= 85
+      ? "excellent"
+      : report.summary.overallScore >= 70
+        ? "good"
+        : report.summary.overallScore >= 50
+          ? "fair"
+          : "poor";
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -406,10 +423,30 @@ async function main() {
 
     section("Analysis Complete");
 
-    log(`Overall Score: ${report.summary.overallScore}/100`, report.summary.status === "excellent" ? "green" : report.summary.status === "good" ? "blue" : "yellow");
-    log(`Status: ${report.summary.status.toUpperCase()}`, report.summary.status === "excellent" ? "green" : report.summary.status === "good" ? "blue" : "yellow");
-    log(`Critical Issues: ${report.summary.criticalIssues}`, report.summary.criticalIssues > 0 ? "red" : "green");
-    log(`Warnings: ${report.summary.warningIssues}`, report.summary.warningIssues > 0 ? "yellow" : "green");
+    log(
+      `Overall Score: ${report.summary.overallScore}/100`,
+      report.summary.status === "excellent"
+        ? "green"
+        : report.summary.status === "good"
+          ? "blue"
+          : "yellow"
+    );
+    log(
+      `Status: ${report.summary.status.toUpperCase()}`,
+      report.summary.status === "excellent"
+        ? "green"
+        : report.summary.status === "good"
+          ? "blue"
+          : "yellow"
+    );
+    log(
+      `Critical Issues: ${report.summary.criticalIssues}`,
+      report.summary.criticalIssues > 0 ? "red" : "green"
+    );
+    log(
+      `Warnings: ${report.summary.warningIssues}`,
+      report.summary.warningIssues > 0 ? "yellow" : "green"
+    );
 
     section("Top Recommendations");
     report.recommendations.slice(0, 5).forEach((rec) => {

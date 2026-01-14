@@ -51,7 +51,7 @@ for (const file of files) {
   let fileFixed = false;
 
   for (const [oldImport, newImport] of Object.entries(actionImportMap)) {
-    const regex = new RegExp(`from ["']${oldImport.replaceAll('/', "\\/")}["']`, "g");
+    const regex = new RegExp(`from ["']${oldImport.replaceAll("/", "\\/")}["']`, "g");
     if (regex.test(content)) {
       content = content.replace(regex, `from "${newImport}"`);
       fileFixed = true;

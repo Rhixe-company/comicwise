@@ -15,10 +15,13 @@ function ResizablePanelGroup({
   return (
     <Group
       data-slot="resizable-panel-group"
-      className={cn(`
+      className={cn(
+        `
         flex h-full w-full
         data-[panel-group-direction=vertical]:flex-col
-      `, className)}
+      `,
+        className
+      )}
       {...props}
     />
   );
@@ -59,10 +62,12 @@ function ResizableHandle({
       {...props}
     >
       {withHandle && (
-        <div className={`
+        <div
+          className={`
           z-10 flex h-4 w-3 items-center justify-center rounded-xs border
           bg-border
-        `}>
+        `}
+        >
           <GripVerticalIcon className="size-2.5" />
         </div>
       )}

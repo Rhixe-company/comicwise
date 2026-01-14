@@ -1,21 +1,21 @@
 #!/usr/bin/env tsx
 /**
  * ComicWise - Documentation Generator
- * 
+ *
  * Generates comprehensive project documentation including:
  * - API Reference
  * - Setup Instructions
  * - Usage Guidelines
  * - Architecture Overview
  * - Troubleshooting Guide
- * 
+ *
  * Usage: pnpm tsx scripts/generateDocs.ts [--format=html|md]
  */
 
+import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import chalk from "chalk";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -61,7 +61,9 @@ class DocumentationGenerator {
   }
 
   private generateOverview() {
-    this.addSection("Project Overview", `
+    this.addSection(
+      "Project Overview",
+      `
 ComicWise is a full-featured web comic reading and management platform built with modern web technologies.
 
 ### Key Features
@@ -76,11 +78,14 @@ ComicWise is a full-featured web comic reading and management platform built wit
 - **Background Jobs**: Queue system with BullMQ
 - **Email**: Automated notifications with React Email
 - **SEO**: Optimized metadata and sitemaps
-    `);
+    `
+    );
   }
 
   private generateQuickStart() {
-    this.addSection("Quick Start", `
+    this.addSection(
+      "Quick Start",
+      `
 ## Prerequisites
 
 - Node.js 20+
@@ -112,11 +117,14 @@ pnpm dev
 \`\`\`
 
 The application will be available at \`http://localhost:3000\`
-    `);
+    `
+    );
   }
 
   private generateSetup() {
-    this.addSection("Detailed Setup", `
+    this.addSection(
+      "Detailed Setup",
+      `
 ### Environment Configuration
 
 Create a \`.env.local\` file based on \`.env.example\`:
@@ -176,11 +184,14 @@ pnpm docker:logs
 # Stop services
 pnpm docker:down
 \`\`\`
-    `);
+    `
+    );
   }
 
   private generateEnvironment() {
-    this.addSection("Environment Variables", `
+    this.addSection(
+      "Environment Variables",
+      `
 ### Required Variables
 
 | Variable | Description | Example |
@@ -210,11 +221,14 @@ Validate your environment configuration:
 \`\`\`bash
 pnpm tsx scripts/envValidator.ts --report
 \`\`\`
-    `);
+    `
+    );
   }
 
   private generateDatabase() {
-    this.addSection("Database", `
+    this.addSection(
+      "Database",
+      `
 ### Schema
 
 ComicWise uses PostgreSQL with the following main tables:
@@ -250,11 +264,14 @@ Access database through Drizzle Studio:
 \`\`\`bash
 pnpm db:studio
 \`\`\`
-    `);
+    `
+    );
   }
 
   private generateSeeding() {
-    this.addSection("Database Seeding", `
+    this.addSection(
+      "Database Seeding",
+      `
 ### Seed Data Files
 
 Place seed data in JSON format at project root:
@@ -308,11 +325,14 @@ Example seed data structure (users.json):
   }
 ]
 \`\`\`
-    `);
+    `
+    );
   }
 
   private generateAPI() {
-    this.addSection("API Reference", `
+    this.addSection(
+      "API Reference",
+      `
 ### Authentication Endpoints
 
 - \`POST /api/auth/signin\` - Sign in user
@@ -357,11 +377,14 @@ API requests are rate-limited based on user role:
 - **Unauthenticated**: 10 requests per minute
 - **Authenticated User**: 100 requests per minute
 - **Admin**: 500 requests per minute
-    `);
+    `
+    );
   }
 
   private generateTesting() {
-    this.addSection("Testing", `
+    this.addSection(
+      "Testing",
+      `
 ### Unit Tests
 
 Run unit tests with Vitest:
@@ -410,11 +433,14 @@ pnpm ci:full
 # Type check, lint, and test
 pnpm validate
 \`\`\`
-    `);
+    `
+    );
   }
 
   private generateDeployment() {
-    this.addSection("Deployment", `
+    this.addSection(
+      "Deployment",
+      `
 ### Production Build
 
 \`\`\`bash
@@ -459,11 +485,14 @@ docker build -t comicwise:latest .
 # Run container
 docker run -p 3000:3000 --env-file .env.local comicwise:latest
 \`\`\`
-    `);
+    `
+    );
   }
 
   private generateTroubleshooting() {
-    this.addSection("Troubleshooting", `
+    this.addSection(
+      "Troubleshooting",
+      `
 ### Common Issues
 
 #### Database Connection Failed
@@ -531,7 +560,8 @@ pnpm health:db
 pnpm health:redis
 pnpm health:check
 \`\`\`
-    `);
+    `
+    );
   }
 
   private async saveDocumentation(): Promise<void> {
@@ -543,7 +573,7 @@ pnpm health:check
     for (let i = 0; i < this.sections.length; i++) {
       const section = this.sections[i];
       const heading = "#".repeat(section.level || 1);
-      markdown += `${i + 1}. [${section.title}](#${section.title.toLowerCase().replaceAll(' ', "-")})\n`;
+      markdown += `${i + 1}. [${section.title}](#${section.title.toLowerCase().replaceAll(" ", "-")})\n`;
     }
 
     markdown += "\n---\n\n";

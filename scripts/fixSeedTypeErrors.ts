@@ -57,7 +57,7 @@ updateFile("src/database/seed/dataLoader.ts", (content) => {
 updateFile("src/database/seed/seeders/chapterSeederEnhanced.ts", (content) => {
   // Fix slug handling (Type 'string | null' is not assignable to type 'string')
   content = content.replaceAll(
-    'slug: raw.slug,',
+    "slug: raw.slug,",
     "slug: raw.slug ?? `chapter-${raw.id ?? raw.chapterNumber}`,\n"
   );
 
@@ -68,31 +68,34 @@ updateFile("src/database/seed/seeders/chapterSeederEnhanced.ts", (content) => {
   );
 
   // Fix comic ID conversions (Argument of type 'number' is not assignable to parameter of type 'string')
-  content = content.replaceAll(/getOrCreateComic\((\w+\.comicId)\)/g, "getOrCreateComic(String($1))");
+  content = content.replaceAll(
+    /getOrCreateComic\((\w+\.comicId)\)/g,
+    "getOrCreateComic(String($1))"
+  );
 
   // Fix comicId type (Type 'number' is not assignable to type 'string')
-  content = content.replaceAll('comicId: transformed.comicId,', "comicId: transformed.comicId,");
+  content = content.replaceAll("comicId: transformed.comicId,", "comicId: transformed.comicId,");
 
   // Fix chapterNumber type (Type 'string' is not assignable to type 'number')
   content = content.replaceAll(
-    'chapterNumber: existing.slug,',
+    "chapterNumber: existing.slug,",
     "chapterNumber: existing.chapterNumber,"
   );
 
   // Remove non-existent 'name' property
   content = content.replaceAll(
-    'const name = chapter.name;',
+    "const name = chapter.name;",
     "// name property removed - not in schema"
   );
 
   // Remove non-existent 'content' property
   content = content.replaceAll(
-    'const content = chapter.content;',
+    "const content = chapter.content;",
     "// content property removed - not in schema"
   );
 
   // Remove updatedAt from updates (not in schema)
-  content = content.replaceAll('updatedAt: new Date(),', "// updatedAt removed - not in schema");
+  content = content.replaceAll("updatedAt: new Date(),", "// updatedAt removed - not in schema");
 
   return content;
 });
@@ -101,22 +104,22 @@ updateFile("src/database/seed/seeders/chapterSeederEnhanced.ts", (content) => {
 updateFile("src/database/seed/seeders/comicSeederEnhanced.ts", (content) => {
   // Fix slug handling (Type 'string | undefined' is not assignable to type 'string')
   content = content.replaceAll(
-    'slug: raw.slug,',
+    "slug: raw.slug,",
     "slug: raw.slug ?? `comic-${raw.id ?? Date.now()}`,\n"
   );
 
   // Fix title handling (Type 'string | null' is not assignable to type 'string')
-  content = content.replaceAll('title: raw.title,', 'title: raw.title ?? "Untitled Comic",\n');
+  content = content.replaceAll("title: raw.title,", 'title: raw.title ?? "Untitled Comic",\n');
 
   // Fix description handling
   content = content.replaceAll(
-    'description: raw.description,',
+    "description: raw.description,",
     'description: raw.description ?? "",\n'
   );
 
   // Fix rating type (Type 'number | null' is not assignable to type 'string | null | undefined')
   content = content.replaceAll(
-    'rating: raw.rating,',
+    "rating: raw.rating,",
     "rating: raw.rating ? String(raw.rating) : null,\n"
   );
 
@@ -127,16 +130,19 @@ updateFile("src/database/seed/seeders/comicSeederEnhanced.ts", (content) => {
   );
 
   // Fix Type 'number' is not assignable to type 'string'
-  content = content.replaceAll(/(authorId|artistId|typeId): transformed\.\1,/g, "$1: transformed.$1,");
+  content = content.replaceAll(
+    /(authorId|artistId|typeId): transformed\.\1,/g,
+    "$1: transformed.$1,"
+  );
 
   // Fix genre IDs in relations
   content = content.replaceAll(
-    '.values({ comicId: String(comic.id), genreId: String(genreId) })',
+    ".values({ comicId: String(comic.id), genreId: String(genreId) })",
     ".values({ comicId: comic.id, genreId })"
   );
 
   // Fix the A_comicId error in genre relations
-  content = content.replaceAll('A_comicId:', "comicId:");
+  content = content.replaceAll("A_comicId:", "comicId:");
 
   return content;
 });
@@ -145,7 +151,7 @@ updateFile("src/database/seed/seeders/comicSeederEnhanced.ts", (content) => {
 updateFile("src/database/seed/seeders/userSeederEnhanced.ts", (content) => {
   // Remove status field
   content = content.replaceAll(
-    'status: raw.status || \'active\',',
+    "status: raw.status || 'active',",
     "// status field removed - not in schema"
   );
 

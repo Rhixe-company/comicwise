@@ -12,7 +12,8 @@ import {
 
 export function SectionCards() {
   return (
-    <div className={`
+    <div
+      className={`
       xl/main:grid-cols-2
       5xl/main:grid-cols-4
       grid grid-cols-1 gap-4 px-4
@@ -20,14 +21,17 @@ export function SectionCards() {
       *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs
       lg:px-6
       dark:*:data-[slot=card]:bg-card
-    `}>
+    `}
+    >
       <Card className="container/card">
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
-          <CardTitle className={`
+          <CardTitle
+            className={`
             [250px]/card:text-3xl
             text-2xl font-semibold tabular-nums
-          `}>
+          `}
+          >
             $1,250.00
           </CardTitle>
           <CardAction>
@@ -47,10 +51,12 @@ export function SectionCards() {
       <Card className="container/card">
         <CardHeader>
           <CardDescription>New Customers</CardDescription>
-          <CardTitle className={`
+          <CardTitle
+            className={`
             [250px]/card:text-3xl
             text-2xl font-semibold tabular-nums
-          `}>
+          `}
+          >
             1,234
           </CardTitle>
           <CardAction>
@@ -70,10 +76,12 @@ export function SectionCards() {
       <Card className="container/card">
         <CardHeader>
           <CardDescription>Active Accounts</CardDescription>
-          <CardTitle className={`
+          <CardTitle
+            className={`
             [250px]/card:text-3xl
             text-2xl font-semibold tabular-nums
-          `}>
+          `}
+          >
             45,678
           </CardTitle>
           <CardAction>
@@ -93,10 +101,12 @@ export function SectionCards() {
       <Card className="container/card">
         <CardHeader>
           <CardDescription>Growth Rate</CardDescription>
-          <CardTitle className={`
+          <CardTitle
+            className={`
             [250px]/card:text-3xl
             text-2xl font-semibold tabular-nums
-          `}>
+          `}
+          >
             4.5%
           </CardTitle>
           <CardAction>

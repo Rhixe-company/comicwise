@@ -34,6 +34,7 @@ comicwise/
 ## Technology Stack
 
 ### Frontend
+
 - **React 19** - UI library
 - **Next.js 16** - React framework
 - **TypeScript 5** - Type safety
@@ -44,6 +45,7 @@ comicwise/
 - **Zustand** - State management
 
 ### Backend
+
 - **Next.js API Routes** - Backend
 - **NextAuth v5** - Authentication
 - **Drizzle ORM** - Database
@@ -52,6 +54,7 @@ comicwise/
 - **Nodemailer** - Email
 
 ### DevOps
+
 - **Docker** - Containerization
 - **GitHub Actions** - CI/CD
 - **Vercel** - Deployment
@@ -80,4 +83,3 @@ Response (JSON)
 4. Token stored in secure cookie
 5. API requests include token in Authorization header
 6. Middleware validates token on protected routes
-

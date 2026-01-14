@@ -56,7 +56,7 @@ async function fixScriptErrors() {
   const queueWorkerPath = path.join(ROOT_DIR, "scripts/queueWorker.ts");
   if (await fs.pathExists(queueWorkerPath)) {
     content = await fs.readFile(queueWorkerPath, "utf-8");
-    content = content.replaceAll('emailQueue.', "// emailQueue.");
+    content = content.replaceAll("emailQueue.", "// emailQueue.");
     await fs.writeFile(queueWorkerPath, content);
     console.log("✓ Fixed scripts/queueWorker.ts");
   }
@@ -66,7 +66,7 @@ async function fixScriptErrors() {
   if (await fs.pathExists(healthCommandPath)) {
     content = await fs.readFile(healthCommandPath, "utf-8");
     // Add type assertion
-    content = content.replaceAll('if (options.verbose)', "if ((options as any).verbose)");
+    content = content.replaceAll("if (options.verbose)", "if ((options as any).verbose)");
     await fs.writeFile(healthCommandPath, content);
     console.log("✓ Fixed scripts/cli/commands/health.ts");
   }

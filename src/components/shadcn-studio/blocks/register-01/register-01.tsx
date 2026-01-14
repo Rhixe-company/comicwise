@@ -8,20 +8,24 @@ import RegisterForm from "@/components/shadcn-studio/blocks/register-01/register
 
 const Register = () => {
   return (
-    <div className={`
+    <div
+      className={`
       relative flex h-auto min-h-screen items-center justify-center
       overflow-x-hidden px-4 py-10
       sm:px-6
       lg:px-8
-    `}>
+    `}
+    >
       <div className="absolute">
         <AuthBackgroundShape />
       </div>
 
-      <Card className={`
+      <Card
+        className={`
         z-1 w-full border-none shadow-md
         sm:max-w-lg
-      `}>
+      `}
+      >
         <CardHeader className="gap-6">
           <Logo className="gap-3" />
 
@@ -40,10 +44,13 @@ const Register = () => {
 
             <p className="text-center text-muted-foreground">
               Already have an account?{" "}
-              <a href="" className={`
+              <a
+                href=""
+                className={`
                 text-card-foreground
                 hover:underline
-              `}>
+              `}
+              >
                 Sign in instead
               </a>
             </p>

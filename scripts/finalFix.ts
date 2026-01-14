@@ -20,7 +20,7 @@ if (existsSync(proxyFile)) {
   // Comment out the auth middleware usage if it's causing issues
   if (content.includes("export default auth((req)")) {
     content = content.replaceAll(
-      'export default auth((req)',
+      "export default auth((req)",
       "// Commented out due to type issues - configure as needed\n// export default auth((req)"
     );
     writeFileSync(proxyFile, content, "utf8");

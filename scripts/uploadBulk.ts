@@ -441,7 +441,7 @@ async function main() {
 }
 
 // Run if executed directly
-if (import.meta.url === `file://${process.argv[1].replaceAll('\\', "/")}`) {
+if (import.meta.url === `file://${process.argv[1].replaceAll("\\", "/")}`) {
   main();
 }
 

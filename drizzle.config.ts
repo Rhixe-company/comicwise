@@ -8,7 +8,7 @@ dotenv.config();
 
 // Get DATABASE_URL with fallback to NEON_DATABASE_URL
 const getDatabaseUrl = (): string => {
-  let url = process.env.DATABASE_URL ?? process.env.NEON_DATABASE_URL;
+  let url = process.env["DATABASE_URL"] ?? process.env["NEON_DATABASE_URL"];
 
   if (!url) {
     try {

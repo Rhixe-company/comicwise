@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { LoadingSwap } from "@/components/ui/loading-swap";
-import {   useTransition } from "react";
-import type {ComponentProps, ReactNode} from "react";
+import type { ComponentProps, ReactNode } from "react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 
 export function ActionButton({
@@ -67,9 +67,12 @@ export function ActionButton({
         props.onClick?.(e);
       }}
     >
-      <LoadingSwap isLoading={isLoading} className={`
+      <LoadingSwap
+        isLoading={isLoading}
+        className={`
         inline-flex items-center gap-2
-      `}>
+      `}
+      >
         {props.children}
       </LoadingSwap>
     </Button>

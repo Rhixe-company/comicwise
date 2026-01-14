@@ -1,14 +1,16 @@
 {
-  "timestamp": "2025-12-29T21:31:54.714Z",
   "projectName": "comicwise",
   "projectVersion": "0.1.0",
-  "summary": {
-    "criticalIssues": 0,
-    "warningIssues": 2,
-    "infoIssues": 0,
-    "overallScore": 96,
-    "status": "excellent"
-  },
+  "recommendations": [
+    "Continue optimizing TypeScript strict mode compliance",
+    "Implement comprehensive E2E testing with Playwright",
+    "Document API endpoints in OpenAPI/Swagger format",
+    "Set up automated dependency updates with Dependabot",
+    "Implement semantic versioning with release automation",
+    "Create architecture decision records (ADRs) for major decisions",
+    "Set up performance monitoring and alerting",
+    "Implement database query optimization and indexing strategy"
+  ],
   "sections": {
     "files": {
       "totalTypeScriptFiles": 509,
@@ -69,9 +71,7 @@
       "uncommentedFunctions": 0,
       "longFunctions": 332,
       "complexCyclomaticFunctions": 0,
-      "warnings": [
-        "⚠️  High number of 'any' types detected (3956)"
-      ]
+      "warnings": ["⚠️  High number of 'any' types detected (3956)"]
     },
     "architecture": {
       "hasBaseSeeder": true,
@@ -89,9 +89,7 @@
       "hasAuthSetup": false,
       "hasRateLimit": false,
       "hasInputValidation": false,
-      "warnings": [
-        "⚠️  .env.local exists (ensure it's in .gitignore)"
-      ],
+      "warnings": ["⚠️  .env.local exists (ensure it's in .gitignore)"],
       "criticalIssues": []
     },
     "performance": {
@@ -101,14 +99,12 @@
       "recommendations": []
     }
   },
-  "recommendations": [
-    "Continue optimizing TypeScript strict mode compliance",
-    "Implement comprehensive E2E testing with Playwright",
-    "Document API endpoints in OpenAPI/Swagger format",
-    "Set up automated dependency updates with Dependabot",
-    "Implement semantic versioning with release automation",
-    "Create architecture decision records (ADRs) for major decisions",
-    "Set up performance monitoring and alerting",
-    "Implement database query optimization and indexing strategy"
-  ]
+  "summary": {
+    "criticalIssues": 0,
+    "warningIssues": 2,
+    "infoIssues": 0,
+    "overallScore": 96,
+    "status": "excellent"
+  },
+  "timestamp": "2025-12-29T21:31:54.714Z"
 }

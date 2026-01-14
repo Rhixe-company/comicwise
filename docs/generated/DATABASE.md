@@ -1,12 +1,11 @@
 # ComicWise Database Schema
 
-**Framework:** Drizzle ORM 0.45.1
-**Database:** PostgreSQL 15+
+**Framework:** Drizzle ORM 0.45.1 **Database:** PostgreSQL 15+
 
 ## Overview
 
-The database uses PostgreSQL with Drizzle ORM for type-safe queries.
-All tables use UUID primary keys and have automatic timestamps.
+The database uses PostgreSQL with Drizzle ORM for type-safe queries. All tables
+use UUID primary keys and have automatic timestamps.
 
 ## Tables
 
@@ -21,7 +20,7 @@ All tables use UUID primary keys and have automatic timestamps.
 ## Migrations
 
 Migrations are managed with Drizzle Kit. Run migrations with:
+
 ```bash
 pnpm db:push
 ```
-

@@ -3,7 +3,6 @@
 // Next.js 16.0.7 + ImageKit Integration
 // ═══════════════════════════════════════════════════
 
- 
 // ts-nocheck - ImageKit SDK has incomplete type definitions
 import { env } from "@/appConfig";
 import ImageKit from "imagekit";

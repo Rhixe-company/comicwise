@@ -15,13 +15,15 @@ import type { SeedOptions } from "@/database/seed/types";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-const seedOptionsSchema = z.object({
-  batchSize: z.number().int().positive().max(1000).optional(),
-  verbose: z.boolean().optional(),
-  dryRun: z.boolean().optional(),
-  skipValidation: z.boolean().optional(),
-  forceOverwrite: z.boolean().optional(),
-}).strict();
+const seedOptionsSchema = z
+  .object({
+    batchSize: z.number().int().positive().max(1000).optional(),
+    verbose: z.boolean().optional(),
+    dryRun: z.boolean().optional(),
+    skipValidation: z.boolean().optional(),
+    forceOverwrite: z.boolean().optional(),
+  })
+  .strict();
 
 function validateOptions(body: unknown): SeedOptions {
   try {
@@ -56,29 +58,28 @@ export async function POST(request: Request) {
 
     let result;
     switch (entities) {
-    case "all":
-      result = await seedAll(options);
-    
-    break;
-    
-    case "users":
-      result = await seedUsers(options);
-    
-    break;
-    
-    case "comics":
-      result = await seedComics(options);
-    
-    break;
-    
-    case "chapters":
-      result = await seedChapters(options);
-    
-    break;
-    
-    default:
-      return errorResponse("Invalid entity specified", 400);
-    
+      case "all":
+        result = await seedAll(options);
+
+        break;
+
+      case "users":
+        result = await seedUsers(options);
+
+        break;
+
+      case "comics":
+        result = await seedComics(options);
+
+        break;
+
+      case "chapters":
+        result = await seedChapters(options);
+
+        break;
+
+      default:
+        return errorResponse("Invalid entity specified", 400);
     }
 
     return successResponse({ message: "Seeding completed successfully", results: result });
@@ -116,29 +117,28 @@ export async function PATCH(request: Request) {
 
     let result;
     switch (entities) {
-    case "all":
-      result = await seedAll(upsertOptions);
-    
-    break;
-    
-    case "users":
-      result = await seedUsers(upsertOptions);
-    
-    break;
-    
-    case "comics":
-      result = await seedComics(upsertOptions);
-    
-    break;
-    
-    case "chapters":
-      result = await seedChapters(upsertOptions);
-    
-    break;
-    
-    default:
-      return errorResponse("Invalid entity specified", 400);
-    
+      case "all":
+        result = await seedAll(upsertOptions);
+
+        break;
+
+      case "users":
+        result = await seedUsers(upsertOptions);
+
+        break;
+
+      case "comics":
+        result = await seedComics(upsertOptions);
+
+        break;
+
+      case "chapters":
+        result = await seedChapters(upsertOptions);
+
+        break;
+
+      default:
+        return errorResponse("Invalid entity specified", 400);
     }
 
     return successResponse({ message: "Upsert completed successfully", results: result });

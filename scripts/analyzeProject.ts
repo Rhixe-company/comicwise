@@ -1,19 +1,19 @@
 #!/usr/bin/env tsx
 /**
  * ComicWise - Performance & Security Analysis Script
- * 
+ *
  * Analyzes the project for:
  * - Performance bottlenecks
  * - Security vulnerabilities
  * - Code quality issues
- * 
+ *
  * Usage: pnpm tsx scripts/analyzeProject.ts [--deep] [--export]
  */
 
+import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import chalk from "chalk";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -466,9 +466,7 @@ Total Issues: ${this.report.summary.totalIssues}
       if (this.report.security.length > 0) {
         this.log("\n🔒 Top Security Issues:", "error");
         for (const issue of this.report.security.slice(0, 3)) {
-          console.log(
-            `  [${issue.severity}] ${issue.category}: ${issue.issue}`
-          );
+          console.log(`  [${issue.severity}] ${issue.category}: ${issue.issue}`);
         }
       }
 

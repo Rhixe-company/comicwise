@@ -1,5 +1,7 @@
+import { env } from "appConfig";
+
 const config = {
-  siteUrl: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+  siteUrl: env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   sitemapSize: 7000,

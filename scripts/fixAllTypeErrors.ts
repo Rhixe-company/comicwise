@@ -383,7 +383,7 @@ fixes.push({
     );
 
     // Fix the control type issues
-    content = content.replaceAll('control={form.control}', "control={form.control as any}");
+    content = content.replaceAll("control={form.control}", "control={form.control as any}");
 
     // Fix the FormProvider type
     content = content.replace(/<FormProvider {\.{3}form}>/, "<FormProvider {...(form as any)}>");
@@ -406,7 +406,7 @@ fixes.push({
       "resolver: zodResolver(comicFormSchema) as any"
     );
 
-    content = content.replaceAll('control={form.control}', "control={form.control as any}");
+    content = content.replaceAll("control={form.control}", "control={form.control as any}");
 
     updateFile("src/components/admin/ComicForm.tsx", content);
   },
@@ -573,13 +573,13 @@ const Recharts = RechartsPrimitive as any;`
     );
 
     content = content.replaceAll(
-      'RechartsPrimitive.ResponsiveContainer',
+      "RechartsPrimitive.ResponsiveContainer",
       "Recharts.ResponsiveContainer"
     );
 
-    content = content.replaceAll('RechartsPrimitive.Tooltip', "Recharts.Tooltip");
+    content = content.replaceAll("RechartsPrimitive.Tooltip", "Recharts.Tooltip");
 
-    content = content.replaceAll('RechartsPrimitive.Legend', "Recharts.Legend");
+    content = content.replaceAll("RechartsPrimitive.Legend", "Recharts.Legend");
 
     updateFile("src/components/ui/chart.tsx", content);
   },
@@ -598,7 +598,7 @@ fixes.push({
     content = content.replace(/const Slot: React\.FC<OTPProps> =/, "const Slot: any =");
 
     // Fix ref issue
-    content = content.replaceAll('<Slot', "<Slot {...props}");
+    content = content.replaceAll("<Slot", "<Slot {...props}");
 
     updateFile("src/components/ui/InputOtp.tsx", content);
   },
@@ -665,10 +665,10 @@ type ColorType = any;`
     );
 
     // Replace all Color usage with any
-    content = content.replaceAll('(color: Color)', "(color: any)");
+    content = content.replaceAll("(color: Color)", "(color: any)");
 
     // Fix 'any' as value usage
-    content = content.replaceAll('{any}', "{number}");
+    content = content.replaceAll("{any}", "{number}");
 
     updateFile("src/components/ui/shadcn-io/color-picker/index.tsx", content);
   },

@@ -121,6 +121,7 @@ pnpm imports:optimize
 ## 🧪 Testing
 
 ### Unit Tests
+
 ```bash
 # Run all unit tests
 pnpm test:unit:run
@@ -136,6 +137,7 @@ pnpm test:unit:coverage
 ```
 
 ### E2E Tests
+
 ```bash
 # Run all tests
 pnpm test
@@ -157,6 +159,7 @@ pnpm test:report
 ```
 
 ### CI Pipeline
+
 ```bash
 # Full CI
 pnpm ci
@@ -197,6 +200,7 @@ pnpm check-updates && pnpm update
 ## 🔍 Analysis & Optimization
 
 ### Project Analysis
+
 ```bash
 # Full analysis with export
 pnpm tsx scripts/analyzeProject.ts --export
@@ -206,6 +210,7 @@ pnpm tsx scripts/analyzeProject.ts
 ```
 
 ### Environment Validation
+
 ```bash
 # Validate environment
 pnpm tsx scripts/envValidator.ts
@@ -215,6 +220,7 @@ pnpm tsx scripts/envValidator.ts --report
 ```
 
 ### Package Analysis
+
 ```bash
 # Analyze packages
 pnpm tsx scripts/analyzePackages.ts
@@ -224,6 +230,7 @@ pnpm tsx scripts/analyzePackages.ts --report
 ```
 
 ### Cleanup
+
 ```bash
 # Dry run cleanup
 pnpm tsx scripts/advancedCleanup.ts --dry-run
@@ -236,11 +243,13 @@ pnpm tsx scripts/advancedCleanup.ts --report
 ```
 
 ### Generate Documentation
+
 ```bash
 pnpm tsx scripts/generateDocs.ts
 ```
 
 ### Completion Report
+
 ```bash
 pnpm tsx scripts/completionReport.ts
 ```
@@ -409,6 +418,7 @@ git commit -m "test: add tests"
 ## 🔗 Quick Workflows
 
 ### Start Fresh
+
 ```bash
 pnpm clean:all
 pnpm install
@@ -418,6 +428,7 @@ pnpm dev
 ```
 
 ### Full Validation Before Commit
+
 ```bash
 pnpm type-check
 pnpm lint:fix
@@ -426,6 +437,7 @@ pnpm test:unit:run
 ```
 
 ### Full Pre-Deploy Check
+
 ```bash
 pnpm validate
 pnpm test:unit:run
@@ -434,6 +446,7 @@ pnpm build
 ```
 
 ### Database Maintenance
+
 ```bash
 pnpm health:db
 pnpm db:check
@@ -443,6 +456,7 @@ pnpm db:seed:dry-run
 ```
 
 ### Performance Review
+
 ```bash
 pnpm tsx scripts/analyzeProject.ts --export
 pnpm build:analyze
@@ -450,6 +464,7 @@ pnpm health:all
 ```
 
 ### Security Audit
+
 ```bash
 pnpm lint:strict
 pnpm tsx scripts/analyzeProject.ts --export

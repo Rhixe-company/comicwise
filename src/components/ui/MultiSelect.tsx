@@ -13,17 +13,8 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CheckIcon, ChevronsUpDownIcon, XIcon } from "lucide-react";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-  
-  
-} from "react";
-import type {ComponentPropsWithoutRef, ReactNode} from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { cn } from "utils";
 
 interface MultiSelectContextType {
@@ -200,9 +191,11 @@ export function MultiSelectValue({
 
   if (selectedValues.size === 0 && placeholder) {
     return (
-      <span className={`
+      <span
+        className={`
         min-w-0 overflow-hidden font-normal text-muted-foreground
-      `}>
+      `}
+      >
         {placeholder}
       </span>
     );
@@ -237,10 +230,12 @@ export function MultiSelectValue({
           >
             {items.get(value)}
             {clickToRemove && (
-              <XIcon className={`
+              <XIcon
+                className={`
                 size-2 text-muted-foreground
                 group-hover:text-destructive
-              `} />
+              `}
+              />
             )}
           </Badge>
         ))}

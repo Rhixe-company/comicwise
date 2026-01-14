@@ -114,7 +114,10 @@ async function applyFixes() {
     let content = await fs.readFile(filePath, "utf-8");
     const original = content;
 
-    content = typeof fix.search === "string" ? content.replaceAll(new RegExp(fix.search, "g"), fix.replace) : content.replace(fix.search, fix.replace);
+    content =
+      typeof fix.search === "string"
+        ? content.replaceAll(new RegExp(fix.search, "g"), fix.replace)
+        : content.replace(fix.search, fix.replace);
 
     if (content !== original) {
       await fs.writeFile(filePath, content);
@@ -220,13 +223,13 @@ async function fixSpecificFiles() {
 
     // Fix generic constraint
     content = content.replaceAll(
-      'interface BaseFormProps<T extends ZodType = ZodType>',
+      "interface BaseFormProps<T extends ZodType = ZodType>",
       "interface BaseFormProps<T extends ZodType<any, any, any> = ZodType<any, any, any>>"
     );
 
     // Fix resolver type
     content = content.replaceAll(
-      'const form = useForm<z.output<T>>(',
+      "const form = useForm<z.output<T>>(",
       "const form = useForm<any>("
     );
 
@@ -239,7 +242,7 @@ async function fixSpecificFiles() {
   if (await fs.pathExists(authFormPath)) {
     let content = await fs.readFile(authFormPath, "utf-8");
 
-    content = content.replaceAll('const form = useForm<T>(', "const form = useForm<any>(");
+    content = content.replaceAll("const form = useForm<T>(", "const form = useForm<any>(");
 
     await fs.writeFile(authFormPath, content);
     console.log("✓ Fixed authForm.tsx types");
@@ -265,10 +268,10 @@ async function fixSpecificFiles() {
     let content = await fs.readFile(imagekitPath, "utf-8");
 
     // Fix type assertions
-    content = content.replaceAll('result.', "(result as any).");
+    content = content.replaceAll("result.", "(result as any).");
 
     // Fix transformation property
-    content = content.replaceAll('transformation: [', "// transformation: [");
+    content = content.replaceAll("transformation: [", "// transformation: [");
 
     await fs.writeFile(imagekitPath, content);
     console.log("✓ Fixed imagekit.ts type issues");
@@ -280,9 +283,9 @@ async function fixSpecificFiles() {
     let content = await fs.readFile(colorPickerPath, "utf-8");
 
     // Fix Color type usage
-    content = content.replaceAll(': Color', ": any");
+    content = content.replaceAll(": Color", ": any");
 
-    content = content.replaceAll('Record<string, unknown>', "any");
+    content = content.replaceAll("Record<string, unknown>", "any");
 
     await fs.writeFile(colorPickerPath, content);
     console.log("✓ Fixed color-picker type issues");
@@ -331,13 +334,13 @@ async function fixSpecificFiles() {
       'import { Label as RechartsLabel } from "recharts"'
     );
 
-    content = content.replaceAll('<Label ', "<RechartsLabel ");
+    content = content.replaceAll("<Label ", "<RechartsLabel ");
 
-    content = content.replaceAll('</Label>', "</RechartsLabel>");
+    content = content.replaceAll("</Label>", "</RechartsLabel>");
 
     // Add return statement
     content = content.replaceAll(
-      'const renderActiveShape = (props: any) => {',
+      "const renderActiveShape = (props: any) => {",
       "const renderActiveShape = (props: any): React.ReactElement | null => {"
     );
 
