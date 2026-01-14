@@ -223,10 +223,7 @@ export function ChartAreaInteractive() {
           sm:px-6 sm:pt-6
         `}
       >
-        <ChartContainer
-          config={chartConfig}
-          className={`aspect-auto h-[250px] w-full`}
-        >
+        <ChartContainer config={chartConfig} className={`aspect-auto h-[250px] w-full`}>
           {/* Chart commented out due to recharts compatibility */}
           <div
             className={`

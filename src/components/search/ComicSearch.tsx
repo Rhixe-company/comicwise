@@ -215,11 +215,7 @@ export function ComicSearchAutocomplete() {
                       )}
                     >
                       <span className="text-sm">{suggestion.query}</span>
-                      {suggestion.trending && (
-                        <TrendingUp
-                          className={`h-3 w-3 text-orange-500`}
-                        />
-                      )}
+                      {suggestion.trending && <TrendingUp className={`h-3 w-3 text-orange-500`} />}
                       {suggestion.count && (
                         <span className="text-xs text-muted-foreground">{suggestion.count}</span>
                       )}

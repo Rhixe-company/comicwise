@@ -77,10 +77,7 @@ function CommandInput({
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.Input>) {
   return (
-    <div
-      data-slot="command-input-wrapper"
-      className={`flex h-9 items-center gap-2 border-b px-3`}
-    >
+    <div data-slot="command-input-wrapper" className={`flex h-9 items-center gap-2 border-b px-3`}>
       <SearchIcon className="size-4 shrink-0 opacity-50" />
       <CommandPrimitive.Input
         data-slot="command-input"
@@ -103,10 +100,7 @@ function CommandList({ className, ...props }: React.ComponentProps<typeof Comman
   return (
     <CommandPrimitive.List
       data-slot="command-list"
-      className={cn(
-        `max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto`,
-        className
-      )}
+      className={cn(`max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto`, className)}
       {...props}
     />
   );

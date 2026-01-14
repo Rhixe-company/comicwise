@@ -1,14 +1,6 @@
 {
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // === ComicWise VS Code Settings - Enhanced Configuration ===
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  // ━━━ Language-Specific Formatters ━━━
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[dockerfile]": {
-    "editor.defaultFormatter": "docker.docker-vscode-extension"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -108,15 +100,15 @@
   "breadcrumbs.filePath": "on",
   "breadcrumbs.symbolPath": "on",
 
-  "cSpell.enableFiletypes": [
-    "markdown",
-    "typescript",
-    "typescriptreact",
-    "javascript",
-    "javascriptreact"
-  ],
-
   "cSpell.enabled": true,
+  "cSpell.enabledFileTypes": {
+    "markdown": true,
+    "typescript": true,
+    "typescriptreact": true,
+    "javascript": true,
+    "javascriptreact": true
+  },
+
   // ━━━ Spell Checker Configuration ━━━
   "cSpell.words": [
     "comicwise",
@@ -516,10 +508,10 @@
   },
 
   "todo-tree.highlights.defaultHighlight": {
+    "background": "#FFFF00",
+    "foreground": "#FFFFFF",
     "gutterIcon": true,
-    "foreground": "white",
-    "background": "yellow",
-    "iconColour": "yellow"
+    "iconColour": "#FFFF00"
   },
   // ━━━ TypeScript Configuration ━━━
   "typescript.enablePromptUseWorkspaceTsdk": true,

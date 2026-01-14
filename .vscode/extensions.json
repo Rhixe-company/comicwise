@@ -45,7 +45,6 @@
     "rangav.vscode-thunder-client",
 
     "ms-vscode.powershell",
-    "redhat.vscode-yaml",
     "editorconfig.editorconfig",
 
     "pkief.material-icon-theme",
@@ -71,10 +70,13 @@
     "ms-vscode-remote.remote-containers",
 
     "streetsidesoftware.code-spell-checker",
-    "wix.vscode-import-cost"
+    "wix.vscode-import-cost",
+    "stateful.runme",
+    "mrmlnc.vscode-duplicate"
   ],
 
   "unwantedRecommendations": [
+    "redhat.vscode-yaml",
     "hookyqr.beautify",
     "dbaeumer.jshint",
     "eg2.tslint",

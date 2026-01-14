@@ -110,9 +110,12 @@ export const MiniCalendar = ({
   return (
     <MiniCalendarContext.Provider value={contextValue}>
       <div
-        className={cn(`
+        className={cn(
+          `
           flex items-center gap-2 rounded-lg border bg-background p-2
-        `, className)}
+        `,
+          className
+        )}
         {...(props as Record<string, unknown>)}
       >
         {children}
