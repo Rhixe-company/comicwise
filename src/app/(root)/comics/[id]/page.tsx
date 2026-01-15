@@ -1,5 +1,5 @@
-import { BookmarkButton } from "@/components/BookmarkButton";
-import { ComicCard } from "@/components/ComicCard";
+// import { BookmarkButton } from "@/components/layout/BookmarkButton";
+import { ComicCard } from "@/components/layout/ComicCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -113,7 +113,8 @@ async function ComicDetails({ comicId }: { comicId: number }) {
                 <Button size="lg">Start Reading</Button>
               </Link>
             )}
-            <BookmarkButton comicId={comic.id} />
+            <Button size="lg">Bookmark</Button>
+            {/* <BookmarkButton comicId={comic.id} /> */}
           </div>
 
           {/* Description */}

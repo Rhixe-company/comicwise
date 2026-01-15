@@ -1,14 +1,17 @@
 /**
- * 🌱 Optimized Comic Seeder
+ * 🌱 Optimized Comic Seeder v2.0
  * ═══════════════════════════════════════════════════════════════════════════
  * Handles comic creation with metadata and genre management
+ * Images saved to: /public/comics/covers/
+ * Fallback: /placeholder-comic.jpg
  */
 
 import { db } from "@/database/db";
-import { comic, genre, author, artist, type, comicImage, comicToGenre } from "@/database/schema";
-import { logger } from "@/database/seed/logger";
+import { artist, author, comic, comicImage, comicToGenre, genre, type } from "@/database/schema";
 import { loadComics } from "@/database/seed/dataLoaderOptimized";
 import { downloadImage, downloadImages } from "@/database/seed/imageHandlerOptimized";
+import { logger } from "@/database/seed/logger";
+import { FALLBACK_COMIC_IMAGE } from "@/database/seed/utils/imagePathConfig";
 import { eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -52,11 +55,7 @@ export async function seedComics(options: SeedOptions = {}): Promise<SeedStats> 
     const cache = await initializeMetadataCache();
 
     logger.debug("Loading comic data from files...");
-    const loadResult = await loadComics([
-      "comics.json",
-      "comicsdata1.json",
-      "comicsdata2.json",
-    ]);
+    const loadResult = await loadComics(["comics.json", "comicsdata1.json", "comicsdata2.json"]);
 
     if (!loadResult || !Array.isArray(loadResult.data)) {
       logger.warn("Invalid load result for comics");
@@ -94,7 +93,9 @@ export async function seedComics(options: SeedOptions = {}): Promise<SeedStats> 
     }
 
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-    logger.debug(`Comic seeding complete: ${stats.created} created, ${stats.updated} updated (${elapsed}s)`);
+    logger.debug(
+      `Comic seeding complete: ${stats.created} created, ${stats.updated} updated (${elapsed}s)`
+    );
 
     if (stats.errors > 0) {
       logger.warn(`⚠ Comic seeding had ${stats.errors} errors`);
@@ -153,10 +154,14 @@ async function getOrCreateMetadata(
 ): Promise<number | null> {
   if (!name || name === "_") return null;
 
-  const cacheMap = table === "type" ? cache.types : 
-                   table === "author" ? cache.authors : 
-                   table === "artist" ? cache.artists : 
-                   cache.genres;
+  const cacheMap =
+    table === "type"
+      ? cache.types
+      : table === "author"
+        ? cache.authors
+        : table === "artist"
+          ? cache.artists
+          : cache.genres;
 
   if (cacheMap.has(name)) {
     return cacheMap.get(name)!;
@@ -225,17 +230,23 @@ async function upsertComic(
       where: eq(comic.slug, data.slug),
     });
 
-    // Download cover image
+    // Download cover image to /public/comics/covers/
     let coverImageUrl = data.coverImage;
     if (!coverImageUrl && data.images && data.images.length > 0) {
       coverImageUrl = data.images[0].url;
     }
 
     if (coverImageUrl) {
-      const imageResult = await downloadImage(coverImageUrl, "comics");
+      const imageResult = await downloadImage(coverImageUrl, "comics/covers");
       if (imageResult.success && imageResult.local) {
         coverImageUrl = imageResult.local;
+      } else {
+        // Use fallback if download fails
+        coverImageUrl = FALLBACK_COMIC_IMAGE;
       }
+    } else {
+      // No cover image provided, use fallback
+      coverImageUrl = FALLBACK_COMIC_IMAGE;
     }
 
     // Get/create metadata
@@ -332,10 +343,7 @@ async function updateComicGenres(
     for (const g of genres) {
       const genreId = await getOrCreateMetadata(g.name, "genre", cache);
       if (genreId) {
-        await db
-          .insert(comicToGenre)
-          .values({ comicId, genreId })
-          .onConflictDoNothing();
+        await db.insert(comicToGenre).values({ comicId, genreId }).onConflictDoNothing();
       }
     }
   } catch (error) {
@@ -347,10 +355,7 @@ async function updateComicGenres(
 // UPDATE COMIC IMAGES
 // ═══════════════════════════════════════════════════════════════════════════
 
-async function updateComicImages(
-  comicId: number,
-  images: Array<{ url: string }>
-): Promise<void> {
+async function updateComicImages(comicId: number, images: Array<{ url: string }>): Promise<void> {
   try {
     if (images.length === 0) return;
 

@@ -2,6 +2,7 @@
 
 import { db } from "@/database/db";
 import { chapter, comic, readingProgress } from "@/database/schema";
+import type { SimpleActionResult } from "@/dto";
 import { auth } from "auth";
 import { and, desc, eq, lt } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -32,7 +33,7 @@ export interface ReadingHistory {
  * param data
  * @param data
  */
-export async function saveReadingProgress(data: SaveProgressData) {
+export async function saveReadingProgress(data: SaveProgressData): Promise<SimpleActionResult> {
   try {
     const session = await auth();
     if (!session?.user?.id) {

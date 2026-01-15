@@ -6,9 +6,9 @@
 
 import { db } from "@/database/db";
 import { artist, author, comic, comicToGenre, genre, type } from "@/database/schema";
-import { logger } from "@/database/seed/logger";
-import { getImageManager } from "@/database/seed/imageManager";
 import { loadComics } from "@/database/seed/dataLoaderEnhanced";
+import { getImageManager } from "@/database/seed/imageManager";
+import { logger } from "@/database/seed/logger";
 import type { ComicSeedData } from "@/database/seed/schemas";
 import { eq } from "drizzle-orm";
 
@@ -236,8 +236,12 @@ async function upsertComic(
 
   // Get/create metadata
   const typeId = data.type ? await getOrCreateMetadata(data.type.name, "type", cache) : null;
-  const authorId = data.author ? await getOrCreateMetadata(data.author.name, "author", cache) : null;
-  const artistId = data.artist ? await getOrCreateMetadata(data.artist.name, "artist", cache) : null;
+  const authorId = data.author
+    ? await getOrCreateMetadata(data.author.name, "author", cache)
+    : null;
+  const artistId = data.artist
+    ? await getOrCreateMetadata(data.artist.name, "artist", cache)
+    : null;
 
   if (existing) {
     // Update existing comic
@@ -322,10 +326,7 @@ async function updateComicGenres(
     for (const g of genres) {
       const genreId = await getOrCreateMetadata(g.name, "genre", cache);
       if (genreId) {
-        await db
-          .insert(comicToGenre)
-          .values({ comicId, genreId })
-          .onConflictDoNothing();
+        await db.insert(comicToGenre).values({ comicId, genreId }).onConflictDoNothing();
       }
     }
   } catch (error) {

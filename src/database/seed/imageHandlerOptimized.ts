@@ -96,12 +96,14 @@ function extractFilename(url: string): string {
 // ═══════════════════════════════════════════════════════════════════════════
 
 /**
- * Download image with triple-layer caching:
- * 1. Session cache (in-memory)
- * 2. File system check
- * 3. Remote download via imageService
- * @param url
- * @param subDirectory
+ * Download image with 3-layer caching strategy:
+ * 1. Session cache (in-memory) - fastest, prevents re-processing within session
+ * 2. File system check - prevents re-downloading existing files
+ * 3. Remote download via imageService - only if needed
+ *
+ * Implements DRY principle: each image URL downloaded maximum once per session
+ * @param url - Remote image URL
+ * @param subDirectory - Storage subdirectory
  */
 export async function downloadImage(
   url: string,
@@ -116,9 +118,8 @@ export async function downloadImage(
     };
   }
 
-  // Check if it's a local path (starts with / or relative path)
+  // Check if it's a local path (starts with / or relative path) - no download needed
   if (url.startsWith("/") || (!url.startsWith("http://") && !url.startsWith("https://"))) {
-    logger.debug(`Using local path: ${url}`);
     downloadCache.set(url, url);
     return {
       original: url,
@@ -128,11 +129,10 @@ export async function downloadImage(
     };
   }
 
-  // Layer 1: Check session cache
+  // Layer 1: Session cache - prevents re-downloading within the same seed operation
   if (downloadCache.has(url)) {
     const cached = downloadCache.get(url);
     if (cached) {
-      logger.debug(`Image cached (session): ${extractFilename(url)}`);
       return {
         original: url,
         local: cached,
@@ -143,12 +143,11 @@ export async function downloadImage(
   }
 
   try {
-    // Layer 2: Check file system
+    // Layer 2: File system cache - prevents re-downloading files that exist
     const filename = extractFilename(url);
     if (filename && fileSystemCache.has(filename)) {
       const localPath = `/uploads/${filename}`;
       downloadCache.set(url, localPath);
-      logger.debug(`Image cached (file system): ${filename}`);
       return {
         original: url,
         local: localPath,
@@ -157,14 +156,13 @@ export async function downloadImage(
       };
     }
 
-    // Layer 3: Download via imageService
+    // Layer 3: Download via imageService - only if not in cache
     const imageHandler = await getImageHandler();
     const result = await imageHandler.downloadImage(url, subDirectory);
 
     if (result.success && result.localPath) {
       downloadCache.set(url, result.localPath);
       fileSystemCache.add(path.basename(result.localPath));
-      logger.debug(`Image downloaded: ${extractFilename(url)}`);
       return {
         original: url,
         local: result.localPath,
@@ -180,7 +178,7 @@ export async function downloadImage(
       };
     }
   } catch (error) {
-    logger.warn(`Failed to download image: ${url} - ${error}`);
+    logger.warn(`Failed to download image: ${url.slice(0, 80)}... - ${error}`);
     return {
       original: url,
       success: false,
@@ -192,22 +190,37 @@ export async function downloadImage(
 
 /**
  * Download multiple images with concurrency control
- * @param urls
- * @param concurrency
+ * @param urls - Array of image URLs
+ * @param folder - Optional folder path for storage
+ * @param concurrency - Maximum parallel downloads
  */
 export async function downloadImages(
   urls: string[],
-  concurrency: number = 3
+  folder?: string | number,
+  concurrency?: number
 ): Promise<ImageDownloadResult[]> {
   const results: ImageDownloadResult[] = [];
   const chunks: string[][] = [];
 
-  for (let i = 0; i < urls.length; i += concurrency) {
-    chunks.push(urls.slice(i, i + concurrency));
+  // Handle overloading: if folder is a number, it's concurrency
+  let actualFolder = "uploads";
+  let actualConcurrency = 3;
+
+  if (typeof folder === "number") {
+    actualConcurrency = folder;
+  } else if (typeof folder === "string") {
+    actualFolder = folder;
+    if (typeof concurrency === "number") {
+      actualConcurrency = concurrency;
+    }
+  }
+
+  for (let i = 0; i < urls.length; i += actualConcurrency) {
+    chunks.push(urls.slice(i, i + actualConcurrency));
   }
 
   for (const chunk of chunks) {
-    const chunkResults = await Promise.all(chunk.map((url) => downloadImage(url)));
+    const chunkResults = await Promise.all(chunk.map((url) => downloadImage(url, actualFolder)));
     results.push(...chunkResults);
   }
 
@@ -226,7 +239,11 @@ export async function initializeImageHandler(): Promise<void> {
 /**
  * Get image statistics
  */
-export function getImageStats(): { sessionCached: number; fileSystemCached: number; totalUnique: number } {
+export function getImageStats(): {
+  sessionCached: number;
+  fileSystemCached: number;
+  totalUnique: number;
+} {
   return {
     sessionCached: downloadCache.size,
     fileSystemCached: fileSystemCache.size,

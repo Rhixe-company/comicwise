@@ -11,9 +11,11 @@ import { z } from "zod";
 // URL & Image Validation
 // ═══════════════════════════════════════════════════════════════════════════
 
-export const imageUrlSchema = z.object({
-  url: z.string().url("Invalid image URL"),
-}).strict();
+export const imageUrlSchema = z
+  .object({
+    url: z.string().url("Invalid image URL"),
+  })
+  .strict();
 
 export const imageArraySchema = z.array(imageUrlSchema).optional().default([]);
 
@@ -21,21 +23,29 @@ export const imageArraySchema = z.array(imageUrlSchema).optional().default([]);
 // METADATA SCHEMAS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export const typeSchema = z.object({
-  name: z.string().min(1, "Type name required").max(255),
-}).passthrough();
+export const typeSchema = z
+  .object({
+    name: z.string().min(1, "Type name required").max(255),
+  })
+  .passthrough();
 
-export const authorSchema = z.object({
-  name: z.string().min(1, "Author name required").max(255),
-}).passthrough();
+export const authorSchema = z
+  .object({
+    name: z.string().min(1, "Author name required").max(255),
+  })
+  .passthrough();
 
-export const artistSchema = z.object({
-  name: z.string().min(1, "Artist name required").max(255),
-}).passthrough();
+export const artistSchema = z
+  .object({
+    name: z.string().min(1, "Artist name required").max(255),
+  })
+  .passthrough();
 
-export const genreSchema = z.object({
-  name: z.string().min(1, "Genre name required").max(255),
-}).passthrough();
+export const genreSchema = z
+  .object({
+    name: z.string().min(1, "Genre name required").max(255),
+  })
+  .passthrough();
 
 // ═══════════════════════════════════════════════════════════════════════════
 // USER SCHEMA
@@ -58,32 +68,41 @@ export type UserSeedData = z.infer<typeof userSeedSchema>;
 // COMIC SCHEMA
 // ═══════════════════════════════════════════════════════════════════════════
 
-export const comicSeedSchema = z.object({
-  id: z.string().uuid().optional(),
-  title: z.string().min(1, "Title required").max(255),
-  slug: z.string().min(1, "Slug required").max(512),
-  description: z.string().min(1, "Description required").max(5000),
-  coverImage: z.string().min(1).optional(), // Accept URLs and local paths
-  images: z.array(z.object({
-    url: z.string().min(1), // Accept both URLs and local paths
-  })).optional().default([]),
-  rating: z
-    .union([z.string(), z.number()])
-    .refine((value) => {
-      const number_ = typeof value === "string" ? Number.parseFloat(value) : value;
-      return number_ >= 0 && number_ <= 10;
-    }, "Rating must be between 0 and 10")
-    .optional(),
-  status: z.enum(["Ongoing", "Hiatus", "Completed", "Dropped", "Season End", "Coming Soon"]).default("Ongoing"),
-  serialization: z.string().optional(),
-  url: z.string().optional(),
-  type: typeSchema.optional(),
-  author: authorSchema.optional(),
-  artist: artistSchema.optional(),
-  genres: z.array(genreSchema).optional().default([]),
-  updatedAt: z.string().optional(),
-  createdAt: z.string().optional(),
-}).passthrough(); // Allow additional fields for flexible data loading
+export const comicSeedSchema = z
+  .object({
+    id: z.string().uuid().optional(),
+    title: z.string().min(1, "Title required").max(255),
+    slug: z.string().min(1, "Slug required").max(512),
+    description: z.string().min(1, "Description required").max(5000),
+    coverImage: z.string().min(1).optional(), // Accept URLs and local paths
+    images: z
+      .array(
+        z.object({
+          url: z.string().min(1), // Accept both URLs and local paths
+        })
+      )
+      .optional()
+      .default([]),
+    rating: z
+      .union([z.string(), z.number()])
+      .refine((value) => {
+        const number_ = typeof value === "string" ? Number.parseFloat(value) : value;
+        return number_ >= 0 && number_ <= 10;
+      }, "Rating must be between 0 and 10")
+      .optional(),
+    status: z
+      .enum(["Ongoing", "Hiatus", "Completed", "Dropped", "Season End", "Coming Soon"])
+      .default("Ongoing"),
+    serialization: z.string().optional(),
+    url: z.string().optional(),
+    type: typeSchema.optional(),
+    author: authorSchema.optional(),
+    artist: artistSchema.optional(),
+    genres: z.array(genreSchema).optional().default([]),
+    updatedAt: z.string().optional(),
+    createdAt: z.string().optional(),
+  })
+  .passthrough(); // Allow additional fields for flexible data loading
 
 export type ComicSeedData = z.infer<typeof comicSeedSchema>;
 
@@ -91,42 +110,47 @@ export type ComicSeedData = z.infer<typeof comicSeedSchema>;
 // CHAPTER SCHEMA
 // ═══════════════════════════════════════════════════════════════════════════
 
-export const chapterSeedSchema = z.object({
-  id: z.string().uuid().optional(),
-  title: z.string().min(1, "Chapter title required").max(255).optional(),
-  name: z.string().min(1, "Chapter name required").max(255).optional(),
-  chapterNumber: z.union([z.string(), z.number()]).optional(),
-  releaseDate: z.string().datetime().optional(),
-  url: z.string().url().optional(),
-  updatedAt: z.string().optional(),
-  views: z.union([z.string(), z.number()]).optional(),
-  images: imageArraySchema,
-  comic: z.object({
-    title: z.string().min(1),
-    slug: z.string().min(1),
-  }),
-  createdAt: z.string().optional(),
-}).transform((data) => {
-  // Extract chapter number from name if available
-  let chapterNumber = 0;
-  if (data.chapterNumber) {
-    const num = typeof data.chapterNumber === "string" ? parseFloat(data.chapterNumber) : data.chapterNumber;
-    chapterNumber = isNaN(num) ? 0 : num;
-  }
-  
-  if (!chapterNumber && data.name) {
-    const match = data.name.match(/Chapter\s+(\d+\.?\d*)/i);
-    if (match) {
-      chapterNumber = parseFloat(match[1]);
+export const chapterSeedSchema = z
+  .object({
+    id: z.string().uuid().optional(),
+    title: z.string().min(1, "Chapter title required").max(255).optional(),
+    name: z.string().min(1, "Chapter name required").max(255).optional(),
+    chapterNumber: z.union([z.string(), z.number()]).optional(),
+    releaseDate: z.string().datetime().optional(),
+    url: z.string().url().optional(),
+    updatedAt: z.string().optional(),
+    views: z.union([z.string(), z.number()]).optional(),
+    images: imageArraySchema,
+    comic: z.object({
+      title: z.string().min(1),
+      slug: z.string().min(1),
+    }),
+    createdAt: z.string().optional(),
+  })
+  .transform((data) => {
+    // Extract chapter number from name if available
+    let chapterNumber = 0;
+    if (data.chapterNumber) {
+      const num =
+        typeof data.chapterNumber === "string"
+          ? parseFloat(data.chapterNumber)
+          : data.chapterNumber;
+      chapterNumber = isNaN(num) ? 0 : num;
     }
-  }
-  
-  return {
-    ...data,
-    chapterNumber,
-    title: data.title || data.name || "Unknown Chapter",
-  };
-});
+
+    if (!chapterNumber && data.name) {
+      const match = data.name.match(/Chapter\s+(\d+\.?\d*)/i);
+      if (match) {
+        chapterNumber = parseFloat(match[1]);
+      }
+    }
+
+    return {
+      ...data,
+      chapterNumber,
+      title: data.title || data.name || "Unknown Chapter",
+    };
+  });
 
 export type ChapterSeedData = z.infer<typeof chapterSeedSchema>;
 
@@ -157,10 +181,7 @@ export interface ValidationResult<T> {
  * @param items
  * @param schema
  */
-export function validateArray<T>(
-  items: unknown[],
-  schema: z.ZodSchema<T>
-): ValidationResult<T> {
+export function validateArray<T>(items: unknown[], schema: z.ZodSchema<T>): ValidationResult<T> {
   const data: T[] = [];
   const errors: Array<{ index: number; error: string }> = [];
 
@@ -171,7 +192,9 @@ export function validateArray<T>(
     } else {
       errors.push({
         index,
-        error: result.error.issues.map((issue) => `${issue.path.join(".")}: ${issue.message}`).join("; "),
+        error: result.error.issues
+          .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+          .join("; "),
       });
     }
   });

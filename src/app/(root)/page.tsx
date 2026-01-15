@@ -1,4 +1,4 @@
-import { ComicCard } from "@/components/ComicCard";
+import { ComicCard } from "@/components/layout/ComicCard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getLatestComics, getPopularComics } from "@/database/queries";

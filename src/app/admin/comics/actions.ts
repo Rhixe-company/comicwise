@@ -7,6 +7,7 @@
 
 import { db as database } from "@/database/db";
 import { comic, comicToGenre } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import { requireRole } from "auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
@@ -33,13 +34,7 @@ const createComicSchema = z
 
 const updateComicSchema = createComicSchema.partial();
 
-interface ActionResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
-}
-
-export async function createComic(input: unknown): Promise<ActionResponse<{ id: number }>> {
+export async function createComic(input: unknown): Promise<ActionResult<{ id: number }>> {
   try {
     await requireRole("admin");
     const data = createComicSchema.parse(input);

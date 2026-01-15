@@ -6,12 +6,12 @@
 
 import { db } from "@/database/db";
 import { user } from "@/database/schema";
-import { logger } from "@/database/seed/logger";
-import { getImageManager } from "@/database/seed/imageManager";
 import { loadUsers } from "@/database/seed/dataLoaderEnhanced";
+import { getImageManager } from "@/database/seed/imageManager";
+import { logger } from "@/database/seed/logger";
 import type { UserSeedData } from "@/database/seed/schemas";
-import { eq } from "drizzle-orm";
 import bcryptjs from "bcryptjs";
+import { eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // USER SEEDER

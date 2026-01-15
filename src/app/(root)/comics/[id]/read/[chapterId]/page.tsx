@@ -1,4 +1,4 @@
-import { ChapterReader } from "@/components/ChapterReader";
+import { ChapterReader } from "@/components/layout/ChapterReader";
 import { incrementChapterViews } from "@/database/mutations";
 import { getChapter, getNextChapter, getPreviousChapter } from "@/database/queries";
 import { notFound } from "next/navigation";

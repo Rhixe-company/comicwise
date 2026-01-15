@@ -680,7 +680,7 @@ export function withCache(
       }
 
       console.log(`❌ Cache MISS: ${cacheKey}`);
-      const response = await handler(request);
+      const response: unknown = await handler(request);
 
       if (response.ok) {
         try {

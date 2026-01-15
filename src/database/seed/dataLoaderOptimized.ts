@@ -4,20 +4,22 @@
  * Dynamically loads data from multiple JSON files with Zod validation
  */
 
-import fs from "fs/promises";
-import path from "path";
-import { glob } from "glob";
-import {
-  userArraySchema,
-  comicArraySchema,
-  chapterArraySchema,
-  validateArray,
-  userSeedSchema,
-  comicSeedSchema,
-  chapterSeedSchema,
-} from "@/database/seed/schemasOptimized";
 import { logger } from "@/database/seed/logger";
-import type { UserSeedData, ComicSeedData, ChapterSeedData, ValidationResult } from "@/database/seed/schemasOptimized";
+import type {
+  ChapterSeedData,
+  ComicSeedData,
+  UserSeedData,
+  ValidationResult,
+} from "@/database/seed/schemasOptimized";
+import {
+  chapterSeedSchema,
+  comicSeedSchema,
+  userSeedSchema,
+  validateArray,
+} from "@/database/seed/schemasOptimized";
+import fs from "fs/promises";
+import { glob } from "glob";
+import path from "path";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // UNIVERSAL DATA LOADER
@@ -58,7 +60,9 @@ async function findFiles(patterns: string | string[]): Promise<string[]> {
 // LOAD USERS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function loadUsers(patterns: string | string[] = "users.json"): Promise<ValidationResult<UserSeedData>> {
+export async function loadUsers(
+  patterns: string | string[] = "users.json"
+): Promise<ValidationResult<UserSeedData>> {
   logger.debug("Loading user data...");
   const files = await findFiles(patterns);
 
@@ -77,7 +81,9 @@ export async function loadUsers(patterns: string | string[] = "users.json"): Pro
       } else if (data && typeof data === "object") {
         allData.push(data);
       }
-      logger.debug(`Loaded users from ${path.basename(file)}: ${Array.isArray(data) ? (data as any[]).length : 1}`);
+      logger.debug(
+        `Loaded users from ${path.basename(file)}: ${Array.isArray(data) ? (data as any[]).length : 1}`
+      );
     } catch (error) {
       logger.warn(`Skipped ${file}: ${error}`);
     }
@@ -94,7 +100,9 @@ export async function loadUsers(patterns: string | string[] = "users.json"): Pro
 // LOAD COMICS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function loadComics(patterns: string | string[] = ["comics.json", "comicsdata*.json"]): Promise<ValidationResult<ComicSeedData>> {
+export async function loadComics(
+  patterns: string | string[] = ["comics.json", "comicsdata*.json"]
+): Promise<ValidationResult<ComicSeedData>> {
   logger.debug("Loading comic data...");
   const files = await findFiles(patterns);
 
@@ -113,7 +121,9 @@ export async function loadComics(patterns: string | string[] = ["comics.json", "
       } else if (data && typeof data === "object") {
         allData.push(data);
       }
-      logger.debug(`Loaded comics from ${path.basename(file)}: ${Array.isArray(data) ? (data as any[]).length : 1}`);
+      logger.debug(
+        `Loaded comics from ${path.basename(file)}: ${Array.isArray(data) ? (data as any[]).length : 1}`
+      );
     } catch (error) {
       logger.warn(`Skipped ${file}: ${error}`);
     }
@@ -130,7 +140,9 @@ export async function loadComics(patterns: string | string[] = ["comics.json", "
 // LOAD CHAPTERS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function loadChapters(patterns: string | string[] = ["chapters.json", "chaptersdata*.json"]): Promise<ValidationResult<ChapterSeedData>> {
+export async function loadChapters(
+  patterns: string | string[] = ["chapters.json", "chaptersdata*.json"]
+): Promise<ValidationResult<ChapterSeedData>> {
   logger.debug("Loading chapter data...");
   const files = await findFiles(patterns);
 
@@ -149,7 +161,9 @@ export async function loadChapters(patterns: string | string[] = ["chapters.json
       } else if (data && typeof data === "object") {
         allData.push(data);
       }
-      logger.debug(`Loaded chapters from ${path.basename(file)}: ${Array.isArray(data) ? (data as any[]).length : 1}`);
+      logger.debug(
+        `Loaded chapters from ${path.basename(file)}: ${Array.isArray(data) ? (data as any[]).length : 1}`
+      );
     } catch (error) {
       logger.warn(`Skipped ${file}: ${error}`);
     }

@@ -11,7 +11,9 @@
 ### Core System Files
 
 #### 1. **Entry Point** → `run.ts` ⭐
+
 Main orchestration file for seeding operations
+
 - Database connection testing
 - Image manager initialization
 - Sequential seeding (users → comics → chapters)
@@ -19,6 +21,7 @@ Main orchestration file for seeding operations
 - Error handling
 
 **Usage**:
+
 ```bash
 pnpm db:seed              # Execute seeding
 pnpm db:seed:dry-run      # Validate without persisting
@@ -30,24 +33,29 @@ pnpm db:seed:verbose      # Verbose output
 ### Data Validation & Loading
 
 #### 2. **Zod Schemas** → `schemas.ts` 📋
+
 Comprehensive validation schemas for all seed data types
 
 **Exports**:
+
 - `userSeedSchema` - User data validation
 - `comicSeedSchema` - Comic data validation
 - `chapterSeedSchema` - Chapter data validation
 - `imageSchema` - Image URL validation
 
 **Key Features**:
+
 - Type-safe with full TypeScript inference
 - Custom error messages
 - Field-level validation
 - Enum support for roles and statuses
 
 #### 3. **Dynamic Data Loader** → `dataLoaderEnhanced.ts` 📥
+
 Universal loader for all data types with pattern matching
 
 **Main Functions**:
+
 ```typescript
 loadUsers(patterns?: string[])     // Load user data
 loadComics(pattern?: string)       // Load comic data
@@ -56,6 +64,7 @@ loadAllSeedData()                  // Load everything
 ```
 
 **Features**:
+
 - Glob pattern support
 - Automatic JSON parsing
 - Zod validation
@@ -63,6 +72,7 @@ loadAllSeedData()                  // Load everything
 - Batch loading
 
 **Supported Patterns**:
+
 - `users.json` - Single file
 - `comics*.json` - Multiple files
 - `chapters*.json` - Multiple files
@@ -73,11 +83,13 @@ loadAllSeedData()                  // Load everything
 ### Image Management
 
 #### 4. **Image Manager** → `imageManager.ts` 🖼️
+
 Standalone image caching and download system
 
 **Class**: `SeedImageManager`
 
 **Key Methods**:
+
 ```typescript
 downloadImage(url: string)                 // Download single image
 downloadImages(urls: string[], concurrency: number)  // Batch download
@@ -86,6 +98,7 @@ reset()                                    // Reset manager
 ```
 
 **Features**:
+
 - Triple-layer caching strategy:
   1. Session cache (in-memory)
   2. File system cache (public/uploads)
@@ -96,6 +109,7 @@ reset()                                    // Reset manager
 - Error recovery
 
 **Usage**:
+
 ```typescript
 const imageManager = await getImageManager();
 const result = await imageManager.downloadImage(url);
@@ -107,14 +121,17 @@ const stats = imageManager.getStats();
 ### Seeding Logic
 
 #### 5. **User Seeder** → `seeders/userSeederEnhanced.ts` 👤
+
 User creation and updates with avatar management
 
 **Main Function**:
+
 ```typescript
 seedUsersFromFiles(patterns?: string[]) → Promise<SeedStats>
 ```
 
 **Features**:
+
 - Upsert by email address
 - Password hashing with bcryptjs
 - Avatar download and caching
@@ -122,6 +139,7 @@ seedUsersFromFiles(patterns?: string[]) → Promise<SeedStats>
 - Email verification support
 
 **Process**:
+
 1. Load users from JSON
 2. Validate against schema
 3. Check for existing user
@@ -129,14 +147,17 @@ seedUsersFromFiles(patterns?: string[]) → Promise<SeedStats>
 5. Create or update record
 
 #### 6. **Comic Seeder** → `seeders/comicSeederEnhanced.ts` 📖
+
 Comic creation with metadata and genre management
 
 **Main Function**:
+
 ```typescript
 seedComicsFromFiles(pattern?: string) → Promise<SeedStats>
 ```
 
 **Features**:
+
 - Upsert by slug
 - Metadata pre-caching
 - Get-or-create pattern for types, authors, artists
@@ -145,6 +166,7 @@ seedComicsFromFiles(pattern?: string) → Promise<SeedStats>
 - Rating and status management
 
 **Process**:
+
 1. Load comics from JSON
 2. Initialize metadata caches
 3. Get/create associated metadata
@@ -153,14 +175,17 @@ seedComicsFromFiles(pattern?: string) → Promise<SeedStats>
 6. Manage genre associations
 
 #### 7. **Chapter Seeder** → `seeders/chapterSeederEnhanced.ts` 📄
+
 Chapter creation with multi-image support
 
 **Main Function**:
+
 ```typescript
 seedChaptersFromFiles(patterns?: string[]) → Promise<SeedStats>
 ```
 
 **Features**:
+
 - Find comic by slug
 - Upsert by (comicId, chapterNumber)
 - Multi-image per chapter
@@ -169,6 +194,7 @@ seedChaptersFromFiles(patterns?: string[]) → Promise<SeedStats>
 - Date parsing
 
 **Process**:
+
 1. Load chapters from JSON
 2. Find associated comic
 3. Check for existing chapter
@@ -180,9 +206,11 @@ seedChaptersFromFiles(patterns?: string[]) → Promise<SeedStats>
 ### Documentation
 
 #### 8. **Comprehensive Guide** → `SEED_SYSTEM_GUIDE.md` 📖
+
 Complete documentation covering all aspects
 
 **Sections**:
+
 - Overview and features
 - Architecture and design
 - Data file specifications
@@ -195,9 +223,11 @@ Complete documentation covering all aspects
 - Performance tuning
 
 #### 9. **Enhancement Report** → `../SEED_SYSTEM_ENHANCEMENT_REPORT.md` 📊
+
 Detailed report of enhancements and improvements
 
 **Covers**:
+
 - Enhancements completed
 - Architecture overview
 - Implementation details
@@ -292,14 +322,14 @@ resetImageManager();
 
 ```typescript
 // Load users
-const result = await loadUsers(['users.json']);
+const result = await loadUsers(["users.json"]);
 // Returns: { data: UserSeedData[], valid, invalid, errors }
 
 // Load comics
-const result = await loadComics('comics*.json');
+const result = await loadComics("comics*.json");
 
 // Load chapters
-const result = await loadChapters(['chapters.json', 'chaptersdata*.json']);
+const result = await loadChapters(["chapters.json", "chaptersdata*.json"]);
 
 // Load all
 const { users, comics, chapters } = await loadAllSeedData();
@@ -309,14 +339,14 @@ const { users, comics, chapters } = await loadAllSeedData();
 
 ```typescript
 // Seed users
-const stats = await seedUsersFromFiles(['users.json']);
+const stats = await seedUsersFromFiles(["users.json"]);
 // Returns: { total, created, updated, skipped, errors }
 
 // Seed comics
-const stats = await seedComicsFromFiles('comics*.json');
+const stats = await seedComicsFromFiles("comics*.json");
 
 // Seed chapters
-const stats = await seedChaptersFromFiles(['chapters*.json']);
+const stats = await seedChaptersFromFiles(["chapters*.json"]);
 ```
 
 ---
@@ -324,6 +354,7 @@ const stats = await seedChaptersFromFiles(['chapters*.json']);
 ## 📊 Data Structure Examples
 
 ### users.json
+
 ```json
 [
   {
@@ -338,6 +369,7 @@ const stats = await seedChaptersFromFiles(['chapters*.json']);
 ```
 
 ### comics.json
+
 ```json
 [
   {
@@ -357,6 +389,7 @@ const stats = await seedChaptersFromFiles(['chapters*.json']);
 ```
 
 ### chapters.json
+
 ```json
 [
   {
@@ -377,6 +410,7 @@ const stats = await seedChaptersFromFiles(['chapters*.json']);
 ## ✅ Validation Rules
 
 ### User Data
+
 - `id`: Valid UUID (required)
 - `name`: 1-100 characters (required)
 - `email`: Valid email format (required)
@@ -384,6 +418,7 @@ const stats = await seedChaptersFromFiles(['chapters*.json']);
 - `role`: "user" | "admin" | "moderator" (default: "user")
 
 ### Comic Data
+
 - `title`: 1-255 characters (required)
 - `slug`: 1-512 characters (required)
 - `description`: 1-5000 characters (required)
@@ -392,6 +427,7 @@ const stats = await seedChaptersFromFiles(['chapters*.json']);
 - `genres`: Array of {name} objects (optional)
 
 ### Chapter Data
+
 - `title`: 1-255 characters (required)
 - `chapterNumber`: Positive integer (required)
 - `comic.title`: Required for lookup
@@ -403,6 +439,7 @@ const stats = await seedChaptersFromFiles(['chapters*.json']);
 ## 🚀 Quick Start
 
 ### 1. Prepare Data Files
+
 ```bash
 # Place JSON files in project root
 users.json
@@ -411,6 +448,7 @@ chapters.json
 ```
 
 ### 2. Run Seeding
+
 ```bash
 # Validate without persisting
 pnpm db:seed:dry-run
@@ -420,6 +458,7 @@ pnpm db:seed
 ```
 
 ### 3. Check Results
+
 ```bash
 # Open Drizzle Studio
 pnpm db:studio
@@ -432,13 +471,13 @@ ls public/uploads/
 
 ## 🐛 Troubleshooting
 
-| Issue | Solution | Reference |
-|-------|----------|-----------|
-| Validation errors | Check JSON format against schema | schemas.ts, SEED_SYSTEM_GUIDE.md |
-| Image downloads fail | Verify URLs accessible, check disk space | imageManager.ts, Guide section 8 |
-| Database connection | Run `pnpm health:db` | run.ts |
-| Out of memory | Use `NODE_OPTIONS=--max-old-space-size=4096` | Guide section 12 |
-| Duplicate records | Use upsert logic - runs automatically | seeders/*.ts |
+| Issue                | Solution                                     | Reference                        |
+| -------------------- | -------------------------------------------- | -------------------------------- |
+| Validation errors    | Check JSON format against schema             | schemas.ts, SEED_SYSTEM_GUIDE.md |
+| Image downloads fail | Verify URLs accessible, check disk space     | imageManager.ts, Guide section 8 |
+| Database connection  | Run `pnpm health:db`                         | run.ts                           |
+| Out of memory        | Use `NODE_OPTIONS=--max-old-space-size=4096` | Guide section 12                 |
+| Duplicate records    | Use upsert logic - runs automatically        | seeders/\*.ts                    |
 
 ---
 
@@ -463,13 +502,13 @@ ls public/uploads/
 
 ## 🔗 Related Files
 
-| File | Purpose |
-|------|---------|
-| `.env.local` | Environment configuration |
-| `appConfig.ts` | Application settings |
-| `src/database/schema.ts` | Database schema |
-| `src/database/db.ts` | Database connection |
-| `package.json` | npm scripts |
+| File                     | Purpose                   |
+| ------------------------ | ------------------------- |
+| `.env.local`             | Environment configuration |
+| `appConfig.ts`           | Application settings      |
+| `src/database/schema.ts` | Database schema           |
+| `src/database/db.ts`     | Database connection       |
+| `package.json`           | npm scripts               |
 
 ---
 
@@ -494,7 +533,7 @@ The enhanced seed system is **production-ready** with:
 ✅ Parallel processing  
 ✅ Professional logging  
 ✅ Complete documentation  
-✅ Best practices throughout  
+✅ Best practices throughout
 
 **Get Started**: `pnpm db:seed` 🚀
 

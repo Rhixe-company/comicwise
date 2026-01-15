@@ -1,12 +1,9 @@
 "use server";
 
-// ═══════════════════════════════════════════════════
-// AUTHORS & ARTISTS CRUD SERVER ACTIONS (Next.js 16)
-// ═══════════════════════════════════════════════════
-
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { artist, author } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import type {
   CreateArtistInput,
   CreateAuthorInput,
@@ -23,14 +20,6 @@ import {
 } from "@/lib/validations";
 import { asc, eq, like, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-
-export type ActionResult<T = unknown> =
-  | { success: true; data: T; message?: string }
-  | { success: false; error: string };
-
-// ═══════════════════════════════════════════════════
-// AUTHORS
-// ═══════════════════════════════════════════════════
 
 export async function createAuthor(
   input: CreateAuthorInput

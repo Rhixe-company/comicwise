@@ -2,13 +2,13 @@
 
 import appConfig, { checkRateLimit } from "@/appConfig";
 import * as mutations from "@/database/mutations";
+import type { ActionResult } from "@/dto";
 import { error } from "@/lib/actions/utils";
 import { createGenreSchema, updateGenreSchema } from "@/lib/validations";
-import type { ActionResponse } from "@/types";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 
-export async function createGenre(formData: FormData): Promise<ActionResponse<{ id: number }>> {
+export async function createGenre(formData: FormData): Promise<ActionResult<{ id: number }>> {
   try {
     // Rate limiting
     const rateLimit = await checkRateLimit("create:genre", {

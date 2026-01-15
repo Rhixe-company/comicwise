@@ -7,6 +7,7 @@
 
 import { db as database } from "@/database/db";
 import { genre } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import { requireRole } from "auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
@@ -20,13 +21,7 @@ const createGenreSchema = z
 
 const updateGenreSchema = createGenreSchema.partial();
 
-interface ActionResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
-}
-
-export async function createGenre(input: unknown): Promise<ActionResponse<{ id: number }>> {
+export async function createGenre(input: unknown): Promise<ActionResult<{ id: number }>> {
   try {
     await requireRole("admin");
     const data = createGenreSchema.parse(input);

@@ -2,7 +2,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * UNIFIED SEED SCHEMAS - Comprehensive Zod validation for all seed data
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * DRY principle: Single source of truth for all validation rules
  * Supports flexible data formats from multiple JSON sources
  */
@@ -15,11 +15,7 @@ import { z } from "zod";
 
 const urlOrString = z.string().url().or(z.string().min(1));
 
-const dateString = z.union([
-  z.string().datetime(),
-  z.string(),
-  z.date(),
-]).optional();
+const dateString = z.union([z.string().datetime(), z.string(), z.date()]).optional();
 
 const numericString = z.union([z.string(), z.number()]).transform((val) => {
   if (typeof val === "string") {
@@ -29,7 +25,10 @@ const numericString = z.union([z.string(), z.number()]).transform((val) => {
   return val;
 });
 
-const imageObject = z.object({ url: z.string().min(1) }).passthrough().optional();
+const imageObject = z
+  .object({ url: z.string().min(1) })
+  .passthrough()
+  .optional();
 
 const imageArray = z
   .array(imageObject)
@@ -159,10 +158,7 @@ export interface ValidationResult<T> {
  * Safely validate array of items with error collection
  * Returns detailed error information for debugging
  */
-export function validateArray<T>(
-  items: unknown[],
-  schema: z.ZodSchema<T>
-): ValidationResult<T> {
+export function validateArray<T>(items: unknown[], schema: z.ZodSchema<T>): ValidationResult<T> {
   const data: T[] = [];
   const errors: Array<{ index: number; error: string }> = [];
 

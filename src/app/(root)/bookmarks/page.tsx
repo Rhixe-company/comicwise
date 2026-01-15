@@ -1,4 +1,4 @@
-import { ComicCard } from "@/components/ComicCard";
+import { ComicCard } from "@/components/layout/ComicCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUserBookmarks } from "@/database/queries";

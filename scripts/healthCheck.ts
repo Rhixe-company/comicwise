@@ -4,10 +4,10 @@
  * Checks all system health indicators
  */
 
+import { db } from "@/database/db";
 import { sql } from "drizzle-orm";
 import IORedis from "ioredis";
 import { env } from "../appConfig";
-import { db } from "@/database/db";
 
 async function healthCheck() {
   console.log("═══════════════════════════════════════════════════════════");

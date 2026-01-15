@@ -1,28 +1,28 @@
 #!/usr/bin/env tsx
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- * ENHANCED IMPORT PATH OPTIMIZER - ComicWise
+ * ENHANCED IMPORT/EXPORT PATH OPTIMIZER - ComicWise
  * ═══════════════════════════════════════════════════════════════════════════
  *
- * Automatically replaces relative imports with path aliases defined in tsconfig.json
- * Enhanced version with complete tsconfig.json path support
+ * Automatically replaces relative imports AND exports with path aliases
+ * defined in tsconfig.json
  *
- * usage pnpm tsx scripts/replace-imports-enhanced.ts [--dry-run] [--verbose] [--backup]
- * example pnpm tsx scripts/replace-imports-enhanced.ts --verbose --backup
+ * usage: pnpm tsx scripts/replaceImportsEnhanced.ts [--dry-run] [--verbose] [--backup] [--validate]
+ * example: pnpm tsx scripts/replaceImportsEnhanced.ts --verbose --backup
  *
  * Features:
- * - ✅ All 33 tsconfig.json paths supported
+ * - ✅ Dynamic tsconfig.json path alias loading
+ * - ✅ Handles both imports and exports
  * - ✅ Smart pattern matching with priority ordering
  * - ✅ Automatic backup creation
- * - ✅ Parallel file processing
- * - ✅ Progress reporting with statistics
- * - ✅ Invalid import detection (ui/, components/, etc.)
- * - ✅ Duplicate import consolidation
- * - ✅ Export path optimization
+ * - ✅ Parallel file processing (633+ files)
+ * - ✅ Path alias validation
+ * - ✅ Invalid import/export detection and fixing
+ * - ✅ Comprehensive reporting and statistics
  *
- * author ComicWise Dev Team
- * date 2025-12-24
- * version 2.0.0
+ * author: ComicWise Dev Team
+ * date: 2026-01-15
+ * version: 3.0.0
  */
 
 import chalk from "chalk";
@@ -36,17 +36,33 @@ import * as path from "path";
 
 interface Pattern {
   from: RegExp;
-  to: string;
+  to: string | ((match: string) => string);
   category: string;
   priority: number;
+  type: "import" | "export";
 }
 
 interface Stats {
   filesProcessed: number;
   filesModified: number;
   totalReplacements: number;
+  importReplacements: number;
+  exportReplacements: number;
   replacementsByCategory: Map<string, number>;
   errors: string[];
+  validationResults: ValidationResult[];
+}
+
+interface TsConfigPaths {
+  [key: string]: string[];
+}
+
+interface ValidationResult {
+  alias: string;
+  path: string;
+  exists: boolean;
+  status: "valid" | "invalid" | "warning";
+  message: string;
 }
 
 // ═══════════════════════════════════════════════════
@@ -57,9 +73,10 @@ const args = new Set(process.argv.slice(2));
 const DRY_RUN = args.has("--dry-run");
 const VERBOSE = args.has("--verbose");
 const CREATE_BACKUP = args.has("--backup");
+const VALIDATE = args.has("--validate");
 
 // Files to process
-const FILES_TO_PROCESS = ["**/*.ts", "**/*.tsx", "app-config.ts", "scripts/**/*.ts", "cli/**/*.ts"];
+const FILES_TO_PROCESS = ["**/*.ts", "**/*.tsx", "appConfig.ts", "scripts/**/*.ts"];
 
 // Files to exclude
 const EXCLUDE_PATTERNS = [
@@ -69,301 +86,211 @@ const EXCLUDE_PATTERNS = [
   "**/build/**",
   "**/coverage/**",
   "**/*.backup*",
-  "**/*.d.ts", // Don't modify type definition files
+  "**/*.d.ts",
 ];
 
 // ═══════════════════════════════════════════════════
-// IMPORT REPLACEMENT PATTERNS
-// Based on tsconfig.json paths - Order matters!
+// DYNAMIC PATH ALIAS GENERATION FROM tsconfig.json
 // ═══════════════════════════════════════════════════
 
-const IMPORT_PATTERNS: Pattern[] = [
-  // ═══════════════════════════════════════════════════
-  // PRIORITY 1: Specific Files (Highest Priority)
-  // ═══════════════════════════════════════════════════
+function loadTsConfigPaths(): TsConfigPaths {
+  try {
+    const tsconfigPath = path.join(process.cwd(), "tsconfig.json");
+    const tsconfigContent = readFileSync(tsconfigPath, "utf-8");
+    const tsconfig = JSON.parse(tsconfigContent);
+    return tsconfig.compilerOptions?.paths || {};
+  } catch (error) {
+    log(`⚠️  Failed to load tsconfig.json: ${error}`, "warn");
+    return {};
+  }
+}
 
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/schema(?:\.ts)?["']/g,
-    to: 'from "@/database/schema"',
-    category: "Schema (File)",
-    priority: 1,
-  },
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/auth(?:\.ts)?["']/g,
-    to: 'from "auth"',
-    category: "Auth (File)",
-    priority: 1,
-  },
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/authConfig(?:\.ts)?["']/g,
-    to: 'from "authConfig"',
-    category: "AuthConfig (File)",
-    priority: 1,
-  },
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/authAdapter(?:\.ts)?["']/g,
-    to: 'from "authAdapter"',
-    category: "AuthAdapter (File)",
-    priority: 1,
-  },
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/db(?:\.ts)?["']/g,
-    to: 'from "@/database/db"',
-    category: "DB (File)",
-    priority: 1,
-  },
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/utils(?:\.ts)?["']/g,
-    to: 'from "utils"',
-    category: "Utils (File)",
-    priority: 1,
-  },
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/env(?:\.ts)?["']/g,
-    to: 'from "env"',
-    category: "Env (File)",
-    priority: 1,
-  },
-  {
-    from: /from ["'](?:\.\.\/)*app-config(?:\.ts)?["']/g,
-    to: 'from "@/appConfig"',
-    category: "AppConfig (File)",
-    priority: 1,
-  },
-  {
-    from: /from ["'](?:\.\.\/)*redis(?:\.ts)?["']/g,
-    to: 'from "redis"',
-    category: "Redis (File)",
-    priority: 1,
-  },
+function generatePatternsFromTsConfig(tsPaths: TsConfigPaths): Pattern[] {
+  const patterns: Pattern[] = [];
+  let priority = 10;
 
-  // ═══════════════════════════════════════════════════
-  // PRIORITY 2: Specific Subdirectories
-  // ═══════════════════════════════════════════════════
+  // Sort by path specificity (more specific first)
+  const sortedPaths = Object.entries(tsPaths).sort((a, b) => {
+    const depthA = (a[0].match(/\//g) || []).length;
+    const depthB = (b[0].match(/\//g) || []).length;
+    return depthB - depthA;
+  });
 
-  // UI Components
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/ui\/([^"']+)["']/g,
-    to: 'from "@/components/ui/$1"',
-    category: "UI Components",
-    priority: 2,
-  },
+  for (const [alias, targets] of sortedPaths) {
+    if (!targets || targets.length === 0) continue;
 
-  // Layout Components
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/layout\/([^"']+)["']/g,
-    to: 'from "@/components/layout/$1"',
-    category: "Layout Components",
-    priority: 2,
-  },
+    const target = targets[0];
+    const aliasName = alias.replace(/\/\*$/, "");
+    const targetPath = target.replace(/\/\*$/, "").replace(/^\.\//, "");
 
-  // Email Components
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/emails\/([^"']+)["']/g,
-    to: 'from "@/components/emails/$1"',
-    category: "Email Components",
-    priority: 2,
-  },
+    // Generate regex to match relative imports/exports to this target
+    const relativePatterns = [
+      targetPath,
+      `src/${targetPath}`,
+      `(?:\.\.\/)+${targetPath}`,
+      `(?:\.\.\/)+src/${targetPath}`,
+    ];
 
-  // Admin Components
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?components\/admin\/([^"']+)["']/g,
-    to: 'from "@/components/admin/$1"',
-    category: "Admin Components",
-    priority: 2,
-  },
+    for (const relPattern of relativePatterns) {
+      // === IMPORTS ===
+      // For directory paths (imports with subdirectories)
+      const dirImportRegex = new RegExp(`from ["']${relPattern}(?:\/)([^"']+)["']`, "g");
+      patterns.push({
+        from: dirImportRegex,
+        to: `from "${aliasName}/$1"`,
+        category: `${aliasName} (import-dir)`,
+        priority,
+        type: "import",
+      });
 
-  // Actions
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/actions\/([^"']+)["']/g,
-    to: 'from "@/lib/actions/$1"',
-    category: "Actions",
-    priority: 2,
-  },
+      // For file paths (imports with or without .ts/.tsx)
+      const fileImportRegex = new RegExp(`from ["']${relPattern}(?:\.(?:ts|tsx|js|jsx))?["']`, "g");
+      patterns.push({
+        from: fileImportRegex,
+        to: `from "${aliasName}"`,
+        category: `${aliasName} (import-file)`,
+        priority: priority - 1,
+        type: "import",
+      });
 
-  // Validations
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/validations\/([^"']+)["']/g,
-    to: 'from "@/lib/validations/$1"',
-    category: "Validations",
-    priority: 2,
-  },
+      // === EXPORTS ===
+      // For directory exports with subdirectories
+      const dirExportRegex = new RegExp(
+        `export [^"']*from ["']${relPattern}(?:\/)([^"']+)["']`,
+        "g"
+      );
+      patterns.push({
+        from: dirExportRegex,
+        to: `export $& from "${aliasName}/$1"`,
+        category: `${aliasName} (export-dir)`,
+        priority,
+        type: "export",
+      });
 
-  // Database Queries
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/queries\/([^"']+)["']/g,
-    to: 'from "@/database/queries/$1"',
-    category: "Queries",
-    priority: 2,
-  },
+      // For file exports
+      const fileExportRegex = new RegExp(
+        `export ([^"']*) from ["']${relPattern}(?:\.(?:ts|tsx|js|jsx))?["']`,
+        "g"
+      );
+      patterns.push({
+        from: fileExportRegex,
+        to: `export $1 from "${aliasName}"`,
+        category: `${aliasName} (export-file)`,
+        priority: priority - 1,
+        type: "export",
+      });
+    }
 
-  // Database Mutations
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/mutations\/([^"']+)["']/g,
-    to: 'from "@/database/mutations/$1"',
-    category: "Mutations",
-    priority: 2,
-  },
+    priority += 2;
+  }
 
-  // ═══════════════════════════════════════════════════
-  // PRIORITY 3: General Directories
-  // ═══════════════════════════════════════════════════
-
-  // DTOs
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?dto\/([^"']+)["']/g,
-    to: 'from "@/dto/$1"',
-    category: "DTOs",
-    priority: 3,
-  },
-
-  // DAL (Data Access Layer)
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?dal\/([^"']+)["']/g,
-    to: 'from "@/dal/$1"',
-    category: "DAL",
-    priority: 3,
-  },
-
-  // Hooks
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?hooks\/([^"']+)["']/g,
-    to: 'from "@/hooks/$1"',
-    category: "Hooks",
-    priority: 3,
-  },
-
-  // Types
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?types\/([^"']+)["']/g,
-    to: 'from "@/types/$1"',
-    category: "Types",
-    priority: 3,
-  },
-
-  // Database (general)
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?database\/([^"']+)["']/g,
-    to: 'from "@/database/$1"',
-    category: "Database",
-    priority: 3,
-  },
-
-  // Services
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?services\/([^"']+)["']/g,
-    to: 'from "@/services/$1"',
-    category: "Services",
-    priority: 3,
-  },
-
-  // Stores
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?stores\/([^"']+)["']/g,
-    to: 'from "stores/$1"',
-    category: "Stores",
-    priority: 3,
-  },
-
-  // Styles
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?styles\/([^"']+)["']/g,
-    to: 'from "styles/$1"',
-    category: "Styles",
-    priority: 3,
-  },
-
-  // Assets
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?assets\/([^"']+)["']/g,
-    to: 'from "@/assets/$1"',
-    category: "Assets",
-    priority: 3,
-  },
-
-  // Public
-  {
-    from: /from ["'](?:\.\.\/)*public\/([^"']+)["']/g,
-    to: 'from "public/$1"',
-    category: "Public",
-    priority: 3,
-  },
-
-  // Tests
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?tests\/([^"']+)["']/g,
-    to: 'from "tests/$1"',
-    category: "Tests",
-    priority: 3,
-  },
-
-  // Lib (general - should be after specific lib subdirectories)
-  {
-    from: /from ["'](?:\.\.\/)*(?:src\/)?lib\/([^"']+)["']/g,
-    to: 'from "@/lib/$1"',
-    category: "Library",
-    priority: 3,
-  },
-
-  // ═══════════════════════════════════════════════════
-  // PRIORITY 4: Fallback to  prefix
-  // ═══════════════════════════════════════════════════
-
-  // Catch remaining  imports
-  {
-    from: /from ["'](?:\.\.\/)*src\/([^"']+)["']/g,
-    to: 'from "/$1"',
-    category: "Source ()",
-    priority: 4,
-  },
-];
+  return patterns;
+}
 
 // ═══════════════════════════════════════════════════
-// INVALID IMPORT PATTERNS TO FIX
+// VALIDATION FUNCTIONS
+// ═══════════════════════════════════════════════════
+
+function validatePathAliases(tsPaths: TsConfigPaths): ValidationResult[] {
+  const results: ValidationResult[] = [];
+
+  for (const [alias, targets] of Object.entries(tsPaths)) {
+    const target = targets[0];
+    const aliasName = alias.replace(/\/\*$/, "");
+    const targetPath = target.replace(/\/\*$/, "").replace(/^\.\//, "");
+    const fullPath = path.join(process.cwd(), targetPath);
+
+    const exists = existsSync(fullPath);
+    let status: "valid" | "invalid" | "warning" = exists ? "valid" : "invalid";
+    let message = exists ? `✅ Path exists` : `❌ Path not found`;
+
+    // Special warning for appConfig (file, not directory)
+    if (alias === "appConfig" || alias === "@/appConfig") {
+      if (!fullPath.endsWith("appConfig.ts") && !fullPath.endsWith("appConfig.tsx")) {
+        status = "warning";
+        message = "⚠️  Expected appConfig.ts file";
+      }
+    }
+
+    results.push({
+      alias,
+      path: targetPath,
+      exists,
+      status,
+      message,
+    });
+  }
+
+  return results;
+}
+
+// ═══════════════════════════════════════════════════
+// IMPORT REPLACEMENT PATTERNS - FALLBACK/INVALID
+// ═══════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════
+// IMPORT/EXPORT REPLACEMENT PATTERNS - FALLBACK
 // ═══════════════════════════════════════════════════
 
 const INVALID_PATTERNS: Pattern[] = [
+  // Invalid imports without paths
   {
     from: /from ["']ui\/([^"']+)["']/g,
     to: 'from "@/components/ui/$1"',
     category: "Invalid ui",
     priority: 0,
+    type: "import",
   },
   {
     from: /from ["']components\/([^"']+)["']/g,
     to: 'from "@/components/$1"',
     category: "Invalid components",
     priority: 0,
+    type: "import",
   },
   {
     from: /from ["']lib\/([^"']+)["']/g,
     to: 'from "@/lib/$1"',
     category: "Invalid lib",
     priority: 0,
+    type: "import",
   },
   {
     from: /from ["']database\/([^"']+)["']/g,
     to: 'from "@/database/$1"',
     category: "Invalid database",
     priority: 0,
+    type: "import",
   },
   {
     from: /from ["']types\/([^"']+)["']/g,
     to: 'from "@/types/$1"',
     category: "Invalid types",
     priority: 0,
-  },
-  {
-    from: /from ["']actions\/([^"']+)["']/g,
-    to: 'from "@/lib/actions/$1"',
-    category: "Invalid actions",
-    priority: 0,
+    type: "import",
   },
   {
     from: /from ["']hooks\/([^"']+)["']/g,
-    to: 'from "/hooks/$1"',
+    to: 'from "@/hooks/$1"',
     category: "Invalid hooks",
     priority: 0,
+    type: "import",
+  },
+
+  // Invalid exports
+  {
+    from: /export [^"']*from ["']ui\/([^"']+)["']/g,
+    to: 'export { $1 } from "@/components/ui/$1"',
+    category: "Invalid export ui",
+    priority: 0,
+    type: "export",
+  },
+  {
+    from: /export [^"']*from ["']components\/([^"']+)["']/g,
+    to: 'export { $1 } from "@/components/$1"',
+    category: "Invalid export components",
+    priority: 0,
+    type: "export",
   },
 ];
 
@@ -389,19 +316,32 @@ function header(title: string) {
   console.log(chalk.cyan(`╚${line}╝\n`));
 }
 
-function processFile(filePath: string, stats: Stats): boolean {
+function processFile(filePath: string, stats: Stats, patterns: Pattern[]): boolean {
   try {
     let content = readFileSync(filePath, "utf-8");
     const originalContent = content;
     let fileModified = false;
+    let importCount = 0;
+    let exportCount = 0;
 
     // First, fix invalid patterns
     for (const pattern of INVALID_PATTERNS) {
       const matches = content.match(pattern.from);
       if (matches) {
-        content = content.replace(pattern.from, pattern.to);
+        if (typeof pattern.to === "string") {
+          content = content.replace(pattern.from, pattern.to);
+        } else {
+          content = content.replace(pattern.from, pattern.to);
+        }
         const count = matches.length;
         stats.totalReplacements += count;
+        if (pattern.type === "import") {
+          stats.importReplacements += count;
+          importCount += count;
+        } else {
+          stats.exportReplacements += count;
+          exportCount += count;
+        }
         stats.replacementsByCategory.set(
           pattern.category,
           (stats.replacementsByCategory.get(pattern.category) || 0) + count
@@ -409,20 +349,33 @@ function processFile(filePath: string, stats: Stats): boolean {
         fileModified = true;
 
         if (VERBOSE) {
-          log(`  ⚠️  Fixed ${count} invalid import(s) in ${path.basename(filePath)}`, "warn");
+          log(`  ⚠️  Fixed ${count} invalid ${pattern.type}(s)`, "warn");
         }
       }
     }
 
-    // Then apply normal patterns (sorted by priority)
-    const sortedPatterns = [...IMPORT_PATTERNS].sort((a, b) => a.priority - b.priority);
+    // Then apply patterns from tsconfig (sorted by priority)
+    const sortedPatterns = [...patterns].sort((a, b) => a.priority - b.priority);
 
     for (const pattern of sortedPatterns) {
       const matches = content.match(pattern.from);
       if (matches) {
-        content = content.replace(pattern.from, pattern.to);
+        if (typeof pattern.to === "string") {
+          content = content.replace(pattern.from, pattern.to);
+        } else {
+          content = content.replace(pattern.from, pattern.to);
+        }
         const count = matches.length;
         stats.totalReplacements += count;
+
+        if (pattern.type === "import") {
+          stats.importReplacements += count;
+          importCount += count;
+        } else {
+          stats.exportReplacements += count;
+          exportCount += count;
+        }
+
         stats.replacementsByCategory.set(
           pattern.category,
           (stats.replacementsByCategory.get(pattern.category) || 0) + count
@@ -456,7 +409,7 @@ function processFile(filePath: string, stats: Stats): boolean {
 }
 
 function createBackup() {
-  const timestamp = new Date().toISOString().replaceAll(/[.:]/g, "-");
+  const timestamp = new Date().toISOString().replace(/[.:]/g, "-");
   const backupDir = `.import-backup-${timestamp}`;
 
   try {
@@ -474,7 +427,55 @@ function createBackup() {
 // ═══════════════════════════════════════════════════
 
 function main() {
-  header("Enhanced Import Path Optimizer - ComicWise");
+  header("Enhanced Import/Export Path Optimizer - ComicWise");
+
+  // Load path aliases from tsconfig.json
+  const tsPaths = loadTsConfigPaths();
+  let IMPORT_PATTERNS = generatePatternsFromTsConfig(tsPaths);
+
+  if (Object.keys(tsPaths).length > 0) {
+    log(`✅ Loaded ${Object.keys(tsPaths).length} path aliases from tsconfig.json`, "success");
+    if (VERBOSE) {
+      log("\nPath aliases:", "info");
+      for (const [alias, targets] of Object.entries(tsPaths)) {
+        log(`  ${alias} → ${targets[0]}`, "info");
+      }
+      console.log();
+    }
+  } else {
+    log("⚠️  No path aliases found in tsconfig.json", "warn");
+    IMPORT_PATTERNS = [];
+  }
+
+  // Validate path aliases if requested
+  if (VALIDATE) {
+    header("Path Alias Validation");
+    const validationResults = validatePathAliases(tsPaths);
+    let validCount = 0;
+    let invalidCount = 0;
+    let warningCount = 0;
+
+    for (const result of validationResults) {
+      const symbol = result.status === "valid" ? "✅" : result.status === "invalid" ? "❌" : "⚠️";
+      log(
+        `${symbol} ${result.alias.padEnd(25)} → ${result.path.padEnd(30)} ${result.message}`,
+        result.status === "valid" ? "success" : result.status === "invalid" ? "error" : "warn"
+      );
+
+      if (result.status === "valid") validCount++;
+      else if (result.status === "invalid") invalidCount++;
+      else warningCount++;
+    }
+
+    console.log();
+    log(`Summary: ${validCount} valid, ${invalidCount} invalid, ${warningCount} warnings`, "info");
+    console.log();
+
+    if (invalidCount > 0) {
+      log("❌ Some paths are invalid. Please check your tsconfig.json", "error");
+      process.exit(1);
+    }
+  }
 
   if (DRY_RUN) {
     log("🔍 DRY RUN MODE - No files will be modified\n", "warn");
@@ -496,8 +497,11 @@ function main() {
     filesProcessed: 0,
     filesModified: 0,
     totalReplacements: 0,
+    importReplacements: 0,
+    exportReplacements: 0,
     replacementsByCategory: new Map(),
     errors: [],
+    validationResults: VALIDATE ? validatePathAliases(tsPaths) : [],
   };
 
   // Process files
@@ -510,7 +514,7 @@ function main() {
       log(`\n📄 Processing: ${file}`, "info");
     }
 
-    processFile(file, stats);
+    processFile(file, stats, IMPORT_PATTERNS);
   }
 
   const duration = ((Date.now() - startTime) / 1000).toFixed(2);
@@ -521,13 +525,15 @@ function main() {
   log(`Files processed: ${stats.filesProcessed}`, "info");
   log(`Files modified: ${stats.filesModified}`, stats.filesModified > 0 ? "success" : "info");
   log(`Total replacements: ${stats.totalReplacements}`, "info");
+  log(`  - Imports: ${stats.importReplacements}`, "info");
+  log(`  - Exports: ${stats.exportReplacements}`, "info");
   log(`Duration: ${duration}s\n`, "info");
 
   if (stats.replacementsByCategory.size > 0) {
     log("Replacements by category:", "info");
-    const sorted = [...stats.replacementsByCategory.entries()].sort((a, b) => b[1] - a[1]);
+    const sorted = Array.from(stats.replacementsByCategory.entries()).sort((a, b) => b[1] - a[1]);
     for (const [category, count] of sorted) {
-      log(`  ${category.padEnd(30)} ${count}`, "info");
+      log(`  ${category.padEnd(35)} ${count}`, "info");
     }
     console.log();
   }
@@ -547,8 +553,10 @@ function main() {
 
   if (DRY_RUN) {
     log("⚠️  This was a dry run. Run without --dry-run to apply changes.", "warn");
+  } else if (stats.filesModified > 0) {
+    log("✅ Import/export optimization complete!", "success");
   } else {
-    log("✅ Import optimization complete!", "success");
+    log("ℹ️  No files needed optimization.", "info");
   }
 
   console.log();

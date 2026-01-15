@@ -123,3 +123,32 @@ export type {
   SeedingSummary,
   UserSeedDto,
 } from "./seedDto";
+
+// Action Response DTOs
+export type {
+  ActionError,
+  ActionResult,
+  ActionSuccess,
+  ApiResponse,
+  AuthActionResponse,
+  BatchResult,
+  BulkActionResult,
+  CacheActionResult,
+  CreateActionResult,
+  DeleteActionResult,
+  HealthCheckResult,
+  IdResponse,
+  PaginatedActionResult,
+  PaginatedResult,
+  PaginationMeta,
+  RateLimitResult,
+  ReadActionResult,
+  SearchActionResult,
+  SearchResult,
+  SideEffectResult,
+  SimpleActionResult,
+  UpdateActionResult,
+  UploadActionResult,
+  ValidatedActionResult,
+  ValidationResult,
+} from "./actionResponseDto";

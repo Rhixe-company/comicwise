@@ -1,9 +1,5 @@
 "use server";
 
-// ═══════════════════════════════════════════════════
-// AUTH SERVER ACTIONS (Next.js 16 + Rate Limiting + Emails)
-// ═══════════════════════════════════════════════════
-
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
@@ -32,14 +28,6 @@ import { signIn, signOut } from "auth";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
-
-// ═══════════════════════════════════════════════════
-// TYPE DEFINITIONS
-// ═══════════════════════════════════════════════════
-
-export type AuthActionResponse =
-  | { success: true; message?: string }
-  | { success: false; error: string };
 
 // ═══════════════════════════════════════════════════
 // HELPER FUNCTIONS

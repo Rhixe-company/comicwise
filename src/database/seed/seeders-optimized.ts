@@ -437,10 +437,13 @@ export async function seedChapters(
                   ? await options.imageHandler.processImage(imageUrl, "comic")
                   : imageUrl;
 
-                await db.insert(chapterImage).values({
-                  chapterId,
-                  imageUrl: processedUrl,
-                }).onConflictDoUpdate();
+                await db
+                  .insert(chapterImage)
+                  .values({
+                    chapterId,
+                    imageUrl: processedUrl,
+                  })
+                  .onConflictDoUpdate();
               } catch {
                 logger.warn(`Failed to add image to chapter`, {
                   component: "ChapterSeeder",

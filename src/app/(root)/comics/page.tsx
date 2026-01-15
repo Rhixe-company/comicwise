@@ -1,6 +1,6 @@
-import { ComicCard } from "@/components/ComicCard";
-import { Filters } from "@/components/Filters";
-import { Pagination } from "@/components/Pagination";
+import { ComicCard } from "@/components/layout/ComicCard";
+import { Filters } from "@/components/layout/Filters";
+import { Pagination } from "@/components/layout/Pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getAllComics } from "@/database/queries/comics";
 import { getAllGenres, getAllTypes } from "@/dto/genresTypesDto";

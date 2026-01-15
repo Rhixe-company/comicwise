@@ -3,10 +3,10 @@
 import appConfig, { checkRateLimit } from "@/appConfig";
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
+import type { ActionResult } from "@/dto";
 import { error } from "@/lib/actions/utils";
 import { sendPasswordResetEmail, sendWelcomeEmail } from "@/lib/nodemailer";
 import { signUpSchema } from "@/lib/validations";
-import type { ActionResponse } from "@/types";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { revalidatePath } from "next/cache";
@@ -21,7 +21,7 @@ const updateUserAdminSchema = z
   })
   .strict();
 
-export async function registerUser(formData: FormData): Promise<ActionResponse<{ id: string }>> {
+export async function registerUser(formData: FormData): Promise<ActionResult<{ id: string }>> {
   try {
     // Rate limiting
     const email = formData.get("email") as string;

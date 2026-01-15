@@ -22,16 +22,22 @@
 
 ## 🎯 Overview
 
-The enhanced seed system provides a **production-ready solution** for dynamically loading and managing seed data with comprehensive validation, image optimization, and error handling.
+The enhanced seed system provides a **production-ready solution** for
+dynamically loading and managing seed data with comprehensive validation, image
+optimization, and error handling.
 
 ### Key Features
 
-- ✅ **Dynamic Data Loading** - Load from multiple JSON files with pattern matching
+- ✅ **Dynamic Data Loading** - Load from multiple JSON files with pattern
+  matching
 - ✅ **Comprehensive Validation** - Zod-based validation for all seed data
-- ✅ **Smart Image Caching** - Prevents duplicate downloads, uses file system cache
-- ✅ **Upsert Logic** - Creates new records or updates existing ones intelligently
+- ✅ **Smart Image Caching** - Prevents duplicate downloads, uses file system
+  cache
+- ✅ **Upsert Logic** - Creates new records or updates existing ones
+  intelligently
 - ✅ **Parallel Processing** - Downloads images concurrently with rate limiting
-- ✅ **Best Practices** - DRY principles, proper error handling, comprehensive logging
+- ✅ **Best Practices** - DRY principles, proper error handling, comprehensive
+  logging
 - ✅ **Type Safety** - Full TypeScript support with inference
 - ✅ **Batch Processing** - Handles large datasets efficiently
 
@@ -119,6 +125,7 @@ comicwise/
 ```
 
 **Validation Rules**:
+
 - `id` - Valid UUID (required)
 - `name` - 1-100 characters (required)
 - `email` - Valid email format (required)
@@ -142,15 +149,13 @@ comicwise/
     "type": { "name": "Manga" },
     "author": { "name": "Author Name" },
     "artist": { "name": "Artist Name" },
-    "genres": [
-      { "name": "Action" },
-      { "name": "Adventure" }
-    ]
+    "genres": [{ "name": "Action" }, { "name": "Adventure" }]
   }
 ]
 ```
 
 **Validation Rules**:
+
 - `title` - 1-255 characters (required)
 - `slug` - 1-512 characters (required)
 - `description` - 1-5000 characters (required)
@@ -180,6 +185,7 @@ comicwise/
 ```
 
 **Validation Rules**:
+
 - `title` - 1-255 characters (required)
 - `chapterNumber` - Positive integer (required)
 - `releaseDate` - ISO date string (optional)
@@ -200,7 +206,7 @@ const userData = {
   id: "550e8400-e29b-41d4-a716-446655440000",
   name: "John",
   email: "john@example.com",
-  role: "user"
+  role: "user",
 };
 
 const validation = userSeedSchema.safeParse(userData);
@@ -233,15 +239,16 @@ Invalid records are logged but don't stop the seeding process:
 
 ### Image Caching Strategy
 
-The system prevents duplicate image downloads using a **multi-level caching approach**:
+The system prevents duplicate image downloads using a **multi-level caching
+approach**:
 
 ```
 1. Session Cache (In-Memory)
    └─ Tracks URLs downloaded in current session
-   
+
 2. File System Cache
    └─ Checks if file already exists at public/uploads/
-   
+
 3. Remote Download
    └─ Only downloads if not cached locally
 ```
@@ -255,6 +262,7 @@ public/uploads/{filename}
 ```
 
 **Filename Generation**:
+
 - MD5 hash of original URL
 - Original file extension preserved
 - Example: `a1b2c3d4e5f6g7h8i9j0k1l2.webp`
@@ -338,6 +346,7 @@ ELSE:
 ```
 
 **Unique Keys**:
+
 - Users: `email`
 - Comics: `slug`
 - Chapters: `(comicId, chapterNumber)`
@@ -420,12 +429,14 @@ pnpm validate
 ### 1. Data Preparation
 
 ✅ **Do**:
+
 - Validate JSON files before seeding
 - Use unique slugs for comics
 - Include all required fields
 - Keep image URLs accessible
 
 ❌ **Don't**:
+
 - Use duplicate email addresses
 - Leave required fields empty
 - Include invalid URLs
@@ -434,12 +445,14 @@ pnpm validate
 ### 2. Image Management
 
 ✅ **Do**:
+
 - Use stable, permanent image URLs
 - Include cover images for comics
 - Save chapter images with sequential page numbers
 - Monitor upload directory size
 
 ❌ **Don't**:
+
 - Use temporary/expiring URLs
 - Mix image sizes without normalization
 - Skip image validation
@@ -448,12 +461,14 @@ pnpm validate
 ### 3. Error Handling
 
 ✅ **Do**:
+
 - Check seed logs for validation errors
 - Fix invalid data and re-seed
 - Review error messages for guidance
 - Keep backup of original data
 
 ❌ **Don't**:
+
 - Ignore validation errors
 - Assume all records are seeded
 - Modify data during seeding
@@ -462,12 +477,14 @@ pnpm validate
 ### 4. Performance
 
 ✅ **Do**:
+
 - Batch related operations
 - Use proper indexing
 - Monitor memory usage
 - Test with sample data first
 
 ❌ **Don't**:
+
 - Seed without database optimization
 - Download unlimited concurrent images
 - Seed invalid data
@@ -482,6 +499,7 @@ pnpm validate
 **Problem**: Records marked as invalid
 
 **Solution**:
+
 ```bash
 # Check validation errors
 pnpm db:seed:verbose
@@ -500,6 +518,7 @@ pnpm db:seed
 **Problem**: Images not downloading
 
 **Solution**:
+
 ```bash
 # Check image URLs are accessible
 curl -I https://example.com/image.jpg
@@ -519,6 +538,7 @@ pnpm db:seed
 **Problem**: Records created multiple times
 
 **Solution**:
+
 ```bash
 # Clear and re-seed
 pnpm db:reset
@@ -532,6 +552,7 @@ pnpm db:reset
 **Problem**: Cannot connect to database
 
 **Solution**:
+
 ```bash
 # Test connection
 pnpm health:db
@@ -548,6 +569,7 @@ psql -U postgres -h localhost
 **Problem**: Out of memory during seeding
 
 **Solution**:
+
 ```bash
 # Increase Node memory
 NODE_OPTIONS=--max-old-space-size=4096 pnpm db:seed

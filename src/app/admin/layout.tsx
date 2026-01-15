@@ -1,6 +1,6 @@
 import { Breadcrumbs } from "@/components/admin/Breadcrumbs";
 import { CommandMenu } from "@/components/admin/CommandMenu";
-import { AppSidebar } from "@/components/AppSidebar";
+import { AppSidebar } from "@/components/layout/AppSidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import React, { Suspense } from "react";
 

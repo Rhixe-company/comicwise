@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
 const actionsDir = join(process.cwd(), "src", "lib", "actions");
-const dtoDir = join(process.cwd(), "src", "lib", "dto");
+const dtoDir = join(process.cwd(), "src", "dto");
 
 // Files to keep
 const utilsFiles = new Set(["utils.ts"]);
@@ -13,7 +13,7 @@ console.log("Migrating actions to DTO pattern...\n");
 const actionFiles = readdirSync(actionsDir).filter((f) => f.endsWith(".ts") && !utilsFiles.has(f));
 
 let migratedCount = 0;
-const errors = [];
+const errors: string[] = [];
 
 for (const file of actionFiles) {
   const baseName = file.replace(".ts", "");
@@ -53,7 +53,8 @@ for (const file of actionFiles) {
       errors.push(`DTO file not found: ${dtoFileName}`);
     }
   } catch (error) {
-    errors.push(`Error processing ${file}: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    errors.push(`Error processing ${file}: ${errorMessage}`);
   }
 }
 

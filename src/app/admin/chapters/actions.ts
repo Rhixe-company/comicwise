@@ -7,6 +7,7 @@
 
 import { db as database } from "@/database/db";
 import { chapter, comic } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import { requireRole } from "auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
@@ -28,13 +29,7 @@ const createChapterSchema = z
 
 const updateChapterSchema = createChapterSchema.partial();
 
-interface ActionResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
-}
-
-export async function createChapter(input: unknown): Promise<ActionResponse<{ id: number }>> {
+export async function createChapter(input: unknown): Promise<ActionResult<{ id: number }>> {
   try {
     await requireRole("admin");
     const data = createChapterSchema.parse(input);

@@ -30,16 +30,6 @@ const updateAuthorSchema = createAuthorSchema.partial();
 // type UpdateAuthorInput = z.infer<typeof updateAuthorSchema>;
 
 // ═══════════════════════════════════════════════════════════════
-// RESPONSE TYPES
-// ═══════════════════════════════════════════════════════════════
-
-interface ActionResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
-}
-
-// ═══════════════════════════════════════════════════════════════
 // SERVER ACTIONS
 // ═══════════════════════════════════════════════════════════════
 

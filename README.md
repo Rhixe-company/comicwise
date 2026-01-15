@@ -6,36 +6,44 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-336791)](https://www.postgresql.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-> A modern, full-featured web comic reading and management platform built with Next.js 16, PostgreSQL, Redis, and cutting-edge web technologies.
+> A modern, full-featured web comic reading and management platform built with
+> Next.js 16, PostgreSQL, Redis, and cutting-edge web technologies.
 
 ## 🌟 Features
 
 ### 📖 Reader Features
-- **Chapter Navigation**: Seamless reading experience with chapter progress tracking
+
+- **Chapter Navigation**: Seamless reading experience with chapter progress
+  tracking
 - **Bookmarking**: Save comics and chapters for later reading
 - **History Tracking**: View reading history and resume from last read position
 - **Search & Discovery**: Full-text search and genre-based filtering
 - **Ratings & Reviews**: Rate and comment on comics and chapters
 
 ### ✍️ Creator Features
-- **Content Management**: Intuitive admin dashboard for uploading and managing comics
+
+- **Content Management**: Intuitive admin dashboard for uploading and managing
+  comics
 - **Bulk Upload**: Upload multiple chapters with image optimization
 - **Analytics**: Track views, ratings, and engagement metrics
 - **Metadata Management**: Manage genres, authors, artists, and types
 
 ### 🔐 Authentication
+
 - **Credentials Auth**: Email and password authentication
 - **OAuth Providers**: Google and GitHub OAuth integration
 - **WebAuthn**: Support for biometric authentication
 - **Session Management**: Secure JWT-based session handling
 
 ### ⚡ Performance & Optimization
+
 - **Image Optimization**: Automatic compression and CDN delivery
 - **Caching Layer**: Redis-powered caching for fast responses
 - **Database Optimization**: Indexed queries with Drizzle ORM
 - **Progressive Enhancement**: Works without JavaScript
 
 ### 🔄 Advanced Features
+
 - **Real-time Updates**: WebSocket support for live notifications
 - **Background Jobs**: QStash for serverless background processing
 - **Rate Limiting**: Upstash-powered rate limiting
@@ -44,7 +52,8 @@
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 20.0+ 
+
+- Node.js 20.0+
 - pnpm 8.0+
 - PostgreSQL 12.0+
 - Redis 6.0+ (optional, for caching)
@@ -52,23 +61,27 @@
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/comicwise/comicwise.git
 cd comicwise
 ```
 
 2. **Install dependencies**
+
 ```bash
 pnpm install
 ```
 
 3. **Configure environment**
+
 ```bash
 cp .env.example .env.local
 # Edit .env.local with your configuration
 ```
 
 4. **Setup database**
+
 ```bash
 pnpm db:generate
 pnpm db:push
@@ -76,6 +89,7 @@ pnpm db:seed
 ```
 
 5. **Start development server**
+
 ```bash
 pnpm dev
 ```
@@ -122,6 +136,7 @@ comicwise/
 ### Available Commands
 
 #### Development
+
 ```bash
 pnpm dev              # Start development server
 pnpm dev:https        # With HTTPS
@@ -129,6 +144,7 @@ pnpm dev:debug        # With Node debugger
 ```
 
 #### Database
+
 ```bash
 pnpm db:push          # Push schema changes
 pnpm db:generate      # Generate migrations
@@ -139,6 +155,7 @@ pnpm db:reset         # Drop and recreate schema
 ```
 
 #### Code Quality
+
 ```bash
 pnpm type-check       # Check TypeScript
 pnpm lint             # Run ESLint
@@ -148,6 +165,7 @@ pnpm validate         # Full validation
 ```
 
 #### Testing
+
 ```bash
 pnpm test             # Run E2E tests (Playwright)
 pnpm test:ui          # Interactive test UI
@@ -156,6 +174,7 @@ pnpm test:unit:watch  # Watch mode
 ```
 
 #### Build & Deploy
+
 ```bash
 pnpm build            # Build for production
 pnpm start            # Start production server
@@ -164,6 +183,7 @@ pnpm docker:build     # Build Docker image
 ```
 
 #### Maintenance
+
 ```bash
 pnpm clean            # Clean build artifacts
 pnpm cleanup          # Run project cleanup
@@ -210,6 +230,7 @@ PORT="3000"
 ### Database Schema
 
 Key tables include:
+
 - **user**: User accounts and profiles
 - **comic**: Comic metadata and information
 - **chapter**: Individual chapters with content
@@ -223,12 +244,14 @@ Key tables include:
 ### Seeding Data
 
 The seeding system supports multiple JSON data sources:
+
 - `users.json` - User accounts
 - `comics.json` - Comic metadata
 - `chapters.json` - Chapter listings
 - Images are automatically downloaded and cached
 
 Run seeding with:
+
 ```bash
 pnpm db:seed              # Full seed
 pnpm db:seed:dry-run      # Validate without persisting
@@ -238,6 +261,7 @@ pnpm db:seed:verbose      # With detailed output
 ## 🏗️ Technology Stack
 
 ### Frontend
+
 - **Next.js 16** - React framework with App Router
 - **React 19.2** - UI library
 - **Tailwind CSS 4** - Styling
@@ -246,6 +270,7 @@ pnpm db:seed:verbose      # With detailed output
 - **React Hook Form** - Form management
 
 ### Backend
+
 - **Node.js 20+** - JavaScript runtime
 - **TypeScript 5** - Type safety
 - **Drizzle ORM** - Database access
@@ -253,17 +278,20 @@ pnpm db:seed:verbose      # With detailed output
 - **NextAuth v5** - Authentication
 
 ### Database & Caching
+
 - **PostgreSQL 12+** - Relational database
 - **Redis** - In-memory cache
 - **Drizzle Studio** - Database visualization
 
 ### DevOps & Deployment
+
 - **Docker** - Containerization
 - **Docker Compose** - Service orchestration
 - **Vercel** - Hosting platform
 - **GitHub Actions** - CI/CD
 
 ### Testing
+
 - **Playwright** - E2E testing
 - **Vitest** - Unit testing
 - **Testing Library** - Component testing
@@ -271,6 +299,7 @@ pnpm db:seed:verbose      # With detailed output
 ## 📖 Usage Examples
 
 ### Creating a Comic
+
 ```typescript
 // src/app/admin/comics/new/page.tsx
 import { createComic } from "@/database/mutations/comics";
@@ -286,6 +315,7 @@ export default function NewComicPage() {
 ```
 
 ### Reading Chapter Progress
+
 ```typescript
 // src/app/comics/[slug]/[chapterNumber]/page.tsx
 import { getChapterWithProgress } from "@/database/queries/chapters";
@@ -304,6 +334,7 @@ export default async function ChapterPage({ params }) {
 ```
 
 ### Uploading Images
+
 ```typescript
 // Using imageService
 import { ImageService } from "@/services/imageService";
@@ -319,12 +350,14 @@ if (result.success) {
 ## 🔐 Security
 
 ### Authentication
+
 - Implements NextAuth v5 best practices
 - Uses secure session management
 - Supports multi-factor authentication via WebAuthn
 - CSRF protection enabled
 
 ### Data Protection
+
 - Input validation with Zod schemas
 - SQL injection prevention via Drizzle ORM
 - CORS properly configured
@@ -332,6 +365,7 @@ if (result.success) {
 - Password hashing with bcryptjs
 
 ### Production Deployment
+
 - Environment variables for secrets
 - HTTPS enforced
 - Database backups automated
@@ -349,6 +383,7 @@ We welcome contributions! Please follow these steps:
 5. **Open Pull Request**
 
 ### Code Standards
+
 - TypeScript strict mode enabled
 - ESLint and Prettier configured
 - Tests required for new features
@@ -356,6 +391,7 @@ We welcome contributions! Please follow these steps:
 - Follow Next.js best practices
 
 ### Pre-commit Checks
+
 ```bash
 pnpm validate   # Runs type-check, lint, and format
 pnpm test       # Runs E2E tests
@@ -364,6 +400,7 @@ pnpm test       # Runs E2E tests
 ## 🐛 Troubleshooting
 
 ### Database Connection Issues
+
 ```bash
 # Verify DATABASE_URL
 echo $DATABASE_URL
@@ -376,6 +413,7 @@ pnpm health:db
 ```
 
 ### Redis Connection Issues
+
 ```bash
 # Test connection
 redis-cli ping
@@ -385,6 +423,7 @@ curl $UPSTASH_REDIS_REST_URL/ping
 ```
 
 ### Seed Data Errors
+
 ```bash
 # Run with verbose output
 pnpm db:seed:verbose
@@ -394,6 +433,7 @@ cat seed_output.log
 ```
 
 ### Build Errors
+
 ```bash
 # Clear cache
 pnpm clean:cache
@@ -404,7 +444,8 @@ pnpm build --debug
 
 ## 📚 Documentation
 
-- **[Setup Guide](.github/prompts/Setup.prompt.md)** - Complete setup instructions
+- **[Setup Guide](.github/prompts/Setup.prompt.md)** - Complete setup
+  instructions
 - **[API Reference](docs/API.md)** - API endpoints documentation
 - **[Database Schema](docs/DATABASE.md)** - Database structure
 - **[Deployment Guide](docs/DEPLOYMENT.md)** - Production deployment
@@ -413,34 +454,41 @@ pnpm build --debug
 ## 🗺️ Roadmap
 
 ### Phase 1 (Current)
+
 - ✅ Core comic reading platform
 - ✅ User authentication
 - ✅ Image optimization and CDN support
 
 ### Phase 2 (Planned)
+
 - 🔄 Advanced search and filtering
 - 🔄 Social features (following, discussions)
 - 🔄 Recommendation engine
 
 ### Phase 3 (Future)
+
 - 📅 Mobile app (React Native)
 - 📅 Creator marketplace
 - 📅 Advanced analytics dashboard
 
 ## 📄 License
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
+details.
 
 ## 📞 Support
 
 For questions and support:
+
 - **Issues**: [GitHub Issues](https://github.com/comicwise/comicwise/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/comicwise/comicwise/discussions)
+- **Discussions**:
+  [GitHub Discussions](https://github.com/comicwise/comicwise/discussions)
 - **Email**: support@comicwise.com
 
 ## 🙏 Acknowledgments
 
 Built with ❤️ using:
+
 - [Next.js](https://nextjs.org)
 - [Drizzle ORM](https://orm.drizzle.team)
 - [Tailwind CSS](https://tailwindcss.com)

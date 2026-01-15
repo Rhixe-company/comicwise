@@ -1,12 +1,9 @@
 "use server";
 
-// ═══════════════════════════════════════════════════
-// BOOKMARKS & COMMENTS SERVER ACTIONS (Next.js 16)
-// ═══════════════════════════════════════════════════
-
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { bookmark, comment } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import type {
   CreateBookmarkInput,
   CreateCommentInput,
@@ -23,10 +20,6 @@ import {
 } from "@/lib/validations";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-
-export type ActionResult<T = unknown> =
-  | { success: true; data: T; message?: string }
-  | { success: false; error: string };
 
 // ═══════════════════════════════════════════════════
 // BOOKMARKS

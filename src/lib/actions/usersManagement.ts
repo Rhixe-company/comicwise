@@ -1,12 +1,9 @@
 "use server";
 
-// ═══════════════════════════════════════════════════
-// USERS MANAGEMENT SERVER ACTIONS (Next.js 16)
-// ═══════════════════════════════════════════════════
-
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import { sendAccountUpdatedEmail, sendWelcomeEmail } from "@/lib/email";
 import type { CreateUserInput, UpdateUserInput, UserFilterInput } from "@/lib/validations";
 import { createUserSchema, updateUserSchema, userFilterSchema } from "@/lib/validations";
@@ -14,14 +11,6 @@ import bcrypt from "bcryptjs";
 import type { SQL } from "drizzle-orm";
 import { asc, desc, eq, like, or, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-
-export type ActionResult<T = unknown> =
-  | { success: true; data: T; message?: string }
-  | { success: false; error: string };
-
-// ═══════════════════════════════════════════════════
-// CREATE USER (Admin Only)
-// ═══════════════════════════════════════════════════
 
 export async function createUserAdmin(
   input: CreateUserInput

@@ -2,26 +2,26 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * UNIFIED DATA LOADER - Load and validate all seed data sources
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * DRY principle: Single loader for all data types
  * Supports dynamic source configuration
  * Provides detailed validation reporting
  */
 
-import fs from "fs/promises";
-import path from "path";
-import { glob } from "glob";
 import { logger } from "@/database/seed/logger-optimized";
 import {
-  userArraySchema,
-  comicArraySchema,
   chapterArraySchema,
+  comicArraySchema,
+  userArraySchema,
   validateArray,
-  type UserSeedData,
-  type ComicSeedData,
   type ChapterSeedData,
+  type ComicSeedData,
+  type UserSeedData,
   type ValidationResult,
 } from "@/database/seed/schemas-optimized";
+import fs from "fs/promises";
+import { glob } from "glob";
+import path from "path";
 
 // ─────────────────────────────────────────────────────────────────────────
 // CONFIGURATION - Define data sources and their patterns
@@ -57,7 +57,9 @@ async function loadJsonFile<T = unknown>(filePath: string): Promise<T | null> {
     const content = await fs.readFile(filePath, "utf-8");
     return JSON.parse(content) as T;
   } catch (error) {
-    logger.warn(`Failed to load ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+    logger.warn(
+      `Failed to load ${filePath}: ${error instanceof Error ? error.message : String(error)}`
+    );
     return null;
   }
 }
@@ -76,7 +78,9 @@ async function findFiles(patterns: string[]): Promise<string[]> {
       });
       files.push(...matches);
     } catch (error) {
-      logger.warn(`Pattern ${pattern} failed: ${error instanceof Error ? error.message : String(error)}`);
+      logger.warn(
+        `Pattern ${pattern} failed: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -102,7 +106,7 @@ function consolidateData(dataSources: unknown[][]): unknown[] {
  */
 export async function loadUsers(): Promise<ValidationResult<UserSeedData>> {
   const timer = logger.timing("Load users");
-  
+
   try {
     logger.info("Loading user data from JSON sources");
     const { patterns, schema } = DATA_SOURCES.users;
@@ -128,7 +132,7 @@ export async function loadUsers(): Promise<ValidationResult<UserSeedData>> {
 
     logger.metric("Total user records", allData.length);
     const result = validateArray(allData, schema);
-    
+
     if (result.invalid > 0) {
       logger.warn(`User validation errors: ${result.invalid} invalid records`);
       if (result.errors.length > 0) {
@@ -253,11 +257,7 @@ export async function loadChapters(): Promise<ValidationResult<ChapterSeedData>>
 export async function loadAllData() {
   logger.section("Loading All Seed Data");
 
-  const [users, comics, chapters] = await Promise.all([
-    loadUsers(),
-    loadComics(),
-    loadChapters(),
-  ]);
+  const [users, comics, chapters] = await Promise.all([loadUsers(), loadComics(), loadChapters()]);
 
   return { users, comics, chapters };
 }

@@ -7,6 +7,7 @@
 
 import { db as database } from "@/database/db";
 import { artist } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import { requireRole } from "auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
@@ -21,13 +22,7 @@ const createArtistSchema = z
 
 const updateArtistSchema = createArtistSchema.partial();
 
-interface ActionResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
-}
-
-export async function createArtist(input: unknown): Promise<ActionResponse<{ id: number }>> {
+export async function createArtist(input: unknown): Promise<ActionResult<{ id: number }>> {
   try {
     await requireRole("admin");
     const data = createArtistSchema.parse(input);

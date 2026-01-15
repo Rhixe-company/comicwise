@@ -1,30 +1,41 @@
 /**
- * 🌱 Enhanced Database Seeding System Entry Point v2.0
+ * 🌱 Enhanced Database Seeding System Entry Point v4.0
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * ✨ Features:
  * - Dynamic data loading from multiple JSON sources (users, comics, chapters)
  * - Comprehensive Zod validation for all seed data
- * - Smart multi-layer image caching prevents duplicate downloads
- * - Integration with existing imageService.ts for local/cloud uploads
+ * - Intelligent 3-layer image caching prevents duplicate downloads
+ * - Integration with imageService.ts for local/cloud uploads
  * - Upsert logic with ON CONFLICT DO UPDATE for data integrity
- * - Parallel image processing with rate limiting
- * - Comprehensive error handling and logging
- * - Production-ready with best practices
- * 
+ * - Parallel image processing with rate limiting and retry logic
+ * - Comprehensive logging with clear, concise descriptions
+ * - Production-ready with security & best practices
+ *
+ * Image Storage Strategy:
+ * - Comic cover images: /public/comics/covers/
+ * - Chapter images: /public/comics/chapters/${comic.slug}/${chapter.slug}/
+ * - Fallback: /placeholder-comic.jpg (comics), /shadcn.jpg (chapters)
+ *
  * Performance Optimizations:
- * - Session cache reduces redundant operations
- * - File system cache prevents re-downloading existing images
- * - Batch processing with controlled concurrency
+ * - 3-layer image caching (session → filesystem → remote download)
+ * - Hash-based deduplication prevents identical image re-uploads
+ * - Batch processing with controlled concurrency (3 images parallel)
+ * - Database query cache for metadata lookups
  * - Transaction-based operations for data consistency
+ * - Exponential backoff retry logic for resilience
  */
 
 import { db } from "@/database/db";
+import {
+  getImageStats,
+  initializeImageHandler,
+  resetImageHandler,
+} from "@/database/seed/imageHandlerOptimized";
 import { logger } from "@/database/seed/logger";
-import { seedUsers } from "@/database/seed/seeders/seedUsersOptimized";
-import { seedComics } from "@/database/seed/seeders/seedComicsOptimized";
 import { seedChapters } from "@/database/seed/seeders/seedChaptersOptimized";
-import { initializeImageHandler, resetImageHandler, getImageStats } from "@/database/seed/imageHandlerOptimized";
+import { seedComics } from "@/database/seed/seeders/seedComicsOptimized";
+import { seedUsers } from "@/database/seed/seeders/seedUsersOptimized";
 import { sql } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -45,21 +56,23 @@ async function retryOperation<T>(
   maxAttempts = RETRY_ATTEMPTS
 ): Promise<T> {
   let lastError: Error | null = null;
-  
+
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       return await operation();
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
-      
+
       if (attempt < maxAttempts) {
         const delay = RETRY_DELAY_MS * Math.pow(2, attempt - 1); // Exponential backoff
-        logger.warn(`⚠️ ${name} failed (attempt ${attempt}/${maxAttempts}), retrying in ${delay}ms...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
+        logger.warn(
+          `⚠️ ${name} failed (attempt ${attempt}/${maxAttempts}), retrying in ${delay}ms...`
+        );
+        await new Promise((resolve) => setTimeout(resolve, delay));
       }
     }
   }
-  
+
   throw lastError || new Error(`${name} failed after ${maxAttempts} attempts`);
 }
 
@@ -77,20 +90,12 @@ async function main() {
 
     // Test database connection with retry
     logger.info("Testing database connection...");
-    await retryOperation(
-      () => db.execute(sql`SELECT 1`),
-      "Database connection",
-      2
-    );
+    await retryOperation(() => db.execute(sql`SELECT 1`), "Database connection", 2);
     logger.success("✓ Database connection established");
 
     // Initialize image handler with retry
     logger.info("Initializing image handler with imageService...");
-    await retryOperation(
-      () => initializeImageHandler(),
-      "Image handler initialization",
-      2
-    );
+    await retryOperation(() => initializeImageHandler(), "Image handler initialization", 2);
     imageHandlerInitialized = true;
     logger.success("✓ Image handler ready");
 

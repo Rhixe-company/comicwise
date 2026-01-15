@@ -6,11 +6,11 @@
 
 import { db } from "@/database/db";
 import { user } from "@/database/schema";
-import { logger } from "@/database/seed/logger";
 import { loadUsers } from "@/database/seed/dataLoaderOptimized";
 import { downloadImage } from "@/database/seed/imageHandlerOptimized";
-import { eq } from "drizzle-orm";
+import { logger } from "@/database/seed/logger";
 import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -84,7 +84,9 @@ export async function seedUsers(options: SeedOptions = {}): Promise<SeedStats> {
     }
 
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-    logger.debug(`User seeding complete: ${stats.created} created, ${stats.updated} updated (${elapsed}s)`);
+    logger.debug(
+      `User seeding complete: ${stats.created} created, ${stats.updated} updated (${elapsed}s)`
+    );
 
     if (stats.errors > 0) {
       logger.warn(`⚠ User seeding had ${stats.errors} errors`);
@@ -129,7 +131,9 @@ async function upsertUser(
             name: data.name,
             image: avatarUrl || existing.image,
             role: data.role || "user",
-            emailVerified: data.emailVerified ? new Date(data.emailVerified) : existing.emailVerified,
+            emailVerified: data.emailVerified
+              ? new Date(data.emailVerified)
+              : existing.emailVerified,
             updatedAt: new Date(),
           })
           .where(eq(user.id, existing.id));

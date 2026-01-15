@@ -4,17 +4,12 @@
  * Supports dynamic file patterns and comprehensive validation
  */
 
-import type { ChapterSeedData, ComicSeedData, UserSeedData } from "@/database/seed/schemas";
-import {
-  chapterSeedSchema,
-  comicSeedSchema,
-  userSeedSchema,
-} from "@/database/seed/schemas";
 import { logger } from "@/database/seed/logger";
-import type { z } from "zod";
+import type { ChapterSeedData, ComicSeedData, UserSeedData } from "@/database/seed/schemas";
+import { chapterSeedSchema, comicSeedSchema, userSeedSchema } from "@/database/seed/schemas";
 import fs from "fs/promises";
-import path from "path";
 import { glob } from "glob";
+import type { z } from "zod";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -95,7 +90,9 @@ async function loadFromJsonFiles<T>(
 // SPECIALIZED LOADERS (USING UNIVERSAL LOADER)
 // ═══════════════════════════════════════════════════════════════════════════
 
-export async function loadUsers(patterns: string[] = ["users.json"]): Promise<LoadResult<UserSeedData>> {
+export async function loadUsers(
+  patterns: string[] = ["users.json"]
+): Promise<LoadResult<UserSeedData>> {
   return loadFromJsonFiles(patterns, userSeedSchema, "users");
 }
 
@@ -120,11 +117,7 @@ export async function loadAllSeedData() {
 
   logger.section("Loading Seed Data");
 
-  const [users, comics, chapters] = await Promise.all([
-    loadUsers(),
-    loadComics(),
-    loadChapters(),
-  ]);
+  const [users, comics, chapters] = await Promise.all([loadUsers(), loadComics(), loadChapters()]);
 
   // Log results
   if (users.valid > 0) {

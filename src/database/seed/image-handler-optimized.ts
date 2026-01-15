@@ -2,7 +2,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * OPTIMIZED IMAGE HANDLER - Smart image downloading with deduplication
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Features:
  * - Prevents duplicate downloads via in-memory cache
  * - Filesystem check before download
@@ -11,10 +11,10 @@
  * - Comprehensive error handling
  */
 
+import { logger } from "@/database/seed/logger-optimized";
+import { ImageService } from "@/services/imageService";
 import fs from "fs/promises";
 import path from "path";
-import { ImageService } from "@/services/imageService";
-import { logger } from "@/database/seed/logger-optimized";
 
 // ─────────────────────────────────────────────────────────────────────────
 // CONFIGURATION
@@ -96,7 +96,9 @@ export class OptimizedImageHandler {
       await fs.mkdir(UPLOAD_DIR, { recursive: true });
       logger.success("Upload directory ready", { path: UPLOAD_DIR });
     } catch (error) {
-      logger.warn(`Could not create upload directory: ${error instanceof Error ? error.message : String(error)}`);
+      logger.warn(
+        `Could not create upload directory: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 

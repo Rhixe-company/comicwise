@@ -41,14 +41,6 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
 // ═══════════════════════════════════════════════════
-// TYPE DEFINITIONS
-// ═══════════════════════════════════════════════════
-
-export type AuthActionResponse =
-  | { success: true; message?: string; data?: unknown }
-  | { success: false; error: string; details?: unknown };
-
-// ═══════════════════════════════════════════════════
 // HELPER FUNCTIONS
 // ═══════════════════════════════════════════════════
 

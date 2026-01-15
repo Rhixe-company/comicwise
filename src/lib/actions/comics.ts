@@ -1,12 +1,9 @@
 "use server";
 
-// ═══════════════════════════════════════════════════
-// COMICS CRUD SERVER ACTIONS (Next.js 16)
-// ═══════════════════════════════════════════════════
-
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { comic, comicToGenre } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import type { ComicFilterInput, CreateComicInput, UpdateComicInput } from "@/lib/validations";
 import { comicFilterSchema, createComicSchema, updateComicSchema } from "@/lib/validations";
 import type { Genre } from "@/types/database";
@@ -17,10 +14,6 @@ import { slugify } from "utils";
 
 type ParsedCreateComic = CreateComicInput & { slug?: string };
 type ParsedUpdateComic = UpdateComicInput & { slug?: string };
-
-export type ActionResult<T = unknown> =
-  | { success: true; data: T; message?: string }
-  | { success: false; error: string };
 
 // ═══════════════════════════════════════════════════
 // CREATE COMIC

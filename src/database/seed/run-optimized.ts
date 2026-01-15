@@ -2,7 +2,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * OPTIMIZED SEED ORCHESTRATION - Main seeding coordinator
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Handles:
  * - Sequential/parallel seeding coordination
  * - Transaction management
@@ -12,15 +12,11 @@
  */
 
 import { db } from "@/database/db";
-import { sql } from "drizzle-orm";
-import { logger } from "@/database/seed/logger-optimized";
 import { loadAllData } from "@/database/seed/data-loader-optimized";
 import { getImageHandler, getImageStats } from "@/database/seed/image-handler-optimized";
-import {
-  seedUsers,
-  seedComics,
-  seedChapters,
-} from "@/database/seed/seeders-optimized";
+import { logger } from "@/database/seed/logger-optimized";
+import { seedChapters, seedComics, seedUsers } from "@/database/seed/seeders-optimized";
+import { sql } from "drizzle-orm";
 
 // ─────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -179,7 +175,10 @@ export async function runSeed(options: SeedOptions = {}): Promise<SeedStats> {
     logger.subsection("Database Operations");
     logger.metric("Users", `${stats.users.created} created, ${stats.users.updated} updated`);
     logger.metric("Comics", `${stats.comics.created} created, ${stats.comics.updated} updated`);
-    logger.metric("Chapters", `${stats.chapters.created} created, ${stats.chapters.updated} updated`);
+    logger.metric(
+      "Chapters",
+      `${stats.chapters.created} created, ${stats.chapters.updated} updated`
+    );
 
     if (stats.images) {
       logger.subsection("Image Management");
@@ -232,8 +231,8 @@ async function main() {
 }
 
 // Run if called directly with proper ES module detection
-const isMainModule = process.argv[1]?.endsWith("run-optimized.ts") || 
-                     process.argv[1]?.endsWith("run-optimized.js");
+const isMainModule =
+  process.argv[1]?.endsWith("run-optimized.ts") || process.argv[1]?.endsWith("run-optimized.js");
 
 if (isMainModule) {
   main().catch((error) => {

@@ -1,12 +1,9 @@
 "use server";
 
-// ═══════════════════════════════════════════════════
-// CHAPTERS CRUD SERVER ACTIONS (Next.js 16)
-// ═══════════════════════════════════════════════════
-
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { chapter, chapterImage, comic } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import type { ChapterFilterInput, CreateChapterInput, UpdateChapterInput } from "@/lib/validations";
 import { chapterFilterSchema, createChapterSchema, updateChapterSchema } from "@/lib/validations";
 import type { SQL } from "drizzle-orm";
@@ -15,10 +12,6 @@ import { revalidatePath } from "next/cache";
 import { slugify } from "utils";
 
 type ParsedCreateChapter = CreateChapterInput & { slug?: string };
-
-export type ActionResult<T = unknown> =
-  | { success: true; data: T; message?: string }
-  | { success: false; error: string };
 
 // ═══════════════════════════════════════════════════
 // CREATE CHAPTER

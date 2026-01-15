@@ -1,15 +1,18 @@
 /**
- * 🌱 Optimized Chapter Seeder
+ * 🌱 Optimized Chapter Seeder v2.0
  * ═══════════════════════════════════════════════════════════════════════════
  * Handles chapter creation with image management
+ * Images saved to: /public/comics/chapters/${comic.slug}/${chapter.slug}/
+ * Fallback: /shadcn.jpg
  */
 
 import { db } from "@/database/db";
 import { chapter, chapterImage, comic } from "@/database/schema";
-import { logger } from "@/database/seed/logger";
 import { loadChapters } from "@/database/seed/dataLoaderOptimized";
 import { downloadImages } from "@/database/seed/imageHandlerOptimized";
-import { eq, and } from "drizzle-orm";
+import { logger } from "@/database/seed/logger";
+import { FALLBACK_CHAPTER_IMAGE } from "@/database/seed/utils/imagePathConfig";
+import { and, eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -84,7 +87,9 @@ export async function seedChapters(options: SeedOptions = {}): Promise<SeedStats
     }
 
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-    logger.debug(`Chapter seeding complete: ${stats.created} created, ${stats.updated} updated (${elapsed}s)`);
+    logger.debug(
+      `Chapter seeding complete: ${stats.created} created, ${stats.updated} updated (${elapsed}s)`
+    );
 
     if (stats.errors > 0) {
       logger.warn(`⚠ Chapter seeding had ${stats.errors} errors`);
@@ -124,20 +129,16 @@ async function upsertChapter(
       .substring(0, 255);
 
     // Parse chapter number
-    const chapterNumber = typeof data.chapterNumber === "string" 
-      ? parseFloat(data.chapterNumber) 
-      : data.chapterNumber;
+    const chapterNumber =
+      typeof data.chapterNumber === "string" ? parseFloat(data.chapterNumber) : data.chapterNumber;
 
     // Parse dates
     const releaseDate = data.releaseDate ? new Date(data.releaseDate) : new Date();
-    const views = typeof data.views === "string" ? parseInt(data.views) : (data.views || 0);
+    const views = typeof data.views === "string" ? parseInt(data.views) : data.views || 0;
 
     // Check if chapter exists
     const existing = await db.query.chapter.findFirst({
-      where: and(
-        eq(chapter.comicId, comicRecord.id),
-        eq(chapter.chapterNumber, chapterNumber)
-      ),
+      where: and(eq(chapter.comicId, comicRecord.id), eq(chapter.chapterNumber, chapterNumber)),
     });
 
     if (existing) {
@@ -154,7 +155,7 @@ async function upsertChapter(
           .where(eq(chapter.id, existing.id));
 
         // Update chapter images
-        await updateChapterImages(existing.id, data.images || []);
+        await updateChapterImages(existing.id, comicRecord.slug, slug, data.images || []);
       }
 
       if (options.verbose) {
@@ -178,7 +179,7 @@ async function upsertChapter(
 
         if (result[0]) {
           // Add chapter images
-          await updateChapterImages(result[0].id, data.images || []);
+          await updateChapterImages(result[0].id, comicRecord.slug, slug, data.images || []);
         }
       }
 
@@ -199,6 +200,8 @@ async function upsertChapter(
 
 async function updateChapterImages(
   chapterId: number,
+  comicSlug: string,
+  chapterSlug: string,
   imageUrls: Array<{ url: string }>
 ): Promise<void> {
   try {
@@ -209,8 +212,12 @@ async function updateChapterImages(
     // Extract URLs
     const urls = imageUrls.map((img) => img.url);
 
-    // Download images in parallel with rate limiting
-    const downloadResults = await downloadImages(urls, 3);
+    // Download images to /public/comics/chapters/${comic.slug}/${chapter.slug}/
+    const downloadResults = await downloadImages(
+      urls,
+      `comics/chapters/${comicSlug}/${chapterSlug}`,
+      3
+    );
 
     // Remove old images
     await db.delete(chapterImage).where(eq(chapterImage.chapterId, chapterId));
@@ -218,21 +225,21 @@ async function updateChapterImages(
     // Add new images
     let pageNumber = 1;
     for (const result of downloadResults) {
-      if (result.success && result.local) {
-        await db
-          .insert(chapterImage)
-          .values({
-            chapterId,
-            imageUrl: result.local,
-            pageNumber,
-          })
-          .onConflictDoNothing();
+      const imageUrl = result.success && result.local ? result.local : FALLBACK_CHAPTER_IMAGE;
+      await db
+        .insert(chapterImage)
+        .values({
+          chapterId,
+          imageUrl,
+          pageNumber,
+        })
+        .onConflictDoNothing();
 
-        pageNumber++;
-      }
+      pageNumber++;
     }
 
-    logger.debug(`Added ${downloadResults.filter((r) => r.success).length} images to chapter`);
+    const successCount = downloadResults.filter((r) => r.success).length;
+    logger.debug(`Added ${successCount}/${imageUrls.length} images to chapter ${chapterSlug}`);
   } catch (error) {
     logger.warn(`Failed to update chapter images: ${error}`);
   }

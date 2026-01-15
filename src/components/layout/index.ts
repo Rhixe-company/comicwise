@@ -13,10 +13,10 @@ export { Filters } from "./Filters";
 export { Pagination } from "./Pagination";
 
 // UI components (re-export)
-export * from "./ui";
+export * from "../ui";
 
 // Auth components
-export * from "./auth";
+export * from "../auth";
 
 // Admin components
 // Admin components have their own barrel export;
