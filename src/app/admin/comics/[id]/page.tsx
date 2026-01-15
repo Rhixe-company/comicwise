@@ -110,7 +110,9 @@ function DeleteComicButton({ comicId }: { comicId: number }) {
   );
 }
 
-export default async function ComicDetailPage({ params }: ComicDetailPageProps):Promise<JSX.Element> {
+export default async function ComicDetailPage({
+  params,
+}: ComicDetailPageProps): Promise<JSX.Element> {
   const { id } = await params;
 
   return (

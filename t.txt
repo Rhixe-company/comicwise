@@ -1,3 +1,8 @@
-Read and understand @src/**/*, @src/types/*, @scripts/**/* and search for all used components, functions, types, interfaces and classes that have Much Cognitive Complexity then Refactor and validate all used components ,functions, types, interfaces and classes to reduce its Cognitive Complexity,  Refactor and validate @scr/database/seed/**/*  to use  dals or dtos files create the files if  it does not exists Refactor and validate all queries or mutations  to the database to come from either a dal or dto file create the files if  it does not exists  and Update and validate  all references and usage , delete all unused components and dupelicate  functions, types, interfaces and classes ,Dont create summary until todos are completed Request all permissions needed to complete all todos.
-Confirm if I have the necessary permissions to complete all todos.
-Complete all  todos the bests way while taking into consideration Server Error: Sorry, you have exceeded your Copilot token usage. Please review our Terms of Service. Error Code: rate_limited
+Confirm if I have the necessary permissions to complete all todos. Complete all  todos the bests way while taking into consideration Error Code: rate_limited and Dont create summary just yet until  all todos are completed.
+after confirming that you have the necessary permissions to complete all the todos. I will proceed to complete them while taking into consideration Error Code: rate_limited.
+Todos:
+Cleanup @src/types/* by optimizing and validating, all modules, functions, types, interfaces and classes that have Much Cognitive Complexity ensure everything is being validated, exported and used.
+Cleanup all queries or mutations  to the database ensure it to come from either a dal or dto file named after the entity in @src/dal, @src/dto create the files if  it does not exists ensure everything is being validated, exported.
+Refactor and validate @src/database/seed/**/*  to use  dals or dtos files create the files  if it does not exists Refactor and validate all used, components ,dal, dto, hooks to reduce its Cognitive Complexity.
+Refactor and validate all  @scripts/**/* and search for all used  functions, types, interfaces and classes that have Much Cognitive Complexity.
+Delete all unused components and dupelicate  functions, types, interfaces and classes,
