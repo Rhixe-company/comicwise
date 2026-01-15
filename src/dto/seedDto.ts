@@ -275,7 +275,7 @@ export function safeValidate<T>(
     const validated = schema.parse(data);
     return { success: true, data: validated };
   } catch (error) {
-    const message = error instanceof z.ZodError ? error.errors[0]?.message : String(error);
+    const message = error instanceof z.ZodError ? error.issues[0]?.message : String(error);
     return { success: false, error: `${context}: ${message}` };
   }
 }

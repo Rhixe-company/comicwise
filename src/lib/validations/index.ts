@@ -159,6 +159,8 @@ export const updateUserSchema = z
   })
   .strict();
 
+export type CreateUserInput = z.infer<typeof createUserSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;
 export const userIdSchema = z
   .object({
     id: z.string().uuid("Invalid user ID"),
@@ -976,10 +978,6 @@ export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>;
 export type ResendVerificationEmailInput = z.infer<typeof resendVerificationEmailSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
-
-export type CreateUserInput = z.infer<typeof createUserSchema>;
-export type UpdateUserInput = z.infer<typeof updateUserSchema>;
-export type UserIdInput = z.infer<typeof userIdSchema>;
 
 export type CreateComicInput = z.infer<typeof createComicSchema>;
 export type UpdateComicInput = z.infer<typeof updateComicSchema>;

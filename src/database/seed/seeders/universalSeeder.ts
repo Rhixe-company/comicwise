@@ -93,8 +93,10 @@ const ComicSchema = z
     slug: z.string(),
     description: z.string(),
     coverImage: z.string().optional(),
-    status: z.enum(["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"]).default("Ongoing"),
-    rating: z.coerce.number().max(10.0).optional(),
+    status: z
+      .enum(["Ongoing", "Completed", "Hiatus", "Dropped", "Season End", "Coming Soon"])
+      .default("Ongoing"),
+    rating: z.coerce.number().max(10.0).default(0),
     serialization: z.string().optional(),
     updatedAt: z.string().optional(),
     updated_at: z.string().optional(),

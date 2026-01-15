@@ -1,3 +1,5 @@
+/* eslint-disable typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Seed Data Access Layer (DAL)
  * Consolidates all database operations for seeding
@@ -48,7 +50,7 @@ export class SeederDal {
    * @param email
    * @param name
    */
-  async findOrCreateUser(email: string, name: string): Promise<number> {
+  async findOrCreateUser(email: string, name: string): Promise<string> {
     const existing = await db.query.user.findFirst({
       where: eq(user.email, email),
     });

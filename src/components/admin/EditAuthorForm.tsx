@@ -6,7 +6,7 @@
 "use client";
 
 import { BaseForm } from "@/components/admin/BaseForm";
-import { insertAuthorSchema } from "@/lib/validations/authorValidation";
+import { insertAuthorSchema } from "@/lib/validations/authorSchema";
 
 export interface EditAuthorFormProps {
   id: string | number;

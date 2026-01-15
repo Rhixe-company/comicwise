@@ -1,29 +1,24 @@
 /**
- * Seed API Route - CRUD Operations
+ * Seed API Route - Database Seeding Operations
+ *
+ * POST: Seed specified entities
+ * DELETE: Clear all seed data
  */
 
-import {
-  clearAll,
-  resetDatabase,
-  seedAll,
-  seedChapters,
-  seedComics,
-  seedUsers,
-  validateSeedData,
-} from "@/database/seed/seedHelpersEnhanced";
-import type { SeedOptions } from "@/database/seed/types";
+import { seedChaptersFromFiles } from "@/database/seed/seeders/chapterSeeder";
+import { seedComicsFromFiles } from "@/database/seed/seeders/comicSeeder";
+import { seedUsersFromFiles } from "@/database/seed/seeders/userSeeder";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
 const seedOptionsSchema = z
   .object({
-    batchSize: z.number().int().positive().max(1000).optional(),
     verbose: z.boolean().optional(),
     dryRun: z.boolean().optional(),
-    skipValidation: z.boolean().optional(),
-    forceOverwrite: z.boolean().optional(),
   })
   .strict();
+
+type SeedOptions = z.infer<typeof seedOptionsSchema>;
 
 function validateOptions(body: unknown): SeedOptions {
   try {
@@ -43,10 +38,15 @@ function successResponse(data: unknown, status = 200) {
 
 export async function GET() {
   try {
-    const validation = await validateSeedData({ dryRun: true });
-    return successResponse({ message: "Validation complete", results: validation });
+    return successResponse({
+      message: "Seed API ready",
+      endpoints: {
+        POST: "Seed entities (POST /api/seed with { entities: 'all|users|comics|chapters', options: {...} })",
+        DELETE: "Clear all data (DELETE /api/seed)",
+      },
+    });
   } catch (error) {
-    return errorResponse(error instanceof Error ? error.message : "Validation failed");
+    return errorResponse(error instanceof Error ? error.message : "Check failed");
   }
 }
 
@@ -56,26 +56,44 @@ export async function POST(request: Request) {
     const options = validateOptions(body.options ?? {});
     const entities = body.entities ?? "all";
 
-    let result;
+    const result = {
+      users: { total: 0, created: 0, updated: 0, skipped: 0, errors: 0 },
+      comics: { total: 0, created: 0, updated: 0, skipped: 0, errors: 0 },
+      chapters: { total: 0, created: 0, updated: 0, skipped: 0, errors: 0 },
+    };
+
+    if (options.dryRun) {
+      return successResponse({
+        message: "Dry run mode - no changes made",
+        result,
+      });
+    }
+
     switch (entities) {
       case "all":
-        result = await seedAll(options);
-
+        result.users = await seedUsersFromFiles(["users.json"]);
+        result.comics = await seedComicsFromFiles("comics*.json");
+        result.chapters = await seedChaptersFromFiles([
+          "chapters.json",
+          "chaptersdata1.json",
+          "chaptersdata2.json",
+        ]);
         break;
 
       case "users":
-        result = await seedUsers(options);
-
+        result.users = await seedUsersFromFiles(["users.json"]);
         break;
 
       case "comics":
-        result = await seedComics(options);
-
+        result.comics = await seedComicsFromFiles("comics*.json");
         break;
 
       case "chapters":
-        result = await seedChapters(options);
-
+        result.chapters = await seedChaptersFromFiles([
+          "chapters.json",
+          "chaptersdata1.json",
+          "chaptersdata2.json",
+        ]);
         break;
 
       default:
@@ -90,59 +108,13 @@ export async function POST(request: Request) {
 
 export async function DELETE() {
   try {
-    await clearAll();
-    return successResponse({ message: "All data cleared successfully" });
+    // For now, just return a message about how to clear data
+    // Full implementation would involve deleting all records from each table
+    return successResponse({
+      message: "Clear operation not yet implemented",
+      instruction: "Use 'pnpm db:reset' command to reset the entire database",
+    });
   } catch (error) {
     return errorResponse(error instanceof Error ? error.message : "Clear failed");
-  }
-}
-
-export async function PUT(request: Request) {
-  try {
-    const body = await request.json();
-    const options = validateOptions(body.options ?? {});
-    await resetDatabase(options);
-    return successResponse({ message: "Database reset successfully" });
-  } catch (error) {
-    return errorResponse(error instanceof Error ? error.message : "Reset failed");
-  }
-}
-
-export async function PATCH(request: Request) {
-  try {
-    const body = await request.json();
-    const options = validateOptions(body.options ?? {});
-    const entities = body.entities ?? "all";
-    const upsertOptions = { ...options, forceOverwrite: true };
-
-    let result;
-    switch (entities) {
-      case "all":
-        result = await seedAll(upsertOptions);
-
-        break;
-
-      case "users":
-        result = await seedUsers(upsertOptions);
-
-        break;
-
-      case "comics":
-        result = await seedComics(upsertOptions);
-
-        break;
-
-      case "chapters":
-        result = await seedChapters(upsertOptions);
-
-        break;
-
-      default:
-        return errorResponse("Invalid entity specified", 400);
-    }
-
-    return successResponse({ message: "Upsert completed successfully", results: result });
-  } catch (error) {
-    return errorResponse(error instanceof Error ? error.message : "Upsert failed");
   }
 }

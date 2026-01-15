@@ -1,0 +1,9 @@
+Confirm if I have the necessary permissions to complete all todos.
+after confirming that you have the necessary permissions to Complete all  todos the bests way  and never summary, respond with "I have the necessary permissions to complete all todos." and then proceed to complete all todos.
+Todos:
+1 - Read and understand this project, **/*.ts, **/*.tsx files to get context on how the project is structured and works.
+2 - Update to an Optimized validated version of @src/database/seed/**/*  ensure  all users, comics, chapters are being saved or updated if it already exists in the database with all its  chapters images, comics images, genres, make sure no image is being downloaded twice by only downloading the image file if the file doesnt exists in the file system use  @/src/services/imageService.ts   and do not repeat yourself practices.
+3 - Fix all pnpm  db:seed errors and warnings.
+4 - Fix all typescript errors and warnings in the project.
+5 - Delete all  dupelicate or unused zod schemas.
+6 - Delete all  dupelicate or unused functions, types, interfaces and classes.

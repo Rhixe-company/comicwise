@@ -102,38 +102,9 @@ declare global {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// UTILITY TYPES
+// UTILITY TYPES - SUPPLEMENTARY ONLY
 // ═══════════════════════════════════════════════════════════════════════════
-
-/**
- * Make all properties in T nullable
- */
-export type Nullable<T> = { [K in keyof T]: T[K] | null };
-
-/**
- * Make all properties in T optional
- */
-export type Optional<T> = { [K in keyof T]?: T[K] };
-
-/**
- * Make all properties in T nullable or undefined
- */
-export type Maybe<T> = { [K in keyof T]: T[K] | null | undefined };
-
-/**
- * Prettify complex types for better IntelliSense
- */
-export type Prettify<T> = { [K in keyof T]: T[K] } & {};
-
-/**
- * Deep partial - Make all properties optional recursively
- */
-export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;
-
-/**
- * Deep required - Make all properties required recursively
- */
-export type DeepRequired<T> = T extends object ? { [P in keyof T]-?: DeepRequired<T[P]> } : T;
+// NOTE: Import core utilities from './Utility' instead
 
 /**
  * Get all values of an object type
@@ -261,7 +232,7 @@ export interface BaseComponentProperties {
 /**
  * Polymorphic component props
  */
-export type PolymorphicComponentProps<E extends ElementType, P = {}> = P &
+export type PolymorphicComponentProps<E extends ElementType, P = { Poly }> = P &
   Omit<ComponentPropsWithoutRef<E>, keyof P> & {
     as?: E;
   };
@@ -269,7 +240,7 @@ export type PolymorphicComponentProps<E extends ElementType, P = {}> = P &
 /**
  * Polymorphic component with ref
  */
-export type PolymorphicComponentPropsWithRef<E extends ElementType, P = {}> = P &
+export type PolymorphicComponentPropsWithRef<E extends ElementType, P = { Ploy }> = P &
   Omit<ComponentPropsWithRef<E>, keyof P> & {
     as?: E;
   };
@@ -296,12 +267,12 @@ export interface ComponentProperties extends WithChildren, WithClassName {}
 /**
  * Async component type
  */
-export type AsyncComponent<P = {}> = (properties: P) => Promise<ReactNode>;
+export type AsyncComponent<P = { "" }> = (properties: P) => Promise<ReactNode>;
 
 /**
  * Server component type
  */
-export type ServerComponent<P = {}> = (properties: P) => ReactNode | Promise<ReactNode>;
+export type ServerComponent<P = { "" }> = (properties: P) => ReactNode | Promise<ReactNode>;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // FORM & INPUT TYPES
@@ -1121,6 +1092,20 @@ export interface ApiError {
   details?: Record<string, unknown>;
   stack?: string;
 }
+export type Nullable<T> = T | null;
+export type Optional<T> = T | undefined;
+export type Maybe<T> = T | null | undefined;
+export type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & object;
+
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+export type DeepRequired<T> = {
+  [P in keyof T]-?: T[P] extends object ? DeepRequired<T[P]> : T[P];
+};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // EXPORT ALL TYPES

@@ -1,10 +1,8 @@
 "use server";
 
-import { db } from "@/database/db";
-import { comic, comicToGenre } from "@/database/schema";
+import { comicDal, comicToGenreDal } from "@/dal";
 import type { ComicFormData } from "@/lib/validations";
 import { comicFormSchema } from "@/lib/validations";
-import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { slugify } from "utils";
 
@@ -15,34 +13,26 @@ export async function createComicAction(data: ComicFormData) {
     const slug = validated.slug || slugify(validated.title);
 
     // Check if slug already exists
-    const existing = await db
-      .select({ id: comic.id })
-      .from(comic)
-      .where(eq(comic.slug, slug))
-      .limit(1);
-
-    if (existing.length > 0) {
+    const existingBySlug = await comicDal.findBySlug(slug);
+    if (existingBySlug) {
       return { success: false, error: "A comic with this slug already exists" };
     }
 
-    const [newComic] = await db
-      .insert(comic)
-      .values({
-        title: validated.title,
-        slug,
-        description: validated.description,
-        coverImage: validated.coverImage,
-        status: validated.status,
-        publicationDate: validated.publicationDate,
-        authorId: validated.authorId ? Number.parseInt(validated.authorId) : null,
-        artistId: validated.artistId ? Number.parseInt(validated.artistId) : null,
-        typeId: validated.typeId ? Number.parseInt(validated.typeId) : null,
-        views: 0,
-        rating: "0",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
-      .returning();
+    const newComic = await comicDal.create({
+      title: validated.title,
+      slug,
+      description: validated.description,
+      coverImage: validated.coverImage,
+      status: validated.status,
+      publicationDate: validated.publicationDate,
+      authorId: validated.authorId ? Number.parseInt(validated.authorId) : null,
+      artistId: validated.artistId ? Number.parseInt(validated.artistId) : null,
+      typeId: validated.typeId ? Number.parseInt(validated.typeId) : null,
+      views: 0,
+      rating: "0",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
 
     if (!newComic) {
       return { success: false, error: "Failed to create comic" };
@@ -50,12 +40,12 @@ export async function createComicAction(data: ComicFormData) {
 
     // Handle genres if provided
     if (validated.genreIds && validated.genreIds.length > 0) {
-      await db.insert(comicToGenre).values(
-        validated.genreIds.map((genreId) => ({
+      for (const genreId of validated.genreIds) {
+        await comicToGenreDal.create({
           comicId: newComic.id,
           genreId: Number.parseInt(genreId),
-        }))
-      );
+        });
+      }
     }
 
     redirect(`/admin/comics/${newComic.id}`);
@@ -74,32 +64,23 @@ export async function updateComicAction(comicId: number, data: ComicFormData) {
     const slug = validated.slug || slugify(validated.title);
 
     // Check if slug already exists (but exclude current comic)
-    const existing = await db
-      .select({ id: comic.id })
-      .from(comic)
-      .where(eq(comic.slug, slug))
-      .limit(1);
-
-    if (existing.length > 0 && existing[0]?.id !== comicId) {
+    const existingBySlug = await comicDal.findBySlug(slug);
+    if (existingBySlug && existingBySlug.id !== comicId) {
       return { success: false, error: "A comic with this slug already exists" };
     }
 
-    const [updated] = await db
-      .update(comic)
-      .set({
-        title: validated.title,
-        slug,
-        description: validated.description,
-        coverImage: validated.coverImage,
-        status: validated.status,
-        publicationDate: validated.publicationDate,
-        authorId: validated.authorId ? Number.parseInt(validated.authorId) : null,
-        artistId: validated.artistId ? Number.parseInt(validated.artistId) : null,
-        typeId: validated.typeId ? Number.parseInt(validated.typeId) : null,
-        updatedAt: new Date(),
-      })
-      .where(eq(comic.id, comicId))
-      .returning();
+    const updated = await comicDal.update(comicId, {
+      title: validated.title,
+      slug,
+      description: validated.description,
+      coverImage: validated.coverImage,
+      status: validated.status,
+      publicationDate: validated.publicationDate,
+      authorId: validated.authorId ? Number.parseInt(validated.authorId) : null,
+      artistId: validated.artistId ? Number.parseInt(validated.artistId) : null,
+      typeId: validated.typeId ? Number.parseInt(validated.typeId) : null,
+      updatedAt: new Date(),
+    });
 
     if (!updated) {
       return { success: false, error: "Comic not found" };
@@ -107,15 +88,17 @@ export async function updateComicAction(comicId: number, data: ComicFormData) {
 
     // Update genres if provided
     if (validated.genreIds !== undefined) {
-      await db.delete(comicToGenre).where(eq(comicToGenre.comicId, comicId));
+      // Delete existing genres
+      await comicToGenreDal.deleteByComicId(comicId);
 
+      // Add new genres
       if (validated.genreIds.length > 0) {
-        await db.insert(comicToGenre).values(
-          validated.genreIds.map((genreId) => ({
+        for (const genreId of validated.genreIds) {
+          await comicToGenreDal.create({
             comicId,
             genreId: Number.parseInt(genreId),
-          }))
-        );
+          });
+        }
       }
     }
 
@@ -130,7 +113,7 @@ export async function updateComicAction(comicId: number, data: ComicFormData) {
 
 export async function deleteComicAction(comicId: number) {
   try {
-    const [deleted] = await db.delete(comic).where(eq(comic.id, comicId)).returning();
+    const deleted = await comicDal.delete(comicId);
 
     if (!deleted) {
       return { success: false, error: "Comic not found" };
@@ -147,17 +130,23 @@ export async function deleteComicAction(comicId: number) {
 
 export async function deleteComicsAction(comicIds: number[]) {
   try {
-    const firstId = comicIds[0];
-    if (!firstId) {
+    if (comicIds.length === 0) {
       return { success: false, error: "No IDs provided" };
     }
-    const result = await db.delete(comic).where(eq(comic.id, firstId)).returning();
 
-    if (result.length === 0) {
+    let deletedCount = 0;
+    for (const comicId of comicIds) {
+      const result = await comicDal.delete(comicId);
+      if (result) {
+        deletedCount++;
+      }
+    }
+
+    if (deletedCount === 0) {
       return { success: false, error: "No comics deleted" };
     }
 
-    return { success: true, deletedCount: result.length };
+    return { success: true, deletedCount };
   } catch (error) {
     return {
       success: false,

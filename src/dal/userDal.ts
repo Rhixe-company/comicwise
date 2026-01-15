@@ -25,8 +25,8 @@ class UserDal extends BaseDal<User, Partial<User>> {
 
   override async create(data: Partial<User>): Promise<User | undefined> {
     // Validate required fields
-    const email = data.email || "";
-    const name = data.name || "";
+    const email = data.email ?? "";
+    const name = data.name ?? "";
 
     if (!email || !name) {
       this.logger.warn("Create user missing required fields");
@@ -125,6 +125,63 @@ class UserDal extends BaseDal<User, Partial<User>> {
       async () => await db.select().from(user).limit(limit).offset(offset),
       "Listing users",
       { limit, offset }
+    );
+  }
+
+  /**
+   * Find users with advanced filtering
+   * Used by API routes for pagination and filtering
+   * @param filters
+   * @param filters.search
+   * @param filters.role
+   * @param filters.emailVerified
+   * @param filters.page
+   * @param filters.limit
+   * @param filters.sortBy
+   * @param filters.sortOrder
+   */
+  async findWithFilters(filters: {
+    search?: string;
+    role?: "user" | "admin" | "moderator";
+    emailVerified?: boolean;
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    sortOrder?: "asc" | "desc";
+  }): Promise<{ users: User[]; total: number; page: number; limit: number; totalPages: number }> {
+    return this.executeWithLogging(
+      async () => await queries.getAllUsers(filters),
+      "Finding users with filters",
+      { filters: { ...filters, search: filters.search ? "***" : undefined } }
+    );
+  }
+
+  /**
+   * Verify user email
+   * @param id
+   */
+  async verifyEmail(id: string): Promise<User | undefined> {
+    return this.executeWithLogging(
+      async () => await mutations.verifyUserEmail(id),
+      "Verifying user email",
+      { id }
+    );
+  }
+
+  /**
+   * Count users with optional filtering
+   * @param params
+   * @param params.search
+   * @param params.role
+   */
+  async count(params?: {
+    search?: string;
+    role?: "user" | "admin" | "moderator";
+  }): Promise<number> {
+    return this.executeWithLogging(
+      async () => await queries.getUserCount(params),
+      "Counting users",
+      { params }
     );
   }
 }

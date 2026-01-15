@@ -1,5 +1,0 @@
-
-> comicwise@0.1.0 lint C:\Users\Alexa\Desktop\SandBox\comicwise
-> eslint .
-
-ΓÇëELIFECYCLEΓÇë Command failed with exit code 3221225786.
