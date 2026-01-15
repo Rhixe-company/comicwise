@@ -279,9 +279,12 @@ const DataTableWithColumnFilterDemo = () => {
               <TableRow key={headerGroup.id} className="bg-muted/50">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className={`
+                    <TableHead
+                      key={header.id}
+                      className={`
                       relative h-10 border-t select-none
-                    `}>
+                    `}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}

@@ -96,3 +96,28 @@ export type {
   CreateCommentDto,
   UpdateCommentDto,
 } from "./commentDto";
+
+// Seed DTOs
+export {
+    ChapterSeedSchema,
+    ComicSeedSchema,
+    UserSeedSchema,
+    safeValidate,
+    validateChapterSeedData,
+    validateComicSeedData,
+    validateUserSeedData
+} from "./seedDto";
+export type {
+    ChapterMetadata,
+    ChapterPayload,
+    ChapterSeedDto,
+    ComicEntities,
+    ComicNormalizedData,
+    ComicPayload,
+    ComicSeedDto,
+    FileProcessingStats,
+    ImageCacheStats,
+    ImageProcessingResult,
+    ProcessingResult, SeedingStatistics, SeedingSummary, UserSeedDto
+} from "./seedDto";
+

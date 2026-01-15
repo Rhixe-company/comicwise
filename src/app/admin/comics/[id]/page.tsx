@@ -8,8 +8,8 @@ import { auth } from "auth";
 import { Trash2 } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { Suspense  } from "react";
-import type {JSX} from "react";
+import type { JSX } from "react";
+import { Suspense } from "react";
 
 interface ComicDetailPageProps {
   params: Promise<{ id: string }>;

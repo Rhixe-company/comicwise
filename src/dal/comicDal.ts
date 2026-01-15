@@ -146,4 +146,3 @@ class ComicDal extends BaseDal<Comic, typeof comic.$inferInsert> {
 }
 
 export const comicDal = ComicDal.getInstance();
-

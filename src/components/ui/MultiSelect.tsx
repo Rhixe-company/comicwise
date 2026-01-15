@@ -191,9 +191,11 @@ export function MultiSelectValue({
 
   if (selectedValues.size === 0 && placeholder) {
     return (
-      <span className={`
+      <span
+        className={`
         min-w-0 overflow-hidden font-normal text-muted-foreground
-      `}>
+      `}
+      >
         {placeholder}
       </span>
     );

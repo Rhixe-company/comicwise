@@ -2,8 +2,8 @@
 // SEARCH API ROUTE - Advanced Comic Search
 // ═══════════════════════════════════════════════════
 
-import { searchComics  } from "@/lib/search";
-import type {SearchFilters} from "@/lib/search";
+import type { SearchFilters } from "@/lib/search";
+import { searchComics } from "@/lib/search";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
