@@ -3,102 +3,82 @@
  * Handles all database operations for artists
  */
 
+import type { ListOptions } from "@/dal/baseDal";
+import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import { artist } from "@/database/schema";
-import { logger } from "@/lib/logger";
 import type { Artist } from "@/types/database";
 import { desc, eq, like } from "drizzle-orm";
 
-export class ArtistDal {
+// @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
+class ArtistDal extends BaseDal<Artist, typeof artist.$inferInsert> {
   private static instance: ArtistDal;
-  private logger = logger.child({ context: "ArtistDal" });
 
-  private constructor() {}
+  private constructor() {
+    super("ArtistDal");
+  }
 
-  static getInstance(): ArtistDal {
-    if (!ArtistDal.instance) {
-      ArtistDal.instance = new ArtistDal();
-    }
-    return ArtistDal.instance;
+  static override getInstance(): ArtistDal {
+    return BaseDal.getInstance("artistDal", () => new ArtistDal());
   }
 
   async create(data: typeof artist.$inferInsert): Promise<Artist | undefined> {
-    try {
-      this.logger.debug({ data }, "Creating artist");
-      const [newArtist] = await db.insert(artist).values(data).returning();
-      this.logger.info({ artistId: newArtist?.id }, "Artist created successfully");
-      return newArtist;
-    } catch (error) {
-      this.logger.error({ error, data }, "Failed to create artist");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () => this.extractFirst(await db.insert(artist).values(data).returning()),
+      "Creating artist",
+      { data }
+    );
   }
 
   async findById(id: number): Promise<Artist | undefined> {
-    try {
-      this.logger.debug({ id }, "Finding artist by ID");
-      const [result] = await db.select().from(artist).where(eq(artist.id, id));
-      return result;
-    } catch (error) {
-      this.logger.error({ error, id }, "Failed to find artist by ID");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () => this.extractFirst(await db.select().from(artist).where(eq(artist.id, id))),
+      "Finding artist by ID",
+      { id }
+    );
   }
 
   async findByName(name: string): Promise<Artist | undefined> {
-    try {
-      this.logger.debug({ name }, "Finding artist by name");
-      const [result] = await db.select().from(artist).where(eq(artist.name, name));
-      return result;
-    } catch (error) {
-      this.logger.error({ error, name }, "Failed to find artist by name");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () => this.extractFirst(await db.select().from(artist).where(eq(artist.name, name))),
+      "Finding artist by name",
+      { name }
+    );
   }
 
   async update(id: number, data: Partial<typeof artist.$inferInsert>): Promise<Artist | undefined> {
-    try {
-      this.logger.debug({ id, data }, "Updating artist");
-      const [updated] = await db.update(artist).set(data).where(eq(artist.id, id)).returning();
-      this.logger.info({ artistId: id }, "Artist updated successfully");
-      return updated;
-    } catch (error) {
-      this.logger.error({ error, id, data }, "Failed to update artist");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () =>
+        this.extractFirst(await db.update(artist).set(data).where(eq(artist.id, id)).returning()),
+      "Updating artist",
+      { id, data }
+    );
   }
 
   async delete(id: number): Promise<Artist | undefined> {
-    try {
-      this.logger.debug({ id }, "Deleting artist");
-      const [deleted] = await db.delete(artist).where(eq(artist.id, id)).returning();
-      this.logger.info({ artistId: id }, "Artist deleted successfully");
-      return deleted;
-    } catch (error) {
-      this.logger.error({ error, id }, "Failed to delete artist");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () => this.extractFirst(await db.delete(artist).where(eq(artist.id, id)).returning()),
+      "Deleting artist",
+      { id }
+    );
   }
 
-  async list(
-    options: { limit?: number; offset?: number; search?: string } = {}
-  ): Promise<Artist[]> {
-    try {
-      const { limit = 50, offset = 0, search } = options;
-      this.logger.debug({ options }, "Listing artists");
+  async list(options: ListOptions = {}): Promise<Artist[]> {
+    const { limit = 50, offset = 0, search } = options;
 
-      let query = db.select().from(artist);
+    return this.executeWithLogging(
+      async () => {
+        let query = db.select().from(artist);
 
-      if (search) {
-        query = query.where(like(artist.name, `%${search}%`)) as typeof query;
-      }
+        if (search) {
+          query = query.where(like(artist.name, `%${search}%`)) as typeof query;
+        }
 
-      const results = await query.orderBy(desc(artist.createdAt)).limit(limit).offset(offset);
-      return results;
-    } catch (error) {
-      this.logger.error({ error, options }, "Failed to list artists");
-      throw error;
-    }
+        return await query.orderBy(desc(artist.createdAt)).limit(limit).offset(offset);
+      },
+      "Listing artists",
+      { limit, offset, search }
+    );
   }
 }
 

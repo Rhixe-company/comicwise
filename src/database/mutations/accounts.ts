@@ -1,4 +1,5 @@
 import { and, eq } from "drizzle-orm";
+import type { AdapterAccountType } from "next-auth/adapters";
 
 import { db as database } from "@/database/db";
 import { account } from "@/database/schema";
@@ -36,7 +37,7 @@ import { account } from "@/database/schema";
  */
 export async function createAccount(data: {
   userId: string;
-  type: string;
+  type: AdapterAccountType;
   provider: string;
   providerAccountId: string;
   refreshToken?: string | null;

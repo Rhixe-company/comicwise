@@ -1,5 +1,5 @@
 {
-  "id": "c960e9f6-64c6-4172-961f-c868bb91d10b",
+  "id": "343171ce-119e-443d-996c-65d4531c4bb3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -724,7 +724,7 @@
         },
         "rating": {
           "name": "rating",
-          "type": "numeric(3, 2)",
+          "type": "numeric(10, 1)",
           "primaryKey": false,
           "notNull": false,
           "default": "'0'"
@@ -1660,6 +1660,13 @@
           "notNull": true,
           "default": "'user'"
         },
+        "status": {
+          "name": "status",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
@@ -1771,6 +1778,7 @@
         "Hiatus",
         "Completed",
         "Dropped",
+        "Season End",
         "Coming Soon"
       ]
     },

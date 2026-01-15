@@ -6,7 +6,10 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-export const metadata = {
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
   title: "ComicWise - Your Comic Reading Platform",
   description: "Discover and read your favorite comics online",
 };
@@ -95,7 +98,7 @@ export default function HomePage() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
-          <Link href="/register">
+          <Link href="/sign-in">
             <Button size="lg" variant="outline">
               Get Started
             </Button>

@@ -112,9 +112,7 @@ export function Filters({ types, genres }: FiltersProps) {
                 variant="ghost"
                 size="sm"
                 onClick={resetFilters}
-                className={`
-                text-sm
-              `}
+                className={`text-sm`}
               >
                 Reset
               </Button>
@@ -202,9 +200,7 @@ export function Filters({ types, genres }: FiltersProps) {
                   {genre.name}
                   {selectedGenres.includes(genre.id) && (
                     <X
-                      className={`
-                    ml-1 h-3 w-3
-                  `}
+                      className={`ml-1 h-3 w-3`}
                     />
                   )}
                 </Badge>

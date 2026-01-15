@@ -98,9 +98,7 @@ export const columns: ColumnDef<User>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleDelete}
-              className={`
-              text-destructive
-            `}
+              className={`text-destructive`}
             >
               <Trash className="mr-2 h-4 w-4" />
               Delete

@@ -6,10 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getComicById } from "@/database/queries/adminComics";
 import { auth } from "auth";
 import { Trash2 } from "lucide-react";
-import { notFound, redirect } from "next/navigation";
-import { Suspense } from "react";
-
 import type { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
+import { Suspense  } from "react";
+import type {JSX} from "react";
 
 interface ComicDetailPageProps {
   params: Promise<{ id: string }>;
@@ -50,11 +50,11 @@ async function ComicEditForm({ id }: { id: number }) {
           description: comic.description,
           slug: comic.slug,
           coverImage: comic.coverImage,
-          status: comic.status,
+          status: comic.status as "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon",
           publicationDate: comic.publicationDate,
-          authorId: comic.authorId?.toString(),
-          artistId: comic.artistId?.toString(),
-          typeId: comic.typeId?.toString(),
+          authorId: comic.authorId ? String(comic.authorId) : undefined,
+          artistId: comic.artistId ? String(comic.artistId) : undefined,
+          typeId: comic.typeId ? String(comic.typeId) : undefined,
         }}
         onSubmit={async (data) => {
           "use server";
@@ -110,7 +110,7 @@ function DeleteComicButton({ comicId }: { comicId: number }) {
   );
 }
 
-export default async function ComicDetailPage({ params }: ComicDetailPageProps) {
+export default async function ComicDetailPage({ params }: ComicDetailPageProps):Promise<JSX.Element> {
   const { id } = await params;
 
   return (

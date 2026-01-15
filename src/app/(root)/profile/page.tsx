@@ -8,7 +8,9 @@ import { auth } from "auth";
 import { BookMarked, Mail, User } from "lucide-react";
 import { redirect } from "next/navigation";
 
-export const metadata = {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
   title: "Profile - ComicWise",
   description: "Manage your account and preferences",
 };

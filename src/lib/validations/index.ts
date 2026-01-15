@@ -765,6 +765,8 @@ export const comicSeedSchema = z
           dropped: "Dropped",
           "coming soon": "Coming Soon",
           coming_soon: "Coming Soon",
+          "season end": "Season End",
+          season_end: "Season End",
         };
         const normalized = value.toLowerCase();
         return statusMap[normalized] || "Ongoing";

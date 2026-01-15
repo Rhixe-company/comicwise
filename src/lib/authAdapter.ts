@@ -12,10 +12,9 @@ import { account, authenticator, session, user, verificationToken } from "@/data
  * @param database
  */
 export function DrizzleAdapter(database: NodePgDatabase<typeof schema>): Adapter {
-  // Initialize the standard Drizzle adapter with your database instance and schema
   const standardAdapter = NextAuthDrizzleAdapter(database, {
     usersTable: user,
-    accountsTable: account as any,
+    accountsTable: account,
     sessionsTable: session,
     verificationTokensTable: verificationToken,
     authenticatorsTable: authenticator,

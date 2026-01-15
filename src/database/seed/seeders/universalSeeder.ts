@@ -662,6 +662,138 @@ async function findOrCreateGenre(genreName: string): Promise<number> {
   return newGenre.id;
 }
 
+/**
+ * Process cover image for a comic - Helper function to reduce complexity
+ * @param validatedComic - The validated comic data
+ * @returns The uploaded cover image URL or the original URL
+ */
+async function processCoverImage(validatedComic: any): Promise<string | null> {
+  const coverImageUrl = extractCoverImageUrl(validatedComic);
+  if (!coverImageUrl) return null;
+
+  const isExternalUrl = coverImageUrl.startsWith("http://") || coverImageUrl.startsWith("https://");
+  if (!isExternalUrl) return coverImageUrl;
+
+  const uploaded = await downloadAndUploadImage(
+    coverImageUrl,
+    "covers",
+    `${validatedComic.slug}.webp`
+  );
+  return uploaded || coverImageUrl;
+}
+
+/**
+ * Process all comic images - Helper function to reduce complexity
+ * @param validatedComic - The validated comic data
+ * @returns Array of processed image URLs
+ */
+async function processComicImages(validatedComic: any): Promise<string[]> {
+  const comicImageUrls = extractComicImageUrls(validatedComic);
+  if (comicImageUrls.length === 0) return [];
+
+  logger.info(
+    `   📸 Processing ${comicImageUrls.length} images for comic: ${validatedComic.title}`
+  );
+
+  const uploadedImages = await downloadAndUploadImages(
+    comicImageUrls,
+    `comics/${validatedComic.slug}`,
+    5
+  );
+
+  const processedUrls = uploadedImages.filter((url): url is string => url !== null);
+  logger.info(`   ✓ Processed ${processedUrls.length}/${comicImageUrls.length} comic images`);
+
+  return processedUrls;
+}
+
+/**
+ * Get or create comic related entities (author, artist, type, genres) - Extracted to reduce complexity
+ * @param validatedComic - The validated comic data
+ * @returns Object containing IDs for author, artist, type, and genres
+ */
+async function getOrCreateComicEntities(validatedComic: any): Promise<{
+  authorId: number;
+  artistId: number;
+  typeId: number;
+  genreIds: number[];
+} | null> {
+  const authorId = await findOrCreateAuthor(extractAuthorName(validatedComic));
+  if (!authorId) {
+    logger.error(`Comic '${validatedComic.title}': Author not found or could not be created.`);
+    return null;
+  }
+
+  const artistId = await findOrCreateArtist(extractArtistName(validatedComic));
+  if (!artistId) {
+    logger.error(`Comic '${validatedComic.title}': Artist not found or could not be created.`);
+    return null;
+  }
+
+  const typeName = validatedComic.type?.name ?? validatedComic.category ?? "Unknown Type";
+  const typeId = await findOrCreateType(typeName);
+  if (!typeId) {
+    logger.error(`Comic '${validatedComic.title}': Type not found or could not be created.`);
+    return null;
+  }
+
+  const genreIds: number[] = [];
+  for (const genre of validatedComic.genres ?? []) {
+    if (!genre) continue;
+    const genreName = typeof genre === "string" ? genre : genre.name;
+    const genreId = await findOrCreateGenre(genreName);
+    if (!genreId) {
+      logger.error(`Comic '${validatedComic.title}': Genre not found or could not be created.`);
+      continue;
+    }
+    genreIds.push(genreId);
+  }
+
+  return { authorId, artistId, typeId, genreIds };
+}
+
+/**
+ * Process a single comic from JSON data - Extracted to reduce complexity
+ * @param comicData - The raw comic data from JSON
+ * @returns Processing result with statistics
+ */
+async function processSingleComic(comicData: Record<string, unknown>): Promise<{
+  success: boolean;
+  created?: boolean;
+}> {
+  const normalizedData = normalizeComicData(comicData);
+  const validatedComic = ComicSchema.parse(normalizedData);
+
+  const uploadedCoverImage = await processCoverImage(validatedComic);
+  const processedComicImageUrls = await processComicImages(validatedComic);
+
+  const entities = await getOrCreateComicEntities(validatedComic);
+  if (!entities) return { success: false };
+
+  const result = await processComicRecord(
+    validatedComic,
+    normalizedData,
+    uploadedCoverImage,
+    processedComicImageUrls,
+    entities.authorId,
+    entities.artistId,
+    entities.typeId,
+    entities.genreIds
+  );
+
+  if (!result.success) {
+    logger.error(`${result.error}`);
+    return { success: false };
+  }
+
+  const existingComic = await db.query.comic.findFirst({
+    where: (table, { eq, or }) =>
+      or(eq(table.slug, validatedComic.slug), eq(table.title, validatedComic.title)),
+  });
+
+  return { success: true, created: !existingComic };
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // SEED USERS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -935,7 +1067,6 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
 export async function seedChaptersFromJSON(pattern: string = "chapters*.json"): Promise<void> {
   logger.info("🌱 Seeding chapters from JSON files...");
 
-  // Discover all matching files
   const jsonFiles = await discoverJSONFiles(pattern);
   if (jsonFiles.length === 0) {
     logger.warn(`No files found matching pattern: ${pattern}`);
@@ -944,130 +1075,172 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json"): 
 
   logger.info(`📁 Discovered ${jsonFiles.length} file(s): ${jsonFiles.join(", ")}`);
 
-  let totalProcessed = 0;
-  let totalCreated = 0;
-  let totalUpdated = 0;
-  let totalErrors = 0;
-  let totalSkipped = 0;
-  const fileResults: Record<
-    string,
-    { processed: number; created: number; updated: number; errors: number; skipped: number }
-  > = {};
+  const results = {
+    totalProcessed: 0,
+    totalCreated: 0,
+    totalUpdated: 0,
+    totalErrors: 0,
+    totalSkipped: 0,
+    fileResults: {} as Record<
+      string,
+      { processed: number; created: number; updated: number; errors: number; skipped: number }
+    >,
+  };
 
   for (const jsonFile of jsonFiles) {
-    const fileStats = { processed: 0, created: 0, updated: 0, errors: 0, skipped: 0 };
-
-    try {
-      const filePath = path.join(process.cwd(), jsonFile);
-      const fileContent = await fs.readFile(filePath, "utf-8");
-      const rawData = JSON.parse(fileContent);
-      const chaptersData = Array.isArray(rawData)
-        ? (rawData as Record<string, unknown>[])
-        : [rawData as Record<string, unknown>];
-
-      logger.info(`📖 Processing ${chaptersData.length} chapter(s) from ${jsonFile}`);
-
-      for (const chapterData of chaptersData) {
-        try {
-          const validatedChapter = ChapterSchema.parse(chapterData);
-          const metadata = extractChapterMetadata(validatedChapter);
-
-          // Validate comic slug exists
-          if (!metadata.comicSlug) {
-            logger.warn(`⚠ Missing comic slug for chapter: ${metadata.chapterTitle}`);
-            totalSkipped++;
-            fileStats.skipped++;
-            continue;
-          }
-
-          // Find comic by slug
-          const comicRecord = await db.query.comic.findFirst({
-            where: eq(comic.slug, metadata.comicSlug),
-          });
-
-          if (!comicRecord) {
-            logger.warn(
-              `⚠ Comic not found for chapter: ${metadata.chapterTitle} (comic: ${metadata.comicSlug})`
-            );
-            totalSkipped++;
-            fileStats.skipped++;
-            continue;
-          }
-
-          // Process chapter images if available
-          let processedImageUrls: string[] = [];
-          if (metadata.imageUrls.length > 0) {
-            logger.info(
-              `   📸 Processing ${metadata.imageUrls.length} images for chapter: ${metadata.chapterTitle}`
-            );
-            const uploadedImages = await downloadAndUploadImages(
-              metadata.imageUrls,
-              `chapters/${metadata.comicSlug}/${metadata.chapterSlug}`,
-              5
-            );
-            processedImageUrls = uploadedImages.filter((url): url is string => url !== null);
-            logger.info(
-              `   ✓ Processed ${processedImageUrls.length}/${metadata.imageUrls.length} chapter images`
-            );
-          }
-
-          // Process and create/update chapter
-          const result = await processChapterRecord(
-            validatedChapter,
-            metadata,
-            comicRecord,
-            processedImageUrls
-          );
-
-          if (result.success) {
-            // Check if it was created or updated
-            const existingChapter = await db.query.chapter.findFirst({
-              where: and(
-                eq(chapter.comicId, comicRecord.id),
-                eq(chapter.slug, metadata.chapterSlug)
-              ),
-            });
-            if (existingChapter) {
-              totalUpdated++;
-              fileStats.updated++;
-            } else {
-              totalCreated++;
-              fileStats.created++;
-            }
-            totalProcessed++;
-            fileStats.processed++;
-          } else {
-            totalErrors++;
-            fileStats.errors++;
-            logger.error(`${result.error}`);
-          }
-        } catch (error: any) {
-          totalErrors++;
-          fileStats.errors++;
-          logger.error(`Failed to process chapter: ${error}`);
-        }
-      }
-
-      fileResults[jsonFile] = fileStats;
-      logger.info(
-        `✓ ${jsonFile}: ${fileStats.processed} processed, ${fileStats.created} created, ${fileStats.updated} updated, ${fileStats.skipped} skipped, ${fileStats.errors} errors`
-      );
-    } catch (error) {
-      totalErrors++;
-      logger.error(`Failed to read ${jsonFile}: ${error}`);
-      fileResults[jsonFile] = { processed: 0, created: 0, updated: 0, errors: 1, skipped: 0 };
-    }
+    await processSingleChapterFile(jsonFile, results);
   }
 
-  logger.success(
-    `✅ Chapters seeding complete: ${totalProcessed} processed, ${totalCreated} created, ${totalUpdated} updated, ${totalSkipped} skipped, ${totalErrors} errors`
+  logChaptersSeedingResults(results);
+}
+
+/**
+ * Process chapter images - Helper function to reduce complexity
+ * @param metadata
+ */
+async function processChapterImages(metadata: any): Promise<string[]> {
+  if (metadata.imageUrls.length === 0) return [];
+
+  logger.info(
+    `   📸 Processing ${metadata.imageUrls.length} images for chapter: ${metadata.chapterTitle}`
   );
 
-  if (Object.keys(fileResults).length > 0) {
+  const uploadedImages = await downloadAndUploadImages(
+    metadata.imageUrls,
+    `chapters/${metadata.comicSlug}/${metadata.chapterSlug}`,
+    5
+  );
+
+  const processedUrls = uploadedImages.filter((url): url is string => url !== null);
+  logger.info(`   ✓ Processed ${processedUrls.length}/${metadata.imageUrls.length} chapter images`);
+
+  return processedUrls;
+}
+
+/**
+ * Process a single chapter from JSON data - Extracted to reduce complexity
+ * @param chapterData
+ * @param results
+ */
+async function processSingleChapter(
+  chapterData: Record<string, unknown>,
+  results: any
+): Promise<void> {
+  const validatedChapter = ChapterSchema.parse(chapterData);
+  const metadata = extractChapterMetadata(validatedChapter);
+
+  if (!metadata.comicSlug) {
+    logger.warn(`⚠ Missing comic slug for chapter: ${metadata.chapterTitle}`);
+    results.totalSkipped++;
+    return;
+  }
+
+  const comicRecord = await db.query.comic.findFirst({
+    where: eq(comic.slug, metadata.comicSlug),
+  });
+
+  if (!comicRecord) {
+    logger.warn(
+      `⚠ Comic not found for chapter: ${metadata.chapterTitle} (comic: ${metadata.comicSlug})`
+    );
+    results.totalSkipped++;
+    return;
+  }
+
+  const processedImageUrls = await processChapterImages(metadata);
+
+  const result = await processChapterRecord(
+    validatedChapter,
+    metadata,
+    comicRecord,
+    processedImageUrls
+  );
+
+  if (!result.success) {
+    logger.error(`${result.error}`);
+    results.totalErrors++;
+    return;
+  }
+
+  const existingChapter = await db.query.chapter.findFirst({
+    where: and(eq(chapter.comicId, comicRecord.id), eq(chapter.slug, metadata.chapterSlug)),
+  });
+
+  results.totalProcessed++;
+  if (existingChapter) {
+    results.totalUpdated++;
+  } else {
+    results.totalCreated++;
+  }
+}
+
+/**
+ * Process a single JSON file for chapters - Extracted to reduce complexity
+ * @param jsonFile
+ * @param results
+ */
+async function processSingleChapterFile(jsonFile: string, results: any): Promise<void> {
+  const fileStats = { processed: 0, created: 0, updated: 0, errors: 0, skipped: 0 };
+
+  try {
+    const filePath = path.join(process.cwd(), jsonFile);
+    const fileContent = await fs.readFile(filePath, "utf-8");
+    const rawData = JSON.parse(fileContent);
+    const chaptersData = Array.isArray(rawData)
+      ? (rawData as Record<string, unknown>[])
+      : [rawData as Record<string, unknown>];
+
+    logger.info(`📖 Processing ${chaptersData.length} chapter(s) from ${jsonFile}`);
+
+    for (const chapterData of chaptersData) {
+      try {
+        const beforeProcessing = results.totalProcessed;
+        await processSingleChapter(chapterData, results);
+
+        if (results.totalProcessed > beforeProcessing) {
+          fileStats.processed++;
+          if (results.totalCreated > (results.fileResults[jsonFile]?.created ?? 0)) {
+            fileStats.created++;
+          } else if (results.totalUpdated > (results.fileResults[jsonFile]?.updated ?? 0)) {
+            fileStats.updated++;
+          }
+        } else if (results.totalSkipped > (results.fileResults[jsonFile]?.skipped ?? 0)) {
+          fileStats.skipped++;
+        } else {
+          fileStats.errors++;
+        }
+      } catch (error: any) {
+        results.totalErrors++;
+        fileStats.errors++;
+        logger.error(`Failed to process chapter: ${error}`);
+      }
+    }
+
+    results.fileResults[jsonFile] = fileStats;
+    logger.info(
+      `✓ ${jsonFile}: ${fileStats.processed} processed, ${fileStats.created} created, ${fileStats.updated} updated, ${fileStats.skipped} skipped, ${fileStats.errors} errors`
+    );
+  } catch (error) {
+    results.totalErrors++;
+    logger.error(`Failed to read ${jsonFile}: ${error}`);
+    results.fileResults[jsonFile] = { processed: 0, created: 0, updated: 0, errors: 1, skipped: 0 };
+  }
+}
+
+/**
+ * Log chapters seeding results - Extracted to reduce complexity
+ * @param results
+ */
+function logChaptersSeedingResults(results: any): void {
+  logger.success(
+    `✅ Chapters seeding complete: ${results.totalProcessed} processed, ${results.totalCreated} created, ${results.totalUpdated} updated, ${results.totalSkipped} skipped, ${results.totalErrors} errors`
+  );
+
+  if (Object.keys(results.fileResults).length > 0) {
     logger.info("\n📊 Detailed File Results:");
-    for (const [file, stats] of Object.entries(fileResults)) {
+    for (const [file, stats] of Object.entries(results.fileResults)) {
       logger.info(
-        `   ${file}: ${stats.processed} processed, ${stats.created} created, ${stats.updated} updated, ${stats.skipped} skipped, ${stats.errors} errors`
+        `   ${file}: ${(stats as any).processed} processed, ${(stats as any).created} created, ${(stats as any).updated} updated, ${(stats as any).skipped} skipped, ${(stats as any).errors} errors`
       );
     }
   }

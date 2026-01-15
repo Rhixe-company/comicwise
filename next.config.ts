@@ -25,22 +25,22 @@ const nextConfig: NextConfig = {
 
     // Package import optimization
     optimizePackageImports: [
-      "radix-ui/react-icons",
-      "radix-ui/react-avatar",
-      "radix-ui/react-dialog",
-      "radix-ui/react-dropdown-menu",
-      "radix-ui/react-select",
-      "radix-ui/react-tabs",
-      "radix-ui/react-accordion",
-      "radix-ui/react-popover",
-      "radix-ui/react-tooltip",
-      "radix-ui/react-label",
-      "radix-ui/react-switch",
-      "radix-ui/react-checkbox",
-      "radix-ui/react-slider",
-      "radix-ui/react-separator",
+      "@radix-ui/react-icons",
+      "@radix-ui/react-avatar",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-select",
+      "@radix-ui/react-tabs",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-popover",
+      "@radix-ui/react-tooltip",
+      "@radix-ui/react-label",
+      "@radix-ui/react-switch",
+      "@radix-ui/react-checkbox",
+      "@radix-ui/react-slider",
+      "@radix-ui/react-separator",
       "lucide-react",
-      "tabler/icons-react",
+      "@tabler/icons-react",
       "framer-motion",
       "recharts",
       "date-fns",
@@ -51,9 +51,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "10mb",
       allowedOrigins: ["localhost:3000"],
     },
-
-    // Partial Prerendering (Next.js 16)
-    // ppr: "incremental",
   },
 
   // External packages for server-side
@@ -147,10 +144,11 @@ const nextConfig: NextConfig = {
       ],
     },
   ],
-  webpack: (config, { isServer }) => {
+  webpack: (config: Record<string, unknown>, { isServer }: { isServer: boolean }) => {
     if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
+      const resolveConfig = config.resolve as Record<string, unknown>;
+      resolveConfig.fallback = {
+        ...(resolveConfig.fallback as Record<string, boolean>),
         fs: false,
         net: false,
         tls: false,

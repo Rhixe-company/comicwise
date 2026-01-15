@@ -3,122 +3,104 @@
  * Handles all database operations for users
  */
 
+import type { ListOptions } from "@/dal/baseDal";
+import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
 import { user } from "@/database/schema";
-import { logger } from "@/lib/logger";
 import type { User } from "@/types/database";
 
-export class UserDal {
+// @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
+class UserDal extends BaseDal<User, Partial<User>> {
   private static instance: UserDal;
-  private logger = logger.child({ context: "UserDal" });
 
-  private constructor() {}
-
-  static getInstance(): UserDal {
-    if (!UserDal.instance) {
-      UserDal.instance = new UserDal();
-    }
-    return UserDal.instance;
+  private constructor() {
+    super("UserDal");
   }
 
-  async create(data: {
-    name: string;
-    email: string;
-    hashedPassword?: string;
-    image?: string | null;
-    role?: string;
-  }): Promise<User | undefined> {
-    try {
-      this.logger.debug({ data }, "Creating user");
-      const result = await mutations.createUser({
-        email: data.email,
-        name: data.name,
-        password: data.hashedPassword,
-        image: data.image ?? undefined,
-        role: data.role as "user" | "admin" | "moderator" | undefined,
-      });
-      this.logger.info({ userId: result?.id }, "User created successfully");
-      return result;
-    } catch (error) {
-      this.logger.error({ error, data }, "Failed to create user");
-      throw error;
+  static override getInstance(): UserDal {
+    return BaseDal.getInstance("userDal", () => new UserDal());
+  }
+
+  override async create(data: Partial<User>): Promise<User | undefined> {
+    // Validate required fields
+    const email = data.email || "";
+    const name = data.name || "";
+
+    if (!email || !name) {
+      this.logger.warn("Create user missing required fields");
+      return undefined;
     }
+
+    return this.executeWithLogging(
+      async () =>
+        await mutations.createUser({
+          email,
+          name,
+          password: data.password ?? undefined,
+          image: (data.image as string | undefined) ?? undefined,
+          role: data.role ?? "user",
+        }),
+      "Creating user",
+      { email, name }
+    );
   }
 
   async findById(id: string): Promise<User | undefined> {
-    try {
-      this.logger.debug({ id }, "Finding user by ID");
-      return await queries.getUserById(id);
-    } catch (error) {
-      this.logger.error({ error, id }, "Failed to find user by ID");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () => await queries.getUserById(id),
+      "Finding user by ID",
+      { id }
+    );
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
-    try {
-      this.logger.debug({ email }, "Finding user by email");
-      return await queries.getUserByEmail(email);
-    } catch (error) {
-      this.logger.error({ error, email }, "Failed to find user by email");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () => await queries.getUserByEmail(email),
+      "Finding user by email",
+      { email }
+    );
   }
 
   async update(id: string, data: Partial<User>): Promise<User | undefined> {
-    try {
-      this.logger.debug({ id, data }, "Updating user");
-      const updateData = {
-        name: data.name ?? undefined,
-        email: data.email,
-        image: data.image === null ? null : data.image,
-        role: data.role,
-        emailVerified: data.emailVerified ?? undefined,
-      };
-      const result = await mutations.updateUser(id, updateData);
-      this.logger.info({ userId: id }, "User updated successfully");
-      return result;
-    } catch (error) {
-      this.logger.error({ error, id, data }, "Failed to update user");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () =>
+        await mutations.updateUser(id, {
+          name: data.name ?? undefined,
+          email: data.email,
+          image: data.image === null ? null : data.image,
+          role: data.role,
+          emailVerified: data.emailVerified ?? undefined,
+        }),
+      "Updating user",
+      { id }
+    );
   }
 
   async delete(id: string): Promise<User | undefined> {
-    try {
-      this.logger.debug({ id }, "Deleting user");
-      const result = await mutations.deleteUser(id);
-      this.logger.info({ userId: id }, "User deleted successfully");
-      return result;
-    } catch (error) {
-      this.logger.error({ error, id }, "Failed to delete user");
-      throw error;
-    }
+    return this.executeWithLogging(async () => await mutations.deleteUser(id), "Deleting user", {
+      id,
+    });
   }
 
   async findByResetToken(token: string): Promise<User | undefined> {
-    try {
-      this.logger.debug({ token: "***" }, "Finding user by reset token");
-      // Note: This functionality needs to be implemented in the queries
-      return undefined;
-    } catch (error) {
-      this.logger.error({ error }, "Failed to find user by reset token");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () => {
+        // Note: This functionality needs to be implemented in the queries
+        return undefined;
+      },
+      "Finding user by reset token",
+      { token: "***" }
+    );
   }
 
   async updatePassword(id: string, hashedPassword: string): Promise<User | undefined> {
-    try {
-      this.logger.debug({ id }, "Updating user password");
-      const result = await mutations.updateUserPassword(id, hashedPassword);
-      this.logger.info({ userId: id }, "Password updated successfully");
-      return result;
-    } catch (error) {
-      this.logger.error({ error, id }, "Failed to update password");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () => await mutations.updateUserPassword(id, hashedPassword),
+      "Updating user password",
+      { id }
+    );
   }
 
   async setResetToken(
@@ -126,25 +108,24 @@ export class UserDal {
     resetToken: string,
     resetTokenExpiry: Date
   ): Promise<User | undefined> {
-    try {
-      this.logger.debug({ id }, "Setting reset token");
-      // Note: User mutations don't support resetToken - this should use passwordResetToken table
-      return undefined;
-    } catch (error) {
-      this.logger.error({ error, id }, "Failed to set reset token");
-      throw error;
-    }
+    return this.executeWithLogging(
+      async () => {
+        // Note: User mutations don't support resetToken - this should use passwordResetToken table
+        return undefined;
+      },
+      "Setting reset token",
+      { id }
+    );
   }
 
-  async list(limit = 50, offset = 0): Promise<User[]> {
-    try {
-      this.logger.debug({ limit, offset }, "Listing users");
-      const users = await db.select().from(user).limit(limit).offset(offset);
-      return users;
-    } catch (error) {
-      this.logger.error({ error, limit, offset }, "Failed to list users");
-      throw error;
-    }
+  async list(options: ListOptions = {}): Promise<User[]> {
+    const { limit = 50, offset = 0 } = options;
+
+    return this.executeWithLogging(
+      async () => await db.select().from(user).limit(limit).offset(offset),
+      "Listing users",
+      { limit, offset }
+    );
   }
 }
 

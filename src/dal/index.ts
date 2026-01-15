@@ -2,12 +2,16 @@
  * Central export for all Data Access Layer modules
  */
 
-export { ArtistDal, artistDal } from "@/dal/artistDal";
-export { AuthorDal, authorDal } from "@/dal/authorDal";
-export { BookmarkDal, bookmarkDal } from "@/dal/bookmarkDal";
-export { ChapterDal, chapterDal } from "@/dal/chapterDal";
-export { ComicDal, comicDal } from "@/dal/comicDal";
-export { CommentDal, commentDal } from "@/dal/commentDal";
-export { GenreDal, genreDal } from "@/dal/genreDal";
-export { TypeDal, typeDal } from "@/dal/typeDal";
-export { UserDal, userDal } from "@/dal/userDal";
+// Base class for all DAL implementations
+export { BaseDal, type ListOptions } from "@/dal/baseDal";
+
+// DAL instances and classes
+export { artistDal } from "@/dal/artistDal";
+export { authorDal } from "@/dal/authorDal";
+export { bookmarkDal } from "@/dal/bookmarkDal";
+export { chapterDal } from "@/dal/chapterDal";
+export { comicDal } from "@/dal/comicDal";
+export { commentDal } from "@/dal/commentDal";
+export { genreDal } from "@/dal/genreDal";
+export { typeDal } from "@/dal/typeDal";
+export { userDal } from "@/dal/userDal";

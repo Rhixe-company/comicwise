@@ -1,7 +1,17 @@
-// Typed cache wrapper to unify Upstash and ioredis usages
-import Redis from "ioredis";
+// ═══════════════════════════════════════════════════════════════════════════
+// CONSOLIDATED CACHE SERVICE
+// ═══════════════════════════════════════════════════════════════════════════
+// Consolidates: cache.ts + cacheService.ts + cacheMiddleware.ts fundamentals
+// Provides unified Redis/in-memory caching with type safety and advanced operations
 
 import { env } from "@/appConfig";
+import { createHash } from "crypto";
+import Redis from "ioredis";
+import type { NextRequest } from "next/server";
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TYPES
+// ═══════════════════════════════════════════════════════════════════════════
 
 export type CacheValue = string | number | object | null;
 
@@ -10,12 +20,104 @@ export interface CacheClient {
   set(key: string, value: string, ttlSeconds?: number): Promise<void>;
   del(key: string): Promise<void>;
   clear?(): Promise<void>;
-  // raw client exposed for advanced operations
   raw?: Redis | Record<string, unknown> | null;
 }
 
+export interface CacheOptions {
+  ttl?: number;
+  prefix?: string;
+  tags?: string[];
+}
+
+export interface CacheMiddlewareConfig {
+  ttl?: number;
+  prefix?: string;
+  includeQuery?: boolean;
+  includeBody?: boolean;
+  keyGenerator?(request: NextRequest): string | Promise<string>;
+  userSpecific?: boolean;
+  tags?: string[];
+  skipCache?(request: NextRequest): boolean | Promise<boolean>;
+  revalidate?(request: NextRequest): boolean | Promise<boolean>;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REDIS CLIENT INITIALIZATION
+// ═══════════════════════════════════════════════════════════════════════════
+
+const getRedisConfig = (): Record<string, unknown> => {
+  const baseConfig: Record<string, unknown> = {
+    host: env.REDIS_HOST || "localhost",
+    port: Number(env.REDIS_PORT) || 6379,
+    password: env.REDIS_PASSWORD || undefined,
+    database: Number(env.REDIS_DB ?? 0) || 0,
+    maxRetriesPerRequest: 3,
+    retryStrategy(times: number) {
+      const delay = Math.min(times * 50, 2000);
+      return delay;
+    },
+    reconnectOnError(err: Error) {
+      const targetErrors = ["READONLY", "ECONNRESET"];
+      return targetErrors.some((target) => err.message.includes(target));
+    },
+    lazyConnect: true,
+    enableReadyCheck: true,
+    showFriendlyErrorStack: env.NODE_ENV === "development",
+  };
+
+  if (env.NODE_ENV === "production" && String(env.REDIS_TLS_ENABLED ?? false) === "true") {
+    baseConfig.tls = {
+      rejectUnauthorized: false,
+    };
+  }
+
+  return baseConfig;
+};
+
+let redisClient: Redis | null = null;
+
+export function getRedisClient(): Redis {
+  if (!redisClient) {
+    redisClient = new Redis(getRedisConfig());
+
+    redisClient.on("error", (error) => {
+      console.error("Redis Client Error:", error);
+    });
+
+    redisClient.on("connect", () => {
+      console.log("✅ Redis connected successfully");
+    });
+
+    redisClient.on("ready", () => {
+      console.log("✅ Redis client ready");
+    });
+
+    redisClient.on("close", () => {
+      console.warn("⚠️  Redis connection closed");
+    });
+
+    redisClient.on("reconnecting", () => {
+      console.log("🔄 Redis reconnecting...");
+    });
+  }
+
+  return redisClient;
+}
+
+export async function closeRedis(): Promise<void> {
+  if (redisClient) {
+    await redisClient.quit();
+    redisClient = null;
+    console.log("✅ Redis connection closed");
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CACHE CLIENT FACTORY
+// ═══════════════════════════════════════════════════════════════════════════
+
 export function createCacheClient(rawClient: Redis | Record<string, unknown> | null): CacheClient {
-  // Upstash Redis client (REST) detection
+  // Upstash Redis client detection
   if (
     rawClient &&
     typeof rawClient === "object" &&
@@ -80,7 +182,7 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
     };
   }
 
-  // Fallback in-memory simple map for environments without Redis
+  // Fallback in-memory cache
   const store = new Map<string, string>();
   return {
     raw: null,
@@ -98,90 +200,11 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
     },
   };
 }
-/**
- * Redis Configuration
- * Supports both standalone and cluster modes
- */
-const getRedisConfig = (): Record<string, unknown> => {
-  const baseConfig: Record<string, unknown> = {
-    host: env.REDIS_HOST || "localhost",
-    port: Number(env.REDIS_PORT) || 6379,
-    password: env.REDIS_PASSWORD || undefined,
-    database: Number(env.REDIS_DB ?? 0) || 0,
-    maxRetriesPerRequest: 3,
-    retryStrategy(times: number) {
-      const delay = Math.min(times * 50, 2000);
-      return delay;
-    },
-    reconnectOnError(err: Error) {
-      const targetErrors = ["READONLY", "ECONNRESET"];
-      return targetErrors.some((target) => err.message.includes(target));
-    },
-    lazyConnect: true,
-    enableReadyCheck: true,
-    showFriendlyErrorStack: env.NODE_ENV === "development",
-  };
 
-  // Add TLS for production
-  if (env.NODE_ENV === "production" && String(env.REDIS_TLS_ENABLED ?? false) === "true") {
-    baseConfig.tls = {
-      rejectUnauthorized: false,
-    };
-  }
+// ═══════════════════════════════════════════════════════════════════════════
+// CACHE KEYS & TTL CONSTANTS
+// ═══════════════════════════════════════════════════════════════════════════
 
-  return baseConfig;
-};
-
-/**
- * Global Redis client singleton
- */
-let redisClient: Redis | null = null;
-
-/**
- * Get or create Redis client
- */
-export function getRedisClient(): Redis {
-  if (!redisClient) {
-    redisClient = new Redis(getRedisConfig());
-
-    redisClient.on("error", (error) => {
-      console.error("Redis Client Error:", error);
-    });
-
-    redisClient.on("connect", () => {
-      console.log("✅ Redis connected successfully");
-    });
-
-    redisClient.on("ready", () => {
-      console.log("✅ Redis client ready");
-    });
-
-    redisClient.on("close", () => {
-      console.warn("⚠️  Redis connection closed");
-    });
-
-    redisClient.on("reconnecting", () => {
-      console.log("🔄 Redis reconnecting...");
-    });
-  }
-
-  return redisClient;
-}
-
-/**
- * Close Redis connection (for cleanup)
- */
-export async function closeRedis(): Promise<void> {
-  if (redisClient) {
-    await redisClient.quit();
-    redisClient = null;
-    console.log("✅ Redis connection closed");
-  }
-}
-
-/**
- * Cache key prefixes for different data types
- */
 export const CACHE_KEYS = {
   COMIC: "comic:",
   COMICS_LIST: "comics:list:",
@@ -201,37 +224,54 @@ export const CACHE_KEYS = {
   RATING_AVG: "rating:",
 } as const;
 
-/**
- * Cache TTL (Time To Live) in seconds
- */
 export const CACHE_TTL = {
-  // Short-lived cache (5 minutes)
   SHORT: 60 * 5,
-  // Medium cache (30 minutes)
   MEDIUM: 60 * 30,
-  // Long cache (2 hours)
   LONG: 60 * 60 * 2,
-  // Very long cache (12 hours)
   VERY_LONG: 60 * 60 * 12,
-  // Daily cache (24 hours)
   DAILY: 60 * 60 * 24,
-  // Weekly cache (7 days)
   WEEKLY: 60 * 60 * 24 * 7,
 } as const;
 
-/**
- * Cache options for different operations
- */
-export interface CacheOptions {
-  ttl?: number;
-  prefix?: string;
-  tags?: string[];
-}
+export const cacheKeys = {
+  comic: (id: number) => `comic:${id}`,
+  comics: (filters?: string) => `comics:${filters || "all"}`,
+  comicsByGenre: (genreId: number) => `comics:genre:${genreId}`,
+  comicsByAuthor: (authorId: number) => `comics:author:${authorId}`,
+  comicsByStatus: (status: string) => `comics:status:${status}`,
+  chapter: (id: number) => `chapter:${id}`,
+  chapters: (comicId: number) => `chapters:comic:${comicId}`,
+  chapterImages: (chapterId: number) => `chapter:${chapterId}:images`,
+  user: (id: string) => `user:${id}`,
+  userByEmail: (email: string) => `user:email:${email}`,
+  userBookmarks: (userId: string) => `bookmarks:user:${userId}`,
+  comicBookmark: (userId: string, comicId: number) => `bookmark:${userId}:${comicId}`,
+  chapterComments: (chapterId: number) => `comments:chapter:${chapterId}`,
+  searchResults: (query: string) => `search:${query}`,
+  comicViews: (comicId: number) => `views:comic:${comicId}`,
+  chapterViews: (chapterId: number) => `views:chapter:${chapterId}`,
+  popularComics: () => "popular:comics",
+  trendingComics: () => "trending:comics",
+  genres: () => "genres:all",
+  authors: () => "authors:all",
+  artists: () => "artists:all",
+  types: () => "types:all",
+  userReadingProgress: (userId: string, comicId: number) => `reading:${userId}:${comicId}`,
+  userReadingHistory: (userId: string) => `reading:history:${userId}`,
+} as const;
 
-/**
- * Redis Cache Service
- * Provides high-level caching operations with type safety
- */
+export const cacheTTL = {
+  SHORT: 300,
+  MEDIUM: 1800,
+  LONG: 3600,
+  VERY_LONG: 86400,
+  WEEK: 604800,
+} as const;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REDIS CACHE SERVICE CLASS
+// ═══════════════════════════════════════════════════════════════════════════
+
 export class RedisCache {
   private redis: Redis;
 
@@ -239,16 +279,10 @@ export class RedisCache {
     this.redis = getRedisClient();
   }
 
-  /**
-   * Get value from cache
-   * @param key
-   */
   async get<T>(key: string): Promise<T | null> {
     try {
       const value = await this.redis.get(key);
-      if (!value) {
-        return null;
-      }
+      if (!value) return null;
       return JSON.parse(value) as T;
     } catch (error) {
       console.error(`Cache GET error for key ${key}:`, error);
@@ -256,12 +290,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Set value in cache with optional TTL
-   * @param key
-   * @param value
-   * @param options
-   */
   async set<T>(key: string, value: T, options?: CacheOptions): Promise<boolean> {
     try {
       const serialized = JSON.stringify(value);
@@ -269,7 +297,6 @@ export class RedisCache {
 
       await (ttl > 0 ? this.redis.setex(key, ttl, serialized) : this.redis.set(key, serialized));
 
-      // Store tags for invalidation
       if (options?.tags && options.tags.length > 0) {
         await this.addTagsToKey(key, options.tags);
       }
@@ -281,10 +308,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Delete value from cache
-   * @param key
-   */
   async delete(key: string): Promise<boolean> {
     try {
       await this.redis.del(key);
@@ -295,15 +318,9 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Delete multiple keys
-   * @param keys
-   */
   async deleteMany(keys: string[]): Promise<boolean> {
     try {
-      if (keys.length === 0) {
-        return true;
-      }
+      if (keys.length === 0) return true;
       await this.redis.del(...keys);
       return true;
     } catch (error) {
@@ -312,10 +329,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Check if key exists
-   * @param key
-   */
   async exists(key: string): Promise<boolean> {
     try {
       const result = await this.redis.exists(key);
@@ -326,10 +339,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Get TTL for a key (in seconds)
-   * @param key
-   */
   async getTTL(key: string): Promise<number> {
     try {
       return await this.redis.ttl(key);
@@ -339,11 +348,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Set TTL for a key
-   * @param key
-   * @param ttl
-   */
   async setTTL(key: string, ttl: number): Promise<boolean> {
     try {
       await this.redis.expire(key, ttl);
@@ -354,16 +358,10 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Delete all keys matching a pattern
-   * @param pattern
-   */
   async deletePattern(pattern: string): Promise<number> {
     try {
       const keys = await this.redis.keys(pattern);
-      if (keys.length === 0) {
-        return 0;
-      }
+      if (keys.length === 0) return 0;
       await this.redis.del(...keys);
       return keys.length;
     } catch (error) {
@@ -372,10 +370,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Get all keys matching a pattern
-   * @param pattern
-   */
   async getKeys(pattern: string): Promise<string[]> {
     try {
       return await this.redis.keys(pattern);
@@ -385,11 +379,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Increment a counter
-   * @param key
-   * @param amount
-   */
   async increment(key: string, amount = 1): Promise<number> {
     try {
       return await this.redis.incrby(key, amount);
@@ -399,11 +388,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Decrement a counter
-   * @param key
-   * @param amount
-   */
   async decrement(key: string, amount = 1): Promise<number> {
     try {
       return await this.redis.decrby(key, amount);
@@ -413,11 +397,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Add multiple items to a set
-   * @param key
-   * @param {...any} members
-   */
   async addToSet(key: string, ...members: string[]): Promise<boolean> {
     try {
       await this.redis.sadd(key, ...members);
@@ -428,10 +407,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Get all members of a set
-   * @param key
-   */
   async getSet(key: string): Promise<string[]> {
     try {
       return await this.redis.smembers(key);
@@ -441,11 +416,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Remove member from set
-   * @param key
-   * @param member
-   */
   async removeFromSet(key: string, member: string): Promise<boolean> {
     try {
       await this.redis.srem(key, member);
@@ -456,11 +426,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Check if member exists in set
-   * @param key
-   * @param member
-   */
   async isInSet(key: string, member: string): Promise<boolean> {
     try {
       const result = await this.redis.sismember(key, member);
@@ -471,12 +436,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Add item to sorted set with score
-   * @param key
-   * @param score
-   * @param member
-   */
   async addToSortedSet(key: string, score: number, member: string): Promise<boolean> {
     try {
       await this.redis.zadd(key, score, member);
@@ -487,11 +446,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Get top N items from sorted set (highest scores first)
-   * @param key
-   * @param count
-   */
   async getTopFromSortedSet(
     key: string,
     count: number
@@ -514,15 +468,8 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Increment score in sorted set
-   * @param key
-   * @param member
-   * @param increment
-   */
   async incrementScoreInSortedSet(key: string, member: string, increment: number): Promise<number> {
     try {
-      // zincrby returns string, so parse to number
       const result = await this.redis.zincrby(key, increment, member);
       return typeof result === "number" ? result : Number(result);
     } catch (error) {
@@ -531,28 +478,15 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Cache-aside pattern: get from cache or fetch from source
-   * @param key
-   * @param fetchFn
-   * @param fetchFunction
-   * @param options
-   */
   async getOrSet<T>(
     key: string,
     fetchFunction: () => Promise<T>,
     options?: CacheOptions
   ): Promise<T> {
-    // Try to get from cache first
     const cached = await this.get<T>(key);
-    if (cached !== null) {
-      return cached;
-    }
+    if (cached !== null) return cached;
 
-    // Fetch from source
     const data = await fetchFunction();
-
-    // Store in cache (don't wait)
     this.set(key, data, options).catch((error) => {
       console.error(`Failed to cache data for key ${key}:`, error);
     });
@@ -560,11 +494,6 @@ export class RedisCache {
     return data;
   }
 
-  /**
-   * Add tags to a key for grouped invalidation
-   * @param key
-   * @param tags
-   */
   private async addTagsToKey(key: string, tags: string[]): Promise<void> {
     try {
       const pipeline = this.redis.pipeline();
@@ -580,23 +509,14 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Invalidate all keys with a specific tag
-   * @param tag
-   */
   async invalidateByTag(tag: string): Promise<number> {
     try {
       const tagKey = `tag:${tag}`;
       const keys = await this.redis.smembers(tagKey);
 
-      if (keys.length === 0) {
-        return 0;
-      }
+      if (keys.length === 0) return 0;
 
-      // Delete all keys with this tag
       await this.redis.del(...keys);
-
-      // Delete the tag set itself
       await this.redis.del(tagKey);
 
       return keys.length;
@@ -608,7 +528,7 @@ export class RedisCache {
 
   async flushAll(): Promise<boolean> {
     try {
-      const flushFunction = (this.redis as unknown as Record<string, unknown>).flushdatabase as
+      const flushFunction = (this.redis as unknown as Record<string, unknown>).flushdb as
         | (() => Promise<void>)
         | undefined;
       if (flushFunction) {
@@ -622,9 +542,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Get cache statistics
-   */
   async getStats(): Promise<{
     keys: number;
     memory: string;
@@ -638,8 +555,9 @@ export class RedisCache {
         | undefined;
       const info = infoFunction ? await infoFunction("stats") : "";
       const memory = infoFunction ? await infoFunction("memory") : "";
-      const databasesizeFunction = (this.redis as unknown as Record<string, unknown>)
-        .databasesize as (() => Promise<number>) | undefined;
+      const databasesizeFunction = (this.redis as unknown as Record<string, unknown>).dbsize as
+        | (() => Promise<number>)
+        | undefined;
       const databasesize = databasesizeFunction ? await databasesizeFunction() : 0;
 
       const stats = {
@@ -666,9 +584,6 @@ export class RedisCache {
     }
   }
 
-  /**
-   * Health check for Redis connection
-   */
   async healthCheck(): Promise<boolean> {
     try {
       const result = await this.redis.ping();
@@ -682,3 +597,294 @@ export class RedisCache {
 
 // Export singleton instance
 export const cache = new RedisCache();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CACHE MIDDLEWARE UTILITIES
+// ═══════════════════════════════════════════════════════════════════════════
+
+async function generateCacheKey(
+  request: NextRequest,
+  config: CacheMiddlewareConfig
+): Promise<string> {
+  if (config.keyGenerator) {
+    return config.keyGenerator(request);
+  }
+
+  const url = new URL(request.url);
+  let key = `${config.prefix || "api"}:${url.pathname}`;
+
+  if (config.includeQuery && url.search) {
+    const sortedParameters = [...url.searchParams.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([k, v]) => `${k}=${v}`)
+      .join("&");
+    key += `:${sortedParameters}`;
+  }
+
+  if (config.includeBody && ["POST", "PUT", "PATCH"].includes(request.method)) {
+    try {
+      const body = await request.clone().text();
+      if (body) {
+        const bodyHash = createHash("md5").update(body).digest("hex");
+        key += `:body:${bodyHash}`;
+      }
+    } catch (error) {
+      console.error("Failed to read request body:", error);
+    }
+  }
+
+  if (config.userSpecific) {
+    const userId = request.headers.get("x-user-id") || request.cookies.get("userId")?.value;
+    if (userId) {
+      key += `:user:${userId}`;
+    }
+  }
+
+  return key;
+}
+
+export function withCache(
+  handler: (request: NextRequest) => Promise<any>,
+  config: CacheMiddlewareConfig = {}
+) {
+  return async (request: NextRequest) => {
+    if (config.skipCache && (await config.skipCache(request))) {
+      return handler(request);
+    }
+
+    if (request.method !== "GET" && !config.includeBody) {
+      return handler(request);
+    }
+
+    try {
+      const cacheKey = await generateCacheKey(request, config);
+      const shouldRevalidate = config.revalidate && (await config.revalidate(request));
+
+      if (!shouldRevalidate) {
+        const cached = await cache.get<{
+          body: Record<string, unknown>;
+          headers: Record<string, string>;
+          status: number;
+        }>(cacheKey);
+
+        if (cached) {
+          console.log(`✅ Cache HIT: ${cacheKey}`);
+          const response = new Response(JSON.stringify(cached.body), {
+            status: cached.status,
+            headers: new Headers(cached.headers),
+          });
+          response.headers.set("X-Cache", "HIT");
+          response.headers.set("X-Cache-Key", cacheKey);
+          return response;
+        }
+      }
+
+      console.log(`❌ Cache MISS: ${cacheKey}`);
+      const response = await handler(request);
+
+      if (response.ok) {
+        try {
+          const clonedResponse = response.clone();
+          const body = await clonedResponse.json();
+
+          const cacheData = {
+            body,
+            headers: Object.fromEntries(response.headers.entries()),
+            status: response.status,
+          };
+
+          cache
+            .set(cacheKey, cacheData, {
+              ttl: config.ttl || CACHE_TTL.MEDIUM,
+              tags: config.tags,
+            })
+            .catch((error) => {
+              console.error(`Failed to cache response for ${cacheKey}:`, error);
+            });
+
+          response.headers.set("X-Cache", "MISS");
+          response.headers.set("X-Cache-Key", cacheKey);
+        } catch (error) {
+          console.error("Failed to cache response:", error);
+        }
+      }
+
+      return response;
+    } catch (error) {
+      console.error("Cache middleware error:", error);
+      return handler(request);
+    }
+  };
+}
+
+export async function invalidateCache(options: {
+  prefix?: string;
+  pattern?: string;
+  tags?: string[];
+}): Promise<number> {
+  let totalInvalidated = 0;
+
+  if (options.pattern) {
+    const count = await cache.deletePattern(options.pattern);
+    totalInvalidated += count;
+    console.log(`🗑️  Invalidated ${count} keys matching ${options.pattern}`);
+  }
+
+  if (options.prefix) {
+    const pattern = `${options.prefix}:*`;
+    const count = await cache.deletePattern(pattern);
+    totalInvalidated += count;
+    console.log(`🗑️  Invalidated ${count} keys with prefix ${options.prefix}`);
+  }
+
+  if (options.tags && options.tags.length > 0) {
+    for (const tag of options.tags) {
+      const count = await cache.invalidateByTag(tag);
+      totalInvalidated += count;
+      console.log(`🗑️  Invalidated ${count} keys with tag ${tag}`);
+    }
+  }
+
+  return totalInvalidated;
+}
+
+export function withCacheInvalidation(
+  handler: (request: NextRequest) => Promise<any>,
+  config: {
+    patterns?: string[];
+    tags?: string[];
+    invalidate?(request: NextRequest): Promise<void>;
+  }
+) {
+  return async (request: NextRequest) => {
+    const response = await handler(request);
+
+    if (response.ok && ["POST", "PUT", "PATCH", "DELETE"].includes(request.method)) {
+      try {
+        if (config.invalidate) {
+          await config.invalidate(request);
+        }
+
+        if (config.patterns && config.patterns.length > 0) {
+          for (const pattern of config.patterns) {
+            await cache.deletePattern(pattern);
+          }
+        }
+
+        if (config.tags && config.tags.length > 0) {
+          for (const tag of config.tags) {
+            await cache.invalidateByTag(tag);
+          }
+        }
+
+        console.log("✅ Cache invalidated after mutation");
+      } catch (error) {
+        console.error("Cache invalidation error:", error);
+      }
+    }
+
+    return response;
+  };
+}
+
+export function withSmartCache(
+  handler: (request: NextRequest) => Promise<any>,
+  config: {
+    cache?: CacheMiddlewareConfig;
+    invalidate?: {
+      patterns?: string[];
+      tags?: string[];
+      invalidate?(request: NextRequest): Promise<void>;
+    };
+  }
+) {
+  let wrappedHandler = handler;
+  if (config.invalidate) {
+    wrappedHandler = withCacheInvalidation(wrappedHandler, config.invalidate);
+  }
+
+  if (config.cache) {
+    wrappedHandler = withCache(wrappedHandler, config.cache);
+  }
+
+  return wrappedHandler;
+}
+
+export async function rateLimit(
+  identifier: string,
+  options: {
+    window: number;
+    max: number;
+  }
+): Promise<{ success: boolean; remaining: number; reset: number }> {
+  const key = `ratelimit:${identifier}`;
+
+  try {
+    const current = await cache.increment(key);
+
+    if (current === 1) {
+      await cache.setTTL(key, options.window);
+    }
+
+    const ttl = await cache.getTTL(key);
+    const remaining = Math.max(0, options.max - current);
+
+    return {
+      success: current <= options.max,
+      remaining,
+      reset: Date.now() + ttl * 1000,
+    };
+  } catch (error) {
+    console.error("Rate limit error:", error);
+    return { success: true, remaining: options.max, reset: Date.now() };
+  }
+}
+
+export function withRateLimit(
+  handler: (request: NextRequest) => Promise<any>,
+  options: {
+    window?: number;
+    max?: number;
+    keyGenerator?(request: NextRequest): string;
+  } = {}
+) {
+  return async (request: NextRequest) => {
+    const identifier =
+      options.keyGenerator?.(request) ||
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("x-real-ip") ||
+      "anonymous";
+
+    const result = await rateLimit(identifier, {
+      window: options.window || 60,
+      max: options.max || 100,
+    });
+
+    if (!result.success) {
+      return new Response(
+        JSON.stringify({
+          error: "Too many requests",
+          message: "Rate limit exceeded. Please try again later.",
+          retryAfter: Math.ceil((result.reset - Date.now()) / 1000),
+        }),
+        {
+          status: 429,
+          headers: {
+            "X-RateLimit-Limit": options.max?.toString() || "100",
+            "X-RateLimit-Remaining": result.remaining.toString(),
+            "X-RateLimit-Reset": result.reset.toString(),
+            "Retry-After": Math.ceil((result.reset - Date.now()) / 1000).toString(),
+          },
+        }
+      );
+    }
+
+    const response = await handler(request);
+
+    response.headers.set("X-RateLimit-Limit", options.max?.toString() || "100");
+    response.headers.set("X-RateLimit-Remaining", result.remaining.toString());
+    response.headers.set("X-RateLimit-Reset", result.reset.toString());
+
+    return response;
+  };
+}

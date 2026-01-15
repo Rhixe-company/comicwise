@@ -555,9 +555,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                   <TableRow>
                     <TableCell
                       colSpan={columns.length}
-                      className={`
-                      h-24 text-center
-                    `}
+                      className={`h-24 text-center`}
                     >
                       No results.
                     </TableCell>
@@ -796,9 +794,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                 <div className="flex gap-2 leading-none font-medium">
                   Trending up by 5.2% this month{" "}
                   <IconTrendingUp
-                    className={`
-                    size-4
-                  `}
+                    className={`size-4`}
                   />
                 </div>
                 <div className="text-muted-foreground">

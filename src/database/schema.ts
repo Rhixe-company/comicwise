@@ -2,9 +2,9 @@ import type { SQL } from "drizzle-orm";
 import { sql } from "drizzle-orm";
 import {
   boolean,
+  decimal,
   index,
   integer,
-  numeric,
   pgEnum,
   pgTable,
   primaryKey,
@@ -12,6 +12,7 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
+import type { AdapterAccountType } from "next-auth/adapters";
 
 // ═══════════════════════════════════════════════════
 // CUSTOM SQL TYPES FOR FULL-TEXT SEARCH
@@ -32,6 +33,7 @@ export const comicStatus = pgEnum("comic_status", [
   "Hiatus",
   "Completed",
   "Dropped",
+  "Season End",
   "Coming Soon",
 ]);
 
@@ -52,6 +54,7 @@ export const user = pgTable(
     image: text("image"),
     password: text("password"),
     role: userRole("role").default("user").notNull(),
+    status: boolean("status").notNull().default(false),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
@@ -64,16 +67,16 @@ export const account = pgTable(
     userId: text("userId")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    type: text("type").notNull(),
+    type: text("type").$type<AdapterAccountType>().notNull(),
     provider: text("provider").notNull(),
     providerAccountId: text("providerAccountId").notNull(),
-    refreshToken: text("refresh_token"),
-    accessToken: text("access_token"),
-    expiresAt: integer("expires_at"),
-    tokenType: text("token_type"),
+    refresh_token: text("refresh_token"),
+    access_token: text("access_token"),
+    expires_at: integer("expires_at"),
+    token_type: text("token_type"),
     scope: text("scope"),
-    idToken: text("id_token"),
-    sessionState: text("session_state"),
+    id_token: text("id_token"),
+    session_state: text("session_state"),
   },
   (table) => ({
     pk: primaryKey({ columns: [table.provider, table.providerAccountId] }),
@@ -174,7 +177,7 @@ export const comic = pgTable(
     coverImage: text("coverImage").notNull(),
     status: comicStatus("status").default("Ongoing").notNull(),
     publicationDate: timestamp("publicationDate", { mode: "date" }).notNull(),
-    rating: numeric("rating", { precision: 3, scale: 2 }).default("0"),
+    rating: decimal("rating", { precision: 10, scale: 1 }).default("0"),
     views: integer("views").default(0).notNull(),
     authorId: integer("authorId").references(() => author.id),
     artistId: integer("artistId").references(() => artist.id),

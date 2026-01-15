@@ -1,11 +1,17 @@
 /**
  * Seed Logger
  * Enhanced logging for seed operations
+ * Re-exports from consolidated logger with seed-specific utilities
  */
+
+import { seedLogger } from "@/lib/logger";
 
 export type LogLevel = "info" | "success" | "warn" | "error" | "debug";
 
-class SeedLogger {
+/**
+ * Seed logger with formatted output
+ */
+export class SeedLogger {
   private verboseMode = false;
 
   setVerbose(verbose: boolean) {
@@ -30,23 +36,28 @@ class SeedLogger {
 
   info(message: string) {
     console.log(`ℹ️  ${message}`);
+    seedLogger.info(message);
   }
 
   success(message: string) {
     console.log(`✅ ${message}`);
+    seedLogger.info(message);
   }
 
   warn(message: string) {
     console.warn(`⚠️  ${message}`);
+    seedLogger.warn(message);
   }
 
   error(message: string) {
     console.error(`❌ ${message}`);
+    seedLogger.error(message);
   }
 
   debug(message: string) {
     if (this.verboseMode) {
       console.log(`🔍 ${message}`);
+      seedLogger.debug(message);
     }
   }
 

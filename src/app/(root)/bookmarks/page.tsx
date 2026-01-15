@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { getUserBookmarks } from "@/database/queries";
 import { auth } from "auth";
 import { BookmarkX } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export const metadata = {
+export const metadata:Metadata = {
   title: "My Bookmarks - ComicWise",
   description: "Your bookmarked comics and reading progress",
 };

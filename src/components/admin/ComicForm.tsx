@@ -109,7 +109,9 @@ export function ComicForm({
       )}
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleFormSubmit)} className={`space-y-6`}>
+        <form onSubmit={form.handleSubmit(handleFormSubmit)} className={`
+          space-y-6
+        `}>
           {/* Cover Image Upload */}
           <Card>
             <CardHeader>
@@ -228,7 +230,9 @@ export function ComicForm({
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Comic description" className={`min-h-32`} {...field} />
+                      <Textarea placeholder="Comic description" className={`
+                        min-h-32
+                      `} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -163,9 +163,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
             <CardContent className="px-0">
               <ChartContainer
                 config={revenueChartConfig}
-                className={`
-                h-38.5 w-full
-              `}
+                className={`h-38.5 w-full`}
               >
                 <PieChart margin={{ top: 0, bottom: 0, left: 0, right: 0 }}>
                   <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
@@ -272,9 +270,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
 
               <ChartContainer
                 config={salesChartConfig}
-                className={`
-                h-7.75 w-full
-              `}
+                className={`h-7.75 w-full`}
               >
                 <BarChart
                   accessibilityLayer

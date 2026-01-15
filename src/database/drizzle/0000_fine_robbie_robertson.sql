@@ -1,4 +1,4 @@
-CREATE TYPE "public"."comic_status" AS ENUM('Ongoing', 'Hiatus', 'Completed', 'Dropped', 'Coming Soon');--> statement-breakpoint
+CREATE TYPE "public"."comic_status" AS ENUM('Ongoing', 'Hiatus', 'Completed', 'Dropped', 'Season End', 'Coming Soon');--> statement-breakpoint
 CREATE TYPE "public"."user_role" AS ENUM('user', 'admin', 'moderator');--> statement-breakpoint
 CREATE TABLE "account" (
 	"userId" text NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE "comic" (
 	"coverImage" text NOT NULL,
 	"status" "comic_status" DEFAULT 'Ongoing' NOT NULL,
 	"publicationDate" timestamp NOT NULL,
-	"rating" numeric(3, 2) DEFAULT '0',
+	"rating" numeric(10, 1) DEFAULT '0',
 	"views" integer DEFAULT 0 NOT NULL,
 	"authorId" integer,
 	"artistId" integer,
@@ -171,6 +171,7 @@ CREATE TABLE "user" (
 	"image" text,
 	"password" text,
 	"role" "user_role" DEFAULT 'user' NOT NULL,
+	"status" boolean DEFAULT false NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL,
 	"updatedAt" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "user_email_unique" UNIQUE("email")
