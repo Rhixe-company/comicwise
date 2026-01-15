@@ -16,4 +16,3 @@ export { commentDal } from "@/dal/commentDal";
 export { genreDal } from "@/dal/genreDal";
 export { typeDal } from "@/dal/typeDal";
 export { userDal } from "@/dal/userDal";
-

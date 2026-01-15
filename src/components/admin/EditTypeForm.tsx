@@ -25,7 +25,7 @@ export function EditTypeForm({ id }: EditTypeFormProps) {
           placeholder: "Enter type description",
         },
       ]}
-      defaultValues={{ name: "", description: null }}
+      defaultValues={{ name: "", description: undefined }}
       onSubmit={async (data) => {
         // Add submission logic
         console.log("Submitting:", data);

@@ -644,7 +644,7 @@ async function generateCacheKey(
 }
 
 export function withCache(
-  handler: (request: NextRequest) => Promise<any>,
+  handler: (request: NextRequest) => Promise<unknown>,
   config: CacheMiddlewareConfig = {}
 ) {
   return async (request: NextRequest) => {
@@ -749,7 +749,7 @@ export async function invalidateCache(options: {
 }
 
 export function withCacheInvalidation(
-  handler: (request: NextRequest) => Promise<any>,
+  handler: (request: NextRequest) => Promise<unknown>,
   config: {
     patterns?: string[];
     tags?: string[];
@@ -788,7 +788,7 @@ export function withCacheInvalidation(
 }
 
 export function withSmartCache(
-  handler: (request: NextRequest) => Promise<any>,
+  handler: (request: NextRequest) => Promise<unknown>,
   config: {
     cache?: CacheMiddlewareConfig;
     invalidate?: {
@@ -841,7 +841,7 @@ export async function rateLimit(
 }
 
 export function withRateLimit(
-  handler: (request: NextRequest) => Promise<any>,
+  handler: (request: NextRequest) => Promise<unknown>,
   options: {
     window?: number;
     max?: number;

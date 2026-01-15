@@ -10,9 +10,12 @@
  */
 
 import { chapterDal } from "@/dal/chapterDal";
+import { db } from "@/database/db";
+import { chapter } from "@/database/schema";
 import { logger } from "@/database/seed/logger";
 import { extractImageUrls, imageCacheManager } from "@/database/seed/utils/imageSeederHelper";
 import { logProgress, validateData } from "@/database/seed/utils/seederHelpers";
+import { eq } from "drizzle-orm";
 import fs from "fs/promises";
 import path from "path";
 import { z } from "zod";
@@ -31,13 +34,12 @@ const ChapterSchema = z
     views: z.coerce.number().default(0),
     status: z.enum(["Draft", "Published", "Archived"]).default("Published"),
     // Image support
-
     pages: z.array(z.string().url()).optional(),
     coverImage: z.string().url().optional(),
     createdAt: z.coerce.date().optional(),
     publishedAt: z.coerce.date().optional(),
     // Format 1: chapters.json (nested comic object)
-    name: z.string().optional(), // "Chapter 273"
+    name: z.string().optional(), // "Chapter 273" - optional since transformed
 
     url: z.string().url().optional(),
     releaseDate: z.coerce.date().optional(),
@@ -78,11 +80,101 @@ const ChapterSchema = z
 export type ChapterSeedData = z.infer<typeof ChapterSchema>;
 
 /**
+ * Transform raw chapter data to required fields
+ * Extracts comicId from comic.slug, chapterNumber from name, generates slug
+ * @param rawChapter
+ * @param comicCache
+ * @returns Transformed chapter data or null if missing required fields
+ */
+function transformChapterData(
+  rawChapter: any,
+  comicCache: Map<string, number>
+): Partial<ChapterSeedData> | null {
+  try {
+    // Extract comic slug (try multiple field names)
+    const comicSlug = rawChapter.comic?.slug || rawChapter.comicSlug || rawChapter.comicslug;
+    if (!comicSlug) {
+      return null; // Skip chapters without comic slug
+    }
+
+    // Look up comicId from cache
+    const comicId = comicCache.get(comicSlug);
+    if (!comicId) {
+      return null; // Skip if comic not found
+    }
+
+    // Extract chapter number from name (e.g., "Chapter 273" -> 273)
+    const chapterName = rawChapter.name || rawChapter.chaptername || "";
+    const chapterMatch = chapterName.match(/\d+/);
+    const chapterNumber = chapterMatch ? Number.parseInt(chapterMatch[0]) : Number.NaN;
+
+    if (isNaN(chapterNumber)) {
+      return null; // Skip chapters without valid chapter number
+    }
+
+    // Extract title
+    const title =
+      rawChapter.title || rawChapter.chaptertitle || chapterName || `Chapter ${chapterNumber}`;
+
+    // Generate slug if not provided
+    const slug =
+      rawChapter.slug ||
+      rawChapter.chapterslug ||
+      `${comicSlug}-chapter-${chapterNumber}`.toLowerCase().replaceAll(/\s+/g, "-");
+
+    return {
+      comicId,
+      chapterNumber,
+      title,
+      slug,
+      content: rawChapter.content,
+      views: rawChapter.views || 0,
+      status: rawChapter.status || "Published",
+      createdAt: rawChapter.createdAt,
+      publishedAt: rawChapter.publishedAt,
+      releaseDate: rawChapter.releaseDate,
+      images: rawChapter.images,
+      image_urls: rawChapter.image_urls,
+    };
+  } catch (error) {
+    logger.debug(`Error transforming chapter data: ${error}`);
+    return null;
+  }
+}
+
+/**
+ * Build a cache of comic slugs to IDs for efficient lookup
+ * @returns Map of slug -> comicId
+ */
+async function buildComicCache(): Promise<Map<string, number>> {
+  const comicCache = new Map<string, number>();
+
+  try {
+    // Get all comics from database
+    const comics = await db.query.comic.findMany({
+      columns: { id: true, slug: true },
+    });
+
+    for (const comic of comics) {
+      comicCache.set(comic.slug, comic.id);
+    }
+
+    logger.debug(`Built comic cache with ${comics.length} comics`);
+  } catch (error) {
+    logger.debug(`Error building comic cache: ${error}`);
+  }
+
+  return comicCache;
+}
+
+/**
  * Seed chapters from JSON files
  * Handles image downloads and caching
  * @param jsonFiles
  */
-export async function seedChaptersFromFiles(jsonFiles: string[] = ["chapters.json"]): Promise<{
+export async function seedChaptersFromFiles(
+  jsonFiles: string[] = ["chapters.json", "chapters*.json"]
+): Promise<{
   total: number;
   created: number;
   updated: number;
@@ -97,6 +189,9 @@ export async function seedChaptersFromFiles(jsonFiles: string[] = ["chapters.jso
   let totalSkipped = 0;
   let totalErrors = 0;
 
+  // Build comic cache once for all files
+  const comicCache = await buildComicCache();
+
   for (const jsonFile of jsonFiles) {
     try {
       const filePath = path.join(process.cwd(), jsonFile);
@@ -106,8 +201,18 @@ export async function seedChaptersFromFiles(jsonFiles: string[] = ["chapters.jso
 
       logger.info(`Processing ${chaptersData.length} chapters from ${jsonFile}`);
 
+      // Transform raw data before deduplication
+      const transformedChapters = chaptersData
+        .map((ch) => transformChapterData(ch, comicCache))
+        .filter((ch): ch is Partial<ChapterSeedData> => ch !== null);
+
+      if (transformedChapters.length === 0) {
+        logger.warn(`No valid chapters found in ${jsonFile}`);
+        continue;
+      }
+
       // Deduplicate by comicId + chapterNumber
-      const dedupedChapters = chaptersData.filter((ch, index, array) => {
+      const dedupedChapters = transformedChapters.filter((ch, index, array) => {
         return (
           array.findIndex(
             (c) => c.comicId === ch.comicId && c.chapterNumber === ch.chapterNumber
@@ -144,11 +249,10 @@ export async function seedChaptersFromFiles(jsonFiles: string[] = ["chapters.jso
             `Chapter ${validatedChapter.comicId}-${validatedChapter.chapterNumber}`
           );
 
-          // Check if chapter exists using chapterDal
-          const existing = await chapterDal.findBySlug(
-            validatedChapter.comicId,
-            validatedChapter.slug
-          );
+          // Check if chapter exists
+          const existing = await db.query.chapter.findFirst({
+            where: eq(chapter.slug, validatedChapter.slug),
+          });
 
           if (!existing) {
             // Create new chapter
@@ -253,8 +357,9 @@ export async function seedSingleChapter(chapterData: Partial<ChapterSeedData>): 
       `Chapter ${validatedChapter.comicId}-${validatedChapter.chapterNumber}`
     );
 
-    // Use chapterDal to find existing chapter
-    const existing = await chapterDal.findBySlug(validatedChapter.comicId, validatedChapter.slug);
+    const existing = await db.query.chapter.findFirst({
+      where: eq(chapter.slug, validatedChapter.slug),
+    });
 
     if (!existing) {
       await chapterDal.create(validatedChapter as any);

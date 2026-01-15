@@ -26,6 +26,6 @@ export const comicImageIdSchema = z
     id: z.coerce.number().int().positive("Invalid comic image ID"),
   })
   .strict();
-  
+
 export type InsertComicImage = z.infer<typeof createComicImageSchema>;
 export type UpdateComicImage = z.infer<typeof updateComicImageSchema>;

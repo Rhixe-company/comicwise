@@ -125,10 +125,6 @@ export const updatePasswordSchema = z
     path: ["confirmPassword"],
   });
 
-
-
-
-
 export type UpdatePasswordInput = z.infer<typeof updatePasswordSchema>;
 export type SignInInput = z.infer<typeof signInSchema>;
 export type SignUpInput = z.infer<typeof signUpSchema>;

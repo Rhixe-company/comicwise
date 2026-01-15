@@ -1,34 +1,15 @@
 /**
  * Type Validation Schema
  * Zod validation schemas for Type entity
+ * ⚠️ DEPRECATED: Use schemas from @/lib/validations/index.ts instead
+ * This file maintained for backward compatibility only
  */
 
-import { z } from "zod";
-// ═══════════════════════════════════════════════════
-// TYPE SCHEMAS
-// ═══════════════════════════════════════════════════
+import { createTypeSchema, updateTypeSchema } from "@/lib/validations/index";
 
-export const insertTypeSchema = z
-  .object({
-    name: z
-      .string({ error: "Name is required" })
-      .min(1, "Name is required")
-      .max(50, "Name must not exceed 50 characters")
-      .trim(),
-    description: z
-      .string()
-      .max(500, "Description must not exceed 500 characters")
-      .trim()
-      .optional(),
-  })
-  .strict();
+// Re-export with legacy names for backward compatibility
+export const insertTypeSchema = createTypeSchema;
+export { updateTypeSchema };
 
-export const updateTypeSchema = insertTypeSchema.partial();
-
-export const typeIdSchema = z
-  .object({
-    id: z.coerce.number().int().positive("Invalid type ID"),
-  })
-  .strict();
-export type InsertType = z.infer<typeof insertTypeSchema>;
-export type UpdateType = z.infer<typeof updateTypeSchema>;
+export type InsertType = { name: string; description?: string };
+export type UpdateType = Partial<InsertType>;

@@ -306,7 +306,7 @@ function applySorting(
  * Reduces main function complexity by extracting post-processing
  * @param results
  */
-async function enrichSearchResults(results: any[]): Promise<SearchResult[]> {
+async function enrichSearchResults(results: unknown[]): Promise<SearchResult[]> {
   if (results.length === 0) {
     return [];
   }

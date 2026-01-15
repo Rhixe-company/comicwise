@@ -20,8 +20,8 @@ import { basename, extname, join, relative } from "path";
 import { env } from "../appConfig";
 
 // Import providers
-import { CloudinaryProvider } from "../src/services/upload/providers/cloudinary";
-import { ImageKitProvider } from "../src/services/upload/providers/imagekit";
+import { CloudinaryProvider } from "@/services/upload/providers/cloudinary";
+import { ImageKitProvider } from "@/services/upload/providers/imagekit";
 
 interface UploadOptions {
   provider?: "imagekit" | "cloudinary" | "aws" | "all";

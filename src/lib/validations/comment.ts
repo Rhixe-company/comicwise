@@ -39,4 +39,3 @@ export const commentIdSchema = z
 
 export type InsertComment = z.infer<typeof createCommentSchema>;
 export type UpdateComment = z.infer<typeof updateCommentSchema>;
-

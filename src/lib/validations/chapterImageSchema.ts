@@ -29,4 +29,3 @@ export const chapterImageIdSchema = z
 
 export type InsertChapterImage = z.infer<typeof createChapterImageSchema>;
 export type UpdateChapterImage = z.infer<typeof updateChapterImageSchema>;
-

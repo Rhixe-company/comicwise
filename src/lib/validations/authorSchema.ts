@@ -1,33 +1,16 @@
 /**
  * Author Validation Schema
  * Zod validation schemas for author entity
+ * ⚠️ DEPRECATED: Use schemas from @/lib/validations/index.ts instead
+ * This file maintained for backward compatibility only
  */
 
-import { z } from "zod";
+import { createAuthorSchema, updateAuthorSchema } from "@/lib/validations/index";
 
-// ═══════════════════════════════════════════════════
-// AUTHOR/ARTIST SCHEMAS
-// ═══════════════════════════════════════════════════
+// Re-export with legacy names for backward compatibility
+export const insertAuthorSchema = createAuthorSchema;
+export const authorIdSchema = createAuthorSchema;
+export { updateAuthorSchema };
 
-export const insertAuthorSchema = z
-  .object({
-    name: z
-      .string({ error: "Name is required" })
-      .min(1, "Name is required")
-      .max(100, "Name must not exceed 100 characters")
-      .trim(),
-    bio: z.string().max(2000, "Bio must not exceed 2000 characters").trim().optional(),
-    image: z.string().url("Invalid image URL").optional(),
-  })
-  .strict();
-
-export const authorIdSchema = z
-  .object({
-    id: z.coerce.number().int().positive("Invalid author ID"),
-  })
-  .strict();
-
-export const updateAuthorSchema = insertAuthorSchema.partial();
-
-export type InsertAuthor = z.infer<typeof insertAuthorSchema>;
-export type UpdateAuthor = z.infer<typeof updateAuthorSchema>;
+export type InsertAuthor = { name: string; bio?: string; image?: string };
+export type UpdateAuthor = Partial<InsertAuthor>;

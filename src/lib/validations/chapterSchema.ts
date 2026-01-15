@@ -1,33 +1,21 @@
 /**
  * Chapter Validation Schema
  * Zod validation schemas for chapter entity
+ * ⚠️ DEPRECATED: Use schemas from @/lib/validations/index.ts instead
+ * This file maintained for backward compatibility only
  */
 
-import { z } from "zod";
-// ═══════════════════════════════════════════════════
-// CHAPTER SCHEMAS
-// ═══════════════════════════════════════════════════
+import { createChapterSchema, updateChapterSchema } from "@/lib/validations/index";
 
-export const insertChapterSchema = z
-  .object({
-    title: z
-      .string({ error: "Title is required" })
-      .min(1, "Title is required")
-      .max(255, "Title must not exceed 255 characters")
-      .trim(),
-    chapterNumber: z.coerce
-      .number({ error: "Chapter number is required" })
-      .int("Chapter number must be an integer")
-      .positive("Chapter number must be positive"),
-    releaseDate: z.coerce.date(),
-    comicId: z.coerce.number({ error: "Comic ID is required" }).int().positive(),
-    views: z.coerce.number().int().min(0).default(0),
-  })
-  .strict();
+// Re-export with legacy names for backward compatibility
+export const insertChapterSchema = createChapterSchema;
+export { updateChapterSchema };
 
-export const updateChapterSchema = insertChapterSchema.partial().extend({
-  comicId: z.coerce.number().int().positive().optional(),
-});
-
-export type InsertChapter = z.infer<typeof insertChapterSchema>;
-export type UpdateChapter = z.infer<typeof updateChapterSchema>;
+export type InsertChapter = {
+  title: string;
+  chapterNumber: number;
+  releaseDate: Date;
+  comicId: number;
+  views?: number;
+};
+export type UpdateChapter = Partial<InsertChapter>;

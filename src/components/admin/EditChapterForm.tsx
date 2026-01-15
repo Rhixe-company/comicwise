@@ -17,7 +17,6 @@ export function EditChapterForm({ id }: EditChapterFormProps) {
     <BaseForm
       schema={insertChapterSchema}
       fields={[
-        { name: "slug", label: "Slug", type: "text", placeholder: "Enter chapter slug" },
         { name: "title", label: "Title", type: "text", placeholder: "Enter chapter title" },
         {
           name: "chapterNumber",
@@ -29,7 +28,6 @@ export function EditChapterForm({ id }: EditChapterFormProps) {
         { name: "comicId", label: "Comic ID", type: "number", placeholder: "Enter comic ID" },
       ]}
       defaultValues={{
-        slug: "",
         title: "",
         chapterNumber: 1,
         releaseDate: new Date(),

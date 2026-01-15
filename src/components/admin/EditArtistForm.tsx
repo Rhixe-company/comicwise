@@ -21,7 +21,7 @@ export function EditArtistForm({ id }: EditArtistFormProps) {
         { name: "bio", label: "Bio", type: "textarea", placeholder: "Enter artist bio" },
         { name: "image", label: "Image URL", type: "text", placeholder: "Enter image URL" },
       ]}
-      defaultValues={{ name: "", bio: null, image: null }}
+      defaultValues={{ name: "", bio: undefined, image: undefined }}
       onSubmit={async (data) => {
         // Add submission logic
         console.log("Submitting:", data);

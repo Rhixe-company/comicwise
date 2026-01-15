@@ -5,44 +5,60 @@ import { z } from "zod";
  */
 export const ComicSeedSchema = z
   .object({
-    title: z.string().min(1, "Title is required"),
-    slug: z.string().min(1, "Slug is required"),
-    description: z.string().default(""),
-    coverImage: z.string().optional(),
-    status: z.enum(["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"]).default("Ongoing"),
+    title: z.string().trim().min(1, "Title is required"),
+    slug: z.string().trim().min(1, "Slug is required"),
+    description: z
+      .string()
+      .min(10, "Description must be at least 10 characters")
+      .trim()
+      .default(""),
+    coverImage: z.string().trim().optional(),
+    status: z
+      .enum(["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon", "Season End"])
+      .default("Ongoing"),
     rating: z.coerce.number().max(10.0).default(0),
-    serialization: z.string().optional(),
+    serialization: z.string().trim().optional(),
 
     views: z.coerce.number().default(0),
 
     genres: z
-      .array(z.object({ name: z.string() }).optional().or(z.string().optional()))
+      .array(z.object({ name: z.string().trim() }).optional().or(z.string().trim().optional()))
       .default([]),
-    updatedAt: z.string().optional(),
-    updated_at: z.string().optional(),
-    url: z.string().url().optional(),
+    updatedAt: z.string().trim().optional(),
+    updated_at: z.string().trim().optional(),
+    url: z.string().trim().optional(),
     images: z
       .array(
         z
           .object({
-            url: z.string().url(),
-            path: z.string().optional(),
-            checksum: z.string().optional(),
-            status: z.string().optional(),
+            url: z.string().trim().min(1), // Accept both URLs and local paths
+            path: z.string().trim().optional(),
+            checksum: z.string().trim().optional(),
+            status: z.string().trim().optional(),
           })
-          .strict()
+          .passthrough() // Allow extra fields
       )
       .optional(),
     numchapters: z.number().optional(),
-    image_urls: z.array(z.string().url()).optional(),
-    type: z.object({ name: z.string() }).strict().optional(),
-    category: z.string().optional(),
-    author: z.object({ name: z.string() }).strict().optional().or(z.string()).optional(),
-    artist: z.object({ name: z.string() }).strict().optional().or(z.string()).optional(),
+    image_urls: z.array(z.string().trim()).optional(),
+    type: z.object({ name: z.string().trim() }).passthrough().optional(),
+    category: z.string().trim().optional(),
+    author: z
+      .object({ name: z.string().trim() })
+      .passthrough()
+      .optional()
+      .or(z.string().trim())
+      .optional(),
+    artist: z
+      .object({ name: z.string().trim() })
+      .passthrough()
+      .optional()
+      .or(z.string().trim())
+      .optional(),
 
-    spider: z.string().optional(),
+    spider: z.string().trim().optional(),
   })
-  .strict();
+  .passthrough(); // Allow extra fields for flexible data loading
 
 // ═══════════════════════════════════════════════════
 // COMIC SCHEMAS
@@ -61,7 +77,9 @@ export const createComicSchema = z
       .max(5000, "Description must not exceed 5000 characters")
       .trim(),
     coverImage: z.string({ error: "Cover image is required" }).url("Invalid cover image URL"),
-    status: z.enum(["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon"]).default("Ongoing"),
+    status: z
+      .enum(["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon", "Season End"])
+      .default("Ongoing"),
     publicationDate: z.coerce.date(),
     rating: z.coerce
       .number()
@@ -85,7 +103,7 @@ export const comicIdSchema = z
 
 export const comicSlugSchema = z
   .object({
-    slug: z.string().min(1, "Slug is required"),
+    slug: z.string().trim().min(1, "Slug is required"),
   })
   .strict();
 
@@ -93,25 +111,28 @@ export const comicFormSchema = z
   .object({
     title: z
       .string()
+      .trim()
       .min(3, "Title must be at least 3 characters")
       .max(512, "Title must not exceed 512 characters"),
     description: z
       .string()
+      .trim()
       .min(10, "Description must be at least 10 characters")
       .max(5000, "Description must not exceed 5000 characters"),
     slug: z
       .string()
+      .trim()
       .min(1, "Slug is required")
       .max(512, "Slug must not exceed 512 characters")
       .regex(/^[\da-z]+(?:-[\da-z]+)*$/, "Slug must be lowercase with hyphens only")
       .optional(),
-    coverImage: z.string().url("Cover image must be a valid URL"),
-    status: z.enum(["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon"]),
-    publicationDate: z.instanceof(Date).or(z.string().pipe(z.coerce.date())),
-    authorId: z.string().optional(),
-    artistId: z.string().optional(),
-    typeId: z.string().optional(),
-    genreIds: z.array(z.string()).optional().default([]),
+    coverImage: z.string().trim().url("Cover image must be a valid URL"),
+    status: z.enum(["Ongoing", "Hiatus", "Completed", "Dropped", "Coming Soon", "Season End"]),
+    publicationDate: z.instanceof(Date).or(z.string().trim().pipe(z.coerce.date())),
+    authorId: z.string().trim().optional(),
+    artistId: z.string().trim().optional(),
+    typeId: z.string().trim().optional(),
+    genreIds: z.array(z.string().trim()).optional().default([]),
   })
   .strict();
 export type CreateComicInput = z.infer<typeof createComicSchema>;

@@ -34,4 +34,3 @@ export const bookmarkIdSchema = z
 
 export type InsertBookmark = z.infer<typeof createBookmarkSchema>;
 export type UpdateBookmark = z.infer<typeof updateBookmarkSchema>;
-
