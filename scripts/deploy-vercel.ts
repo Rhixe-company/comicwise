@@ -4,9 +4,9 @@
  * Automates deployment to Vercel for preview and production
  */
 
-import { execSync } from "node:child_process";
 import chalk from "chalk";
 import inquirer from "inquirer";
+import { execSync } from "node:child_process";
 import ora from "ora";
 
 interface DeployOptions {
@@ -90,14 +90,12 @@ async function deployToVercel(options: DeployOptions = {}) {
 
     // Deploy to Vercel
     spinner.start("Deploying to Vercel...");
-    
-    const deployCommand = options.environment === "production" 
-      ? "vercel --prod" 
-      : "vercel";
+
+    const deployCommand = options.environment === "production" ? "vercel --prod" : "vercel";
 
     console.log(); // New line for vercel output
     exec(deployCommand);
-    
+
     spinner.succeed(
       `Deployed to ${chalk.white(options.environment === "production" ? "Production" : "Preview")}`
     );
@@ -115,7 +113,6 @@ async function deployToVercel(options: DeployOptions = {}) {
     console.log(chalk.cyan("\n📊 View deployment:"));
     console.log(chalk.white("  vercel ls"));
     console.log(chalk.white("  vercel inspect <deployment-url>"));
-
   } catch (error) {
     spinner.fail("Deployment failed");
     console.error(chalk.red(error));

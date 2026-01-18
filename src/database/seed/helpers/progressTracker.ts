@@ -39,12 +39,12 @@ export class ProgressTracker {
   private logProgress() {
     const percentage = ((this.current / this.total) * 100).toFixed(1);
     const elapsed = ((Date.now() - this.startTime) / 1000).toFixed(1);
-    const rate = (this.current / (Date.now() - this.startTime) * 1000).toFixed(1);
+    const rate = ((this.current / (Date.now() - this.startTime)) * 1000).toFixed(1);
 
     logger.info(
       `${this.taskName}: ${this.current}/${this.total} (${percentage}%) | ` +
-      `✓ ${this.successCount} | ✗ ${this.errorCount} | ` +
-      `${elapsed}s | ${rate}/s`
+        `✓ ${this.successCount} | ✗ ${this.errorCount} | ` +
+        `${elapsed}s | ${rate}/s`
     );
   }
 

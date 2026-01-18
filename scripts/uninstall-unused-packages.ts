@@ -94,10 +94,10 @@ async function loadPackageJson() {
 
 async function searchInFiles(packageName: string): Promise<string[]> {
   try {
-    const { stdout } = await execAsync(
-      `git grep -l "from ['\"]${packageName}" || echo ""`,
-      { cwd: ROOT_DIR, maxBuffer: 10 * 1024 * 1024 }
-    );
+    const { stdout } = await execAsync(`git grep -l "from ['\"]${packageName}" || echo ""`, {
+      cwd: ROOT_DIR,
+      maxBuffer: 10 * 1024 * 1024,
+    });
 
     const files = stdout
       .trim()
@@ -210,9 +210,7 @@ async function uninstallPackage(packageName: string, isDev: boolean): Promise<bo
   }
 
   try {
-    const cmd = isDev
-      ? `pnpm remove -D ${packageName}`
-      : `pnpm remove ${packageName}`;
+    const cmd = isDev ? `pnpm remove -D ${packageName}` : `pnpm remove ${packageName}`;
 
     await execAsync(cmd, { cwd: ROOT_DIR });
     log(`  Uninstalled ${packageName}`, "success");

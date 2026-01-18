@@ -26,10 +26,7 @@ export class BatchProcessor<T, R = T> {
     this.onError = options.onError;
   }
 
-  async process(
-    items: T[],
-    processFn: (item: T, index: number) => Promise<R>
-  ): Promise<R[]> {
+  async process(items: T[], processFn: (item: T, index: number) => Promise<R>): Promise<R[]> {
     const results: R[] = [];
     const totalBatches = Math.ceil(items.length / this.batchSize);
 
@@ -74,7 +71,7 @@ export class BatchProcessor<T, R = T> {
       );
 
       const chunkResults = await Promise.allSettled(chunkPromises);
-      
+
       for (const result of chunkResults) {
         if (result.status === "fulfilled") {
           results.push(result.value);

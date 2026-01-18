@@ -117,9 +117,7 @@ export async function downloadImage(options: ImageDownloadOptions): Promise<Imag
         };
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));
-        logger.warn(
-          `Download attempt ${attempt} failed for ${url}: ${lastError.message}`
-        );
+        logger.warn(`Download attempt ${attempt} failed for ${url}: ${lastError.message}`);
 
         if (attempt < maxRetries) {
           // Wait before retrying (exponential backoff)
@@ -211,7 +209,10 @@ export function sanitizeFilename(filename: string): string {
 export function getImageExtension(url: string, contentType?: string): string {
   // Try to get from URL
   const urlExt = path.extname(new URL(url).pathname);
-  if (urlExt && [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"].includes(urlExt.toLowerCase())) {
+  if (
+    urlExt &&
+    [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"].includes(urlExt.toLowerCase())
+  ) {
     return urlExt;
   }
 

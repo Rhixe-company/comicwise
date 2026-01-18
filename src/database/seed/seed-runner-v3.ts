@@ -36,23 +36,23 @@ import {
   genre,
   user,
 } from "@/database/schema";
-import { downloadImage, sanitizeFilename } from "@/database/seed/helpers/imageDownloader";
+import { downloadImage } from "@/database/seed/helpers/imageDownloader";
 import { hashPassword } from "@/database/seed/helpers/passwordHasher";
 import {
   ChapterSeedSchema,
   ComicSeedSchema,
   UserSeedSchema,
 } from "@/database/seed/helpers/validationSchemas";
+import { logger } from "@/database/seed/logger";
+import { eq } from "drizzle-orm";
+import { env } from "env";
+import fs from "fs/promises";
+import path from "path";
 import type { z } from "zod";
 
 type UserSeedData = z.infer<typeof UserSeedSchema>;
 type ComicSeedData = z.infer<typeof ComicSeedSchema>;
 type ChapterSeedData = z.infer<typeof ChapterSeedSchema>;
-import { logger } from "@/database/seed/logger";
-import { env } from "env";
-import { eq } from "drizzle-orm";
-import fs from "fs/promises";
-import path from "path";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
@@ -85,7 +85,11 @@ async function loadJSONFile<T>(filePath: string): Promise<T[]> {
 }
 
 async function loadAllJSONFiles<T>(pattern: string): Promise<T[]> {
-  const files = [pattern, pattern.replace(".json", "data1.json"), pattern.replace(".json", "data2.json")];
+  const files = [
+    pattern,
+    pattern.replace(".json", "data1.json"),
+    pattern.replace(".json", "data2.json"),
+  ];
 
   const allData: T[] = [];
   for (const file of files) {
@@ -155,7 +159,9 @@ async function seedUsers() {
       logger.info(`✓ ${CONFIG.DRY_RUN ? "Validated" : "Seeded"} user: ${validatedUser.email}`);
       successCount++;
     } catch (error) {
-      logger.error(`Failed to ${CONFIG.DRY_RUN ? "validate" : "seed"} user ${userData.email}: ${error}`);
+      logger.error(
+        `Failed to ${CONFIG.DRY_RUN ? "validate" : "seed"} user ${userData.email}: ${error}`
+      );
       errorCount++;
     }
   }
@@ -359,7 +365,9 @@ async function seedComics() {
 
       successCount++;
     } catch (error) {
-      logger.debug(`Failed to seed comic ${comicData.title}: ${error instanceof Error ? error.message : error}`);
+      logger.debug(
+        `Failed to seed comic ${comicData.title}: ${error instanceof Error ? error.message : error}`
+      );
       errorCount++;
     }
   }
@@ -449,7 +457,7 @@ async function seedChapters() {
 
         for (let i = 0; i < validatedChapter.images.length; i++) {
           const imageData = validatedChapter.images[i];
-          
+
           try {
             const imageResult = await downloadImage({
               url: imageData.url,
@@ -479,7 +487,7 @@ async function seedChapters() {
       if (successCount % 100 === 0) {
         logger.info(`Progress: ${successCount} chapters seeded`);
       }
-      
+
       successCount++;
     } catch (error) {
       errorCount++;
@@ -500,9 +508,7 @@ async function main() {
   const command = args.find((arg) => !arg.startsWith("--"));
   const isDryRun = CONFIG.DRY_RUN;
 
-  logger.header(
-    `ComicWise Ultra-Optimized Seed Runner v3.0${isDryRun ? " (DRY RUN)" : ""}`
-  );
+  logger.header(`ComicWise Ultra-Optimized Seed Runner v3.0${isDryRun ? " (DRY RUN)" : ""}`);
 
   if (isDryRun) {
     logger.info("⚠️  DRY RUN MODE - No database changes will be made");

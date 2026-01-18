@@ -71,7 +71,7 @@ async function deleteFile(filePath: string): Promise<boolean> {
     if (!DRY_RUN) {
       await fs.unlink(filePath);
     }
-    
+
     stats.totalDeleted++;
     if (VERBOSE) {
       console.log(chalk.gray(`  Deleted: ${filePath}`));
@@ -88,7 +88,7 @@ async function deleteDirectory(dirPath: string): Promise<boolean> {
     if (!DRY_RUN) {
       await fs.rmdir(dirPath);
     }
-    
+
     stats.totalDeleted++;
     if (VERBOSE) {
       console.log(chalk.gray(`  Deleted folder: ${dirPath}`));
@@ -149,9 +149,7 @@ async function deleteBackupFiles() {
       }
     }
 
-    deleteSpinner.succeed(
-      chalk.green(`✓ Deleted ${stats.backupFiles.length} backup files`)
-    );
+    deleteSpinner.succeed(chalk.green(`✓ Deleted ${stats.backupFiles.length} backup files`));
   } catch (error) {
     spinner.fail(chalk.red(`Failed to process backup files: ${error}`));
   }
@@ -175,22 +173,16 @@ async function deleteBlankFiles() {
       }
     }
 
-    spinner.succeed(
-      chalk.green(`✓ Found ${stats.blankFiles.length} blank files`)
-    );
+    spinner.succeed(chalk.green(`✓ Found ${stats.blankFiles.length} blank files`));
 
     if (stats.blankFiles.length > 0) {
-      const deleteSpinner = ora(
-        `Deleting ${stats.blankFiles.length} blank files...`
-      ).start();
+      const deleteSpinner = ora(`Deleting ${stats.blankFiles.length} blank files...`).start();
 
       for (const file of stats.blankFiles) {
         await deleteFile(file);
       }
 
-      deleteSpinner.succeed(
-        chalk.green(`✓ Deleted ${stats.blankFiles.length} blank files`)
-      );
+      deleteSpinner.succeed(chalk.green(`✓ Deleted ${stats.blankFiles.length} blank files`));
     }
   } catch (error) {
     spinner.fail(chalk.red(`Failed to process blank files: ${error}`));
@@ -222,22 +214,16 @@ async function deleteEmptyFolders() {
       }
     }
 
-    spinner.succeed(
-      chalk.green(`✓ Found ${stats.emptyFolders.length} empty folders`)
-    );
+    spinner.succeed(chalk.green(`✓ Found ${stats.emptyFolders.length} empty folders`));
 
     if (stats.emptyFolders.length > 0) {
-      const deleteSpinner = ora(
-        `Deleting ${stats.emptyFolders.length} empty folders...`
-      ).start();
+      const deleteSpinner = ora(`Deleting ${stats.emptyFolders.length} empty folders...`).start();
 
       for (const dir of stats.emptyFolders) {
         await deleteDirectory(dir);
       }
 
-      deleteSpinner.succeed(
-        chalk.green(`✓ Deleted ${stats.emptyFolders.length} empty folders`)
-      );
+      deleteSpinner.succeed(chalk.green(`✓ Deleted ${stats.emptyFolders.length} empty folders`));
     }
   } catch (error) {
     spinner.fail(chalk.red(`Failed to process empty folders: ${error}`));
@@ -258,7 +244,7 @@ async function findDuplicateSchemas() {
 
     for (const file of schemaFiles) {
       const content = await fs.readFile(file, "utf-8");
-      
+
       // Find Zod schema definitions
       const schemaRegex = /export\s+const\s+(\w+Schema)\s*=/g;
       let match;
@@ -275,9 +261,7 @@ async function findDuplicateSchemas() {
     // Find duplicates
     for (const [schemaName, files] of schemaMap) {
       if (files.length > 1) {
-        console.log(
-          chalk.yellow(`  ⚠ Duplicate schema "${schemaName}" found in:`)
-        );
+        console.log(chalk.yellow(`  ⚠ Duplicate schema "${schemaName}" found in:`));
         files.forEach((f) => console.log(chalk.gray(`    - ${f}`)));
       }
     }

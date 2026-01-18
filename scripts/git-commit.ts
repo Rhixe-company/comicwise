@@ -4,9 +4,9 @@
  * Automates git add, commit, and push operations
  */
 
-import { execSync } from "node:child_process";
 import chalk from "chalk";
 import inquirer from "inquirer";
+import { execSync } from "node:child_process";
 import ora from "ora";
 
 interface CommitOptions {
@@ -155,7 +155,6 @@ async function gitCommitAndPush(options: CommitOptions = {}) {
     }
 
     console.log(chalk.green("\n✅ Git operations completed successfully!"));
-
   } catch (error) {
     spinner.fail("Git operation failed");
     console.error(chalk.red(error));

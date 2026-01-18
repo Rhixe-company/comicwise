@@ -4,10 +4,9 @@
  * Initializes a new Git repository with development and production branches
  */
 
+import chalk from "chalk";
 import { execSync } from "node:child_process";
 import * as fs from "node:fs";
-import * as path from "node:path";
-import chalk from "chalk";
 import ora from "ora";
 
 interface GitConfig {
@@ -170,7 +169,6 @@ next-env.d.ts
     console.log(chalk.yellow("     git remote add origin <your-repo-url>"));
     console.log(chalk.white("  2. Push all branches:"));
     console.log(chalk.yellow("     git push -u origin --all"));
-
   } catch (error) {
     spinner.fail("Git initialization failed");
     console.error(chalk.red(error));

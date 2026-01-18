@@ -5,8 +5,8 @@
  */
 
 import { logger } from "@/database/seed/logger";
-import { ChapterSeedSchema, ComicSeedSchema, UserSeedSchema } from "./validationSchemas";
 import type { z } from "zod";
+import { ChapterSeedSchema, ComicSeedSchema, UserSeedSchema } from "./validationSchemas";
 
 export interface ValidationResult<T> {
   valid: T[];
@@ -18,7 +18,9 @@ export interface ValidationResult<T> {
   };
 }
 
-export async function validateUsers(data: unknown[]): Promise<ValidationResult<z.infer<typeof UserSeedSchema>>> {
+export async function validateUsers(
+  data: unknown[]
+): Promise<ValidationResult<z.infer<typeof UserSeedSchema>>> {
   const valid: z.infer<typeof UserSeedSchema>[] = [];
   const invalid: Array<{ data: unknown; error: string }> = [];
 
@@ -44,7 +46,9 @@ export async function validateUsers(data: unknown[]): Promise<ValidationResult<z
   return { valid, invalid, stats };
 }
 
-export async function validateComics(data: unknown[]): Promise<ValidationResult<z.infer<typeof ComicSeedSchema>>> {
+export async function validateComics(
+  data: unknown[]
+): Promise<ValidationResult<z.infer<typeof ComicSeedSchema>>> {
   const valid: z.infer<typeof ComicSeedSchema>[] = [];
   const invalid: Array<{ data: unknown; error: string }> = [];
 
@@ -70,7 +74,9 @@ export async function validateComics(data: unknown[]): Promise<ValidationResult<
   return { valid, invalid, stats };
 }
 
-export async function validateChapters(data: unknown[]): Promise<ValidationResult<z.infer<typeof ChapterSeedSchema>>> {
+export async function validateChapters(
+  data: unknown[]
+): Promise<ValidationResult<z.infer<typeof ChapterSeedSchema>>> {
   const valid: z.infer<typeof ChapterSeedSchema>[] = [];
   const invalid: Array<{ data: unknown; error: string }> = [];
 
