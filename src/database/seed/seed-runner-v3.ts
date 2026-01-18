@@ -190,7 +190,7 @@ async function seedComics() {
       const validatedComic = ComicSeedSchema.parse(comicData);
 
       // Handle comic type
-      let typeId: string | null = null;
+      let typeId: number | null = null;
       if (validatedComic.type?.name) {
         try {
           const [existingType] = await db
@@ -206,7 +206,7 @@ async function seedComics() {
               .insert(comicType)
               .values({ name: validatedComic.type.name })
               .returning();
-            typeId = newType.id;
+            typeId = newType!.id;
           }
         } catch {
           // Type creation failed, continue without type
@@ -214,7 +214,7 @@ async function seedComics() {
       }
 
       // Handle author
-      let authorId: string | null = null;
+      let authorId: number | null = null;
       if (validatedComic.author?.name) {
         try {
           const [existingAuthor] = await db
@@ -230,7 +230,7 @@ async function seedComics() {
               .insert(author)
               .values({ name: validatedComic.author.name })
               .returning();
-            authorId = newAuthor.id;
+            authorId = newAuthor!.id;
           }
         } catch {
           // Author creation failed, continue without author
@@ -238,7 +238,7 @@ async function seedComics() {
       }
 
       // Handle artist
-      let artistId: string | null = null;
+      let artistId: number | null = null;
       if (validatedComic.artist?.name) {
         try {
           const [existingArtist] = await db
@@ -254,7 +254,7 @@ async function seedComics() {
               .insert(artist)
               .values({ name: validatedComic.artist.name })
               .returning();
-            artistId = newArtist.id;
+            artistId = newArtist!.id;
           }
         } catch {
           // Artist creation failed, continue without artist
@@ -264,7 +264,7 @@ async function seedComics() {
       // Prepare cover image (use placeholder if no images available)
       const coverImage =
         validatedComic.images && validatedComic.images.length > 0
-          ? validatedComic.images[0].url
+          ? validatedComic.images[0]!.url
           : CONFIG.PLACEHOLDER_COMIC;
 
       // Insert comic
@@ -276,7 +276,7 @@ async function seedComics() {
           description: validatedComic.description,
           coverImage: coverImage,
           publicationDate: new Date(),
-          rating: validatedComic.rating,
+          rating: String(validatedComic.rating || 0),
           status: validatedComic.status,
           serialization: validatedComic.serialization || null,
           url: validatedComic.url || null,
@@ -289,7 +289,7 @@ async function seedComics() {
           set: {
             title: validatedComic.title,
             description: validatedComic.description,
-            rating: validatedComic.rating,
+            rating: String(validatedComic.rating || 0),
             status: validatedComic.status,
             updatedAt: new Date(),
           },
@@ -298,7 +298,7 @@ async function seedComics() {
 
       // Handle cover image download
       if (validatedComic.images && validatedComic.images.length > 0) {
-        const coverUrl = validatedComic.images[0].url;
+        const coverUrl = validatedComic.images[0]!.url;
         const coverDir = path.join(CONFIG.COMIC_COVERS_DIR, validatedComic.slug);
 
         try {
@@ -309,12 +309,12 @@ async function seedComics() {
           });
 
           if (imageResult.success && imageResult.filePath) {
-            const relativePath = imageResult.filePath.replace(/\\/g, "/").replace("public", "");
+            const relativePath = imageResult.filePath.replaceAll('\\', "/").replace("public", "");
 
             await db
               .insert(comicImage)
               .values({
-                comicId: insertedComic.id,
+                comicId: insertedComic!.id,
                 imageUrl: relativePath,
                 imageOrder: 0,
               })
@@ -335,7 +335,7 @@ async function seedComics() {
               .where(eq(genre.name, genreData.name))
               .limit(1);
 
-            let genreId: string;
+            let genreId: number;
             if (existingGenre) {
               genreId = existingGenre.id;
             } else {
@@ -343,13 +343,13 @@ async function seedComics() {
                 .insert(genre)
                 .values({ name: genreData.name })
                 .returning();
-              genreId = newGenre.id;
+              genreId = newGenre!.id;
             }
 
             await db
               .insert(comicToGenre)
               .values({
-                comicId: insertedComic.id,
+                comicId: insertedComic!.id,
                 genreId: genreId,
               })
               .onConflictDoNothing();
@@ -405,9 +405,9 @@ async function seedChapters() {
       // Extract chapter number from name or URL
       let chapterNumber = 0;
       if (validatedChapter.name) {
-        const match = validatedChapter.name.match(/Chapter\s+(\d+)/i);
+        const match = validatedChapter.name.match(/chapter\s+(\d+)/i);
         if (match) {
-          chapterNumber = parseInt(match[1], 10);
+          chapterNumber = Number.parseInt(match[1]!, 10);
         }
       }
 
@@ -460,26 +460,26 @@ async function seedChapters() {
 
           try {
             const imageResult = await downloadImage({
-              url: imageData.url,
+              url: imageData!.url,
               destinationPath: chapterDir,
               skipIfExists: true,
             });
 
             if (imageResult.success && imageResult.filePath) {
-              const relativePath = imageResult.filePath.replace(/\\/g, "/").replace("public", "");
+              const relativePath = imageResult.filePath.replaceAll('\\', "/").replace("public", "");
 
               await db
                 .insert(chapterImage)
                 .values({
-                  chapterId: insertedChapter.id,
-                  imageUrl: relativePath,
+                  chapterId: insertedChapter!.id,
                   pageNumber: i,
+                  imageUrl: relativePath,
                 })
                 .onConflictDoNothing();
             }
-          } catch (imgError) {
+          } catch {
             // Skip failed images
-            logger.debug(`Image download failed: ${imageData.url}`);
+            logger.debug(`Image download failed: ${imageData!.url}`);
           }
         }
       }
@@ -489,7 +489,7 @@ async function seedChapters() {
       }
 
       successCount++;
-    } catch (error) {
+    } catch {
       errorCount++;
     }
   }
@@ -505,7 +505,7 @@ async function seedChapters() {
 
 async function main() {
   const args = process.argv.slice(2);
-  const command = args.find((arg) => !arg.startsWith("--"));
+  const command = args.find((argument) => !argument.startsWith("--"));
   const isDryRun = CONFIG.DRY_RUN;
 
   logger.header(`ComicWise Ultra-Optimized Seed Runner v3.0${isDryRun ? " (DRY RUN)" : ""}`);

@@ -49,10 +49,10 @@ function TooltipContent({
             data-[side=left]:slide-in-from-right-2
             data-[side=right]:slide-in-from-left-2
             data-[side=top]:slide-in-from-bottom-2
+            data-[state=closed]:animate-out
             z-50 w-fit origin-(--radix-tooltip-content-transform-origin)
             rounded-md bg-foreground px-3 py-1.5 text-xs text-balance
             text-background
-            data-[state=closed]:animate-out
           `,
           className
         )}
@@ -61,7 +61,7 @@ function TooltipContent({
         {children}
         <TooltipPrimitive.Arrow
           className={`
-            z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]
+            z-50 size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]
             bg-foreground fill-foreground
           `}
         />

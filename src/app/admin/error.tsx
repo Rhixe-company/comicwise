@@ -24,7 +24,7 @@ export default function AdminError({ error, reset }: ErrorBoundaryProps) {
     >
       <div className="mx-auto max-w-lg text-center">
         <div className="mb-6 flex justify-center">
-          <AlertCircle className="h-16 w-16 text-destructive" aria-hidden="true" />
+          <AlertCircle className="size-16 text-destructive" aria-hidden="true" />
         </div>
 
         <h1 className="mb-2 text-3xl font-bold tracking-tight">Admin Panel Error</h1>
@@ -56,7 +56,7 @@ export default function AdminError({ error, reset }: ErrorBoundaryProps) {
 
           <Button variant="outline" size="lg" asChild>
             <Link href="/admin">
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeft className="mr-2 size-4" />
               Admin Dashboard
             </Link>
           </Button>

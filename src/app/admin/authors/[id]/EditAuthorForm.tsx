@@ -14,7 +14,7 @@ export default async function EditAuthorForm({ params }: { params: { id: string 
   const id = Number(params.id);
 
   // Fetch author data on the server to populate defaults
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL ?? ""}/api/authors/${id}`, {
+  const res = await fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/authors/${id}`, {
     cache: "no-store",
   });
 
@@ -103,7 +103,7 @@ export default async function EditAuthorForm({ params }: { params: { id: string 
               {author.profileImage && (
                 <div
                   className={`
-                    relative mt-2 h-32 w-32 overflow-hidden rounded-lg border
+                    relative mt-2 size-32 overflow-hidden rounded-lg border
                   `}
                 >
                   <Image

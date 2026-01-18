@@ -49,9 +49,9 @@ export function BookmarkButton({ comicId, onToggle }: Omit<BookmarkButtonProps, 
       size="lg"
     >
       {bookmarked ? (
-        <BookmarkCheck className="mr-2 h-5 w-5" />
+        <BookmarkCheck className="mr-2 size-5" />
       ) : (
-        <Bookmark className="mr-2 h-5 w-5" />
+        <Bookmark className="mr-2 size-5" />
       )}
       {bookmarked ? "Bookmarked" : "Bookmark"}
     </Button>

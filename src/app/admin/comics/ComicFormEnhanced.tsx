@@ -182,7 +182,7 @@ export function ComicFormEnhanced({
                     name={`genre-${genre.id}`}
                     checked={selectedGenres.includes(genre.id)}
                     onChange={() => toggleGenre(genre.id)}
-                    className="h-4 w-4 rounded border-gray-300"
+                    className="size-4 rounded-sm border-gray-300"
                   />
                   <span className="text-sm">{genre.name}</span>
                 </label>

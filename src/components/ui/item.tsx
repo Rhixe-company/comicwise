@@ -34,7 +34,8 @@ const itemVariants = cva(
     text-sm transition-colors duration-100 outline-none
     focus-visible:border-ring focus-visible:ring-[3px]
     focus-visible:ring-ring/50
-    [a]:transition-colors [a]:hover:bg-accent/50
+    [a]:transition-colors
+    [a]:hover:bg-accent/50
   `,
   {
     variants: {
@@ -77,8 +78,8 @@ function Item({
 const itemMediaVariants = cva(
   `
     flex shrink-0 items-center justify-center gap-2
-    group-has-[[data-slot=item-description]]/item:translate-y-0.5
-    group-has-[[data-slot=item-description]]/item:self-start
+    group-has-data-[slot=item-description]/item:translate-y-0.5
+    group-has-data-[slot=item-description]/item:self-start
     [&_svg]:pointer-events-none
   `,
   {
@@ -131,9 +132,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="item-title"
       className={cn(
-        `
-        flex w-fit items-center gap-2 text-sm leading-snug font-medium
-      `,
+        `flex w-fit items-center gap-2 text-sm/snug font-medium`,
         className
       )}
       {...props}
@@ -147,7 +146,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
       data-slot="item-description"
       className={cn(
         `
-          line-clamp-2 text-sm leading-normal font-normal text-balance
+          line-clamp-2 text-sm/normal font-normal text-balance
           text-muted-foreground
         `,
         `

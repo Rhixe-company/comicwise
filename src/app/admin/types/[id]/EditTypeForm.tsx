@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 export default async function EditTypeForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL ?? ""}/api/types/${id}`, {
+  const res = await fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/types/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {

@@ -79,7 +79,7 @@ export async function createChapter(input: unknown): Promise<ActionResult<{ id: 
 export async function updateChapter(
   id: number,
   input: unknown
-): Promise<ActionResponse<{ id: number }>> {
+): Promise<ActionResult<{ id: number }>> {
   try {
     await requireRole("admin");
     if (!Number.isInteger(id) || id <= 0) {
@@ -130,7 +130,7 @@ export async function updateChapter(
   }
 }
 
-export async function deleteChapter(id: number): Promise<ActionResponse> {
+export async function deleteChapter(id: number): Promise<ActionResult<unknown>> {
   try {
     await requireRole("admin");
     if (!Number.isInteger(id) || id <= 0) {
@@ -157,7 +157,7 @@ export async function deleteChapter(id: number): Promise<ActionResponse> {
   }
 }
 
-export async function bulkDeleteChapters(ids: number[]): Promise<ActionResponse> {
+export async function bulkDeleteChapters(ids: number[]): Promise<ActionResult<unknown>> {
   try {
     await requireRole("admin");
 

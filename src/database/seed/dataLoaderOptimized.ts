@@ -27,6 +27,7 @@ import path from "path";
 
 /**
  * Load JSON file from project root
+ * @param filePath
  */
 async function loadJsonFile<T = unknown>(filePath: string): Promise<T> {
   try {
@@ -40,6 +41,7 @@ async function loadJsonFile<T = unknown>(filePath: string): Promise<T> {
 
 /**
  * Find files matching pattern(s)
+ * @param patterns
  */
 async function findFiles(patterns: string | string[]): Promise<string[]> {
   const patternArray = Array.isArray(patterns) ? patterns : [patterns];

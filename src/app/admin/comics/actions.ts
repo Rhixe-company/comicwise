@@ -90,7 +90,7 @@ export async function createComic(input: unknown): Promise<ActionResult<{ id: nu
 export async function updateComic(
   id: number,
   input: unknown
-): Promise<ActionResponse<{ id: number }>> {
+): Promise<ActionResult<{ id: number }>> {
   try {
     await requireRole("admin");
     if (!Number.isInteger(id) || id <= 0) {
@@ -145,7 +145,7 @@ export async function updateComic(
   }
 }
 
-export async function deleteComic(id: number): Promise<ActionResponse> {
+export async function deleteComic(id: number): Promise<ActionResult<unknown>> {
   try {
     await requireRole("admin");
     if (!Number.isInteger(id) || id <= 0) {
@@ -173,7 +173,7 @@ export async function deleteComic(id: number): Promise<ActionResponse> {
   }
 }
 
-export async function bulkDeleteComics(ids: number[]): Promise<ActionResponse> {
+export async function bulkDeleteComics(ids: number[]): Promise<ActionResult<unknown>> {
   try {
     await requireRole("admin");
 

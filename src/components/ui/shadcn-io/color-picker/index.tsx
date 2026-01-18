@@ -175,7 +175,7 @@ export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSe
 
   return (
     <div
-      className={cn("relative size-full cursor-crosshair rounded", className)}
+      className={cn("relative size-full cursor-crosshair rounded-sm", className)}
       onPointerDown={(e) => {
         e.preventDefault();
         setIsDragging(true);
@@ -189,8 +189,8 @@ export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSe
     >
       <div
         className={`
-          pointer-events-none absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2
-          rounded-full border-2 border-white
+          pointer-events-none absolute size-4 -translate-1/2 rounded-full
+          border-2 border-white
         `}
         style={{
           left: `${positionX * 100}%`,
@@ -213,9 +213,9 @@ export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => 
     <Slider.Root
       className={cn("relative flex h-4 w-full touch-none", className)}
       max={360}
-      onValueChange={([hue]) => setHue(hue)}
+      onValueChange={([hue]) => setHue(hue ?? 0)}
       step={1}
-      value={[hue]}
+      value={[hue ?? 0]}
       {...(props as any)}
     >
       <Slider.Track
@@ -228,8 +228,8 @@ export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => 
       </Slider.Track>
       <Slider.Thumb
         className={`
-          block h-4 w-4 rounded-full border border-primary/50 bg-background
-          shadow transition-colors
+          block size-4 rounded-full border border-primary/50 bg-background
+          shadow-sm transition-colors
           focus-visible:ring-1 focus-visible:ring-ring
           focus-visible:outline-none
           disabled:pointer-events-none disabled:opacity-50
@@ -248,9 +248,9 @@ export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps)
     <Slider.Root
       className={cn("relative flex h-4 w-full touch-none", className)}
       max={100}
-      onValueChange={([alpha]) => setAlpha(alpha)}
+      onValueChange={([alpha]) => setAlpha(alpha ?? 100)}
       step={1}
-      value={[alpha]}
+      value={[alpha ?? 100]}
       {...(props as any)}
     >
       <Slider.Track
@@ -262,7 +262,7 @@ export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps)
       >
         <div
           className={`
-            absolute inset-0 rounded-full bg-gradient-to-r from-transparent
+            absolute inset-0 rounded-full bg-linear-to-r from-transparent
             to-black/50
           `}
         />
@@ -270,8 +270,8 @@ export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps)
       </Slider.Track>
       <Slider.Thumb
         className={`
-          block h-4 w-4 rounded-full border border-primary/50 bg-background
-          shadow transition-colors
+          block size-4 rounded-full border border-primary/50 bg-background
+          shadow-sm transition-colors
           focus-visible:ring-1 focus-visible:ring-ring
           focus-visible:outline-none
           disabled:pointer-events-none disabled:opacity-50
@@ -400,14 +400,14 @@ export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProp
     const rgb = color
       .rgb()
       .array()
-      .map((value) => Math.round(value));
+      .map((value: number) => Math.round(value));
 
     return (
       <div
         className={cn("flex items-center -space-x-px rounded-md shadow-sm", className)}
         {...(props as any)}
       >
-        {rgb.map((value, index) => (
+        {rgb.map((value: number, index: number) => (
           <Input
             className={cn(
               "h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none",
@@ -429,7 +429,7 @@ export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProp
     const rgb = color
       .rgb()
       .array()
-      .map((value) => Math.round(value));
+      .map((value: number) => Math.round(value));
 
     return (
       <div className={cn("w-full rounded-md shadow-sm", className)} {...(props as any)}>
@@ -448,14 +448,14 @@ export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProp
     const hsl = color
       .hsl()
       .array()
-      .map((value) => Math.round(value));
+      .map((value: number) => Math.round(value));
 
     return (
       <div
         className={cn("flex items-center -space-x-px rounded-md shadow-sm", className)}
         {...(props as any)}
       >
-        {hsl.map((value, index) => (
+        {hsl.map((value: number, index: number) => (
           <Input
             className={cn(
               "h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none",

@@ -9,8 +9,8 @@ import { logger } from "@/database/seed/logger";
 export interface BatchProcessorOptions<T, R> {
   batchSize?: number;
   concurrency?: number;
-  onBatchComplete?: (results: R[], batchIndex: number) => void | Promise<void>;
-  onError?: (error: Error, item: T) => void | Promise<void>;
+  onBatchComplete?(results: R[], batchIndex: number): void | Promise<void>;
+  onError?(error: Error, item: T): void | Promise<void>;
 }
 
 export class BatchProcessor<T, R = T> {
@@ -26,7 +26,7 @@ export class BatchProcessor<T, R = T> {
     this.onError = options.onError;
   }
 
-  async process(items: T[], processFn: (item: T, index: number) => Promise<R>): Promise<R[]> {
+  async process(items: T[], processFunction: (item: T, index: number) => Promise<R>): Promise<R[]> {
     const results: R[] = [];
     const totalBatches = Math.ceil(items.length / this.batchSize);
 
@@ -40,7 +40,7 @@ export class BatchProcessor<T, R = T> {
 
       logger.debug(`Processing batch ${batchIndex + 1}/${totalBatches} (${batch.length} items)`);
 
-      const batchResults = await this.processBatch(batch, processFn, i);
+      const batchResults = await this.processBatch(batch, processFunction, i);
       results.push(...batchResults);
 
       if (this.onBatchComplete) {
@@ -53,7 +53,7 @@ export class BatchProcessor<T, R = T> {
 
   private async processBatch(
     batch: T[],
-    processFn: (item: T, index: number) => Promise<R>,
+    processFunction: (item: T, index: number) => Promise<R>,
     startIndex: number
   ): Promise<R[]> {
     const results: R[] = [];
@@ -62,7 +62,7 @@ export class BatchProcessor<T, R = T> {
     for (let i = 0; i < batch.length; i += this.concurrency) {
       const chunk = batch.slice(i, i + this.concurrency);
       const chunkPromises = chunk.map((item, chunkIndex) =>
-        processFn(item, startIndex + i + chunkIndex).catch((error) => {
+        processFunction(item, startIndex + i + chunkIndex).catch((error) => {
           if (this.onError) {
             this.onError(error, item);
           }
@@ -85,17 +85,21 @@ export class BatchProcessor<T, R = T> {
 
 /**
  * Process items in parallel batches
+ * @param items
+ * @param processFn
+ * @param processFunction
+ * @param batchSize
  */
 export async function processBatch<T, R>(
   items: T[],
-  processFn: (item: T) => Promise<R>,
+  processFunction: (item: T) => Promise<R>,
   batchSize = 10
 ): Promise<R[]> {
   const results: R[] = [];
 
   for (let i = 0; i < items.length; i += batchSize) {
     const batch = items.slice(i, i + batchSize);
-    const batchResults = await Promise.all(batch.map(processFn));
+    const batchResults = await Promise.all(batch.map(processFunction));
     results.push(...batchResults);
 
     if (i + batchSize < items.length) {

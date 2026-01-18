@@ -211,14 +211,14 @@ export async function runSeed(options: SeedOptions = {}): Promise<SeedStats> {
 // ─────────────────────────────────────────────────────────────────────────
 
 async function main() {
-  const args = process.argv.slice(2);
+  const args = new Set(process.argv.slice(2));
 
   const options: SeedOptions = {
-    dryRun: args.includes("--dry-run"),
-    verbose: args.includes("--verbose"),
-    usersOnly: args.includes("--users"),
-    comicsOnly: args.includes("--comics"),
-    chaptersOnly: args.includes("--chapters"),
+    dryRun: args.has("--dry-run"),
+    verbose: args.has("--verbose"),
+    usersOnly: args.has("--users"),
+    comicsOnly: args.has("--comics"),
+    chaptersOnly: args.has("--chapters"),
   };
 
   try {

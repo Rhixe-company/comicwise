@@ -264,7 +264,7 @@ export const ComboboxCreateNew = ({ onCreateNew, children, className }: Combobox
           relative flex w-full cursor-pointer items-center gap-2 rounded-sm px-2
           py-1.5 text-sm outline-none select-none
           aria-selected:bg-accent aria-selected:text-accent-foreground
-          data-[disabled]:pointer-events-none data-[disabled]:opacity-50
+          data-disabled:pointer-events-none data-disabled:opacity-50
         `,
         className
       )}
@@ -275,7 +275,7 @@ export const ComboboxCreateNew = ({ onCreateNew, children, className }: Combobox
         children(inputValue)
       ) : (
         <>
-          <PlusIcon className="h-4 w-4 text-muted-foreground" />
+          <PlusIcon className="size-4 text-muted-foreground" />
           <span>
             Create new {type}: "{inputValue}"
           </span>

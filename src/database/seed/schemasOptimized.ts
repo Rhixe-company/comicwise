@@ -131,17 +131,17 @@ export const chapterSeedSchema = z
     // Extract chapter number from name if available
     let chapterNumber = 0;
     if (data.chapterNumber) {
-      const num =
+      const number_ =
         typeof data.chapterNumber === "string"
-          ? parseFloat(data.chapterNumber)
+          ? Number.parseFloat(data.chapterNumber)
           : data.chapterNumber;
-      chapterNumber = isNaN(num) ? 0 : num;
+      chapterNumber = isNaN(number_) ? 0 : number_;
     }
 
     if (!chapterNumber && data.name) {
-      const match = data.name.match(/Chapter\s+(\d+\.?\d*)/i);
+      const match = data.name.match(/chapter\s+(\d+\.?\d*)/i);
       if (match) {
-        chapterNumber = parseFloat(match[1]);
+        chapterNumber = Number.parseFloat(match[1]!);
       }
     }
 

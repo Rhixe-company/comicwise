@@ -28,7 +28,7 @@ function TypesHeader() {
       </div>
       <Button asChild>
         <Link href="/admin/types/new">
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="mr-2 size-4" />
           Create Type
         </Link>
       </Button>

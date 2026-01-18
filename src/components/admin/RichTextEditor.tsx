@@ -58,30 +58,30 @@ export function RichTextEditor({
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive("bold") && "bg-muted")}
+          className={cn("size-8 p-0", editor.isActive("bold") && "bg-muted")}
           disabled={disabled}
         >
-          <Bold className="h-4 w-4" />
+          <Bold className="size-4" />
         </Button>
         <Button
           type="button"
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive("italic") && "bg-muted")}
+          className={cn("size-8 p-0", editor.isActive("italic") && "bg-muted")}
           disabled={disabled}
         >
-          <Italic className="h-4 w-4" />
+          <Italic className="size-4" />
         </Button>
         <Button
           type="button"
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleCode().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive("code") && "bg-muted")}
+          className={cn("size-8 p-0", editor.isActive("code") && "bg-muted")}
           disabled={disabled}
         >
-          <Code className="h-4 w-4" />
+          <Code className="size-4" />
         </Button>
         <div className="w-px bg-border" />
         <Button
@@ -89,20 +89,20 @@ export function RichTextEditor({
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={cn("h-8 w-8 p-0", editor.isActive("heading", { level: 2 }) && "bg-muted")}
+          className={cn("size-8 p-0", editor.isActive("heading", { level: 2 }) && "bg-muted")}
           disabled={disabled}
         >
-          <Heading2 className="h-4 w-4" />
+          <Heading2 className="size-4" />
         </Button>
         <Button
           type="button"
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={cn("h-8 w-8 p-0", editor.isActive("heading", { level: 3 }) && "bg-muted")}
+          className={cn("size-8 p-0", editor.isActive("heading", { level: 3 }) && "bg-muted")}
           disabled={disabled}
         >
-          <Heading3 className="h-4 w-4" />
+          <Heading3 className="size-4" />
         </Button>
         <div className="w-px bg-border" />
         <Button
@@ -110,30 +110,30 @@ export function RichTextEditor({
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive("bulletList") && "bg-muted")}
+          className={cn("size-8 p-0", editor.isActive("bulletList") && "bg-muted")}
           disabled={disabled}
         >
-          <List className="h-4 w-4" />
+          <List className="size-4" />
         </Button>
         <Button
           type="button"
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive("orderedList") && "bg-muted")}
+          className={cn("size-8 p-0", editor.isActive("orderedList") && "bg-muted")}
           disabled={disabled}
         >
-          <ListOrdered className="h-4 w-4" />
+          <ListOrdered className="size-4" />
         </Button>
         <Button
           type="button"
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={cn("h-8 w-8 p-0", editor.isActive("blockquote") && "bg-muted")}
+          className={cn("size-8 p-0", editor.isActive("blockquote") && "bg-muted")}
           disabled={disabled}
         >
-          <Quote className="h-4 w-4" />
+          <Quote className="size-4" />
         </Button>
         <div className="w-px bg-border" />
         <Button
@@ -142,9 +142,9 @@ export function RichTextEditor({
           size="sm"
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().undo() || disabled}
-          className="h-8 w-8 p-0"
+          className="size-8 p-0"
         >
-          <Undo className="h-4 w-4" />
+          <Undo className="size-4" />
         </Button>
         <Button
           type="button"
@@ -152,9 +152,9 @@ export function RichTextEditor({
           size="sm"
           onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().redo() || disabled}
-          className="h-8 w-8 p-0"
+          className="size-8 p-0"
         >
-          <Redo className="h-4 w-4" />
+          <Redo className="size-4" />
         </Button>
       </div>
       <EditorContent editor={editor} />

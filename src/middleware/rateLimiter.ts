@@ -139,6 +139,9 @@ export const rateLimiter = new RateLimiter();
 
 /**
  * Rate limit middleware for server actions
+ * @param identifier
+ * @param endpoint
+ * @param customConfig
  */
 export async function rateLimitMiddleware(
   identifier: string,

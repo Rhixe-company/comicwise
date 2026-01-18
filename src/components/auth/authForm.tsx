@@ -104,7 +104,7 @@ export function AuthForm<T extends FieldValues>({
           </CardContent>
           <CardFooter className="flex-col space-y-4">
             <Button type="submit" className="w-full" disabled={isFormLoading}>
-              {isFormLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isFormLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
               {submitLabel}
             </Button>
             {footer}

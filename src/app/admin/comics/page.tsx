@@ -22,7 +22,7 @@ async function ComicsListPageContent({ q, cursor }: { q?: string; cursor?: strin
 
   return (
     <ComicsListContent
-      initialComics={data.data}
+      initialComics={data.data as any}
       hasNextPage={data.hasNextPage}
       nextCursor={data.nextCursor}
     />

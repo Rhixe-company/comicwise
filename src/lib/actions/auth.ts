@@ -3,6 +3,7 @@
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
+import type { AuthActionResponse } from "@/dto";
 import {
   sendAccountUpdatedEmail,
   sendPasswordResetEmail,

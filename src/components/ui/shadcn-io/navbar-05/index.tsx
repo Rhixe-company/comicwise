@@ -76,8 +76,7 @@ const HamburgerIcon = ({ className, ...props }: React.SVGAttributes<SVGElement>)
       className={`
         origin-center -translate-y-[7px] transition-all duration-300
         ease-[cubic-bezier(.5,.85,.25,1.1)]
-        group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0
-        group-aria-expanded:rotate-[315deg]
+        group-aria-expanded:translate-0 group-aria-expanded:rotate-315
       `}
     />
     <path
@@ -93,7 +92,7 @@ const HamburgerIcon = ({ className, ...props }: React.SVGAttributes<SVGElement>)
       className={`
         origin-center translate-y-[7px] transition-all duration-300
         ease-[cubic-bezier(.5,.85,.25,1.1)]
-        group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]
+        group-aria-expanded:translate-y-0 group-aria-expanded:rotate-135
       `}
     />
   </svg>
@@ -103,8 +102,8 @@ const HamburgerIcon = ({ className, ...props }: React.SVGAttributes<SVGElement>)
 const InfoMenu = ({ onItemClick }: { onItemClick?(item: string): void }) => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <Button variant="ghost" size="icon" className="h-9 w-9">
-        <HelpCircleIcon className="h-4 w-4" />
+      <Button variant="ghost" size="icon" className="size-9">
+        <HelpCircleIcon className="size-4" />
         <span className="sr-only">Help and Information</span>
       </Button>
     </DropdownMenuTrigger>
@@ -133,12 +132,12 @@ const NotificationMenu = ({
 }) => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <Button variant="ghost" size="icon" className="relative h-9 w-9">
-        <BellIcon className="h-4 w-4" />
+      <Button variant="ghost" size="icon" className="relative size-9">
+        <BellIcon className="size-4" />
         {notificationCount > 0 && (
           <Badge
             className={`
-              absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center
+              absolute -top-1 -right-1 flex size-5 items-center justify-center
               p-0 text-xs
             `}
           >
@@ -198,7 +197,7 @@ const UserMenu = ({
           hover:bg-accent hover:text-accent-foreground
         `}
       >
-        <Avatar className="h-7 w-7">
+        <Avatar className="size-7">
           <AvatarImage src={userAvatar} alt={userName} />
           <AvatarFallback className="text-xs">
             {userName
@@ -207,7 +206,7 @@ const UserMenu = ({
               .join("")}
           </AvatarFallback>
         </Avatar>
-        <ChevronDownIcon className="ml-1 h-3 w-3" />
+        <ChevronDownIcon className="ml-1 size-3" />
         <span className="sr-only">User menu</span>
       </Button>
     </DropdownMenuTrigger>
@@ -317,10 +316,10 @@ export const Navbar05 = React.forwardRef<HTMLElement, Navbar05Props>(
         className={cn(
           `
             sticky top-0 z-50 w-full border-b bg-background/95 px-4
-            backdrop-blur
-            supports-[backdrop-filter]:bg-background/60
+            backdrop-blur-sm
+            **:no-underline
+            supports-backdrop-filter:bg-background/60
             md:px-6
-            [&_*]:no-underline
           `,
           className
         )}
@@ -340,7 +339,7 @@ export const Navbar05 = React.forwardRef<HTMLElement, Navbar05Props>(
                 <PopoverTrigger asChild>
                   <Button
                     className={`
-                      group h-9 w-9
+                      group size-9
                       hover:bg-accent hover:text-accent-foreground
                     `}
                     variant="ghost"

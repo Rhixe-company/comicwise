@@ -107,7 +107,7 @@ export async function updateUserAdmin(
     };
 
     if (validated.email) {
-      updateData.email = validated.email.toLowerCase();
+      updateData["email"] = validated.email.toLowerCase();
     }
 
     const [updatedUser] = await database

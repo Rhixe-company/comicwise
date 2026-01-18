@@ -75,7 +75,7 @@ export function ImageUpload({
             onClick={handleRemove}
             disabled={disabled}
           >
-            <X className="h-4 w-4" />
+            <X className="size-4" />
           </Button>
         </div>
       ) : (
@@ -101,12 +101,12 @@ export function ImageUpload({
         >
           {isUploading ? (
             <>
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              <Loader2 className="size-8 animate-spin text-muted-foreground" />
               <p className="text-sm text-muted-foreground">Uploading...</p>
             </>
           ) : (
             <>
-              <Upload className="h-8 w-8 text-muted-foreground" />
+              <Upload className="size-8 text-muted-foreground" />
               <div className="text-center">
                 <p className="text-sm font-medium">{label}</p>
                 <p className="text-xs text-muted-foreground">Click to browse or drag and drop</p>
@@ -131,7 +131,9 @@ export function ImageUpload({
       />
 
       {error && (
-        <div className={`rounded-md bg-destructive/15 p-3 text-sm text-destructive`}>{error}</div>
+        <div className={`
+          rounded-md bg-destructive/15 p-3 text-sm text-destructive
+        `}>{error}</div>
       )}
     </div>
   );

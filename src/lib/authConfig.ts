@@ -17,7 +17,7 @@ export const authOptions: NextAuthConfig = {
     maxAge: appConfig.session.maxAge,
     updateAge: appConfig.session.updateAge,
   },
-  adapter: DrizzleAdapter(database),
+  adapter: DrizzleAdapter(database as any),
   pages: {
     signIn: "/sign-in",
     error: "/sign-in",
@@ -75,23 +75,23 @@ export const authOptions: NextAuthConfig = {
       },
     }),
     ...(appConfig.auth.providers.google &&
-    process.env.AUTH_GOOGLE_CLIENT_ID &&
-    process.env.AUTH_GOOGLE_CLIENT_SECRET
+    process.env["AUTH_GOOGLE_CLIENT_ID"] &&
+    process.env["AUTH_GOOGLE_CLIENT_SECRET"]
       ? [
           GoogleProvider({
-            clientId: process.env.AUTH_GOOGLE_CLIENT_ID,
-            clientSecret: process.env.AUTH_GOOGLE_CLIENT_SECRET,
+            clientId: process.env["AUTH_GOOGLE_CLIENT_ID"],
+            clientSecret: process.env["AUTH_GOOGLE_CLIENT_SECRET"],
             allowDangerousEmailAccountLinking: true,
           }),
         ]
       : []),
     ...(appConfig.auth.providers.github &&
-    process.env.AUTH_GITHUB_CLIENT_ID &&
-    process.env.AUTH_GITHUB_CLIENT_SECRET
+    process.env["AUTH_GITHUB_CLIENT_ID"] &&
+    process.env["AUTH_GITHUB_CLIENT_SECRET"]
       ? [
           GithubProvider({
-            clientId: process.env.AUTH_GITHUB_CLIENT_ID,
-            clientSecret: process.env.AUTH_GITHUB_CLIENT_SECRET,
+            clientId: process.env["AUTH_GITHUB_CLIENT_ID"],
+            clientSecret: process.env["AUTH_GITHUB_CLIENT_SECRET"],
             allowDangerousEmailAccountLinking: true,
           }),
         ]

@@ -45,21 +45,23 @@ export class SeedImageManager {
 
   /**
    * Generate unique filename from URL
+   * @param url
    */
   private generateFilename(url: string): string {
     const hash = crypto.createHash("md5").update(url).digest("hex");
-    const ext = this.getExtension(url);
-    return `${hash}${ext}`;
+    const extension = this.getExtension(url);
+    return `${hash}${extension}`;
   }
 
   /**
    * Extract file extension from URL
+   * @param url
    */
   private getExtension(url: string): string {
     try {
       const urlPath = new URL(url).pathname;
-      const ext = path.extname(urlPath) || ".webp";
-      return ext;
+      const extension = path.extname(urlPath) || ".webp";
+      return extension;
     } catch {
       return ".webp";
     }
@@ -68,6 +70,7 @@ export class SeedImageManager {
   /**
    * Download image from URL (only if not already cached locally)
    * Returns local path relative to public folder
+   * @param url
    */
   async downloadImage(url: string): Promise<ImageDownloadResult> {
     // Check if already processed in this session
@@ -119,19 +122,21 @@ export class SeedImageManager {
         success: true,
       };
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : "Unknown error";
-      logger.warn(`Failed to download ${url}: ${errorMsg}`);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      logger.warn(`Failed to download ${url}: ${errorMessage}`);
       return {
         original: url,
         cached: false,
         success: false,
-        error: errorMsg,
+        error: errorMessage,
       };
     }
   }
 
   /**
    * Download multiple images in parallel with rate limiting
+   * @param urls
+   * @param concurrency
    */
   async downloadImages(urls: string[], concurrency: number = 3): Promise<ImageDownloadResult[]> {
     const results: ImageDownloadResult[] = [];
@@ -162,7 +167,7 @@ export class SeedImageManager {
   getStats() {
     return {
       totalProcessed: this.downloadedUrls.size,
-      cachedUrls: Array.from(this.downloadedUrls),
+      cachedUrls: [...this.downloadedUrls],
       localMappings: Object.fromEntries(this.urlToLocalPath),
     };
   }

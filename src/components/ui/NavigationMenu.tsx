@@ -40,9 +40,7 @@ function NavigationMenuList({
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
       className={cn(
-        `
-        group flex flex-1 list-none items-center justify-center gap-1
-      `,
+        `group flex flex-1 list-none items-center justify-center gap-1`,
         className
       )}
       {...props}
@@ -73,7 +71,8 @@ const navigationMenuTriggerStyle = cva(
     focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1
     disabled:pointer-events-none disabled:opacity-50
     data-[state=open]:bg-accent/50 data-[state=open]:text-accent-foreground
-    data-[state=open]:hover:bg-accent data-[state=open]:focus:bg-accent
+    data-[state=open]:hover:bg-accent
+    data-[state=open]:focus:bg-accent
   `
 );
 
@@ -91,7 +90,7 @@ function NavigationMenuTrigger({
       {children}{" "}
       <ChevronDownIcon
         className={`
-          relative top-[1px] ml-1 size-3 transition duration-300
+          relative top-px ml-1 size-3 transition duration-300
           group-data-[state=open]:rotate-180
         `}
         aria-hidden="true"
@@ -134,7 +133,7 @@ function NavigationMenuContent({
           group-data-[viewport=false]/navigation-menu:border
           group-data-[viewport=false]/navigation-menu:bg-popover
           group-data-[viewport=false]/navigation-menu:text-popover-foreground
-          group-data-[viewport=false]/navigation-menu:shadow
+          group-data-[viewport=false]/navigation-menu:shadow-sm
           group-data-[viewport=false]/navigation-menu:duration-200
           **:data-[slot=navigation-menu-link]:focus:ring-0
           **:data-[slot=navigation-menu-link]:focus:outline-none
@@ -152,9 +151,7 @@ function NavigationMenuViewport({
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>) {
   return (
     <div
-      className={cn(`
-      absolute top-full left-0 isolate z-50 flex justify-center
-    `)}
+      className={cn(`absolute top-full left-0 isolate z-50 flex justify-center`)}
     >
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
@@ -162,13 +159,12 @@ function NavigationMenuViewport({
           `
             origin-top-center
             data-[state=closed]:zoom-out-95
-            data-[state=open]:zoom-in-90
-            relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)]
-            w-full overflow-hidden rounded-md border bg-popover
-            text-popover-foreground shadow
-            data-[state=open]:animate-in
+            data-[state=open]:zoom-in-90 data-[state=open]:animate-in
             data-[state=closed]:animate-out
-            md:w-[var(--radix-navigation-menu-viewport-width)]
+            relative mt-1.5 h-(--radix-navigation-menu-viewport-height) w-full
+            overflow-hidden rounded-md border bg-popover text-popover-foreground
+            shadow-sm
+            md:w-(--radix-navigation-menu-viewport-width)
           `,
           className
         )}
@@ -194,7 +190,8 @@ function NavigationMenuLink({
           focus-visible:outline-1
           data-[active=true]:bg-accent/50
           data-[active=true]:text-accent-foreground
-          data-[active=true]:hover:bg-accent data-[active=true]:focus:bg-accent
+          data-[active=true]:hover:bg-accent
+          data-[active=true]:focus:bg-accent
           [&_svg:not([class*='size-'])]:size-4
           [&_svg:not([class*='text-'])]:text-muted-foreground
         `,
@@ -217,7 +214,7 @@ function NavigationMenuIndicator({
           data-[state=visible]:animate-in
           data-[state=hidden]:animate-out data-[state=hidden]:fade-out
           data-[state=visible]:fade-in
-          top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden
+          top-full z-1 flex h-1.5 items-end justify-center overflow-hidden
         `,
         className
       )}
@@ -225,7 +222,7 @@ function NavigationMenuIndicator({
     >
       <div
         className={`
-          relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md
+          relative top-[60%] size-2 rotate-45 rounded-tl-sm bg-border shadow-md
         `}
       />
     </NavigationMenuPrimitive.Indicator>

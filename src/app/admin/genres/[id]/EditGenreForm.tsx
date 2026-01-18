@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 export default async function EditGenreForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL ?? ""}/api/genres/${id}`, {
+  const res = await fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/genres/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {

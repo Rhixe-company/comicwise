@@ -80,9 +80,9 @@ export function DataTable<T extends Record<string, unknown> & { id: number | str
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
+                        <Button variant="ghost" className="size-8 p-0">
                           <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
+                          <MoreHorizontal className="size-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
@@ -90,7 +90,7 @@ export function DataTable<T extends Record<string, unknown> & { id: number | str
                         <DropdownMenuSeparator />
                         <Link href={`/admin/comics/${row.id}/edit`}>
                           <DropdownMenuItem>
-                            <Pencil className="mr-2 h-4 w-4" />
+                            <Pencil className="mr-2 size-4" />
                             Edit
                           </DropdownMenuItem>
                         </Link>
@@ -98,7 +98,7 @@ export function DataTable<T extends Record<string, unknown> & { id: number | str
                           className="text-destructive"
                           onClick={() => onDelete?.(row.id)}
                         >
-                          <Trash className="mr-2 h-4 w-4" />
+                          <Trash className="mr-2 size-4" />
                           Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -108,7 +108,9 @@ export function DataTable<T extends Record<string, unknown> & { id: number | str
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length + 1} className={`h-24 text-center`}>
+                <TableCell colSpan={columns.length + 1} className={`
+                  h-24 text-center
+                `}>
                   No results.
                 </TableCell>
               </TableRow>

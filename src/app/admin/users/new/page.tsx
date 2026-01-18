@@ -65,7 +65,7 @@ export default function NewUserPage() {
     <div className="container mx-auto py-10">
       <Button variant="ghost" asChild className="mb-4">
         <Link href="/admin/users">
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className="mr-2 size-4" />
           Back to Users
         </Link>
       </Button>

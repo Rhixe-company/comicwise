@@ -17,12 +17,12 @@ const urlOrString = z.string().url().or(z.string().min(1));
 
 const dateString = z.union([z.string().datetime(), z.string(), z.date()]).optional();
 
-const numericString = z.union([z.string(), z.number()]).transform((val) => {
-  if (typeof val === "string") {
-    const num = parseFloat(val);
-    return isNaN(num) ? 0 : num;
+const numericString = z.union([z.string(), z.number()]).transform((value) => {
+  if (typeof value === "string") {
+    const number_ = Number.parseFloat(value);
+    return isNaN(number_) ? 0 : number_;
   }
-  return val;
+  return value;
 });
 
 const imageObject = z
@@ -146,8 +146,8 @@ export const chapterSeedSchema = z
     let chapterNumber = data.chapterNumber || 0;
 
     if (!chapterNumber && data.name) {
-      const match = data.name.match(/Chapter\s+(\d+\.?\d*)/i);
-      if (match) chapterNumber = parseFloat(match[1]);
+      const match = data.name.match(/chapter\s+(\d+\.?\d*)/i);
+      if (match) chapterNumber = Number.parseFloat(match[1]!);
     }
 
     return {
@@ -186,6 +186,8 @@ export interface ValidationResult<T> {
 /**
  * Safely validate array of items with error collection
  * Returns detailed error information for debugging
+ * @param items
+ * @param schema
  */
 export function validateArray<T>(items: unknown[], schema: z.ZodSchema<T>): ValidationResult<T> {
   const data: T[] = [];
@@ -216,6 +218,7 @@ export function validateArray<T>(items: unknown[], schema: z.ZodSchema<T>): Vali
 /**
  * Get schema by data type
  * Used for dynamic validation based on content type
+ * @param type
  */
 export function getSchemaByType(type: "user" | "comic" | "chapter") {
   const schemas = {

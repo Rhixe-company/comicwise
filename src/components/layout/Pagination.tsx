@@ -103,7 +103,7 @@ export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: Pag
         onClick={() => goToPage(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="size-4" />
         Previous
       </Button>
 
@@ -116,7 +116,7 @@ export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: Pag
         disabled={currentPage === totalPages}
       >
         Next
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="size-4" />
       </Button>
     </div>
   );

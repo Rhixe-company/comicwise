@@ -179,8 +179,8 @@ function ChartTooltipContent({
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
         {payload
-          .filter((item) => item.type !== "none")
-          .map((item, index) => {
+          .filter((item: any) => item.type !== "none")
+          .map((item: any, index: number) => {
             const key = `${nameKey || item.name || item.dataKey || "value"}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
             const indicatorColor = color || item.payload.fill || item.color;
@@ -191,7 +191,7 @@ function ChartTooltipContent({
                 className={cn(
                   `
                     flex w-full flex-wrap items-stretch gap-2
-                    [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground
+                    [&>svg]:size-2.5 [&>svg]:text-muted-foreground
                   `,
                   indicator === "dot" && "items-center"
                 )}
@@ -207,7 +207,7 @@ function ChartTooltipContent({
                         <div
                           className={cn(
                             `
-                              shrink-0 rounded-[2px] border-(--color-border)
+                              shrink-0 rounded-[2px] border-border
                               bg-(--color-bg)
                             `,
                             {
@@ -298,7 +298,7 @@ function ChartLegendContent({
               className={cn(
                 `
                   flex items-center gap-1.5
-                  [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground
+                  [&>svg]:size-3 [&>svg]:text-muted-foreground
                 `
               )}
             >
@@ -306,7 +306,7 @@ function ChartLegendContent({
                 <itemConfig.icon />
               ) : (
                 <div
-                  className="h-2 w-2 shrink-0 rounded-[2px]"
+                  className="size-2 shrink-0 rounded-[2px]"
                   style={{
                     backgroundColor: item.color,
                   }}

@@ -39,7 +39,7 @@ export async function createType(formData: FormData): Promise<ActionResult<{ id:
   }
 }
 
-export async function updateType(typeId: number, formData: FormData): Promise<ActionResponse> {
+export async function updateType(typeId: number, formData: FormData): Promise<ActionResult<unknown>> {
   try {
     const data = updateTypeSchema.parse({
       name: formData.get("name") || undefined,
@@ -60,7 +60,7 @@ export async function updateType(typeId: number, formData: FormData): Promise<Ac
   }
 }
 
-export async function deleteType(typeId: number): Promise<ActionResponse> {
+export async function deleteType(typeId: number): Promise<ActionResult<unknown>> {
   try {
     await mutations.deleteType(typeId);
     revalidatePath("/admin/types");

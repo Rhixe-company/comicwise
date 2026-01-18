@@ -72,19 +72,19 @@ async function ComicDetails({ comicId }: { comicId: number }) {
           {/* Stats */}
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center gap-2">
-              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              <Star className="size-5 fill-yellow-400 text-yellow-400" />
               <span className="font-semibold">{comic.rating}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Eye className="h-5 w-5" />
+              <Eye className="size-5" />
               <span>{Number(comic.views)} views</span>
             </div>
             <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
+              <Calendar className="size-5" />
               <span>{formatDate(comic.publicationDate)}</span>
             </div>
             <div className="flex items-center gap-2">
-              <BookOpen className="h-5 w-5" />
+              <BookOpen className="size-5" />
               <span>{comic.chapters?.length || 0} chapters</span>
             </div>
           </div>
@@ -150,7 +150,7 @@ async function ComicDetails({ comicId }: { comicId: number }) {
                         flex items-center gap-2 text-sm text-muted-foreground
                       `}
                     >
-                      <Eye className="h-4 w-4" />
+                      <Eye className="size-4" />
                       <span>{Number(chapter.views)}</span>
                     </div>
                   </CardContent>

@@ -1,5 +1,5 @@
-/* eslint-disable typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
+ 
 /**
  * Seed Data Access Layer (DAL)
  * Consolidates all database operations for seeding
@@ -68,7 +68,7 @@ export class SeederDal {
       })
       .returning();
 
-    return newUser.id;
+    return newUser!.id;
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -98,7 +98,7 @@ export class SeederDal {
       })
       .returning();
 
-    return newAuthor.id;
+    return newAuthor!.id;
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -128,7 +128,7 @@ export class SeederDal {
       })
       .returning();
 
-    return newArtist.id;
+    return newArtist!.id;
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -158,7 +158,7 @@ export class SeederDal {
       })
       .returning();
 
-    return newType.id;
+    return newType!.id;
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -188,7 +188,7 @@ export class SeederDal {
       })
       .returning();
 
-    return newGenre.id;
+    return newGenre!.id;
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -239,7 +239,7 @@ export class SeederDal {
         this.logger.info(`✓ Updated comic: ${payload.title}`);
       } else {
         const [newComic] = await db.insert(comic).values(payload).returning();
-        comicId = newComic.id;
+        comicId = newComic!.id;
         this.logger.info(`✓ Created comic: ${payload.title}`);
       }
 
@@ -328,7 +328,7 @@ export class SeederDal {
         this.logger.info(`✓ Updated chapter: ${metadata.chapterTitle}`);
       } else {
         const [newChapter] = await db.insert(chapter).values(payload).returning();
-        chapterId = newChapter.id;
+        chapterId = newChapter!.id;
         this.logger.info(`✓ Created chapter: ${metadata.chapterTitle}`);
       }
 

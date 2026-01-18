@@ -77,9 +77,8 @@ export const CardBody = ({ children, className }: CardBodyProps) => {
     <div
       className={cn(
         `
-          h-96 w-96
-          [transform-style:preserve-3d]
-          [&>*]:[transform-style:preserve-3d]
+          size-96 transform-3d
+          *:transform-3d
         `,
         className
       )}
@@ -133,7 +132,7 @@ export const CardItem = ({
   };
 
   if (typeof Tag === "string") {
-    elementProps.ref = ref;
+    elementProps["ref"] = ref;
   }
 
   return React.createElement(Tag as any, elementProps, children);

@@ -127,14 +127,29 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
   // Parse command line arguments
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === "--production" || args[i] === "--prod") {
+    switch (args[i]) {
+    case "--production": 
+    case "--prod":
       options.environment = "production";
-    } else if (args[i] === "--preview") {
+    
+    break;
+    
+    case "--preview":
       options.environment = "preview";
-    } else if (args[i] === "--skip-build") {
+    
+    break;
+    
+    case "--skip-build":
       options.skipBuild = true;
-    } else if (args[i] === "--project") {
+    
+    break;
+    
+    case "--project":
       options.projectName = args[++i];
+    
+    break;
+    
+    // No default
     }
   }
 

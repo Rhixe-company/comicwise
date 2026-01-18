@@ -29,7 +29,7 @@ export async function createComicImage(data: {
       createdAt: new Date(),
     })
     .returning();
-  return newImage;
+  return newImage!;
 }
 
 /**

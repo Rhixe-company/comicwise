@@ -183,7 +183,7 @@ export function ChartAreaInteractive() {
             className={`
               [767px]/card:flex
               hidden
-              *:data-[slot=toggle-group-item]:!px-4
+              *:data-[slot=toggle-group-item]:px-4!
             `}
           >
             <ToggleGroupItem value="90d">Last 3 months</ToggleGroupItem>
@@ -225,9 +225,7 @@ export function ChartAreaInteractive() {
       >
         <ChartContainer
           config={chartConfig}
-          className={`
-          aspect-auto h-[250px] w-full
-        `}
+          className={`aspect-auto h-[250px] w-full`}
         >
           {/* Chart commented out due to recharts compatibility */}
           <div

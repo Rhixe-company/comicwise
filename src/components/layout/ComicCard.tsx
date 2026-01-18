@@ -51,13 +51,13 @@ export function ComicCard({ comic, authorName, typeName }: ComicCardProps) {
         >
           {comic.rating && (
             <div className="flex items-center gap-1">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+              <Star className="size-4 fill-yellow-400 text-yellow-400" />
               <span>{comic.rating}</span>
             </div>
           )}
           {comic.views !== undefined && (
             <div className="flex items-center gap-1">
-              <Eye className="h-4 w-4" />
+              <Eye className="size-4" />
               <span>{Number(comic.views)}</span>
             </div>
           )}

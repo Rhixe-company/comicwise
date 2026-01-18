@@ -101,5 +101,5 @@ export const VideoPlayerMuteButton = ({ className, ...props }: VideoPlayerMuteBu
 export type VideoPlayerContentProps = ComponentProps<"video">;
 
 export const VideoPlayerContent = ({ className, ...props }: VideoPlayerContentProps) => (
-  <video className={cn("mt-0 mb-0", className)} {...(props as Record<string, unknown>)} />
+  <video className={cn("my-0", className)} {...(props as Record<string, unknown>)} />
 );

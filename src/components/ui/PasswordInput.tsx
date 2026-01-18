@@ -86,14 +86,14 @@ export function PasswordInputStrengthChecker() {
 
         const options = {
           translations: (english as { translations?: unknown }).translations,
-          graphs: common.adjacencyGraphs,
+          graphs: common["adjacencyGraphs"],
           maxLength: 50,
           dictionary: {
-            ...(typeof common.dictionary === "object" && common.dictionary !== null
-              ? common.dictionary
+            ...(typeof common["dictionary"] === "object" && common["dictionary"] !== null
+              ? common["dictionary"]
               : {}),
-            ...(typeof english.dictionary === "object" && english.dictionary !== null
-              ? english.dictionary
+            ...(typeof english["dictionary"] === "object" && english["dictionary"] !== null
+              ? english["dictionary"]
               : {}),
           },
         };

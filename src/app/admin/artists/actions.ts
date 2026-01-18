@@ -58,7 +58,7 @@ export async function createArtist(input: unknown): Promise<ActionResult<{ id: n
 export async function updateArtist(
   id: number,
   input: unknown
-): Promise<ActionResponse<{ id: number }>> {
+): Promise<ActionResult<{ id: number }>> {
   try {
     await requireRole("admin");
     if (!Number.isInteger(id) || id <= 0) {
@@ -89,7 +89,7 @@ export async function updateArtist(
   }
 }
 
-export async function deleteArtist(id: number): Promise<ActionResponse> {
+export async function deleteArtist(id: number): Promise<ActionResult<unknown>> {
   try {
     await requireRole("admin");
     if (!Number.isInteger(id) || id <= 0) {
@@ -116,7 +116,7 @@ export async function deleteArtist(id: number): Promise<ActionResponse> {
   }
 }
 
-export async function bulkDeleteArtists(ids: number[]): Promise<ActionResponse> {
+export async function bulkDeleteArtists(ids: number[]): Promise<ActionResult<unknown>> {
   try {
     await requireRole("admin");
 

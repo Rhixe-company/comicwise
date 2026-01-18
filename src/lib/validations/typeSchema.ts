@@ -11,5 +11,5 @@ import { createTypeSchema, updateTypeSchema } from "@/lib/validations/index";
 export const insertTypeSchema = createTypeSchema;
 export { updateTypeSchema };
 
-export type InsertType = { name: string; description?: string };
+export interface InsertType { name: string; description?: string }
 export type UpdateType = Partial<InsertType>;

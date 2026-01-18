@@ -92,7 +92,7 @@ export function Filters({ types, genres }: FiltersProps) {
         `}
       >
         <Button variant="outline" className="w-full" onClick={() => setIsOpen(!isOpen)}>
-          <SlidersHorizontal className="mr-2 h-4 w-4" />
+          <SlidersHorizontal className="mr-2 size-4" />
           Filters {hasActiveFilters && `(${1 + selectedGenres.length})`}
         </Button>
       </div>
@@ -108,7 +108,9 @@ export function Filters({ types, genres }: FiltersProps) {
           <CardTitle className="flex items-center justify-between">
             <span>Filters</span>
             {hasActiveFilters && (
-              <Button variant="ghost" size="sm" onClick={resetFilters} className={`text-sm`}>
+              <Button variant="ghost" size="sm" onClick={resetFilters} className={`
+                text-sm
+              `}>
                 Reset
               </Button>
             )}
@@ -148,7 +150,7 @@ export function Filters({ types, genres }: FiltersProps) {
                   onClick={() => setSelectedType(selectedType === type.id ? null : type.id)}
                 >
                   {type.name}
-                  {selectedType === type.id && <X className="ml-1 h-3 w-3" />}
+                  {selectedType === type.id && <X className="ml-1 size-3" />}
                 </Badge>
               ))}
             </div>
@@ -169,7 +171,7 @@ export function Filters({ types, genres }: FiltersProps) {
                   onClick={() => setSelectedStatus(selectedStatus === status ? null : status)}
                 >
                   {status}
-                  {selectedStatus === status && <X className="ml-1 h-3 w-3" />}
+                  {selectedStatus === status && <X className="ml-1 size-3" />}
                 </Badge>
               ))}
             </div>
@@ -193,7 +195,9 @@ export function Filters({ types, genres }: FiltersProps) {
                   onClick={() => toggleGenre(genre.id)}
                 >
                   {genre.name}
-                  {selectedGenres.includes(genre.id) && <X className={`ml-1 h-3 w-3`} />}
+                  {selectedGenres.includes(genre.id) && <X className={`
+                    ml-1 size-3
+                  `} />}
                 </Badge>
               ))}
             </div>

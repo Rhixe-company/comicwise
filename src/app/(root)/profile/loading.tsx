@@ -17,7 +17,7 @@ export default function ProfileLoading() {
           {/* Avatar Card */}
           <Card>
             <CardContent className="pt-6 text-center">
-              <Skeleton className="mx-auto mb-4 h-32 w-32 rounded-full" />
+              <Skeleton className="mx-auto mb-4 size-32 rounded-full" />
               <Skeleton className="mx-auto mb-2 h-6 w-32" />
               <Skeleton className="mx-auto h-4 w-48" />
               <div className="mt-3">
@@ -33,7 +33,7 @@ export default function ProfileLoading() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-3">
-                <Skeleton className="h-5 w-5" />
+                <Skeleton className="size-5" />
                 <div>
                   <Skeleton className="mb-1 h-8 w-16" />
                   <Skeleton className="h-4 w-20" />

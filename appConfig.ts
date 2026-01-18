@@ -47,6 +47,7 @@ export const env = envFromT3;
 
 /**
  * Check if a specific environment variable is set
+ * @param key
  */
 export function hasEnvironment<K extends keyof typeof env>(key: K): boolean {
   return !!env[key];

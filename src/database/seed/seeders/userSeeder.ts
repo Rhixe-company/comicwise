@@ -79,7 +79,7 @@ export async function seedUsersFromFiles(jsonFiles: string[] = ["users.json"]): 
             imageUrls,
             `user: ${validatedUser.email}`
           );
-          const cachedImage = cachedImages[0] ?? validatedUser.image;
+          const cachedImage = [...cachedImages.values()][0] ?? validatedUser.image;
 
           // Check if user exists by email
           const existingUser = await db.query.user.findFirst({

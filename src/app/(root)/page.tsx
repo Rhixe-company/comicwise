@@ -94,7 +94,7 @@ export default function HomePage() {
           <Link href="/comics">
             <Button size="lg">
               Browse Comics
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 size-5" />
             </Button>
           </Link>
           <Link href="/sign-in">
@@ -112,7 +112,7 @@ export default function HomePage() {
           <Link href="/comics?sort=latest">
             <Button variant="ghost">
               View All
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 size-4" />
             </Button>
           </Link>
         </div>
@@ -128,7 +128,7 @@ export default function HomePage() {
           <Link href="/comics?sort=views">
             <Button variant="ghost">
               View All
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 size-4" />
             </Button>
           </Link>
         </div>

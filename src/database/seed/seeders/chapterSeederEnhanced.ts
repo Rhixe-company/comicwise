@@ -30,6 +30,7 @@ interface SeedStats {
 
 /**
  * Seed chapters from JSON files with all images
+ * @param patterns
  */
 export async function seedChaptersFromFiles(
   patterns: string[] = ["chapters*.json"]
@@ -91,6 +92,8 @@ export async function seedChaptersFromFiles(
 
 /**
  * Upsert chapter with associated images
+ * @param data
+ * @param imageManager
  */
 async function upsertChapter(
   data: ChapterSeedData,
@@ -108,7 +111,7 @@ async function upsertChapter(
     }
 
     // Generate slug from title
-    const slug = data.title.toLowerCase().replace(/\s+/g, "-").substring(0, 255);
+    const slug = data.title.toLowerCase().replaceAll(/\s+/g, "-").slice(0, 255);
 
     // Parse dates
     const releaseDate = data.releaseDate ? new Date(data.releaseDate) : new Date();
@@ -169,6 +172,9 @@ async function upsertChapter(
 
 /**
  * Update chapter images with deduplication and parallel downloads
+ * @param chapterId
+ * @param imageUrls
+ * @param imageManager
  */
 async function updateChapterImages(
   chapterId: number,

@@ -32,7 +32,7 @@ const ROOT_DIR = process.cwd();
 const PACKAGE_JSON_PATH = path.join(ROOT_DIR, "package.json");
 
 // Packages to always keep (even if not detected in code)
-const ALWAYS_KEEP = [
+const ALWAYS_KEEP = new Set([
   "next",
   "react",
   "react-dom",
@@ -51,7 +51,7 @@ const ALWAYS_KEEP = [
   "tsx",
   "vitest",
   "@playwright/test",
-];
+]);
 
 interface PackageInfo {
   name: string;
@@ -113,7 +113,7 @@ async function searchInFiles(packageName: string): Promise<string[]> {
 
 async function isPackageUsed(packageName: string): Promise<{ used: boolean; locations: string[] }> {
   // Always keep essential packages
-  if (ALWAYS_KEEP.includes(packageName)) {
+  if (ALWAYS_KEEP.has(packageName)) {
     return { used: true, locations: ["[essential package]"] };
   }
 

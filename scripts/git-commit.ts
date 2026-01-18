@@ -140,7 +140,7 @@ async function gitCommitAndPush(options: CommitOptions = {}) {
         try {
           exec(`git push origin ${currentBranch}`, true);
           spinner.succeed(`Pushed to ${chalk.white(`origin/${currentBranch}`)}`);
-        } catch (error) {
+        } catch {
           // If push fails (e.g., upstream not set), try setting upstream
           try {
             exec(`git push -u origin ${currentBranch}`, true);
@@ -169,14 +169,31 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
   // Parse command line arguments
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === "--message" || args[i] === "-m") {
+    switch (args[i]) {
+    case "--message": 
+    case "-m":
       options.message = args[++i];
-    } else if (args[i] === "--type" || args[i] === "-t") {
+    
+    break;
+    
+    case "--type": 
+    case "-t":
       options.type = args[++i];
-    } else if (args[i] === "--scope" || args[i] === "-s") {
+    
+    break;
+    
+    case "--scope": 
+    case "-s":
       options.scope = args[++i];
-    } else if (args[i] === "--no-push") {
+    
+    break;
+    
+    case "--no-push":
       options.push = false;
+    
+    break;
+    
+    // No default
     }
   }
 

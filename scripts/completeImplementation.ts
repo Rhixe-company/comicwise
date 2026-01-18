@@ -91,7 +91,7 @@ function backupFile(filePath: string): boolean {
       return true;
     }
     return false;
-  } catch (error) {
+  } catch {
     log(`Failed to backup ${filePath}`, "warn");
     return false;
   }

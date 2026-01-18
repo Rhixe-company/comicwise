@@ -28,7 +28,7 @@ function ArtistsHeader() {
       </div>
       <Button asChild>
         <Link href="/admin/artists/new">
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="mr-2 size-4" />
           Create Artist
         </Link>
       </Button>

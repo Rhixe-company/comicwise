@@ -130,7 +130,7 @@ export abstract class BaseDal<TData, TInsert> {
 
     for (const [key, value] of Object.entries(conditions)) {
       if (value !== undefined && value !== null && key in conditionBuilders) {
-        const condition = conditionBuilders[key](value);
+        const condition = (conditionBuilders as any)[key](value);
         if (condition) {
           sqlConditions.push(condition);
         }

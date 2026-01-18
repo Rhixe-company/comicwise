@@ -26,7 +26,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
     >
       <div className="mx-auto max-w-md text-center">
         <div className="mb-6 flex justify-center">
-          <AlertCircle className="h-16 w-16 text-destructive" aria-hidden="true" />
+          <AlertCircle className="size-16 text-destructive" aria-hidden="true" />
         </div>
 
         <h1 className="mb-2 text-3xl font-bold tracking-tight">Something went wrong</h1>

@@ -39,7 +39,7 @@ export async function createGenre(formData: FormData): Promise<ActionResult<{ id
   }
 }
 
-export async function updateGenre(genreId: number, formData: FormData): Promise<ActionResponse> {
+export async function updateGenre(genreId: number, formData: FormData): Promise<ActionResult<unknown>> {
   try {
     const data = updateGenreSchema.parse({
       name: formData.get("name") || undefined,
@@ -60,7 +60,7 @@ export async function updateGenre(genreId: number, formData: FormData): Promise<
   }
 }
 
-export async function deleteGenre(genreId: number): Promise<ActionResponse> {
+export async function deleteGenre(genreId: number): Promise<ActionResult<unknown>> {
   try {
     await mutations.deleteGenre(genreId);
     revalidatePath("/admin/genres");

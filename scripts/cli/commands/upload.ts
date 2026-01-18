@@ -20,7 +20,7 @@ export async function upload(provider: string, options: any) {
       return;
     }
 
-    const files = fs.readdirSync(dir).filter((f) => /\.(jpg|jpeg|png|gif|webp)$/i.test(f));
+    const files = fs.readdirSync(dir).filter((f: string) => /\.(jpg|jpeg|png|gif|webp)$/i.test(f));
 
     if (files.length === 0) {
       spinner.warn("No image files found");

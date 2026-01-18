@@ -26,7 +26,7 @@ export default async function BookmarksPage() {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="space-y-4 text-center">
-          <BookmarkX className="mx-auto h-16 w-16 text-muted-foreground" />
+          <BookmarkX className="mx-auto size-16 text-muted-foreground" />
           <h1 className="text-3xl font-bold">No Bookmarks Yet</h1>
           <p className="mx-auto max-w-md text-muted-foreground">
             Start bookmarking comics you want to read and track your progress here.

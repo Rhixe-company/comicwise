@@ -56,7 +56,7 @@ export async function createType(input: unknown): Promise<ActionResult<{ id: num
 export async function updateType(
   id: number,
   input: unknown
-): Promise<ActionResponse<{ id: number }>> {
+): Promise<ActionResult<{ id: number }>> {
   try {
     await requireRole("admin");
     if (!Number.isInteger(id) || id <= 0) {
@@ -87,7 +87,7 @@ export async function updateType(
   }
 }
 
-export async function deleteType(id: number): Promise<ActionResponse> {
+export async function deleteType(id: number): Promise<ActionResult<unknown>> {
   try {
     await requireRole("admin");
     if (!Number.isInteger(id) || id <= 0) {
@@ -114,7 +114,7 @@ export async function deleteType(id: number): Promise<ActionResponse> {
   }
 }
 
-export async function bulkDeleteTypes(ids: number[]): Promise<ActionResponse> {
+export async function bulkDeleteTypes(ids: number[]): Promise<ActionResult<unknown>> {
   try {
     await requireRole("admin");
 

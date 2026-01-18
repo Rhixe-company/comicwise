@@ -58,7 +58,7 @@ export class ProgressTracker {
       total: this.total,
       success: this.successCount,
       errors: this.errorCount,
-      duration: parseFloat(duration),
+      duration: Number.parseFloat(duration),
     };
   }
 }

@@ -17,7 +17,7 @@ function ResizablePanelGroup({
       data-slot="resizable-panel-group"
       className={cn(
         `
-          flex h-full w-full
+          flex size-full
           data-[panel-group-direction=vertical]:flex-col
         `,
         className

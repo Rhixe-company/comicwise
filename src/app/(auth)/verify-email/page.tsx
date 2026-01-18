@@ -58,11 +58,9 @@ function VerifyEmailContent() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div
-            className={`
-            mx-auto mb-2 flex h-12 w-12 items-center justify-center
-          `}
+            className={`mx-auto mb-2 flex size-12 items-center justify-center`}
           >
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <Loader2 className="size-8 animate-spin text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold">Verifying Email</CardTitle>
           <CardDescription>Please wait while we verify your email address...</CardDescription>
@@ -77,11 +75,11 @@ function VerifyEmailContent() {
         <CardHeader className="space-y-1 text-center">
           <div
             className={`
-              mx-auto mb-2 flex h-12 w-12 items-center justify-center
-              rounded-full bg-red-100
+              mx-auto mb-2 flex size-12 items-center justify-center rounded-full
+              bg-red-100
             `}
           >
-            <XCircle className="h-6 w-6 text-red-600" />
+            <XCircle className="size-6 text-red-600" />
           </div>
           <CardTitle className="text-2xl font-bold">Verification Failed</CardTitle>
           <CardDescription className="text-red-600">{errorMessage}</CardDescription>
@@ -105,11 +103,11 @@ function VerifyEmailContent() {
       <CardHeader className="space-y-1 text-center">
         <div
           className={`
-            mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full
+            mx-auto mb-2 flex size-12 items-center justify-center rounded-full
             bg-green-100
           `}
         >
-          <CheckCircle2 className="h-6 w-6 text-green-600" />
+          <CheckCircle2 className="size-6 text-green-600" />
         </div>
         <CardTitle className="text-2xl font-bold">Email Verified!</CardTitle>
         <CardDescription>

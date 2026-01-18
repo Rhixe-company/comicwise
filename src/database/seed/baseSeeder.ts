@@ -165,7 +165,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
       const batch = batches[i];
 
       try {
-        const result = await this.insertBatch(batch, options);
+        const result = await this.insertBatch(batch || [], options);
         inserted += result.inserted;
         updated += result.updated;
         skipped += result.skipped;
@@ -179,7 +179,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
         logger.error(`Batch ${i + 1} failed: ${errorMessage}`);
-        errors += batch.length;
+        errors += (batch || []).length;
       }
     }
 

@@ -144,7 +144,7 @@ function cleanupBackupFiles(logger: Logger, dryRun: boolean, stats: CleanupStats
       stats.deletedFiles++;
       logger.debug(`Removed: ${file}`);
     } catch (error) {
-      logger.warn(
+      console.warn(
         `Failed to remove ${file}: ${error instanceof Error ? error.message : "Unknown error"}`
       );
     }
@@ -184,7 +184,7 @@ function cleanupEmptyFolders(logger: Logger, dryRun: boolean, stats: CleanupStat
         removed++;
         logger.debug(`Removed empty directory: ${dir}`);
       }
-    } catch (error) {
+    } catch {
       // Skip on error
     }
 
@@ -221,7 +221,7 @@ function findDuplicateSchemas(logger: Logger): string[] {
           schemaFiles.push(fullPath);
         }
       }
-    } catch (error) {
+    } catch {
       // Skip on error
     }
   };
@@ -234,14 +234,14 @@ function findDuplicateSchemas(logger: Logger): string[] {
   for (const file of schemaFiles) {
     try {
       const content = fs.readFileSync(file, "utf-8");
-      const lines = content.split("\n").filter((l) => l.trim() && !l.includes("import"));
+      const lines = content.split("\n").filter((l: string) => l.trim() && !l.includes("import"));
       const key = lines.join("\n");
 
       if (!contentMap.has(key)) {
         contentMap.set(key, []);
       }
       contentMap.get(key)?.push(file);
-    } catch (error) {
+    } catch {
       // Skip on error
     }
   }
@@ -276,7 +276,7 @@ function findUnusedPackages(logger: Logger): string[] {
 
   // Simple heuristic: check if package is imported in src or scripts
   for (const pkg of Object.keys(allDeps)) {
-    const escapedPkg = pkg.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const escapedPkg = pkg.replaceAll(/[$()*+.?[\\\]^{|}]/g, "\\$&");
     const pattern = `import.*from\\s+['"](${escapedPkg}|@${escapedPkg})['"\\]]`;
 
     try {
@@ -292,7 +292,7 @@ function findUnusedPackages(logger: Logger): string[] {
         unusedPackages.push(pkg);
         logger.debug(`Potential unused package: ${pkg}`);
       }
-    } catch (error) {
+    } catch {
       // Continue on error
     }
   }
@@ -328,7 +328,7 @@ function removeBlankFiles(logger: Logger, dryRun: boolean, stats: CleanupStats):
           logger.debug(`Removed blank file: ${fullPath}`);
         }
       }
-    } catch (error) {
+    } catch {
       // Skip on error
     }
   };
@@ -395,11 +395,11 @@ async function runCleanup(options: CleanupOptions): Promise<void> {
 // CLI ENTRY POINT
 // ═══════════════════════════════════════════════════
 
-const args = process.argv.slice(2);
+const args = new Set(process.argv.slice(2));
 const options: CleanupOptions = {
-  dryRun: args.includes("--dry-run"),
-  verbose: args.includes("--verbose"),
-  quiet: args.includes("--quiet"),
+  dryRun: args.has("--dry-run"),
+  verbose: args.has("--verbose"),
+  quiet: args.has("--quiet"),
 };
 
 runCleanup(options).catch((error) => {

@@ -115,8 +115,8 @@ function MenubarItem({
           relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5
           text-sm outline-hidden select-none
           focus:bg-accent focus:text-accent-foreground
-          data-[disabled]:pointer-events-none data-[disabled]:opacity-50
-          data-[inset]:pl-8
+          data-disabled:pointer-events-none data-disabled:opacity-50
+          data-inset:pl-8
           data-[variant=destructive]:text-destructive
           data-[variant=destructive]:focus:bg-destructive/10
           data-[variant=destructive]:focus:text-destructive
@@ -124,7 +124,7 @@ function MenubarItem({
           [&_svg]:pointer-events-none [&_svg]:shrink-0
           [&_svg:not([class*='size-'])]:size-4
           [&_svg:not([class*='text-'])]:text-muted-foreground
-          data-[variant=destructive]:*:[svg]:!text-destructive
+          data-[variant=destructive]:*:[svg]:text-destructive!
         `,
         className
       )}
@@ -147,7 +147,7 @@ function MenubarCheckboxItem({
           relative flex cursor-default items-center gap-2 rounded-xs py-1.5 pr-2
           pl-8 text-sm outline-hidden select-none
           focus:bg-accent focus:text-accent-foreground
-          data-[disabled]:pointer-events-none data-[disabled]:opacity-50
+          data-disabled:pointer-events-none data-disabled:opacity-50
           [&_svg]:pointer-events-none [&_svg]:shrink-0
           [&_svg:not([class*='size-'])]:size-4
         `,
@@ -184,7 +184,7 @@ function MenubarRadioItem({
           relative flex cursor-default items-center gap-2 rounded-xs py-1.5 pr-2
           pl-8 text-sm outline-hidden select-none
           focus:bg-accent focus:text-accent-foreground
-          data-[disabled]:pointer-events-none data-[disabled]:opacity-50
+          data-disabled:pointer-events-none data-disabled:opacity-50
           [&_svg]:pointer-events-none [&_svg]:shrink-0
           [&_svg:not([class*='size-'])]:size-4
         `,
@@ -221,7 +221,7 @@ function MenubarLabel({
       className={cn(
         `
           px-2 py-1.5 text-sm font-medium
-          data-[inset]:pl-8
+          data-inset:pl-8
         `,
         className
       )}
@@ -274,7 +274,7 @@ function MenubarSubTrigger({
           flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm
           outline-none select-none
           focus:bg-accent focus:text-accent-foreground
-          data-[inset]:pl-8
+          data-inset:pl-8
           data-[state=open]:bg-accent data-[state=open]:text-accent-foreground
         `,
         className
@@ -282,7 +282,7 @@ function MenubarSubTrigger({
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ml-auto h-4 w-4" />
+      <ChevronRightIcon className="ml-auto size-4" />
     </MenubarPrimitive.SubTrigger>
   );
 }

@@ -109,8 +109,9 @@ export function MultiSelectTrigger({
             focus-visible:ring-ring/50
             disabled:cursor-not-allowed disabled:opacity-50
             aria-invalid:border-destructive aria-invalid:ring-destructive/20
-            data-[placeholder]:text-muted-foreground
-            dark:bg-input/30 dark:hover:bg-input/50
+            data-placeholder:text-muted-foreground
+            dark:bg-input/30
+            dark:hover:bg-input/50
             dark:aria-invalid:ring-destructive/40
             [&_svg]:pointer-events-none [&_svg]:shrink-0
             [&_svg:not([class*='size-'])]:size-4
@@ -160,7 +161,7 @@ export function MultiSelectValue({
         break;
       }
       amount = items.length - i;
-      child.style.display = "none";
+      child!.style.display = "none";
       overflowElement?.style.removeProperty("display");
     }
     setOverflowAmount(amount);
@@ -192,9 +193,7 @@ export function MultiSelectValue({
   if (selectedValues.size === 0 && placeholder) {
     return (
       <span
-        className={`
-        min-w-0 overflow-hidden font-normal text-muted-foreground
-      `}
+        className={`min-w-0 overflow-hidden font-normal text-muted-foreground`}
       >
         {placeholder}
       </span>
@@ -269,7 +268,7 @@ export function MultiSelectContent({
           <CommandList>{children}</CommandList>
         </Command>
       </div>
-      <PopoverContent className="min-w-[var(--radix-popover-trigger-width)] p-0">
+      <PopoverContent className="min-w-(--radix-popover-trigger-width) p-0">
         <Command {...props}>
           {canSearch ? (
             <CommandInput

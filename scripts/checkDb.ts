@@ -16,8 +16,8 @@ async function checkDatabase() {
     // Handle drizzle-orm result
     const rows = Array.isArray(result) ? result : [];
     if (rows.length > 0) {
-      const row = rows[0];
-      console.log("📊 Version:", row.version || "Unknown");
+      const row = rows[0]!;
+      console.log("📊 Version:", row["version"] || "Unknown");
     }
 
     console.log();

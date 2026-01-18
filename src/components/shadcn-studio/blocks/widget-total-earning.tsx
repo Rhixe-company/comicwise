@@ -82,9 +82,7 @@ const TotalEarningCard = ({
           {earningData.map((earning, index) => (
             <div
               key={index}
-              className={`
-              flex items-center justify-between gap-2.5
-            `}
+              className={`flex items-center justify-between gap-2.5`}
             >
               <div className="flex items-center justify-between gap-2.5">
                 <Avatar className="size-11 rounded-sm">
@@ -92,9 +90,7 @@ const TotalEarningCard = ({
                     <img
                       src={earning.img}
                       alt={earning.platform}
-                      className={`
-                      size-6
-                    `}
+                      className={`size-6`}
                     />
                   </AvatarFallback>
                 </Avatar>

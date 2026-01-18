@@ -84,7 +84,7 @@ class DrizzleLogger {
 function validateDatabaseConnection(logger: DrizzleLogger): DatabaseConfig {
   logger.section("Validating Database Connection");
 
-  const dbUrl = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
+  const dbUrl = process.env["DATABASE_URL"] || process.env["NEON_DATABASE_URL"];
 
   if (!dbUrl) {
     logger.log("DATABASE_URL or NEON_DATABASE_URL not found", "error");
@@ -98,7 +98,7 @@ function validateDatabaseConnection(logger: DrizzleLogger): DatabaseConfig {
 
   const config: DatabaseConfig = {
     name: type === "sqlite" ? "SQLite (Local)" : type === "mysql" ? "MySQL" : "PostgreSQL",
-    url: dbUrl.substring(0, 50) + "...",
+    url: dbUrl.slice(0, 50) + "...",
     type,
     isHealthy: false,
     lastCheck: new Date(),
@@ -216,7 +216,7 @@ function runMigrations(logger: DrizzleLogger, backup: boolean): boolean {
       try {
         execSync("pnpm db:pull", { stdio: "inherit" });
         logger.log("Backup created", "success");
-      } catch (error) {
+      } catch {
         logger.log("Backup failed (continuing with migration)", "warn");
       }
     }
@@ -266,12 +266,12 @@ function providePerfOptimizations(logger: DrizzleLogger): void {
 // ═══════════════════════════════════════════════════
 
 async function main(): Promise<void> {
-  const args = process.argv.slice(2);
+  const args = new Set(process.argv.slice(2));
   const options: SetupOptions = {
-    migrate: args.includes("--migrate"),
-    validate: args.includes("--validate"),
-    verbose: args.includes("--verbose"),
-    backup: !args.includes("--no-backup"),
+    migrate: args.has("--migrate"),
+    validate: args.has("--validate"),
+    verbose: args.has("--verbose"),
+    backup: !args.has("--no-backup"),
   };
 
   const logger = new DrizzleLogger(options.verbose);

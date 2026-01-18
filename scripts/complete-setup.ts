@@ -10,10 +10,10 @@
 import { execSync } from "child_process";
 
 const log = {
-  info: (msg: string) => console.log(`\x1b[36mℹ\x1b[0m ${msg}`),
-  success: (msg: string) => console.log(`\x1b[32m✅\x1b[0m ${msg}`),
-  error: (msg: string) => console.log(`\x1b[31m❌\x1b[0m ${msg}`),
-  warn: (msg: string) => console.log(`\x1b[33m⚠️\x1b[0m ${msg}`),
+  info: (msg: string) => console.log(`\x1B[36mℹ\x1B[0m ${msg}`),
+  success: (msg: string) => console.log(`\x1B[32m✅\x1B[0m ${msg}`),
+  error: (msg: string) => console.log(`\x1B[31m❌\x1B[0m ${msg}`),
+  warn: (msg: string) => console.log(`\x1B[33m⚠️\x1B[0m ${msg}`),
 };
 
 function execute(command: string, description: string): void {
@@ -21,7 +21,7 @@ function execute(command: string, description: string): void {
     log.info(`${description}...`);
     execSync(command, { stdio: "inherit", cwd: process.cwd() });
     log.success(`${description} completed`);
-  } catch (error) {
+  } catch {
     log.warn(`${description} had issues, continuing...`);
   }
 }

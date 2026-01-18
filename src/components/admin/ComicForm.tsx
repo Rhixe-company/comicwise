@@ -103,7 +103,7 @@ export function ComicForm({
     <div className="space-y-6">
       {submitError && (
         <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+          <AlertCircle className="size-4" />
           <AlertDescription>{submitError}</AlertDescription>
         </Alert>
       )}
@@ -111,9 +111,7 @@ export function ComicForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleFormSubmit)}
-          className={`
-          space-y-6
-        `}
+          className={`space-y-6`}
         >
           {/* Cover Image Upload */}
           <Card>
@@ -141,7 +139,7 @@ export function ComicForm({
                 <div className="flex-1 space-y-4">
                   {uploadError && (
                     <Alert variant="destructive">
-                      <AlertCircle className="h-4 w-4" />
+                      <AlertCircle className="size-4" />
                       <AlertDescription>{uploadError}</AlertDescription>
                     </Alert>
                   )}
@@ -162,12 +160,12 @@ export function ComicForm({
                   >
                     {isUploading ? (
                       <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <Loader2 className="mr-2 size-4 animate-spin" />
                         Uploading... {uploadProgress}%
                       </>
                     ) : (
                       <>
-                        <Upload className="mr-2 h-4 w-4" />
+                        <Upload className="mr-2 size-4" />
                         Choose Image
                       </>
                     )}
@@ -235,9 +233,7 @@ export function ComicForm({
                     <FormControl>
                       <Textarea
                         placeholder="Comic description"
-                        className={`
-                        min-h-32
-                      `}
+                        className={`min-h-32`}
                         {...field}
                       />
                     </FormControl>
@@ -361,7 +357,7 @@ export function ComicForm({
             <Button type="submit" disabled={isSubmitting || isLoading}>
               {isSubmitting || isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Saving...
                 </>
               ) : (

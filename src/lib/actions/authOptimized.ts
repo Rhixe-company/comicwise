@@ -8,6 +8,7 @@
 import appConfig, { checkRateLimit } from "@/appConfig";
 import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
+import type { AuthActionResponse } from "@/dto";
 import {
   sendAccountUpdatedEmail,
   sendPasswordResetEmail,
@@ -193,7 +194,7 @@ export async function registerUserActionOptimized(input: SignUpInput): Promise<A
     }
 
     // Trigger onboarding workflow (async, don't wait)
-    fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/workflows/onboarding`, {
+    fetch(`${process.env["NEXT_PUBLIC_APP_URL"]}/api/workflows/onboarding`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId: newUser.id, email }),

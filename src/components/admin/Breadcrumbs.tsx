@@ -29,13 +29,13 @@ export function Breadcrumbs() {
           hover:text-foreground
         `}
       >
-        <Home className="h-4 w-4" />
+        <Home className="size-4" />
       </Link>
       {breadcrumbs.map((crumb, index) => {
         const isLast = index === breadcrumbs.length - 1;
         return (
           <Fragment key={crumb.href}>
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="size-4" />
             {isLast ? (
               <span className="font-medium text-foreground">{crumb.label}</span>
             ) : (

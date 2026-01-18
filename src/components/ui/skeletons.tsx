@@ -38,7 +38,7 @@ export function ChapterListSkeleton({ count = 10 }: { count?: number }) {
             flex items-center gap-3 rounded-md border border-border p-3
           `}
         >
-          <Skeleton className="h-16 w-16 rounded-md" />
+          <Skeleton className="size-16 rounded-md" />
           <div className="flex-1 space-y-2">
             <Skeleton className="h-5 w-2/3" />
             <Skeleton className="h-4 w-1/3" />
@@ -87,7 +87,7 @@ export function ProfileSkeleton() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8 flex items-center gap-4">
-        <Skeleton className="h-24 w-24 rounded-full" />
+        <Skeleton className="size-24 rounded-full" />
         <div className="space-y-2">
           <Skeleton className="h-6 w-48" />
           <Skeleton className="h-4 w-32" />

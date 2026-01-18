@@ -13,7 +13,7 @@ import { redirect } from "next/navigation";
 export default async function EditArtistForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL ?? ""}/api/artists/${id}`, {
+  const res = await fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/artists/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {
@@ -99,7 +99,7 @@ export default async function EditArtistForm({ params }: { params: { id: string 
               {artist.profileImage && (
                 <div
                   className={`
-                    relative mt-2 h-32 w-32 overflow-hidden rounded-lg border
+                    relative mt-2 size-32 overflow-hidden rounded-lg border
                   `}
                 >
                   <Image

@@ -77,7 +77,7 @@ export function AppSidebar() {
       <SidebarHeader>
         <div className="flex items-center justify-between px-4 py-2">
           <div className="flex items-center gap-2">
-            <BookOpen className="h-6 w-6" />
+            <BookOpen className="size-6" />
             <span className="text-lg font-bold">ComicWise Admin</span>
           </div>
           <ThemeToggle />
@@ -92,7 +92,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton asChild isActive={pathname === item.href}>
                     <Link href={item.href}>
-                      <item.icon className="h-4 w-4" />
+                      <item.icon className="size-4" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -107,7 +107,7 @@ export function AppSidebar() {
           ComicWise v1.0.0 • Press{" "}
           <kbd
             className={`
-              rounded bg-muted px-1.5 py-0.5 text-[10px] font-semibold
+              rounded-sm bg-muted px-1.5 py-0.5 text-[10px] font-semibold
             `}
           >
             ⌘K

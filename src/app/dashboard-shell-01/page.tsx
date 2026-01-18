@@ -503,11 +503,11 @@ const DashboardShell = () => {
               `}
             >
               <div className="flex items-center gap-4">
-                <SidebarTrigger className="[&_svg]:!size-5" />
+                <SidebarTrigger className="[&_svg]:size-5!" />
                 <Separator
                   orientation="vertical"
                   className={`
-                    hidden !h-4
+                    hidden h-4!
                     sm:block
                   `}
                 />
@@ -595,7 +595,7 @@ const DashboardShell = () => {
                 <ProductInsightsCard
                   className={`
                     justify-between gap-3
-                    [&>[data-slot=card-content]]:space-y-5
+                    *:data-[slot=card-content]:space-y-5
                   `}
                 />
 
@@ -609,8 +609,8 @@ const DashboardShell = () => {
                   earningData={earningData}
                   className={`
                     justify-between gap-5
+                    *:data-[slot=card-content]:space-y-7
                     sm:min-w-0
-                    [&>[data-slot=card-content]]:space-y-7
                   `}
                 />
               </div>
@@ -618,8 +618,8 @@ const DashboardShell = () => {
               <SalesMetricsCard
                 className={`
                   col-span-full
+                  *:data-[slot=card-content]:space-y-6
                   xl:col-span-2
-                  [&>[data-slot=card-content]]:space-y-6
                 `}
               />
 

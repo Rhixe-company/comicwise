@@ -200,11 +200,11 @@ const ApplicationShell = () => {
               `}
             >
               <div className="flex items-center gap-4">
-                <SidebarTrigger className="[&_svg]:!size-5" />
+                <SidebarTrigger className="[&_svg]:size-5!" />
                 <Separator
                   orientation="vertical"
                   className={`
-                    hidden !h-4
+                    hidden h-4!
                     sm:block
                   `}
                 />

@@ -40,7 +40,6 @@ import {
   getImageHash,
 } from "@/database/seed/utils/imageCache";
 import { imageService } from "@/services/imageService";
-import appConfig from "appConfig";
 import { hashPassword } from "auth";
 import { and, eq } from "drizzle-orm";
 import fs from "fs/promises";
@@ -186,7 +185,7 @@ const ChapterSchema = z
 async function downloadAndUploadImage(
   imageUrl: string,
   folder: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   _fileName: string
 ): Promise<string | null> {
   try {
@@ -296,27 +295,27 @@ export function normalizeComicData(comicData: Record<string, unknown>): Record<s
   const normalizedData = { ...comicData };
 
   // Normalize status field
-  if (normalizedData.status && typeof normalizedData.status === "string") {
+  if (normalizedData["status"] && typeof normalizedData["status"] === "string") {
     const validStatuses = ["Ongoing", "Completed", "Hiatus", "Dropped", "Coming Soon"];
-    if (!validStatuses.includes(normalizedData.status)) {
+    if (!validStatuses.includes(normalizedData["status"])) {
       logger.warn(
-        `Invalid status "${normalizedData.status}" for ${comicData.title ?? comicData.slug}, defaulting to "Ongoing"`
+        `Invalid status "${normalizedData["status"]}" for ${comicData["title"] ?? comicData["slug"]}, defaulting to "Ongoing"`
       );
-      normalizedData.status = "Ongoing";
+      normalizedData["status"] = "Ongoing";
     }
   }
 
   // Clamp rating to [0, 10.00]
-  if (normalizedData.rating !== undefined) {
-    let ratingNumber = Number.parseFloat(String(normalizedData.rating));
+  if (normalizedData["rating"] !== undefined) {
+    let ratingNumber = Number.parseFloat(String(normalizedData["rating"]));
     if (isNaN(ratingNumber) || ratingNumber < 0) ratingNumber = 0;
     if (ratingNumber > 10.0) {
       logger.warn(
-        `Rating ${normalizedData.rating} exceeds max for ${comicData.title ?? comicData.slug}, clamping to 10.00`
+        `Rating ${normalizedData["rating"]} exceeds max for ${comicData["title"] ?? comicData["slug"]}, clamping to 10.00`
       );
       ratingNumber = 10.0;
     }
-    normalizedData.rating = ratingNumber;
+    normalizedData["rating"] = ratingNumber;
   }
 
   return normalizedData;
@@ -438,7 +437,7 @@ export async function processComicRecord(
       logger.success(`✓ Updated comic: ${validatedComic.title}`);
     } else {
       const [newComic] = await db.insert(comic).values(comicPayload).returning();
-      comicId = newComic.id;
+      comicId = newComic!.id;
       logger.success(`✓ Created comic: ${validatedComic.title}`);
     }
 
@@ -541,7 +540,7 @@ async function processChapterRecord(
       logger.success(`✓ Updated chapter: ${metadata.chapterTitle} (${metadata.chapterNumber})`);
     } else {
       const [newChapter] = await db.insert(chapter).values(chapterPayload).returning();
-      chapterId = newChapter.id;
+      chapterId = newChapter!.id;
       logger.success(`✓ Created chapter: ${metadata.chapterTitle} (${metadata.chapterNumber})`);
     }
 
@@ -588,7 +587,7 @@ async function findOrCreateAuthor(authorName: string): Promise<number> {
     })
     .returning();
 
-  return newAuthor.id;
+  return newAuthor!.id;
 }
 
 async function findOrCreateArtist(artistName: string): Promise<number> {
@@ -612,7 +611,7 @@ async function findOrCreateArtist(artistName: string): Promise<number> {
     })
     .returning();
 
-  return newArtist.id;
+  return newArtist!.id;
 }
 
 async function findOrCreateType(typeName: string): Promise<number> {
@@ -636,7 +635,7 @@ async function findOrCreateType(typeName: string): Promise<number> {
     })
     .returning();
 
-  return newType.id;
+  return newType!.id;
 }
 
 async function findOrCreateGenre(genreName: string): Promise<number> {
@@ -660,7 +659,7 @@ async function findOrCreateGenre(genreName: string): Promise<number> {
     })
     .returning();
 
-  return newGenre.id;
+  return newGenre!.id;
 }
 
 /**
@@ -834,7 +833,7 @@ export async function seedUsersFromJSON(jsonFiles: string[] = ["users.json"]): P
             emailVerified: validatedUser.emailVerified ?? new Date(),
             password: validatedUser.password
               ? await hashPassword(validatedUser.password)
-              : await hashPassword(appConfig.customPassword ?? "Password123!"),
+              : await hashPassword("Password123!"),
           };
 
           if (existingUser) {
@@ -1031,7 +1030,7 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
           totalErrors++;
           fileStats.errors++;
           logger.error(
-            `Comic '${comicData.title ?? comicData.slug}': Failed to process comic: ${error}`
+            `Comic '${comicData["title"] ?? comicData["slug"]}': Failed to process comic: ${error}`
           );
         }
       }

@@ -33,15 +33,15 @@ async function ComicsGrid({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const sortByParameter = (searchParams.sort as string) || "latest";
+  const sortByParameter = (searchParams["sort"] as string) || "latest";
 
   const filters: ComicFilters = {
-    search: typeof searchParams.search === "string" ? searchParams.search : undefined,
-    typeId: searchParams.type ? Number(searchParams.type) : undefined,
+    search: typeof searchParams["search"] === "string" ? searchParams["search"] : undefined,
+    typeId: searchParams["type"] ? Number(searchParams["type"]) : undefined,
     status:
-      typeof searchParams.status === "string" ? (searchParams.status as ComicStatus) : undefined,
+      typeof searchParams["status"] === "string" ? (searchParams["status"] as ComicStatus) : undefined,
     sortBy: sortByParameter as "latest" | "rating" | "title" | "views",
-    page: searchParams.page ? Number(searchParams.page) : 1,
+    page: searchParams["page"] ? Number(searchParams["page"]) : 1,
     limit: 12,
   };
 

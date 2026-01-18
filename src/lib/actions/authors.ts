@@ -46,7 +46,7 @@ export async function createAuthor(formData: FormData): Promise<ActionResult<{ i
   }
 }
 
-export async function updateAuthor(authorId: number, formData: FormData): Promise<ActionResponse> {
+export async function updateAuthor(authorId: number, formData: FormData): Promise<ActionResult<unknown>> {
   try {
     const data = updateAuthorSchema.parse({
       name: formData.get("name") || undefined,
@@ -68,7 +68,7 @@ export async function updateAuthor(authorId: number, formData: FormData): Promis
   }
 }
 
-export async function deleteAuthor(authorId: number): Promise<ActionResponse> {
+export async function deleteAuthor(authorId: number): Promise<ActionResult<unknown>> {
   try {
     await mutations.deleteAuthor(authorId);
     revalidatePath("/admin/authors");

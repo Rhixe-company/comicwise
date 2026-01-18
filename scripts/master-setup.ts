@@ -40,7 +40,7 @@ const specificTask = taskArg?.split("=")[1];
 interface SetupTask {
   name: string;
   description: string;
-  execute: () => Promise<void>;
+  execute(): Promise<void>;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

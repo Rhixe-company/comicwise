@@ -12,5 +12,5 @@ export const insertAuthorSchema = createAuthorSchema;
 export const authorIdSchema = createAuthorSchema;
 export { updateAuthorSchema };
 
-export type InsertAuthor = { name: string; bio?: string; image?: string };
+export interface InsertAuthor { name: string; bio?: string; image?: string }
 export type UpdateAuthor = Partial<InsertAuthor>;

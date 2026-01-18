@@ -162,19 +162,19 @@ export function EnhancedDataTable<TData, TValue>({
               `}
             >
               Reset
-              <X className="ml-2 h-4 w-4" />
+              <X className="ml-2 size-4" />
             </Button>
           )}
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={exportToCSV}>
-            <Download className="mr-2 h-4 w-4" />
+            <Download className="mr-2 size-4" />
             Export CSV
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">
-                <Filter className="mr-2 h-4 w-4" />
+                <Filter className="mr-2 size-4" />
                 Columns
               </Button>
             </DropdownMenuTrigger>

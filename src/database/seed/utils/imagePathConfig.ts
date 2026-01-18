@@ -148,10 +148,10 @@ export function generateImageFilename(
   chapterSlug?: string,
   pageNumber?: number
 ): string {
-  let filename = comicSlug.toLowerCase().replace(/[^a-z0-9-]/g, "");
+  let filename = comicSlug.toLowerCase().replaceAll(/[^\da-z-]/g, "");
 
   if (chapterSlug) {
-    const cleanChapterSlug = chapterSlug.toLowerCase().replace(/[^a-z0-9-]/g, "");
+    const cleanChapterSlug = chapterSlug.toLowerCase().replaceAll(/[^\da-z-]/g, "");
     filename = `${filename}-${cleanChapterSlug}`;
   }
 

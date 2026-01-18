@@ -17,7 +17,7 @@ export default function GlobalError({
   reset,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  reset(): void;
 }) {
   useEffect(() => {
     // Log error to Sentry or other monitoring service
@@ -32,10 +32,15 @@ export default function GlobalError({
   return (
     <html>
       <body>
-        <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-background to-muted p-4">
+        <div className="
+          flex min-h-screen flex-col items-center justify-center bg-linear-to-b
+          from-background to-muted p-4
+        ">
           <div className="max-w-md space-y-6 text-center">
             <div className="space-y-2">
-              <h1 className="text-4xl font-bold tracking-tighter text-destructive">
+              <h1 className="
+                text-4xl font-bold tracking-tighter text-destructive
+              ">
                 Oops! Something went wrong
               </h1>
               <p className="text-lg text-muted-foreground">
@@ -45,26 +50,43 @@ export default function GlobalError({
 
             {error.digest && (
               <div className="rounded-lg bg-muted p-4">
-                <p className="text-sm font-mono text-muted-foreground">Error ID: {error.digest}</p>
+                <p className="font-mono text-sm text-muted-foreground">Error ID: {error.digest}</p>
               </div>
             )}
 
-            <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
+            <div className="
+              flex flex-col gap-2
+              sm:flex-row sm:justify-center
+            ">
               <button
                 onClick={reset}
-                className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className="
+                  inline-flex items-center justify-center rounded-md bg-primary
+                  px-6 py-3 text-sm font-medium text-primary-foreground
+                  transition-colors
+                  hover:bg-primary/90
+                  focus:ring-2 focus:ring-primary focus:ring-offset-2
+                  focus:outline-none
+                "
               >
                 Try Again
               </button>
               <a
                 href="/"
-                className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className="
+                  inline-flex items-center justify-center rounded-md border
+                  border-input bg-background px-6 py-3 text-sm font-medium
+                  transition-colors
+                  hover:bg-accent hover:text-accent-foreground
+                  focus:ring-2 focus:ring-primary focus:ring-offset-2
+                  focus:outline-none
+                "
               >
                 Go Home
               </a>
             </div>
 
-            {process.env.NODE_ENV === "development" && (
+            {process.env["NODE_ENV"] === "development" && (
               <details className="mt-8 rounded-lg bg-muted p-4 text-left">
                 <summary className="cursor-pointer font-semibold">
                   Error Details (Development Only)
@@ -86,7 +108,7 @@ export default function GlobalError({
 declare global {
   interface Window {
     Sentry?: {
-      captureException: (error: Error) => void;
+      captureException(error: Error): void;
     };
   }
 }

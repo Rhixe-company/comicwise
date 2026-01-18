@@ -53,7 +53,7 @@ export default async function ProfilePage() {
           {/* Avatar */}
           <Card>
             <CardContent className="pt-6 text-center">
-              <Avatar className="mx-auto mb-4 h-32 w-32">
+              <Avatar className="mx-auto mb-4 size-32">
                 <AvatarImage src={session.user.image || undefined} />
                 <AvatarFallback className="text-3xl">{initials}</AvatarFallback>
               </Avatar>
@@ -81,7 +81,7 @@ export default async function ProfilePage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center gap-3">
-                <BookMarked className="h-5 w-5 text-muted-foreground" />
+                <BookMarked className="size-5 text-muted-foreground" />
                 <div>
                   <p className="text-2xl font-bold">{bookmarkCount}</p>
                   <p className="text-sm text-muted-foreground">Bookmarks</p>
@@ -102,7 +102,7 @@ export default async function ProfilePage() {
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <div className="flex items-center gap-3">
-                  <User className="h-5 w-5 text-muted-foreground" />
+                  <User className="size-5 text-muted-foreground" />
                   <Input id="name" defaultValue={session.user.name || ""} disabled />
                 </div>
               </div>
@@ -110,7 +110,7 @@ export default async function ProfilePage() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-muted-foreground" />
+                  <Mail className="size-5 text-muted-foreground" />
                   <Input id="email" type="email" defaultValue={session.user.email || ""} disabled />
                 </div>
               </div>
@@ -131,7 +131,7 @@ export default async function ProfilePage() {
             <CardContent className="space-y-2">
               <a href="/bookmarks">
                 <Button variant="outline" className="w-full justify-start">
-                  <BookMarked className="mr-2 h-4 w-4" />
+                  <BookMarked className="mr-2 size-4" />
                   My Bookmarks
                 </Button>
               </a>

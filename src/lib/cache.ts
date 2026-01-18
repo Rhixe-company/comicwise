@@ -66,7 +66,7 @@ const getRedisConfig = (): Record<string, unknown> => {
   };
 
   if (env.NODE_ENV === "production" && String(env.REDIS_TLS_ENABLED ?? false) === "true") {
-    baseConfig.tls = {
+    baseConfig["tls"] = {
       rejectUnauthorized: false,
     };
   }
@@ -129,7 +129,7 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
     return {
       raw: rawClient as Record<string, unknown>,
       async get(key: string) {
-        const getFunction = (rawClient as Record<string, unknown>).get as
+        const getFunction = (rawClient as Record<string, unknown>)["get"] as
           | ((k: string) => Promise<string | null>)
           | undefined;
         if (!getFunction) return null;
@@ -137,21 +137,21 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
         return result ?? null;
       },
       async set(key: string, value: string, ttlSeconds?: number) {
-        const setFunction = (rawClient as Record<string, unknown>).set as
+        const setFunction = (rawClient as Record<string, unknown>)["set"] as
           | ((k: string, v: string, options?: unknown) => Promise<void>)
           | undefined;
         if (!setFunction) return;
         await (ttlSeconds ? setFunction(key, value, { ex: ttlSeconds }) : setFunction(key, value));
       },
       async del(key: string) {
-        const delFunction = (rawClient as Record<string, unknown>).del as
+        const delFunction = (rawClient as Record<string, unknown>)["del"] as
           | ((k: string) => Promise<number>)
           | undefined;
         if (delFunction) await delFunction(key);
       },
       async clear() {
         const client = rawClient as Record<string, unknown>;
-        const flushdbFunction = client.flushdb as (() => Promise<void>) | undefined;
+        const flushdbFunction = client["flushdb"] as (() => Promise<void>) | undefined;
         if (typeof flushdbFunction === "function") {
           await flushdbFunction();
         }
@@ -161,23 +161,23 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
 
   // ioredis client detection
   if (
-    (rawClient && typeof (rawClient as Record<string, unknown>).call === "function") ||
+    (rawClient && typeof (rawClient as Record<string, unknown>)["call"] === "function") ||
     rawClient instanceof Redis
   ) {
     const client: Redis = rawClient as Redis;
     return {
       raw: client,
       async get(key: string) {
-        return await client.get(key);
+        return await client["get"](key);
       },
       async set(key: string, value: string, ttlSeconds?: number) {
-        await (ttlSeconds ? client.set(key, value, "EX", ttlSeconds) : client.set(key, value));
+        await (ttlSeconds ? client["set"](key, value, "EX", ttlSeconds) : client["set"](key, value));
       },
       async del(key: string) {
-        await client.del(key);
+        await client["del"](key);
       },
       async clear() {
-        await client.flushdb();
+        await client["flushdb"]();
       },
     };
   }
@@ -187,10 +187,10 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
   return {
     raw: null,
     async get(key: string) {
-      return store.has(key) ? (store.get(key) as string) : null;
+      return store.has(key) ? (store["get"](key) as string) : null;
     },
     async set(key: string, value: string) {
-      store.set(key, value);
+      store["set"](key, value);
     },
     async del(key: string) {
       store.delete(key);
@@ -281,7 +281,7 @@ export class RedisCache {
 
   async get<T>(key: string): Promise<T | null> {
     try {
-      const value = await this.redis.get(key);
+      const value = await this.redis["get"](key);
       if (!value) return null;
       return JSON.parse(value) as T;
     } catch (error) {
@@ -295,7 +295,7 @@ export class RedisCache {
       const serialized = JSON.stringify(value);
       const ttl = options?.ttl || CACHE_TTL.MEDIUM;
 
-      await (ttl > 0 ? this.redis.setex(key, ttl, serialized) : this.redis.set(key, serialized));
+      await (ttl > 0 ? this.redis.setex(key, ttl, serialized) : this.redis["set"](key, serialized));
 
       if (options?.tags && options.tags.length > 0) {
         await this.addTagsToKey(key, options.tags);
@@ -310,7 +310,7 @@ export class RedisCache {
 
   async delete(key: string): Promise<boolean> {
     try {
-      await this.redis.del(key);
+      await this.redis["del"](key);
       return true;
     } catch (error) {
       console.error(`Cache DELETE error for key ${key}:`, error);
@@ -321,7 +321,7 @@ export class RedisCache {
   async deleteMany(keys: string[]): Promise<boolean> {
     try {
       if (keys.length === 0) return true;
-      await this.redis.del(...keys);
+      await this.redis["del"](...keys);
       return true;
     } catch (error) {
       console.error(`Cache DELETE MANY error:`, error);
@@ -362,7 +362,7 @@ export class RedisCache {
     try {
       const keys = await this.redis.keys(pattern);
       if (keys.length === 0) return 0;
-      await this.redis.del(...keys);
+      await this.redis["del"](...keys);
       return keys.length;
     } catch (error) {
       console.error(`Cache DELETE PATTERN error for ${pattern}:`, error);
@@ -456,8 +456,8 @@ export class RedisCache {
 
       for (let i = 0; i < results.length; i += 2) {
         items.push({
-          member: results[i],
-          score: Number.parseFloat(results[i + 1]),
+          member: results[i] as string,
+          score: Number.parseFloat(results[i + 1] as string),
         });
       }
 
@@ -487,7 +487,7 @@ export class RedisCache {
     if (cached !== null) return cached;
 
     const data = await fetchFunction();
-    this.set(key, data, options).catch((error) => {
+    this["set"](key, data, options).catch((error) => {
       console.error(`Failed to cache data for key ${key}:`, error);
     });
 
@@ -516,8 +516,8 @@ export class RedisCache {
 
       if (keys.length === 0) return 0;
 
-      await this.redis.del(...keys);
-      await this.redis.del(tagKey);
+      await this.redis["del"](...keys);
+      await this.redis["del"](tagKey);
 
       return keys.length;
     } catch (error) {
@@ -528,7 +528,7 @@ export class RedisCache {
 
   async flushAll(): Promise<boolean> {
     try {
-      const flushFunction = (this.redis as unknown as Record<string, unknown>).flushdb as
+      const flushFunction = (this.redis as unknown as Record<string, unknown>)["flushdb"] as
         | (() => Promise<void>)
         | undefined;
       if (flushFunction) {
@@ -550,12 +550,12 @@ export class RedisCache {
     hitRate: number;
   }> {
     try {
-      const infoFunction = (this.redis as unknown as Record<string, unknown>).info as
+      const infoFunction = (this.redis as unknown as Record<string, unknown>)["info"] as
         | ((type: string) => Promise<string>)
         | undefined;
       const info = infoFunction ? await infoFunction("stats") : "";
       const memory = infoFunction ? await infoFunction("memory") : "";
-      const databasesizeFunction = (this.redis as unknown as Record<string, unknown>).dbsize as
+      const databasesizeFunction = (this.redis as unknown as Record<string, unknown>)["dbsize"] as
         | (() => Promise<number>)
         | undefined;
       const databasesize = databasesizeFunction ? await databasesizeFunction() : 0;
@@ -634,7 +634,7 @@ async function generateCacheKey(
   }
 
   if (config.userSpecific) {
-    const userId = request.headers.get("x-user-id") || request.cookies.get("userId")?.value;
+    const userId = request.headers["get"]("x-user-id") || request.cookies["get"]("userId")?.value;
     if (userId) {
       key += `:user:${userId}`;
     }
@@ -673,14 +673,14 @@ export function withCache(
             status: cached.status,
             headers: new Headers(cached.headers),
           });
-          response.headers.set("X-Cache", "HIT");
-          response.headers.set("X-Cache-Key", cacheKey);
+          response.headers["set"]("X-Cache", "HIT");
+          response.headers["set"]("X-Cache-Key", cacheKey);
           return response;
         }
       }
 
       console.log(`❌ Cache MISS: ${cacheKey}`);
-      const response: unknown = await handler(request);
+      const response = await handler(request) as Response;
 
       if (response.ok) {
         try {
@@ -694,7 +694,7 @@ export function withCache(
           };
 
           cache
-            .set(cacheKey, cacheData, {
+            ["set"](cacheKey, cacheData, {
               ttl: config.ttl || CACHE_TTL.MEDIUM,
               tags: config.tags,
             })
@@ -702,8 +702,8 @@ export function withCache(
               console.error(`Failed to cache response for ${cacheKey}:`, error);
             });
 
-          response.headers.set("X-Cache", "MISS");
-          response.headers.set("X-Cache-Key", cacheKey);
+          response.headers["set"]("X-Cache", "MISS");
+          response.headers["set"]("X-Cache-Key", cacheKey);
         } catch (error) {
           console.error("Failed to cache response:", error);
         }
@@ -757,7 +757,7 @@ export function withCacheInvalidation(
   }
 ) {
   return async (request: NextRequest) => {
-    const response = await handler(request);
+    const response = await handler(request) as Response;
 
     if (response.ok && ["POST", "PUT", "PATCH", "DELETE"].includes(request.method)) {
       try {
@@ -851,8 +851,8 @@ export function withRateLimit(
   return async (request: NextRequest) => {
     const identifier =
       options.keyGenerator?.(request) ||
-      request.headers.get("x-forwarded-for") ||
-      request.headers.get("x-real-ip") ||
+      request.headers["get"]("x-forwarded-for") ||
+      request.headers["get"]("x-real-ip") ||
       "anonymous";
 
     const result = await rateLimit(identifier, {
@@ -879,11 +879,11 @@ export function withRateLimit(
       );
     }
 
-    const response = await handler(request);
+    const response = await handler(request) as Response;
 
-    response.headers.set("X-RateLimit-Limit", options.max?.toString() || "100");
-    response.headers.set("X-RateLimit-Remaining", result.remaining.toString());
-    response.headers.set("X-RateLimit-Reset", result.reset.toString());
+    response.headers["set"]("X-RateLimit-Limit", options.max?.toString() || "100");
+    response.headers["set"]("X-RateLimit-Remaining", result.remaining.toString());
+    response.headers["set"]("X-RateLimit-Reset", result.reset.toString());
 
     return response;
   };

@@ -39,7 +39,7 @@ export function ProfileManagement({ user, bookmarkCount = 0 }: ProfileManagement
         <TabsContent value="overview">
           <Card>
             <CardContent className="pt-6 text-center">
-              <Avatar className="mx-auto mb-4 h-32 w-32">
+              <Avatar className="mx-auto mb-4 size-32">
                 <AvatarImage src={user.image || undefined} />
                 <AvatarFallback className="text-3xl">{initials}</AvatarFallback>
               </Avatar>

@@ -7,6 +7,7 @@
 
 import { db as database } from "@/database/db";
 import { author } from "@/database/schema";
+import type { ActionResult } from "@/dto";
 import { requireRole } from "auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
@@ -37,7 +38,7 @@ const updateAuthorSchema = createAuthorSchema.partial();
  * Create new author (Admin only)
  * @param input
  */
-export async function createAuthor(input: unknown): Promise<ActionResponse<{ id: number }>> {
+export async function createAuthor(input: unknown): Promise<ActionResult<{ id: number }>> {
   try {
     // Check authorization
     await requireRole("admin");
@@ -103,7 +104,7 @@ export async function createAuthor(input: unknown): Promise<ActionResponse<{ id:
 export async function updateAuthor(
   id: number,
   input: unknown
-): Promise<ActionResponse<{ id: number }>> {
+): Promise<ActionResult<{ id: number }>> {
   try {
     // Check authorization
     await requireRole("admin");
@@ -168,7 +169,7 @@ export async function updateAuthor(
  * Delete author (Admin only)
  * @param id
  */
-export async function deleteAuthor(id: number): Promise<ActionResponse> {
+export async function deleteAuthor(id: number): Promise<ActionResult<unknown>> {
   try {
     // Check authorization
     await requireRole("admin");
@@ -219,7 +220,7 @@ export async function deleteAuthor(id: number): Promise<ActionResponse> {
  * Bulk delete authors (Admin only)
  * @param ids
  */
-export async function bulkDeleteAuthors(ids: number[]): Promise<ActionResponse> {
+export async function bulkDeleteAuthors(ids: number[]): Promise<ActionResult<unknown>> {
   try {
     // Check authorization
     await requireRole("admin");

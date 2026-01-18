@@ -28,8 +28,8 @@ export default function SignOutPage() {
   return (
     <Card>
       <CardHeader className="text-center">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="mx-auto mb-4 flex size-16 items-center justify-center">
+          <Loader2 className="size-8 animate-spin text-primary" />
         </div>
         <CardTitle>Signing Out</CardTitle>
         <CardDescription>Please wait while we sign you out...</CardDescription>

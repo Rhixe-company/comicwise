@@ -104,7 +104,7 @@ async function isEmptyFile(filePath: string): Promise<boolean> {
   try {
     const content = await fs.readFile(filePath, "utf-8");
     const trimmed = content.trim();
-    return trimmed.length === 0 || trimmed === "" || /^[\s\n\r]*$/.test(trimmed);
+    return trimmed.length === 0 || trimmed === "" || /^\s*$/.test(trimmed);
   } catch {
     return false;
   }
@@ -250,7 +250,7 @@ async function findDuplicateSchemas() {
       let match;
 
       while ((match = schemaRegex.exec(content)) !== null) {
-        const schemaName = match[1];
+        const schemaName = match[1]!;
         if (!schemaMap.has(schemaName)) {
           schemaMap.set(schemaName, []);
         }

@@ -55,10 +55,10 @@ interface PriorityGroup {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const ENV = {
-  skipValidation: process.env.SKIP_VALIDATION === "1",
-  dryRun: process.env.DRY_RUN === "1",
-  verbose: process.env.VERBOSE === "1",
-  continueOnError: process.env.CONTINUE_ON_ERROR === "1",
+  skipValidation: process.env["SKIP_VALIDATION"] === "1",
+  dryRun: process.env["DRY_RUN"] === "1",
+  verbose: process.env["VERBOSE"] === "1",
+  continueOnError: process.env["CONTINUE_ON_ERROR"] === "1",
 };
 
 const PRIORITY_SYSTEM: Record<string, PriorityGroup> = {

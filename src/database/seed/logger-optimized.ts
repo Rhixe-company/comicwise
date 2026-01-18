@@ -29,7 +29,7 @@ export class SeedLogger {
 
   constructor() {
     this.logger = pino({
-      level: process.env.LOG_LEVEL || "info",
+      level: process.env["LOG_LEVEL"] || "info",
       transport: {
         target: "pino-pretty",
         options: {
@@ -109,7 +109,7 @@ export class SeedLogger {
     console.log("  📈 SUMMARY");
     console.log("─".repeat(78));
     Object.entries(stats).forEach(([key, value]) => {
-      const formattedKey = key.replace(/([A-Z])/g, " $1").trim();
+      const formattedKey = key.replaceAll(/([A-Z])/g, " $1").trim();
       console.log(`  • ${formattedKey}: ${value}`);
     });
   }
@@ -120,7 +120,7 @@ export class SeedLogger {
       const duration = (performance.now() - start).toFixed(2);
       const formatted = `⏱️  ${operation}: ${duration}ms`;
       this.verboseMode && console.log(formatted);
-      return parseFloat(duration);
+      return Number.parseFloat(duration);
     };
   }
 

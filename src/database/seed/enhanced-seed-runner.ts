@@ -66,11 +66,12 @@ const CONFIG = {
 
 /**
  * Extract file extension from URL
+ * @param url
  */
 function getFileExtension(url: string): string {
   try {
-    const urlObj = new URL(url);
-    const pathname = urlObj.pathname;
+    const urlObject = new URL(url);
+    const pathname = urlObject.pathname;
     const match = pathname.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i);
     return match ? match[0] : ".jpg"; // Default to .jpg
   } catch {
@@ -80,6 +81,8 @@ function getFileExtension(url: string): string {
 
 /**
  * Retry function with exponential backoff
+ * @param fn
+ * @param retries
  */
 async function retryWithBackoff<T>(
   fn: () => Promise<T>,
@@ -129,8 +132,8 @@ async function loadImageCache() {
 async function saveImageCache() {
   const cachePath = path.join(CONFIG.PUBLIC_DIR, ".seed-image-cache.json");
   try {
-    const cacheObj = Object.fromEntries(imageCache.entries());
-    await writeFile(cachePath, JSON.stringify(cacheObj, null, 2));
+    const cacheObject = Object.fromEntries(imageCache.entries());
+    await writeFile(cachePath, JSON.stringify(cacheObject, null, 2));
     console.log(`✓ Saved ${imageCache.size} image mappings to cache`);
   } catch (error) {
     console.warn("⚠️  Could not save image cache:", error);
@@ -250,6 +253,9 @@ const ChapterSchema = z.object({
 /**
  * Process image URL - download to local filesystem only if not already downloaded
  * Returns the local path with original file extension preserved
+ * @param imageUrl
+ * @param destinationPath
+ * @param fallbackImage
  */
 async function processImage(
   imageUrl: string,
@@ -274,16 +280,16 @@ async function processImage(
   // Get original file extension
   const extension = getFileExtension(imageUrl);
   // Update destination path with correct extension
-  const pathWithExt = destinationPath.replace(/\.[^.]+$/, extension);
+  const pathWithExtension = destinationPath.replace(/\.[^.]+$/, extension);
 
   // Ensure destination directory exists
-  const destDir = path.dirname(path.join(CONFIG.PUBLIC_DIR, pathWithExt));
+  const destDir = path.dirname(path.join(CONFIG.PUBLIC_DIR, pathWithExtension));
   await mkdir(destDir, { recursive: true });
 
   // Check if file already exists in filesystem
-  const fullPath = path.join(CONFIG.PUBLIC_DIR, pathWithExt);
+  const fullPath = path.join(CONFIG.PUBLIC_DIR, pathWithExtension);
   if (existsSync(fullPath)) {
-    const relativePath = pathWithExt.startsWith("/") ? pathWithExt : `/${pathWithExt}`;
+    const relativePath = pathWithExtension.startsWith("/") ? pathWithExtension : `/${pathWithExtension}`;
     downloadedImages.set(imageUrl, relativePath);
     imageCache.set(imageUrl, relativePath);
     return relativePath;
@@ -291,7 +297,7 @@ async function processImage(
 
   // Download using imageService
   try {
-    const result = await imageService.downloadImage(imageUrl, path.dirname(pathWithExt));
+    const result = await imageService.downloadImage(imageUrl, path.dirname(pathWithExtension));
     if (result.success && result.localPath) {
       downloadedImages.set(imageUrl, result.localPath);
       imageCache.set(imageUrl, result.localPath);
@@ -377,7 +383,7 @@ async function seedComics(data: unknown[]) {
 
   let processed = 0;
   let created = 0;
-  let updated = 0;
+  const updated = 0;
 
   const tasks = data.map((item) =>
     limit(async () => {
@@ -387,8 +393,8 @@ async function seedComics(data: unknown[]) {
         // Process cover image
         let coverImagePath = validated.coverImage || CONFIG.PLACEHOLDER_COMIC;
         if (coverImagePath && coverImagePath.startsWith("http")) {
-          const ext = getFileExtension(coverImagePath);
-          const imagePath = `comics/covers/${validated.slug}/cover${ext}`;
+          const extension = getFileExtension(coverImagePath);
+          const imagePath = `comics/covers/${validated.slug}/cover${extension}`;
           coverImagePath = await processImage(coverImagePath, imagePath, CONFIG.PLACEHOLDER_COMIC);
         }
 
@@ -403,7 +409,7 @@ async function seedComics(data: unknown[]) {
               set: { name: validated.type.name },
             })
             .returning({ id: comicType.id });
-          typeId = typeRecord.id;
+          typeId = typeRecord!.id;
         }
 
         // Upsert Author - check if exists first
@@ -423,7 +429,7 @@ async function seedComics(data: unknown[]) {
               .insert(author)
               .values({ name: validated.author.name })
               .returning({ id: author.id });
-            authorId = authorRecord.id;
+            authorId = authorRecord!.id;
           }
         }
 
@@ -444,7 +450,7 @@ async function seedComics(data: unknown[]) {
               .insert(artist)
               .values({ name: validated.artist.name })
               .returning({ id: artist.id });
-            artistId = artistRecord.id;
+            artistId = artistRecord!.id;
           }
         }
 
@@ -498,8 +504,8 @@ async function seedComics(data: unknown[]) {
             await db
               .insert(comicToGenre)
               .values({
-                comicId: comicRecord.id,
-                genreId: genreRecord.id,
+                comicId: comicRecord!.id,
+                genreId: genreRecord!.id,
               })
               .onConflictDoNothing();
           }
@@ -511,14 +517,14 @@ async function seedComics(data: unknown[]) {
           const imageLimit = pLimit(CONFIG.IMAGE_CONCURRENCY);
           const imagePromises = imageUrls.slice(0, 20).map((imageUrl, index) =>
             imageLimit(async () => {
-              const ext = getFileExtension(imageUrl);
-              const imagePath = `comics/covers/${validated.slug}/image-${index + 1}${ext}`;
+              const extension = getFileExtension(imageUrl);
+              const imagePath = `comics/covers/${validated.slug}/image-${index + 1}${extension}`;
               const localPath = await processImage(imageUrl, imagePath, CONFIG.PLACEHOLDER_COMIC);
 
               await db
                 .insert(comicImage)
                 .values({
-                  comicId: comicRecord.id,
+                  comicId: comicRecord!.id,
                   imageUrl: localPath,
                   imageOrder: index,
                 })
@@ -561,7 +567,7 @@ async function seedChapters(data: unknown[]) {
           validated.comic?.slug ||
           validated.comicSlug ||
           validated.comicslug ||
-          validated.comic?.title?.toLowerCase().replace(/\s+/g, "-");
+          validated.comic?.title?.toLowerCase().replaceAll(/\s+/g, "-");
 
         if (!comicSlug) {
           return;
@@ -579,20 +585,20 @@ async function seedChapters(data: unknown[]) {
         }
 
         // Determine chapter number
-        let chapterNum = validated.chapterNumber || 0;
-        if (!chapterNum) {
+        let chapterNumber = validated.chapterNumber || 0;
+        if (!chapterNumber) {
           const name = validated.name || validated.chaptername || validated.title || "";
-          const match = name.match(/Chapter\s+(\d+\.?\d*)/i);
-          if (match) chapterNum = parseFloat(match[1]);
+          const match = name.match(/chapter\s+(\d+\.?\d*)/i);
+          if (match) chapterNumber = Number.parseFloat(match[1]!);
         }
 
         // Skip if chapter number is invalid
-        if (!chapterNum || chapterNum === 0) {
+        if (!chapterNumber || chapterNumber === 0) {
           return;
         }
 
         // Create chapter slug
-        const chapterSlug = validated.slug || validated.chapterslug || `chapter-${chapterNum}`;
+        const chapterSlug = validated.slug || validated.chapterslug || `chapter-${chapterNumber}`;
 
         // Upsert chapter with better error handling and retry
         try {
@@ -606,8 +612,8 @@ async function seedChapters(data: unknown[]) {
                   validated.title ||
                   validated.chaptertitle ||
                   validated.name ||
-                  `Chapter ${chapterNum}`,
-                chapterNumber: chapterNum,
+                  `Chapter ${chapterNumber}`,
+                chapterNumber: chapterNumber,
                 releaseDate: validated.releaseDate || new Date(),
                 views: validated.views || 0,
                 url: validated.url || null,
@@ -620,7 +626,7 @@ async function seedChapters(data: unknown[]) {
                     validated.title ||
                     validated.chaptertitle ||
                     validated.name ||
-                    `Chapter ${chapterNum}`,
+                    `Chapter ${chapterNumber}`,
                   url: validated.url || null,
                   content: validated.content || null,
                   updatedAt: new Date(),
@@ -635,14 +641,14 @@ async function seedChapters(data: unknown[]) {
             const imageLimit = pLimit(CONFIG.IMAGE_CONCURRENCY);
             const imagePromises = imageUrls.map((imageUrl, index) =>
               imageLimit(async () => {
-                const ext = getFileExtension(imageUrl);
-                const imagePath = `comics/chapters/${comicSlug}/${chapterSlug}/page-${index + 1}${ext}`;
+                const extension = getFileExtension(imageUrl);
+                const imagePath = `comics/chapters/${comicSlug}/${chapterSlug}/page-${index + 1}${extension}`;
                 const localPath = await processImage(imageUrl, imagePath, CONFIG.PLACEHOLDER_COMIC);
 
                 await db
                   .insert(chapterImage)
                   .values({
-                    chapterId: chapterRecord.id,
+                    chapterId: chapterRecord!.id,
                     imageUrl: localPath,
                     pageNumber: index,
                   })
@@ -663,7 +669,7 @@ async function seedChapters(data: unknown[]) {
           const errorMessage = dbError instanceof Error ? dbError.message : String(dbError);
           const cause = (dbError as { cause?: unknown }).cause;
 
-          console.error(`  ❌ Chapter insert error for #${chapterNum} (comic:${comicRecord.id}):`, {
+          console.error(`  ❌ Chapter insert error for #${chapterNumber} (comic:${comicRecord.id}):`, {
             message: errorMessage,
             cause: cause,
             slug: chapterSlug,

@@ -153,7 +153,7 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
 
   const sortedQuery = applySorting(query, sortBy, sortOrder, !!searchText);
   const offset = (page - 1) * limit;
-  // eslint-disable-next-line typescript-eslint/no-explicit-any
+   
   const results = await (sortedQuery as any).limit(limit).offset(offset);
 
   const total = await getSearchTotalCount(conditions.all);
@@ -375,7 +375,7 @@ function applySorting(
   hasSearchQuery: boolean
 ): unknown {
   const isDesc = sortOrder === "desc";
-  // eslint-disable-next-line typescript-eslint/no-explicit-any
+   
   const q = query as any;
 
   switch (sortBy) {
@@ -411,7 +411,7 @@ function applySorting(
 // ═══════════════════════════════════════════════════
 
 function enrichSearchResult(result: unknown, genresMap: Record<number, string[]>): SearchResult {
-  // eslint-disable-next-line typescript-eslint/no-explicit-any
+   
   const r = result as any;
   return {
     id: Number(r.id) || 0,
@@ -471,7 +471,7 @@ async function getSearchTotalCount(conditions: unknown[]): Promise<number> {
     .$dynamic();
 
   if (conditions.length > 0) {
-    // eslint-disable-next-line typescript-eslint/no-explicit-any
+     
     countQuery = countQuery.where(and(...(conditions as any)));
   }
 

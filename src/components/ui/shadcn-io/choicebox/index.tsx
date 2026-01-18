@@ -26,8 +26,8 @@ export const ChoiceboxItem = ({
     asChild
     className={cn(
       "text-left",
-      '[&[data-state="checked"]]:border-primary',
-      '[&[data-state="checked"]]:bg-primary-foreground'
+      'data-[state="checked"]:border-primary',
+      'data-[state="checked"]:bg-primary-foreground'
     )}
     {...(props as Record<string, unknown>)}
   >
@@ -91,7 +91,8 @@ export const ChoiceboxItemContent = ({ className, ...props }: ChoiceboxItemConte
         focus-visible:ring-ring/50
         disabled:cursor-not-allowed disabled:opacity-50
         aria-invalid:border-destructive aria-invalid:ring-destructive/20
-        dark:bg-input/30 dark:aria-invalid:ring-destructive/40
+        dark:bg-input/30
+        dark:aria-invalid:ring-destructive/40
       `,
       className
     )}

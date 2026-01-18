@@ -43,7 +43,7 @@ export function AppNavbar() {
   return (
     <nav
       className={`
-        sticky top-0 z-50 border-b bg-background/95 backdrop-blur
+        sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm
         supports-backdrop-filter:bg-background/60
       `}
     >
@@ -54,7 +54,7 @@ export function AppNavbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-          <BookOpen className="h-6 w-6" />
+          <BookOpen className="size-6" />
           <span
             className={`
               hidden
@@ -105,7 +105,7 @@ export function AppNavbar() {
           <div className="relative w-full">
             <Search
               className={`
-                absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2
+                absolute top-1/2 left-3 size-4 -translate-y-1/2
                 text-muted-foreground
               `}
             />
@@ -122,7 +122,7 @@ export function AppNavbar() {
         {/* User Menu */}
         <div className="flex items-center gap-2">
           {status === "loading" ? (
-            <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
+            <div className="size-8 animate-pulse rounded-full bg-muted" />
           ) : status === "authenticated" ? (
             <>
               <Link
@@ -133,12 +133,12 @@ export function AppNavbar() {
                 `}
               >
                 <Button variant="ghost" size="icon">
-                  <Bookmark className="h-5 w-5" />
+                  <Bookmark className="size-5" />
                 </Button>
               </Link>
               <Link href="/profile">
                 <Button variant="ghost" size="icon">
-                  <User className="h-5 w-5" />
+                  <User className="size-5" />
                 </Button>
               </Link>
               <Button
@@ -150,7 +150,7 @@ export function AppNavbar() {
                   md:inline-flex
                 `}
               >
-                <LogOut className="h-5 w-5" />
+                <LogOut className="size-5" />
               </Button>
             </>
           ) : (
@@ -178,7 +178,7 @@ export function AppNavbar() {
             className="md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="size-5" />
           </Button>
         </div>
       </div>
@@ -191,12 +191,12 @@ export function AppNavbar() {
             md:hidden
           `}
         >
-          <div className="container mx-auto space-y-4 px-4 py-4">
+          <div className="container mx-auto space-y-4 p-4">
             {/* Mobile Search */}
             <form onSubmit={handleSearch} className="relative">
               <Search
                 className={`
-                  absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2
+                  absolute top-1/2 left-3 size-4 -translate-y-1/2
                   text-muted-foreground
                 `}
               />

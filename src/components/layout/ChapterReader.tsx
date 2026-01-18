@@ -94,7 +94,8 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
       {/* Header */}
       <div
         className={`
-          sticky top-0 z-50 border-b border-white/10 bg-black/90 backdrop-blur
+          sticky top-0 z-50 border-b border-white/10 bg-black/90
+          backdrop-blur-sm
         `}
       >
         <div
@@ -105,7 +106,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
           <div className="flex items-center gap-4">
             <Link href={`/comics/${comic.id}`}>
               <Button variant="ghost" size="icon">
-                <Home className="h-5 w-5" />
+                <Home className="size-5" />
               </Button>
             </Link>
             <div
@@ -132,7 +133,9 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
                 md:inline-flex
               `}
             >
-              {isFullscreen ? <Minimize className="h-5 w-5" /> : <Maximize className={`h-5 w-5`} />}
+              {isFullscreen ? <Minimize className="size-5" /> : <Maximize className={`
+                size-5
+              `} />}
             </Button>
           </div>
         </div>
@@ -164,13 +167,13 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
               disabled={currentPage === 1 && !prevChapter}
               size="lg"
             >
-              <ChevronLeft className="mr-2 h-5 w-5" />
+              <ChevronLeft className="mr-2 size-5" />
               {currentPage === 1 && prevChapter ? "Previous Chapter" : "Previous"}
             </Button>
 
             <Link href={`/comics/${comic.id}`}>
               <Button variant="outline" size="lg">
-                <List className="mr-2 h-5 w-5" />
+                <List className="mr-2 size-5" />
                 Chapters
               </Button>
             </Link>
@@ -181,7 +184,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
               size="lg"
             >
               {currentPage === totalPages && nextChapter ? "Next Chapter" : "Next"}
-              <ChevronRight className="ml-2 h-5 w-5" />
+              <ChevronRight className="ml-2 size-5" />
             </Button>
           </div>
 
@@ -200,7 +203,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 className={`
-                  relative aspect-2/3 overflow-hidden rounded border-2
+                  relative aspect-2/3 overflow-hidden rounded-sm border-2
                   transition-all
                   ${
                     currentPage === index + 1
@@ -226,7 +229,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
       <div
         className={`
           fixed right-4 bottom-4 hidden rounded-lg border border-white/10
-          bg-black/90 p-4 text-xs backdrop-blur
+          bg-black/90 p-4 text-xs backdrop-blur-sm
           md:block
         `}
       >

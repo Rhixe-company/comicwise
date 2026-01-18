@@ -51,7 +51,7 @@ class MasterOptimizer {
   constructor() {
     this.dryRun = process.argv.includes("--dry-run");
     const phaseArg = process.argv.find((arg) => arg.startsWith("--phase="));
-    this.phase = phaseArg ? Number.parseInt(phaseArg.split("=")[1]) : null;
+    this.phase = phaseArg ? Number.parseInt(phaseArg.split("=")[1]!) : null;
   }
 
   private log(message: string, color: string = "white") {

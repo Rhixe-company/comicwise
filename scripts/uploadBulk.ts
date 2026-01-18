@@ -259,7 +259,7 @@ class BulkUploader {
     // Upload files
     for (let i = 0; i < files.length; i++) {
       console.log(`\n[${i + 1}/${files.length}]`);
-      await this.uploadFile(files[i], fullPath);
+      await this.uploadFile(files[i]!, fullPath);
 
       // Small delay between files
       if (i < files.length - 1) {
@@ -441,7 +441,7 @@ async function main() {
 }
 
 // Run if executed directly
-if (import.meta.url === `file://${process.argv[1].replaceAll("\\", "/")}`) {
+if (import.meta.url === `file://${process.argv[1]!.replaceAll("\\", "/")}`) {
   main();
 }
 

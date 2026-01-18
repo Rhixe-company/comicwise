@@ -133,7 +133,7 @@ export function ComicsListContent({ initialComics, hasNextPage, nextCursor }: Co
         </div>
         <Button asChild>
           <Link href="/admin/comics/new">
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
             New Comic
           </Link>
         </Button>
@@ -153,7 +153,7 @@ export function ComicsListContent({ initialComics, hasNextPage, nextCursor }: Co
               className="flex-1"
             />
             <Button type="submit">
-              <Search className="mr-2 h-4 w-4" />
+              <Search className="mr-2 size-4" />
               Search
             </Button>
           </form>

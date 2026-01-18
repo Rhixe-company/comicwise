@@ -119,7 +119,7 @@ function generatePatternsFromTsConfig(tsPaths: TsConfigPaths): Pattern[] {
   for (const [alias, targets] of sortedPaths) {
     if (!targets || targets.length === 0) continue;
 
-    const target = targets[0];
+    const target = targets[0]!;
     const aliasName = alias.replace(/\/\*$/, "");
     const targetPath = target.replace(/\/\*$/, "").replace(/^\.\//, "");
 
@@ -195,7 +195,7 @@ function validatePathAliases(tsPaths: TsConfigPaths): ValidationResult[] {
   const results: ValidationResult[] = [];
 
   for (const [alias, targets] of Object.entries(tsPaths)) {
-    const target = targets[0];
+    const target = targets[0]!;
     const aliasName = alias.replace(/\/\*$/, "");
     const targetPath = target.replace(/\/\*$/, "").replace(/^\.\//, "");
     const fullPath = path.join(process.cwd(), targetPath);
@@ -328,11 +328,7 @@ function processFile(filePath: string, stats: Stats, patterns: Pattern[]): boole
     for (const pattern of INVALID_PATTERNS) {
       const matches = content.match(pattern.from);
       if (matches) {
-        if (typeof pattern.to === "string") {
-          content = content.replace(pattern.from, pattern.to);
-        } else {
-          content = content.replace(pattern.from, pattern.to);
-        }
+        content = typeof pattern.to === "string" ? content.replace(pattern.from, pattern.to) : content.replace(pattern.from, pattern.to);
         const count = matches.length;
         stats.totalReplacements += count;
         if (pattern.type === "import") {
@@ -360,11 +356,7 @@ function processFile(filePath: string, stats: Stats, patterns: Pattern[]): boole
     for (const pattern of sortedPatterns) {
       const matches = content.match(pattern.from);
       if (matches) {
-        if (typeof pattern.to === "string") {
-          content = content.replace(pattern.from, pattern.to);
-        } else {
-          content = content.replace(pattern.from, pattern.to);
-        }
+        content = typeof pattern.to === "string" ? content.replace(pattern.from, pattern.to) : content.replace(pattern.from, pattern.to);
         const count = matches.length;
         stats.totalReplacements += count;
 
@@ -409,7 +401,7 @@ function processFile(filePath: string, stats: Stats, patterns: Pattern[]): boole
 }
 
 function createBackup() {
-  const timestamp = new Date().toISOString().replace(/[.:]/g, "-");
+  const timestamp = new Date().toISOString().replaceAll(/[.:]/g, "-");
   const backupDir = `.import-backup-${timestamp}`;
 
   try {
@@ -531,7 +523,7 @@ function main() {
 
   if (stats.replacementsByCategory.size > 0) {
     log("Replacements by category:", "info");
-    const sorted = Array.from(stats.replacementsByCategory.entries()).sort((a, b) => b[1] - a[1]);
+    const sorted = [...stats.replacementsByCategory.entries()].sort((a, b) => b[1] - a[1]);
     for (const [category, count] of sorted) {
       log(`  ${category.padEnd(35)} ${count}`, "info");
     }

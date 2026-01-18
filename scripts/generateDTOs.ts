@@ -86,7 +86,7 @@ function findServerActionFiles(): string[] {
           }
         }
       }
-    } catch (error) {
+    } catch {
       // Skip directories we can't read
     }
   }
@@ -107,8 +107,8 @@ function extractServerActions(files: string[]): ServerAction[] {
 
   const actions: ServerAction[] = [];
   const functionRegex =
-    /(?:export\s+)?(?:async\s+)?function\s+(\w+)\s*\(\s*([^)]*)\s*\)\s*:\s*(?:Promise<)?([^)]+)(?:>)?/g;
-  const jsDocRegex = /\/\*\*[\s\S]*?\*\//g;
+    /(?:export\s+)?(?:async\s+)?function\s+(\w+)\s*\(\s*([^)]*)\s*\)\s*:\s*(?:Promise<)?([^)]+)>?/g;
+  const jsDocRegex = /\/\*\*[\S\s]*?\*\//g;
 
   for (const filePath of files) {
     try {
@@ -134,21 +134,21 @@ function extractServerActions(files: string[]): ServerAction[] {
       // Extract function signatures
       let match;
       while ((match = functionRegex.exec(content)) !== null) {
-        const functionName = match[1];
-        const parameters = match[2].split(",").map((p) => p.trim());
-        const returnType = match[3].trim();
+        const functionName = match[1]!;
+        const parameters = match[2]!.split(",").map((p) => p.trim());
+        const returnType = match[3]!.trim();
 
         actions.push({
           filePath,
           functionName,
-          parameters,
+          parameters: parameters || [],
           returnType,
-          jsDoc: jsDocMap.get(functionName),
+          jsDoc: jsDocMap.get(functionName) || "",
         });
 
         logger.log(`  ✓ ${functionName}: (${parameters.length} params) => ${returnType}`);
       }
-    } catch (error) {
+    } catch {
       logger.log(`Failed to parse ${filePath}`, "warn");
     }
   }
@@ -252,7 +252,7 @@ export const serverActionDTOs = {
 ${actions
   .map(
     (a) =>
-      `    { name: "${a.functionName}", file: "${path.relative(process.cwd(), a.filePath).replace(/\\/g, "/")}" }`
+      `    { name: "${a.functionName}", file: "${path.relative(process.cwd(), a.filePath).replaceAll('\\', "/")}" }`
   )
   .join(",\n")}
   ],
@@ -269,7 +269,7 @@ ${actions
 
 function toPascalCase(str: string): string {
   return str
-    .split(/[-_]/)
+    .split(/[_-]/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join("");
 }

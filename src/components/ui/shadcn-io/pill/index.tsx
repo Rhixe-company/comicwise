@@ -27,7 +27,7 @@ export type PillAvatarProps = ComponentProps<typeof AvatarImage> & {
 };
 
 export const PillAvatar = ({ fallback, className, ...props }: PillAvatarProps) => (
-  <Avatar className={cn("-ml-1 h-4 w-4", className)}>
+  <Avatar className={cn("-ml-1 size-4", className)}>
     <AvatarImage {...(props as Record<string, unknown>)} />
     <AvatarFallback>{fallback}</AvatarFallback>
   </Avatar>
@@ -74,10 +74,7 @@ export const PillIndicator = ({ variant = "success", pulse = false }: PillIndica
     {pulse && (
       <span
         className={cn(
-          `
-            absolute inline-flex h-full w-full animate-ping rounded-full
-            opacity-75
-          `,
+          `absolute inline-flex size-full animate-ping rounded-full opacity-75`,
           variant === "success" && "bg-emerald-400",
           variant === "error" && "bg-rose-400",
           variant === "warning" && "bg-amber-400",
@@ -137,7 +134,7 @@ export const PillAvatarGroup = ({ children, className, ...props }: PillAvatarGro
     className={cn(
       "flex items-center -space-x-1",
       `
-        [&>*:not(:first-of-type)]:[mask-image:radial-gradient(circle_9px_at_-4px_50%,transparent_99%,white_100%)]
+        [&>*:not(:first-of-type)]:mask-[radial-gradient(circle_9px_at_-4px_50%,transparent_99%,white_100%)]
       `,
       className
     )}

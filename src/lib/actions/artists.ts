@@ -46,7 +46,7 @@ export async function createArtist(formData: FormData): Promise<ActionResult<{ i
   }
 }
 
-export async function updateArtist(artistId: number, formData: FormData): Promise<ActionResponse> {
+export async function updateArtist(artistId: number, formData: FormData): Promise<ActionResult<unknown>> {
   try {
     const data = updateArtistSchema.parse({
       name: formData.get("name") || undefined,
@@ -68,7 +68,7 @@ export async function updateArtist(artistId: number, formData: FormData): Promis
   }
 }
 
-export async function deleteArtist(artistId: number): Promise<ActionResponse> {
+export async function deleteArtist(artistId: number): Promise<ActionResult<unknown>> {
   try {
     await mutations.deleteArtist(artistId);
     revalidatePath("/admin/artists");

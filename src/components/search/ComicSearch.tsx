@@ -105,7 +105,7 @@ export function ComicSearchAutocomplete() {
       <div className="relative">
         <SearchIcon
           className={`
-            absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2
+            absolute top-1/2 left-3 size-4 -translate-y-1/2
             text-muted-foreground
           `}
         />
@@ -146,7 +146,7 @@ export function ComicSearchAutocomplete() {
             <div className="flex items-center justify-center p-4">
               <div
                 className={`
-                  h-4 w-4 animate-spin rounded-full border-2 border-primary
+                  size-4 animate-spin rounded-full border-2 border-primary
                   border-r-transparent
                 `}
               />
@@ -217,9 +217,7 @@ export function ComicSearchAutocomplete() {
                       <span className="text-sm">{suggestion.query}</span>
                       {suggestion.trending && (
                         <TrendingUp
-                          className={`
-                        h-3 w-3 text-orange-500
-                      `}
+                          className={`size-3 text-orange-500`}
                         />
                       )}
                       {suggestion.count && (
@@ -253,7 +251,7 @@ export function ComicSearchAutocomplete() {
                         "flex items-center gap-2 text-sm"
                       )}
                     >
-                      <Clock className="h-3 w-3 text-muted-foreground" />
+                      <Clock className="size-3 text-muted-foreground" />
                       {search}
                     </button>
                   ))}
@@ -306,7 +304,7 @@ export function ComicSearchBox() {
       <div className="relative">
         <SearchIcon
           className={`
-            pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2
+            pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2
             text-muted-foreground
           `}
         />

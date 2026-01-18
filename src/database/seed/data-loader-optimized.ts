@@ -13,12 +13,13 @@ import {
   chapterSeedSchema,
   comicSeedSchema,
   userSeedSchema,
-  validateArray,
-  type ChapterSeedData,
-  type ComicSeedData,
-  type UserSeedData,
-  type ValidationResult,
+  validateArray
+  
+  
+  
+  
 } from "@/database/seed/schemas-optimized";
+import type {ChapterSeedData, ComicSeedData, UserSeedData, ValidationResult} from "@/database/seed/schemas-optimized";
 import fs from "fs/promises";
 import { glob } from "glob";
 import path from "path";
@@ -51,6 +52,7 @@ const DATA_SOURCES = {
 
 /**
  * Load JSON file with error handling
+ * @param filePath
  */
 async function loadJsonFile<T = unknown>(filePath: string): Promise<T | null> {
   try {
@@ -66,6 +68,7 @@ async function loadJsonFile<T = unknown>(filePath: string): Promise<T | null> {
 
 /**
  * Find files matching patterns from project root
+ * @param patterns
  */
 async function findFiles(patterns: string[]): Promise<string[]> {
   const files: string[] = [];
@@ -89,10 +92,11 @@ async function findFiles(patterns: string[]): Promise<string[]> {
 
 /**
  * Consolidate multiple data arrays into one
+ * @param dataSources
  */
 function consolidateData(dataSources: unknown[][]): unknown[] {
-  return dataSources.reduce((acc, arr) => {
-    if (Array.isArray(arr)) acc.push(...arr);
+  return dataSources.reduce((acc, array) => {
+    if (Array.isArray(array)) acc.push(...array);
     return acc;
   }, [] as unknown[]);
 }
@@ -110,7 +114,7 @@ export async function loadUsers(): Promise<ValidationResult<UserSeedData>> {
   try {
     logger.info("Loading user data from JSON sources");
     const { patterns, schema } = DATA_SOURCES.users;
-    const files = await findFiles(patterns);
+    const files = await findFiles([...patterns]);
 
     if (files.length === 0) {
       logger.warn("No user files found");
@@ -136,15 +140,15 @@ export async function loadUsers(): Promise<ValidationResult<UserSeedData>> {
     if (result.invalid > 0) {
       logger.warn(`User validation errors: ${result.invalid} invalid records`);
       if (result.errors.length > 0) {
-        logger.debug(`First error: ${result.errors[0].error}`);
+        logger.debug(`First error: ${result.errors[0]!.error}`);
       }
     }
 
     logger.success(`Users loaded: ${result.valid} valid, ${result.invalid} invalid`, {
       component: "DataLoader",
       operation: "loadUsers",
-      duration: timer(),
     });
+    timer();
 
     return result;
   } catch (error) {
@@ -162,7 +166,7 @@ export async function loadComics(): Promise<ValidationResult<ComicSeedData>> {
   try {
     logger.info("Loading comic data from JSON sources");
     const { patterns, schema } = DATA_SOURCES.comics;
-    const files = await findFiles(patterns);
+    const files = await findFiles([...patterns]);
 
     if (files.length === 0) {
       logger.warn("No comic files found");
@@ -192,8 +196,8 @@ export async function loadComics(): Promise<ValidationResult<ComicSeedData>> {
     logger.success(`Comics loaded: ${result.valid} valid, ${result.invalid} invalid`, {
       component: "DataLoader",
       operation: "loadComics",
-      duration: timer(),
     });
+    timer();
 
     return result;
   } catch (error) {
@@ -211,7 +215,7 @@ export async function loadChapters(): Promise<ValidationResult<ChapterSeedData>>
   try {
     logger.info("Loading chapter data from JSON sources");
     const { patterns, schema } = DATA_SOURCES.chapters;
-    const files = await findFiles(patterns);
+    const files = await findFiles([...patterns]);
 
     if (files.length === 0) {
       logger.warn("No chapter files found");
@@ -241,8 +245,8 @@ export async function loadChapters(): Promise<ValidationResult<ChapterSeedData>>
     logger.success(`Chapters loaded: ${result.valid} valid, ${result.invalid} invalid`, {
       component: "DataLoader",
       operation: "loadChapters",
-      duration: timer(),
     });
+    timer();
 
     return result;
   } catch (error) {

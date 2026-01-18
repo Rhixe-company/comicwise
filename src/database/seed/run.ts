@@ -100,13 +100,13 @@ async function main() {
     logger.success("✓ Image handler ready");
 
     // Parse command line arguments
-    const args = process.argv.slice(2);
-    const dryRun = args.includes("--dry-run");
-    const verbose = args.includes("--verbose");
-    const usersOnly = args.includes("--users");
-    const comicsOnly = args.includes("--comics");
-    const chaptersOnly = args.includes("--chapters");
-    const clearFlag = args.includes("--clear");
+    const args = new Set(process.argv.slice(2));
+    const dryRun = args.has("--dry-run");
+    const verbose = args.has("--verbose");
+    const usersOnly = args.has("--users");
+    const comicsOnly = args.has("--comics");
+    const chaptersOnly = args.has("--chapters");
+    const clearFlag = args.has("--clear");
 
     if (dryRun) {
       logger.warn("⚠️ DRY RUN MODE - No data will be persisted");

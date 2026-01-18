@@ -13,7 +13,7 @@ export default function AuthLayout({
   return (
     <div
       className={`
-        flex min-h-screen items-center justify-center bg-gradient-to-br
+        flex min-h-screen items-center justify-center bg-linear-to-br
         from-background to-muted p-4
       `}
     >

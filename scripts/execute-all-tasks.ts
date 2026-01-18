@@ -13,11 +13,11 @@ import { execSync } from "child_process";
 const log = {
   header: (msg: string) => console.log(`\n${"═".repeat(79)}\n${msg}\n${"═".repeat(79)}`),
   section: (msg: string) => console.log(`\n${"━".repeat(79)}\n${msg}\n${"━".repeat(79)}`),
-  info: (msg: string) => console.log(`\x1b[36mℹ️  ${msg}\x1b[0m`),
-  success: (msg: string) => console.log(`\x1b[32m✅ ${msg}\x1b[0m`),
-  error: (msg: string) => console.log(`\x1b[31m❌ ${msg}\x1b[0m`),
-  warn: (msg: string) => console.log(`\x1b[33m⚠️  ${msg}\x1b[0m`),
-  task: (num: number, msg: string) => console.log(`\x1b[35m📋 Task ${num}: ${msg}\x1b[0m`),
+  info: (msg: string) => console.log(`\x1B[36mℹ️  ${msg}\x1B[0m`),
+  success: (msg: string) => console.log(`\x1B[32m✅ ${msg}\x1B[0m`),
+  error: (msg: string) => console.log(`\x1B[31m❌ ${msg}\x1B[0m`),
+  warn: (msg: string) => console.log(`\x1B[33m⚠️  ${msg}\x1B[0m`),
+  task: (num: number, msg: string) => console.log(`\x1B[35m📋 Task ${num}: ${msg}\x1B[0m`),
 };
 
 function exec(cmd: string, silent = false): string {
@@ -27,7 +27,7 @@ function exec(cmd: string, silent = false): string {
       encoding: "utf-8",
       cwd: process.cwd(),
     });
-  } catch (error: any) {
+  } catch {
     if (!silent) {
       log.warn(`Command failed: ${cmd}`);
     }

@@ -123,7 +123,7 @@ export class ImageService {
       // Generate the expected local path with original extension
       const hash = this.generateHash(url);
       const extension = this.getExtension(url);
-      const expectedPath = `/${subDirectory}/${hash}${extension}`.replace(/\/+/g, "/");
+      const expectedPath = `/${subDirectory}/${hash}${extension}`.replaceAll(/\/+/g, "/");
 
       // Check if file already exists locally (for local provider)
       if (this.fileExistsLocally(expectedPath)) {

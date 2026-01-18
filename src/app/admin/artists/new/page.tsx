@@ -166,8 +166,7 @@ export default function NewArtistPage() {
                         {profileImage && (
                           <div
                             className={`
-                              relative h-32 w-32 overflow-hidden rounded-lg
-                              border
+                              relative size-32 overflow-hidden rounded-lg border
                             `}
                           >
                             <Image

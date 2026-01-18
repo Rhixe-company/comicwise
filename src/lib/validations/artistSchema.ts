@@ -12,5 +12,5 @@ export const insertArtistSchema = createArtistSchema;
 export const ArtistIdSchema = createArtistSchema;
 export { updateArtistSchema };
 
-export type InsertArtist = { name: string; bio?: string; image?: string };
+export interface InsertArtist { name: string; bio?: string; image?: string }
 export type UpdateArtist = Partial<InsertArtist>;

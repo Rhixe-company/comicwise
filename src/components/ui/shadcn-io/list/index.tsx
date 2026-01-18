@@ -46,7 +46,7 @@ export const ListHeader = (props: ListHeaderProps) =>
     props.children
   ) : (
     <div className={cn("flex shrink-0 items-center gap-2 bg-foreground/5 p-3", props.className)}>
-      <div className="h-2 w-2 rounded-full" style={{ backgroundColor: props.color }} />
+      <div className="size-2 rounded-full" style={{ backgroundColor: props.color }} />
       <p className="m-0 text-sm font-semibold">{props.name}</p>
     </div>
   );

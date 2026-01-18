@@ -44,7 +44,7 @@ class ImageCache {
       url,
       localPath,
       timestamp: Date.now(),
-    });
+    } as any);
   }
 
   get(url: string): string | undefined {
@@ -104,6 +104,8 @@ export class OptimizedImageHandler {
 
   /**
    * Process single image with smart caching and deduplication
+   * @param imageUrl
+   * @param type
    */
   async processImage(imageUrl: string, type: "comic" | "user" = "comic"): Promise<string> {
     if (!imageUrl || imageUrl.length === 0) {
@@ -151,6 +153,8 @@ export class OptimizedImageHandler {
 
   /**
    * Process multiple images concurrently with rate limiting
+   * @param imageUrls
+   * @param type
    */
   async processImages(imageUrls: string[], type: "comic" | "user" = "comic"): Promise<string[]> {
     if (!imageUrls || imageUrls.length === 0) {

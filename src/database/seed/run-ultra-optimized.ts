@@ -43,12 +43,12 @@ const CONFIG = {
 
 const urlOrString = z.string().url().or(z.string().min(1));
 const dateString = z.union([z.string().datetime(), z.string(), z.date()]).optional();
-const numericString = z.union([z.string(), z.number()]).transform((val) => {
-  if (typeof val === "string") {
-    const num = parseFloat(val);
-    return isNaN(num) ? 0 : num;
+const numericString = z.union([z.string(), z.number()]).transform((value) => {
+  if (typeof value === "string") {
+    const number_ = Number.parseFloat(value);
+    return isNaN(number_) ? 0 : number_;
   }
-  return val;
+  return value;
 });
 
 const imageObject = z
@@ -140,12 +140,12 @@ const ChapterSchema = z
   .transform((data) => {
     let chapterNumber = data.chapterNumber || 0;
     if (!chapterNumber && data.name) {
-      const match = data.name.match(/Chapter\s+(\d+\.?\d*)/i);
-      if (match) chapterNumber = parseFloat(match[1]);
+      const match = data.name.match(/chapter\s+(\d+\.?\d*)/i);
+      if (match) chapterNumber = Number.parseFloat(match[1]!);
     }
     if (!chapterNumber && data.title) {
-      const match = data.title.match(/Chapter\s+(\d+\.?\d*)/i);
-      if (match) chapterNumber = parseFloat(match[1]);
+      const match = data.title.match(/chapter\s+(\d+\.?\d*)/i);
+      if (match) chapterNumber = Number.parseFloat(match[1]!);
     }
 
     const title = data.title || data.name || `Chapter ${chapterNumber}`;
@@ -154,8 +154,8 @@ const ChapterSchema = z
     const comicSlug = data.comic?.slug || "unknown";
     const chapterPart = title
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
+      .replaceAll(/[^\da-z]+/g, "-")
+      .replaceAll(/^-|-$/g, "");
     const slug = `${comicSlug}-${chapterPart}`;
 
     return {
@@ -260,7 +260,7 @@ async function loadJsonFile<T>(filePath: string, schema: z.ZodSchema<T>): Promis
         validated.push(schema.parse(item));
       } catch (error) {
         if (error instanceof z.ZodError) {
-          logger.debug(`Validation error in ${filePath}: ${error.errors[0]?.message}`);
+          logger.debug(`Validation error in ${filePath}: ${error.issues[0]?.message}`);
         }
       }
     }
@@ -268,8 +268,8 @@ async function loadJsonFile<T>(filePath: string, schema: z.ZodSchema<T>): Promis
     logger.success(`Loaded ${validated.length} items from ${filePath}`);
     return validated;
   } catch (error) {
-    const errorMsg = error instanceof Error ? error.message : String(error);
-    logger.error(`Failed to load ${filePath}`, new Error(errorMsg));
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    logger.error(`Failed to load ${filePath}`, new Error(errorMessage));
     return [];
   }
 }
@@ -290,8 +290,8 @@ async function loadAllData() {
   const allComics = [...comics1, ...comics2, ...comics3];
   const allChapters = [...chapters1, ...chapters2, ...chapters3];
 
-  const uniqueComics = Array.from(new Map(allComics.map((c) => [c.slug, c])).values());
-  const uniqueChapters = Array.from(new Map(allChapters.map((c) => [c.slug, c])).values());
+  const uniqueComics = [...new Map(allComics.map((c) => [c.slug, c])).values()];
+  const uniqueChapters = [...new Map(allChapters.map((c) => [c.slug, c])).values()];
 
   logger.success(
     `📊 Data loaded: ${users.length} users, ${uniqueComics.length} comics, ${uniqueChapters.length} chapters`
@@ -326,7 +326,7 @@ async function ensureImageExists(
     }
 
     return fallback;
-  } catch (error) {
+  } catch {
     logger.debug(`Image download failed: ${url}`);
     return fallback;
   }
@@ -393,7 +393,7 @@ async function seedComics(
             comicData.coverImage ||
             (comicData.images && comicData.images.length > 0 ? comicData.images[0]?.url : null);
 
-          let coverImage = CONFIG.PLACEHOLDER_COMIC;
+          let coverImage: string = CONFIG.PLACEHOLDER_COMIC;
           if (!skipImages && coverImageUrl) {
             coverImage = await ensureImageExists(
               coverImageUrl,
@@ -403,7 +403,7 @@ async function seedComics(
           }
 
           const rating =
-            typeof comicData.rating === "string" ? parseFloat(comicData.rating) : comicData.rating;
+            typeof comicData.rating === "string" ? Number.parseFloat(comicData.rating) : comicData.rating;
 
           try {
             // Check if title conflicts with existing entry (for different slug)
@@ -415,12 +415,12 @@ async function seedComics(
                 .where(eq(comic.title, finalTitle))
                 .limit(1);
 
-              if (existing.length > 0 && existing[0].slug !== comicData.slug) {
+              if (existing.length > 0 && existing[0]!.slug !== comicData.slug) {
                 // Title exists for a different comic, append slug to make it unique
                 finalTitle = `${comicData.title} (${comicData.slug.split("-").pop()})`;
                 logger.debug(`Title conflict resolved: ${comicData.title} -> ${finalTitle}`);
               }
-            } catch (e) {
+            } catch {
               // Ignore check errors, will be caught by insert
             }
 
@@ -451,14 +451,14 @@ async function seedComics(
             if (result && comicData.genres && comicData.genres.length > 0) {
               for (const genreData of comicData.genres) {
                 const genreName = typeof genreData === "string" ? genreData : genreData.name;
-                const genreSlug = genreName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                const genreSlug = genreName.toLowerCase().replaceAll(/[^\da-z]+/g, "-");
 
                 try {
                   const [genreResult] = await db
                     .insert(genre)
-                    .values({ name: genreName, slug: genreSlug })
+                    .values({ name: genreName })
                     .onConflictDoUpdate({
-                      target: genre.slug,
+                      target: genre.name,
                       set: { name: genreName },
                     })
                     .returning();
@@ -472,7 +472,7 @@ async function seedComics(
                       })
                       .onConflictDoNothing();
                   }
-                } catch (error) {
+                } catch {
                   logger.debug(`Failed to link genre ${genreName} to ${comicData.slug}`);
                 }
               }
@@ -481,14 +481,14 @@ async function seedComics(
             stats.comics.updated++;
           } catch (insertError) {
             // Log the actual database error
-            const dbErr = insertError as any;
+            const dbError = insertError as any;
             console.error(`\n════ Comic Insert Error ════`);
             console.error(`Comic: ${comicData.title} (${comicData.slug})`);
-            console.error(`Error:`, dbErr);
-            if (dbErr.cause) console.error(`Cause:`, dbErr.cause);
-            if (dbErr.code) console.error(`Code: ${dbErr.code}`);
-            if (dbErr.detail) console.error(`Detail: ${dbErr.detail}`);
-            if (dbErr.constraint) console.error(`Constraint: ${dbErr.constraint}`);
+            console.error(`Error:`, dbError);
+            if (dbError.cause) console.error(`Cause:`, dbError.cause);
+            if (dbError.code) console.error(`Code: ${dbError.code}`);
+            if (dbError.detail) console.error(`Detail: ${dbError.detail}`);
+            if (dbError.constraint) console.error(`Constraint: ${dbError.constraint}`);
             console.error(`═══════════════════════════\n`);
             throw insertError;
           }
@@ -498,7 +498,7 @@ async function seedComics(
 
           // Extract the actual PostgreSQL error if available
           let errorMessage = err.message || "Unknown error";
-          if (err.cause && err.cause.message) {
+          if (err.cause?.message) {
             errorMessage = err.cause.message;
           }
           if (err.detail) {
@@ -561,7 +561,7 @@ async function seedChapters(
               chapterData.images.map((imageData, imageIndex) =>
                 imageLimit(async () => {
                   try {
-                    const imageUrl = typeof imageData === "string" ? imageData : imageData.url;
+                    const imageUrl = typeof imageData === "string" ? imageData : imageData!.url;
                     const imagePath = await ensureImageExists(
                       imageUrl,
                       `/comics/chapters/${comicSlug}/${chapterData.slug}/${imageIndex}.jpg`,
@@ -578,7 +578,7 @@ async function seedChapters(
                       .onConflictDoNothing();
 
                     stats.images.downloaded++;
-                  } catch (error) {
+                  } catch {
                     stats.images.failed++;
                   }
                 })

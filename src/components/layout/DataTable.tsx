@@ -223,7 +223,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             h-8 w-16 border-transparent bg-transparent text-right shadow-none
             hover:bg-input/30
             focus-visible:border focus-visible:bg-background
-            dark:bg-transparent dark:hover:bg-input/30
+            dark:bg-transparent
+            dark:hover:bg-input/30
             dark:focus-visible:bg-input/30
           `}
           defaultValue={row.original.target}
@@ -254,7 +255,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             h-8 w-16 border-transparent bg-transparent text-right shadow-none
             hover:bg-input/30
             focus-visible:border focus-visible:bg-background
-            dark:bg-transparent dark:hover:bg-input/30
+            dark:bg-transparent
+            dark:hover:bg-input/30
             dark:focus-visible:bg-input/30
           `}
           defaultValue={row.original.limit}
@@ -553,7 +555,9 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                   </SortableContext>
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={columns.length} className={`h-24 text-center`}>
+                    <TableCell colSpan={columns.length} className={`
+                      h-24 text-center
+                    `}>
                       No results.
                     </TableCell>
                   </TableRow>
@@ -621,7 +625,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
               <Button
                 variant="outline"
                 className={`
-                  hidden h-8 w-8 p-0
+                  hidden size-8 p-0
                   lg:flex
                 `}
                 onClick={() => table.setPageIndex(0)}
@@ -789,7 +793,9 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               <Separator />
               <div className="grid gap-2">
                 <div className="flex gap-2 leading-none font-medium">
-                  Trending up by 5.2% this month <IconTrendingUp className={`size-4`} />
+                  Trending up by 5.2% this month <IconTrendingUp className={`
+                    size-4
+                  `} />
                 </div>
                 <div className="text-muted-foreground">
                   Showing total visitors for the last 6 months. This is just some random text to

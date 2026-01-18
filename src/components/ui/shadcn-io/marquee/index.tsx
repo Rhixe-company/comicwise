@@ -39,5 +39,5 @@ export const MarqueeFade = ({ className, side, ...properties }: MarqueeFadeProps
 export type MarqueeItemProps = HTMLAttributes<HTMLDivElement>;
 
 export const MarqueeItem = ({ className, ...properties }: MarqueeItemProps) => (
-  <div className={cn("mx-2 flex-shrink-0 object-contain", className)} {...(properties as any)} />
+  <div className={cn("mx-2 shrink-0 object-contain", className)} {...(properties as any)} />
 );

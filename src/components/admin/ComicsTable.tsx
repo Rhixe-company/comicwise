@@ -149,9 +149,7 @@ export function ComicsTable({
                   <TableRow>
                     <TableCell
                       colSpan={7}
-                      className={`
-                      py-8 text-center text-muted-foreground
-                    `}
+                      className={`py-8 text-center text-muted-foreground`}
                     >
                       No comics found
                     </TableCell>
@@ -170,8 +168,8 @@ export function ComicsTable({
                       <TableCell>
                         <div
                           className={`
-                          relative h-10 w-8 overflow-hidden rounded
-                        `}
+                            relative h-10 w-8 overflow-hidden rounded-sm
+                          `}
                         >
                           <Image
                             src={comic.coverImage}
@@ -200,12 +198,12 @@ export function ComicsTable({
                         <div className="flex justify-end gap-2">
                           <Button size="sm" variant="ghost" asChild>
                             <Link href={`/comic/${comic.slug}`} target="_blank">
-                              <Eye className="h-4 w-4" />
+                              <Eye className="size-4" />
                             </Link>
                           </Button>
                           <Button size="sm" variant="ghost" asChild>
                             <Link href={`/admin/comics/${comic.id}`}>
-                              <Edit2 className="h-4 w-4" />
+                              <Edit2 className="size-4" />
                             </Link>
                           </Button>
                           <Button
@@ -214,7 +212,7 @@ export function ComicsTable({
                             onClick={() => handleDelete(comic.id)}
                             disabled={isLoading || deletingId === comic.id}
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Trash2 className="size-4" />
                           </Button>
                         </div>
                       </TableCell>
@@ -235,7 +233,7 @@ export function ComicsTable({
                 onClick={onPrevPage}
                 disabled={!hasPrevPage || isLoading}
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="size-4" />
               </Button>
               <Button
                 variant="outline"
@@ -243,16 +241,14 @@ export function ComicsTable({
                 onClick={onNextPage}
                 disabled={!hasNextPage || isLoading}
               >
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="size-4" />
               </Button>
             </div>
           </div>
 
           {selectedIds.length > 0 && (
             <div
-              className={`
-              mt-4 flex items-center justify-between border-t pt-4
-            `}
+              className={`mt-4 flex items-center justify-between border-t pt-4`}
             >
               <p className="text-sm text-muted-foreground">{selectedIds.length} selected</p>
               {onBulkDelete && (

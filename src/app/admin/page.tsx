@@ -51,7 +51,7 @@ function QuickActions() {
                 asChild
               >
                 <Link href={action.href}>
-                  <Icon className="mb-2 h-6 w-6" />
+                  <Icon className="mb-2 size-6" />
                   <div className="text-left">
                     <div className="font-semibold">{action.title}</div>
                     <div className="text-xs text-muted-foreground">{action.description}</div>
@@ -141,7 +141,7 @@ async function StatsGrid() {
               `}
             >
               <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-              <Icon className="h-4 w-4 text-muted-foreground" />
+              <Icon className="size-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>

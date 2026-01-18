@@ -75,11 +75,11 @@ export async function updateComic(
     };
 
     if (validated.slug !== undefined) {
-      updateData.slug = validated.slug;
+      updateData["slug"] = validated.slug;
     }
 
     if (validated.rating !== undefined) {
-      updateData.rating = String(validated.rating);
+      updateData["rating"] = String(validated.rating);
     }
 
     const [updatedComic] = await database

@@ -185,7 +185,7 @@ export function AdminUsers({
           <p className="text-sm text-muted-foreground">Manage system users and their permissions</p>
         </div>
         <Button onClick={handleCreate}>
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="mr-2 size-4" />
           Create User
         </Button>
       </div>
@@ -214,10 +214,10 @@ export function AdminUsers({
                 <td className="p-4">
                   <div className="flex justify-end gap-2">
                     <Button variant="ghost" size="sm" onClick={() => handleEdit(user)}>
-                      <Pencil className="h-4 w-4" />
+                      <Pencil className="size-4" />
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => handleDelete(user)}>
-                      <Trash2 className="h-4 w-4 text-destructive" />
+                      <Trash2 className="size-4 text-destructive" />
                     </Button>
                   </div>
                 </td>
@@ -294,7 +294,7 @@ export function AdminUsers({
               Cancel
             </Button>
             <Button onClick={handleSubmitCreate} disabled={isPending}>
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
               Create
             </Button>
           </DialogFooter>
@@ -357,7 +357,7 @@ export function AdminUsers({
               Cancel
             </Button>
             <Button onClick={handleSubmitEdit} disabled={isPending}>
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
               Update
             </Button>
           </DialogFooter>
@@ -379,7 +379,7 @@ export function AdminUsers({
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleConfirmDelete} disabled={isPending}>
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
               Delete
             </Button>
           </DialogFooter>

@@ -113,46 +113,46 @@ export const env = createEnv({
 
   runtimeEnv: {
     // Server - Database
-    DATABASE_URL: process.env.DATABASE_URL,
-    NEON_DATABASE_URL: process.env.NEON_DATABASE_URL,
+    DATABASE_URL: process.env["DATABASE_URL"],
+    NEON_DATABASE_URL: process.env["NEON_DATABASE_URL"],
 
     // Server - Auth
-    AUTH_SECRET: process.env.AUTH_SECRET,
-    AUTH_TRUST_HOST: process.env.AUTH_TRUST_HOST,
+    AUTH_SECRET: process.env["AUTH_SECRET"],
+    AUTH_TRUST_HOST: process.env["AUTH_TRUST_HOST"],
 
     // Server - OAuth
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+    GOOGLE_CLIENT_ID: process.env["GOOGLE_CLIENT_ID"],
+    GOOGLE_CLIENT_SECRET: process.env["GOOGLE_CLIENT_SECRET"],
+    GITHUB_CLIENT_ID: process.env["GITHUB_CLIENT_ID"],
+    GITHUB_CLIENT_SECRET: process.env["GITHUB_CLIENT_SECRET"],
 
     // Server - Email
-    RESEND_API_KEY: process.env.RESEND_API_KEY,
-    EMAIL_FROM: process.env.EMAIL_FROM,
-    SMTP_HOST: process.env.SMTP_HOST,
-    SMTP_PORT: process.env.SMTP_PORT,
-    SMTP_USER: process.env.SMTP_USER,
-    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+    RESEND_API_KEY: process.env["RESEND_API_KEY"],
+    EMAIL_FROM: process.env["EMAIL_FROM"],
+    SMTP_HOST: process.env["SMTP_HOST"],
+    SMTP_PORT: process.env["SMTP_PORT"],
+    SMTP_USER: process.env["SMTP_USER"],
+    SMTP_PASSWORD: process.env["SMTP_PASSWORD"],
 
     // Server - Redis
-    REDIS_URL: process.env.REDIS_URL,
-    REDIS_HOST: process.env.REDIS_HOST,
-    REDIS_PORT: process.env.REDIS_PORT,
-    REDIS_PASSWORD: process.env.REDIS_PASSWORD,
-    REDIS_DB: process.env.REDIS_DB,
-    REDIS_TLS_ENABLED: process.env.REDIS_TLS_ENABLED,
+    REDIS_URL: process.env["REDIS_URL"],
+    REDIS_HOST: process.env["REDIS_HOST"],
+    REDIS_PORT: process.env["REDIS_PORT"],
+    REDIS_PASSWORD: process.env["REDIS_PASSWORD"],
+    REDIS_DB: process.env["REDIS_DB"],
+    REDIS_TLS_ENABLED: process.env["REDIS_TLS_ENABLED"],
 
     // Server - Upstash
-    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
-    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+    UPSTASH_REDIS_REST_URL: process.env["UPSTASH_REDIS_REST_URL"],
+    UPSTASH_REDIS_REST_TOKEN: process.env["UPSTASH_REDIS_REST_TOKEN"],
 
     // Server - Upload
-    UPLOAD_PROVIDER: process.env.UPLOAD_PROVIDER,
-    IMAGEKIT_PUBLIC_KEY: process.env.IMAGEKIT_PUBLIC_KEY,
-    IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY,
-    IMAGEKIT_URL_ENDPOINT: process.env.IMAGEKIT_URL_ENDPOINT,
-    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    UPLOAD_PROVIDER: process.env["UPLOAD_PROVIDER"],
+    IMAGEKIT_PUBLIC_KEY: process.env["IMAGEKIT_PUBLIC_KEY"],
+    IMAGEKIT_PRIVATE_KEY: process.env["IMAGEKIT_PRIVATE_KEY"],
+    IMAGEKIT_URL_ENDPOINT: process.env["IMAGEKIT_URL_ENDPOINT"],
+    CLOUDINARY_CLOUD_NAME: process.env["CLOUDINARY_CLOUD_NAME"],
+    CLOUDINARY_API_KEY: process.env["CLOUDINARY_API_KEY"],
     CLOUDINARY_API_SECRET: process.env["CLOUDINARY_API_SECRET"],
     AWS_REGION: process.env["AWS_REGION"],
     AWS_ACCESS_KEY_ID: process.env["AWS_ACCESS_KEY_ID"],
@@ -169,7 +169,7 @@ export const env = createEnv({
     CUSTOM_PASSWORD: process.env["CUSTOM_PASSWORD"],
 
     // Server - Environment
-    NODE_ENV: process.env.NODE_ENV,
+    NODE_ENV: process.env["NODE_ENV"],
     PORT: process.env["PORT"],
     LOG_LEVEL: process.env["LOG_LEVEL"],
     DEBUG: process.env["DEBUG"],

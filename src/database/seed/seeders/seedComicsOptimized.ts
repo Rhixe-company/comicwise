@@ -170,7 +170,8 @@ async function getOrCreateMetadata(
   try {
     let result;
 
-    if (table === "type") {
+    switch (table) {
+    case "type": {
       const existing = await db.query.type.findFirst({ where: eq(type.name, name) });
       if (!existing) {
         const created = await db.insert(type).values({ name }).returning();
@@ -178,7 +179,10 @@ async function getOrCreateMetadata(
       } else {
         result = existing;
       }
-    } else if (table === "author") {
+    
+    break;
+    }
+    case "author": {
       const existing = await db.query.author.findFirst({ where: eq(author.name, name) });
       if (!existing) {
         const created = await db.insert(author).values({ name }).returning();
@@ -186,7 +190,10 @@ async function getOrCreateMetadata(
       } else {
         result = existing;
       }
-    } else if (table === "artist") {
+    
+    break;
+    }
+    case "artist": {
       const existing = await db.query.artist.findFirst({ where: eq(artist.name, name) });
       if (!existing) {
         const created = await db.insert(artist).values({ name }).returning();
@@ -194,7 +201,10 @@ async function getOrCreateMetadata(
       } else {
         result = existing;
       }
-    } else {
+    
+    break;
+    }
+    default: {
       const existing = await db.query.genre.findFirst({ where: eq(genre.name, name) });
       if (!existing) {
         const created = await db.insert(genre).values({ name }).returning();
@@ -202,6 +212,7 @@ async function getOrCreateMetadata(
       } else {
         result = existing;
       }
+    }
     }
 
     if (result?.id) {
@@ -262,7 +273,7 @@ async function upsertComic(
           .set({
             description: data.description,
             coverImage: coverImageUrl || existing.coverImage,
-            rating: data.rating ? String(parseFloat(String(data.rating))) : existing.rating,
+            rating: data.rating ? String(Number.parseFloat(String(data.rating))) : existing.rating,
             status: data.status || "Ongoing",
             authorId: authorId ?? existing.authorId,
             artistId: artistId ?? existing.artistId,
@@ -298,7 +309,7 @@ async function upsertComic(
             description: data.description,
             coverImage: coverImageUrl,
             publicationDate: new Date(),
-            rating: data.rating ? String(parseFloat(String(data.rating))) : "0",
+            rating: data.rating ? String(Number.parseFloat(String(data.rating))) : "0",
             status: data.status || "Ongoing",
             authorId: authorId ?? undefined,
             artistId: artistId ?? undefined,

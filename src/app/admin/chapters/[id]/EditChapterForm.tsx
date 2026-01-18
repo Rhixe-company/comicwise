@@ -11,8 +11,8 @@ export default async function EditChapterForm({ params }: { params: { id: string
 
   // Fetch chapter and comics on the server
   const [chapterRes, comicsRes] = await Promise.all([
-    fetch(`${process.env.NEXT_PUBLIC_APP_URL ?? ""}/api/chapters/${id}`, { cache: "no-store" }),
-    fetch(`${process.env.NEXT_PUBLIC_APP_URL ?? ""}/api/comics?limit=1000`, { cache: "no-store" }),
+    fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/chapters/${id}`, { cache: "no-store" }),
+    fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/comics?limit=1000`, { cache: "no-store" }),
   ]);
 
   if (!chapterRes.ok || !comicsRes.ok) {
@@ -70,10 +70,10 @@ export default async function EditChapterForm({ params }: { params: { id: string
                 id="comicId"
                 name="comicId"
                 defaultValue={String(chapter.comicId)}
-                className="w-full rounded border px-3 py-2"
+                className="w-full rounded-sm border px-3 py-2"
               >
                 <option value="">Select a comic</option>
-                {comics.map((c) => (
+                {comics.map((c: { id: number; title: string }) => (
                   <option key={c.id} value={String(c.id)}>
                     {c.title}
                   </option>

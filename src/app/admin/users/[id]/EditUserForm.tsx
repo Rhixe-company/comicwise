@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 export default async function EditUserForm({ params }: { params: { id: string } }) {
   const id = String(params.id);
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL ?? ""}/api/users/${id}`, {
+  const res = await fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/users/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {
@@ -90,7 +90,7 @@ export default async function EditUserForm({ params }: { params: { id: string } 
                 id="role"
                 name="role"
                 defaultValue={user.role ?? "user"}
-                className="w-full rounded border px-3 py-2"
+                className="w-full rounded-sm border px-3 py-2"
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>

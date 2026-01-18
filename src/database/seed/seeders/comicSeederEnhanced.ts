@@ -37,6 +37,7 @@ interface CachedMetadata {
 
 /**
  * Seed comics with all associated metadata and images
+ * @param pattern
  */
 export async function seedComicsFromFiles(
   pattern: string | string[] = "comics*.json"
@@ -133,6 +134,9 @@ async function initializeMetadataCache(): Promise<CachedMetadata> {
 
 /**
  * Get or create metadata with caching
+ * @param name
+ * @param table
+ * @param cache
  */
 async function getOrCreateMetadata(
   name: string,
@@ -170,30 +174,44 @@ async function getOrCreateMetadata(
     let created;
 
     // Check database
-    if (table === "type") {
+    switch (table) {
+    case "type":
       existing = await db.query.type.findFirst({ where: eq(type.name, name) });
       if (!existing) {
         const result = await db.insert(type).values({ name }).returning();
         created = result[0];
       }
-    } else if (table === "author") {
+    
+    break;
+    
+    case "author":
       existing = await db.query.author.findFirst({ where: eq(author.name, name) });
       if (!existing) {
         const result = await db.insert(author).values({ name }).returning();
         created = result[0];
       }
-    } else if (table === "artist") {
+    
+    break;
+    
+    case "artist":
       existing = await db.query.artist.findFirst({ where: eq(artist.name, name) });
       if (!existing) {
         const result = await db.insert(artist).values({ name }).returning();
         created = result[0];
       }
-    } else if (table === "genre") {
+    
+    break;
+    
+    case "genre":
       existing = await db.query.genre.findFirst({ where: eq(genre.name, name) });
       if (!existing) {
         const result = await db.insert(genre).values({ name }).returning();
         created = result[0];
       }
+    
+    break;
+    
+    // No default
     }
 
     const id = (existing || created)?.id;
@@ -210,6 +228,9 @@ async function getOrCreateMetadata(
 
 /**
  * Upsert comic with all metadata and images
+ * @param data
+ * @param cache
+ * @param imageManager
  */
 async function upsertComic(
   data: ComicSeedData,
@@ -251,7 +272,7 @@ async function upsertComic(
         .set({
           description: data.description,
           coverImage: coverImageUrl || existing.coverImage,
-          rating: data.rating ? String(parseFloat(String(data.rating))) : undefined,
+          rating: data.rating ? String(Number.parseFloat(String(data.rating))) : undefined,
           status: (data.status as any) || "Ongoing",
           authorId: authorId ?? undefined,
           artistId: artistId ?? undefined,
@@ -286,7 +307,7 @@ async function upsertComic(
           description: data.description,
           coverImage: coverImageUrl,
           publicationDate,
-          rating: data.rating ? String(parseFloat(String(data.rating))) : undefined,
+          rating: data.rating ? String(Number.parseFloat(String(data.rating))) : undefined,
           status: (data.status as any) || "Ongoing",
           authorId: authorId ?? undefined,
           artistId: artistId ?? undefined,
@@ -312,6 +333,9 @@ async function upsertComic(
 
 /**
  * Update comic-genre relationships
+ * @param comicId
+ * @param genres
+ * @param cache
  */
 async function updateComicGenres(
   comicId: number,

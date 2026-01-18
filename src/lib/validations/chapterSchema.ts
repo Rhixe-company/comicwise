@@ -11,11 +11,11 @@ import { createChapterSchema, updateChapterSchema } from "@/lib/validations/inde
 export const insertChapterSchema = createChapterSchema;
 export { updateChapterSchema };
 
-export type InsertChapter = {
+export interface InsertChapter {
   title: string;
   chapterNumber: number;
   releaseDate: Date;
   comicId: number;
   views?: number;
-};
+}
 export type UpdateChapter = Partial<InsertChapter>;

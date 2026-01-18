@@ -37,6 +37,7 @@ export interface ImageDownloadResult {
 
 /**
  * Download an image from URL to local filesystem
+ * @param options
  */
 export async function downloadImage(options: ImageDownloadOptions): Promise<ImageDownloadResult> {
   const {
@@ -143,6 +144,7 @@ export async function downloadImage(options: ImageDownloadOptions): Promise<Imag
 
 /**
  * Get hash of image URL for caching
+ * @param url
  */
 export function getImageHash(url: string): string {
   return crypto.createHash("md5").update(url).digest("hex");
@@ -150,6 +152,7 @@ export function getImageHash(url: string): string {
 
 /**
  * Check if image exists in filesystem
+ * @param filePath
  */
 export async function imageExists(filePath: string): Promise<boolean> {
   try {
@@ -162,6 +165,8 @@ export async function imageExists(filePath: string): Promise<boolean> {
 
 /**
  * Download multiple images in batches
+ * @param images
+ * @param concurrency
  */
 export async function downloadImagesBatch(
   images: ImageDownloadOptions[],
@@ -194,26 +199,29 @@ export async function downloadImagesBatch(
 
 /**
  * Clean filename for filesystem
+ * @param filename
  */
 export function sanitizeFilename(filename: string): string {
   return filename
-    .replace(/[<>:"/\\|?*]/g, "_")
-    .replace(/\s+/g, "_")
-    .replace(/_+/g, "_")
+    .replaceAll(/["*/:<>?\\|]/g, "_")
+    .replaceAll(/\s+/g, "_")
+    .replaceAll(/_+/g, "_")
     .trim();
 }
 
 /**
  * Extract extension from URL or content-type
+ * @param url
+ * @param contentType
  */
 export function getImageExtension(url: string, contentType?: string): string {
   // Try to get from URL
-  const urlExt = path.extname(new URL(url).pathname);
+  const urlExtension = path.extname(new URL(url).pathname);
   if (
-    urlExt &&
-    [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"].includes(urlExt.toLowerCase())
+    urlExtension &&
+    [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"].includes(urlExtension.toLowerCase())
   ) {
-    return urlExt;
+    return urlExtension;
   }
 
   // Try to get from content-type

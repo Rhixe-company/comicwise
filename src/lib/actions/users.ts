@@ -71,7 +71,7 @@ export async function registerUser(formData: FormData): Promise<ActionResult<{ i
   }
 }
 
-export async function updateUser(userId: string, formData: FormData): Promise<ActionResponse> {
+export async function updateUser(userId: string, formData: FormData): Promise<ActionResult<unknown>> {
   try {
     const data = updateUserAdminSchema.parse({
       name: formData.get("name") || undefined,
@@ -94,7 +94,7 @@ export async function updateUser(userId: string, formData: FormData): Promise<Ac
   }
 }
 
-export async function deleteUser(userId: string): Promise<ActionResponse> {
+export async function deleteUser(userId: string): Promise<ActionResult<unknown>> {
   try {
     await mutations.deleteUser(userId);
     revalidatePath("/admin/users");
@@ -106,7 +106,7 @@ export async function deleteUser(userId: string): Promise<ActionResponse> {
   }
 }
 
-export async function requestPasswordReset(email: string): Promise<ActionResponse> {
+export async function requestPasswordReset(email: string): Promise<ActionResult<unknown>> {
   try {
     // Rate limiting
     const rateLimit = await checkRateLimit(`password-reset:${email}`, {
@@ -146,7 +146,7 @@ export async function requestPasswordReset(email: string): Promise<ActionRespons
   }
 }
 
-export async function resetPassword(token: string, newPassword: string): Promise<ActionResponse> {
+export async function resetPassword(token: string, newPassword: string): Promise<ActionResult<unknown>> {
   try {
     const resetToken = await queries.getPasswordResetToken(token);
 

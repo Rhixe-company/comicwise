@@ -28,6 +28,7 @@ interface SeedStats {
 /**
  * Seed users from JSON files
  * Handles both creation and updates with proper upsert logic
+ * @param patterns
  */
 export async function seedUsersFromFiles(patterns: string[] = ["users.json"]): Promise<SeedStats> {
   const startTime = Date.now();
@@ -89,6 +90,8 @@ export async function seedUsersFromFiles(patterns: string[] = ["users.json"]): P
 
 /**
  * Upsert user - create or update based on email
+ * @param data
+ * @param imageManager
  */
 async function upsertUser(
   data: UserSeedData,

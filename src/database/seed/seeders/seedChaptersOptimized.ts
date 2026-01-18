@@ -124,17 +124,17 @@ async function upsertChapter(
     // Generate slug from title
     const slug = data.title
       .toLowerCase()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .substring(0, 255);
+      .replaceAll(/[^\s\w-]/g, "")
+      .replaceAll(/\s+/g, "-")
+      .slice(0, 255);
 
     // Parse chapter number
     const chapterNumber =
-      typeof data.chapterNumber === "string" ? parseFloat(data.chapterNumber) : data.chapterNumber;
+      typeof data.chapterNumber === "string" ? Number.parseFloat(data.chapterNumber) : data.chapterNumber;
 
     // Parse dates
     const releaseDate = data.releaseDate ? new Date(data.releaseDate) : new Date();
-    const views = typeof data.views === "string" ? parseInt(data.views) : data.views || 0;
+    const views = typeof data.views === "string" ? Number.parseInt(data.views) : data.views || 0;
 
     // Check if chapter exists
     const existing = await db.query.chapter.findFirst({

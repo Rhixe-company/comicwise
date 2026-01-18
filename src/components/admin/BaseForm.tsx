@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -240,7 +240,7 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
       >
         {fields.map((field) => renderField(field, form))}
         <Button type="submit" disabled={isLoading}>
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
           {submitLabel}
         </Button>
       </form>

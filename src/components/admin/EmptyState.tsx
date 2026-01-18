@@ -26,10 +26,10 @@ export function EmptyState({
       <CardContent className="flex flex-col items-center justify-center py-12">
         <div
           className={`
-            flex h-20 w-20 items-center justify-center rounded-full bg-muted
+            flex size-20 items-center justify-center rounded-full bg-muted
           `}
         >
-          <Icon className="h-10 w-10 text-muted-foreground" />
+          <Icon className="size-10 text-muted-foreground" />
         </div>
         <h3 className="mt-4 text-lg font-semibold">{title}</h3>
         <p className="mt-2 max-w-sm text-center text-sm text-muted-foreground">{description}</p>
