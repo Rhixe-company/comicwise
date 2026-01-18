@@ -1,6 +1,7 @@
 # 🔍 Sentry Error Monitoring - Setup Guide
 
-**Purpose**: Configure Sentry for error tracking, performance monitoring, and session replay in ComicWise.
+**Purpose**: Configure Sentry for error tracking, performance monitoring, and
+session replay in ComicWise.
 
 ---
 
@@ -18,11 +19,13 @@
 ### Step 2: Get Your DSN
 
 After creating the project, Sentry will display your DSN. It looks like:
+
 ```
 https://[public_key]@[org].ingest.sentry.io/[project_id]
 ```
 
 Example:
+
 ```
 https://abc123def456@o123456.ingest.sentry.io/789012
 ```
@@ -66,6 +69,7 @@ SENTRY_REPLAY_ERROR_SAMPLE_RATE=1.0
 ### Step 5: Verify Configuration
 
 The following files are already configured:
+
 - ✅ `sentry.client.config.ts` - Browser error tracking
 - ✅ `sentry.server.config.ts` - Server error tracking
 - ✅ `sentry.edge.config.ts` - Edge runtime error tracking
@@ -75,11 +79,13 @@ The following files are already configured:
 ### Step 6: Test Sentry
 
 1. Start the development server:
+
    ```bash
    pnpm dev
    ```
 
 2. Trigger a test error:
+
    ```bash
    # Visit: http://localhost:3000/sentry-example-page
    # Or add this to any page:
@@ -96,12 +102,14 @@ The following files are already configured:
 ## 🎯 Features Enabled
 
 ### Error Tracking ✅
+
 - **Client-side errors**: JavaScript errors in the browser
 - **Server-side errors**: Node.js errors on the server
 - **Edge runtime errors**: Errors in middleware and edge functions
 - **Error boundaries**: Graceful error handling with user-friendly messages
 
 ### Performance Monitoring ✅
+
 - **Sample Rate**: 10% (configurable via `SENTRY_TRACES_SAMPLE_RATE`)
 - **Tracks**:
   - Page load times
@@ -110,6 +118,7 @@ The following files are already configured:
   - Third-party API calls
 
 ### Session Replay ✅
+
 - **Session Sample Rate**: 10% of all sessions
 - **Error Sample Rate**: 100% of sessions with errors
 - **Features**:
@@ -118,7 +127,9 @@ The following files are already configured:
   - Privacy-focused (masks sensitive data)
 
 ### Error Filtering ✅
+
 Automatically filters out known non-critical errors:
+
 - ResizeObserver errors
 - Non-Error promise rejections
 - Network errors from browser extensions
@@ -128,23 +139,27 @@ Automatically filters out known non-critical errors:
 ## 📊 Sentry Dashboard Features
 
 ### Issues Tab
+
 - View all errors grouped by type
 - See error frequency and affected users
 - Stack traces with source maps
 - Browser and OS information
 
 ### Performance Tab
+
 - Transaction monitoring
 - Slow API endpoints
 - Database query performance
 - Frontend performance metrics
 
 ### Releases Tab
+
 - Track errors by deployment
 - Compare error rates between releases
 - Source map integration
 
 ### Alerts
+
 - Email/Slack notifications for new errors
 - Threshold-based alerts (e.g., error spike)
 - Customizable alert rules
@@ -155,13 +170,14 @@ Automatically filters out known non-critical errors:
 
 ### Source Maps (Recommended for Production)
 
-Source maps help Sentry show readable stack traces. Configure in `next.config.ts`:
+Source maps help Sentry show readable stack traces. Configure in
+`next.config.ts`:
 
 ```typescript
 // Already configured in next.config.ts
 const nextConfig = {
   // ... other config
-  
+
   // Sentry webpack plugin
   webpack: (config, options) => {
     if (!options.dev && !options.isServer) {
@@ -170,8 +186,8 @@ const nextConfig = {
           org: process.env.SENTRY_ORG,
           project: process.env.SENTRY_PROJECT,
           authToken: process.env.SENTRY_AUTH_TOKEN,
-          include: '.next',
-          ignore: ['node_modules'],
+          include: ".next",
+          ignore: ["node_modules"],
         })
       );
     }
@@ -180,7 +196,8 @@ const nextConfig = {
 };
 ```
 
-Get auth token from: [https://sentry.io/settings/account/api/auth-tokens/](https://sentry.io/settings/account/api/auth-tokens/)
+Get auth token from:
+[https://sentry.io/settings/account/api/auth-tokens/](https://sentry.io/settings/account/api/auth-tokens/)
 
 ### Custom Error Tracking
 
@@ -190,9 +207,9 @@ Add custom context to errors:
 import * as Sentry from "@sentry/nextjs";
 
 // Set user context
-Sentry.setUser({ 
-  id: user.id, 
-  email: user.email 
+Sentry.setUser({
+  id: user.id,
+  email: user.email,
 });
 
 // Add custom context
@@ -267,22 +284,27 @@ Before deploying to production:
 ## 📈 Monitoring Best Practices
 
 ### 1. Set Up Alerts
+
 - Critical errors: Immediate Slack/email
 - Error spikes: >10% increase alert
 - Performance degradation: >2s response time
 
 ### 2. Regular Review
+
 - Weekly: Review new error types
 - Monthly: Analyze performance trends
 - Quarterly: Review and clean up old issues
 
 ### 3. Error Triage
+
 - **High Priority**: Affects >100 users or critical feature
 - **Medium Priority**: Affects <100 users
 - **Low Priority**: Edge cases or known issues
 
 ### 4. Use Releases
+
 Tag deployments in Sentry:
+
 ```bash
 # After deployment
 npx @sentry/cli releases new "comicwise@1.0.0"
@@ -294,19 +316,23 @@ npx @sentry/cli releases finalize "comicwise@1.0.0"
 ## 🔒 Privacy & Security
 
 ### Data Scrubbing
+
 Sentry automatically scrubs:
+
 - Passwords
 - Credit card numbers
 - API keys
 - Social security numbers
 
 ### Session Replay Privacy
+
 - All text is masked by default
 - Images are blocked
 - User input is sanitized
 - Configure in `sentry.client.config.ts`
 
 ### GDPR Compliance
+
 - Data stored in EU (select EU region in project settings)
 - User data deletion available
 - Data retention: 90 days (configurable)
@@ -315,7 +341,8 @@ Sentry automatically scrubs:
 
 ## 📞 Support & Resources
 
-- **Sentry Docs**: [https://docs.sentry.io/platforms/javascript/guides/nextjs/](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
+- **Sentry Docs**:
+  [https://docs.sentry.io/platforms/javascript/guides/nextjs/](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
 - **Sentry Community**: [https://discord.gg/sentry](https://discord.gg/sentry)
 - **Status Page**: [https://status.sentry.io/](https://status.sentry.io/)
 
@@ -351,4 +378,5 @@ export default function TestSentry() {
 
 **✨ Sentry is now configured and ready to track errors in ComicWise!**
 
-For questions or issues, refer to the Sentry documentation or contact the development team.
+For questions or issues, refer to the Sentry documentation or contact the
+development team.

@@ -146,9 +146,9 @@ const nextConfig: NextConfig = {
   ],
   webpack: (config: Record<string, unknown>, { isServer }: { isServer: boolean }) => {
     if (!isServer) {
-      const resolveConfig = config.resolve as Record<string, unknown>;
-      resolveConfig.fallback = {
-        ...(resolveConfig.fallback as Record<string, boolean>),
+      const resolveConfig = config["resolve"] as Record<string, unknown>;
+      resolveConfig["fallback"] = {
+        ...(resolveConfig["fallback"] as Record<string, boolean>),
         fs: false,
         net: false,
         tls: false,

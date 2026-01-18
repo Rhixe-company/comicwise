@@ -38,8 +38,8 @@ export const logger = pino({
       },
       bindings: (bindings) => {
         return {
-          pid: bindings.pid,
-          host: bindings.hostname,
+          pid: bindings['pid'],
+          host: bindings['hostname'],
           node_version: process.version,
         };
       },

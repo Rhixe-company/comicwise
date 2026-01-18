@@ -8,8 +8,6 @@
  */
 
 import { execSync } from "child_process";
-import { existsSync, readFileSync, writeFileSync } from "fs";
-import path from "path";
 
 const log = {
   info: (msg: string) => console.log(`\x1b[36mℹ\x1b[0m ${msg}`),
@@ -36,10 +34,10 @@ async function main() {
   // Task 1: Install Dependencies
   log.info("Task 1: Setting up dependencies");
   execute("pnpm install", "Installing dependencies");
-  
+
   // Install @imagekit/next
   execute("pnpm add @imagekit/next", "Installing @imagekit/next");
-  
+
   // Remove old package
   try {
     execSync("pnpm remove imagekitio-next", { stdio: "ignore" });
@@ -54,7 +52,7 @@ async function main() {
   console.log("\n═══════════════════════════════════════════════════════════════════════════");
   console.log("✅ Setup script completed successfully!");
   console.log("═══════════════════════════════════════════════════════════════════════════\n");
-  
+
   console.log("Next steps:");
   console.log("  1. Review .env.local configuration");
   console.log("  2. Run: pnpm db:push");

@@ -37,7 +37,8 @@ SENTRY_REPLAY_SESSION_SAMPLE_RATE=0.1
 SENTRY_REPLAY_ERROR_SAMPLE_RATE=1.0
 ```
 
-**Note**: The DSN values are empty by design - you need to fill them with your actual Sentry DSN from [sentry.io](https://sentry.io).
+**Note**: The DSN values are empty by design - you need to fill them with your
+actual Sentry DSN from [sentry.io](https://sentry.io).
 
 ---
 
@@ -48,6 +49,7 @@ SENTRY_REPLAY_ERROR_SAMPLE_RATE=1.0
 Added Sentry environment variables to the T3 Env schema:
 
 **Server-side variables**:
+
 - `SENTRY_DSN` - Server error tracking DSN
 - `SENTRY_ORG` - Sentry organization
 - `SENTRY_PROJECT` - Sentry project name
@@ -58,6 +60,7 @@ Added Sentry environment variables to the T3 Env schema:
 - `SENTRY_REPLAY_ERROR_SAMPLE_RATE` - Error replay sample rate
 
 **Client-side variables**:
+
 - `NEXT_PUBLIC_SENTRY_DSN` - Client error tracking DSN
 
 All variables are validated with Zod schemas and type-safe.
@@ -69,6 +72,7 @@ All variables are validated with Zod schemas and type-safe.
 **File**: `docs/SENTRY_SETUP.md`
 
 Created comprehensive 200+ line setup guide covering:
+
 - Quick 5-minute setup steps
 - How to get your Sentry DSN
 - Installation instructions
@@ -95,6 +99,7 @@ Created comprehensive 200+ line setup guide covering:
 ### Step 2: Get Your DSN (1 minute)
 
 After creating the project, Sentry will show you a DSN that looks like:
+
 ```
 https://abc123def456@o123456.ingest.sentry.io/789012
 ```
@@ -135,16 +140,19 @@ pnpm dev
 ## 📁 Files Modified/Created
 
 ### Modified:
+
 1. `.env.local` - Added Sentry environment variables
 2. `src/lib/env.ts` - Added Sentry schema validation
 
 ### Already Exist (from previous setup):
+
 1. `sentry.client.config.ts` - Client-side configuration
 2. `sentry.server.config.ts` - Server-side configuration
 3. `sentry.edge.config.ts` - Edge runtime configuration
 4. `src/app/global-error.tsx` - Global error boundary
 
 ### Created:
+
 1. `docs/SENTRY_SETUP.md` - Comprehensive setup guide
 
 ---
@@ -152,6 +160,7 @@ pnpm dev
 ## 🎁 Features You'll Get
 
 ### Error Tracking ✅
+
 - **Client errors**: Browser JavaScript errors
 - **Server errors**: Node.js server errors
 - **Edge errors**: Middleware and edge function errors
@@ -159,18 +168,21 @@ pnpm dev
 - **User context**: Which users are affected
 
 ### Performance Monitoring ✅
+
 - **Transaction monitoring**: Track slow operations
 - **Database queries**: Monitor query performance
 - **API response times**: Track endpoint performance
 - **Sample rate**: 10% (configurable)
 
 ### Session Replay ✅
+
 - **Video playback**: See what users did before error
 - **Privacy-first**: Automatically masks sensitive data
 - **Error replay**: 100% of sessions with errors
 - **Normal replay**: 10% of normal sessions
 
 ### Smart Filtering ✅
+
 - **Auto-ignore**: ResizeObserver and known browser quirks
 - **Custom filters**: Add your own ignore patterns
 - **Environment-aware**: Different config for dev/prod
@@ -232,18 +244,22 @@ Replays Tab
 ## 🔒 Privacy & Security
 
 ### Data Protection
+
 - Passwords auto-scrubbed
 - Credit cards auto-scrubbed
 - API keys auto-scrubbed
 - Session replay masks all text by default
 
 ### GDPR Compliant
+
 - EU data residency available
 - User data deletion on request
 - Configurable data retention (90 days default)
 
 ### No Sensitive Data
-The Sentry DSN is **not sensitive** - it's designed to be public. The `NEXT_PUBLIC_SENTRY_DSN` can safely be exposed in client-side code.
+
+The Sentry DSN is **not sensitive** - it's designed to be public. The
+`NEXT_PUBLIC_SENTRY_DSN` can safely be exposed in client-side code.
 
 ---
 
@@ -260,7 +276,8 @@ The Sentry DSN is **not sensitive** - it's designed to be public. The `NEXT_PUBL
 ## 📞 Support Resources
 
 - **Setup Guide**: `docs/SENTRY_SETUP.md` (comprehensive 200+ lines)
-- **Sentry Docs**: [docs.sentry.io/platforms/javascript/guides/nextjs](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
+- **Sentry Docs**:
+  [docs.sentry.io/platforms/javascript/guides/nextjs](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
 - **Sentry Discord**: [discord.gg/sentry](https://discord.gg/sentry)
 - **Status Page**: [status.sentry.io](https://status.sentry.io/)
 
@@ -270,7 +287,8 @@ The Sentry DSN is **not sensitive** - it's designed to be public. The `NEXT_PUBL
 
 **Configuration Status**: ✅ Complete (pending DSN)
 
-The Sentry error monitoring system is fully configured in ComicWise. All you need to do is:
+The Sentry error monitoring system is fully configured in ComicWise. All you
+need to do is:
 
 1. Get your DSN from [sentry.io](https://sentry.io)
 2. Add it to `.env.local`
@@ -278,7 +296,8 @@ The Sentry error monitoring system is fully configured in ComicWise. All you nee
 4. Start tracking errors!
 
 **Estimated setup time**: 5 minutes  
-**Estimated value**: Catching critical errors before users complain = Priceless 😊
+**Estimated value**: Catching critical errors before users complain = Priceless
+😊
 
 ---
 

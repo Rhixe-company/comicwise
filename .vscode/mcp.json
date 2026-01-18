@@ -1,12 +1,22 @@
 {
   "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/schema/mcp-config.schema.json",
   "// Description": "ComicWise - Enhanced Model Context Protocol Configuration",
-  "// Project": "Next.js 16 + PostgreSQL + Redis + AI Comic Platform",
+  "// FEATURE FLAGS": "Enable/disable specific MCP features",
   "// Last Updated": "2026-01-18",
+  "// PROJECT-SPECIFIC SETTINGS": "ComicWise customizations",
   "// Package Manager": "pnpm",
   "// Platform": "Windows, Linux, macOS (Cross-Platform)",
+  "// Project": "Next.js 16 + PostgreSQL + Redis + AI Comic Platform",
   "// Version": "3.0.0",
 
+  "features": {
+    "enableCaching": true,
+    "enableMetrics": true,
+    "enableHealthChecks": true,
+    "enableAutoReconnect": true,
+    "enableRequestLogging": true,
+    "enableErrorReporting": true
+  },
   "globalSettings": {
     "retries": 3,
     "cacheEnabled": true,
@@ -45,7 +55,11 @@
 
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${workspaceFolder}"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
+      ],
       "timeout": 120000,
       "retries": 3,
       "disabled": false,
@@ -129,7 +143,11 @@
 
     "postgres": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://postgresbot:6|lyj9,h2)&a@localhost:5432/comicwise"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgresbot:6|lyj9,h2)&a@localhost:5432/comicwise"
+      ],
       "timeout": 60000,
       "retries": 3,
       "disabled": false,
@@ -264,11 +282,7 @@
       "retries": 3,
       "disabled": true,
       "priority": "low",
-      "autoApprove": [
-        "get_issues",
-        "get_issue_details",
-        "get_project_stats"
-      ],
+      "autoApprove": ["get_issues", "get_issue_details", "get_project_stats"],
       "description": "Error tracking and monitoring integration",
       "env": {
         "SENTRY_AUTH_TOKEN": "${env:SENTRY_AUTH_TOKEN}",
@@ -278,7 +292,6 @@
     }
   },
 
-  "// PROJECT-SPECIFIC SETTINGS": "ComicWise customizations",
   "projectContext": {
     "framework": "Next.js 16.1.3",
     "language": "TypeScript 5+",
@@ -290,15 +303,5 @@
     "deployment": "Vercel/Docker",
     "packageManager": "pnpm",
     "nodeVersion": "20+"
-  },
-
-  "// FEATURE FLAGS": "Enable/disable specific MCP features",
-  "features": {
-    "enableCaching": true,
-    "enableMetrics": true,
-    "enableHealthChecks": true,
-    "enableAutoReconnect": true,
-    "enableRequestLogging": true,
-    "enableErrorReporting": true
   }
 }

@@ -117,7 +117,7 @@ export class RateLimiter {
   private inMemoryLimiter: InMemoryRateLimiter;
 
   constructor() {
-    this.inMemoryLimiter = new InMemoryRateLimiter(DEFAULT_LIMITS.default);
+    this.inMemoryLimiter = new InMemoryRateLimiter(DEFAULT_LIMITS['default']!);
   }
 
   async checkLimit(
@@ -125,7 +125,7 @@ export class RateLimiter {
     endpoint: string,
     customConfig?: RateLimitConfig
   ): Promise<RateLimitResult> {
-    const config = customConfig || DEFAULT_LIMITS[endpoint] || DEFAULT_LIMITS.default;
+    const config = customConfig || DEFAULT_LIMITS[endpoint] || DEFAULT_LIMITS['default']!;
     return this.inMemoryLimiter.isAllowed(identifier, config);
   }
 

@@ -8,8 +8,6 @@
  */
 
 import { execSync } from "child_process";
-import { existsSync, readFileSync, writeFileSync, readdirSync, statSync, unlinkSync, rmdirSync } from "fs";
-import { join } from "path";
 
 // Logging utilities
 const log = {
@@ -67,7 +65,7 @@ async function main() {
   log.task(2, "Database Setup");
   log.info("Pushing database schema...");
   exec("pnpm db:push");
-  
+
   // Task 2.3: Dry Run Seed
   log.task(3, "Testing Database Seed (Dry Run)");
   exec("pnpm db:seed:dry-run");
@@ -80,7 +78,7 @@ async function main() {
   // Task 2.5: Project Cleanup
   log.task(5, "Project Cleanup");
   log.info("Cleaning backup files...");
-  
+
   const backupFiles = [
     ".env.local.backup",
     "appConfig.ts.backup",

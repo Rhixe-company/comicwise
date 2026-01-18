@@ -6,20 +6,19 @@ platforms: Windows, Linux, macOS
 packageManager: pnpm
 framework: Next.js 16
 ---
----
 🚀 ComicWise - Complete Project Setup & Scaffolding Guide
 Comprehensive setup guide for ComicWise - a modern web comic platform built with Next.js 16, PostgreSQL, Redis, and AI-powered features.
-Read And understand /*.ts, @/.tsx, @**/.mjs, @/*.json , @/.mts, @**/.json @/*.md, @/.txt, @**/.yml, @/*.ps1, @/.sh, @**//Dockerfile, @src, @scripts files to get context on how the project is structured and works, After fully understanding the project the package manager is pnpm and the system is windows, Request all permissions needed to complete all Tasks1 and Tasks2 as listed below.
+Read And understand /*.ts, @/.tsx, @**/.mjs, @/*.json , @/.mts, @**/.json @/*.md, @/.txt, @**/.yml, @/*.ps1, @/.sh, @**//Dockerfile, @src, @scripts files to get context on how the project is structured and works, After fully understanding the project the package manager is pnpm and the system is windows, Request all permissions needed to complete all Tasks.
 
-Confirm if I have the necessary permissions to complete Tasks2, after confirming that you have the necessary permissions to Complete Tasks2 listed below, then proceed to complete all Tasks2 the bests way you recommend.
-Never create summary until all Tasks2 are completed.
-For all Tasks2, ensure to follow Next.js latest best practices, performance optimization techniques, and do not repeat yourself (DRY) principles. Ensure comprehensive logging with clear, concise logs for each operation performed,
-Use PowerShell syntax for all Tasks2,
+Confirm if I have the necessary permissions to complete Tasks, after confirming that you have the necessary permissions to Complete Tasks, then proceed to complete all Tasks the bests way you recommend.
+Never create summary until all Tasks are completed.
+For all Tasks, ensure to follow Next.js latest best practices, performance optimization techniques, and do not repeat yourself (DRY) principles. Ensure comprehensive logging with clear, concise logs for each operation performed,
+Use PowerShell syntax for all Tasks,
 If the requested file already exists then copy the file to end with .backup and Create and Validate an Optimized and Enhanced version using the copied file as reference.
 If any task involves database operations, ensure data integrity and consistency throughout the process.
 If any task involves file operations, ensure proper error handling and validation to prevent data loss or corruption.
 If any task involves configuration files, ensure they are optimized for both development and production environments.
-If any task involves scripting, ensure scripts are modular, reusable, and well-documented.
+If any task involves scripting, ensure scripts are created, modular, reusable, and well-documented but dont execute it complete the task manually.
 If any task involves code refactoring, ensure code readability and maintainability are prioritized.
 If any task involves testing, ensure tests are comprehensive and cover all critical functionalities.
 If any task involves documentation, ensure it is clear, concise, and easy to navigate.
@@ -44,44 +43,47 @@ If any task involves setting up or configuring environment variables, ensure tha
 If any task is dependent on the completion of another task, ensure that the dependencies are clearly identified and managed.
 If any task involves working with images, ensure that image handling is efficient and does not lead to unnecessary downloads or storage usage.
 If any task is time-consuming, ensure that progress is logged and reported at regular intervals with clear, concise logs while running in the background.
-Tasks1:
-1 - Create, Optimize and Validate @.vscode/mcp.json to include configurations for This Project, Next.js, TypeScript, PostgreSQL, Redis, and AI development then create a script to verify and start the mcp servers using VS Code Cli.
-2 - Create, Optimize and Validate @.vscode/extensions.json to include recommended extensions for This Project, Next.js, TypeScript, PostgreSQL, Redis, and AI development then verify and install them using the VS Code Cli.
-3 - Create, Optimize and Validate @.vscode/launch.json to include configurations for This Project, debugging Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
-4 - Create, Optimize and Validate @.vscode/tasks.json to include tasks for building, testing, and deploying Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
-5 - Create, Optimize and Validate @.vscode/settings.json to include settings optimized for This Project, Next.js, TypeScript, PostgreSQL, Redis, and AI development ensure all settings are properly configured for both development and production environments, ensure all extensions are properly configured.
-6 - Create, Optimize and Validate  @next.config.ts for optimization and best practices
-7 - Create, Optimize and Validate  @nextSitemap.config.ts for optimization and best practices
-8 - Create, Optimize and Validate  @package.json for optimization and best practices
-9 - Create, Optimize and Validate  @tsconfig.json for optimization and best practices
-10 - Create, Optimize and Validate  @.prettierrc.ts for optimization and best practices
-11 - Create, Optimize and Validate  @postcss.config.mjs for optimization and best practices
-12 - Create, Optimize and Validate  @eslint.config.ts for optimization and best practices
-13 - Create, Optimize and Validate  @.gitignore for optimization and best practices
-14 - Create, Optimize and Validate  @.dockerignore for optimization and best practices
-15 - Create, Optimize and Validate  @.prettierignore for optimization and best practices
-16 - Create, Optimize and Validate and configuring any necessary environment variables at @.env.local, importing it at @src/lib/env.ts,  Create, Optimize and Validate @appConfig.ts (ensure all environment variables are properly set and configured for development and production environments update all usage of this file across the project,use @src/lib/env.ts for environment variables)
-Tasks2:
 
-1 - Create, Optimize and Validate @src/database/seed/**/*  to be faster and dynamic, allow the creation of data from @users.json, @comics.json, @comicsdata1.json, @comicsdata2.json, @chapters.json, @chaptersdata1.json, @chaptersdata2.json, create and use all needed helpers at @src/database/seed/**/*.ts to ensure the inserted data is being created with a validated onConflictDoUpdate functions, valid zod schemas of the inserted data,ensure to use CUSTOM_PASSWORD environment variable as the users password with bcryptjs encryption , create functions to make sure no image is being downloaded twice by checking if the file does not exists in the file system or database, create functions to saves all comics images at @public/comics/covers/${comic.slug}/ use ./public/placeholder-comic.jpg as the default fallback image, create functions   to saves all  chapter images  at @public/comics/chapters/${comic.slug}/${chapter.slug}/ , Use ./public/shadcn.jpg as the default fallback image  for all user image,ensure it has a comprehensive logging with clear, concise logs for each operation performed during the seeding process, create functions to ensure all images are being downloaded and saved with its original name and file name extensions use all newly created functions and update all usages across the project reference @src/database/seed/seeders/universalSeeder.ts as example.
-2 - run pnpm db:seed:users, pnpm db:seed:comics, pnpm db:seed:chapters and fix all errors,warnings.
+Tasks:
 
-Tasks3:
-1 - Convert all any type occurrences to specific types from usage or Convert functionality to be Generic. Fix all typescript, linting errors and warnings in the project.
-2 - Upgrade @scripts/projectCleanup2025.ts to Perform a cleanup of the project,Delete all duplicate or unused zod schemas, Delete all duplicate or unused components,functions, types, interfaces and classes, Delete unused,duplicate,empty folders, blank files, Delete all files that contains .backup, Uninstall all unused packages with pnpm, Run pnpm exec tsx @scripts/projectCleanup2025.ts.
-3 - Setup and Configure Drizzle ORM with PostgreSQL including connection settings, migrations, and schema definitions ensure the configuration is optimized for performance and scalability.
-4 - Setup and Configure @.github/workflows/*.yml files for ci, automating the testing, building, and deployment of the project.
-5 - Analyze the project for performance bottlenecks, security vulnerabilities, and code quality issues generate a report with findings and suggestions for improvements.
-6 - Generate comprehensive documentation for the project including setup instructions, usage guidelines, and API references ensure the documentation is clear, concise, and easy to navigate.
-7 - Create comprehensive README.md for the project that includes setup instructions, usage guidelines, contribution instructions, and any other relevant information.
-8 - Create comprehensive @.github/prompts/Setup.prompt.md if exists update the file with all the content,tasks, tasks, recommendations from @.md, @.txt, @.ts, @.tsx, @.mjs, @.json , @.mts, @.json @.yml @.ps1 @.sh @Dockerfile files as Github copilot cli Prompts for a complete setup of this project and scaffolding all necessary files, components, pages and codes setup handler for long running functions, setup any other recommended prompts.
-9 - Performance Optimization Implement caching and query optimization
-10 - Testing Suite Achieve 100%+ code coverage with unit and E2E tests
-11 - Docker & Deployment -ready containerization
-12 - Analytics & Monitoring Integrate tools like Google Analytics and Sentry
-13 - Internationalization (i18n) Multi-language support
-14 - Regular Maintenance & Updates Keep dependencies and documentation up to date
-15 - User Onboarding & Tutorials Guided tours and tutorials for new users
 
-Lastly After completing all Tasks1, Tasks2, Tasks3, respond with "All tasks have been completed successfully." never provide summary just complete tasks.
-Then create a list of your recommendations for this project and await further instructions.
+- Create, Optimize and Validate @.vscode/mcp.json to include configurations for This Project, Next.js, TypeScript, PostgreSQL, Redis, and AI development then create a script to verify and start the mcp servers using VS Code Cli.
+- Create, Optimize and Validate @.vscode/extensions.json to include recommended extensions for This Project, Next.js, TypeScript, PostgreSQL, Redis, and AI development then verify and install them using the VS Code Cli.
+- Create, Optimize and Validate @.vscode/launch.json to include configurations for This Project, debugging Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
+- Create, Optimize and Validate @.vscode/tasks.json to include tasks for building, testing, and deploying Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
+- Create, Optimize and Validate @.vscode/settings.json to include settings optimized for This Project, Next.js, TypeScript, PostgreSQL, Redis, and AI development ensure all settings are properly configured for both development and production environments, ensure all extensions are properly configured.
+- Create, Optimize and Validate  @next.config.ts for optimization and Next.js best practices.
+- Create, Optimize and Validate  @nextSitemap.config.ts for optimization and Next.js best practices.
+- Create, Optimize and Validate  @package.json for optimization and Next.js best practices.
+- Create, Optimize and Validate  @tsconfig.json for optimization and Next.js best practices.
+- Create, Optimize and Validate  @.prettierrc.ts for optimization and Next.js best practices.
+- Create, Optimize and Validate  @postcss.config.mjs for optimization and Next.js best practices.
+- Create, Optimize and Validate  @eslint.config.ts for optimization and Next.js best practices.
+- Create, Optimize and Validate  @.gitignore for optimization and Next.js best practices.
+- Create, Optimize and Validate  @.dockerignore for optimization and Next.js best practices.
+- Create, Optimize and Validate  @.prettierignore for optimization and Next.js best practices.
+- Create, Optimize and Validate and configuring any necessary environment variables at @.env.local, importing it at @src/lib/env.ts,  Create, Optimize and Validate @appConfig.ts (ensure all environment variables are properly set and configured for development and production environments update all usage of this file across the project,use @src/lib/env.ts for environment variables).
+- Create, Optimize and Validate @src/database/seed/**/*  to be faster and dynamic, allow the creation of data from @users.json, @comics.json, @comicsdata1.json, @comicsdata2.json, @chapters.json, @chaptersdata1.json, @chaptersdata2.json, create and use all needed helpers at @src/database/seed/**/*.ts to ensure the inserted data is being created with a validated onConflictDoUpdate functions, valid zod schemas of the inserted data,ensure to use CUSTOM_PASSWORD environment variable as the users password with bcryptjs encryption , create functions to make sure no image is being downloaded twice by checking if the file does not exists in the file system or database, create functions to saves all comics images at @public/comics/covers/${comic.slug}/ use ./public/placeholder-comic.jpg as the default fallback image, create functions   to saves all  chapter images  at @public/comics/chapters/${comic.slug}/${chapter.slug}/ , Use ./public/shadcn.jpg as the default fallback image  for all user image,ensure it has a comprehensive logging with clear, concise logs for each operation performed during the seeding process, create functions to ensure all images are being downloaded and saved with its original name and file name extensions use all newly created functions and update all usages across the project reference @src/database/seed/seeders/universalSeeder.ts as example.
+- run pnpm db:seed:dry-run fix all database and validations  errors and warnings and ensure all validations pass and all data is being created or updated.
+- run pnpm validate and fix all errors and warnings.
+- Convert all any type occurrences to specific types from usage or Convert functionality to be Generic. Fix all typescript, linting errors and warnings in the project.
+- Create, Optimize and Validate @scripts/*.ts to Delete all duplicate or unused zod schemas, all duplicate or unused components,functions, types, interfaces, classes, empty folders, blank files, all files that contains .backup.
+- Create, Optimize and Validate @scripts/*.ts to  Uninstall all unused packages with pnpm.
+- Setup and Configure @.github/workflows/*.yml files for ci, automating the testing, building, and deployment of the project.
+- Create, Optimize and Validate @scripts/*.ts to Analyze the project for performance bottlenecks, security vulnerabilities, and code quality issues generate a report with findings and suggestions for improvements.
+- Create, Optimize and Validate @scripts/*.ts to Generate comprehensive documentation for the project including setup instructions, usage guidelines, and API references ensure the documentation is clear, concise, and easy to navigate.
+- Create, Optimize and Validate @scripts/*.ts to Create comprehensive README.md for the project that includes setup instructions, usage guidelines, contribution instructions, and any other relevant information.
+- Create, Optimize and Validate @scripts/*.ts to Create comprehensive @.github/prompts/Setup.prompt.md if exists update the file with all the content,tasks, tasks, recommendations from @.md, @.txt, @.ts, @.tsx, @.mjs, @.json , @.mts, @.json @.yml @.ps1 @.sh @Dockerfile files as Github copilot cli Prompts for a complete setup of this project and scaffolding all necessary files, components, pages and codes setup handler for long running functions, setup any other recommended prompts.
+- Create, Optimize and Validate @scripts/*.ts to Performance Optimization Implement caching and query optimization.
+- Create, Optimize and Validate @scripts/*.ts to Testing Suite Achieve 100%+ code coverage with unit and E2E tests.
+- Create, Optimize and Validate @scripts/*.ts to Docker & Deployment - ready containerization.
+- Create, Optimize and Validate @scripts/*.ts to Analytics & Monitoring Integrate tools like Google Analytics and Sentry.
+- Create, Optimize and Validate @scripts/*.ts to Internationalization (i18n) Multi-language support.
+- Create, Optimize and Validate @scripts/*.ts to User Onboarding & Tutorials Guided tours and tutorials for new users.
+- Optimize, Validate and Run all newly created bash, PowerShell, typescripts at @scripts
+- Optimize and Validate all scripts at @package.json to include all scripts used by this project, all scripts at @scripts
+- Create, Optimize and Validate @scripts/*.ts to Init a new Git Repo, Setup development and production branch, Configure Remote Url,
+- Create, Optimize and Validate @scripts/*.ts to add Git add all, Create a Commit and Push
+- Create, Optimize and Validate @scripts/*.ts to Deploy To Vercel
+Lastly After completing all Tasks, respond with "All tasks have been completed successfully." never provide summary just complete tasks.
+Then create a list of your recommendations for this project and await further instructions at @recommendations-list.

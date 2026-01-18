@@ -2,7 +2,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * Sentry Edge Configuration
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * This file configures Sentry for Edge Runtime (Middleware, Edge API Routes)
  */
 

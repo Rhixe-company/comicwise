@@ -1,5 +1,4 @@
 {
-  "version": "0.2.0",
   "compounds": [
     {
       "name": "🚀 Full Stack Debug",
@@ -111,5 +110,6 @@
       "console": "integratedTerminal",
       "presentation": { "group": "database", "order": 2 }
     }
-  ]
+  ],
+  "version": "0.2.0"
 }

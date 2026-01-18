@@ -4,7 +4,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * Global Error Boundary Component
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Catches and handles errors in the application
  * Provides user-friendly error messages
  * Logs errors to Sentry (if configured)
@@ -45,9 +45,7 @@ export default function GlobalError({
 
             {error.digest && (
               <div className="rounded-lg bg-muted p-4">
-                <p className="text-sm font-mono text-muted-foreground">
-                  Error ID: {error.digest}
-                </p>
+                <p className="text-sm font-mono text-muted-foreground">Error ID: {error.digest}</p>
               </div>
             )}
 

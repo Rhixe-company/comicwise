@@ -21,7 +21,7 @@ const connection = new IORedis({
 // ═══════════════════════════════════════════════════
 
 export const emailQueue = new Queue("emails", {
-  connection,
+  connection: connection as any,
   defaultJobOptions: {
     attempts: 3, // Retry failed jobs up to 3 times
     backoff: {
@@ -63,7 +63,7 @@ const emailWorker = new Worker(
     }
   },
   {
-    connection,
+    connection: connection as any,
     concurrency: 5, // Process up to 5 emails concurrently
   }
 );

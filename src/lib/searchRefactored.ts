@@ -157,10 +157,10 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
   const results = await (sortedQuery as any).limit(limit).offset(offset);
 
   const total = await getSearchTotalCount(conditions.all);
-  const comicIds = results.map((r) => r.id);
+  const comicIds = results.map((r: { id: number }) => r.id);
   const genresMap = await getComicGenres(comicIds);
 
-  const enrichedResults = results.map((result) => enrichSearchResult(result, genresMap));
+  const enrichedResults = results.map((result: unknown) => enrichSearchResult(result, genresMap));
 
   return {
     results: enrichedResults,
@@ -499,7 +499,7 @@ async function getComicGenres(comicIds: number[]): Promise<Record<number, string
       genresMap[row.comicId] = [];
     }
     if (row.genreName) {
-      genresMap[row.comicId].push(row.genreName);
+      genresMap[row.comicId]?.push(row.genreName);
     }
   }
 

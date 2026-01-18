@@ -2,7 +2,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * Sentry Client Configuration
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * This file configures Sentry for the client-side (browser)
  * Run: pnpm add @sentry/nextjs to install Sentry
  */
@@ -36,7 +36,11 @@ Sentry.init({
   // Filter out errors
   beforeSend(event, hint) {
     // Filter out known non-critical errors
-    if (hint.originalException && typeof hint.originalException === 'object' && 'message' in hint.originalException) {
+    if (
+      hint.originalException &&
+      typeof hint.originalException === "object" &&
+      "message" in hint.originalException
+    ) {
       const message = String(hint.originalException.message);
       if (message.includes("ResizeObserver") || message.includes("Non-Error promise rejection")) {
         return null;
