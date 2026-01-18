@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  * OPTIMIZED SEEDERS - User, Comic, and Chapter seeding with upsert logic
@@ -162,7 +163,9 @@ export async function seedUsers(
               name: userData.name,
               image: userData.image || existing.image,
               role: (userData.role || "user") as any,
-              emailVerified: userData.emailVerified as any,
+              emailVerified: userData.emailVerified
+                ? new Date(userData.emailVerified as string)
+                : existing.emailVerified,
               updatedAt: new Date(),
             })
             .where(eq(user.email, userData.email));
@@ -176,7 +179,9 @@ export async function seedUsers(
             email: userData.email,
             image: userData.image || null,
             role: (userData.role || "user") as any,
-            emailVerified: userData.emailVerified as any,
+            emailVerified: userData.emailVerified
+              ? new Date(userData.emailVerified as string)
+              : null,
           });
         }
         stats.created++;
@@ -289,11 +294,11 @@ export async function seedComics(
         logger.debug(`Updated comic: ${comicData.title}`);
       } else {
         if (!options.dryRun) {
-          const publicationDate = comicData.publicationDate
+          const publicationDate = comicData.updatedAt
             ? new Date(
-                typeof comicData.publicationDate === "string"
-                  ? comicData.publicationDate
-                  : String(comicData.publicationDate)
+                typeof comicData.updatedAt === "string"
+                  ? comicData.updatedAt
+                  : String(comicData.updatedAt)
               )
             : new Date();
 
@@ -378,6 +383,15 @@ export async function seedChapters(
 
   for (const chapterData of chapters) {
     try {
+      // Skip chapters without comic reference
+      if (!chapterData.comic || !chapterData.comic.slug) {
+        stats.skipped++;
+        logger.debug(
+          `Skipped chapter (no comic reference): ${chapterData.title || chapterData.name}`
+        );
+        continue;
+      }
+
       // Find comic by slug
       const parentComic = await db.query.comic.findFirst({
         where: eq(comic.slug, chapterData.comic.slug),
@@ -405,7 +419,9 @@ export async function seedChapters(
             .set({
               title: chapterData.title,
               chapterNumber: chapterData.chapterNumber,
-              releaseDate: chapterData.releaseDate as any,
+              releaseDate: chapterData.releaseDate
+                ? new Date(chapterData.releaseDate as string)
+                : new Date(),
               views: chapterData.views as any,
             })
             .where(eq(chapter.id, existing.id));
@@ -421,7 +437,9 @@ export async function seedChapters(
               slug: `chapter-${chapterData.chapterNumber}`,
               chapterNumber: chapterData.chapterNumber,
               comicId: parentComic.id,
-              releaseDate: chapterData.releaseDate as any,
+              releaseDate: chapterData.releaseDate
+                ? new Date(chapterData.releaseDate as string)
+                : new Date(),
               views: chapterData.views as any,
             })
             .returning({ id: chapter.id });
@@ -432,7 +450,7 @@ export async function seedChapters(
           if (chapterId && chapterData.images && chapterData.images.length > 0) {
             for (const imageData of chapterData.images) {
               try {
-                const imageUrl = imageData.url || imageData;
+                const imageUrl = imageData?.url || imageData;
                 const processedUrl = options.imageHandler
                   ? await options.imageHandler.processImage(imageUrl, "comic")
                   : imageUrl;

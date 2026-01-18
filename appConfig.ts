@@ -1,12 +1,12 @@
-import { z } from "zod";
+import { env as envFromT3 } from "@/lib/env";
 
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- * ComicWise Application Configuration Module (Enhanced v2.0.0)
+ * ComicWise Application Configuration Module (Enhanced v2.1.0)
  * ═══════════════════════════════════════════════════════════════════════════
  *
  * Purpose:
- *   - Centralized environment variable validation using Zod
+ *   - Centralized environment variable validation using Zod & T3 Env
  *   - Type-safe configuration management for all environments
  *   - Flexible feature flags and conditional settings
  *   - Cross-platform support (Windows, Linux, macOS)
@@ -14,226 +14,32 @@ import { z } from "zod";
  * Framework: Next.js 16 | Runtime: Node.js 20+ | Package Manager: pnpm
  *
  * Features:
- *   ✅ Comprehensive Zod schema validation
+ *   ✅ Comprehensive Zod schema validation (via @t3-oss/env-nextjs)
  *   ✅ Environment-aware configuration
  *   ✅ Helper functions for type-safe access
  *   ✅ Production-ready security defaults
  *
  * Usage:
  *   import { env, appConfig, isDevelopment } from "@/appConfig"
+ *
+ * Note: Primary validation via src/lib/env.ts (T3 Env)
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-// ═══════════════════════════════════════════════════════════════════════════
-// ENVIRONMENT SCHEMA (Next.js 16 Optimized)
-// ═══════════════════════════════════════════════════════════════════════════
-
 /**
- * Comprehensive Zod schema for environment variable validation.
- * Validates and coerces all required and optional environment variables.
+ * Environment validation is handled by @t3-oss/env-nextjs in src/lib/env.ts
+ * This file re-exports the validated environment and provides app-specific configuration.
  */
-const environmentSchema = z
-  .object({
-    // ═══════════════════════════════════════════════════
-    // Database Configuration
-    // ═══════════════════════════════════════════════════
-    // Database URLs
-    DATABASE_URL: z
-      .string()
-      .url("DATABASE_URL must be a valid URL")
-      .optional()
-      .or(z.literal(""))
-      .default(""),
-    NEON_DATABASE_URL: z.string().url().optional().or(z.literal("")).default(""),
-
-    // ═══════════════════════════════════════════════════
-    // Authentication (Next-Auth v5)
-    // ═══════════════════════════════════════════════════
-    // Auth
-    AUTH_SECRET: z
-      .string()
-      .min(32, "AUTH_SECRET must be at least 32 characters")
-      .optional()
-      .or(z.literal(""))
-      .default(""),
-    AUTH_URL: z
-      .string()
-      .url("AUTH_URL must be a valid URL")
-      .optional()
-      .or(z.literal(""))
-      .default(""),
-
-    // ═══════════════════════════════════════════════════
-    // Upload Services
-    // ═══════════════════════════════════════════════════
-    // Upload provider
-    UPLOAD_PROVIDER: z.enum(["imagekit", "cloudinary", "local", "aws"]).default("local"),
-
-    // ImageKit
-    IMAGEKIT_PUBLIC_KEY: z.string().optional(),
-    IMAGEKIT_PRIVATE_KEY: z.string().optional(),
-    IMAGEKIT_URL_ENDPOINT: z.string().url().optional(),
-    IMAGEKIT_ENABLED: z.string().optional(),
-
-    // Cloudinary
-    CLOUDINARY_CLOUD_NAME: z.string().optional(),
-    CLOUDINARY_API_KEY: z.string().optional(),
-    CLOUDINARY_API_SECRET: z.string().optional(),
-
-    // AWS S3
-    AWS_REGION: z.string().optional(),
-    AWS_ACCESS_KEY_ID: z.string().optional(),
-    AWS_SECRET_ACCESS_KEY: z.string().optional(),
-    AWS_S3_BUCKET_NAME: z.string().optional(),
-
-    // ═══════════════════════════════════════════════════
-    // Email Configuration (Nodemailer)
-    // ═══════════════════════════════════════════════════
-    // Email
-    EMAIL_SERVER_HOST: z.string().default("smtp.gmail.com"),
-    EMAIL_SERVER_PORT: z.coerce.number().int().positive().default(587),
-    EMAIL_SERVER_USER: z.string().default(""),
-    EMAIL_SERVER_PASSWORD: z.string().default(""),
-    EMAIL_FROM: z.string().email("Invalid email address").default("noreply@comicwise.com"),
-    EMAIL_SECURE: z.coerce.boolean().default(false),
-
-    // Legacy SMTP support (backwards compatibility)
-    SMTP_HOST: z.string().optional(),
-    SMTP_PORT: z.coerce.number().int().positive().optional(),
-    SMTP_USER: z.string().optional(),
-    SMTP_PASSWORD: z.string().optional(),
-    SMTP_FROM: z.string().email().optional(),
-    SMTP_SECURE: z.coerce.boolean().optional(),
-
-    // ═══════════════════════════════════════════════════
-    // Background Jobs (QStash)
-    // ═══════════════════════════════════════════════════
-    // QStash
-    QSTASH_TOKEN: z.string().optional(),
-    QSTASH_CURRENT_SIGNING_KEY: z.string().optional(),
-    QSTASH_NEXT_SIGNING_KEY: z.string().optional(),
-    QSTASH_URL: z.string().url().optional(),
-
-    // ═══════════════════════════════════════════════════
-    // Redis Configuration (ioredis for caching & BullMQ)
-    // ═══════════════════════════════════════════════════
-    // Redis
-    REDIS_HOST: z.string().default("localhost"),
-    REDIS_PORT: z.coerce.number().int().positive().default(6379),
-    REDIS_PASSWORD: z.string().optional(),
-    REDIS_DB: z.coerce.number().int().nonnegative().default(0),
-    REDIS_URL: z.string().optional(),
-    REDIS_TLS_ENABLED: z.coerce.boolean().default(false),
-
-    // ═══════════════════════════════════════════════════
-    // Rate Limiting (Upstash Redis - Optional Alternative)
-    // ═══════════════════════════════════════════════════
-    // Upstash Redis
-    UPSTASH_REDIS_REST_URL: z.string().url().optional(),
-    UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
-
-    // ═══════════════════════════════════════════════════
-    // Application Configuration
-    // ═══════════════════════════════════════════════════
-    // App Environment
-    NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
-    PORT: z.coerce.number().int().positive().optional(),
-    NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
-
-    // ═══════════════════════════════════════════════════
-    // OAuth Providers (Optional)
-    // ═══════════════════════════════════════════════════
-    // OAuth Providers
-    AUTH_GOOGLE_CLIENT_ID: z.string().optional(),
-    AUTH_GOOGLE_CLIENT_SECRET: z.string().optional(),
-    AUTH_GITHUB_CLIENT_ID: z.string().optional(),
-    AUTH_GITHUB_CLIENT_SECRET: z.string().optional(),
-    CUSTOM_PASSWORD: z.string().optional(),
-  })
-  .passthrough();
 
 // ═══════════════════════════════════════════════════
-// TYPE EXPORTS
-// ═══════════════════════════════════════════════════
-
-export type Environment = z.infer<typeof environmentSchema>;
-
-// ═══════════════════════════════════════════════════
-// ENVIRONMENT VALIDATION
+// VALIDATED ENVIRONMENT (from T3 Env)
 // ═══════════════════════════════════════════════════
 
 /**
- * Validate and parse environment variables for both development and production.
- * Ensures all required variables are set and provides helpful warnings.
+ * Primary environment export from @t3-oss/env-nextjs
+ * Provides type-safe access to all validated environment variables
  */
-function validateEnvironment(): Environment {
-  try {
-    // Parse with fallback support for legacy SMTP variables and provide clear error output
-    const parsedEnvironment = environmentSchema.parse({
-      ...process.env,
-      PORT: process.env["PORT"] ?? "3000",
-      EMAIL_SERVER_HOST:
-        process.env["EMAIL_SERVER_HOST"] ?? process.env["SMTP_HOST"] ?? "smtp.gmail.com",
-      EMAIL_SERVER_PORT: process.env["EMAIL_SERVER_PORT"] ?? process.env["SMTP_PORT"] ?? "587",
-      EMAIL_SERVER_USER: process.env["EMAIL_SERVER_USER"] ?? process.env["SMTP_USER"] ?? "",
-      EMAIL_SERVER_PASSWORD:
-        process.env["EMAIL_SERVER_PASSWORD"] ?? process.env["SMTP_PASSWORD"] ?? "",
-      EMAIL_FROM: process.env["EMAIL_FROM"] ?? process.env["SMTP_FROM"] ?? "noreply@comicwise.com",
-      EMAIL_SECURE: process.env["EMAIL_SECURE"] ?? process.env["SMTP_SECURE"] ?? "false",
-      NEXT_PUBLIC_APP_URL: process.env["NEXT_PUBLIC_APP_URL"] ?? "http://localhost:3000",
-    });
-    return parsedEnvironment;
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      const missingVariables = error.issues
-        .filter((issue) => {
-          const path = issue.path[0]?.toString() ?? "";
-          // Filter out optional and legacy SMTP variables
-          return (
-            !path.startsWith("SMTP_") && !path.includes("OPTIONAL") && issue.code === "invalid_type"
-          );
-        })
-        .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
-        .join("\n  ");
-
-      if (missingVariables) {
-        console.warn(`⚠️  Environment validation warnings:\n  ${missingVariables}\n`);
-      }
-      // Return with defaults for non-critical vars
-      const data = environmentSchema.safeParse({
-        ...process.env,
-        PORT: process.env["PORT"] ?? "3000",
-        DATABASE_URL: process.env["DATABASE_URL"] ?? "",
-        AUTH_SECRET: process.env["AUTH_SECRET"] ?? "",
-        AUTH_URL: process.env["AUTH_URL"] ?? "",
-        EMAIL_SERVER_HOST:
-          process.env["EMAIL_SERVER_HOST"] ?? process.env["SMTP_HOST"] ?? "smtp.gmail.com",
-        EMAIL_SERVER_PORT: process.env["EMAIL_SERVER_PORT"] ?? process.env["SMTP_PORT"] ?? "587",
-        EMAIL_SERVER_USER: process.env["EMAIL_SERVER_USER"] ?? process.env["SMTP_USER"] ?? "",
-        EMAIL_SERVER_PASSWORD:
-          process.env["EMAIL_SERVER_PASSWORD"] ?? process.env["SMTP_PASSWORD"] ?? "",
-        EMAIL_FROM:
-          process.env["EMAIL_FROM"] ?? process.env["SMTP_FROM"] ?? "noreply@comicwise.com",
-        EMAIL_SECURE: process.env["EMAIL_SECURE"] ?? process.env["SMTP_SECURE"] ?? "false",
-        NEXT_PUBLIC_APP_URL: process.env["NEXT_PUBLIC_APP_URL"] ?? "http://localhost:3000",
-        NODE_ENV: process.env.NODE_ENV ?? "development",
-        UPLOAD_PROVIDER: process.env["UPLOAD_PROVIDER"] ?? "local",
-      });
-      return data.success
-        ? data.data
-        : (() => {
-            throw error;
-          })();
-    }
-    throw error;
-  }
-}
-
-// ═══════════════════════════════════════════════════
-// VALIDATED ENVIRONMENT
-// ═══════════════════════════════════════════════════
-
-export const env = validateEnvironment();
+export const env = envFromT3;
 
 // ═══════════════════════════════════════════════════
 // HELPER FUNCTIONS
@@ -241,25 +47,9 @@ export const env = validateEnvironment();
 
 /**
  * Check if a specific environment variable is set
- * param key
- * @param key
  */
-export function hasEnvironment(key: keyof Environment): boolean {
+export function hasEnvironment<K extends keyof typeof env>(key: K): boolean {
   return !!env[key];
-}
-
-/**
- * Get environment variable with type safety
- * param key
- * param defaultValue
- * @param key
- * @param defaultValue
- */
-export function getEnv<K extends keyof Environment>(
-  key: K,
-  defaultValue?: Environment[K]
-): Environment[K] {
-  return env[key] ?? (defaultValue as Environment[K]);
 }
 
 /**
@@ -281,8 +71,6 @@ export const isTest = env.NODE_ENV === "test";
 // ═══════════════════════════════════════════════════
 // APP CONFIGURATION (Next.js 16 Optimized)
 // ═══════════════════════════════════════════════════
-
-// re-exported from env.ts
 
 // ═══════════════════════════════════════════════════
 // APPLICATION CONFIGURATION
@@ -315,7 +103,6 @@ const appConfig = {
   // Database configuration
   database: {
     url: env.DATABASE_URL,
-    neonUrl: env.NEON_DATABASE_URL,
     pooling: isProduction,
   },
 
@@ -325,12 +112,12 @@ const appConfig = {
   // Authentication configuration
   auth: {
     secret: env.AUTH_SECRET,
-    url: env.AUTH_URL,
+    trustHost: env.AUTH_TRUST_HOST,
     sessionMaxAge: 30 * 24 * 60 * 60, // 30 days
     providers: {
       credentials: true,
-      google: hasEnvironment("AUTH_GOOGLE_CLIENT_ID"),
-      github: hasEnvironment("AUTH_GITHUB_CLIENT_ID"),
+      google: hasEnvironment("GOOGLE_CLIENT_ID"),
+      github: hasEnvironment("GITHUB_CLIENT_ID"),
     },
   },
 
@@ -373,13 +160,12 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Email configuration
   email: {
-    host: env.EMAIL_SERVER_HOST,
-    port: env.EMAIL_SERVER_PORT,
-    secure: env.EMAIL_SECURE,
-    user: env.EMAIL_SERVER_USER ?? "",
-    password: env.EMAIL_SERVER_PASSWORD ?? "",
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
+    user: env.SMTP_USER ?? "",
+    password: env.SMTP_PASSWORD ?? "",
     from: env.EMAIL_FROM,
-    enabled: !!(env.EMAIL_SERVER_USER && env.EMAIL_SERVER_PASSWORD),
+    enabled: !!(env.SMTP_USER && env.SMTP_PASSWORD),
   },
 
   // ═══════════════════════════════════════════════════
@@ -394,20 +180,13 @@ const appConfig = {
       publicKey: env.IMAGEKIT_PUBLIC_KEY ?? "",
       privateKey: env.IMAGEKIT_PRIVATE_KEY ?? "",
       urlEndpoint: env.IMAGEKIT_URL_ENDPOINT ?? "",
-      enabled: env.IMAGEKIT_ENABLED,
+      enabled: hasEnvironment("IMAGEKIT_PUBLIC_KEY"),
     },
     cloudinary: {
       cloudName: env.CLOUDINARY_CLOUD_NAME ?? "",
       apiKey: env.CLOUDINARY_API_KEY ?? "",
       apiSecret: env.CLOUDINARY_API_SECRET ?? "",
       enabled: hasEnvironment("CLOUDINARY_CLOUD_NAME"),
-    },
-    aws: {
-      region: env.AWS_REGION ?? "",
-      accessKeyId: env.AWS_ACCESS_KEY_ID ?? "",
-      secretAccessKey: env.AWS_SECRET_ACCESS_KEY ?? "",
-      bucketName: env.AWS_S3_BUCKET_NAME ?? "",
-      enabled: hasEnvironment("AWS_ACCESS_KEY_ID"),
     },
   },
 
@@ -453,14 +232,13 @@ const appConfig = {
     comments: true,
     bookmarks: true,
     ratings: true,
-    email: !!(env.EMAIL_SERVER_USER && env.EMAIL_SERVER_PASSWORD),
+    email: !!(env.SMTP_USER && env.SMTP_PASSWORD),
     emailVerification: true,
-    oauth: hasEnvironment("AUTH_GOOGLE_CLIENT_ID") ?? hasEnvironment("AUTH_GITHUB_CLIENT_ID"),
+    oauth: hasEnvironment("GOOGLE_CLIENT_ID") || hasEnvironment("GITHUB_CLIENT_ID"),
     backgroundJobs: hasEnvironment("QSTASH_TOKEN"),
     rateLimiting: hasEnvironment("UPSTASH_REDIS_REST_URL"),
-    imageUpload: hasEnvironment("IMAGEKIT_PUBLIC_KEY") ?? hasEnvironment("CLOUDINARY_CLOUD_NAME"),
+    imageUpload: hasEnvironment("IMAGEKIT_PUBLIC_KEY") || hasEnvironment("CLOUDINARY_CLOUD_NAME"),
   },
-  customPassword: env.CUSTOM_PASSWORD ?? "",
 } as const;
 
 // ═══════════════════════════════════════════════════

@@ -10,9 +10,9 @@
 
 import { logger } from "@/database/seed/logger-optimized";
 import {
-  chapterArraySchema,
-  comicArraySchema,
-  userArraySchema,
+  chapterSeedSchema,
+  comicSeedSchema,
+  userSeedSchema,
   validateArray,
   type ChapterSeedData,
   type ComicSeedData,
@@ -30,17 +30,17 @@ import path from "path";
 const DATA_SOURCES = {
   users: {
     patterns: ["users.json"],
-    schema: userArraySchema,
+    schema: userSeedSchema,
     type: "user" as const,
   },
   comics: {
     patterns: ["comics.json", "comicsdata*.json"],
-    schema: comicArraySchema,
+    schema: comicSeedSchema,
     type: "comic" as const,
   },
   chapters: {
     patterns: ["chapters.json", "chaptersdata*.json"],
-    schema: chapterArraySchema,
+    schema: chapterSeedSchema,
     type: "chapter" as const,
   },
 } as const;

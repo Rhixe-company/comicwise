@@ -61,6 +61,20 @@ export type UserSeedData = z.infer<typeof userSeedSchema>;
 
 const metadataNameSchema = z.object({ name: z.string().min(1).max(255) }).passthrough();
 
+// Flexible metadata that accepts both string and object formats
+const flexibleMetadata = z
+  .union([
+    z.string().transform((name) => ({ name })), // Convert string to object
+    metadataNameSchema, // Accept object
+  ])
+  .optional();
+
+// Flexible genre array that accepts strings or objects
+const flexibleGenresArray = z
+  .array(z.union([z.string().transform((name) => ({ name })), metadataNameSchema]))
+  .optional()
+  .default([]);
+
 // ─────────────────────────────────────────────────────────────────────────
 // COMIC SCHEMA - Flexible comic data validation
 // ─────────────────────────────────────────────────────────────────────────
@@ -79,15 +93,27 @@ export const comicSeedSchema = z
       .default("Ongoing"),
     serialization: z.string().optional(),
     url: urlOrString.optional(),
-    type: metadataNameSchema.optional(),
-    author: metadataNameSchema.optional(),
-    artist: metadataNameSchema.optional(),
-    genres: z.array(metadataNameSchema).optional().default([]),
+    type: flexibleMetadata,
+    author: flexibleMetadata,
+    artist: flexibleMetadata,
+    genres: flexibleGenresArray,
     views: numericString.optional(),
     updatedAt: z.string().optional(),
     createdAt: z.string().optional(),
   })
-  .passthrough();
+  .passthrough()
+  .transform((data) => {
+    // Normalize fields from different data source formats
+    return {
+      ...data,
+      // Handle snake_case field names from some sources
+      title: data.title,
+      slug: data.slug,
+      description: data.description,
+      images: data.images || [],
+      genres: data.genres || [],
+    };
+  });
 
 export type ComicSeedData = z.infer<typeof comicSeedSchema>;
 
@@ -105,10 +131,12 @@ export const chapterSeedSchema = z
     url: urlOrString.optional(),
     views: numericString.optional(),
     images: imageArray.optional(),
-    comic: z.object({
-      title: z.string().min(1),
-      slug: z.string().min(1),
-    }),
+    comic: z
+      .object({
+        title: z.string().min(1),
+        slug: z.string().min(1),
+      })
+      .optional(),
     updatedAt: z.string().optional(),
     createdAt: z.string().optional(),
   })
@@ -127,6 +155,7 @@ export const chapterSeedSchema = z
       chapterNumber,
       title: data.title || data.name || "Unknown Chapter",
       images: data.images || [],
+      comic: data.comic, // Make it optional
     };
   });
 
