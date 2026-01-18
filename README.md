@@ -1,173 +1,116 @@
 # 🚀 ComicWise - Modern Web Comic Platform
 
-<div align="center">
+![Next.js](https://img.shields.io/badge/Next.js-16.1.3-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-19.2.3-blue?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue?style=for-the-badge&logo=postgresql)
+![Redis](https://img.shields.io/badge/Redis-7-red?style=for-the-badge&logo=redis)
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.1-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2-blue?logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue?logo=postgresql)](https://www.postgresql.org/)
-[![Redis](https://img.shields.io/badge/Redis-7+-red?logo=redis)](https://redis.io/)
-[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+> A cutting-edge web comic reading platform built with Next.js 16, PostgreSQL, Redis, and AI-powered features.
 
-**A feature-rich, production-ready web comic reading platform built with modern
-web technologies**
-
-</div>
+[Features](#-features) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
 
 ---
 
 ## ✨ Features
 
-### 🎨 **User Experience**
-
-- Modern UI/UX with Tailwind CSS & shadcn/ui
-- Dark/Light mode theme support
-- Reading progress tracking
-- Bookmarks & favorites system
-- Advanced full-text search
-- Community comment system
-
-### 🔐 **Authentication**
-
-- NextAuth v5 with multiple providers
-- OAuth (Google, GitHub)
-- Role-based access control (User, Moderator, Admin)
-- Email verification
-- Secure password reset
-
-### 📚 **Content Management**
-
-- Full CRUD operations for comics & chapters
-- Genre categorization
-- Multi-provider image storage (ImageKit, Cloudinary, AWS S3, Local)
-- Efficient bulk data seeding
-- Admin dashboard
-
-### ⚡ **Performance**
-
-- Server-side rendering with Next.js 16
-- Redis caching layer
-- Optimized image delivery via CDN
-- Database query optimization
-- Background job processing with QStash
-
----
-
-## 📋 Prerequisites
-
-- **Node.js** 20+
-- **pnpm** 9+
-- **PostgreSQL** 15+
-- **Redis** 7+ (optional)
+- 📚 **Modern Stack** - Next.js 16, React 19, TypeScript 5
+- 🔐 **Authentication** - NextAuth v5 with multiple providers
+- 💾 **Database** - PostgreSQL with Drizzle ORM
+- ⚡ **Caching** - Redis for high performance
+- 🎨 **UI Components** - Shadcn/ui with Tailwind CSS 4
+- 🖼️ **CDN Integration** - ImageKit/Cloudinary support
+- 🧪 **Testing** - Vitest + Playwright
+- 🐳 **Docker Ready** - Full containerization support
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Clone & Install
-
 ```bash
+# 1. Clone repository
 git clone https://github.com/yourusername/comicwise.git
 cd comicwise
+
+# 2. Install dependencies
 pnpm install
-```
 
-### 2. Environment Configuration
-
-```bash
+# 3. Setup environment
 cp .env.example .env.local
-```
+# Edit .env.local with your configuration
 
-**Minimum required variables:**
+# 4. Setup database
+pnpm db:push && pnpm db:seed
 
-```env
-DATABASE_URL="postgresql://user:password@localhost:5432/comicwise"
-AUTH_SECRET="your-secret-here"  # Generate: openssl rand -base64 32
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
-```
-
-### 3. Database Setup
-
-```bash
-pnpm db:push    # Push schema
-pnpm db:seed    # Optional: seed sample data
-```
-
-### 4. Start Development Server
-
-```bash
+# 5. Start development server
 pnpm dev
 ```
 
-Visit **http://localhost:3000** 🎉
+Visit [http://localhost:3000](http://localhost:3000) 🎉
 
 ---
 
-## 📦 Key Scripts
+## 📋 Prerequisites
 
-```bash
-pnpm dev              # Development server
-pnpm build            # Production build
-pnpm start            # Production server
-pnpm lint            # Run ESLint
-pnpm format          # Format with Prettier
-pnpm type-check      # TypeScript check
-pnpm test:unit       # Unit tests (Vitest)
-pnpm test            # E2E tests (Playwright)
-pnpm db:studio       # Drizzle Studio GUI
+- Node.js 20+
+- pnpm 10+
+- PostgreSQL 16+
+- Redis 7+ (optional)
+
+---
+
+## ⚙️ Environment Setup
+
+Create `.env.local`:
+
+```env
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/comicwise"
+
+# Auth
+AUTH_SECRET="<generate-with-openssl-rand-base64-32>"
+AUTH_TRUST_HOST="true"
+
+# App
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NODE_ENV="development"
+
+# Seed
+CUSTOM_PASSWORD="<your-secure-password>"
 ```
 
 ---
 
-## 🏗️ Tech Stack
+## 💻 Development Scripts
 
-- **Framework**: Next.js 16 (App Router)
-- **Language**: TypeScript 5
-- **Database**: PostgreSQL + Drizzle ORM
-- **Cache**: Redis / Upstash
-- **Auth**: NextAuth v5
-- **UI**: Tailwind CSS + shadcn/ui
-- **Validation**: Zod
-- **Testing**: Vitest + Playwright
-- **CI/CD**: GitHub Actions
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Build for production |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run ESLint |
+| `pnpm type-check` | TypeScript validation |
+| `pnpm test` | Run E2E tests |
+| `pnpm test:unit` | Run unit tests |
+| `pnpm db:push` | Push database schema |
+| `pnpm db:seed` | Seed database |
+| `pnpm db:studio` | Open Drizzle Studio |
 
 ---
 
-## 📂 Project Structure
+## 📁 Project Structure
 
 ```
 comicwise/
 ├── src/
-│   ├── app/              # Next.js pages
+│   ├── app/              # Next.js App Router
 │   ├── components/       # React components
-│   ├── database/         # DB layer (schema, queries, mutations)
-│   ├── lib/              # Utilities & server actions
-│   ├── services/         # Business logic
-│   └── types/            # TypeScript definitions
+│   ├── database/         # Drizzle ORM & queries
+│   ├── lib/              # Utilities & configurations
+│   └── services/         # Business logic
 ├── public/               # Static assets
-├── .github/workflows/    # CI/CD pipelines
-└── scripts/              # Utility scripts
-```
-
----
-
-## 🔧 Configuration
-
-### Image Storage Providers
-
-```env
-# Choose one:
-UPLOAD_PROVIDER="local"      # Development
-UPLOAD_PROVIDER="imagekit"   # Production (Recommended)
-UPLOAD_PROVIDER="cloudinary"
-UPLOAD_PROVIDER="aws"
-```
-
-### Caching
-
-```env
-CACHE_ENABLED="true"
-REDIS_URL="redis://localhost:6379"
+├── scripts/              # Build & utility scripts
+└── .vscode/              # VS Code configuration
 ```
 
 ---
@@ -176,22 +119,27 @@ REDIS_URL="redis://localhost:6379"
 
 ```bash
 # Unit tests
-pnpm test:unit:run
-pnpm test:unit:coverage
+pnpm test:unit
 
 # E2E tests
 pnpm test
-pnpm test:headed
-pnpm test:ui
+
+# Watch mode
+pnpm test:unit:watch
+
+# Coverage
+pnpm test:unit:coverage
 ```
 
 ---
 
-## 🚢 Deployment
+## 🚀 Deployment
 
 ### Vercel (Recommended)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+```bash
+pnpm deploy:vercel
+```
 
 ### Docker
 
@@ -205,29 +153,30 @@ pnpm docker:up
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create feature branch (`git checkout -b feature/name`)
-3. Commit changes (`git commit -m 'Add feature'`)
-4. Push to branch (`git push origin feature/name`)
-5. Open Pull Request
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ---
 
 ## 📝 License
 
-MIT License - see [LICENSE](LICENSE) file
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Credits
+## 🙏 Acknowledgments
 
-Built with [Next.js](https://nextjs.org/),
-[Drizzle ORM](https://orm.drizzle.team/), [shadcn/ui](https://ui.shadcn.com/),
-and ❤️
+- [Next.js](https://nextjs.org/) - The React Framework
+- [Shadcn/ui](https://ui.shadcn.com/) - UI Components
+- [Drizzle ORM](https://orm.drizzle.team/) - TypeScript ORM
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS
 
 ---
 
 <div align="center">
 
-**[⬆ back to top](#-comicwise---modern-web-comic-platform)**
+**Built with ❤️ by the ComicWise Team**
 
 </div>

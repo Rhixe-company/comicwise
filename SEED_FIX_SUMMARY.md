@@ -8,15 +8,18 @@
 ## ✅ Fixed Issues
 
 ### 1. **Comic Insert Errors - FIXED**
+
 **Error:** `Cannot read properties of undefined (reading 'keyAsName')`
 
 **Root Cause:**
+
 - Missing `publicationDate` field (required by schema)
 - Invalid `serialization` and `url` fields (don't exist in schema)
 - Type table using non-existent `slug` field
 - Attempting to update `title` on conflict (violates unique constraint)
 
 **Fix Applied:**
+
 ```typescript
 // Before: Missing required field
 .values({
@@ -27,7 +30,7 @@
 
 // After: Correct fields with publicationDate
 .values({
-  title, slug, description, coverImage, 
+  title, slug, description, coverImage,
   rating: rating.toString(), // Converted to decimal string
   status,
   publicationDate: new Date(), // ✅ Required field added
@@ -50,19 +53,22 @@
 ### 2. **Type/Author/Artist Upsert Errors - FIXED**
 
 **Issues:**
+
 - Type table doesn't have `slug` field
 - Author/Artist don't have unique constraints on `name`
 - Author/Artist don't have `updatedAt` field
 
 **Fix Applied:**
+
 ```typescript
 // Type - Use name instead of slug
-await db.insert(comicType)
+await db
+  .insert(comicType)
   .values({ name: validated.type.name })
   .onConflictDoUpdate({
     target: comicType.name, // ✅ Correct unique field
-    set: { name: validated.type.name }
-  })
+    set: { name: validated.type.name },
+  });
 
 // Author/Artist - Check existence first
 const [existing] = await db
@@ -74,7 +80,8 @@ const [existing] = await db
 if (existing) {
   authorId = existing.id;
 } else {
-  const [record] = await db.insert(author)
+  const [record] = await db
+    .insert(author)
     .values({ name: validated.author.name })
     .returning({ id: author.id });
   authorId = record.id;
@@ -88,11 +95,13 @@ if (existing) {
 **Current Status:** ~90% of chapters failing silently
 
 **Issues Identified:**
+
 - DrizzleQueryError doesn't expose underlying PostgreSQL error
 - Likely database timeout or connection pool exhaustion
 - Concurrent operations may be overwhelming the database
 
 **Applied Improvements:**
+
 ```typescript
 // Added chapter number validation
 if (!chapterNum || chapterNum === 0) {
@@ -112,6 +121,7 @@ try {
 ```
 
 **Recommended Next Steps:**
+
 1. Reduce concurrency from 10 to 5
 2. Add retry logic for failed inserts
 3. Check database connection pool settings
@@ -147,11 +157,13 @@ try {
 ### Chapter Insert Failures
 
 **Symptoms:**
+
 - All chapter inserts return `DrizzleQueryError`
 - No chapters created despite valid data
 - Error message doesn't show underlying PostgreSQL cause
 
 **Possible Causes:**
+
 1. **Database Connection Pool Exhausted**
    - Too many concurrent connections
    - Solution: Reduce CONFIG.CONCURRENCY from 10 to 5
@@ -169,6 +181,7 @@ try {
    - releaseDate format issues
 
 **Debug Steps:**
+
 ```bash
 # 1. Check chapter schema
 grep -A 20 "export const chapter" src/database/schema.ts
@@ -226,25 +239,28 @@ pnpm db:seed 2>&1 | grep "created\|updated"
 ## 💡 Recommendations
 
 ### Immediate Actions:
+
 1. **Reduce Concurrency**
+
    ```typescript
    const CONFIG = {
-     CONCURRENCY: 5,  // Was 10
-     IMAGE_CONCURRENCY: 1,  // Was 3
-   }
+     CONCURRENCY: 5, // Was 10
+     IMAGE_CONCURRENCY: 1, // Was 3
+   };
    ```
 
 2. **Add Chapter Slug Unique Handling**
+
    ```typescript
    // Check if chapter already exists by slug
-   const [existing] = await db.select()
+   const [existing] = await db
+     .select()
      .from(chapter)
-     .where(and(
-       eq(chapter.comicId, comicRecord.id),
-       eq(chapter.slug, chapterSlug)
-     ))
+     .where(
+       and(eq(chapter.comicId, comicRecord.id), eq(chapter.slug, chapterSlug))
+     )
      .limit(1);
-   
+
    if (existing) return; // Skip duplicate
    ```
 
@@ -256,13 +272,14 @@ pnpm db:seed 2>&1 | grep "created\|updated"
          return await fn();
        } catch (err) {
          if (i === retries - 1) throw err;
-         await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+         await new Promise((r) => setTimeout(r, 1000 * (i + 1)));
        }
      }
    }
    ```
 
 ### Long-term Solutions:
+
 1. Split chapter seeding into separate script
 2. Use database transactions for related inserts
 3. Implement proper connection pooling
@@ -270,6 +287,8 @@ pnpm db:seed 2>&1 | grep "created\|updated"
 
 ---
 
-**Status:** Seed system is 70% functional. Users and Comics work perfectly. Chapter insertion needs database-level debugging.
+**Status:** Seed system is 70% functional. Users and Comics work perfectly.
+Chapter insertion needs database-level debugging.
 
-**Next Step:** Investigate chapter schema and reduce concurrency to resolve remaining errors.
+**Next Step:** Investigate chapter schema and reduce concurrency to resolve
+remaining errors.

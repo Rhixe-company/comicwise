@@ -1,798 +1,112 @@
 {
+  "version": "2.0.0",
   "tasks": [
-    {
-      "label": "📦 Install Dependencies",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["install"],
-      "group": {
-        "kind": "none"
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "setup",
-        "echo": true
-      },
-      "problemMatcher": [],
-      "runOptions": {
-        "runOn": "default"
-      },
-      "icon": {
-        "id": "package",
-        "color": "terminal.ansiBlue"
-      }
-    },
-    {
-      "label": "🎯 Full Setup",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["setup"],
-      "dependsOrder": "sequence",
-      "dependsOn": ["📦 Install Dependencies"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "setup"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "check-all",
-        "color": "terminal.ansiGreen"
-      }
-    },
     {
       "label": "🚀 Dev Server",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["dev"],
+      "command": "pnpm dev",
       "isBackground": true,
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
+      "group": { "kind": "build", "isDefault": true },
       "problemMatcher": {
-        "pattern": {
-          "regexp": "^.*$"
-        },
+        "pattern": { "regexp": "." },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": "^.*Local:.*",
-          "endsPattern": "^.*ready - started server.*"
+          "beginsPattern": "starting the development server",
+          "endsPattern": "ready started server"
         }
       },
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "development",
-        "focus": true
-      },
-      "icon": {
-        "id": "rocket",
-        "color": "terminal.ansiGreen"
-      }
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "dev" }
     },
     {
-      "label": "🚀 Dev Server (Debug Mode)",
+      "label": "🏗️  Build",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["dev:debug"],
-      "isBackground": true,
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "^.*$"
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": "^.*Debugger listening.*",
-          "endsPattern": "^.*ready - started server.*"
-        }
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "development"
-      },
-      "icon": {
-        "id": "debug",
-        "color": "terminal.ansiYellow"
-      }
+      "command": "pnpm build",
+      "group": "build",
+      "problemMatcher": "$tsc",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "build" }
     },
     {
-      "label": "🔍 Type Check",
+      "label": "✅ Type Check",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["type-check"],
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "problemMatcher": ["$tsc"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "validation"
-      },
-      "icon": {
-        "id": "search",
-        "color": "terminal.ansiCyan"
-      }
-    },
-    {
-      "label": "🔍 Type Check (Watch)",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["type-check:watch"],
-      "isBackground": true,
-      "problemMatcher": ["$tsc-watch"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "validation"
-      },
-      "icon": {
-        "id": "eye-watch",
-        "color": "terminal.ansiCyan"
-      }
+      "command": "pnpm type-check",
+      "problemMatcher": "$tsc",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "validation" }
     },
     {
       "label": "🎨 Lint",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["lint"],
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "problemMatcher": ["$eslint-stylish"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "validation"
-      },
-      "icon": {
-        "id": "paintbrush",
-        "color": "terminal.ansiMagenta"
-      }
-    },
-    {
-      "label": "🎨 Lint (Fix)",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["lint:fix"],
-      "problemMatcher": ["$eslint-stylish"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "validation"
-      },
-      "icon": {
-        "id": "wand",
-        "color": "terminal.ansiMagenta"
-      }
+      "command": "pnpm lint",
+      "problemMatcher": "$eslint-stylish",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "validation" }
     },
     {
       "label": "💅 Format",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["format"],
-      "presentation": {
-        "reveal": "silent",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "validation"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "sparkle",
-        "color": "terminal.ansiMagenta"
-      }
+      "command": "pnpm format",
+      "presentation": { "reveal": "silent", "panel": "shared", "group": "validation" }
     },
     {
-      "label": "💅 Format Check",
+      "label": "🧪 Unit Tests",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["format:check"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "validation"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "✅ Validate All",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["validate"],
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "validation"
-      },
-      "problemMatcher": ["$tsc", "$eslint-stylish"],
-      "icon": {
-        "id": "verified-filled",
-        "color": "terminal.ansiGreen"
-      }
-    },
-    {
-      "label": "🏗️ Build",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["build"],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "problemMatcher": ["$tsc"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "build"
-      },
-      "icon": {
-        "id": "tools",
-        "color": "terminal.ansiYellow"
-      }
-    },
-    {
-      "label": "🏗️ Build (Analyze)",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["build:analyze"],
-      "problemMatcher": ["$tsc"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "build"
-      },
-      "icon": {
-        "id": "graph",
-        "color": "terminal.ansiYellow"
-      }
-    },
-    {
-      "label": "🏗️ Build (Standalone)",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["build:standalone"],
-      "problemMatcher": ["$tsc"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "build"
-      }
-    },
-    {
-      "label": "🧪 Test (Unit)",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["test:unit:run"],
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "testing"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "beaker",
-        "color": "terminal.ansiCyan"
-      }
-    },
-    {
-      "label": "🧪 Test (Unit Watch)",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["test:unit"],
+      "command": "pnpm test:unit",
       "isBackground": true,
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "^.*$"
-        }
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "testing"
-      }
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "test" }
     },
     {
-      "label": "🧪 Test (E2E)",
+      "label": "🎭 E2E Tests",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["test"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "testing"
-      },
-      "problemMatcher": []
+      "command": "pnpm test",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "test" }
     },
     {
-      "label": "🧪 Test (E2E UI)",
+      "label": "🗄️  Database Push",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["test:ui"],
-      "isBackground": true,
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "testing"
-      },
-      "problemMatcher": []
+      "command": "pnpm db:push",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "database" }
     },
     {
-      "label": "🧪 Test (Coverage)",
+      "label": "🌱 Database Seed",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["test:unit:coverage"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "testing"
-      },
-      "problemMatcher": []
+      "command": "pnpm db:seed",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "database" }
     },
     {
-      "label": "🗄️ Database: Migrate",
+      "label": "🔄 Database Reset",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["db:migrate"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "database"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "database",
-        "color": "terminal.ansiBlue"
-      }
+      "command": "pnpm db:reset",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "database" }
     },
     {
-      "label": "🗄️ Database: Generate",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["db:generate"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "database"
-      },
-      "problemMatcher": []
+      "label": "🎯 Full Validation",
+      "dependsOn": ["✅ Type Check", "🎨 Lint", "💅 Format"],
+      "dependsOrder": "sequence",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "validation" }
     },
     {
-      "label": "🗄️ Database: Push",
+      "label": "🚀 Complete Setup",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["db:push"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "database"
-      },
-      "problemMatcher": []
+      "command": "pnpm setup",
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "setup" }
     },
     {
-      "label": "🗄️ Database: Seed",
+      "label": "🧹 Cleanup Project",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["db:seed"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "database"
-      },
-      "problemMatcher": []
+      "command": "pnpm cleanup",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "maintenance" }
     },
     {
-      "label": "🗄️ Database: Seed (Verbose)",
+      "label": "🐳 Docker Up",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["db:seed:verbose"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "database"
-      },
-      "problemMatcher": []
+      "command": "pnpm docker:up",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "docker" }
     },
     {
-      "label": "🗄️ Database: Studio",
+      "label": "🐳 Docker Down",
       "type": "shell",
-      "command": "pnpm",
-      "args": ["db:studio"],
-      "isBackground": true,
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "database"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🗄️ Database: Reset",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["db:reset"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "database"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🐳 Docker: Build",
-      "type": "shell",
-      "command": "docker",
-      "args": ["compose", "build"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "docker"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "vm",
-        "color": "terminal.ansiBlue"
-      }
-    },
-    {
-      "label": "🐳 Docker: Up",
-      "type": "shell",
-      "command": "docker",
-      "args": ["compose", "up", "-d"],
-      "isBackground": true,
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "docker"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🐳 Docker: Down",
-      "type": "shell",
-      "command": "docker",
-      "args": ["compose", "down"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "docker"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🐳 Docker: Logs",
-      "type": "shell",
-      "command": "docker",
-      "args": ["compose", "logs", "-f"],
-      "isBackground": true,
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "docker"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🐳 Docker: Clean",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["docker:clean"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "docker"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🔄 Cache: Clear",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["cache:clear"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "cache"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "refresh",
-        "color": "terminal.ansiYellow"
-      }
-    },
-    {
-      "label": "🔄 Cache: Stats",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["cache:stats"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "cache"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🏥 Health: Check All",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["health:all"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "health"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "pulse",
-        "color": "terminal.ansiGreen"
-      }
-    },
-    {
-      "label": "🏥 Health: Database",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["health:db"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "health"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🏥 Health: Redis",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["health:redis"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "health"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🧹 Clean",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["clean"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "cleanup"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "trash",
-        "color": "terminal.ansiRed"
-      }
-    },
-    {
-      "label": "🧹 Clean All",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["clean:all"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "cleanup"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "📊 Queue: Worker",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["queue:worker"],
-      "isBackground": true,
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "queue"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "list-tree",
-        "color": "terminal.ansiCyan"
-      }
-    },
-    {
-      "label": "📊 Queue: Stats",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["queue:stats"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "queue"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "📊 Queue: Clean",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["queue:clean"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "queue"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "📤 Upload: Bulk Test",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["upload:bulk:dry-run"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "upload"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "📤 Upload: Test",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["upload:test"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "upload"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "🔄 Update Dependencies",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["check-updates"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "maintenance"
-      },
-      "problemMatcher": [],
-      "icon": {
-        "id": "arrow-up",
-        "color": "terminal.ansiBlue"
-      }
-    },
-    {
-      "label": "⚙️ CI: Full Pipeline",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["ci:full"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "ci"
-      },
-      "problemMatcher": ["$tsc", "$eslint-stylish"],
-      "icon": {
-        "id": "gear",
-        "color": "terminal.ansiGreen"
-      }
-    },
-    {
-      "label": "⚙️ CI: Validate Only",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["ci"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true,
-        "group": "ci"
-      },
-      "problemMatcher": ["$tsc", "$eslint-stylish"]
+      "command": "pnpm docker:down",
+      "presentation": { "reveal": "always", "panel": "shared", "group": "docker" }
     }
-  ],
-  "version": "2.0.0"
+  ]
 }

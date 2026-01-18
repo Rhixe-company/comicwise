@@ -13,12 +13,14 @@
 **Current Status:** ~20 files with missing `ActionResponse` imports
 
 **Quick Fix:**
+
 ```typescript
 // Add to affected files in src/app/admin/*/actions.ts
 import type { ActionResponse } from "@/dto";
 ```
 
 **Files to Update:**
+
 - `src/app/admin/artists/actions.ts`
 - `src/app/admin/authors/actions.ts`
 - `src/app/admin/chapters/actions.ts`
@@ -29,6 +31,7 @@ import type { ActionResponse } from "@/dto";
 - `scripts/projectCleanup2025.ts` (logger.warn issue)
 
 **Automated Fix Script:**
+
 ```bash
 # Create fix-imports.ts
 pnpm exec tsx scripts/fix-action-response-imports.ts
@@ -54,12 +57,14 @@ pnpm db:studio
 ```
 
 **Expected Results:**
+
 - Users seeded with hashed passwords
 - Comics with images and metadata
 - Chapters with page images
 - All images cached to avoid re-downloads
 
 **Potential Issues:**
+
 - Check `.env.local` has CUSTOM_PASSWORD set
 - Ensure placeholder images exist
 - Verify network access for image downloads
@@ -88,6 +93,7 @@ pnpm build
 ```
 
 **Fix any issues found:**
+
 - Update types as needed
 - Fix linting errors
 - Ensure build succeeds
@@ -103,18 +109,21 @@ pnpm build
 **Issue:** `scripts/projectCleanup2025.ts` has logger.warn error
 
 **Fix:**
+
 ```typescript
 // Replace logger.warn with console.warn or update logger interface
-- logger.warn(message);
-+ console.warn(message);
+-logger.warn(message);
++console.warn(message);
 ```
 
 **Enhanced Cleanup Tasks:**
+
 ```bash
 pnpm cleanup  # Run the script
 ```
 
 **Should Remove:**
+
 - Duplicate Zod schemas
 - Unused components
 - Empty folders
@@ -157,6 +166,7 @@ NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT="https://ik.imagekit.io/your_id"
 - Use connection pooling (already configured)
 
 **Expected Improvements:**
+
 - 50% faster page loads with Redis
 - 70% faster image loading with CDN
 - 30% reduction in database load
@@ -174,6 +184,7 @@ NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT="https://ik.imagekit.io/your_id"
 **A. Unit Tests (Vitest)**
 
 Priority test files:
+
 ```
 - src/lib/utils.ts
 - src/lib/validations/*.ts
@@ -184,6 +195,7 @@ Priority test files:
 **B. E2E Tests (Playwright)**
 
 Critical user flows:
+
 ```
 1. User registration & login
 2. Browse comics
@@ -194,19 +206,20 @@ Critical user flows:
 ```
 
 **Test Template:**
+
 ```typescript
 // tests/e2e/auth.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('user can register and login', async ({ page }) => {
-  await page.goto('/');
-  await page.click('text=Sign Up');
-  await page.fill('input[name="email"]', 'test@example.com');
-  await page.fill('input[name="password"]', 'password123');
-  await page.fill('input[name="name"]', 'Test User');
+test("user can register and login", async ({ page }) => {
+  await page.goto("/");
+  await page.click("text=Sign Up");
+  await page.fill('input[name="email"]', "test@example.com");
+  await page.fill('input[name="password"]', "password123");
+  await page.fill('input[name="name"]', "Test User");
   await page.click('button[type="submit"]');
-  
-  await expect(page).toHaveURL('/dashboard');
+
+  await expect(page).toHaveURL("/dashboard");
 });
 ```
 
@@ -221,6 +234,7 @@ test('user can register and login', async ({ page }) => {
 **A. Review Docker Configuration**
 
 Files to optimize:
+
 - `docker-compose.yml`
 - `docker-compose.dev.yml`
 - `Dockerfile` (if exists)
@@ -262,6 +276,7 @@ vercel --prod
 ```
 
 **Environment Variables to Set:**
+
 - All from `.env.local`
 - Production database URL
 - Production Redis URL
@@ -311,11 +326,12 @@ Sentry.init({
 **C. Logging Enhancement**
 
 Replace console.logs with structured logging:
-```typescript
-import { logger } from '@/lib/logger';
 
-logger.info('User logged in', { userId: user.id });
-logger.error('Database error', { error, query });
+```typescript
+import { logger } from "@/lib/logger";
+
+logger.info("User logged in", { userId: user.id });
+logger.error("Database error", { error, query });
 ```
 
 **Estimated Time:** 2-3 days
@@ -346,14 +362,15 @@ src/
 
 ```typescript
 // src/i18n/config.ts
-import { getRequestConfig } from 'next-intl/server';
+import { getRequestConfig } from "next-intl/server";
 
 export default getRequestConfig(async ({ locale }) => ({
-  messages: (await import(`./locales/${locale}.json`)).default
+  messages: (await import(`./locales/${locale}.json`)).default,
 }));
 ```
 
 **Languages to Support:**
+
 1. English (en) - Primary
 2. Spanish (es)
 3. French (fr)
@@ -369,22 +386,26 @@ export default getRequestConfig(async ({ locale }) => ({
 ### 10. Advanced Features
 
 **A. AI-Powered Recommendations**
+
 - Machine learning based on reading history
 - Collaborative filtering
 - Content similarity analysis
 
 **B. Social Features**
+
 - User profiles & following
 - Social reading lists
 - Discussion forums
 - User-generated content ratings
 
 **C. Mobile Apps**
+
 - React Native (iOS/Android)
 - Expo framework
 - Shared API with web
 
 **D. Premium Features**
+
 - Ad-free experience
 - Early access to chapters
 - Exclusive content
@@ -395,18 +416,21 @@ export default getRequestConfig(async ({ locale }) => ({
 ### 11. Performance & Scalability
 
 **A. Infrastructure**
+
 - CDN for static assets (Cloudflare, Vercel Edge)
 - Database read replicas
 - Redis cluster for caching
 - Queue system for background jobs (BullMQ)
 
 **B. Code Optimization**
+
 - Bundle size reduction (< 200KB initial)
 - Lazy loading for images
 - Code splitting for routes
 - Service worker for offline support
 
 **C. Monitoring & Alerts**
+
 - APM (Application Performance Monitoring)
 - Error rate thresholds
 - Response time tracking
@@ -417,18 +441,21 @@ export default getRequestConfig(async ({ locale }) => ({
 ### 12. Developer Experience
 
 **A. Documentation Hub**
+
 - API documentation (OpenAPI/Swagger)
 - Component storybook
 - Architecture decision records (ADRs)
 - Onboarding guide for new developers
 
 **B. Developer Tools**
+
 - Custom VS Code extension
 - CLI tools for common tasks
 - Code generators for boilerplate
 - Database migration management UI
 
 **C. Team Workflow**
+
 - PR templates
 - Code review guidelines
 - Release process automation
@@ -439,6 +466,7 @@ export default getRequestConfig(async ({ locale }) => ({
 ## 🎖️ Best Practices Checklist
 
 ### Security ✅
+
 - [x] Environment variables validated
 - [x] Password hashing (bcryptjs)
 - [x] CSRF protection (NextAuth)
@@ -449,6 +477,7 @@ export default getRequestConfig(async ({ locale }) => ({
 - [ ] Regular dependency updates
 
 ### Performance ✅
+
 - [x] Image optimization configured
 - [x] Database indexing
 - [ ] Redis caching enabled
@@ -457,6 +486,7 @@ export default getRequestConfig(async ({ locale }) => ({
 - [ ] Lighthouse CI integration
 
 ### Code Quality ✅
+
 - [x] TypeScript strict mode
 - [x] ESLint configured
 - [x] Prettier configured
@@ -465,6 +495,7 @@ export default getRequestConfig(async ({ locale }) => ({
 - [ ] Documentation complete
 
 ### Deployment ✅
+
 - [x] CI/CD pipeline
 - [ ] Staging environment
 - [ ] Blue-green deployment
@@ -476,18 +507,21 @@ export default getRequestConfig(async ({ locale }) => ({
 ## 📊 Metrics to Track
 
 ### Performance Metrics
+
 - **Page Load Time:** < 2s
 - **Time to Interactive:** < 3s
 - **First Contentful Paint:** < 1.5s
 - **Cumulative Layout Shift:** < 0.1
 
 ### Business Metrics
+
 - **User Engagement:** Daily Active Users (DAU)
 - **Retention Rate:** 30-day retention
 - **Conversion Rate:** Sign-up to active reader
 - **Content Consumption:** Chapters read per user
 
 ### Technical Metrics
+
 - **Error Rate:** < 0.1%
 - **API Response Time:** < 200ms p95
 - **Database Query Time:** < 100ms p95
@@ -498,12 +532,14 @@ export default getRequestConfig(async ({ locale }) => ({
 ## 🎓 Learning Resources
 
 ### Recommended Reading
+
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Drizzle ORM Guide](https://orm.drizzle.team/docs/overview)
 - [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
 - [Web Performance Best Practices](https://web.dev/performance/)
 
 ### Courses
+
 - [Next.js 14 Masterclass](https://www.udemy.com/)
 - [Advanced TypeScript Patterns](https://www.frontendmasters.com/)
 - [PostgreSQL Performance Tuning](https://www.pluralsight.com/)
@@ -515,6 +551,7 @@ export default getRequestConfig(async ({ locale }) => ({
 ### Monthly Operating Costs (Estimated)
 
 **Infrastructure:**
+
 - **Vercel Pro:** $20/month (hosting)
 - **Neon PostgreSQL:** $19/month (database)
 - **Upstash Redis:** $10/month (caching)
@@ -524,6 +561,7 @@ export default getRequestConfig(async ({ locale }) => ({
 **Total:** ~$95/month for production-grade stack
 
 **Scaling Costs:**
+
 - 10K users: ~$200/month
 - 100K users: ~$800/month
 - 1M users: ~$3,500/month
@@ -533,6 +571,7 @@ export default getRequestConfig(async ({ locale }) => ({
 ## 🎯 Success Criteria
 
 ### MVP Launch Ready When:
+
 - ✅ All TypeScript errors fixed
 - ✅ 80%+ test coverage achieved
 - ✅ Performance metrics met
@@ -541,6 +580,7 @@ export default getRequestConfig(async ({ locale }) => ({
 - ✅ CI/CD pipeline stable
 
 ### Production Ready When:
+
 - Monitoring & alerts configured
 - Backup & disaster recovery plan
 - Legal compliance (GDPR, CCPA)

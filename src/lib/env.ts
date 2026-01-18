@@ -92,12 +92,23 @@ export const env = createEnv({
     RATE_LIMIT_ENABLED: z.string().optional(),
     RATE_LIMIT_MAX_REQUESTS: z.string().optional(),
     RATE_LIMIT_WINDOW_MS: z.string().optional(),
+
+    // Sentry (Error Monitoring)
+    SENTRY_DSN: z.string().url().optional(),
+    SENTRY_ORG: z.string().optional(),
+    SENTRY_PROJECT: z.string().optional(),
+    SENTRY_AUTH_TOKEN: z.string().optional(),
+    SENTRY_ENABLE_TRACING: z.string().optional(),
+    SENTRY_TRACES_SAMPLE_RATE: z.string().optional(),
+    SENTRY_REPLAY_SESSION_SAMPLE_RATE: z.string().optional(),
+    SENTRY_REPLAY_ERROR_SAMPLE_RATE: z.string().optional(),
   },
 
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
     NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY: z.string().optional(),
     NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT: z.string().url().optional(),
+    NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
   },
 
   runtimeEnv: {
@@ -191,10 +202,21 @@ export const env = createEnv({
     RATE_LIMIT_MAX_REQUESTS: process.env.RATE_LIMIT_MAX_REQUESTS,
     RATE_LIMIT_WINDOW_MS: process.env.RATE_LIMIT_WINDOW_MS,
 
+    // Server - Sentry
+    SENTRY_DSN: process.env.SENTRY_DSN,
+    SENTRY_ORG: process.env.SENTRY_ORG,
+    SENTRY_PROJECT: process.env.SENTRY_PROJECT,
+    SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
+    SENTRY_ENABLE_TRACING: process.env.SENTRY_ENABLE_TRACING,
+    SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
+    SENTRY_REPLAY_SESSION_SAMPLE_RATE: process.env.SENTRY_REPLAY_SESSION_SAMPLE_RATE,
+    SENTRY_REPLAY_ERROR_SAMPLE_RATE: process.env.SENTRY_REPLAY_ERROR_SAMPLE_RATE,
+
     // Client
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
     NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT: process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT,
+    NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
 
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

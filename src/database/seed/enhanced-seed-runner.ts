@@ -72,9 +72,9 @@ function getFileExtension(url: string): string {
     const urlObj = new URL(url);
     const pathname = urlObj.pathname;
     const match = pathname.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i);
-    return match ? match[0] : '.jpg'; // Default to .jpg
+    return match ? match[0] : ".jpg"; // Default to .jpg
   } catch {
-    return '.jpg';
+    return ".jpg";
   }
 }
 
@@ -592,8 +592,7 @@ async function seedChapters(data: unknown[]) {
         }
 
         // Create chapter slug
-        const chapterSlug =
-          validated.slug || validated.chapterslug || `chapter-${chapterNum}`;
+        const chapterSlug = validated.slug || validated.chapterslug || `chapter-${chapterNum}`;
 
         // Upsert chapter with better error handling and retry
         try {

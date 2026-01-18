@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  * Universal Seeder - Dynamic JSON Data Import System

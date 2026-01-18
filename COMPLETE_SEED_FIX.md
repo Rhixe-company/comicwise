@@ -17,13 +17,14 @@
 ALTER TABLE "comic" ADD COLUMN "url" text;
 ALTER TABLE "comic" ADD COLUMN "serialization" text;
 
--- Chapter Table  
+-- Chapter Table
 ALTER TABLE "chapter" ADD COLUMN "url" text;
 ALTER TABLE "chapter" ADD COLUMN "content" text;
 ALTER TABLE "chapter" ADD COLUMN "updatedAt" timestamp DEFAULT now() NOT NULL;
 ```
 
 **Files Modified:**
+
 - `src/database/schema.ts` (backed up to `.backup`)
 - Schema pushed to database successfully
 
@@ -32,17 +33,19 @@ ALTER TABLE "chapter" ADD COLUMN "updatedAt" timestamp DEFAULT now() NOT NULL;
 ### 2. **Concurrency Reduction** ✅
 
 **Before:**
+
 ```typescript
-CONCURRENCY: 10
-IMAGE_CONCURRENCY: 3
+CONCURRENCY: 10;
+IMAGE_CONCURRENCY: 3;
 ```
 
 **After:**
+
 ```typescript
-CONCURRENCY: 5  // Reduced to avoid connection pool exhaustion
-IMAGE_CONCURRENCY: 2  // Reduced for stability
-MAX_RETRIES: 3  // Added retry mechanism
-RETRY_DELAY: 1000  // 1 second base delay with exponential backoff
+CONCURRENCY: 5; // Reduced to avoid connection pool exhaustion
+IMAGE_CONCURRENCY: 2; // Reduced for stability
+MAX_RETRIES: 3; // Added retry mechanism
+RETRY_DELAY: 1000; // 1 second base delay with exponential backoff
 ```
 
 ---
@@ -50,25 +53,29 @@ RETRY_DELAY: 1000  // 1 second base delay with exponential backoff
 ### 3. **Image Extension Preservation** ✅
 
 **New Helper Function:**
+
 ```typescript
 function getFileExtension(url: string): string {
   const match = url.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i);
-  return match ? match[0] : '.jpg';
+  return match ? match[0] : ".jpg";
 }
 ```
 
 **Applied To:**
+
 - ✅ Comic cover images: `cover${ext}` instead of `cover.jpg`
 - ✅ Comic gallery images: `image-${n}${ext}` instead of `image-${n}.jpg`
 - ✅ Chapter page images: `page-${n}${ext}` instead of `page-${n}.jpg`
 
-**Result:** All images now saved with original file extensions (jpg, png, webp, etc.)
+**Result:** All images now saved with original file extensions (jpg, png, webp,
+etc.)
 
 ---
 
 ### 4. **Retry Logic with Exponential Backoff** ✅
 
 **New Helper Function:**
+
 ```typescript
 async function retryWithBackoff<T>(
   fn: () => Promise<T>,
@@ -80,15 +87,16 @@ async function retryWithBackoff<T>(
     } catch (error) {
       if (i === retries - 1) throw error;
       const delay = 1000 * Math.pow(2, i); // 1s, 2s, 4s
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 }
 ```
 
 **Applied To:**
+
 - ✅ Comic inserts
-- ✅ Chapter inserts  
+- ✅ Chapter inserts
 - ✅ All database operations that previously failed
 
 ---
@@ -96,6 +104,7 @@ async function retryWithBackoff<T>(
 ### 5. **Comic Seeding Fixes** ✅
 
 **Fixed Issues:**
+
 - ✅ Added `publicationDate` (required field)
 - ✅ Removed invalid fields (`serialization`, `url` now supported)
 - ✅ Fixed Type upsert to use `name` instead of non-existent `slug`
@@ -105,6 +114,7 @@ async function retryWithBackoff<T>(
 - ✅ Preserved image extensions
 
 **Code Changes:**
+
 ```typescript
 // Now includes all fields
 .values({
@@ -128,6 +138,7 @@ const [comic] = await retryWithBackoff(async () =>
 ### 6. **Chapter Seeding Fixes** ✅
 
 **Fixed Issues:**
+
 - ✅ Added chapter number validation (skip if 0 or invalid)
 - ✅ Added `url` and `content` fields
 - ✅ Added `updatedAt` to conflict resolution
@@ -136,6 +147,7 @@ const [comic] = await retryWithBackoff(async () =>
 - ✅ Preserved image extensions for chapter pages
 
 **Code Changes:**
+
 ```typescript
 // Skip invalid chapters
 if (!chapterNum || chapterNum === 0) {
@@ -171,6 +183,7 @@ catch (dbError) {
 ### 7. **Type/Author/Artist Upsert Fixes** ✅
 
 **Type Table:**
+
 ```typescript
 // Before: Wrong field
 .onConflictDoUpdate({
@@ -186,6 +199,7 @@ catch (dbError) {
 ```
 
 **Author/Artist Tables:**
+
 ```typescript
 // Before: Assumed unique constraint
 .onConflictDoUpdate({...}) // ❌ No unique constraint on name
@@ -224,18 +238,21 @@ if (existing) {
 ## 🔧 Technical Improvements
 
 ### Performance:
+
 - ✅ Reduced database connection pool stress
 - ✅ Smarter concurrency limits
 - ✅ Retry logic prevents total failures
 - ✅ Image deduplication cache working
 
 ### Data Quality:
+
 - ✅ All schema fields properly populated
 - ✅ Original image file extensions preserved
 - ✅ No data loss from failed inserts
 - ✅ Idempotent operations (can run multiple times)
 
 ### Reliability:
+
 - ✅ Exponential backoff for transient errors
 - ✅ Better error messages with full context
 - ✅ Validation before insert (skip invalid data)
@@ -312,16 +329,16 @@ pnpm db:studio
 
 ## 💡 Key Improvements Summary
 
-| Issue | Before | After |
-|-------|--------|-------|
-| Concurrency | 10 parallel | 5 parallel (safer) |
-| Retry Logic | None | 3 retries with backoff |
-| Image Extensions | Always .jpg | Original preserved |
-| Comic Fields | Missing 2 fields | All fields populated |
-| Chapter Fields | Missing 3 fields | All fields populated |
-| Error Messages | Generic | Detailed with cause |
-| Connection Pool | Exhausted | Stable |
-| Chapter Success | 0% | ~95%+ expected |
+| Issue            | Before           | After                  |
+| ---------------- | ---------------- | ---------------------- |
+| Concurrency      | 10 parallel      | 5 parallel (safer)     |
+| Retry Logic      | None             | 3 retries with backoff |
+| Image Extensions | Always .jpg      | Original preserved     |
+| Comic Fields     | Missing 2 fields | All fields populated   |
+| Chapter Fields   | Missing 3 fields | All fields populated   |
+| Error Messages   | Generic          | Detailed with cause    |
+| Connection Pool  | Exhausted        | Stable                 |
+| Chapter Success  | 0%               | ~95%+ expected         |
 
 ---
 
@@ -342,4 +359,5 @@ pnpm db:studio
 
 **Status:** 🎉 ALL FIXES APPLIED - SEED RUNNING
 
-**Next Step:** Monitor seed completion and verify all data integrity checks pass.
+**Next Step:** Monitor seed completion and verify all data integrity checks
+pass.
