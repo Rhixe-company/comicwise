@@ -9,10 +9,10 @@
  * Usage: pnpm exec tsx scripts/completeImplementation.ts
  */
 
+import chalk from "chalk";
 import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
-import chalk from "chalk";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
@@ -50,7 +50,9 @@ function log(message: string, type: "info" | "success" | "error" | "warn" = "inf
 }
 
 function section(title: string) {
-  console.log("\n" + chalk.bold.cyan(`\n═══════════════════════════════════════════════════════════`));
+  console.log(
+    "\n" + chalk.bold.cyan(`\n═══════════════════════════════════════════════════════════`)
+  );
   console.log(chalk.bold.cyan(`  ${title}`));
   console.log(chalk.bold.cyan(`═══════════════════════════════════════════════════════════\n`));
 }
@@ -70,7 +72,12 @@ function exec(command: string, description: string): boolean {
   }
 }
 
-function recordTask(task: string, status: "success" | "failed" | "skipped", message: string, startTime?: number) {
+function recordTask(
+  task: string,
+  status: "success" | "failed" | "skipped",
+  message: string,
+  startTime?: number
+) {
   const duration = startTime ? Date.now() - startTime : undefined;
   results.push({ task, status, message, duration });
 }
@@ -108,7 +115,12 @@ async function task1_Setup() {
     recordTask("Task 1: Setup", "success", "Dependencies and database configured", startTime);
     return true;
   } catch (error) {
-    recordTask("Task 1: Setup", "failed", error instanceof Error ? error.message : "Unknown error", startTime);
+    recordTask(
+      "Task 1: Setup",
+      "failed",
+      error instanceof Error ? error.message : "Unknown error",
+      startTime
+    );
     return false;
   }
 }
@@ -126,7 +138,12 @@ async function task2_MigrateSchemas() {
     recordTask("Task 2: Migrations", "failed", "Migration generation failed", startTime);
     return false;
   } catch (error) {
-    recordTask("Task 2: Migrations", "failed", error instanceof Error ? error.message : "Unknown error", startTime);
+    recordTask(
+      "Task 2: Migrations",
+      "failed",
+      error instanceof Error ? error.message : "Unknown error",
+      startTime
+    );
     return false;
   }
 }
@@ -146,7 +163,12 @@ async function task3_RunSeed() {
     recordTask("Task 3: Seeding", "failed", "Seeding failed", startTime);
     return false;
   } catch (error) {
-    recordTask("Task 3: Seeding", "failed", error instanceof Error ? error.message : "Unknown error", startTime);
+    recordTask(
+      "Task 3: Seeding",
+      "failed",
+      error instanceof Error ? error.message : "Unknown error",
+      startTime
+    );
     return false;
   }
 }
@@ -172,7 +194,12 @@ async function task10_FixLinting() {
       return false;
     }
   } catch (error) {
-    recordTask("Task 10: Linting", "failed", error instanceof Error ? error.message : "Unknown error", startTime);
+    recordTask(
+      "Task 10: Linting",
+      "failed",
+      error instanceof Error ? error.message : "Unknown error",
+      startTime
+    );
     return false;
   }
 }
@@ -193,7 +220,12 @@ async function task11_ProjectCleanup() {
     recordTask("Task 11: Cleanup", "failed", "Cleanup failed", startTime);
     return false;
   } catch (error) {
-    recordTask("Task 11: Cleanup", "failed", error instanceof Error ? error.message : "Unknown error", startTime);
+    recordTask(
+      "Task 11: Cleanup",
+      "failed",
+      error instanceof Error ? error.message : "Unknown error",
+      startTime
+    );
     return false;
   }
 }
@@ -222,7 +254,12 @@ async function task14_ValidationChecks() {
       return false;
     }
   } catch (error) {
-    recordTask("Task 14: Validation", "failed", error instanceof Error ? error.message : "Unknown error", startTime);
+    recordTask(
+      "Task 14: Validation",
+      "failed",
+      error instanceof Error ? error.message : "Unknown error",
+      startTime
+    );
     return false;
   }
 }
@@ -232,11 +269,15 @@ async function task14_ValidationChecks() {
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function main() {
-  console.log(chalk.bold.magenta("\n╔═══════════════════════════════════════════════════════════╗"));
+  console.log(
+    chalk.bold.magenta("\n╔═══════════════════════════════════════════════════════════╗")
+  );
   console.log(chalk.bold.magenta("║                                                           ║"));
   console.log(chalk.bold.magenta("║        ComicWise - Complete Implementation Script         ║"));
   console.log(chalk.bold.magenta("║                                                           ║"));
-  console.log(chalk.bold.magenta("╚═══════════════════════════════════════════════════════════╝\n"));
+  console.log(
+    chalk.bold.magenta("╚═══════════════════════════════════════════════════════════╝\n")
+  );
 
   const overallStartTime = Date.now();
 
@@ -264,7 +305,12 @@ async function main() {
 
   results.forEach((result) => {
     const symbol = result.status === "success" ? "✓" : result.status === "failed" ? "✗" : "○";
-    const color = result.status === "success" ? chalk.green : result.status === "failed" ? chalk.red : chalk.yellow;
+    const color =
+      result.status === "success"
+        ? chalk.green
+        : result.status === "failed"
+          ? chalk.red
+          : chalk.yellow;
 
     console.log(color(`${symbol} ${result.task}`));
     console.log(`  ${result.message}`);

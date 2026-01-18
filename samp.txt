@@ -38,12 +38,11 @@ Tasks:
 1 - Setup the project by installing all dependencies using pnpm, setting up the database, and configuring any necessary environment variables at @.env.local, importing it at @src/lib/env.ts use @src/lib/env.ts to Optimize @appConfig.ts (ensure all environment variables are properly set and configured for development and production environments update all usage of this file across the project) install @imagekit/next and update all usage of imagekitio-next to @imagekit/next then Uninstall imagekitio-next.
 1 - Upgrade @src/database/seed/**/*  to be faster ensure all data from @users.json, @comics.json, @comicsdata1.json, @comicsdata2.json, @chapters.json, @chaptersdata1.json, @chaptersdata2.json are validated using zod schemas and  then inserted into the database with an onConflictDoUpdate of the inserted data with all its chapters images, comics images, genres, inserted into  the database with an onConflictDoUpdate of the inserted data make sure no image is being downloaded twice by only downloading the image file if the file does not exists in the file system, using     save the comic images to ./public/comics/covers/${comic.slug} with ./src/services/imageService.ts set ./public/placeholder-comic.jpg as the default fallback image, if a user image isnt available use CUSTOM_PASSWORD environment variable as the users password with bcryptjs encryption , save the chapter images  to ./public/comics/chapters/${comic.slug}/${chapter.slug} with ./src/services/imageService.ts ,set ./public/shadcn.jpg as the default fallback image  if a user image isnt available, use src/database/seed/seeders/universalSeeder.ts as reference with nextjs@latest best practices and do not repeat yourself practices, ensure it has a comprehensive logging with clear, concise logs.
 3 - Run pnpm  db:seed and fix all its errors and warnings.
-4 - Upgrade all files listed below:
-- @.vscode/mcp.json
-- @.vscode/extensions.json
-- @.vscode/launch.json
-- @.vscode/tasks.json
-- @.vscode/settings.json
+4 - Upgrade @.vscode/mcp.json to include configurations for Next.js, TypeScript, PostgreSQL, Redis, and AI development.
+5 - Upgrade @.vscode/extensions.json to include recommended extensions for Next.js, TypeScript, PostgreSQL, Redis, and AI development then install them using the VS Code extension manager.
+6 - Upgrade @.vscode/launch.json to include configurations for debugging Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
+7 - Upgrade @.vscode/tasks.json to include tasks for building, testing, and deploying Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
+8 - Upgrade @.vscode/settings.json to include settings optimized for Next.js, TypeScript, PostgreSQL, Redis, and AI development ensure all settings are properly configured for both development and production environments.
 5 - Convert all any type occurrences to specific types from usage or Convert functionality to be Generic. Fix all typescript, linting errors and warnings in the project.
 6 - Upgrade @scripts/projectCleanup2025.ts to Perform a cleanup of the project,Delete all duplicate or unused zod schemas, Delete all duplicate or unused components,functions, types, interfaces and classes, Delete unused,duplicate,empty folders, blank files, Delete all files that contains .backup, Uninstall all unused packages with pnpm, Run pnpm exec tsx @scripts/projectCleanup2025.ts.
 7 - Setup and Configure Drizzle ORM with PostgreSQL including connection settings, migrations, and schema definitions ensure the configuration is optimized for performance and scalability.
@@ -64,3 +63,15 @@ Tasks:
 Lastly After completing all tasks, respond with "All tasks have been completed successfully." and provide a summary of the changes made with any code snippets.
 Then create a list of your recommendations for this project and await further instructions.
 
+Other files to upgrade for optimization and best practices:
+- @next.config.ts
+- @nextSitemap.config.ts
+- @package.json
+- @pnpm-lock.yaml
+- @tsconfig.json
+- @.prettierrc.ts
+- @postcss.config.mjs
+- @eslint.config.ts
+- @.gitignore
+- @.dockerignore
+- @.prettierignore

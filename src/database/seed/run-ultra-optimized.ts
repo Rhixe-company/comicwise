@@ -15,21 +15,14 @@
  */
 
 import { db } from "@/database/db";
+import { chapter, chapterImage, comic, comicToGenre, genre, user } from "@/database/schema";
 import { imageService } from "@/services/imageService";
 import { eq, sql } from "drizzle-orm";
 import { existsSync } from "fs";
 import { mkdir, readFile } from "fs/promises";
-import * as path from "path";
 import pLimit from "p-limit";
+import * as path from "path";
 import { z } from "zod";
-import {
-  chapter,
-  chapterImage,
-  comic,
-  comicToGenre,
-  genre,
-  user,
-} from "@/database/schema";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
@@ -58,7 +51,10 @@ const numericString = z.union([z.string(), z.number()]).transform((val) => {
   return val;
 });
 
-const imageObject = z.object({ url: z.string().min(1) }).passthrough().optional();
+const imageObject = z
+  .object({ url: z.string().min(1) })
+  .passthrough()
+  .optional();
 const imageArray = z
   .array(imageObject)
   .or(z.array(z.string()).transform((urls) => urls.map((url) => ({ url }))))
@@ -67,10 +63,7 @@ const imageArray = z
 
 const metadataNameSchema = z.object({ name: z.string().min(1).max(255) }).passthrough();
 const flexibleMetadata = z
-  .union([
-    z.string().transform((name) => ({ name })),
-    metadataNameSchema,
-  ])
+  .union([z.string().transform((name) => ({ name })), metadataNameSchema])
   .optional();
 
 const flexibleGenresArray = z
@@ -134,10 +127,12 @@ const ChapterSchema = z
     url: urlOrString.optional(),
     views: numericString.optional(),
     images: imageArray.optional(),
-    comic: z.object({
-      title: z.string().min(1),
-      slug: z.string().min(1),
-    }).optional(),
+    comic: z
+      .object({
+        title: z.string().min(1),
+        slug: z.string().min(1),
+      })
+      .optional(),
     updatedAt: z.string().optional(),
     createdAt: z.string().optional(),
   })
@@ -154,10 +149,13 @@ const ChapterSchema = z
     }
 
     const title = data.title || data.name || `Chapter ${chapterNumber}`;
-    
+
     // Generate unique slug using comic slug + chapter title/number
     const comicSlug = data.comic?.slug || "unknown";
-    const chapterPart = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const chapterPart = title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
     const slug = `${comicSlug}-${chapterPart}`;
 
     return {
@@ -243,13 +241,10 @@ const logger = new Logger();
 // DATA LOADING
 // ═══════════════════════════════════════════════════════════════════════════
 
-async function loadJsonFile<T>(
-  filePath: string,
-  schema: z.ZodSchema<T>
-): Promise<T[]> {
+async function loadJsonFile<T>(filePath: string, schema: z.ZodSchema<T>): Promise<T[]> {
   try {
     const fullPath = path.join(process.cwd(), filePath);
-    
+
     if (!existsSync(fullPath)) {
       logger.debug(`File not found: ${filePath}`);
       return [];
@@ -282,26 +277,21 @@ async function loadJsonFile<T>(
 async function loadAllData() {
   logger.info("📦 Loading all data files...");
 
-  const [users, comics1, comics2, comics3, chapters1, chapters2, chapters3] = 
-    await Promise.all([
-      loadJsonFile("users.json", UserSchema),
-      loadJsonFile("comics.json", ComicSchema),
-      loadJsonFile("comicsdata1.json", ComicSchema),
-      loadJsonFile("comicsdata2.json", ComicSchema),
-      loadJsonFile("chapters.json", ChapterSchema),
-      loadJsonFile("chaptersdata1.json", ChapterSchema),
-      loadJsonFile("chaptersdata2.json", ChapterSchema),
-    ]);
+  const [users, comics1, comics2, comics3, chapters1, chapters2, chapters3] = await Promise.all([
+    loadJsonFile("users.json", UserSchema),
+    loadJsonFile("comics.json", ComicSchema),
+    loadJsonFile("comicsdata1.json", ComicSchema),
+    loadJsonFile("comicsdata2.json", ComicSchema),
+    loadJsonFile("chapters.json", ChapterSchema),
+    loadJsonFile("chaptersdata1.json", ChapterSchema),
+    loadJsonFile("chaptersdata2.json", ChapterSchema),
+  ]);
 
   const allComics = [...comics1, ...comics2, ...comics3];
   const allChapters = [...chapters1, ...chapters2, ...chapters3];
 
-  const uniqueComics = Array.from(
-    new Map(allComics.map((c) => [c.slug, c])).values()
-  );
-  const uniqueChapters = Array.from(
-    new Map(allChapters.map((c) => [c.slug, c])).values()
-  );
+  const uniqueComics = Array.from(new Map(allComics.map((c) => [c.slug, c])).values());
+  const uniqueChapters = Array.from(new Map(allChapters.map((c) => [c.slug, c])).values());
 
   logger.success(
     `📊 Data loaded: ${users.length} users, ${uniqueComics.length} comics, ${uniqueChapters.length} chapters`
@@ -375,10 +365,10 @@ async function seedUsers(users: ValidatedUser[], stats: SeedStats): Promise<void
     } catch (error) {
       stats.users.errors++;
       const err = error as any;
-      const message = err.message || err.toString?.() || 'Unknown error';
+      const message = err.message || err.toString?.() || "Unknown error";
       logger.error(`Failed to seed user: ${userData.email} - ${message}`, err);
       if (err.cause) {
-        console.error('Cause:', err.cause);
+        console.error("Cause:", err.cause);
       }
     }
   }
@@ -401,9 +391,7 @@ async function seedComics(
         try {
           const coverImageUrl =
             comicData.coverImage ||
-            (comicData.images && comicData.images.length > 0
-              ? comicData.images[0]?.url
-              : null);
+            (comicData.images && comicData.images.length > 0 ? comicData.images[0]?.url : null);
 
           let coverImage = CONFIG.PLACEHOLDER_COMIC;
           if (!skipImages && coverImageUrl) {
@@ -415,9 +403,7 @@ async function seedComics(
           }
 
           const rating =
-            typeof comicData.rating === "string"
-              ? parseFloat(comicData.rating)
-              : comicData.rating;
+            typeof comicData.rating === "string" ? parseFloat(comicData.rating) : comicData.rating;
 
           try {
             // Check if title conflicts with existing entry (for different slug)
@@ -428,10 +414,10 @@ async function seedComics(
                 .from(comic)
                 .where(eq(comic.title, finalTitle))
                 .limit(1);
-              
+
               if (existing.length > 0 && existing[0].slug !== comicData.slug) {
                 // Title exists for a different comic, append slug to make it unique
-                finalTitle = `${comicData.title} (${comicData.slug.split('-').pop()})`;
+                finalTitle = `${comicData.title} (${comicData.slug.split("-").pop()})`;
                 logger.debug(`Title conflict resolved: ${comicData.title} -> ${finalTitle}`);
               }
             } catch (e) {
@@ -464,8 +450,7 @@ async function seedComics(
 
             if (result && comicData.genres && comicData.genres.length > 0) {
               for (const genreData of comicData.genres) {
-                const genreName =
-                  typeof genreData === "string" ? genreData : genreData.name;
+                const genreName = typeof genreData === "string" ? genreData : genreData.name;
                 const genreSlug = genreName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
                 try {
@@ -510,16 +495,16 @@ async function seedComics(
         } catch (error) {
           stats.comics.errors++;
           const err = error as any;
-          
+
           // Extract the actual PostgreSQL error if available
-          let errorMessage = err.message || 'Unknown error';
+          let errorMessage = err.message || "Unknown error";
           if (err.cause && err.cause.message) {
             errorMessage = err.cause.message;
           }
           if (err.detail) {
             errorMessage += ` - Detail: ${err.detail}`;
           }
-          
+
           logger.error(`Failed to seed comic: ${comicData.slug} - ${errorMessage}`, err);
         }
       })
@@ -609,14 +594,12 @@ async function seedChapters(
       })
     );
 
-    logger.progress(
-      Math.min(i + CONFIG.BATCH_SIZE, chapters.length),
-      chapters.length,
-      "Chapters"
-    );
+    logger.progress(Math.min(i + CONFIG.BATCH_SIZE, chapters.length), chapters.length, "Chapters");
   }
 
-  logger.success(`Chapters seeded: ${stats.chapters.updated} updated, ${stats.chapters.errors} errors`);
+  logger.success(
+    `Chapters seeded: ${stats.chapters.updated} updated, ${stats.chapters.errors} errors`
+  );
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -673,7 +656,9 @@ export async function runUltraOptimizedSeed(options: SeedOptions = {}): Promise<
     logger.info(`📊 Summary:`);
     logger.info(`  👥 Users: ${stats.users.updated} updated, ${stats.users.errors} errors`);
     logger.info(`  📚 Comics: ${stats.comics.updated} updated, ${stats.comics.errors} errors`);
-    logger.info(`  📖 Chapters: ${stats.chapters.updated} updated, ${stats.chapters.errors} errors`);
+    logger.info(
+      `  📖 Chapters: ${stats.chapters.updated} updated, ${stats.chapters.errors} errors`
+    );
     logger.info(`  📸 Images: ${stats.images.downloaded} processed, ${stats.images.failed} failed`);
     logger.info(`  ⏱️  Duration: ${(stats.duration / 1000).toFixed(2)}s`);
     logger.info("═══════════════════════════════════════════════════════\n");

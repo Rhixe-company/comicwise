@@ -2,7 +2,8 @@
 
 ## Status: **VALIDATED AND WORKING**
 
-The ultra-optimized seed system has been successfully optimized, validated, and is now in production use.
+The ultra-optimized seed system has been successfully optimized, validated, and
+is now in production use.
 
 ### ✅ What Works Perfectly
 
@@ -23,24 +24,28 @@ The ultra-optimized seed system has been successfully optimized, validated, and 
 ### 🔧 Features Implemented
 
 #### 1. **Smart Schemas** (from working version)
+
 - Flexible metadata handling (string or object)
 - Numeric string transformation
 - Date parsing from multiple formats
 - Image arrays with URL extraction
 
 #### 2. **Performance Optimizations**
+
 - Batch processing (50 items/batch)
 - Parallel execution with p-limit (10 concurrent)
 - Image download concurrency (5 simultaneous)
 - Smart image caching (filesystem checks)
 
 #### 3. **Data Integrity**
+
 - `onConflictDoUpdate` for users (email unique)
 - `onConflictDoUpdate` for comics (slug unique)
 - Direct insert for chapters (no unique constraint)
 - Proper foreign key handling
 
 #### 4. **Error Handling**
+
 - Graceful error recovery
 - Detailed error logging
 - Statistics tracking
@@ -49,6 +54,7 @@ The ultra-optimized seed system has been successfully optimized, validated, and 
 ### 📊 Performance Metrics
 
 **Test Run Results (Skip Images)**:
+
 - Duration: ~1 second
 - Chapters: 207 seeded, 0 errors
 - Users: 4 processed
@@ -59,11 +65,11 @@ The ultra-optimized seed system has been successfully optimized, validated, and 
 ```json
 {
   "db:seed": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts",
-  "db:seed:users": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --users",
-  "db:seed:comics": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --comics",
   "db:seed:chapters": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --chapters",
-  "db:seed:verbose": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --verbose",
-  "db:seed:dry-run": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --dry-run"
+  "db:seed:comics": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --comics",
+  "db:seed:dry-run": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --dry-run",
+  "db:seed:users": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --users",
+  "db:seed:verbose": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --verbose"
 }
 ```
 
@@ -100,15 +106,20 @@ pnpm db:seed:chapters
 ### 📝 Technical Details
 
 #### Chapter Slug Generation
+
 ```typescript
 const comicSlug = data.comic?.slug || "unknown";
-const chapterPart = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const chapterPart = title
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/^-|-$/g, "");
 const slug = `${comicSlug}-${chapterPart}`;
 ```
 
 #### Database Operations
+
 - **Users**: onConflictDoUpdate on email
-- **Comics**: onConflictDoUpdate on slug  
+- **Comics**: onConflictDoUpdate on slug
 - **Chapters**: Direct insert (no unique constraint)
 - **Genres**: onConflictDoUpdate on slug
 - **ComicToGenre**: onConflictDoNothing
@@ -116,8 +127,9 @@ const slug = `${comicSlug}-${chapterPart}`;
 ### 🎉 Production Ready
 
 The ultra-optimized seed system is now:
+
 - ✅ Fully validated
-- ✅ Production tested  
+- ✅ Production tested
 - ✅ In active use (package.json updated)
 - ✅ Documented
 - ✅ Optimized for performance
@@ -126,5 +138,5 @@ The ultra-optimized seed system is now:
 
 ---
 
-*Last Updated: 2026-01-18*  
-*Status: PRODUCTION READY ✅*
+_Last Updated: 2026-01-18_  
+_Status: PRODUCTION READY ✅_
