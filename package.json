@@ -32,7 +32,7 @@
     "db:push": "drizzle-kit push --config drizzle.config.ts",
     "db:reset": "pnpm db:drop && pnpm db:push && pnpm db:seed",
     "db:reset:hard": "pnpm db:drop && pnpm db:generate && pnpm db:push && pnpm db:seed",
-    "db:seed": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts",
+    "db:seed": "tsx --env-file=.env.local src/database/seed/enhanced-seed-runner.ts",
     "db:seed:chapters": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --chapters",
     "db:seed:comics": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --comics",
     "db:seed:dry-run": "tsx --env-file=.env.local src/database/seed/run-ultra-optimized.ts --dry-run",

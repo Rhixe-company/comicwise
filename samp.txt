@@ -1,10 +1,28 @@
 🚀 ComicWise - Complete Project Setup & Scaffolding Guide
 Comprehensive setup guide for ComicWise - a modern web comic platform built with Next.js 16, PostgreSQL, Redis, and AI-powered features.
-Read And understand /*.ts, @/.tsx, @**/.mjs, @/*.json , @/.mts, @**/.json @/*.md, @/.txt, @**/.yml, @/*.ps1, @/.sh, @**//Dockerfile, @src, @scripts files to get context on how the project is structured and works, After fully understanding the project the package manager is pnpm and the system is windows, Request all permissions needed to complete all tasks as listed below.
-Confirm if I have the necessary permissions to complete all tasks as listed below, after confirming that you have the necessary permissions to Complete all tasks listed below, Respond with "I have the necessary permissions to complete all tasks." and then proceed to complete all tasks listed below the bests way you recommend.
-Never create summary until all tasks are completed.
-For all tasks, ensure to follow Next.js latest best practices, performance optimization techniques, and do not repeat yourself (DRY) principles. Ensure comprehensive logging with clear, concise logs for each operation performed,
-Use PowerShell syntax for all tasks,
+Read And understand /*.ts, @/.tsx, @**/.mjs, @/*.json , @/.mts, @**/.json @/*.md, @/.txt, @**/.yml, @/*.ps1, @/.sh, @**//Dockerfile, @src, @scripts files to get context on how the project is structured and works, After fully understanding the project the package manager is pnpm and the system is windows, Request all permissions needed to complete all Tasks1 and Tasks2 as listed below.
+Tasks1:
+1 - Upgrade @.vscode/mcp.json to include configurations for This Project, Next.js, TypeScript, PostgreSQL, Redis, and AI development.
+2 - Upgrade @.vscode/extensions.json to include recommended extensions for This Project, Next.js, TypeScript, PostgreSQL, Redis, and AI development then install them using the VS Code extension manager.
+3 - Upgrade @.vscode/launch.json to include configurations for This Project, debugging Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
+4 - Upgrade @.vscode/tasks.json to include tasks for building, testing, and deploying Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
+5 - Upgrade @.vscode/settings.json to include settings optimized for This Project, Next.js, TypeScript, PostgreSQL, Redis, and AI development ensure all settings are properly configured for both development and production environments.
+6 - upgrade  @next.config.ts for optimization and best practices
+7 - upgrade  @nextSitemap.config.ts for optimization and best practices
+8 - upgrade  @package.json for optimization and best practices
+9 - upgrade  @tsconfig.json for optimization and best practices
+10 - upgrade  @.prettierrc.ts for optimization and best practices
+11 - upgrade  @postcss.config.mjs for optimization and best practices
+12 - upgrade  @eslint.config.ts for optimization and best practices
+13 - upgrade  @.gitignore for optimization and best practices
+14 - upgrade  @.dockerignore for optimization and best practices
+15 - upgrade  @.prettierignore for optimization and best practices
+
+
+Confirm if I have the necessary permissions to complete Tasks2, after confirming that you have the necessary permissions to Complete Tasks2 listed below, then proceed to complete all Tasks2 the bests way you recommend.
+Never create summary until all Tasks2 are completed.
+For all Tasks2, ensure to follow Next.js latest best practices, performance optimization techniques, and do not repeat yourself (DRY) principles. Ensure comprehensive logging with clear, concise logs for each operation performed,
+Use PowerShell syntax for all Tasks2,
 If the requested file already exists then copy the file to end with .backup and Recreate and Validate an Optimized and Enhanced version.
 If any task involves database operations, ensure data integrity and consistency throughout the process.
 If any task involves file operations, ensure proper error handling and validation to prevent data loss or corruption.
@@ -34,44 +52,25 @@ If any task involves setting up or configuring environment variables, ensure tha
 If any task is dependent on the completion of another task, ensure that the dependencies are clearly identified and managed.
 If any task involves working with images, ensure that image handling is efficient and does not lead to unnecessary downloads or storage usage.
 If any task is time-consuming, ensure that progress is logged and reported at regular intervals with clear, concise logs while running in the background.
-Tasks:
+Tasks2:
 1 - Setup the project by installing all dependencies using pnpm, setting up the database, and configuring any necessary environment variables at @.env.local, importing it at @src/lib/env.ts use @src/lib/env.ts to Optimize @appConfig.ts (ensure all environment variables are properly set and configured for development and production environments update all usage of this file across the project) install @imagekit/next and update all usage of imagekitio-next to @imagekit/next then Uninstall imagekitio-next.
-1 - Upgrade @src/database/seed/**/*  to be faster ensure all data from @users.json, @comics.json, @comicsdata1.json, @comicsdata2.json, @chapters.json, @chaptersdata1.json, @chaptersdata2.json are validated using zod schemas and  then inserted into the database with an onConflictDoUpdate of the inserted data with all its chapters images, comics images, genres, inserted into  the database with an onConflictDoUpdate of the inserted data make sure no image is being downloaded twice by only downloading the image file if the file does not exists in the file system, using     save the comic images to ./public/comics/covers/${comic.slug} with ./src/services/imageService.ts set ./public/placeholder-comic.jpg as the default fallback image, if a user image isnt available use CUSTOM_PASSWORD environment variable as the users password with bcryptjs encryption , save the chapter images  to ./public/comics/chapters/${comic.slug}/${chapter.slug} with ./src/services/imageService.ts ,set ./public/shadcn.jpg as the default fallback image  if a user image isnt available, use src/database/seed/seeders/universalSeeder.ts as reference with nextjs@latest best practices and do not repeat yourself practices, ensure it has a comprehensive logging with clear, concise logs.
-3 - Run pnpm  db:seed and fix all its errors and warnings.
-4 - Upgrade @.vscode/mcp.json to include configurations for Next.js, TypeScript, PostgreSQL, Redis, and AI development.
-5 - Upgrade @.vscode/extensions.json to include recommended extensions for Next.js, TypeScript, PostgreSQL, Redis, and AI development then install them using the VS Code extension manager.
-6 - Upgrade @.vscode/launch.json to include configurations for debugging Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
-7 - Upgrade @.vscode/tasks.json to include tasks for building, testing, and deploying Next.js applications with TypeScript, PostgreSQL, Redis, and AI features.
-8 - Upgrade @.vscode/settings.json to include settings optimized for Next.js, TypeScript, PostgreSQL, Redis, and AI development ensure all settings are properly configured for both development and production environments.
-5 - Convert all any type occurrences to specific types from usage or Convert functionality to be Generic. Fix all typescript, linting errors and warnings in the project.
-6 - Upgrade @scripts/projectCleanup2025.ts to Perform a cleanup of the project,Delete all duplicate or unused zod schemas, Delete all duplicate or unused components,functions, types, interfaces and classes, Delete unused,duplicate,empty folders, blank files, Delete all files that contains .backup, Uninstall all unused packages with pnpm, Run pnpm exec tsx @scripts/projectCleanup2025.ts.
-7 - Setup and Configure Drizzle ORM with PostgreSQL including connection settings, migrations, and schema definitions ensure the configuration is optimized for performance and scalability.
-8 - Setup and Configure @.github/workflows/*.yml files for ci, automating the testing, building, and deployment of the project.
-7 - Analyze the project for performance bottlenecks, security vulnerabilities, and code quality issues generate a report with findings and suggestions for improvements.
-8 - Generate comprehensive documentation for the project including setup instructions, usage guidelines, and API references ensure the documentation is clear, concise, and easy to navigate.
-9 - Setup and Configure  automated testing for the project including unit tests, integration tests, and end-to-end tests ensure tests are well-structured and provide adequate coverage for critical components.
-12 - Create comprehensive README.md for the project that includes setup instructions, usage guidelines, contribution instructions, and any other relevant information.
-13 - Create comprehensive @.github/prompts/Setup.prompt.md if exists update the file with all the content,tasks, tasks, recommendations from @.md, @.txt, @.ts, @.tsx, @.mjs, @.json , @.mts, @.json @.yml @.ps1 @.sh @Dockerfile files as Github copilot cli Prompts for a complete setup of this project and scaffolding all necessary files, components, pages and codes setup handler for long running functions, setup any other recommended prompts.
-14 - Performance Optimization Implement caching and query optimization
-15 - Testing Suite Achieve 80%+ code coverage with unit and E2E tests
-16 - Docker & Deployment -ready containerization
-17 - Analytics & Monitoring Integrate tools like Google Analytics and Sentry
-18 - Internationalization (i18n) Multi-language support
-19 - Regular Maintenance & Updates Keep dependencies and documentation up to date
-20 - User Onboarding & Tutorials Guided tours and tutorials for new users
+2 - Upgrade @src/database/seed/**/*  to be faster, ensure all data from @users.json, @comics.json, @comicsdata1.json, @comicsdata2.json, @chapters.json, @chaptersdata1.json, @chaptersdata2.json are inserted and validated using zod schemas and  with an onConflictDoUpdate of the inserted data, ensure ./src/services/imageService.ts has functions to make sure no image is being downloaded twice by only downloading the image file if the file does not exists in the file system, Ensure   to saves all comics images at ./public/comics/covers/${comic.slug}/ and  set ./public/placeholder-comic.jpg as the default fallback image using ./src/services/imageService.ts, ensure to use CUSTOM_PASSWORD environment variable as the users password with bcryptjs encryption , Ensure   to saves all  chapter images  at ./public/comics/chapters/${comic.slug}/${chapter.slug} with ./src/services/imageService.ts , Ensure set ./public/shadcn.jpg as the default fallback image  if a user image isnt available,ensure it has a comprehensive logging with clear, concise logs for each operation performed during the seeding process ensure all images are saved with its original file name extensions  and add all extra fields to the database tables and update all occurrences and usage across the project.
+3 - fix all pnpm db:seed:dry-run insert and update errors,warnings and optimize the seeding process to ensure data integrity and consistency throughout the process.
+4 - Convert all any type occurrences to specific types from usage or Convert functionality to be Generic. Fix all typescript, linting errors and warnings in the project.
+5 - Upgrade @scripts/projectCleanup2025.ts to Perform a cleanup of the project,Delete all duplicate or unused zod schemas, Delete all duplicate or unused components,functions, types, interfaces and classes, Delete unused,duplicate,empty folders, blank files, Delete all files that contains .backup, Uninstall all unused packages with pnpm, Run pnpm exec tsx @scripts/projectCleanup2025.ts.
+6 - Setup and Configure Drizzle ORM with PostgreSQL including connection settings, migrations, and schema definitions ensure the configuration is optimized for performance and scalability.
+7 - Setup and Configure @.github/workflows/*.yml files for ci, automating the testing, building, and deployment of the project.
+8 - Analyze the project for performance bottlenecks, security vulnerabilities, and code quality issues generate a report with findings and suggestions for improvements.
+9 - Generate comprehensive documentation for the project including setup instructions, usage guidelines, and API references ensure the documentation is clear, concise, and easy to navigate.
+10 - Create comprehensive README.md for the project that includes setup instructions, usage guidelines, contribution instructions, and any other relevant information.
+11 - Create comprehensive @.github/prompts/Setup.prompt.md if exists update the file with all the content,tasks, tasks, recommendations from @.md, @.txt, @.ts, @.tsx, @.mjs, @.json , @.mts, @.json @.yml @.ps1 @.sh @Dockerfile files as Github copilot cli Prompts for a complete setup of this project and scaffolding all necessary files, components, pages and codes setup handler for long running functions, setup any other recommended prompts.
+12 - Performance Optimization Implement caching and query optimization
+13 - Testing Suite Achieve 80%+ code coverage with unit and E2E tests
+14 - Docker & Deployment -ready containerization
+15 - Analytics & Monitoring Integrate tools like Google Analytics and Sentry
+16 - Internationalization (i18n) Multi-language support
+17 - Regular Maintenance & Updates Keep dependencies and documentation up to date
+18 - User Onboarding & Tutorials Guided tours and tutorials for new users
 
-Lastly After completing all tasks, respond with "All tasks have been completed successfully." and provide a summary of the changes made with any code snippets.
+Lastly After completing all tasks, respond with "All tasks have been completed successfully." never provide summary just complete tasks.
 Then create a list of your recommendations for this project and await further instructions.
-
-Other files to upgrade for optimization and best practices:
-- @next.config.ts
-- @nextSitemap.config.ts
-- @package.json
-- @pnpm-lock.yaml
-- @tsconfig.json
-- @.prettierrc.ts
-- @postcss.config.mjs
-- @eslint.config.ts
-- @.gitignore
-- @.dockerignore
-- @.prettierignore

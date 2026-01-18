@@ -7,6 +7,7 @@
 import type { UploadProvider } from "@/services/upload";
 import { getUploadProvider } from "@/services/upload";
 import crypto from "crypto";
+import { existsSync } from "fs";
 import path from "path";
 
 export interface ImageDownloadResult {
@@ -51,9 +52,22 @@ export class ImageService {
   }
 
   /**
+   * Check if file exists in local filesystem (for local provider)
+   * @param relativePath - Path relative to public directory (e.g., "/comics/covers/slug/cover.jpg")
+   */
+  private fileExistsLocally(relativePath: string): boolean {
+    try {
+      const publicDir = path.join(process.cwd(), "public");
+      const fullPath = path.join(publicDir, relativePath.replace(/^\//, ""));
+      return existsSync(fullPath);
+    } catch {
+      return false;
+    }
+  }
+
+  /**
    * Generate a hash for the image URL to use as filename
    * Ensures unique filenames regardless of source URL
-   * param url
    * @param url
    */
   private generateHash(url: string): string {
@@ -62,31 +76,27 @@ export class ImageService {
 
   /**
    * Extract file extension from URL
-   * Defaults to .webp if no extension found
-   * param url
+   * Supports common image formats: jpg, jpeg, png, gif, webp, svg
    * @param url
    */
   private getExtension(url: string): string {
     try {
       const urlPath = new URL(url).pathname;
-      const extension = path.extname(urlPath);
-      return extension || ".webp";
+      const match = urlPath.match(/\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)$/i);
+      return match ? match[0].toLowerCase() : ".jpg"; // Default to .jpg
     } catch {
-      return ".webp";
+      return ".jpg";
     }
   }
 
   /**
    * Download image from URL and save using configured upload provider
-   * with retry logic and improved error handling
+   * with retry logic, filesystem checking, and improved error handling
    *
-   * param url - Remote image URL to download
-   * param subDirectory - Subdirectory in storage (e.g., "avatars", "comics/123")
-   * param retries - Number of retry attempts (default: 2)
-   * returns ImageDownloadResult with success status and URL/error details
-   * @param url
-   * @param subDirectory
-   * @param retries
+   * @param url - Remote image URL to download
+   * @param subDirectory - Subdirectory in storage (e.g., "avatars", "comics/123")
+   * @param retries - Number of retry attempts (default: 2)
+   * @returns ImageDownloadResult with success status and URL/error details
    */
   async downloadImage(
     url: string,
@@ -108,6 +118,21 @@ export class ImageService {
         new URL(url);
       } catch {
         return this.createPlaceholderResult(url, "Invalid URL format");
+      }
+
+      // Generate the expected local path with original extension
+      const hash = this.generateHash(url);
+      const extension = this.getExtension(url);
+      const expectedPath = `/${subDirectory}/${hash}${extension}`.replace(/\/+/g, "/");
+
+      // Check if file already exists locally (for local provider)
+      if (this.fileExistsLocally(expectedPath)) {
+        this.downloadedImages.set(url, expectedPath);
+        return {
+          success: true,
+          localPath: expectedPath,
+          url,
+        };
       }
 
       let lastError: Error | null = null;
@@ -145,10 +170,6 @@ export class ImageService {
 
           // Get upload provider (uses UPLOAD_PROVIDER from .env.local)
           const provider = await this.getProvider();
-
-          // Generate unique filename
-          const hash = this.generateHash(url);
-          const extension = this.getExtension(url);
 
           // Rate limiting: ensure minimum interval between uploads
           const now = Date.now();

@@ -1,5 +1,5 @@
 {
-  "id": "4c7b9393-d102-41cb-ad50-639eb158351c",
+  "id": "2eb78bc1-2ed6-4f35-92aa-6460e2b01003",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -473,8 +473,27 @@
           "notNull": true,
           "default": 0
         },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "createdAt": {
           "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -580,7 +599,16 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "chapter_comic_number_unique": {
+          "name": "chapter_comic_number_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "comicId",
+            "chapterNumber"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -735,6 +763,18 @@
           "primaryKey": false,
           "notNull": true,
           "default": 0
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "serialization": {
+          "name": "serialization",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "authorId": {
           "name": "authorId",

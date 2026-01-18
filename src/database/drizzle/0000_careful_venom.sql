@@ -64,7 +64,11 @@ CREATE TABLE "chapter" (
 	"releaseDate" timestamp NOT NULL,
 	"comicId" integer NOT NULL,
 	"views" integer DEFAULT 0 NOT NULL,
-	"createdAt" timestamp DEFAULT now() NOT NULL
+	"url" text,
+	"content" text,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "chapter_comic_number_unique" UNIQUE("comicId","chapterNumber")
 );
 --> statement-breakpoint
 CREATE TABLE "chapterImage" (
@@ -85,6 +89,8 @@ CREATE TABLE "comic" (
 	"publicationDate" timestamp NOT NULL,
 	"rating" numeric(10, 1) DEFAULT '0',
 	"views" integer DEFAULT 0 NOT NULL,
+	"url" text,
+	"serialization" text,
 	"authorId" integer,
 	"artistId" integer,
 	"typeId" integer,

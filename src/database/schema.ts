@@ -11,6 +11,7 @@ import {
   serial,
   text,
   timestamp,
+  unique,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -179,6 +180,8 @@ export const comic = pgTable(
     publicationDate: timestamp("publicationDate", { mode: "date" }).notNull(),
     rating: decimal("rating", { precision: 10, scale: 1 }).default("0"),
     views: integer("views").default(0).notNull(),
+    url: text("url"), // External source URL
+    serialization: text("serialization"), // Serialization info
     authorId: integer("authorId").references(() => author.id),
     artistId: integer("artistId").references(() => artist.id),
     typeId: integer("typeId").references(() => type.id),
@@ -211,7 +214,10 @@ export const chapter = pgTable(
       .references(() => comic.id, { onDelete: "cascade" })
       .notNull(),
     views: integer("views").default(0).notNull(),
+    url: text("url"), // External source URL
+    content: text("content"), // Chapter content/description
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
   (table) => [
     index("chapterSlugIdx").on(table.slug),
@@ -219,6 +225,8 @@ export const chapter = pgTable(
     index("chapterNumberIdx").on(table.chapterNumber),
     index("chapterReleaseDateIdx").on(table.releaseDate),
     index("chapterComicChapterIdx").on(table.comicId, table.chapterNumber),
+    // Unique constraint for upsert operations
+    unique("chapter_comic_number_unique").on(table.comicId, table.chapterNumber),
   ]
 );
 

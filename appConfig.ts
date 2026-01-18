@@ -205,11 +205,19 @@ const appConfig = {
   // ═══════════════════════════════════════════════════
   // Redis Configuration (Upstash)
   // ═══════════════════════════════════════════════════
-  // Redis configuration
+  // Redis configuration (ioredis + Upstash)
   redis: {
-    url: env.UPSTASH_REDIS_REST_URL ?? "",
-    token: env.UPSTASH_REDIS_REST_TOKEN ?? "",
-    enabled: hasEnvironment("UPSTASH_REDIS_REST_URL"),
+    // ioredis connection
+    host: env.REDIS_HOST ?? "",
+    port: env.REDIS_PORT ?? "",
+    password: env.REDIS_PASSWORD ?? "",
+    db: env.REDIS_DB ?? "0",
+    tls: env.REDIS_TLS_ENABLED === "true",
+    url: env.REDIS_URL ?? "",
+    // Upstash REST API
+    upstashUrl: env.UPSTASH_REDIS_REST_URL ?? "",
+    upstashToken: env.UPSTASH_REDIS_REST_TOKEN ?? "",
+    enabled: hasEnvironment("REDIS_URL") || hasEnvironment("UPSTASH_REDIS_REST_URL"),
   },
 
   // ═══════════════════════════════════════════════════
@@ -218,10 +226,35 @@ const appConfig = {
   // Security configuration
   security: {
     bcryptRounds: isProduction ? 12 : 10,
+    customPassword: env.CUSTOM_PASSWORD ?? "",
     tokenExpiry: {
       passwordReset: 60 * 60 * 1000, // 1 hour
       emailVerification: 24 * 60 * 60 * 1000, // 24 hours
     },
+  },
+
+  // Cache configuration
+  cache: {
+    enabled: env.CACHE_ENABLED === "true",
+    ttl: Number.parseInt(env.CACHE_TTL ?? "3600", 10),
+    maxSize: Number.parseInt(env.CACHE_MAX_SIZE ?? "100", 10),
+    prefix: env.CACHE_PREFIX ?? "comicwise:",
+  },
+
+  // Queue configuration
+  queue: {
+    enabled: env.QUEUE_ENABLED === "true",
+    concurrency: Number.parseInt(env.QUEUE_CONCURRENCY ?? "5", 10),
+    maxRetries: Number.parseInt(env.QUEUE_MAX_RETRIES ?? "3", 10),
+    retryDelay: Number.parseInt(env.QUEUE_RETRY_DELAY ?? "60000", 10),
+  },
+
+  // Monitoring configuration
+  monitoring: {
+    healthCheckEnabled: env.HEALTH_CHECK_ENABLED === "true",
+    healthCheckInterval: Number.parseInt(env.HEALTH_CHECK_INTERVAL ?? "300000", 10),
+    metricsEnabled: env.ENABLE_METRICS === "true",
+    tracingEnabled: env.ENABLE_TRACING === "true",
   },
 
   // ═══════════════════════════════════════════════════

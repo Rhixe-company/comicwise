@@ -100,6 +100,8 @@
   "breadcrumbs.filePath": "on",
   "breadcrumbs.symbolPath": "on",
 
+  "breadcrumbs.symbolPath": "on",
+
   "cSpell.enabled": true,
   "cSpell.enabledFileTypes": {
     "markdown": true,
@@ -172,6 +174,9 @@
   "chat.agent.maxRequests": 50000,
   "chat.detectParticipant.enabled": true,
   "chat.mcp.gallery.enabled": true,
+  // ━━━ PostgreSQL Configuration ━━━
+  "database-client.autoSync": false,
+
   // ━━━ Debug Settings ━━━
   "debug.internalConsoleOptions": "neverOpen",
   "debug.openDebug": "openOnDebugBreak",
@@ -191,6 +196,10 @@
   "editor.bracketPairColorization.enabled": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit",
     "source.removeUnusedImports": "explicit",
     "source.addMissingImports": "explicit",
@@ -202,11 +211,15 @@
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.detectIndentation": false,
+
+  "editor.detectIndentation": false,
   "editor.fontFamily": "Fira Code, Cascadia Code, JetBrains Mono, Consolas, 'Courier New', monospace",
   "editor.fontLigatures": true,
   "editor.fontSize": 14,
   "editor.fontWeight": "400",
   "editor.formatOnPaste": true,
+  // ━━━ Editor Configuration ━━━
+  "editor.formatOnSave": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "modificationsIfAvailable",
   "editor.formatOnType": false,
@@ -214,6 +227,7 @@
   "editor.guides.highlightActiveIndentation": true,
   "editor.inlayHints.enabled": "on",
   "editor.inlayHints.padding": true,
+  "editor.insertSpaces": true,
   "editor.lineHeight": 1.7,
   "editor.linkedEditing": true,
   "editor.minimap.enabled": false,
@@ -235,6 +249,7 @@
   "editor.snippetSuggestions": "top",
   "editor.stickyScroll.enabled": true,
   "editor.suggestSelection": "first",
+  "editor.tabSize": 2,
   "editor.tabSize": 2,
   "editor.trimAutoWhitespace": true,
   "editor.unicodeHighlight.ambiguousCharacters": true,
@@ -259,6 +274,10 @@
   "errorLens.followCursor": "activeLine",
   // ━━━ ESLint Configuration ━━━
   "eslint.codeActionsOnSave.mode": "all",
+  // ━━━ ESLint Configuration ━━━
+  "eslint.enable": true,
+  "eslint.format.enable": true,
+
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
   "eslint.probe": [
@@ -268,6 +287,12 @@
     "typescriptreact"
   ],
   "eslint.useFlatConfig": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -285,6 +310,14 @@
     "dbaeumer.vscode-eslint": 1,
     "esbenp.prettier-vscode": 1
   },
+  // ━━━ File Associations ━━━
+  "files.associations": {
+    "*.css": "tailwindcss",
+    ".env*": "dotenv",
+    "*.mts": "typescript",
+    "*.cts": "typescript"
+  },
+
   // ━━━ File Configuration ━━━
   "files.associations": {
     "*.css": "tailwindcss",
@@ -298,6 +331,12 @@
   "files.autoSaveDelay": 1000,
   "files.eol": "\n",
 
+  // ━━━ Performance Configuration ━━━
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": false
+  },
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
@@ -309,6 +348,17 @@
   "files.hotExit": "onExitAndWindowClose",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
+  // ━━━ File Watcher Configuration ━━━
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/.turbo/**": true,
+    "**/dist/**": true,
+    "**/build/**": true
+  },
+
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
@@ -321,8 +371,13 @@
   },
   // ━━━ Git Configuration ━━━
   "git.autofetch": true,
+  // ━━━ Git Configuration ━━━
+  "git.autofetch": true,
+  "git.confirmSync": false,
   "git.confirmSync": false,
   "git.enableCommitSigning": false,
+  "git.enableSmartCommit": true,
+
   "git.enableSmartCommit": true,
   "git.fetchOnPull": true,
   "git.pruneOnFetch": true,
@@ -363,6 +418,9 @@
   "javascript.referencesCodeLens.showOnAllFunctions": true,
 
   "javascript.suggest.autoImports": true,
+  "javascript.suggest.autoImports": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+
   "javascript.updateImportsOnFileMove.enabled": "always",
   // ━━━ Makefile Configuration ━━━
   "makefile.configureOnOpen": true,
@@ -395,12 +453,18 @@
     "ui": "${workspaceFolder}/src/components/ui"
   },
 
+  // ━━━ Testing Configuration ━━━
+  "playwright.reuseBrowser": true,
   // ━━━ Playwright Configuration ━━━
   "playwright.reuseBrowser": true,
   "playwright.showTrace": false,
 
   // ━━━ Prettier Configuration ━━━
+  "prettier.enable": true,
+  // ━━━ Prettier Configuration ━━━
   "prettier.enableDebugLogs": false,
+  "prettier.requireConfig": true,
+
   "prettier.requireConfig": true,
   "prettier.resolveGlobalModules": true,
   "prettier.semi": true,
@@ -411,6 +475,22 @@
   "prettier.useEditorConfig": false,
   // ━━━ Red Hat Telemetry ━━━
   "redhat.telemetry.enabled": true,
+
+  // ━━━ Redis Configuration ━━━
+  "redis.connection.host": "redis-12889.c326.us-east-1-3.ec2.cloud.redislabs.com",
+  "redis.connection.port": 12889,
+
+  // ━━━ Search Configuration ━━━
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.turbo": true,
+    "**/coverage": true,
+    "**/.git": true,
+    "**/pnpm-lock.yaml": true
+  },
 
   // ━━━ Search Configuration ━━━
   "search.exclude": {
@@ -434,11 +514,22 @@
 
   // ━━━ TailwindCSS Configuration ━━━
   "tailwindCSS.emmetCompletions": true,
+  // ━━━ Tailwind CSS Configuration ━━━
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["clsx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
     ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+
   "tailwindCSS.includeLanguages": {
     "typescript": "javascript",
     "typescriptreact": "javascript"
@@ -513,18 +604,25 @@
     "gutterIcon": true,
     "iconColour": "#FFFF00"
   },
+  "typescript.enablePromptUseWorkspaceTsdk": true,
   // ━━━ TypeScript Configuration ━━━
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.inlayHints.enumMemberValues.enabled": true,
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  // ━━━ IntelliSense Configuration ━━━
+  "typescript.inlayHints.parameterNames.enabled": "all",
   "typescript.inlayHints.parameterNames.enabled": "literals",
   "typescript.inlayHints.parameterTypes.enabled": true,
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+
   "typescript.inlayHints.variableTypes.enabled": true,
   "typescript.preferences.autoImportFileExcludePatterns": [
     "**/node_modules/@types/node/**",
     "**/.next/**"
   ],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.includePackageJsonAutoImports": "on",
   "typescript.preferences.preferTypeOnlyAutoImports": true,
@@ -532,16 +630,22 @@
   "typescript.referencesCodeLens.showOnAllFunctions": true,
 
   "typescript.suggest.autoImports": true,
+  "typescript.suggest.autoImports": true,
   "typescript.suggest.completeFunctionCalls": true,
   "typescript.suggest.paths": true,
+  // ━━━ Next.js & React Configuration ━━━
+  "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.tsserver.experimental.enableProjectDiagnostics": true,
   "typescript.tsserver.maxTsServerMemory": 8192,
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
 
   // ━━━ Vitest Configuration ━━━
   "vitest.commandLine": "pnpm test:unit",
   "vitest.disableWorkspaceWarning": true,
+  "vitest.enable": true,
+
   "vitest.enable": true,
   "vitest.nodeExecutable": "node",
   "vitest.showTerminalOnFailure": true,
