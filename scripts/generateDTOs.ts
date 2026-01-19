@@ -252,7 +252,7 @@ export const serverActionDTOs = {
 ${actions
   .map(
     (a) =>
-      `    { name: "${a.functionName}", file: "${path.relative(process.cwd(), a.filePath).replaceAll('\\', "/")}" }`
+      `    { name: "${a.functionName}", file: "${path.relative(process.cwd(), a.filePath).replaceAll("\\", "/")}" }`
   )
   .join(",\n")}
   ],

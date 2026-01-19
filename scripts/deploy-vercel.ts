@@ -128,28 +128,28 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   // Parse command line arguments
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
-    case "--production": 
-    case "--prod":
-      options.environment = "production";
-    
-    break;
-    
-    case "--preview":
-      options.environment = "preview";
-    
-    break;
-    
-    case "--skip-build":
-      options.skipBuild = true;
-    
-    break;
-    
-    case "--project":
-      options.projectName = args[++i];
-    
-    break;
-    
-    // No default
+      case "--production":
+      case "--prod":
+        options.environment = "production";
+
+        break;
+
+      case "--preview":
+        options.environment = "preview";
+
+        break;
+
+      case "--skip-build":
+        options.skipBuild = true;
+
+        break;
+
+      case "--project":
+        options.projectName = args[++i];
+
+        break;
+
+      // No default
     }
   }
 

@@ -2,8 +2,7 @@
 
 ## Overview
 
-ComicWise provides a comprehensive RESTful API and Server Actions for managing
-comics, chapters, users, and more.
+ComicWise provides a comprehensive RESTful API and Server Actions for managing comics, chapters, users, and more.
 
 ## Base URL
 
@@ -28,11 +27,9 @@ const session = await auth();
 ### Comics
 
 #### GET /api/comics
-
 Get all comics with pagination.
 
 **Query Parameters:**
-
 - `page`: Page number (default: 1)
 - `limit`: Items per page (default: 20)
 - `search`: Search query
@@ -40,31 +37,25 @@ Get all comics with pagination.
 - `status`: Filter by status
 
 #### GET /api/comics/[slug]
-
 Get a single comic by slug.
 
 #### POST /api/comics
-
 Create a new comic (Admin only).
 
 ### Chapters
 
 #### GET /api/comics/[slug]/chapters
-
 Get all chapters for a comic.
 
 #### GET /api/comics/[slug]/chapters/[number]
-
 Get a specific chapter.
 
 ### Users
 
 #### GET /api/users/me
-
 Get current user profile.
 
 #### PATCH /api/users/me
-
 Update current user profile.
 
 ## Server Actions
@@ -80,7 +71,6 @@ const result = await createComic(formData);
 ## Rate Limiting
 
 API endpoints are rate-limited to prevent abuse:
-
 - Anonymous: 10 requests/minute
 - Authenticated: 100 requests/minute
 - Admin: Unlimited
@@ -91,9 +81,9 @@ All API responses follow a consistent error format:
 
 ```json
 {
+  "error": "Error message",
   "code": "ERROR_CODE",
-  "details": {},
-  "error": "Error message"
+  "details": {}
 }
 ```
 
@@ -121,4 +111,4 @@ export async function handleCreateComic(formData: FormData) {
 
 ---
 
-_Last updated: 2026-01-18T20:09:25.838Z_
+*Last updated: 2026-01-19T18:53:45.328Z*

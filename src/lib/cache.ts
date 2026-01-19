@@ -171,7 +171,9 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
         return await client["get"](key);
       },
       async set(key: string, value: string, ttlSeconds?: number) {
-        await (ttlSeconds ? client["set"](key, value, "EX", ttlSeconds) : client["set"](key, value));
+        await (ttlSeconds
+          ? client["set"](key, value, "EX", ttlSeconds)
+          : client["set"](key, value));
       },
       async del(key: string) {
         await client["del"](key);
@@ -680,7 +682,7 @@ export function withCache(
       }
 
       console.log(`❌ Cache MISS: ${cacheKey}`);
-      const response = await handler(request) as Response;
+      const response = (await handler(request)) as Response;
 
       if (response.ok) {
         try {
@@ -693,14 +695,12 @@ export function withCache(
             status: response.status,
           };
 
-          cache
-            ["set"](cacheKey, cacheData, {
-              ttl: config.ttl || CACHE_TTL.MEDIUM,
-              tags: config.tags,
-            })
-            .catch((error) => {
-              console.error(`Failed to cache response for ${cacheKey}:`, error);
-            });
+          cache["set"](cacheKey, cacheData, {
+            ttl: config.ttl || CACHE_TTL.MEDIUM,
+            tags: config.tags,
+          }).catch((error) => {
+            console.error(`Failed to cache response for ${cacheKey}:`, error);
+          });
 
           response.headers["set"]("X-Cache", "MISS");
           response.headers["set"]("X-Cache-Key", cacheKey);
@@ -757,7 +757,7 @@ export function withCacheInvalidation(
   }
 ) {
   return async (request: NextRequest) => {
-    const response = await handler(request) as Response;
+    const response = (await handler(request)) as Response;
 
     if (response.ok && ["POST", "PUT", "PATCH", "DELETE"].includes(request.method)) {
       try {
@@ -879,7 +879,7 @@ export function withRateLimit(
       );
     }
 
-    const response = await handler(request) as Response;
+    const response = (await handler(request)) as Response;
 
     response.headers["set"]("X-RateLimit-Limit", options.max?.toString() || "100");
     response.headers["set"]("X-RateLimit-Remaining", result.remaining.toString());

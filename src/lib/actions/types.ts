@@ -39,7 +39,10 @@ export async function createType(formData: FormData): Promise<ActionResult<{ id:
   }
 }
 
-export async function updateType(typeId: number, formData: FormData): Promise<ActionResult<unknown>> {
+export async function updateType(
+  typeId: number,
+  formData: FormData
+): Promise<ActionResult<unknown>> {
   try {
     const data = updateTypeSchema.parse({
       name: formData.get("name") || undefined,

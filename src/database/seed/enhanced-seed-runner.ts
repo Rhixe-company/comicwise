@@ -289,7 +289,9 @@ async function processImage(
   // Check if file already exists in filesystem
   const fullPath = path.join(CONFIG.PUBLIC_DIR, pathWithExtension);
   if (existsSync(fullPath)) {
-    const relativePath = pathWithExtension.startsWith("/") ? pathWithExtension : `/${pathWithExtension}`;
+    const relativePath = pathWithExtension.startsWith("/")
+      ? pathWithExtension
+      : `/${pathWithExtension}`;
     downloadedImages.set(imageUrl, relativePath);
     imageCache.set(imageUrl, relativePath);
     return relativePath;
@@ -669,11 +671,14 @@ async function seedChapters(data: unknown[]) {
           const errorMessage = dbError instanceof Error ? dbError.message : String(dbError);
           const cause = (dbError as { cause?: unknown }).cause;
 
-          console.error(`  ❌ Chapter insert error for #${chapterNumber} (comic:${comicRecord.id}):`, {
-            message: errorMessage,
-            cause: cause,
-            slug: chapterSlug,
-          });
+          console.error(
+            `  ❌ Chapter insert error for #${chapterNumber} (comic:${comicRecord.id}):`,
+            {
+              message: errorMessage,
+              cause: cause,
+              slug: chapterSlug,
+            }
+          );
         }
       } catch (error) {
         if (!(error instanceof z.ZodError)) {

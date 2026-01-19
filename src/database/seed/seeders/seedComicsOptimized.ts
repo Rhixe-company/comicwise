@@ -171,48 +171,48 @@ async function getOrCreateMetadata(
     let result;
 
     switch (table) {
-    case "type": {
-      const existing = await db.query.type.findFirst({ where: eq(type.name, name) });
-      if (!existing) {
-        const created = await db.insert(type).values({ name }).returning();
-        result = created[0];
-      } else {
-        result = existing;
+      case "type": {
+        const existing = await db.query.type.findFirst({ where: eq(type.name, name) });
+        if (!existing) {
+          const created = await db.insert(type).values({ name }).returning();
+          result = created[0];
+        } else {
+          result = existing;
+        }
+
+        break;
       }
-    
-    break;
-    }
-    case "author": {
-      const existing = await db.query.author.findFirst({ where: eq(author.name, name) });
-      if (!existing) {
-        const created = await db.insert(author).values({ name }).returning();
-        result = created[0];
-      } else {
-        result = existing;
+      case "author": {
+        const existing = await db.query.author.findFirst({ where: eq(author.name, name) });
+        if (!existing) {
+          const created = await db.insert(author).values({ name }).returning();
+          result = created[0];
+        } else {
+          result = existing;
+        }
+
+        break;
       }
-    
-    break;
-    }
-    case "artist": {
-      const existing = await db.query.artist.findFirst({ where: eq(artist.name, name) });
-      if (!existing) {
-        const created = await db.insert(artist).values({ name }).returning();
-        result = created[0];
-      } else {
-        result = existing;
+      case "artist": {
+        const existing = await db.query.artist.findFirst({ where: eq(artist.name, name) });
+        if (!existing) {
+          const created = await db.insert(artist).values({ name }).returning();
+          result = created[0];
+        } else {
+          result = existing;
+        }
+
+        break;
       }
-    
-    break;
-    }
-    default: {
-      const existing = await db.query.genre.findFirst({ where: eq(genre.name, name) });
-      if (!existing) {
-        const created = await db.insert(genre).values({ name }).returning();
-        result = created[0];
-      } else {
-        result = existing;
+      default: {
+        const existing = await db.query.genre.findFirst({ where: eq(genre.name, name) });
+        if (!existing) {
+          const created = await db.insert(genre).values({ name }).returning();
+          result = created[0];
+        } else {
+          result = existing;
+        }
       }
-    }
     }
 
     if (result?.id) {

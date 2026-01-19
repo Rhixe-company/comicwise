@@ -90,4 +90,8 @@ export type ComicSeedData = z.infer<typeof ComicSeedSchema>;
 export type ChapterSeedData = z.infer<typeof ChapterSeedSchema>;
 
 // Re-export for convenience
-export type { ChapterSeedData as ChapterSeed, ComicSeedData as ComicSeed, UserSeedData as UserSeed };
+export type {
+  ChapterSeedData as ChapterSeed,
+  ComicSeedData as ComicSeed,
+  UserSeedData as UserSeed,
+};

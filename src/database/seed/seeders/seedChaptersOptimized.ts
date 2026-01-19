@@ -130,7 +130,9 @@ async function upsertChapter(
 
     // Parse chapter number
     const chapterNumber =
-      typeof data.chapterNumber === "string" ? Number.parseFloat(data.chapterNumber) : data.chapterNumber;
+      typeof data.chapterNumber === "string"
+        ? Number.parseFloat(data.chapterNumber)
+        : data.chapterNumber;
 
     // Parse dates
     const releaseDate = data.releaseDate ? new Date(data.releaseDate) : new Date();

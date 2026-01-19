@@ -175,43 +175,43 @@ async function getOrCreateMetadata(
 
     // Check database
     switch (table) {
-    case "type":
-      existing = await db.query.type.findFirst({ where: eq(type.name, name) });
-      if (!existing) {
-        const result = await db.insert(type).values({ name }).returning();
-        created = result[0];
-      }
-    
-    break;
-    
-    case "author":
-      existing = await db.query.author.findFirst({ where: eq(author.name, name) });
-      if (!existing) {
-        const result = await db.insert(author).values({ name }).returning();
-        created = result[0];
-      }
-    
-    break;
-    
-    case "artist":
-      existing = await db.query.artist.findFirst({ where: eq(artist.name, name) });
-      if (!existing) {
-        const result = await db.insert(artist).values({ name }).returning();
-        created = result[0];
-      }
-    
-    break;
-    
-    case "genre":
-      existing = await db.query.genre.findFirst({ where: eq(genre.name, name) });
-      if (!existing) {
-        const result = await db.insert(genre).values({ name }).returning();
-        created = result[0];
-      }
-    
-    break;
-    
-    // No default
+      case "type":
+        existing = await db.query.type.findFirst({ where: eq(type.name, name) });
+        if (!existing) {
+          const result = await db.insert(type).values({ name }).returning();
+          created = result[0];
+        }
+
+        break;
+
+      case "author":
+        existing = await db.query.author.findFirst({ where: eq(author.name, name) });
+        if (!existing) {
+          const result = await db.insert(author).values({ name }).returning();
+          created = result[0];
+        }
+
+        break;
+
+      case "artist":
+        existing = await db.query.artist.findFirst({ where: eq(artist.name, name) });
+        if (!existing) {
+          const result = await db.insert(artist).values({ name }).returning();
+          created = result[0];
+        }
+
+        break;
+
+      case "genre":
+        existing = await db.query.genre.findFirst({ where: eq(genre.name, name) });
+        if (!existing) {
+          const result = await db.insert(genre).values({ name }).returning();
+          created = result[0];
+        }
+
+        break;
+
+      // No default
     }
 
     const id = (existing || created)?.id;

@@ -328,7 +328,10 @@ function processFile(filePath: string, stats: Stats, patterns: Pattern[]): boole
     for (const pattern of INVALID_PATTERNS) {
       const matches = content.match(pattern.from);
       if (matches) {
-        content = typeof pattern.to === "string" ? content.replace(pattern.from, pattern.to) : content.replace(pattern.from, pattern.to);
+        content =
+          typeof pattern.to === "string"
+            ? content.replace(pattern.from, pattern.to)
+            : content.replace(pattern.from, pattern.to);
         const count = matches.length;
         stats.totalReplacements += count;
         if (pattern.type === "import") {
@@ -356,7 +359,10 @@ function processFile(filePath: string, stats: Stats, patterns: Pattern[]): boole
     for (const pattern of sortedPatterns) {
       const matches = content.match(pattern.from);
       if (matches) {
-        content = typeof pattern.to === "string" ? content.replace(pattern.from, pattern.to) : content.replace(pattern.from, pattern.to);
+        content =
+          typeof pattern.to === "string"
+            ? content.replace(pattern.from, pattern.to)
+            : content.replace(pattern.from, pattern.to);
         const count = matches.length;
         stats.totalReplacements += count;
 

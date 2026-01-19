@@ -1,4 +1,3 @@
- 
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  * OPTIMIZED SEEDERS - User, Comic, and Chapter seeding with upsert logic
@@ -450,10 +449,10 @@ export async function seedChapters(
           if (chapterId && chapterData.images && chapterData.images.length > 0) {
             for (const imageData of chapterData.images) {
               try {
-                const imageUrl = typeof imageData === 'object' ? imageData?.url : imageData;
+                const imageUrl = typeof imageData === "object" ? imageData?.url : imageData;
                 const processedUrl = options.imageHandler
-                  ? await options.imageHandler.processImage(imageUrl || '', "comic")
-                  : imageUrl || '';
+                  ? await options.imageHandler.processImage(imageUrl || "", "comic")
+                  : imageUrl || "";
 
                 await db
                   .insert(chapterImage)

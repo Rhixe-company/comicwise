@@ -1,7 +1,3 @@
- 
- 
- 
- 
 // ═══════════════════════════════════════════════════
 // IMAGEKIT UPLOAD PROVIDER
 // Next.js 16.0.7 + ImageKit Integration

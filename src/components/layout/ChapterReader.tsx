@@ -133,9 +133,15 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
                 md:inline-flex
               `}
             >
-              {isFullscreen ? <Minimize className="size-5" /> : <Maximize className={`
+              {isFullscreen ? (
+                <Minimize className="size-5" />
+              ) : (
+                <Maximize
+                  className={`
                 size-5
-              `} />}
+              `}
+                />
+              )}
             </Button>
           </div>
         </div>

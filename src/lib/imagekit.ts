@@ -746,7 +746,7 @@ export async function getImageMetadata(fileId: string): Promise<{
   try {
     const ik: ImageKit = getImageKitInstance();
     const metadataResult = await ik.getFileMetadata(fileId);
-     
+
     const meta = metadataResult as any;
     const details: {
       width: number;

@@ -71,7 +71,10 @@ export async function registerUser(formData: FormData): Promise<ActionResult<{ i
   }
 }
 
-export async function updateUser(userId: string, formData: FormData): Promise<ActionResult<unknown>> {
+export async function updateUser(
+  userId: string,
+  formData: FormData
+): Promise<ActionResult<unknown>> {
   try {
     const data = updateUserAdminSchema.parse({
       name: formData.get("name") || undefined,
@@ -146,7 +149,10 @@ export async function requestPasswordReset(email: string): Promise<ActionResult<
   }
 }
 
-export async function resetPassword(token: string, newPassword: string): Promise<ActionResult<unknown>> {
+export async function resetPassword(
+  token: string,
+  newPassword: string
+): Promise<ActionResult<unknown>> {
   try {
     const resetToken = await queries.getPasswordResetToken(token);
 

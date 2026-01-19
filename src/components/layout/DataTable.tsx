@@ -555,9 +555,12 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                   </SortableContext>
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={columns.length} className={`
+                    <TableCell
+                      colSpan={columns.length}
+                      className={`
                       h-24 text-center
-                    `}>
+                    `}
+                    >
                       No results.
                     </TableCell>
                   </TableRow>
@@ -793,9 +796,12 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               <Separator />
               <div className="grid gap-2">
                 <div className="flex gap-2 leading-none font-medium">
-                  Trending up by 5.2% this month <IconTrendingUp className={`
+                  Trending up by 5.2% this month{" "}
+                  <IconTrendingUp
+                    className={`
                     size-4
-                  `} />
+                  `}
+                  />
                 </div>
                 <div className="text-muted-foreground">
                   Showing total visitors for the last 6 months. This is just some random text to

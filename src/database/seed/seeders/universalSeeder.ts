@@ -185,7 +185,7 @@ const ChapterSchema = z
 async function downloadAndUploadImage(
   imageUrl: string,
   folder: string,
-   
+
   _fileName: string
 ): Promise<string | null> {
   try {

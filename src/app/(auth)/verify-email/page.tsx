@@ -57,9 +57,7 @@ function VerifyEmailContent() {
     return (
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <div
-            className={`mx-auto mb-2 flex size-12 items-center justify-center`}
-          >
+          <div className={`mx-auto mb-2 flex size-12 items-center justify-center`}>
             <Loader2 className="size-8 animate-spin text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold">Verifying Email</CardTitle>

@@ -170,30 +170,30 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   // Parse command line arguments
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
-    case "--message": 
-    case "-m":
-      options.message = args[++i];
-    
-    break;
-    
-    case "--type": 
-    case "-t":
-      options.type = args[++i];
-    
-    break;
-    
-    case "--scope": 
-    case "-s":
-      options.scope = args[++i];
-    
-    break;
-    
-    case "--no-push":
-      options.push = false;
-    
-    break;
-    
-    // No default
+      case "--message":
+      case "-m":
+        options.message = args[++i];
+
+        break;
+
+      case "--type":
+      case "-t":
+        options.type = args[++i];
+
+        break;
+
+      case "--scope":
+      case "-s":
+        options.scope = args[++i];
+
+        break;
+
+      case "--no-push":
+        options.push = false;
+
+        break;
+
+      // No default
     }
   }
 

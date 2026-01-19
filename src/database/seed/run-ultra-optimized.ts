@@ -403,7 +403,9 @@ async function seedComics(
           }
 
           const rating =
-            typeof comicData.rating === "string" ? Number.parseFloat(comicData.rating) : comicData.rating;
+            typeof comicData.rating === "string"
+              ? Number.parseFloat(comicData.rating)
+              : comicData.rating;
 
           try {
             // Check if title conflicts with existing entry (for different slug)

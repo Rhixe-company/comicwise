@@ -32,15 +32,19 @@ export default function GlobalError({
   return (
     <html>
       <body>
-        <div className="
+        <div
+          className="
           flex min-h-screen flex-col items-center justify-center bg-linear-to-b
           from-background to-muted p-4
-        ">
+        "
+        >
           <div className="max-w-md space-y-6 text-center">
             <div className="space-y-2">
-              <h1 className="
+              <h1
+                className="
                 text-4xl font-bold tracking-tighter text-destructive
-              ">
+              "
+              >
                 Oops! Something went wrong
               </h1>
               <p className="text-lg text-muted-foreground">
@@ -54,10 +58,12 @@ export default function GlobalError({
               </div>
             )}
 
-            <div className="
+            <div
+              className="
               flex flex-col gap-2
               sm:flex-row sm:justify-center
-            ">
+            "
+            >
               <button
                 onClick={reset}
                 className="

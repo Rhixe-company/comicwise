@@ -1,5 +1,3 @@
- 
- 
 // ESLint 9.x Flat Config for Next.js 16 + React 19 + TypeScript 5
 import css from "@eslint/css";
 import js from "@eslint/js";
@@ -71,7 +69,7 @@ const eslintRules = {
     { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
   ],
   "@typescript-eslint/no-unused-vars": [
-    "warn", // Changed from error to warning  
+    "warn", // Changed from error to warning
     { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
   ],
   "typescript-eslint/no-explicit-any": "off", // Disabled due to many legitimate any uses

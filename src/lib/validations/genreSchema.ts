@@ -11,5 +11,8 @@ import { createGenreSchema, updateGenreSchema } from "@/lib/validations/index";
 export const insertGenreSchema = createGenreSchema;
 export { updateGenreSchema };
 
-export interface InsertGenre { name: string; description?: string }
+export interface InsertGenre {
+  name: string;
+  description?: string;
+}
 export type UpdateGenre = Partial<InsertGenre>;

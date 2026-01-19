@@ -147,10 +147,7 @@ export function ComicsTable({
               <TableBody>
                 {comics.length === 0 ? (
                   <TableRow>
-                    <TableCell
-                      colSpan={7}
-                      className={`py-8 text-center text-muted-foreground`}
-                    >
+                    <TableCell colSpan={7} className={`py-8 text-center text-muted-foreground`}>
                       No comics found
                     </TableCell>
                   </TableRow>
@@ -247,9 +244,7 @@ export function ComicsTable({
           </div>
 
           {selectedIds.length > 0 && (
-            <div
-              className={`mt-4 flex items-center justify-between border-t pt-4`}
-            >
+            <div className={`mt-4 flex items-center justify-between border-t pt-4`}>
               <p className="text-sm text-muted-foreground">{selectedIds.length} selected</p>
               {onBulkDelete && (
                 <Button

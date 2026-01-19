@@ -12,7 +12,9 @@ export default async function EditChapterForm({ params }: { params: { id: string
   // Fetch chapter and comics on the server
   const [chapterRes, comicsRes] = await Promise.all([
     fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/chapters/${id}`, { cache: "no-store" }),
-    fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/comics?limit=1000`, { cache: "no-store" }),
+    fetch(`${process.env["NEXT_PUBLIC_APP_URL"] ?? ""}/api/comics?limit=1000`, {
+      cache: "no-store",
+    }),
   ]);
 
   if (!chapterRes.ok || !comicsRes.ok) {

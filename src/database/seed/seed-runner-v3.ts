@@ -309,7 +309,7 @@ async function seedComics() {
           });
 
           if (imageResult.success && imageResult.filePath) {
-            const relativePath = imageResult.filePath.replaceAll('\\', "/").replace("public", "");
+            const relativePath = imageResult.filePath.replaceAll("\\", "/").replace("public", "");
 
             await db
               .insert(comicImage)
@@ -466,7 +466,7 @@ async function seedChapters() {
             });
 
             if (imageResult.success && imageResult.filePath) {
-              const relativePath = imageResult.filePath.replaceAll('\\', "/").replace("public", "");
+              const relativePath = imageResult.filePath.replaceAll("\\", "/").replace("public", "");
 
               await db
                 .insert(chapterImage)

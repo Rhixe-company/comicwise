@@ -46,7 +46,10 @@ export async function createArtist(formData: FormData): Promise<ActionResult<{ i
   }
 }
 
-export async function updateArtist(artistId: number, formData: FormData): Promise<ActionResult<unknown>> {
+export async function updateArtist(
+  artistId: number,
+  formData: FormData
+): Promise<ActionResult<unknown>> {
   try {
     const data = updateArtistSchema.parse({
       name: formData.get("name") || undefined,

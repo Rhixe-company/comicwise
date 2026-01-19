@@ -9,17 +9,18 @@
  */
 
 import { logger } from "@/database/seed/logger-optimized";
+import type {
+  ChapterSeedData,
+  ComicSeedData,
+  UserSeedData,
+  ValidationResult,
+} from "@/database/seed/schemas-optimized";
 import {
   chapterSeedSchema,
   comicSeedSchema,
   userSeedSchema,
-  validateArray
-  
-  
-  
-  
+  validateArray,
 } from "@/database/seed/schemas-optimized";
-import type {ChapterSeedData, ComicSeedData, UserSeedData, ValidationResult} from "@/database/seed/schemas-optimized";
 import fs from "fs/promises";
 import { glob } from "glob";
 import path from "path";

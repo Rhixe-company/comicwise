@@ -46,7 +46,10 @@ export async function createAuthor(formData: FormData): Promise<ActionResult<{ i
   }
 }
 
-export async function updateAuthor(authorId: number, formData: FormData): Promise<ActionResult<unknown>> {
+export async function updateAuthor(
+  authorId: number,
+  formData: FormData
+): Promise<ActionResult<unknown>> {
   try {
     const data = updateAuthorSchema.parse({
       name: formData.get("name") || undefined,
