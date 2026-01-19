@@ -3,9 +3,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar, Mail, Shield, User as UserIcon } from "lucide-react";
 import type { User } from "next-auth";
 import Link from "next/link";
-import { User as UserIcon, Mail, Calendar, Shield } from "lucide-react";
 
 interface ProfileViewProps {
   user: User & { role?: string; createdAt?: Date };

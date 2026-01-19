@@ -1,10 +1,11 @@
-import { db as database } from "@/database/db";
-import { comic, chapter, chapterImage } from "@/database/schema";
-import { eq, and, asc } from "drizzle-orm";
-import { notFound } from "next/navigation";
+/* eslint-disable typescript-eslint/no-non-null-assertion */
 import { ChapterReader } from "@/components/chapters/ChapterReader";
-import { auth } from "@/lib/auth";
+import { db as database } from "@/database/db";
+import { chapter, chapterImage, comic } from "@/database/schema";
 import { updateProgress } from "@/lib/actions/bookmark";
+import { auth } from "@/lib/auth";
+import { and, asc, eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
 
 interface ChapterPageProps {
   params: Promise<{ slug: string; chapterNumber: string }>;
@@ -30,12 +31,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
   const [currentChapter] = await database
     .select()
     .from(chapter)
-    .where(
-      and(
-        eq(chapter.comicId, comicData.id),
-        eq(chapter.chapterNumber, Number(chapterNumber))
-      )
-    )
+    .where(and(eq(chapter.comicId, comicData.id), eq(chapter.chapterNumber, Number(chapterNumber))))
     .limit(1);
 
   if (!currentChapter) {
@@ -86,8 +82,8 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
       comic={comicData}
       chapter={currentChapter}
       images={images}
-      prevChapter={prevChapter}
-      nextChapter={nextChapter}
+      prevChapter={prevChapter!}
+      nextChapter={nextChapter!}
     />
   );
 }

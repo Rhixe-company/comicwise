@@ -65,9 +65,7 @@ export function SettingsPanel({ user }: SettingsPanelProps) {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="bookmarkReminders">Bookmark Reminders</Label>
-              <p className="text-sm text-muted-foreground">
-                Remind me about bookmarked comics
-              </p>
+              <p className="text-sm text-muted-foreground">Remind me about bookmarked comics</p>
             </div>
             <Switch
               id="bookmarkReminders"

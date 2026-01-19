@@ -1,10 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { ComicCard } from "./ComicCard";
 import { ComicFilters } from "./ComicFilters";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Comic {
   id: number;

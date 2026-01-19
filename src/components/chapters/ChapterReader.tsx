@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -9,10 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ChevronLeft, ChevronRight, Home, List } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Home, List } from "lucide-react";
 
 interface Comic {
   id: number;
@@ -69,7 +68,10 @@ export function ChapterReader({
           </div>
 
           <div className="flex items-center gap-2">
-            <Select value={readingMode} onValueChange={(value: "vertical" | "horizontal") => setReadingMode(value)}>
+            <Select
+              value={readingMode}
+              onValueChange={(value: "vertical" | "horizontal") => setReadingMode(value)}
+            >
               <SelectTrigger className="w-32">
                 <SelectValue />
               </SelectTrigger>
@@ -131,9 +133,7 @@ export function ChapterReader({
             </Button>
           )}
 
-          <span className="text-sm text-muted-foreground">
-            {images.length} pages
-          </span>
+          <span className="text-sm text-muted-foreground">{images.length} pages</span>
 
           {nextChapter ? (
             <Link href={`/comics/${comic.slug}/${nextChapter.chapterNumber}`}>

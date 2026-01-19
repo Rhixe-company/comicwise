@@ -23,6 +23,7 @@ if ($DryRun) {
 
 # Define files to remove (documentation and temporary files)
 $filesToRemove = @(
+    ".*.backup"
     "**/*.backup"
     "**/*.backup.*"
     "**/.*.backup.*"
@@ -102,6 +103,7 @@ $filesToRemove = @(
 
 # Unused files in src to remove
 $srcFilesToRemove = @(
+  ".*.backup"
   "**/*.backup"
   "**/*.backup.*"
   "**/.*.backup.*"
@@ -109,6 +111,7 @@ $srcFilesToRemove = @(
 
 # Old seeding files to remove (replaced by Enhanced versions)
 $seedFilesToRemove = @(
+  ".*.backup"
   "**/*.backup"
   "**/*.backup.*"
   "**/.*.backup.*"

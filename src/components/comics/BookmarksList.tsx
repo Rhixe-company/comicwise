@@ -1,12 +1,12 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { removeBookmark } from "@/lib/actions/bookmark";
+import { BookmarkX, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { BookmarkX, Play } from "lucide-react";
-import { removeBookmark } from "@/lib/actions/bookmark";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";

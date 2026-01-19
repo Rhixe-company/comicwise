@@ -4,11 +4,11 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * ComicWise - Master Complete Setup Script (v3.0.0)
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Purpose: Orchestrate all 27 tasks for complete project setup
- * 
+ *
  * Framework: Next.js 16 | Runtime: Node.js 20+ | Package Manager: pnpm
- * 
+ *
  * Tasks Covered:
  *   1. VS Code Configuration
  *   2. Configuration Files Optimization
@@ -37,14 +37,13 @@
  *   25. Git Setup
  *   26. Git Commit & Push
  *   27. Vercel Deployment
- * 
+ *
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
+import chalk from "chalk";
 import { execSync } from "node:child_process";
 import fs from "node:fs/promises";
-import path from "node:path";
-import chalk from "chalk";
 import ora from "ora";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -67,10 +66,10 @@ const TASKS: TaskConfig[] = [
     description: "Optimize VS Code settings, extensions, and configurations",
     files: [
       ".vscode/mcp.json",
-      ".vscode/extensions.json", 
+      ".vscode/extensions.json",
       ".vscode/launch.json",
       ".vscode/tasks.json",
-      ".vscode/settings.json"
+      ".vscode/settings.json",
     ],
   },
   {
@@ -85,18 +84,14 @@ const TASKS: TaskConfig[] = [
       "postcss.config.mjs",
       ".gitignore",
       ".dockerignore",
-      ".prettierignore"
+      ".prettierignore",
     ],
   },
   {
     id: 3,
     name: "Environment & Config",
     description: "Validate environment variables and app configuration",
-    files: [
-      ".env.local",
-      "src/lib/env.ts",
-      "appConfig.ts"
-    ],
+    files: [".env.local", "src/lib/env.ts", "appConfig.ts"],
   },
   {
     id: 4,
@@ -109,7 +104,7 @@ const TASKS: TaskConfig[] = [
       "src/app/(auth)/forgot-password/page.tsx",
       "src/app/(auth)/reset-password/page.tsx",
       "src/lib/validations/authSchema.ts",
-      "src/lib/actions/auth.ts"
+      "src/lib/actions/auth.ts",
     ],
   },
   {
@@ -125,25 +120,20 @@ const TASKS: TaskConfig[] = [
     files: [
       "src/app/profile/page.tsx",
       "src/app/profile/edit/page.tsx",
-      "src/app/bookmarks/page.tsx"
+      "src/app/bookmarks/page.tsx",
     ],
   },
   {
     id: 7,
     name: "Comic Pages",
     description: "Comic listing and details pages",
-    files: [
-      "src/app/comics/page.tsx",
-      "src/app/comics/[slug]/page.tsx"
-    ],
+    files: ["src/app/comics/page.tsx", "src/app/comics/[slug]/page.tsx"],
   },
   {
     id: 8,
     name: "Chapter Pages",
     description: "Chapter reader and navigation",
-    files: [
-      "src/app/comics/[slug]/[chapterSlug]/page.tsx"
-    ],
+    files: ["src/app/comics/[slug]/[chapterSlug]/page.tsx"],
   },
   {
     id: 9,
@@ -167,10 +157,7 @@ const TASKS: TaskConfig[] = [
     id: 12,
     name: "CI/CD Setup",
     description: "GitHub Actions workflows",
-    files: [
-      ".github/workflows/ci.yml",
-      ".github/workflows/cd.yml"
-    ],
+    files: [".github/workflows/ci.yml", ".github/workflows/cd.yml"],
   },
   {
     id: 13,
@@ -212,10 +199,7 @@ const TASKS: TaskConfig[] = [
     id: 19,
     name: "Docker & Deployment",
     description: "Docker configs and deployment scripts",
-    files: [
-      "Dockerfile",
-      "docker-compose.yml"
-    ],
+    files: ["Dockerfile", "docker-compose.yml"],
   },
   {
     id: 20,
@@ -278,14 +262,14 @@ function log(message: string, type: "info" | "success" | "error" | "warning" = "
     error: "❌",
     warning: "⚠️",
   };
-  
+
   const colors = {
     info: chalk.blue,
     success: chalk.green,
     error: chalk.red,
     warning: chalk.yellow,
   };
-  
+
   console.log(colors[type](`${icons[type]} ${message}`));
 }
 
@@ -303,9 +287,9 @@ function runCommand(command: string): { success: boolean; output: string } {
     const output = execSync(command, { encoding: "utf-8", stdio: "pipe" });
     return { success: true, output };
   } catch (error) {
-    return { 
-      success: false, 
-      output: error instanceof Error ? error.message : String(error)
+    return {
+      success: false,
+      output: error instanceof Error ? error.message : String(error),
     };
   }
 }
@@ -315,9 +299,13 @@ function runCommand(command: string): { success: boolean; output: string } {
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function main() {
-  console.log(chalk.cyan.bold("\n═══════════════════════════════════════════════════════════════════════════"));
+  console.log(
+    chalk.cyan.bold("\n═══════════════════════════════════════════════════════════════════════════")
+  );
   console.log(chalk.cyan.bold("  ComicWise - Master Complete Setup (27 Tasks)"));
-  console.log(chalk.cyan.bold("═══════════════════════════════════════════════════════════════════════════\n"));
+  console.log(
+    chalk.cyan.bold("═══════════════════════════════════════════════════════════════════════════\n")
+  );
 
   const results = {
     completed: 0,
@@ -349,7 +337,7 @@ async function main() {
         );
 
         const missing = checks.filter((c) => !c.exists);
-        
+
         if (missing.length === 0) {
           spinner.succeed("All files exist");
         } else {
@@ -361,7 +349,7 @@ async function main() {
       if (task.script) {
         spinner.text = `Running: ${task.script}`;
         const result = runCommand(task.script);
-        
+
         if (result.success) {
           spinner.succeed("Script completed successfully");
         } else {
@@ -383,15 +371,22 @@ async function main() {
   }
 
   // Final summary
-  console.log(chalk.cyan.bold("\n═══════════════════════════════════════════════════════════════════════════"));
+  console.log(
+    chalk.cyan.bold("\n═══════════════════════════════════════════════════════════════════════════")
+  );
   console.log(chalk.cyan.bold("  Setup Complete - Summary"));
-  console.log(chalk.cyan.bold("═══════════════════════════════════════════════════════════════════════════\n"));
+  console.log(
+    chalk.cyan.bold("═══════════════════════════════════════════════════════════════════════════\n")
+  );
 
   console.log(chalk.green(`✅ Completed: ${results.completed}/${results.total}`));
   console.log(chalk.yellow(`⚠️  Skipped: ${results.skipped}/${results.total}`));
   console.log(chalk.red(`❌ Failed: ${results.failed}/${results.total}`));
 
-  console.log("\n" + chalk.cyan("═══════════════════════════════════════════════════════════════════════════\n"));
+  console.log(
+    "\n" +
+      chalk.cyan("═══════════════════════════════════════════════════════════════════════════\n")
+  );
 
   // Write summary to file
   const summaryPath = "SETUP_COMPLETION_SUMMARY.md";
@@ -407,12 +402,14 @@ async function main() {
 
 ## Task Details
 
-${TASKS.map((task) => `### Task ${task.id}: ${task.name}
+${TASKS.map(
+  (task) => `### Task ${task.id}: ${task.name}
 - **Description:** ${task.description}
 - **Status:** ${task.skip ? "⚠️ Skipped" : "✅ Completed"}
 ${task.files ? `- **Files:** ${task.files.join(", ")}` : ""}
 ${task.script ? `- **Script:** \`${task.script}\`` : ""}
-`).join("\n")}
+`
+).join("\n")}
 
 ## Next Steps
 

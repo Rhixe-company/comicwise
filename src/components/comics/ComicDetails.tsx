@@ -4,9 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { BookOpen, Calendar, Eye, Palette, Star, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Eye, Calendar, BookOpen, User, Palette } from "lucide-react";
 import { BookmarkButton } from "./BookmarkButton";
 
 interface Comic {
@@ -59,7 +59,7 @@ export function ComicDetails({
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-1">
           <Card className="overflow-hidden">
-            <div className="relative aspect-[2/3]">
+            <div className="relative aspect-2/3">
               <Image
                 src={comic.coverImage}
                 alt={comic.title}
@@ -68,7 +68,7 @@ export function ComicDetails({
                 priority
               />
             </div>
-            <CardContent className="p-4 space-y-4">
+            <CardContent className="space-y-4 p-4">
               <BookmarkButton
                 comicId={comic.id}
                 isBookmarked={isBookmarked}
@@ -76,7 +76,7 @@ export function ComicDetails({
               />
 
               {chapters.length > 0 && (
-                <Link href={`/comics/${comic.slug}/${chapters[0].slug}`}>
+                <Link href={`/comics/${comic.slug}/${chapters[0]!.slug}`}>
                   <Button className="w-full" size="lg">
                     Start Reading
                   </Button>
@@ -86,7 +86,7 @@ export function ComicDetails({
           </Card>
         </div>
 
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6 lg:col-span-2">
           <div>
             <h1 className="mb-2 text-4xl font-bold">{comic.title}</h1>
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
@@ -162,15 +162,13 @@ export function ComicDetails({
 
           <div>
             <h2 className="mb-3 text-xl font-semibold">Synopsis</h2>
-            <p className="text-muted-foreground leading-relaxed">{comic.description}</p>
+            <p className="leading-relaxed text-muted-foreground">{comic.description}</p>
           </div>
 
           <Separator />
 
           <div>
-            <h2 className="mb-4 text-xl font-semibold">
-              Chapters ({chapters.length})
-            </h2>
+            <h2 className="mb-4 text-xl font-semibold">Chapters ({chapters.length})</h2>
             {chapters.length === 0 ? (
               <p className="text-muted-foreground">No chapters available yet.</p>
             ) : (

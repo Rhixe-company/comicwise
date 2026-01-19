@@ -10,9 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Search } from "lucide-react";
 
 interface Type {
   id: number;
@@ -83,7 +83,10 @@ export function ComicFilters({ types, genres }: ComicFiltersProps) {
 
         <div className="space-y-2">
           <Label htmlFor="type">Type</Label>
-          <Select value={filters.type} onValueChange={(value) => setFilters({ ...filters, type: value })}>
+          <Select
+            value={filters.type}
+            onValueChange={(value) => setFilters({ ...filters, type: value })}
+          >
             <SelectTrigger id="type">
               <SelectValue placeholder="All Types" />
             </SelectTrigger>
@@ -100,7 +103,10 @@ export function ComicFilters({ types, genres }: ComicFiltersProps) {
 
         <div className="space-y-2">
           <Label htmlFor="status">Status</Label>
-          <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value })}>
+          <Select
+            value={filters.status}
+            onValueChange={(value) => setFilters({ ...filters, status: value })}
+          >
             <SelectTrigger id="status">
               <SelectValue placeholder="All Status" />
             </SelectTrigger>
@@ -118,7 +124,10 @@ export function ComicFilters({ types, genres }: ComicFiltersProps) {
 
         <div className="space-y-2">
           <Label htmlFor="sort">Sort By</Label>
-          <Select value={filters.sort} onValueChange={(value) => setFilters({ ...filters, sort: value })}>
+          <Select
+            value={filters.sort}
+            onValueChange={(value) => setFilters({ ...filters, sort: value })}
+          >
             <SelectTrigger id="sort">
               <SelectValue />
             </SelectTrigger>
