@@ -1,8 +1,8 @@
 import { FacebookIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
 
+import Logo from "@/assets/svg/logo";
 import { Separator } from "@/components/ui/separator";
 
-import Logo from "@/assets/svg/logo";
 
 const Footer = () => {
   return (

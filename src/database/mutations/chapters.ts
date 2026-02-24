@@ -4,11 +4,11 @@ import { db as database } from "@/database/db";
 import { chapter, chapterImage } from "@/database/schema";
 
 interface CreateChapterData {
-  title: string;
   chapterNumber: number;
-  releaseDate: Date;
   comicId: number;
+  releaseDate: Date;
   slug?: string;
+  title: string;
 }
 
 /**
@@ -37,9 +37,9 @@ export async function createChapter(
 }
 
 interface UpdateChapterData {
-  title?: string;
   chapterNumber?: number;
   releaseDate?: Date;
+  title?: string;
 }
 
 /**

@@ -1,4 +1,5 @@
 onlyBuiltDependencies:
+  - '@sentry/cli'
   - esbuild
   - msgpackr-extract
   - msw

@@ -1,15 +1,16 @@
+import { and, eq, lt } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { verificationToken } from "@/database/schema";
-import { and, eq, lt } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════
 // VERIFICATION TOKEN MUTATIONS
 // ═══════════════════════════════════════════════════
 
 export async function createVerificationToken(data: {
+  expires: Date;
   identifier: string;
   token: string;
-  expires: Date;
 }): Promise<typeof verificationToken.$inferSelect | undefined> {
   const [newToken] = await database.insert(verificationToken).values(data).returning();
   return newToken;

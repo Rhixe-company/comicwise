@@ -7,8 +7,8 @@ import { useUnmount } from "@/hooks/use-unmount";
 
 interface DebounceOptions {
   leading?: boolean;
-  trailing?: boolean;
   maxWait?: number;
+  trailing?: boolean;
 }
 
 interface ControlFunctions {

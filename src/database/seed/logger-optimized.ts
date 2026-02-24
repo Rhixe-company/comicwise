@@ -9,14 +9,14 @@
 
 import pino from "pino";
 
-type LogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
+type LogLevel = "debug" | "error" | "fatal" | "info" | "trace" | "warn";
 
 interface LogContext {
+  [key: string]: any;
   component?: string;
-  operation?: string;
   duration?: number;
   itemCount?: number;
-  [key: string]: any;
+  operation?: string;
 }
 
 /**
@@ -108,10 +108,10 @@ export class SeedLogger {
     console.log("\n" + "─".repeat(78));
     console.log("  📈 SUMMARY");
     console.log("─".repeat(78));
-    Object.entries(stats).forEach(([key, value]) => {
+    for (const [key, value] of Object.entries(stats)) {
       const formattedKey = key.replaceAll(/([A-Z])/g, " $1").trim();
       console.log(`  • ${formattedKey}: ${value}`);
-    });
+    }
   }
 
   timing(operation: string): () => void {

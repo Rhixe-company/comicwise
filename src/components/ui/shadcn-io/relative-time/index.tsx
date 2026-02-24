@@ -1,9 +1,11 @@
 "use client";
 
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import type { HTMLAttributes } from "react";
 import { createContext, useContext, useEffect } from "react";
+
 import { cn } from "utils";
+
+import type { HTMLAttributes } from "react";
 
 const formatDate = (date: Date, timeZone: string, options?: Intl.DateTimeFormatOptions) =>
   new Intl.DateTimeFormat(
@@ -26,8 +28,8 @@ const formatTime = (date: Date, timeZone: string, options?: Intl.DateTimeFormatO
   ).format(date);
 
 interface RelativeTimeContextType {
-  time: Date;
   dateFormatOptions?: Intl.DateTimeFormatOptions;
+  time: Date;
   timeFormatOptions?: Intl.DateTimeFormatOptions;
 }
 
@@ -43,10 +45,10 @@ const RelativeTimeContext = createContext<RelativeTimeContextType>({
 });
 
 export type RelativeTimeProps = HTMLAttributes<HTMLDivElement> & {
-  time?: Date;
+  dateFormatOptions?: Intl.DateTimeFormatOptions;
   defaultTime?: Date;
   onTimeChange?(time: Date): void;
-  dateFormatOptions?: Intl.DateTimeFormatOptions;
+  time?: Date;
   timeFormatOptions?: Intl.DateTimeFormatOptions;
 };
 
@@ -91,9 +93,9 @@ export const RelativeTime = ({
 };
 
 export type RelativeTimeZoneProps = HTMLAttributes<HTMLDivElement> & {
-  zone: string;
   dateFormatOptions?: Intl.DateTimeFormatOptions;
   timeFormatOptions?: Intl.DateTimeFormatOptions;
+  zone: string;
 };
 
 export interface RelativeTimeZoneContextType {
@@ -122,7 +124,7 @@ export const RelativeTimeZoneDisplay = ({ className, ...props }: RelativeTimeZon
 
   return (
     <div
-      className={cn("pl-8 text-muted-foreground tabular-nums", className)}
+      className={cn("text-muted-foreground pl-8 tabular-nums", className)}
       {...(props as Record<string, unknown>)}
     >
       {display}
@@ -150,7 +152,7 @@ export const RelativeTimeZoneLabel = ({ className, ...props }: RelativeTimeZoneL
   <div
     className={cn(
       `
-        flex h-4 items-center justify-center rounded-xs bg-secondary px-1.5
+        bg-secondary flex h-4 items-center justify-center rounded-xs px-1.5
         font-mono
       `,
       className

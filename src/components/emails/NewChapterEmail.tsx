@@ -18,14 +18,14 @@ import {
 } from "@react-email/components";
 
 interface NewChapterEmailProps {
-  userName: string;
-  userEmail: string;
-  comicTitle: string;
-  comicCoverUrl: string;
   chapterNumber: number;
   chapterTitle: string;
   chapterUrl: string;
+  comicCoverUrl: string;
+  comicTitle: string;
   releaseDate: string;
+  userEmail: string;
+  userName: string;
 }
 
 export const NewChapterEmail = ({
@@ -45,11 +45,11 @@ export const NewChapterEmail = ({
       <Container style={container}>
         <Section style={header}>
           <Img
-            src="https://comicwise.app/logo.png"
-            width="48"
-            height="48"
             alt="ComicWise"
+            height="48"
+            src="https://comicwise.app/logo.png"
             style={logo}
+            width="48"
           />
           <Heading style={heading}>New Chapter Available! 📖</Heading>
         </Section>
@@ -62,7 +62,7 @@ export const NewChapterEmail = ({
           </Text>
 
           <Section style={comicCard}>
-            <Img src={comicCoverUrl} width="200" height="280" alt={comicTitle} style={coverImage} />
+            <Img alt={comicTitle} height="280" src={comicCoverUrl} style={coverImage} width="200" />
             <Section style={chapterInfo}>
               <Heading as="h2" style={comicTitleStyle}>
                 {comicTitle}
@@ -77,7 +77,7 @@ export const NewChapterEmail = ({
           </Section>
 
           <Section style={buttonContainer}>
-            <Button style={button} href={chapterUrl}>
+            <Button href={chapterUrl} style={button}>
               Read Chapter {chapterNumber} Now
             </Button>
           </Section>
@@ -101,7 +101,7 @@ export const NewChapterEmail = ({
           <Text style={smallText}>
             You&apos;re receiving this email because you bookmarked <strong>{comicTitle}</strong>{" "}
             and opted in to chapter notifications.{" "}
-            <Link style={link} href="https://comicwise.app/account/notifications">
+            <Link href="https://comicwise.app/account/notifications" style={link}>
               Manage your notification preferences
             </Link>
           </Text>
@@ -112,21 +112,21 @@ export const NewChapterEmail = ({
         <Section style={footer}>
           <Text style={footerText}>
             This email was sent to{" "}
-            <Link style={footerLink} href={`mailto:${userEmail}`}>
+            <Link href={`mailto:${userEmail}`} style={footerLink}>
               {userEmail}
             </Link>
           </Text>
           <Text style={footerText}>ComicWise, Inc. | 123 Comic Street, Reading City, RC 12345</Text>
           <Text style={footerText}>
-            <Link style={footerLink} href="https://comicwise.app/unsubscribe">
+            <Link href="https://comicwise.app/unsubscribe" style={footerLink}>
               Unsubscribe
             </Link>{" "}
             |{" "}
-            <Link style={footerLink} href="https://comicwise.app/privacy">
+            <Link href="https://comicwise.app/privacy" style={footerLink}>
               Privacy Policy
             </Link>{" "}
             |{" "}
-            <Link style={footerLink} href="https://comicwise.app/terms">
+            <Link href="https://comicwise.app/terms" style={footerLink}>
               Terms of Service
             </Link>
           </Text>

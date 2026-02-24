@@ -1,29 +1,29 @@
 declare module "imagekit" {
   export interface ImageKitOptions {
-    publicKey: string;
     privateKey: string;
+    publicKey: string;
     urlEndpoint: string;
   }
 
   export interface UploadOptions {
-    file: string | Buffer;
+    file: Buffer | string;
     fileName: string;
     folder?: string;
-    useUniqueFileName?: boolean;
-    tags?: string[];
     responseFields?: string[];
+    tags?: string[];
+    useUniqueFileName?: boolean;
   }
 
   export interface UploadResponse {
     fileId: string;
-    name: string;
-    url: string;
-    thumbnailUrl: string;
-    height: number;
-    width: number;
-    size: number;
     filePath: string;
     fileType: string;
+    height: number;
+    name: string;
+    size: number;
+    thumbnailUrl: string;
+    url: string;
+    width: number;
   }
 
   export interface DeleteFileOptions {
@@ -31,31 +31,31 @@ declare module "imagekit" {
   }
 
   export interface ListFilesOptions {
+    limit?: number;
     path?: string;
     searchQuery?: string;
     skip?: number;
-    limit?: number;
   }
 
   export interface FileObject {
-    fileId: string;
-    name: string;
-    filePath: string;
-    url: string;
-    thumbnailUrl?: string;
-    height?: number;
-    width?: number;
-    size: number;
-    fileType: string;
     createdAt: string;
+    fileId: string;
+    filePath: string;
+    fileType: string;
+    height?: number;
+    name: string;
+    size: number;
+    thumbnailUrl?: string;
     updatedAt: string;
+    url: string;
+    width?: number;
   }
 
   export default class ImageKit {
-    getAuthenticationParameters(): { token: string; expire: number; signature: string } {
+    getAuthenticationParameters(): { expire: number; signature: string; token: string; } {
       throw new Error("Method not implemented.");
     }
-    url(argument0: { path: string; transformation: { [key: string]: string | number }[] }): string {
+    url(argument0: { path: string; transformation: { [key: string]: number | string }[] }): string {
       throw new Error("Method not implemented.");
     }
     getFileMetadata(fileId: string) {

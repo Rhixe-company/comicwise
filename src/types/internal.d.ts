@@ -1,26 +1,26 @@
 // Internal types for actions and API
 export interface ActionResult<T = unknown> {
-  success: boolean;
   data?: T;
   error?: string;
   errors?: Record<string, string[]>;
+  success: boolean;
 }
 
 export type ActionResponse<T = unknown> = ActionResult<T>;
 
 export interface ApiResponse<T = unknown> {
-  success: boolean;
   data?: T;
   error?: string;
   message?: string;
+  success: boolean;
 }
 
 export interface SendEmailOptions {
-  to: string;
-  subject: string;
-  html: string;
-  from?: string;
-  replyTo?: string;
-  cc?: string | string[];
   bcc?: string | string[];
+  cc?: string | string[];
+  from?: string;
+  html: string;
+  replyTo?: string;
+  subject: string;
+  to: string;
 }

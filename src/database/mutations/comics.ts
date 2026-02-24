@@ -4,16 +4,16 @@ import { db as database } from "@/database/db";
 import { chapter, comic, comicToGenre } from "@/database/schema";
 
 interface CreateComicData {
-  title: string;
-  description: string;
-  coverImage: string;
-  status?: "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon";
-  publicationDate: Date;
-  authorId?: number;
   artistId?: number;
-  typeId?: number;
+  authorId?: number;
+  coverImage: string;
+  description: string;
   genreIds?: number[];
+  publicationDate: Date;
   slug?: string;
+  status?: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+  title: string;
+  typeId?: number;
 }
 
 /**
@@ -56,15 +56,15 @@ export async function createComic(data: CreateComicData): Promise<typeof comic.$
 }
 
 interface UpdateComicData {
-  title?: string;
-  description?: string;
-  coverImage?: string;
-  status?: "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon";
-  publicationDate?: Date;
-  authorId?: number;
   artistId?: number;
-  typeId?: number;
+  authorId?: number;
+  coverImage?: string;
+  description?: string;
   genreIds?: number[];
+  publicationDate?: Date;
+  status?: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+  title?: string;
+  typeId?: number;
 }
 
 /**

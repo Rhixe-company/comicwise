@@ -13,12 +13,13 @@ import { AuthForm, EmailField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { resendVerificationEmail } from "@/lib/actions/auth";
-import type { ResendVerificationEmailInput } from "@/lib/validations";
 import { resendVerificationEmailSchema } from "@/lib/validations";
+
+import type { ResendVerificationEmailInput } from "@/lib/validations";
 
 export default function ResendVerificationPage() {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<null | string>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onSubmit = async (data: ResendVerificationEmailInput) => {
@@ -49,11 +50,11 @@ export default function ResendVerificationPage() {
         <CardHeader className="space-y-1 text-center">
           <div
             className={`
-              mx-auto mb-2 flex size-12 items-center justify-center rounded-full
-              bg-primary/10
+              bg-primary/10 mx-auto mb-2 flex size-12 items-center justify-center
+              rounded-full
             `}
           >
-            <Mail className="size-6 text-primary" />
+            <Mail className="text-primary size-6" />
           </div>
           <CardTitle className="text-2xl font-bold">Email Sent!</CardTitle>
           <CardDescription>
@@ -62,17 +63,17 @@ export default function ResendVerificationPage() {
           </CardDescription>
         </CardHeader>
         <CardFooter className="flex-col space-y-2">
-          <Link href="/sign-in" className="w-full">
+          <Link className="w-full" href="/sign-in">
             <Button className="w-full">Back to Sign In</Button>
           </Link>
-          <p className="text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-center text-sm">
             Still didn&apos;t receive it?{" "}
             <button
-              onClick={() => setIsSubmitted(false)}
               className={`
                 text-primary
                 hover:underline
               `}
+              onClick={() => setIsSubmitted(false)}
             >
               Try again
             </button>
@@ -84,28 +85,28 @@ export default function ResendVerificationPage() {
 
   return (
     <AuthForm
-      title="Resend Verification Email"
-      description="Enter your email address and we'll send you a new verification link"
-      schema={resendVerificationEmailSchema}
       defaultValues={{ email: "" }}
-      onSubmit={onSubmit}
+      description="Enter your email address and we'll send you a new verification link"
       error={error}
-      isLoading={isPending}
-      submitLabel="Send Verification Email"
       footer={
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-center text-sm">
           Already verified?{" "}
           <Link
-            href="/sign-in"
             className={`
               text-primary
               hover:underline
             `}
+            href="/sign-in"
           >
             Sign in
           </Link>
         </p>
       }
+      isLoading={isPending}
+      onSubmit={onSubmit}
+      schema={resendVerificationEmailSchema}
+      submitLabel="Send Verification Email"
+      title="Resend Verification Email"
     >
       <EmailField disabled={isPending} />
     </AuthForm>

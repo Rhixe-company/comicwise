@@ -30,73 +30,73 @@ declare global {
   // Extend Window interface for browser globals
   interface Window {
     __INITIAL_DATA__?: unknown;
-    __THEME__?: "light" | "dark" | "system";
-    gtag?(command: string, ...arguments_: unknown[]): void;
+    __THEME__?: "dark" | "light" | "system";
     dataLayer?: unknown[];
+    gtag?(command: string, ...arguments_: unknown[]): void;
   }
 
   // Node.js global types
   namespace NodeJS {
     interface ProcessEnvironment {
-      // Database
-      DATABASE_URL: string;
-      NEON_DATABASE_URL?: string;
-
-      // Authentication
-      AUTH_SECRET: string;
-      AUTH_URL: string;
-      AUTH_GOOGLE_CLIENT_ID?: string;
-      AUTH_GOOGLE_CLIENT_SECRET?: string;
       AUTH_GITHUB_CLIENT_ID?: string;
       AUTH_GITHUB_CLIENT_SECRET?: string;
 
-      // Upload Services
-      UPLOAD_PROVIDER?: "imagekit" | "cloudinary" | "local" | "aws";
-      IMAGEKIT_PUBLIC_KEY?: string;
-      IMAGEKIT_PRIVATE_KEY?: string;
-      IMAGEKIT_URL_ENDPOINT?: string;
-      CLOUDINARY_CLOUD_NAME?: string;
+      AUTH_GOOGLE_CLIENT_ID?: string;
+      AUTH_GOOGLE_CLIENT_SECRET?: string;
+      // Authentication
+      AUTH_SECRET: string;
+      AUTH_URL: string;
+      AWS_ACCESS_KEY_ID?: string;
+      AWS_REGION?: string;
+
+      AWS_S3_BUCKET_NAME?: string;
+      AWS_SECRET_ACCESS_KEY?: string;
       CLOUDINARY_API_KEY?: string;
       CLOUDINARY_API_SECRET?: string;
-      AWS_REGION?: string;
-      AWS_ACCESS_KEY_ID?: string;
-      AWS_SECRET_ACCESS_KEY?: string;
-      AWS_S3_BUCKET_NAME?: string;
-
-      // Email
-      EMAIL_SERVER_HOST?: string;
-      EMAIL_SERVER_PORT?: string;
-      EMAIL_SERVER_USER?: string;
-      EMAIL_SERVER_PASSWORD?: string;
+      CLOUDINARY_CLOUD_NAME?: string;
+      CUSTOM_PASSWORD?: string;
+      // Database
+      DATABASE_URL: string;
       EMAIL_FROM?: string;
       EMAIL_SECURE?: string;
+      // Email
+      EMAIL_SERVER_HOST?: string;
+      EMAIL_SERVER_PASSWORD?: string;
 
-      // Background Jobs
-      QSTASH_TOKEN?: string;
-      QSTASH_CURRENT_SIGNING_KEY?: string;
-      QSTASH_NEXT_SIGNING_KEY?: string;
-      QSTASH_URL?: string;
+      EMAIL_SERVER_PORT?: string;
+      EMAIL_SERVER_USER?: string;
+      IMAGEKIT_PRIVATE_KEY?: string;
+      IMAGEKIT_PUBLIC_KEY?: string;
+      IMAGEKIT_URL_ENDPOINT?: string;
+      NEON_DATABASE_URL?: string;
 
-      // Redis
-      REDIS_HOST?: string;
-      REDIS_PORT?: string;
-      REDIS_PASSWORD?: string;
-      REDIS_DB?: string;
-      REDIS_URL?: string;
-      REDIS_TLS_ENABLED?: string;
-      UPSTASH_REDIS_REST_URL?: string;
-      UPSTASH_REDIS_REST_TOKEN?: string;
-
+      NEXT_PUBLIC_APP_URL?: string;
       // Application
       NODE_ENV: "development" | "production" | "test";
       PORT?: string;
-      NEXT_PUBLIC_APP_URL?: string;
-      CUSTOM_PASSWORD?: string;
+      QSTASH_CURRENT_SIGNING_KEY?: string;
+
+      QSTASH_NEXT_SIGNING_KEY?: string;
+      // Background Jobs
+      QSTASH_TOKEN?: string;
+      QSTASH_URL?: string;
+      REDIS_DB?: string;
+      // Redis
+      REDIS_HOST?: string;
+      REDIS_PASSWORD?: string;
+      REDIS_PORT?: string;
+      REDIS_TLS_ENABLED?: string;
+
+      REDIS_URL?: string;
+      // Upload Services
+      UPLOAD_PROVIDER?: "aws" | "cloudinary" | "imagekit" | "local";
+      UPSTASH_REDIS_REST_TOKEN?: string;
+      UPSTASH_REDIS_REST_URL?: string;
     }
 
     interface Global {
-      prisma: unknown;
       db: unknown;
+      prisma: unknown;
     }
   }
 }
@@ -181,17 +181,17 @@ export type DeepMutable<T> = T extends object ? { -readonly [P in keyof T]: Deep
 /**
  * Primitive types
  */
-export type Primitive = string | number | boolean | null | undefined | symbol | bigint;
+export type Primitive = bigint | boolean | null | number | string | symbol | undefined;
 
 /**
  * Built-in types
  */
-export type Builtin = Primitive | Date | RegExp | Error | Function;
+export type Builtin = Date | Error | Function | Primitive | RegExp;
 
 /**
  * JSON-serializable types
  */
-export type JsonValue = string | number | boolean | null | JsonObject | JsonArray;
+export type JsonValue = boolean | JsonArray | JsonObject | null | number | string;
 export interface JsonObject {
   [key: string]: JsonValue;
 }
@@ -225,8 +225,8 @@ export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never
  * Base component props with className and children
  */
 export interface BaseComponentProperties {
-  className?: string;
   children?: ReactNode;
+  className?: string;
 }
 
 /**
@@ -272,7 +272,7 @@ export type AsyncComponent<P = { "" }> = (properties: P) => Promise<ReactNode>;
 /**
  * Server component type
  */
-export type ServerComponent<P = { "" }> = (properties: P) => ReactNode | Promise<ReactNode>;
+export type ServerComponent<P = { "" }> = (properties: P) => Promise<ReactNode> | ReactNode;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // FORM & INPUT TYPES
@@ -281,45 +281,45 @@ export type ServerComponent<P = { "" }> = (properties: P) => ReactNode | Promise
 /**
  * Select option type
  */
-export interface SelectOption<T = string | number> {
+export interface SelectOption<T = number | string> {
+  description?: string;
+  disabled?: boolean;
+  group?: string;
+  icon?: React.ComponentType<{ className?: string }>;
   label: string;
   value: T;
-  disabled?: boolean;
-  icon?: React.ComponentType<{ className?: string }>;
-  description?: string;
-  group?: string;
 }
 
 /**
  * File upload result
  */
 export interface FileUploadResult {
-  url: string;
-  publicId?: string;
   filename: string;
-  size: number;
-  mimeType: string;
-  width?: number;
   height?: number;
-  provider?: "imagekit" | "cloudinary" | "local" | "aws";
   metadata?: Record<string, unknown>;
+  mimeType: string;
+  provider?: "aws" | "cloudinary" | "imagekit" | "local";
+  publicId?: string;
+  size: number;
+  url: string;
+  width?: number;
 }
 
 /**
  * Image upload options
  */
 export interface ImageUploadOptions {
-  folder?: string;
-  filename?: string;
-  maxSize?: number;
   allowedTypes?: string[];
+  filename?: string;
+  folder?: string;
+  maxSize?: number;
   transformation?: {
-    width?: number;
+    [key: string]: unknown;
+    crop?: string;
+    format?: string;
     height?: number;
     quality?: number;
-    format?: string;
-    crop?: string;
-    [key: string]: unknown;
+    width?: number;
   };
 }
 
@@ -327,58 +327,58 @@ export interface ImageUploadOptions {
  * Form field configuration
  */
 export interface FormFieldConfig {
-  name: string;
-  label: string;
-  type:
-    | "text"
-    | "email"
-    | "password"
-    | "textarea"
-    | "select"
-    | "checkbox"
-    | "radio"
-    | "file"
-    | "date"
-    | "number"
-    | "url"
-    | "tel"
-    | "time"
-    | "datetime-local"
-    | "color"
-    | "range"
-    | "search"
-    | "month"
-    | "week";
-  placeholder?: string;
-  required?: boolean;
-  disabled?: boolean;
-  readOnly?: boolean;
-  options?: SelectOption[];
-  validation?: Record<string, unknown>;
+  autoComplete?: string;
   defaultValue?: unknown;
   description?: string;
-  autoComplete?: string;
+  disabled?: boolean;
+  label: string;
+  name: string;
+  options?: SelectOption[];
+  placeholder?: string;
+  readOnly?: boolean;
+  required?: boolean;
+  type:
+    | "checkbox"
+    | "color"
+    | "date"
+    | "datetime-local"
+    | "email"
+    | "file"
+    | "month"
+    | "number"
+    | "password"
+    | "radio"
+    | "range"
+    | "search"
+    | "select"
+    | "tel"
+    | "text"
+    | "textarea"
+    | "time"
+    | "url"
+    | "week";
+  validation?: Record<string, unknown>;
 }
 
 /**
  * Form validation error
  */
 export interface FormValidationError {
+  code?: string;
   field: string;
   message: string;
-  code?: string;
 }
 
 /**
  * Form state
  */
 export interface FormState<T = unknown> {
-  values: T;
   errors: Record<string, string[]>;
-  isValid: boolean;
-  isSubmitting: boolean;
   isDirty: boolean;
+  isSubmitting: boolean;
+  isValid: boolean;
   touched: Record<string, boolean>;
+  values: T;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -389,11 +389,11 @@ export interface FormState<T = unknown> {
  * Server action state
  */
 export interface ActionState<T = unknown> {
-  success: boolean;
   data?: T;
   error?: string;
-  message?: string;
   errors?: Record<string, string[]>;
+  message?: string;
+  success: boolean;
   timestamp?: Date;
 }
 
@@ -401,30 +401,30 @@ export interface ActionState<T = unknown> {
  * Server action response
  */
 export interface ActionResponse<T = unknown> {
-  success: boolean;
   data?: T;
   error?: string;
-  message?: string;
   errors?: Record<string, string[]>;
-  redirect?: string;
+  message?: string;
   metadata?: Record<string, unknown>;
+  redirect?: string;
+  success: boolean;
 }
 
 /**
  * API response wrapper
  */
 export interface ApiResponse<T = unknown> {
-  success: boolean;
   data?: T;
   error?: {
     code: string;
-    message: string;
     details?: unknown;
+    message: string;
     stack?: string;
   };
   message?: string;
-  pagination?: PaginationInfo;
   metadata?: Record<string, unknown>;
+  pagination?: PaginationInfo;
+  success: boolean;
   timestamp?: string;
 }
 
@@ -432,13 +432,13 @@ export interface ApiResponse<T = unknown> {
  * API error response
  */
 export interface ApiErrorResponse {
-  success: false;
   error: {
     code: string;
-    message: string;
     details?: Record<string, unknown>;
+    message: string;
     stack?: string;
   };
+  success: false;
   timestamp: string;
 }
 
@@ -458,7 +458,7 @@ export type ServerActionWithFormData<R = unknown> = (formData: FormData) => Prom
 export type ApiHandler<T = unknown, R = unknown> = (
   request: Request,
   context?: T
-) => Promise<Response | ApiResponse<R>>;
+) => Promise<ApiResponse<R> | Response>;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PAGINATION & LISTING TYPES
@@ -468,14 +468,14 @@ export type ApiHandler<T = unknown, R = unknown> = (
  * Pagination information
  */
 export interface PaginationInfo {
-  total: number;
-  page: number;
-  pageSize: number;
-  totalPages: number;
+  endIndex: number;
   hasNext: boolean;
   hasPrev: boolean;
+  page: number;
+  pageSize: number;
   startIndex: number;
-  endIndex: number;
+  total: number;
+  totalPages: number;
 }
 
 /**
@@ -490,12 +490,12 @@ export interface PaginatedResponse<T> {
  * Cursor-based pagination info
  */
 export interface CursorPaginationInfo {
-  total: number;
   cursor?: string;
-  nextCursor?: string;
-  prevCursor?: string;
   hasMore: boolean;
   limit: number;
+  nextCursor?: string;
+  prevCursor?: string;
+  total: number;
 }
 
 /**
@@ -510,12 +510,12 @@ export interface CursorPaginatedResponse<T> {
  * List query options
  */
 export interface ListOptions {
+  cursor?: string;
+  filters?: Record<string, unknown>;
   limit?: number;
   offset?: number;
-  cursor?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
-  filters?: Record<string, unknown>;
 }
 
 /**
@@ -523,8 +523,8 @@ export interface ListOptions {
  */
 export interface SortOption {
   field: string;
-  order: "asc" | "desc";
   label?: string;
+  order: "asc" | "desc";
 }
 
 /**
@@ -532,9 +532,9 @@ export interface SortOption {
  */
 export interface FilterOption {
   field: string;
-  value: unknown;
-  operator?: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "like";
   label?: string;
+  operator?: "eq" | "gt" | "gte" | "in" | "like" | "lt" | "lte" | "ne";
+  value: unknown;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -545,52 +545,52 @@ export interface FilterOption {
  * Navigation item
  */
 export interface NavItem {
-  title: string;
-  href: string;
-  icon?: React.ComponentType<{ className?: string }>;
+  active?: boolean;
+  badge?: number | string;
+  children?: NavItem[];
+  description?: string;
   disabled?: boolean;
   external?: boolean;
-  badge?: string | number;
-  description?: string;
-  children?: NavItem[];
+  href: string;
+  icon?: React.ComponentType<{ className?: string }>;
   roles?: string[];
-  active?: boolean;
+  title: string;
 }
 
 /**
  * Breadcrumb item
  */
 export interface BreadcrumbItem {
-  title: string;
   href?: string;
   icon?: React.ComponentType<{ className?: string }>;
+  title: string;
 }
 
 /**
  * Route configuration
  */
 export interface RouteConfig {
-  path: string;
   component: React.ComponentType<Record<string, unknown>>;
-  protected?: boolean;
-  roles?: string[];
-  layout?: "default" | "admin" | "auth" | "minimal";
+  layout?: "admin" | "auth" | "default" | "minimal";
   metadata?: {
-    title?: string;
     description?: string;
     keywords?: string[];
+    title?: string;
   };
+  path: string;
+  protected?: boolean;
+  roles?: string[];
 }
 
 /**
  * Link props with active state
  */
 export interface ActiveLinkProperties {
-  href: string;
+  activeClassName?: string;
   children: ReactNode;
   className?: string;
-  activeClassName?: string;
   exact?: boolean;
+  href: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -601,36 +601,36 @@ export interface ActiveLinkProperties {
  * Data table column definition
  */
 export interface DataTableColumn<T> {
-  id: string;
-  header: string | React.ComponentType;
   accessorKey?: keyof T | string;
+  align?: "center" | "left" | "right";
   cell?(row: T): ReactNode;
-  sortable?: boolean;
   filterable?: boolean;
-  width?: string | number;
-  align?: "left" | "center" | "right";
-  sticky?: boolean;
+  header: React.ComponentType | string;
   hidden?: boolean;
+  id: string;
+  sortable?: boolean;
+  sticky?: boolean;
+  width?: number | string;
 }
 
 /**
  * Data table props
  */
 export interface DataTableProperties<T> {
-  data: T[];
   columns: DataTableColumn<T>[];
-  loading?: boolean;
+  data: T[];
+  emptyState?: ReactNode;
   error?: string;
-  pagination?: PaginationInfo;
-  sorting?: SortOption[];
   filters?: FilterOption[];
-  onSort?(column: string, order: "asc" | "desc"): void;
+  loading?: boolean;
   onFilter?(filters: FilterOption[]): void;
   onPageChange?(page: number): void;
-  rowKey?: keyof T | ((row: T) => string | number);
-  selectable?: boolean;
   onRowClick?(row: T): void;
-  emptyState?: ReactNode;
+  onSort?(column: string, order: "asc" | "desc"): void;
+  pagination?: PaginationInfo;
+  rowKey?: ((row: T) => number | string) | keyof T;
+  selectable?: boolean;
+  sorting?: SortOption[];
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -640,49 +640,49 @@ export interface DataTableProperties<T> {
 /**
  * Theme mode
  */
-export type ThemeMode = "light" | "dark" | "system";
+export type ThemeMode = "dark" | "light" | "system";
 
 /**
  * Theme colors
  */
 export interface ThemeColors {
+  accent: string;
+  accentForeground: string;
   background: string;
-  foreground: string;
+  border: string;
   card: string;
   cardForeground: string;
+  destructive: string;
+  destructiveForeground: string;
+  foreground: string;
+  input: string;
+  muted: string;
+  mutedForeground: string;
   popover: string;
   popoverForeground: string;
   primary: string;
   primaryForeground: string;
+  radius: string;
+  ring: string;
   secondary: string;
   secondaryForeground: string;
-  muted: string;
-  mutedForeground: string;
-  accent: string;
-  accentForeground: string;
-  destructive: string;
-  destructiveForeground: string;
-  border: string;
-  input: string;
-  ring: string;
-  radius: string;
 }
 
 /**
  * Theme configuration
  */
 export interface ThemeConfig {
-  mode: ThemeMode;
+  animations: {
+    duration: "fast" | "normal" | "slow";
+    enabled: boolean;
+  };
   colors: ThemeColors;
   fonts: {
-    sans: string;
     mono: string;
+    sans: string;
     serif: string;
   };
-  animations: {
-    enabled: boolean;
-    duration: "fast" | "normal" | "slow";
-  };
+  mode: ThemeMode;
   reducedMotion: boolean;
 }
 
@@ -700,13 +700,13 @@ export type TailwindClass = string;
  * Class value (for cn utility)
  */
 export type ClassValue =
-  | string
-  | number
   | boolean
-  | undefined
-  | null
   | ClassValue[]
-  | Record<string, boolean | undefined | null>;
+  | null
+  | number
+  | Record<string, boolean | null | undefined>
+  | string
+  | undefined;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // UPLOAD & MEDIA TYPES
@@ -715,51 +715,51 @@ export type ClassValue =
 /**
  * Upload provider type
  */
-export type UploadProvider = "imagekit" | "cloudinary" | "local" | "aws";
+export type UploadProvider = "aws" | "cloudinary" | "imagekit" | "local";
 
 /**
  * Upload service result
  */
 export interface UploadServiceResult {
-  success: boolean;
-  url?: string;
-  publicId?: string;
   error?: string;
   metadata?: {
-    width?: number;
-    height?: number;
     format?: string;
-    size?: number;
+    height?: number;
     provider?: UploadProvider;
+    size?: number;
+    width?: number;
   };
+  publicId?: string;
+  success: boolean;
+  url?: string;
 }
 
 /**
  * Bulk upload options
  */
 export interface BulkUploadOptions extends ImageUploadOptions {
+  concurrent?: number;
   files: File[];
-  onProgress?(progress: number, fileName: string): void;
   onComplete?(results: UploadServiceResult[]): void;
   onError?(error: Error, fileName: string): void;
-  concurrent?: number;
+  onProgress?(progress: number, fileName: string): void;
 }
 
 /**
  * Image transformation options
  */
 export interface ImageTransformOptions {
-  width?: number;
+  blur?: number;
+  crop?: "fill" | "fit" | "limit" | "pad" | "scale";
+  flip?: "both" | "horizontal" | "vertical";
+  format?: "avif" | "gif" | "jpg" | "png" | "webp";
+  gravity?: "auto" | "center" | "east" | "face" | "north" | "south" | "west";
+  grayscale?: boolean;
   height?: number;
   quality?: number;
-  format?: "jpg" | "png" | "webp" | "avif" | "gif";
-  crop?: "scale" | "fit" | "fill" | "limit" | "pad";
-  gravity?: "center" | "north" | "south" | "east" | "west" | "auto" | "face";
-  blur?: number;
-  sharpen?: number;
   rotate?: number;
-  flip?: "horizontal" | "vertical" | "both";
-  grayscale?: boolean;
+  sharpen?: number;
+  width?: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -770,50 +770,50 @@ export interface ImageTransformOptions {
  * Email template data
  */
 export interface EmailTemplate {
-  subject: string;
-  html: string;
-  text?: string;
   from?: string;
+  html: string;
   replyTo?: string;
+  subject: string;
+  text?: string;
 }
 
 /**
  * Send email options
  */
 export interface SendEmailOptions {
-  to: string | string[];
-  subject: string;
-  html: string;
-  text?: string;
-  from?: string;
-  replyTo?: string;
-  cc?: string | string[];
-  bcc?: string | string[];
   attachments?: EmailAttachment[];
+  bcc?: string | string[];
+  cc?: string | string[];
+  from?: string;
   headers?: Record<string, string>;
-  priority?: "high" | "normal" | "low";
+  html: string;
+  priority?: "high" | "low" | "normal";
+  replyTo?: string;
+  subject: string;
+  text?: string;
+  to: string | string[];
 }
 
 /**
  * Email attachment
  */
 export interface EmailAttachment {
-  filename: string;
-  content?: Buffer | string;
-  path?: string;
-  contentType?: string;
   cid?: string;
+  content?: Buffer | string;
+  contentType?: string;
   encoding?: string;
+  filename: string;
+  path?: string;
 }
 
 /**
  * Email send result
  */
 export interface EmailSendResult {
-  success: boolean;
-  messageId?: string;
   error?: string;
+  messageId?: string;
   response?: string;
+  success: boolean;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -824,50 +824,50 @@ export interface EmailSendResult {
  * Cache options
  */
 export interface CacheOptions {
-  ttl?: number;
-  tags?: string[];
   revalidate?: number;
+  tags?: string[];
+  ttl?: number;
 }
 
 /**
  * Cache key builder
  */
-export type CacheKey = string | string[] | Record<string, unknown>;
+export type CacheKey = Record<string, unknown> | string | string[];
 
 /**
  * Queue job data
  */
 export interface QueueJobData {
+  attempts?: number;
+  delay?: number;
   id: string;
-  type: string;
   payload: Record<string, unknown>;
   priority?: number;
-  delay?: number;
-  attempts?: number;
   timestamp: Date;
+  type: string;
 }
 
 /**
  * Queue job result
  */
 export interface QueueJobResult {
-  success: boolean;
   data?: unknown;
-  error?: string;
   duration?: number;
+  error?: string;
+  success: boolean;
 }
 
 /**
  * Queue options
  */
 export interface QueueOptions {
-  priority?: number;
-  delay?: number;
   attempts?: number;
   backoff?: {
-    type: "fixed" | "exponential";
     delay: number;
+    type: "exponential" | "fixed";
   };
+  delay?: number;
+  priority?: number;
   removeOnComplete?: boolean;
   removeOnFail?: boolean;
 }
@@ -880,45 +880,45 @@ export interface QueueOptions {
  * Search query
  */
 export interface SearchQuery {
-  q: string;
+  facets?: string[];
   filters?: Record<string, unknown>;
-  sort?: SortOption[];
   limit?: number;
   offset?: number;
-  facets?: string[];
+  q: string;
+  sort?: SortOption[];
 }
 
 /**
  * Search result
  */
 export interface SearchResult<T> {
-  hits: T[];
-  total: number;
-  facets?: Record<string, SearchFacet[]>;
-  query: string;
   executionTime?: number;
+  facets?: Record<string, SearchFacet[]>;
+  hits: T[];
+  query: string;
+  total: number;
 }
 
 /**
  * Search facet
  */
 export interface SearchFacet {
-  value: string;
   count: number;
   selected?: boolean;
+  value: string;
 }
 
 /**
  * Full-text search options
  */
 export interface FullTextSearchOptions {
-  query: string;
   fields?: string[];
   fuzzy?: boolean;
-  prefix?: boolean;
-  weights?: Record<string, number>;
   limit?: number;
   offset?: number;
+  prefix?: boolean;
+  query: string;
+  weights?: Record<string, number>;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -929,12 +929,12 @@ export interface FullTextSearchOptions {
  * Analytics event
  */
 export interface AnalyticsEvent {
-  name: string;
   category?: string;
   label?: string;
-  value?: number;
+  name: string;
   properties?: Record<string, unknown>;
   timestamp?: Date;
+  value?: number;
 }
 
 /**
@@ -942,22 +942,22 @@ export interface AnalyticsEvent {
  */
 export interface PageViewEvent {
   path: string;
-  title?: string;
-  referrer?: string;
   properties?: Record<string, unknown>;
+  referrer?: string;
+  title?: string;
 }
 
 /**
  * User tracking data
  */
 export interface UserTrackingData {
-  userId?: string;
-  sessionId?: string;
-  device?: string;
   browser?: string;
-  os?: string;
   country?: string;
+  device?: string;
   language?: string;
+  os?: string;
+  sessionId?: string;
+  userId?: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -968,26 +968,26 @@ export interface UserTrackingData {
  * Validation rule
  */
 export interface ValidationRule<T = unknown> {
-  validator(value: T): boolean | Promise<boolean>;
-  message: string;
   code?: string;
+  message: string;
+  validator(value: T): boolean | Promise<boolean>;
 }
 
 /**
  * Validation result
  */
 export interface ValidationResult {
-  valid: boolean;
   errors?: ValidationError[];
+  valid: boolean;
 }
 
 /**
  * Validation error
  */
 export interface ValidationError {
+  code?: string;
   field: string;
   message: string;
-  code?: string;
   value?: unknown;
 }
 
@@ -995,12 +995,12 @@ export interface ValidationError {
  * Schema validation
  */
 export interface SchemaValidation<T> {
-  schema: unknown;
   data: T;
   options?: {
     abortEarly?: boolean;
     stripUnknown?: boolean;
   };
+  schema: unknown;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1011,42 +1011,42 @@ export interface SchemaValidation<T> {
  * App configuration
  */
 export interface AppConfig {
-  name: string;
   description: string;
-  url: string;
-  version: string;
   env: {
-    isProduction: boolean;
-    isDevelopment: boolean;
-    isTest: boolean;
     current: "development" | "production" | "test";
+    isDevelopment: boolean;
+    isProduction: boolean;
+    isTest: boolean;
   };
   features: Record<string, boolean>;
+  name: string;
+  url: string;
+  version: string;
 }
 
 /**
  * Database configuration
  */
 export interface DatabaseConfig {
-  url: string;
+  maxConnections?: number;
   neonUrl?: string;
   pooling: boolean;
   ssl?: boolean;
-  maxConnections?: number;
+  url: string;
 }
 
 /**
  * Auth configuration
  */
 export interface AuthConfig {
-  secret: string;
-  url: string;
-  sessionMaxAge: number;
   providers: {
     credentials: boolean;
-    google: boolean;
     github: boolean;
+    google: boolean;
   };
+  secret: string;
+  sessionMaxAge: number;
+  url: string;
 }
 
 /**
@@ -1054,9 +1054,9 @@ export interface AuthConfig {
  */
 export interface RateLimitConfig {
   requests: number;
-  window: number;
-  skipSuccessfulRequests?: boolean;
   skipFailedRequests?: boolean;
+  skipSuccessfulRequests?: boolean;
+  window: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1068,9 +1068,9 @@ export interface RateLimitConfig {
  */
 export interface AppError extends Error {
   code?: string;
-  statusCode?: number;
   details?: Record<string, unknown>;
   isOperational?: boolean;
+  statusCode?: number;
 }
 
 /**
@@ -1087,14 +1087,14 @@ export interface ErrorWithContext extends Error {
  */
 export interface ApiError {
   code: string;
-  message: string;
-  statusCode: number;
   details?: Record<string, unknown>;
+  message: string;
   stack?: string;
+  statusCode: number;
 }
-export type Nullable<T> = T | null;
+export type Nullable<T> = null | T;
 export type Optional<T> = T | undefined;
-export type Maybe<T> = T | null | undefined;
+export type Maybe<T> = null | T | undefined;
 export type Prettify<T> = {
   [K in keyof T]: T[K];
 } & object;

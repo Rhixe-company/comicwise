@@ -9,13 +9,13 @@ import { BaseForm } from "@/components/admin/BaseForm";
 import { insertUserSchema } from "@/lib/validations/userSchema";
 
 export interface EditUserFormProps {
-  id: string | number;
+  id: number | string;
 }
 
 export function EditUserForm({ id }: EditUserFormProps) {
   return (
     <BaseForm
-      schema={insertUserSchema}
+      defaultValues={{ name: null, email: "", role: "user", image: null }}
       fields={[
         { name: "name", label: "Name", type: "text", placeholder: "Enter user name" },
         { name: "email", label: "Email", type: "email", placeholder: "Enter email address" },
@@ -32,11 +32,11 @@ export function EditUserForm({ id }: EditUserFormProps) {
         },
         { name: "image", label: "Image URL", type: "text", placeholder: "Enter image URL" },
       ]}
-      defaultValues={{ name: null, email: "", role: "user", image: null }}
       onSubmit={async (data) => {
         // Add submission logic
         console.log("Submitting:", data);
       }}
+      schema={insertUserSchema}
     />
   );
 }

@@ -3,10 +3,12 @@
 // Next.js 16.0.7 + ImageKit Integration
 // ═══════════════════════════════════════════════════
 
+import ImageKit from "imagekit";
+
 import { env } from "@/appConfig";
 import { logger } from "@/database/seed/logger";
+
 import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
-import ImageKit from "imagekit";
 
 // Validate ImageKit configuration
 if (!env.IMAGEKIT_PUBLIC_KEY || !env.IMAGEKIT_PRIVATE_KEY || !env.IMAGEKIT_URL_ENDPOINT) {
@@ -29,7 +31,7 @@ export class ImageKitProvider implements UploadProvider {
    * @param options
    */
   async upload(
-    file: File | Buffer,
+    file: Buffer | File,
     options: UploadOptions & { transformation?: Record<string, unknown> } = {}
   ): Promise<UploadResult> {
     try {
@@ -247,7 +249,7 @@ export class ImageKitProvider implements UploadProvider {
    * @param options
    */
   async bulkUpload(
-    files: Array<File | Buffer>,
+    files: Array<Buffer | File>,
     options: UploadOptions = {}
   ): Promise<UploadResult[]> {
     const results: UploadResult[] = [];

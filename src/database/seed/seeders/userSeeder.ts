@@ -8,17 +8,21 @@
  * - Uses UserDal for consistency
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
+import { eq } from "drizzle-orm";
+
 import { userDal } from "@/dal/userDal";
 import { db } from "@/database/db";
 import { user } from "@/database/schema";
 import { logger } from "@/database/seed/logger";
 import { deduplicateByField, logProgress, validateData } from "@/database/seed/utils/seederHelpers";
-import type { InsertUser, UserSeedData } from "@/lib/validations/userSchema";
 import { UserSeedSchema } from "@/lib/validations/userSchema";
-import { eq } from "drizzle-orm";
-import fs from "fs/promises";
-import path from "path";
+
 import { extractImageUrls, imageCacheManager } from "../utils/imageSeederHelper";
+
+import type { InsertUser, UserSeedData } from "@/lib/validations/userSchema";
 
 /**
  * Seed users from JSON files
@@ -26,11 +30,11 @@ import { extractImageUrls, imageCacheManager } from "../utils/imageSeederHelper"
  * @param jsonFiles
  */
 export async function seedUsersFromFiles(jsonFiles: string[] = ["users.json"]): Promise<{
-  total: number;
   created: number;
-  updated: number;
-  skipped: number;
   errors: number;
+  skipped: number;
+  total: number;
+  updated: number;
 }> {
   logger.info("🌱 Starting user seeding...");
 

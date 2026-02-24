@@ -1,13 +1,14 @@
+import { eq } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
-import { eq } from "drizzle-orm";
 
 export async function createUser(data: {
   email: string;
+  image?: string;
   name?: string;
   password?: string;
-  image?: string;
-  role?: "user" | "admin" | "moderator";
+  role?: "admin" | "moderator" | "user";
 }): Promise<typeof user.$inferSelect | undefined> {
   const [newUser] = await database
     .insert(user)
@@ -27,11 +28,11 @@ export async function createUser(data: {
 export async function updateUser(
   userId: string,
   data: {
-    name?: string;
     email?: string;
-    image?: string | null;
-    role?: "user" | "admin" | "moderator";
     emailVerified?: Date;
+    image?: null | string;
+    name?: string;
+    role?: "admin" | "moderator" | "user";
   }
 ): Promise<typeof user.$inferSelect | undefined> {
   const cleanData = {

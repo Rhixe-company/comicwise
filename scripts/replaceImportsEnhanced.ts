@@ -25,31 +25,33 @@
  * version: 3.0.0
  */
 
+import { cpSync, existsSync, readFileSync, writeFileSync } from "node:fs";
+import * as path from "node:path";
+
 import chalk from "chalk";
-import { cpSync, existsSync, readFileSync, writeFileSync } from "fs";
 import { globSync } from "glob";
-import * as path from "path";
+
 
 // ═══════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════
 
 interface Pattern {
-  from: RegExp;
-  to: string | ((match: string) => string);
   category: string;
+  from: RegExp;
   priority: number;
-  type: "import" | "export";
+  to: ((match: string) => string) | string;
+  type: "export" | "import";
 }
 
 interface Stats {
-  filesProcessed: number;
-  filesModified: number;
-  totalReplacements: number;
-  importReplacements: number;
-  exportReplacements: number;
-  replacementsByCategory: Map<string, number>;
   errors: string[];
+  exportReplacements: number;
+  filesModified: number;
+  filesProcessed: number;
+  importReplacements: number;
+  replacementsByCategory: Map<string, number>;
+  totalReplacements: number;
   validationResults: ValidationResult[];
 }
 
@@ -59,10 +61,10 @@ interface TsConfigPaths {
 
 interface ValidationResult {
   alias: string;
-  path: string;
   exists: boolean;
-  status: "valid" | "invalid" | "warning";
   message: string;
+  path: string;
+  status: "invalid" | "valid" | "warning";
 }
 
 // ═══════════════════════════════════════════════════
@@ -201,7 +203,7 @@ function validatePathAliases(tsPaths: TsConfigPaths): ValidationResult[] {
     const fullPath = path.join(process.cwd(), targetPath);
 
     const exists = existsSync(fullPath);
-    let status: "valid" | "invalid" | "warning" = exists ? "valid" : "invalid";
+    let status: "invalid" | "valid" | "warning" = exists ? "valid" : "invalid";
     let message = exists ? `✅ Path exists` : `❌ Path not found`;
 
     // Special warning for appConfig (file, not directory)
@@ -298,7 +300,7 @@ const INVALID_PATTERNS: Pattern[] = [
 // HELPER FUNCTIONS
 // ═══════════════════════════════════════════════════
 
-function log(message: string, type: "info" | "success" | "error" | "warn" = "info") {
+function log(message: string, type: "error" | "info" | "success" | "warn" = "info") {
   const colors = {
     info: chalk.blue,
     success: chalk.green,

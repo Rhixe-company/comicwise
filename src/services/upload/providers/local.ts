@@ -3,18 +3,19 @@
 // Next.js 16.0.7 + Local File System Storage
 // ═══════════════════════════════════════════════════
 
-import crypto from "crypto";
-import fs from "fs/promises";
-import path from "path";
+import crypto from "node:crypto";
+import fs from "node:fs/promises";
+import path from "node:path";
+
 import sharp from "sharp";
 
 import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
 
 export interface LocalTransformationOptions {
-  width?: number;
+  format?: "avif" | "jpeg" | "png" | "webp";
   height?: number;
   quality?: number;
-  format?: "jpeg" | "png" | "webp" | "avif";
+  width?: number;
 }
 
 export class LocalProvider implements UploadProvider {
@@ -32,7 +33,7 @@ export class LocalProvider implements UploadProvider {
    * @param options
    */
   async upload(
-    file: File | Buffer,
+    file: Buffer | File,
     options: UploadOptions & { transformation?: LocalTransformationOptions } = {}
   ): Promise<UploadResult> {
     try {
@@ -159,8 +160,7 @@ export class LocalProvider implements UploadProvider {
   async listFiles(folder = "general"): Promise<string[]> {
     try {
       const uploadPath = path.join(this.uploadDir, folder);
-      const files = await fs.readdir(uploadPath);
-      return files;
+      return await fs.readdir(uploadPath);
     } catch (error) {
       console.error("Local list error:", error);
       return [];
@@ -172,9 +172,9 @@ export class LocalProvider implements UploadProvider {
    * @param publicId
    */
   async getFileStats(publicId: string): Promise<{
-    size: number;
     createdAt: Date;
     modifiedAt: Date;
+    size: number;
   } | null> {
     try {
       const filePath = path.join(this.uploadDir, publicId);

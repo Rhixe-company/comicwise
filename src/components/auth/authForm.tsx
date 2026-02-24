@@ -1,12 +1,9 @@
 "use client";
 
-import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import type { ReactNode } from "react";
-import type { DefaultValues, FieldValues, UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import type { ZodType } from "zod";
+
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -18,19 +15,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+
+import type { ReactNode } from "react";
+import type { DefaultValues, FieldValues, UseFormReturn } from "react-hook-form";
+import type { ZodType } from "zod";
 
 export interface AuthFormProperties<T extends FieldValues> {
-  title: string;
-  description: string;
-  schema: ZodType<T>;
-  defaultValues: DefaultValues<T>;
-  onSubmit(data: T, form: UseFormReturn<T>): Promise<void> | void;
   children: ReactNode;
-  footer?: ReactNode;
-  error?: string | null;
-  isLoading?: boolean;
-  submitLabel?: string;
   className?: string;
+  defaultValues: DefaultValues<T>;
+  description: string;
+  error?: null | string;
+  footer?: ReactNode;
+  isLoading?: boolean;
+  onSubmit(data: T, form: UseFormReturn<T>): Promise<void> | void;
+  schema: ZodType<T>;
+  submitLabel?: string;
+  title: string;
 }
 
 /**
@@ -103,7 +105,7 @@ export function AuthForm<T extends FieldValues>({
             {children}
           </CardContent>
           <CardFooter className="flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={isFormLoading}>
+            <Button className="w-full" disabled={isFormLoading} type="submit">
               {isFormLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
               {submitLabel}
             </Button>

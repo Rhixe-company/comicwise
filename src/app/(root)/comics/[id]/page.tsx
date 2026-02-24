@@ -1,15 +1,17 @@
 // import { BookmarkButton } from "@/components/layout/BookmarkButton";
+import { BookOpen, Calendar, Eye, Star } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+
 import { ComicCard } from "@/components/layout/ComicCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getComic, getRecommendedComics } from "@/database/queries";
-import { BookOpen, Calendar, Eye, Star } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
+
 import { formatDate } from "utils";
 
 interface PageProps {
@@ -40,11 +42,11 @@ async function ComicDetails({ comicId }: { comicId: number }) {
           `}
         >
           <Image
-            src={comic.coverImage || "/placeholder-comic.png"}
             alt={comic.title}
-            fill
             className="object-cover"
+            fill
             priority
+            src={comic.coverImage || "/placeholder-comic.png"}
           />
         </div>
 
@@ -61,7 +63,7 @@ async function ComicDetails({ comicId }: { comicId: number }) {
             </h1>
             <div
               className={`
-                flex flex-wrap items-center gap-2 text-sm text-muted-foreground
+                text-muted-foreground flex flex-wrap items-center gap-2 text-sm
               `}
             >
               {comic.author && <span>By {comic.author.name}</span>}
@@ -120,7 +122,7 @@ async function ComicDetails({ comicId }: { comicId: number }) {
           {/* Description */}
           <div>
             <h2 className="mb-2 font-semibold">Synopsis</h2>
-            <p className="leading-relaxed text-muted-foreground">{comic.description}</p>
+            <p className="text-muted-foreground leading-relaxed">{comic.description}</p>
           </div>
         </div>
       </div>
@@ -130,24 +132,24 @@ async function ComicDetails({ comicId }: { comicId: number }) {
         <h2 className="mb-6 text-2xl font-bold">Chapters</h2>
         <div className="space-y-2">
           {comic.chapters?.map(
-            (chapter: { id: number; title: string; releaseDate: Date; views: number }) => (
-              <Link key={chapter.id} href={`/comics/${comic.id}/read/${chapter.id}`}>
+            (chapter: { id: number; releaseDate: Date; title: string; views: number }) => (
+              <Link href={`/comics/${comic.id}/read/${chapter.id}`} key={chapter.id}>
                 <Card
                   className={`
-                    transition-colors
                     hover:bg-muted
+                    transition-colors
                   `}
                 >
                   <CardContent className="flex items-center justify-between p-4">
                     <div>
                       <h3 className="font-medium">{chapter.title}</h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         {formatDate(chapter.releaseDate)}
                       </p>
                     </div>
                     <div
                       className={`
-                        flex items-center gap-2 text-sm text-muted-foreground
+                        text-muted-foreground flex items-center gap-2 text-sm
                       `}
                     >
                       <Eye className="size-4" />
@@ -179,7 +181,7 @@ async function RecommendedComics({ comicId }: { comicId: number }) {
         `}
       >
         {recommended.map((comic) => (
-          <ComicCard key={comic.id} comic={comic} authorName={null} typeName={comic.typeName} />
+          <ComicCard authorName={null} comic={comic} key={comic.id} typeName={comic.typeName} />
         ))}
       </div>
     </section>

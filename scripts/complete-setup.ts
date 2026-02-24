@@ -7,7 +7,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { execSync } from "child_process";
+import { execSync } from "node:child_process";
 
 const log = {
   info: (msg: string) => console.log(`\x1B[36mℹ\x1B[0m ${msg}`),

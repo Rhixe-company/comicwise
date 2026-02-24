@@ -177,9 +177,9 @@ export async function getLatestChapter(comicId: number) {
  */
 export async function getAllChapters(filters?: {
   comicId?: number;
-  search?: string;
-  page?: number;
   limit?: number;
+  page?: number;
+  search?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }) {

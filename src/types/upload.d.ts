@@ -5,48 +5,48 @@
 /**
  * Upload provider type
  */
-export type UploadProvider = "imagekit" | "cloudinary" | "aws" | "local";
+export type UploadProvider = "aws" | "cloudinary" | "imagekit" | "local";
 
 /**
  * Upload options
  */
 export interface UploadOptions {
-  provider?: UploadProvider;
-  folder?: string;
   filename?: string;
-  public?: boolean;
-  transformation?: ImageTransformation;
-  tags?: string[];
+  folder?: string;
   metadata?: Record<string, string>;
+  provider?: UploadProvider;
+  public?: boolean;
+  tags?: string[];
+  transformation?: ImageTransformation;
 }
 
 /**
  * Image transformation options
  */
 export interface ImageTransformation {
-  width?: number;
-  height?: number;
-  crop?: "fill" | "fit" | "scale" | "crop" | "pad";
-  quality?: number;
-  format?: "jpg" | "png" | "webp" | "avif";
   blur?: number;
-  sharpen?: boolean;
+  crop?: "crop" | "fill" | "fit" | "pad" | "scale";
+  format?: "avif" | "jpg" | "png" | "webp";
   grayscale?: boolean;
+  height?: number;
+  quality?: number;
+  sharpen?: boolean;
+  width?: number;
 }
 
 /**
  * Upload result
  */
 export interface UploadResult {
-  url: string;
-  publicId: string;
-  width?: number;
-  height?: number;
   format?: string;
-  size: number;
-  provider: UploadProvider;
-  thumbnailUrl?: string;
+  height?: number;
   metadata?: Record<string, unknown>;
+  provider: UploadProvider;
+  publicId: string;
+  size: number;
+  thumbnailUrl?: string;
+  url: string;
+  width?: number;
 }
 
 /**
@@ -54,8 +54,8 @@ export interface UploadResult {
  */
 export interface BulkUploadOptions extends UploadOptions {
   concurrency?: number;
-  onProgress?(current: number, total: number, filename: string): void;
   onError?(filename: string, error: Error): void;
+  onProgress?(current: number, total: number, filename: string): void;
   skipExisting?: boolean;
 }
 
@@ -63,54 +63,54 @@ export interface BulkUploadOptions extends UploadOptions {
  * Bulk upload result
  */
 export interface BulkUploadResult {
-  successful: UploadResult[];
-  failed: Array<{
-    filename: string;
-    error: string;
-  }>;
-  total: number;
-  successCount: number;
-  failedCount: number;
   duration: number;
+  failed: Array<{
+    error: string;
+    filename: string;
+  }>;
+  failedCount: number;
+  successCount: number;
+  successful: UploadResult[];
+  total: number;
 }
 
 /**
  * Upload progress
  */
 export interface UploadProgress {
-  filename: string;
   current: number;
-  total: number;
-  percent: number;
-  status: "pending" | "uploading" | "completed" | "failed";
   error?: string;
+  filename: string;
+  percent: number;
+  status: "completed" | "failed" | "pending" | "uploading";
+  total: number;
 }
 
 /**
  * Cloud storage configuration
  */
 export interface CloudStorageConfig {
-  provider: UploadProvider;
   credentials: Record<string, string>;
   defaults?: UploadOptions;
+  provider: UploadProvider;
 }
 
 /**
  * Send email options
  */
 export interface SendEmailOptions {
-  to: string | string[];
-  subject: string;
-  html: string;
-  text?: string;
-  from?: string;
-  replyTo?: string;
-  cc?: string | string[];
-  bcc?: string | string[];
   attachments?: Array<{
-    filename: string;
-    content: string | Buffer;
-    encoding?: string;
+    content: Buffer | string;
     contentType?: string;
+    encoding?: string;
+    filename: string;
   }>;
+  bcc?: string | string[];
+  cc?: string | string[];
+  from?: string;
+  html: string;
+  replyTo?: string;
+  subject: string;
+  text?: string;
+  to: string | string[];
 }

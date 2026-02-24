@@ -11,19 +11,19 @@ export type UpdateGenreDto = Partial<CreateGenreDto>;
 
 export interface GenreListDto {
   genres: GenreDto[];
-  total: number;
-  page: number;
   limit: number;
+  page: number;
+  total: number;
 }
 
 export type GenreWithComicsDto = GenreDto & {
-  comics?: Array<{
-    id: number;
-    title: string;
-    slug: string;
-    coverImage: string;
-  }>;
   comicCount?: number;
+  comics?: Array<{
+    coverImage: string;
+    id: number;
+    slug: string;
+    title: string;
+  }>;
 };
 
 export { deleteGenre, updateGenre } from "@/lib/actions/genresTypes";

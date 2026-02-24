@@ -4,11 +4,12 @@
 // Task 7: Convert filenames and functions to CamelCase
 // ═══════════════════════════════════════════════════════════════════════════════
 
+import path from "node:path";
+
 import chalk from "chalk";
 import fs from "fs-extra";
 import { glob } from "glob";
 import ora from "ora";
-import path from "path";
 
 interface RenameOperation {
   from: string;
@@ -244,9 +245,9 @@ class CamelCaseConverter {
 
     if (this.operations.length > 0 && this.dryRun) {
       console.log(chalk.bold("📋 Planned Operations (sample):"));
-      this.operations.slice(0, 10).forEach((op) => {
+      for (const op of this.operations.slice(0, 10)) {
         console.log(chalk.gray(`  ${path.basename(op.from)} → ${path.basename(op.to)}`));
-      });
+      }
       if (this.operations.length > 10) {
         console.log(chalk.gray(`  ... and ${this.operations.length - 10} more`));
       }

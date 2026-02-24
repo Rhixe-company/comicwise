@@ -1,6 +1,7 @@
+import { desc, eq, like } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { artist, author, comic, type as typeTable } from "@/database/schema";
-import { desc, eq, like } from "drizzle-orm";
 
 const COMICS_PER_PAGE = 25;
 
@@ -63,7 +64,7 @@ export async function getComicById(id: number) {
 
 export async function searchComics(query: string) {
   const searchTerm = `%${query}%`;
-  const results = await database
+  return await database
     .select({
       id: comic.id,
       title: comic.title,
@@ -84,6 +85,4 @@ export async function searchComics(query: string) {
     .where(like(comic.title, searchTerm))
     .orderBy(desc(comic.createdAt))
     .limit(25);
-
-  return results;
 }

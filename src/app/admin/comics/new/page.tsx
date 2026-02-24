@@ -1,8 +1,10 @@
-import { createComicAction } from "@/app/actions/admin/comics";
-import { ComicForm } from "@/components/admin/ComicForm";
-import { auth } from "auth";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+import { createComicAction } from "@/app/actions/admin/comics";
+import { ComicForm } from "@/components/admin/ComicForm";
+
+import { auth } from "auth";
 
 import type { Metadata } from "next";
 

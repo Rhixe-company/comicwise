@@ -1,10 +1,11 @@
+import { notFound } from "next/navigation";
+
 import { ChapterReader } from "@/components/layout/ChapterReader";
 import { incrementChapterViews } from "@/database/mutations";
 import { getChapter, getNextChapter, getPreviousChapter } from "@/database/queries";
-import { notFound } from "next/navigation";
 
 interface PageProps {
-  params: Promise<{ id: string; chapterId: string }>;
+  params: Promise<{ chapterId: string; id: string; }>;
 }
 
 export default async function ChapterReaderPage({ params }: PageProps) {
@@ -32,8 +33,8 @@ export default async function ChapterReaderPage({ params }: PageProps) {
       chapter={chapter}
       comic={chapter.comic}
       images={chapter.images}
-      prevChapter={prevChapter}
       nextChapter={nextChapter}
+      prevChapter={prevChapter}
     />
   );
 }

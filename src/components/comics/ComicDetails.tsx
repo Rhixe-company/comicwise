@@ -1,37 +1,39 @@
 "use client";
 
+import { BookOpen, Calendar, Eye, Palette, Star, User } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { BookOpen, Calendar, Eye, Palette, Star, User } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+
 import { BookmarkButton } from "./BookmarkButton";
 
 interface Comic {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
+  artist: { id: null | number; name: null | string } | null;
+  author: { id: null | number; name: null | string } | null;
   coverImage: string;
-  status: string;
-  rating: string | null;
-  views: number;
+  description: string;
+  id: number;
   publicationDate: Date;
-  url: string | null;
-  serialization: string | null;
-  author: { id: number | null; name: string | null } | null;
-  artist: { id: number | null; name: string | null } | null;
-  type: { id: number | null; name: string | null } | null;
+  rating: null | string;
+  serialization: null | string;
+  slug: string;
+  status: string;
+  title: string;
+  type: { id: null | number; name: null | string } | null;
+  url: null | string;
+  views: number;
 }
 
 interface Chapter {
+  chapterNumber: number;
   id: number;
+  releaseDate: Date;
   slug: string;
   title: string;
-  chapterNumber: number;
-  releaseDate: Date;
 }
 
 interface Genre {
@@ -40,11 +42,11 @@ interface Genre {
 }
 
 interface ComicDetailsProps {
-  comic: Comic;
   chapters: Chapter[];
+  comic: Comic;
   genres: Genre[];
-  isBookmarked: boolean;
   isAuthenticated: boolean;
+  isBookmarked: boolean;
 }
 
 export function ComicDetails({
@@ -61,18 +63,18 @@ export function ComicDetails({
           <Card className="overflow-hidden">
             <div className="relative aspect-2/3">
               <Image
-                src={comic.coverImage}
                 alt={comic.title}
-                fill
                 className="object-cover"
+                fill
                 priority
+                src={comic.coverImage}
               />
             </div>
             <CardContent className="space-y-4 p-4">
               <BookmarkButton
                 comicId={comic.id}
-                isBookmarked={isBookmarked}
                 isAuthenticated={isAuthenticated}
+                isBookmarked={isBookmarked}
               />
 
               {chapters.length > 0 && (
@@ -89,7 +91,7 @@ export function ComicDetails({
         <div className="space-y-6 lg:col-span-2">
           <div>
             <h1 className="mb-2 text-4xl font-bold">{comic.title}</h1>
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex flex-wrap items-center gap-4 text-sm">
               <div className="flex items-center gap-1">
                 <Star className="size-4 fill-yellow-400 text-yellow-400" />
                 <span>{comic.rating || "N/A"}</span>
@@ -108,7 +110,7 @@ export function ComicDetails({
             <div className="grid gap-3 sm:grid-cols-2">
               {comic.author?.name && (
                 <div className="flex items-center gap-2">
-                  <User className="size-4 text-muted-foreground" />
+                  <User className="text-muted-foreground size-4" />
                   <span className="text-sm">
                     <span className="text-muted-foreground">Author:</span>{" "}
                     <span className="font-medium">{comic.author.name}</span>
@@ -118,7 +120,7 @@ export function ComicDetails({
 
               {comic.artist?.name && (
                 <div className="flex items-center gap-2">
-                  <Palette className="size-4 text-muted-foreground" />
+                  <Palette className="text-muted-foreground size-4" />
                   <span className="text-sm">
                     <span className="text-muted-foreground">Artist:</span>{" "}
                     <span className="font-medium">{comic.artist.name}</span>
@@ -128,7 +130,7 @@ export function ComicDetails({
 
               {comic.type?.name && (
                 <div className="flex items-center gap-2">
-                  <BookOpen className="size-4 text-muted-foreground" />
+                  <BookOpen className="text-muted-foreground size-4" />
                   <span className="text-sm">
                     <span className="text-muted-foreground">Type:</span>{" "}
                     <span className="font-medium">{comic.type.name}</span>
@@ -137,7 +139,7 @@ export function ComicDetails({
               )}
 
               <div className="flex items-center gap-2">
-                <Calendar className="size-4 text-muted-foreground" />
+                <Calendar className="text-muted-foreground size-4" />
                 <span className="text-sm">
                   <span className="text-muted-foreground">Published:</span>{" "}
                   <span className="font-medium">
@@ -162,7 +164,7 @@ export function ComicDetails({
 
           <div>
             <h2 className="mb-3 text-xl font-semibold">Synopsis</h2>
-            <p className="leading-relaxed text-muted-foreground">{comic.description}</p>
+            <p className="text-muted-foreground leading-relaxed">{comic.description}</p>
           </div>
 
           <Separator />
@@ -175,21 +177,21 @@ export function ComicDetails({
               <div className="space-y-2">
                 {chapters.map((chapter) => (
                   <Link
-                    key={chapter.id}
-                    href={`/comics/${comic.slug}/${chapter.slug}`}
                     className="block"
+                    href={`/comics/${comic.slug}/${chapter.slug}`}
+                    key={chapter.id}
                   >
-                    <Card className="transition-colors hover:bg-accent">
+                    <Card className="hover:bg-accent transition-colors">
                       <CardContent className="flex items-center justify-between p-4">
                         <div>
                           <p className="font-medium">
                             Chapter {chapter.chapterNumber}: {chapter.title}
                           </p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground text-sm">
                             {new Date(chapter.releaseDate).toLocaleDateString()}
                           </p>
                         </div>
-                        <Button variant="ghost" size="sm">
+                        <Button size="sm" variant="ghost">
                           Read
                         </Button>
                       </CardContent>

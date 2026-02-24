@@ -4,22 +4,23 @@
  * Prevents duplicate downloads and ensures file system optimization
  */
 
+import crypto from "node:crypto";
+import { existsSync } from "node:fs";
+import fs from "node:fs/promises";
+import path from "node:path";
+
 import { logger } from "@/database/seed/logger";
-import crypto from "crypto";
-import { existsSync } from "fs";
-import fs from "fs/promises";
-import path from "path";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface ImageDownloadResult {
-  original: string;
-  local?: string;
   cached: boolean;
-  success: boolean;
   error?: string;
+  local?: string;
+  original: string;
+  success: boolean;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -60,8 +61,7 @@ export class SeedImageManager {
   private getExtension(url: string): string {
     try {
       const urlPath = new URL(url).pathname;
-      const extension = path.extname(urlPath) || ".webp";
-      return extension;
+      return path.extname(urlPath) || ".webp";
     } catch {
       return ".webp";
     }
@@ -186,7 +186,7 @@ export class SeedImageManager {
 // SINGLETON INSTANCE
 // ═══════════════════════════════════════════════════════════════════════════
 
-let instance: SeedImageManager | null = null;
+let instance: null | SeedImageManager = null;
 
 export async function getImageManager(): Promise<SeedImageManager> {
   if (!instance) {

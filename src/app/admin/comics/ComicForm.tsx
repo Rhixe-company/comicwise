@@ -1,3 +1,6 @@
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,9 +14,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { createComic } from "@/dto/comicsDto";
+
 import type { CreateComicInput } from "@/lib/validations";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 async function handleCreate(formData: FormData) {
   // Build payload from FormData and coerce types to match CreateComicInput
@@ -67,8 +69,8 @@ export default function ComicForm() {
               id="description"
               name="description"
               placeholder="Enter comic description"
-              rows={4}
               required
+              rows={4}
             />
           </div>
 
@@ -78,11 +80,11 @@ export default function ComicForm() {
             <Input
               id="coverImage"
               name="coverImage"
-              type="url"
               placeholder="https://example.com/cover.jpg"
               required
+              type="url"
             />
-            <p className="text-sm text-muted-foreground">Provide a URL to the cover image</p>
+            <p className="text-muted-foreground text-sm">Provide a URL to the cover image</p>
           </div>
 
           {/* Status */}
@@ -106,11 +108,11 @@ export default function ComicForm() {
           <div className="space-y-2">
             <Label htmlFor="publicationDate">Publication Date *</Label>
             <Input
+              defaultValue={new Date().toISOString().split("T")[0]}
               id="publicationDate"
               name="publicationDate"
-              type="date"
-              defaultValue={new Date().toISOString().split("T")[0]}
               required
+              type="date"
             />
           </div>
 
@@ -118,14 +120,14 @@ export default function ComicForm() {
           <div className="space-y-2">
             <Label htmlFor="rating">Rating (0-10)</Label>
             <Input
-              id="rating"
-              name="rating"
-              type="number"
-              min="0"
-              max="10"
-              step="0.1"
               defaultValue="0"
+              id="rating"
+              max="10"
+              min="0"
+              name="rating"
               placeholder="0"
+              step="0.1"
+              type="number"
             />
           </div>
 
@@ -138,19 +140,19 @@ export default function ComicForm() {
             {/* Author ID */}
             <div className="space-y-2">
               <Label htmlFor="authorId">Author ID</Label>
-              <Input id="authorId" name="authorId" type="number" placeholder="Enter author ID" />
+              <Input id="authorId" name="authorId" placeholder="Enter author ID" type="number" />
             </div>
 
             {/* Artist ID */}
             <div className="space-y-2">
               <Label htmlFor="artistId">Artist ID</Label>
-              <Input id="artistId" name="artistId" type="number" placeholder="Enter artist ID" />
+              <Input id="artistId" name="artistId" placeholder="Enter artist ID" type="number" />
             </div>
 
             {/* Type ID */}
             <div className="space-y-2">
               <Label htmlFor="typeId">Type ID</Label>
-              <Input id="typeId" name="typeId" type="number" placeholder="Enter type ID" />
+              <Input id="typeId" name="typeId" placeholder="Enter type ID" type="number" />
             </div>
           </div>
 
@@ -158,11 +160,11 @@ export default function ComicForm() {
           <div className="flex gap-4">
             <Button type="submit">Create Comic</Button>
             <Button
-              type="button"
-              variant="outline"
               onClick={() => {
                 /* client-only navigation handled by surrounding page */
               }}
+              type="button"
+              variant="outline"
             >
               Cancel
             </Button>

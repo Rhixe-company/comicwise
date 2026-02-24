@@ -13,10 +13,12 @@
  * usage pnpm tsx scripts/project-cleanup.ts [--dry-run] [--aggressive]
  */
 
+import { statSync, unlinkSync } from "node:fs";
+import path from "node:path";
+
 import chalk from "chalk";
-import { statSync, unlinkSync } from "fs";
 import { globSync } from "glob";
-import path from "path";
+
 
 // ═══════════════════════════════════════════════════
 // CONFIGURATION
@@ -28,10 +30,10 @@ const AGGRESSIVE = args.has("--aggressive");
 
 interface CleanupResult {
   duplicateFiles: string[];
-  unusedFiles: string[];
   emptyDirs: string[];
   largeFiles: string[];
   oldReports: string[];
+  unusedFiles: string[];
 }
 
 const result: CleanupResult = {

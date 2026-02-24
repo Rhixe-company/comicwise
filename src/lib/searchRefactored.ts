@@ -2,80 +2,81 @@
 // ADVANCED SEARCH SERVICE - Full-Text Search with PostgreSQL (REFACTORED)
 // ═══════════════════════════════════════════════════
 
+import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { artist, author, comic, comicToGenre, genre, type } from "@/database/schema";
-import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════
 
 export interface AdvancedSearchFilters {
-  // Search
-  query?: string;
-  searchMode?: "simple" | "phrase" | "websearch";
-  search?: string;
-
-  // Filters
-  genres?: string[];
-  genreIds?: number[];
-  genreNames?: string[];
-  types?: string[];
-  typeId?: number;
-  status?: "ongoing" | "completed" | "hiatus" | "cancelled";
-
+  artistName?: string;
   // Author/Artist
   authorName?: string;
-  artistName?: string;
+  genreIds?: number[];
 
-  // Date/Year
-  publicationYear?: number;
-  publicationYearFrom?: number;
-  publicationYearTo?: number;
-
+  genreNames?: string[];
+  // Filters
+  genres?: string[];
+  limit?: number;
+  maxViews?: number;
   // Rating/Views
   minRating?: number;
   minViews?: number;
-  maxViews?: number;
 
-  // Sorting & Pagination
-  sortBy?: "title" | "rating" | "views" | "latest" | "createdAt" | "publicationDate" | "relevance";
-  sortOrder?: "asc" | "desc";
   page?: number;
-  limit?: number;
+  // Date/Year
+  publicationYear?: number;
+
+  publicationYearFrom?: number;
+  publicationYearTo?: number;
+  // Search
+  query?: string;
+
+  search?: string;
+  searchMode?: "phrase" | "simple" | "websearch";
+  // Sorting & Pagination
+  sortBy?: "createdAt" | "latest" | "publicationDate" | "rating" | "relevance" | "title" | "views";
+
+  sortOrder?: "asc" | "desc";
+  status?: "cancelled" | "completed" | "hiatus" | "ongoing";
+  typeId?: number;
+  types?: string[];
 }
 
 export interface SearchResult {
-  id: number;
-  title: string;
-  description: string;
+  artistName: null | string;
+  authorName: null | string;
   coverImage: string;
-  status: string;
-  rating: string;
-  views: number;
-  authorName: string | null;
-  artistName: string | null;
-  typeName: string | null;
-  genres: string[];
-  relevanceScore?: number;
-  publicationDate: Date;
   createdAt: Date;
+  description: string;
+  genres: string[];
+  id: number;
+  publicationDate: Date;
+  rating: string;
+  relevanceScore?: number;
+  status: string;
+  title: string;
+  typeName: null | string;
   updatedAt: Date;
+  views: number;
 }
 
 export interface SearchResponse {
-  results: SearchResult[];
+  facets?: {
+    genres: { count: number; genre: string; }[];
+    statuses: { count: number; status: string; }[];
+    types: { count: number; type: string; }[];
+  };
   pagination: {
-    page: number;
     limit: number;
+    page: number;
     total: number;
     totalPages: number;
   };
-  facets?: {
-    statuses: { status: string; count: number }[];
-    genres: { genre: string; count: number }[];
-    types: { type: string; count: number }[];
-  };
+  results: SearchResult[];
 }
 
 // ═══════════════════════════════════════════════════
@@ -83,9 +84,9 @@ export interface SearchResponse {
 // ═══════════════════════════════════════════════════
 
 interface SearchConditions {
-  textSearch: unknown[];
-  filters: unknown[];
   all: unknown[];
+  filters: unknown[];
+  textSearch: unknown[];
 }
 
 // ═══════════════════════════════════════════════════
@@ -178,22 +179,22 @@ export async function searchComics(filters: AdvancedSearchFilters = {}): Promise
 // ═══════════════════════════════════════════════════
 
 interface ConditionFilters {
-  searchText?: string;
-  searchMode?: string;
-  typeId?: number;
-  genreIds?: number[];
-  status?: string;
-  minRating?: number | string;
-  authorName?: string;
   artistName?: string;
+  authorName?: string;
+  genreIds?: number[];
   genreNames?: string[];
+  maxViews?: number;
+  minRating?: number | string;
+  minViews?: number;
   publicationYearFrom?: number;
   publicationYearTo?: number;
-  minViews?: number;
-  maxViews?: number;
+  searchMode?: string;
+  searchText?: string;
+  status?: string;
+  typeId?: number;
 }
 
-async function buildSearchConditions(filters: ConditionFilters): Promise<SearchConditions | null> {
+async function buildSearchConditions(filters: ConditionFilters): Promise<null | SearchConditions> {
   const conditions: SearchConditions = {
     textSearch: [],
     filters: [],
@@ -420,9 +421,9 @@ function enrichSearchResult(result: unknown, genresMap: Record<number, string[]>
     status: (r.status as string) || "",
     rating: (r.rating as string) || "",
     views: typeof r.views === "number" ? r.views : Number(r.views) || 0,
-    authorName: (r.authorName as string | null) || null,
-    artistName: (r.artistName as string | null) || null,
-    typeName: (r.typeName as string | null) || null,
+    authorName: (r.authorName as null | string) || null,
+    artistName: (r.artistName as null | string) || null,
+    typeName: (r.typeName as null | string) || null,
     genres: genresMap[Number(r.id)] || [],
     relevanceScore: (r.relevanceScore as number) || undefined,
     publicationDate: parseDate(r.publicationDate),
@@ -434,7 +435,7 @@ function enrichSearchResult(result: unknown, genresMap: Record<number, string[]>
 function parseDate(date: unknown): Date {
   if (!date) return new Date();
   if (date instanceof Date) return date;
-  return new Date(date as string | number);
+  return new Date(date as number | string);
 }
 
 // ═══════════════════════════════════════════════════
@@ -518,7 +519,7 @@ async function getComicGenres(comicIds: number[]): Promise<Record<number, string
 export async function getSearchSuggestions(
   query: string,
   limit: number = 5
-): Promise<{ comics: string[]; authors: string[]; artists: string[] }> {
+): Promise<{ artists: string[]; authors: string[]; comics: string[]; }> {
   if (!query || query.length < 2) {
     return { comics: [], authors: [], artists: [] };
   }
@@ -551,11 +552,11 @@ export async function getSearchSuggestions(
   return {
     comics: comicSuggestions.map((s: { title: string }) => s.title),
     authors: authorSuggestions
-      .map((s: { name: string | null }) => s.name)
-      .filter((n: string | null): n is string => n !== null),
+      .map((s: { name: null | string }) => s.name)
+      .filter((n: null | string): n is string => n !== null),
     artists: artistSuggestions
-      .map((s: { name: string | null }) => s.name)
-      .filter((n: string | null): n is string => n !== null),
+      .map((s: { name: null | string }) => s.name)
+      .filter((n: null | string): n is string => n !== null),
   };
 }
 

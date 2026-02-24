@@ -1,29 +1,30 @@
 "use client";
 
+import { Plus, Search } from "lucide-react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
+
 import { bulkDeleteComics, deleteComic } from "@/app/admin/comics/actions";
 import { ComicsTable } from "@/components/admin/ComicsTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/useToast";
-import { Plus, Search } from "lucide-react";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
 
 interface ComicsListPageProps {
-  initialComics: Array<{
-    id: number;
-    title: string;
-    slug: string;
-    coverImage: string;
-    status: "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon";
-    views: number;
-    createdAt: Date;
-    updatedAt: Date;
-  }>;
   hasNextPage: boolean;
-  nextCursor: number | null;
+  initialComics: Array<{
+    coverImage: string;
+    createdAt: Date;
+    id: number;
+    slug: string;
+    status: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+    title: string;
+    updatedAt: Date;
+    views: number;
+  }>;
+  nextCursor: null | number;
 }
 
 export function ComicsListContent({ initialComics, hasNextPage, nextCursor }: ComicsListPageProps) {
@@ -145,12 +146,12 @@ export function ComicsListContent({ initialComics, hasNextPage, nextCursor }: Co
           <CardTitle>Search</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSearch} className="flex gap-2">
+          <form className="flex gap-2" onSubmit={handleSearch}>
             <Input
+              className="flex-1"
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search comics by title..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1"
             />
             <Button type="submit">
               <Search className="mr-2 size-4" />
@@ -163,14 +164,14 @@ export function ComicsListContent({ initialComics, hasNextPage, nextCursor }: Co
       {/* Comics Table */}
       <ComicsTable
         comics={comics}
-        onDelete={handleDelete}
-        onBulkDelete={handleBulkDelete}
         currentPage={currentPage}
         hasNextPage={canGoNext}
         hasPrevPage={canGoPrevious}
+        isLoading={isLoading}
+        onBulkDelete={handleBulkDelete}
+        onDelete={handleDelete}
         onNextPage={handleNextPage}
         onPrevPage={handlePreviousPage}
-        isLoading={isLoading}
       />
     </div>
   );

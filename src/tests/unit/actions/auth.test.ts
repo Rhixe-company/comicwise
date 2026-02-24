@@ -2,11 +2,14 @@
 // AUTH ACTIONS - UNIT TESTS
 // ═══════════════════════════════════════════════════
 
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import { signInAction, signOutAction } from "@/lib/actions/auth";
 import * as ratelimitLib from "@/lib/ratelimit";
+
 import * as authLib from "auth";
+
 import type { Mock } from "vitest";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock dependencies
 vi.mock("auth");

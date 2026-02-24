@@ -19,6 +19,8 @@ import {
   UsersIcon,
 } from "lucide-react";
 
+import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
+import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Breadcrumb,
@@ -45,8 +47,6 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
-import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
 
 const ApplicationShell = () => {
   return (
@@ -64,7 +64,7 @@ const ApplicationShell = () => {
                         <span>Dashboard</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="rounded-full bg-primary/10">5</SidebarMenuBadge>
+                    <SidebarMenuBadge className="bg-primary/10 rounded-full">5</SidebarMenuBadge>
                   </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
@@ -104,7 +104,7 @@ const ApplicationShell = () => {
                         <span>Hashtag Performance</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="rounded-full bg-primary/10">3</SidebarMenuBadge>
+                    <SidebarMenuBadge className="bg-primary/10 rounded-full">3</SidebarMenuBadge>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
@@ -191,7 +191,7 @@ const ApplicationShell = () => {
           </SidebarContent>
         </Sidebar>
         <div className="flex flex-1 flex-col">
-          <header className="sticky top-0 z-50 border-b bg-card">
+          <header className="bg-card sticky top-0 z-50 border-b">
             <div
               className={`
                 mx-auto flex max-w-7xl items-center justify-between gap-6 px-4
@@ -202,11 +202,11 @@ const ApplicationShell = () => {
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="[&_svg]:size-5!" />
                 <Separator
-                  orientation="vertical"
                   className={`
                     hidden h-4!
                     sm:block
                   `}
+                  orientation="vertical"
                 />
                 <Breadcrumb
                   className={`
@@ -232,14 +232,14 @@ const ApplicationShell = () => {
               <div className="flex items-center gap-1.5">
                 <LanguageDropdown
                   trigger={
-                    <Button variant="ghost" size="icon">
+                    <Button size="icon" variant="ghost">
                       <LanguagesIcon />
                     </Button>
                   }
                 />
                 <ProfileDropdown
                   trigger={
-                    <Button variant="ghost" size="icon" className="size-9.5">
+                    <Button className="size-9.5" size="icon" variant="ghost">
                       <Avatar className="size-9.5 rounded-md">
                         <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png" />
                         <AvatarFallback>JD</AvatarFallback>
@@ -270,8 +270,8 @@ const ApplicationShell = () => {
           <footer>
             <div
               className={`
-                mx-auto flex size-full max-w-7xl items-center justify-between
-                gap-3 px-4 py-3 text-muted-foreground
+                text-muted-foreground mx-auto flex size-full max-w-7xl items-center
+                justify-between gap-3 px-4 py-3
                 max-sm:flex-col
                 sm:gap-6 sm:px-6
               `}
@@ -283,7 +283,7 @@ const ApplicationShell = () => {
                 `}
               >
                 {`©${new Date().getFullYear()}`}{" "}
-                <a href="" className="text-primary">
+                <a className="text-primary" href="">
                   shadcn/studio
                 </a>
                 , Made for better web design

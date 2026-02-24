@@ -1,8 +1,10 @@
 "use client";
 
-import type { HTMLAttributes } from "react";
 import FastMarquee from "react-fast-marquee";
+
 import { cn } from "utils";
+
+import type { HTMLAttributes } from "react";
 
 export type MarqueeProps = HTMLAttributes<HTMLDivElement>;
 
@@ -28,7 +30,7 @@ export type MarqueeFadeProps = HTMLAttributes<HTMLDivElement> & {
 export const MarqueeFade = ({ className, side, ...properties }: MarqueeFadeProps) => (
   <div
     className={cn(
-      "absolute top-0 bottom-0 z-10 h-full w-24 from-background to-transparent",
+      "from-background absolute inset-y-0 z-10 h-full w-24 to-transparent",
       side === "left" ? "left-0 bg-gradient-to-r" : "right-0 bg-gradient-to-l",
       className
     )}

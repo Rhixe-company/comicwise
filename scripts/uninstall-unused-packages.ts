@@ -13,12 +13,13 @@
  *   pnpm tsx scripts/uninstall-unused-packages.ts --verbose
  */
 
+import { exec } from "node:child_process";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { promisify } from "node:util";
+
 import chalk from "chalk";
-import { exec } from "child_process";
-import fs from "fs/promises";
 import ora from "ora";
-import path from "path";
-import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
@@ -54,18 +55,18 @@ const ALWAYS_KEEP = new Set([
 ]);
 
 interface PackageInfo {
-  name: string;
-  version: string;
   isDev: boolean;
   isUsed: boolean;
   locations: string[];
+  name: string;
+  version: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS
 // ═══════════════════════════════════════════════════════════════════════════
 
-function log(message: string, level: "info" | "success" | "warning" | "error" = "info") {
+function log(message: string, level: "error" | "info" | "success" | "warning" = "info") {
   if (!VERBOSE && level === "info") return;
 
   switch (level) {
@@ -99,19 +100,17 @@ async function searchInFiles(packageName: string): Promise<string[]> {
       maxBuffer: 10 * 1024 * 1024,
     });
 
-    const files = stdout
+    return stdout
       .trim()
       .split("\n")
       .filter((f) => f && !f.includes("node_modules") && !f.includes(".next"));
-
-    return files;
   } catch {
     // If git grep fails, fall back to searching specific patterns
     return [];
   }
 }
 
-async function isPackageUsed(packageName: string): Promise<{ used: boolean; locations: string[] }> {
+async function isPackageUsed(packageName: string): Promise<{ locations: string[]; used: boolean; }> {
   // Always keep essential packages
   if (ALWAYS_KEEP.has(packageName)) {
     return { used: true, locations: ["[essential package]"] };
@@ -256,12 +255,12 @@ async function main() {
 
   // Display unused packages
   console.log(chalk.bold.yellow("\n⚠ Unused Packages:\n"));
-  unusedPackages.forEach((pkg) => {
+  for (const pkg of unusedPackages) {
     console.log(
       chalk.yellow(`  • ${pkg.name}`) +
         chalk.gray(` (${pkg.isDev ? "devDependency" : "dependency"})`)
     );
-  });
+  }
 
   // Uninstall unused packages
   if (!DRY_RUN) {

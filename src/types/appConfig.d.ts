@@ -1,35 +1,35 @@
 declare module "@/appConfig" {
   export const env: {
-    CI: any;
-    REDIS_DB: number;
-    REDIS_TLS_ENABLED: boolean;
-    DATABASE_URL: string;
-    NEXTAUTH_SECRET: string;
-    NEXTAUTH_URL: string;
     AUTH_URL: string;
-    NEXT_PUBLIC_APP_URL: string;
-    PORT: string;
-    UPSTASH_REDIS_REST_URL: string;
-    UPSTASH_REDIS_REST_TOKEN: string;
-    REDIS_HOST?: string;
-    REDIS_PORT?: string;
-    REDIS_PASSWORD?: string;
-    UPLOAD_PROVIDER: string;
-    RESEND_API_KEY?: string;
-    CLOUDINARY_CLOUD_NAME?: string;
-    CLOUDINARY_API_KEY?: string;
-    CLOUDINARY_API_SECRET?: string;
     AWS_ACCESS_KEY_ID?: string;
-    AWS_SECRET_ACCESS_KEY?: string;
+    AWS_REGION?: string;
     AWS_S3_BUCKET?: string;
     AWS_S3_BUCKET_NAME?: string;
-    AWS_REGION?: string;
-    IMAGEKIT_PUBLIC_KEY?: string;
-    IMAGEKIT_PRIVATE_KEY?: string;
-    IMAGEKIT_URL_ENDPOINT?: string;
+    AWS_SECRET_ACCESS_KEY?: string;
+    CI: any;
+    CLOUDINARY_API_KEY?: string;
+    CLOUDINARY_API_SECRET?: string;
+    CLOUDINARY_CLOUD_NAME?: string;
+    DATABASE_URL: string;
     GOOGLE_CLIENT_ID?: string;
     GOOGLE_CLIENT_SECRET?: string;
+    IMAGEKIT_PRIVATE_KEY?: string;
+    IMAGEKIT_PUBLIC_KEY?: string;
+    IMAGEKIT_URL_ENDPOINT?: string;
+    NEXT_PUBLIC_APP_URL: string;
+    NEXTAUTH_SECRET: string;
+    NEXTAUTH_URL: string;
     NODE_ENV: "development" | "production" | "test";
+    PORT: string;
+    REDIS_DB: number;
+    REDIS_HOST?: string;
+    REDIS_PASSWORD?: string;
+    REDIS_PORT?: string;
+    REDIS_TLS_ENABLED: boolean;
+    RESEND_API_KEY?: string;
+    UPLOAD_PROVIDER: string;
+    UPSTASH_REDIS_REST_TOKEN: string;
+    UPSTASH_REDIS_REST_URL: string;
   };
 
   export const isDevelopment: boolean;
@@ -40,11 +40,11 @@ declare module "@/appConfig" {
     identifier: string,
     options?: { limit?: number; window?: string }
   ): Promise<{
-    success: boolean;
     allowed: boolean;
     limit: number;
     remaining: number;
     reset: number;
+    success: boolean;
   }>;
 
   export function clearRateLimit(identifier: string): Promise<void>;
@@ -57,65 +57,65 @@ declare module "@/appConfig" {
 
   const appConfig: {
     auth: any;
-    name: string;
-    url: string;
+    customPassword?: string;
     description: string;
-    session: {
-      maxAge: number;
-      updateAge: number;
+    email: {
+      auth: {
+        pass: string;
+        user: string;
+      };
+      defaultTemplate: string;
+      enabled: boolean;
+      from: string;
+      fromName: string;
+      host: string;
+      port: number;
+      provider: string;
+      secure: boolean;
+      templates: Record<string, string>;
+    };
+    features: {
+      email: boolean;
+      emailVerification: boolean;
+      twoFactor: boolean;
+    };
+    name: string;
+    pagination?: {
+      chaptersPerPage?: number;
+      comicsPerPage?: number;
+      defaultLimit?: number;
     };
     rateLimit: {
-      enabled: boolean;
+      auth: number;
       default: number;
       defaultLimit: number;
       defaultWindow: string;
-      auth: number;
       email: number;
+      enabled: boolean;
     };
     security: {
-      maxLoginAttempts: number;
       bcryptRounds?: number;
+      maxLoginAttempts: number;
       tokenExpiry?: {
         emailVerification?: number;
         passwordReset?: number;
       };
     };
-    features: {
-      emailVerification: boolean;
-      email: boolean;
-      twoFactor: boolean;
+    session: {
+      maxAge: number;
+      updateAge: number;
     };
     upload: {
-      maxSize: number;
       allowedTypes: string[];
       enabled?: boolean;
       imageKit?: {
-        publicKey: string;
         privateKey: string;
+        publicKey: string;
         urlEndpoint: string;
       };
+      maxSize: number;
     };
-    email: {
-      enabled: boolean;
-      from: string;
-      fromName: string;
-      defaultTemplate: string;
-      templates: Record<string, string>;
-      provider: string;
-      host: string;
-      port: number;
-      secure: boolean;
-      auth: {
-        user: string;
-        pass: string;
-      };
-    };
-    pagination?: {
-      defaultLimit?: number;
-      comicsPerPage?: number;
-      chaptersPerPage?: number;
-    };
-    customPassword?: string;
+    url: string;
   };
 
   export default appConfig;

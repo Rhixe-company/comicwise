@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,7 +14,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
 
 interface Author {
   id: number;
@@ -30,8 +31,8 @@ interface Genre {
 }
 
 interface ComicFormEnhancedProps {
-  authors?: Author[];
   artists?: Artist[];
+  authors?: Author[];
   genres?: Genre[];
 }
 
@@ -69,8 +70,8 @@ export function ComicFormEnhanced({
               id="description"
               name="description"
               placeholder="Enter comic description"
-              rows={4}
               required
+              rows={4}
             />
           </div>
 
@@ -80,11 +81,11 @@ export function ComicFormEnhanced({
             <Input
               id="coverImage"
               name="coverImage"
-              type="url"
               placeholder="https://example.com/cover.jpg"
               required
+              type="url"
             />
-            <p className="text-sm text-muted-foreground">Provide a URL to the cover image</p>
+            <p className="text-muted-foreground text-sm">Provide a URL to the cover image</p>
           </div>
 
           {/* Status */}
@@ -108,11 +109,11 @@ export function ComicFormEnhanced({
           <div className="space-y-2">
             <Label htmlFor="publicationDate">Publication Date *</Label>
             <Input
+              defaultValue={new Date().toISOString().split("T")[0]}
               id="publicationDate"
               name="publicationDate"
-              type="date"
-              defaultValue={new Date().toISOString().split("T")[0]}
               required
+              type="date"
             />
           </div>
 
@@ -120,13 +121,13 @@ export function ComicFormEnhanced({
           <div className="space-y-2">
             <Label htmlFor="rating">Rating (0-10)</Label>
             <Input
-              id="rating"
-              name="rating"
-              type="number"
-              min="0"
-              max="10"
-              step="0.1"
               defaultValue="0"
+              id="rating"
+              max="10"
+              min="0"
+              name="rating"
+              step="0.1"
+              type="number"
             />
           </div>
 
@@ -176,27 +177,27 @@ export function ComicFormEnhanced({
               `}
             >
               {genres.map((genre) => (
-                <label key={genre.id} className="flex items-center gap-2">
+                <label className="flex items-center gap-2" key={genre.id}>
                   <input
-                    type="checkbox"
-                    name={`genre-${genre.id}`}
                     checked={selectedGenres.includes(genre.id)}
-                    onChange={() => toggleGenre(genre.id)}
                     className="size-4 rounded-sm border-gray-300"
+                    name={`genre-${genre.id}`}
+                    onChange={() => toggleGenre(genre.id)}
+                    type="checkbox"
                   />
                   <span className="text-sm">{genre.name}</span>
                 </label>
               ))}
             </div>
             {genres.length === 0 && (
-              <p className="text-sm text-muted-foreground">No genres available</p>
+              <p className="text-muted-foreground text-sm">No genres available</p>
             )}
           </div>
 
           {/* Submit Button */}
           <div className="flex gap-4">
             <Button type="submit">Create Comic</Button>
-            <Button type="button" variant="outline" onClick={() => window.history.back()}>
+            <Button onClick={() => window.history.back()} type="button" variant="outline">
               Cancel
             </Button>
           </div>

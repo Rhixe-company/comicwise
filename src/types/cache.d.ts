@@ -6,47 +6,47 @@
  * Cache key patterns
  */
 export type CacheKeyPattern =
-  | `comic:${string}`
   | `chapter:${string}`
-  | `user:${string}`
+  | `comic:${string}`
+  | `search:${string}`
   | `session:${string}`
-  | `search:${string}`;
+  | `user:${string}`;
 
 /**
  * Cache options
  */
 export interface CacheOptions {
-  ttl?: number;
-  tags?: string[];
   revalidate?: boolean;
+  tags?: string[];
+  ttl?: number;
 }
 
 /**
  * Cache statistics
  */
 export interface CacheStats {
-  hits: number;
-  misses: number;
+  evictions: number;
   hitRate: number;
+  hits: number;
   keys: number;
   memoryUsed: number;
-  evictions: number;
+  misses: number;
 }
 
 /**
  * Cache entry
  */
 export interface CacheEntry<T = unknown> {
-  value: T;
   expiresAt?: number;
   tags?: string[];
+  value: T;
 }
 
 /**
  * Cache invalidation options
  */
 export interface CacheInvalidationOptions {
+  keys?: string[];
   pattern?: string;
   tags?: string[];
-  keys?: string[];
 }

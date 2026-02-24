@@ -1,10 +1,11 @@
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { deleteType, updateType } from "@/dto/typesDto";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export default async function EditTypeForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);
@@ -54,25 +55,25 @@ export default async function EditTypeForm({ params }: { params: { id: string } 
         <CardContent>
           <form action={handleUpdate} className="space-y-6" method="post">
             <div>
-              <label htmlFor="name" className="sr-only">
+              <label className="sr-only" htmlFor="name">
                 Name
               </label>
               <Input
+                defaultValue={type.name ?? ""}
                 id="name"
                 name="name"
-                defaultValue={type.name ?? ""}
                 placeholder="e.g., Manga, Manhwa, Manhua"
               />
             </div>
 
             <div>
-              <label htmlFor="description" className="sr-only">
+              <label className="sr-only" htmlFor="description">
                 Description
               </label>
               <Textarea
+                defaultValue={type.description ?? ""}
                 id="description"
                 name="description"
-                defaultValue={type.description ?? ""}
                 placeholder="Brief description of this comic type..."
                 rows={4}
               />
@@ -85,7 +86,7 @@ export default async function EditTypeForm({ params }: { params: { id: string } 
                 </Button>
               </form>
               <div className="flex gap-4">
-                <Button type="button" variant="outline" onClick={() => window.history.back()}>
+                <Button onClick={() => window.history.back()} type="button" variant="outline">
                   Cancel
                 </Button>
                 <Button type="submit">Save Changes</Button>

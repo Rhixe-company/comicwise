@@ -41,12 +41,12 @@ export type ComicToGenreModel = InferSelectModel<typeof comicToGenre>;
  * Includes: chapters, genres, author, artist, images
  */
 export interface ComicWithRelations extends ComicModel {
+  artist?: ArtistModel | null;
+  author?: AuthorModel | null;
   chapters?: ChapterModel[];
   genres?: GenreModel[];
-  author?: AuthorModel | null;
-  artist?: ArtistModel | null;
-  type?: TypeModel | null;
   images?: ComicImageModel[];
+  type?: null | TypeModel;
 }
 
 /**
@@ -76,18 +76,18 @@ export interface ChapterWithComic extends ChapterModel {
  * Lightweight version for search/list queries
  */
 export interface ComicSearchResult {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
-  coverImage: string;
-  status: "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon";
-  rating: string | null;
-  views: number;
-  author?: { id: number; name: string } | null;
   artist?: { id: number; name: string } | null;
-  type?: { id: number; name: string } | null;
+  author?: { id: number; name: string } | null;
+  coverImage: string;
+  description: string;
   genres?: { id: number; name: string }[];
+  id: number;
+  rating: null | string;
+  slug: string;
+  status: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+  title: string;
+  type?: { id: number; name: string } | null;
+  views: number;
 }
 
 /**
@@ -95,10 +95,10 @@ export interface ComicSearchResult {
  */
 export interface UserWithStats extends UserModel {
   stats?: {
-    totalComicsRead: number;
-    totalChaptersRead: number;
     bookmarkedCount: number;
     ratingsCount: number;
+    totalChaptersRead: number;
+    totalComicsRead: number;
   };
 }
 
@@ -133,12 +133,12 @@ export interface ArtistWithCount extends ArtistModel {
 export interface PaginatedResponse<T> {
   data: T[];
   pagination: {
-    total: number;
-    page: number;
-    pageSize: number;
-    totalPages: number;
     hasNext: boolean;
     hasPrev: boolean;
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
   };
 }
 
@@ -148,9 +148,9 @@ export interface PaginatedResponse<T> {
 export interface CursorPaginatedResponse<T> {
   data: T[];
   pagination: {
-    total: number;
     cursor?: string;
     hasMore: boolean;
+    total: number;
   };
 }
 
@@ -158,9 +158,9 @@ export interface CursorPaginatedResponse<T> {
  * List query options
  */
 export interface ListOptions {
+  cursor?: string;
   limit?: number;
   offset?: number;
-  cursor?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }
@@ -173,17 +173,17 @@ export interface ListOptions {
  * Comic creation payload
  */
 export interface CreateComicPayload {
-  title: string;
-  slug: string;
-  description: string;
+  artistId?: null | number;
+  authorId?: null | number;
   coverImage: string;
-  status?: "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon";
+  description: string;
+  genres?: number[];
   publicationDate: Date;
   rating?: string;
-  authorId?: number | null;
-  artistId?: number | null;
-  typeId?: number | null;
-  genres?: number[];
+  slug: string;
+  status?: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+  title: string;
+  typeId?: null | number;
 }
 
 /**
@@ -197,12 +197,12 @@ export interface UpdateComicPayload extends Partial<CreateComicPayload> {
  * Chapter creation payload
  */
 export interface CreateChapterPayload {
-  title: string;
-  slug: string;
   chapterNumber: number;
-  releaseDate: Date;
   comicId: number;
   images?: { imageUrl: string; pageNumber: number }[];
+  releaseDate: Date;
+  slug: string;
+  title: string;
 }
 
 /**
@@ -216,34 +216,34 @@ export interface UpdateChapterPayload extends Partial<CreateChapterPayload> {
  * Author creation payload
  */
 export interface CreateAuthorPayload {
-  name: string;
   bio?: string;
   image?: string;
+  name: string;
 }
 
 /**
  * Artist creation payload
  */
 export interface CreateArtistPayload {
-  name: string;
   bio?: string;
   image?: string;
+  name: string;
 }
 
 /**
  * Genre creation payload
  */
 export interface CreateGenrePayload {
-  name: string;
   description?: string;
+  name: string;
 }
 
 /**
  * Type creation payload
  */
 export interface CreateTypePayload {
-  name: string;
   description?: string;
+  name: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -254,15 +254,15 @@ export interface CreateTypePayload {
  * Comic filter options
  */
 export interface ComicFilters {
-  status?: "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon";
-  authorId?: number;
   artistId?: number;
-  typeId?: number;
+  authorId?: number;
   genreIds?: number[];
-  minRating?: number;
   maxRating?: number;
-  search?: string;
+  minRating?: number;
   published?: boolean;
+  search?: string;
+  status?: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+  typeId?: number;
 }
 
 /**
@@ -270,9 +270,9 @@ export interface ComicFilters {
  */
 export interface ChapterFilters {
   comicId?: number;
-  search?: string;
-  minChapterNumber?: number;
   maxChapterNumber?: number;
+  minChapterNumber?: number;
+  search?: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -283,25 +283,25 @@ export interface ChapterFilters {
  * Standard API response
  */
 export interface ApiResponse<T> {
-  success: boolean;
   data?: T;
   error?: {
     code: string;
     message: string;
   };
   metadata?: Record<string, unknown>;
+  success: boolean;
 }
 
 /**
  * API error response
  */
 export interface ApiErrorResponse {
-  success: false;
   error: {
     code: string;
-    message: string;
     details?: Record<string, unknown>;
+    message: string;
   };
+  success: false;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

@@ -4,24 +4,25 @@
 // SIGN IN PAGE (Next.js 16 + React 19)
 // ═══════════════════════════════════════════════════
 
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { AuthForm, EmailField, PasswordField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { signInUser } from "@/lib/actions/auth";
-import type { SignInInput } from "@/lib/validations";
 import { signInSchema } from "@/lib/validations";
+
+import type { SignInInput } from "@/lib/validations";
 
 /**
  *
  */
 export default function SignInPage() {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<null | string>(null);
   const router = useRouter();
 
   const onSubmit = async (data: SignInInput) => {
@@ -60,14 +61,9 @@ export default function SignInPage() {
 
   return (
     <AuthForm
-      title="Sign In"
-      description="Enter your credentials to access your account"
-      schema={signInSchema}
       defaultValues={{ email: "", password: "" }}
-      onSubmit={onSubmit}
+      description="Enter your credentials to access your account"
       error={error}
-      isLoading={isPending}
-      submitLabel="Sign In"
       footer={
         <>
           <div className="relative w-full">
@@ -75,15 +71,15 @@ export default function SignInPage() {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+              <span className="bg-card text-muted-foreground px-2">Or continue with</span>
             </div>
           </div>
           <Button
+            className="w-full"
+            disabled={isPending}
+            onClick={handleGoogleSignIn}
             type="button"
             variant="outline"
-            className="w-full"
-            onClick={handleGoogleSignIn}
-            disabled={isPending}
           >
             <svg className="mr-2 size-4" viewBox="0 0 24 24">
               <path
@@ -105,31 +101,36 @@ export default function SignInPage() {
             </svg>
             Sign in with Google
           </Button>
-          <p className="text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link
-              href="/sign-up"
               className={`
                 text-primary
                 hover:underline
               `}
+              href="/sign-up"
             >
               Sign up
             </Link>
           </p>
         </>
       }
+      isLoading={isPending}
+      onSubmit={onSubmit}
+      schema={signInSchema}
+      submitLabel="Sign In"
+      title="Sign In"
     >
       <EmailField disabled={isPending} />
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium">Password</span>
           <Link
-            href="/forgot-password"
             className={`
-              text-sm text-muted-foreground underline-offset-4
-              hover:text-primary hover:underline
+              text-muted-foreground hover:text-primary text-sm
+              underline-offset-4 hover:underline
             `}
+            href="/forgot-password"
             tabIndex={-1}
           >
             Forgot password?

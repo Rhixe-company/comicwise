@@ -3,15 +3,16 @@
 // Shared Implementation for Similar Entities
 // ═══════════════════════════════════════════════════
 
-import { auth } from "auth";
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { auth } from "auth";
+
+import type { NextRequest } from "next/server";
 import type { ZodSchema } from "zod";
 
 type ValidationResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: { errors: unknown[] } };
+  | { data: T; success: true; }
+  | { error: { errors: unknown[] }; success: false; };
 
 /**
  * Convert Zod SafeParseResult to ValidationResult format
@@ -41,8 +42,8 @@ export async function createGenericEntity<TInput, TOutput>(
     entityName,
   }: {
     createFn(data: TInput): Promise<TOutput>;
-    validateFn(data: unknown): ValidationResult<TInput>;
     entityName: string;
+    validateFn(data: unknown): ValidationResult<TInput>;
   }
 ): Promise<NextResponse> {
   try {
@@ -90,13 +91,13 @@ export async function listGenericEntity<TFilters, TOutput>(
     validateFn,
     entityName,
   }: {
+    entityName: string;
     listFn(
       filters: TFilters
     ): Promise<
-      TOutput | { items: TOutput; page: number; limit: number; total: number; totalPages: number }
+      { items: TOutput; limit: number; page: number; total: number; totalPages: number } | TOutput
     >;
     validateFn(data: unknown): ValidationResult<TFilters>;
-    entityName: string;
   }
 ): Promise<NextResponse> {
   try {
@@ -156,9 +157,9 @@ export async function getGenericEntity<TOutput>(
     validateFn,
     entityName,
   }: {
-    getFn(id: number): Promise<TOutput | null>;
-    validateFn(data: unknown): ValidationResult<{ id: number }>;
     entityName: string;
+    getFn(id: number): Promise<null | TOutput>;
+    validateFn(data: unknown): ValidationResult<{ id: number }>;
   }
 ): Promise<NextResponse> {
   try {
@@ -203,11 +204,11 @@ export async function updateGenericEntity<TInput, TOutput>(
     entityName,
     requireAdmin = true,
   }: {
-    updateFn(id: number, data: TInput): Promise<TOutput | null>;
-    idValidateFn(data: unknown): ValidationResult<{ id: number }>;
     dataValidateFn(data: unknown): ValidationResult<TInput>;
     entityName: string;
+    idValidateFn(data: unknown): ValidationResult<{ id: number }>;
     requireAdmin?: boolean;
+    updateFn(id: number, data: TInput): Promise<null | TOutput>;
   }
 ): Promise<NextResponse> {
   try {
@@ -266,9 +267,9 @@ export async function deleteGenericEntity(
     validateFn,
     entityName,
   }: {
-    deleteFn(id: number): Promise<boolean | { success: boolean }>;
-    validateFn(data: unknown): ValidationResult<{ id: number }>;
+    deleteFn(id: number): Promise<{ success: boolean } | boolean>;
     entityName: string;
+    validateFn(data: unknown): ValidationResult<{ id: number }>;
   }
 ): Promise<NextResponse> {
   try {

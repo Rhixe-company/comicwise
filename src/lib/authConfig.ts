@@ -1,7 +1,5 @@
 import * as bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-import type { User as AuthUser, NextAuthConfig, Session } from "next-auth";
-import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -9,7 +7,11 @@ import GoogleProvider from "next-auth/providers/google";
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { user as userTable } from "@/database/schema";
+
 import { DrizzleAdapter } from "authAdapter";
+
+import type { User as AuthUser, NextAuthConfig, Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 
 export const authOptions: NextAuthConfig = {
   session: {
@@ -133,10 +135,10 @@ export const authOptions: NextAuthConfig = {
       trigger,
       session,
     }: {
-      token: JWT;
-      user?: AuthUser;
-      trigger?: string;
       session?: unknown;
+      token: JWT;
+      trigger?: string;
+      user?: AuthUser;
     }) {
       if (user) {
         token.id = user.id ?? "";
@@ -164,7 +166,7 @@ export const authOptions: NextAuthConfig = {
       return session;
     },
 
-    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+    async redirect({ url, baseUrl }: { baseUrl: string; url: string; }) {
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       if (new URL(url).origin === baseUrl) return url;
       return baseUrl;

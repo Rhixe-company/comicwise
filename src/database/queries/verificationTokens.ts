@@ -1,6 +1,7 @@
+import { and, eq, gt } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { verificationToken } from "@/database/schema";
-import { and, eq, gt } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════
 // VERIFICATION TOKEN QUERIES

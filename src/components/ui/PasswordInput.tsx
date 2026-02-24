@@ -1,6 +1,9 @@
 "use client";
 
-import type { Input } from "@/components/ui/input";
+import { zxcvbn, zxcvbnOptions } from "@zxcvbn-ts/core";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { createContext, useContext, useDeferredValue, useEffect, useMemo, useState } from "react";
+
 import {
   InputGroup,
   InputGroupAddon,
@@ -8,11 +11,11 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { zxcvbn, zxcvbnOptions } from "@zxcvbn-ts/core";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
-import type { ChangeEvent, ComponentProps, ReactNode } from "react";
-import { createContext, useContext, useDeferredValue, useEffect, useMemo, useState } from "react";
+
 import { cn } from "utils";
+
+import type { Input } from "@/components/ui/input";
+import type { ChangeEvent, ComponentProps, ReactNode } from "react";
 
 const PasswordInputContext = createContext<{ password: string } | null>(null);
 
@@ -42,13 +45,13 @@ export function PasswordInput({
         <InputGroup>
           <InputGroupInput
             {...props}
-            value={value}
             defaultValue={defaultValue}
-            type={showPassword ? "text" : "password"}
             onChange={handleChange}
+            type={showPassword ? "text" : "password"}
+            value={value}
           />
           <InputGroupAddon align="inline-end">
-            <InputGroupButton size="icon-xs" onClick={() => setShowPassword((p) => !p)}>
+            <InputGroupButton onClick={() => setShowPassword((p) => !p)} size="icon-xs">
               <Icon className="size-4.5" />
               <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
             </InputGroupButton>
@@ -135,29 +138,29 @@ export function PasswordInputStrengthChecker() {
   return (
     <div className="space-y-0.5">
       <div
-        role="progressbar"
         aria-label="Password Strength"
-        aria-valuenow={strengthResult.score}
-        aria-valuemin={0}
         aria-valuemax={4}
+        aria-valuemin={0}
+        aria-valuenow={strengthResult.score}
         aria-valuetext={label}
         className="flex gap-1"
+        role="progressbar"
       >
         {Array.from({ length: 4 }).map((_, i) => {
           const color = strengthResult.score >= 3 ? "bg-primary" : "bg-destructive";
 
           return (
             <div
-              key={i}
               className={cn(
                 "h-1 flex-1 rounded-full",
                 strengthResult.score > i ? color : "bg-secondary"
               )}
+              key={i}
             />
           );
         })}
       </div>
-      <div className="flex justify-end text-sm text-muted-foreground">
+      <div className="text-muted-foreground flex justify-end text-sm">
         {"feedback" in strengthResult &&
         strengthResult.feedback &&
         "warning" in strengthResult.feedback &&
@@ -166,7 +169,7 @@ export function PasswordInputStrengthChecker() {
         ) : (
           <Tooltip>
             <TooltipTrigger className="underline underline-offset-1">{label}</TooltipTrigger>
-            <TooltipContent side="bottom" sideOffset={4} className="text-base">
+            <TooltipContent className="text-base" side="bottom" sideOffset={4}>
               {"feedback" in strengthResult &&
               strengthResult.feedback &&
               "warning" in strengthResult.feedback

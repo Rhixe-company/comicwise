@@ -1,3 +1,8 @@
+import { ChevronLeft, ChevronRight, Edit2, Eye, Trash2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+
 import { useConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,32 +16,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ChevronLeft, ChevronRight, Edit2, Eye, Trash2 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
 
 interface Comic {
-  id: number;
-  title: string;
-  slug: string;
   coverImage: string;
-  status: "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon";
-  views: number;
   createdAt: Date;
+  id: number;
+  slug: string;
+  status: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+  title: string;
   updatedAt: Date;
+  views: number;
 }
 
 interface ComicsTableProps {
   comics: Comic[];
-  onDelete(id: number): Promise<void>;
-  onBulkDelete?(ids: number[]): Promise<void>;
   currentPage: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
+  isLoading?: boolean;
+  onBulkDelete?(ids: number[]): Promise<void>;
+  onDelete(id: number): Promise<void>;
   onNextPage(): void;
   onPrevPage(): void;
-  isLoading?: boolean;
 }
 
 const statusColors: Record<string, string> = {
@@ -59,7 +60,7 @@ export function ComicsTable({
   isLoading,
 }: ComicsTableProps) {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [deletingId, setDeletingId] = useState<null | number>(null);
   const [isBulkDeleting, setIsBulkDeleting] = useState(false);
   const { confirm, ConfirmDialog: ConfirmDialogComponent } = useConfirmDialog();
 
@@ -147,7 +148,7 @@ export function ComicsTable({
               <TableBody>
                 {comics.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className={`py-8 text-center text-muted-foreground`}>
+                    <TableCell className={`text-muted-foreground py-8 text-center`} colSpan={7}>
                       No comics found
                     </TableCell>
                   </TableRow>
@@ -169,17 +170,17 @@ export function ComicsTable({
                           `}
                         >
                           <Image
-                            src={comic.coverImage}
                             alt={comic.title}
-                            fill
                             className="object-cover"
+                            fill
+                            src={comic.coverImage}
                           />
                         </div>
                       </TableCell>
                       <TableCell>
                         <div>
                           <p className="font-medium">{comic.title}</p>
-                          <p className="text-xs text-muted-foreground">{comic.slug}</p>
+                          <p className="text-muted-foreground text-xs">{comic.slug}</p>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -188,26 +189,26 @@ export function ComicsTable({
                       <TableCell className="text-right text-sm">
                         {comic.views.toLocaleString()}
                       </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
+                      <TableCell className="text-muted-foreground text-sm">
                         {new Date(comic.createdAt).toLocaleDateString()}
                       </TableCell>
                       <TableCell>
                         <div className="flex justify-end gap-2">
-                          <Button size="sm" variant="ghost" asChild>
+                          <Button asChild size="sm" variant="ghost">
                             <Link href={`/comic/${comic.slug}`} target="_blank">
                               <Eye className="size-4" />
                             </Link>
                           </Button>
-                          <Button size="sm" variant="ghost" asChild>
+                          <Button asChild size="sm" variant="ghost">
                             <Link href={`/admin/comics/${comic.id}`}>
                               <Edit2 className="size-4" />
                             </Link>
                           </Button>
                           <Button
+                            disabled={isLoading || deletingId === comic.id}
+                            onClick={() => handleDelete(comic.id)}
                             size="sm"
                             variant="ghost"
-                            onClick={() => handleDelete(comic.id)}
-                            disabled={isLoading || deletingId === comic.id}
                           >
                             <Trash2 className="size-4" />
                           </Button>
@@ -222,21 +223,21 @@ export function ComicsTable({
 
           {/* Pagination */}
           <div className="mt-6 flex items-center justify-between">
-            <div className="text-sm text-muted-foreground">Page {currentPage}</div>
+            <div className="text-muted-foreground text-sm">Page {currentPage}</div>
             <div className="flex gap-2">
               <Button
-                variant="outline"
-                size="sm"
-                onClick={onPrevPage}
                 disabled={!hasPrevPage || isLoading}
+                onClick={onPrevPage}
+                size="sm"
+                variant="outline"
               >
                 <ChevronLeft className="size-4" />
               </Button>
               <Button
-                variant="outline"
-                size="sm"
-                onClick={onNextPage}
                 disabled={!hasNextPage || isLoading}
+                onClick={onNextPage}
+                size="sm"
+                variant="outline"
               >
                 <ChevronRight className="size-4" />
               </Button>
@@ -245,13 +246,13 @@ export function ComicsTable({
 
           {selectedIds.length > 0 && (
             <div className={`mt-4 flex items-center justify-between border-t pt-4`}>
-              <p className="text-sm text-muted-foreground">{selectedIds.length} selected</p>
+              <p className="text-muted-foreground text-sm">{selectedIds.length} selected</p>
               {onBulkDelete && (
                 <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={handleBulkDelete}
                   disabled={isBulkDeleting || isLoading}
+                  onClick={handleBulkDelete}
+                  size="sm"
+                  variant="destructive"
                 >
                   {isBulkDeleting ? "Deleting..." : `Delete ${selectedIds.length}`}
                 </Button>

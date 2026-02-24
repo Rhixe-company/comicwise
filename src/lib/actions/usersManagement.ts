@@ -1,16 +1,19 @@
 "use server";
 
+import bcrypt from "bcryptjs";
+import { asc, desc, eq, like, or, sql } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
-import type { ActionResult } from "@/dto";
 import { sendAccountUpdatedEmail, sendWelcomeEmail } from "@/lib/email";
-import type { CreateUserInput, UpdateUserInput, UserFilterInput } from "@/lib/validations";
 import { createUserSchema, updateUserSchema, userFilterSchema } from "@/lib/validations";
-import bcrypt from "bcryptjs";
+
+import type { ActionResult } from "@/dto";
+import type { CreateUserInput, UpdateUserInput, UserFilterInput } from "@/lib/validations";
 import type { SQL } from "drizzle-orm";
-import { asc, desc, eq, like, or, sql } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+
 
 export async function createUserAdmin(
   input: CreateUserInput
@@ -318,7 +321,7 @@ export async function listUsers(input?: UserFilterInput) {
 
 export async function updateUserRole(
   userId: string,
-  role: "user" | "admin" | "moderator"
+  role: "admin" | "moderator" | "user"
 ): Promise<ActionResult<void>> {
   try {
     const existingUser = await database.query.user.findFirst({

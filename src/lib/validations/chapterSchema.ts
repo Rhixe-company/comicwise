@@ -12,10 +12,10 @@ export const insertChapterSchema = createChapterSchema;
 export { updateChapterSchema };
 
 export interface InsertChapter {
-  title: string;
   chapterNumber: number;
-  releaseDate: Date;
   comicId: number;
+  releaseDate: Date;
+  title: string;
   views?: number;
 }
 export type UpdateChapter = Partial<InsertChapter>;

@@ -3,12 +3,15 @@
  * Handles all database operations for comments
  */
 
-import type { ListOptions } from "@/dal/baseDal";
+import { desc, eq } from "drizzle-orm";
+
 import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import { comment } from "@/database/schema";
+
+import type { ListOptions } from "@/dal/baseDal";
 import type { Comment } from "@/types/database";
-import { desc, eq } from "drizzle-orm";
+
 
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 export class CommentDal extends BaseDal<Comment, typeof comment.$inferInsert> {

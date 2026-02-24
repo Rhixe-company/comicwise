@@ -10,11 +10,11 @@ const THEMES = { light: "", dark: ".dark" } as const;
 
 export type ChartConfig = {
   [k in string]: {
-    label?: React.ReactNode;
     icon?: React.ComponentType;
+    label?: React.ReactNode;
   } & (
-    | { color?: string; theme?: never }
     | { color?: never; theme: Record<keyof typeof THEMES, string> }
+    | { color?: string; theme?: never }
   );
 };
 
@@ -41,8 +41,8 @@ function ChartContainer({
   config,
   ...props
 }: React.ComponentProps<"div"> & {
-  config: ChartConfig;
   children: React.ComponentProps<typeof RechartsPrimitive.ResponsiveContainer>["children"];
+  config: ChartConfig;
 }) {
   const uniqueId = React.useId();
   const chartId = `chart-${id || uniqueId.replaceAll(":", "")}`;
@@ -50,30 +50,30 @@ function ChartContainer({
   return (
     <ChartContext.Provider value={{ config }}>
       <div
-        data-slot="chart"
-        data-chart={chartId}
         className={cn(
           `
-            flex aspect-video w-full justify-center text-xs
-            [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground
-            [&_.recharts-cartesian-grid_line[stroke='ccc']]:stroke-border/50
-            [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border
-            [&_.recharts-dot[stroke='fff']]:stroke-transparent
-            [&_.recharts-layer]:outline-hidden
-            [&_.recharts-polar-grid_[stroke='ccc']]:stroke-border
-            [&_.recharts-radial-bar-background-sector]:fill-muted
+            [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-polar-grid_[stroke='ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted
             [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted
             [&_.recharts-reference-line_[stroke='ccc']]:stroke-border
+            flex
+            aspect-video
+            w-full
+            justify-center
+            text-xs
+            [&_.recharts-dot[stroke='fff']]:stroke-transparent
+            [&_.recharts-layer]:outline-hidden
             [&_.recharts-sector]:outline-hidden
             [&_.recharts-sector[stroke='fff']]:stroke-transparent
             [&_.recharts-surface]:outline-hidden
           `,
           className
         )}
+        data-chart={chartId}
+        data-slot="chart"
         {...props}
       >
-        <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer width="100%" height="100%">
+        <ChartStyle config={config} id={chartId} />
+        <RechartsPrimitive.ResponsiveContainer height="100%" width="100%">
           {children}
         </RechartsPrimitive.ResponsiveContainer>
       </div>
@@ -81,7 +81,7 @@ function ChartContainer({
   );
 }
 
-const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
+const ChartStyle = ({ id, config }: { config: ChartConfig; id: string; }) => {
   const colorConfig = Object.entries(config).filter(([, config]) => config.theme || config.color);
 
   if (!colorConfig.length) {
@@ -128,11 +128,11 @@ function ChartTooltipContent({
   labelKey,
 }: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
   React.ComponentProps<"div"> & {
-    hideLabel?: boolean;
     hideIndicator?: boolean;
-    indicator?: "line" | "dot" | "dashed";
-    nameKey?: string;
+    hideLabel?: boolean;
+    indicator?: "dashed" | "dot" | "line";
     labelKey?: string;
+    nameKey?: string;
   }) {
   const { config } = useChart();
 
@@ -170,8 +170,8 @@ function ChartTooltipContent({
     <div
       className={cn(
         `
-          grid min-w-[8rem] items-start gap-1.5 rounded-lg border
-          border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl
+          border-border/50 bg-background grid min-w-[8rem] items-start gap-1.5
+          rounded-lg border px-2.5 py-1.5 text-xs shadow-xl
         `,
         className
       )}
@@ -187,14 +187,14 @@ function ChartTooltipContent({
 
             return (
               <div
-                key={item.dataKey}
                 className={cn(
                   `
-                    flex w-full flex-wrap items-stretch gap-2
-                    [&>svg]:size-2.5 [&>svg]:text-muted-foreground
+                    [&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch
+                    gap-2 [&>svg]:size-2.5
                   `,
                   indicator === "dot" && "items-center"
                 )}
+                key={item.dataKey}
               >
                 {formatter && item?.value !== undefined && item.name ? (
                   formatter(item.value, item.name, item, index, item.payload)
@@ -207,7 +207,7 @@ function ChartTooltipContent({
                         <div
                           className={cn(
                             `
-                              shrink-0 rounded-[2px] border-border
+                              border-border shrink-0 rounded-[2px]
                               bg-(--color-bg)
                             `,
                             {
@@ -242,7 +242,7 @@ function ChartTooltipContent({
                       {item.value && (
                         <span
                           className={`
-                            font-mono font-medium text-foreground tabular-nums
+                            text-foreground font-mono font-medium tabular-nums
                           `}
                         >
                           {item.value.toLocaleString()}
@@ -294,13 +294,13 @@ function ChartLegendContent({
 
           return (
             <div
-              key={item.value}
               className={cn(
                 `
-                  flex items-center gap-1.5
-                  [&>svg]:size-3 [&>svg]:text-muted-foreground
+                  [&>svg]:text-muted-foreground flex items-center
+                  gap-1.5 [&>svg]:size-3
                 `
               )}
+              key={item.value}
             >
               {itemConfig?.icon && !hideIcon ? (
                 <itemConfig.icon />

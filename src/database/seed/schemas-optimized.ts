@@ -175,12 +175,12 @@ export const chapterArraySchema = z.array(chapterSeedSchema);
 
 export interface ValidationResult<T> {
   data: T[];
-  valid: number;
-  invalid: number;
   errors: Array<{
-    index: number;
     error: string;
+    index: number;
   }>;
+  invalid: number;
+  valid: number;
 }
 
 /**
@@ -191,9 +191,9 @@ export interface ValidationResult<T> {
  */
 export function validateArray<T>(items: unknown[], schema: z.ZodSchema<T>): ValidationResult<T> {
   const data: T[] = [];
-  const errors: Array<{ index: number; error: string }> = [];
+  const errors: Array<{ error: string; index: number; }> = [];
 
-  items.forEach((item, index) => {
+  for (const [index, item] of items.entries()) {
     const result = schema.safeParse(item);
     if (result.success) {
       data.push(result.data);
@@ -205,7 +205,7 @@ export function validateArray<T>(items: unknown[], schema: z.ZodSchema<T>): Vali
           .join("; "),
       });
     }
-  });
+  }
 
   return {
     data,
@@ -220,7 +220,7 @@ export function validateArray<T>(items: unknown[], schema: z.ZodSchema<T>): Vali
  * Used for dynamic validation based on content type
  * @param type
  */
-export function getSchemaByType(type: "user" | "comic" | "chapter") {
+export function getSchemaByType(type: "chapter" | "comic" | "user") {
   const schemas = {
     user: userSeedSchema,
     comic: comicSeedSchema,

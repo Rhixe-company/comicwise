@@ -9,15 +9,15 @@ import { logger } from "@/database/seed/logger";
 export interface BatchProcessorOptions<T, R> {
   batchSize?: number;
   concurrency?: number;
-  onBatchComplete?(results: R[], batchIndex: number): void | Promise<void>;
-  onError?(error: Error, item: T): void | Promise<void>;
+  onBatchComplete?(results: R[], batchIndex: number): Promise<void> | void;
+  onError?(error: Error, item: T): Promise<void> | void;
 }
 
 export class BatchProcessor<T, R = T> {
   private batchSize: number;
   private concurrency: number;
-  private onBatchComplete?: (results: R[], batchIndex: number) => void | Promise<void>;
-  private onError?: (error: Error, item: T) => void | Promise<void>;
+  private onBatchComplete?: (results: R[], batchIndex: number) => Promise<void> | void;
+  private onError?: (error: Error, item: T) => Promise<void> | void;
 
   constructor(options: BatchProcessorOptions<T, R> = {}) {
     this.batchSize = options.batchSize || 10;

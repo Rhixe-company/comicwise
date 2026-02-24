@@ -8,22 +8,26 @@
  * Provides detailed validation reporting
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
+import { glob } from "glob";
+
 import { logger } from "@/database/seed/logger-optimized";
-import type {
-  ChapterSeedData,
-  ComicSeedData,
-  UserSeedData,
-  ValidationResult,
-} from "@/database/seed/schemas-optimized";
 import {
   chapterSeedSchema,
   comicSeedSchema,
   userSeedSchema,
   validateArray,
 } from "@/database/seed/schemas-optimized";
-import fs from "fs/promises";
-import { glob } from "glob";
-import path from "path";
+
+import type {
+  ChapterSeedData,
+  ComicSeedData,
+  UserSeedData,
+  ValidationResult,
+} from "@/database/seed/schemas-optimized";
+
 
 // ─────────────────────────────────────────────────────────────────────────
 // CONFIGURATION - Define data sources and their patterns
@@ -55,7 +59,7 @@ const DATA_SOURCES = {
  * Load JSON file with error handling
  * @param filePath
  */
-async function loadJsonFile<T = unknown>(filePath: string): Promise<T | null> {
+async function loadJsonFile<T = unknown>(filePath: string): Promise<null | T> {
   try {
     const content = await fs.readFile(filePath, "utf-8");
     return JSON.parse(content) as T;

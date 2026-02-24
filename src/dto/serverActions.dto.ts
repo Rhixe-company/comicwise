@@ -16,25 +16,25 @@ import { z } from "zod";
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface ActionResult<T = unknown> {
-  success: boolean;
   data?: T;
   error?: string;
+  success: boolean;
 }
 
 export interface ActionResponse<T = unknown> {
-  success: boolean;
   data?: T;
   error?: string;
   message?: string;
+  success: boolean;
 }
 
 export interface AuthActionResponse<T = unknown> extends ActionResponse<T> {
   redirectTo?: string;
   user?: {
-    id: string;
-    name?: string | null;
     email: string;
-    role: "user" | "admin" | "moderator";
+    id: string;
+    name?: null | string;
+    role: "admin" | "moderator" | "user";
   };
 }
 
@@ -43,8 +43,8 @@ export interface AuthActionResponse<T = unknown> extends ActionResponse<T> {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface SaveReadingProgressInput {
-  comicId: number;
   chapterId: number;
+  comicId: number;
   progress: number;
 }
 
@@ -56,11 +56,11 @@ export const SaveReadingProgressSchema = z.object({
 
 export interface SaveReadingProgressOutput extends ActionResult {
   data?: {
-    id: number;
-    userId: string;
-    comicId: number;
     chapterId: number;
+    comicId: number;
+    id: number;
     progress: number;
+    userId: string;
   };
 }
 
@@ -74,9 +74,9 @@ export const GetReadingHistorySchema = z.object({
 
 export interface GetReadingHistoryOutput extends ActionResult {
   data?: Array<{
-    id: number;
-    comicId: number;
     chapterId: number;
+    comicId: number;
+    id: number;
     progress: number;
     updatedAt: Date;
   }>;
@@ -99,16 +99,16 @@ export const SignInSchema = z.object({
 export interface SignInOutput extends ActionResult {
   data?: {
     user: {
-      id: string;
       email: string;
-      name: string | null;
+      id: string;
+      name: null | string;
     };
   };
 }
 
 export interface SignUpInput {
-  name: string;
   email: string;
+  name: string;
   password: string;
 }
 
@@ -121,8 +121,8 @@ export const SignUpSchema = z.object({
 export interface SignUpOutput extends ActionResult {
   data?: {
     user: {
-      id: string;
       email: string;
+      id: string;
       name: string;
     };
   };
@@ -133,10 +133,10 @@ export interface SignUpOutput extends ActionResult {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface GetComicsInput {
-  page?: number;
-  limit?: number;
-  search?: string;
   genre?: string;
+  limit?: number;
+  page?: number;
+  search?: string;
   status?: string;
 }
 
@@ -149,11 +149,11 @@ export const GetComicsSchema = z.object({
 });
 
 export interface CreateComicInput {
-  title: string;
+  coverImage?: string;
   description: string;
   slug: string;
-  coverImage?: string;
-  status: "Ongoing" | "Completed" | "Hiatus";
+  status: "Completed" | "Hiatus" | "Ongoing";
+  title: string;
 }
 
 export const CreateComicSchema = z.object({
@@ -170,8 +170,8 @@ export const CreateComicSchema = z.object({
 
 export interface GetChaptersInput {
   comicId: number;
-  page?: number;
   limit?: number;
+  page?: number;
 }
 
 export const GetChaptersSchema = z.object({
@@ -181,11 +181,11 @@ export const GetChaptersSchema = z.object({
 });
 
 export interface CreateChapterInput {
-  comicId: number;
-  title: string;
-  slug: string;
   chapterNumber: number;
+  comicId: number;
   images: string[];
+  slug: string;
+  title: string;
 }
 
 export const CreateChapterSchema = z.object({
@@ -232,11 +232,11 @@ export const CreateCommentSchema = z.object({
 
 export interface CreateCommentOutput extends ActionResult {
   data?: {
-    id: number;
-    content: string;
-    userId: string;
     comicId: number;
+    content: string;
     createdAt: Date;
+    id: number;
+    userId: string;
   };
 }
 
@@ -245,9 +245,9 @@ export interface CreateCommentOutput extends ActionResult {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface UpdateProfileInput {
-  name?: string;
   bio?: string;
   image?: string;
+  name?: string;
 }
 
 export const UpdateProfileSchema = z.object({
@@ -258,10 +258,10 @@ export const UpdateProfileSchema = z.object({
 
 export interface UpdateProfileOutput extends ActionResult {
   data?: {
+    bio: null | string;
     id: string;
-    name: string | null;
-    bio: string | null;
-    image: string | null;
+    image: null | string;
+    name: null | string;
   };
 }
 

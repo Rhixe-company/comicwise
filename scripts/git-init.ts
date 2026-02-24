@@ -4,16 +4,17 @@
  * Initializes a new Git repository with development and production branches
  */
 
-import chalk from "chalk";
 import { execSync } from "node:child_process";
 import * as fs from "node:fs";
+
+import chalk from "chalk";
 import ora from "ora";
 
 interface GitConfig {
-  remoteUrl?: string;
   defaultBranch: string;
   devBranch: string;
   prodBranch: string;
+  remoteUrl?: string;
 }
 
 const config: GitConfig = {
@@ -24,11 +25,10 @@ const config: GitConfig = {
 
 function exec(command: string, silent = false): string {
   try {
-    const output = execSync(command, {
+    return execSync(command, {
       encoding: "utf8",
       stdio: silent ? "pipe" : "inherit",
     });
-    return output;
   } catch (error) {
     if (!silent) {
       console.error(chalk.red(`Command failed: ${command}`));

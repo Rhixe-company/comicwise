@@ -2,13 +2,17 @@
 // USERS API - Full CRUD with Filtering & Pagination
 // ═══════════════════════════════════════════════════
 
+import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
+
 import { createUser } from "@/database/mutations/users";
 import { getAllUsers } from "@/database/queries/users";
 import { createUserSchema, userFilterSchema } from "@/lib/validations";
+
 import { auth } from "auth";
-import bcrypt from "bcryptjs";
+
 import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+
 
 // ═══════════════════════════════════════════════════
 // GET - List Users with Filtering & Pagination
@@ -26,7 +30,7 @@ export async function GET(request: NextRequest) {
 
     const filters = {
       search: searchParams.get("search") || undefined,
-      role: searchParams.get("role") as "user" | "admin" | "moderator" | undefined,
+      role: searchParams.get("role") as "admin" | "moderator" | "user" | undefined,
       emailVerified:
         searchParams.get("emailVerified") === "true"
           ? true

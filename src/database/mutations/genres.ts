@@ -13,8 +13,8 @@ import { genre } from "@/database/schema";
  * @param data.description
  */
 export async function createGenre(data: {
+  description?: null | string;
   name: string;
-  description?: string | null;
 }): Promise<typeof genre.$inferSelect | undefined> {
   const [newGenre] = await database
     .insert(genre)
@@ -41,8 +41,8 @@ export async function createGenre(data: {
 export async function updateGenre(
   genreId: number,
   data: {
+    description?: null | string;
     name?: string;
-    description?: string | null;
   }
 ): Promise<typeof genre.$inferSelect | undefined> {
   const cleanData: Partial<typeof genre.$inferInsert> = {};

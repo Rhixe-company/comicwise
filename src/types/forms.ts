@@ -15,10 +15,10 @@ export interface SignInFormData {
 }
 
 export interface SignUpFormData {
-  name: string;
-  email: string;
-  password: string;
   confirmPassword: string;
+  email: string;
+  name: string;
+  password: string;
 }
 
 export interface ForgotPasswordFormData {
@@ -26,9 +26,9 @@ export interface ForgotPasswordFormData {
 }
 
 export interface ResetPasswordFormData {
-  token: string;
-  password: string;
   confirmPassword: string;
+  password: string;
+  token: string;
 }
 
 export interface VerifyEmailFormData {
@@ -36,9 +36,9 @@ export interface VerifyEmailFormData {
 }
 
 export interface ChangePasswordFormData {
+  confirmPassword: string;
   currentPassword: string;
   newPassword: string;
-  confirmPassword: string;
 }
 
 // ═══════════════════════════════════════════════════
@@ -46,25 +46,25 @@ export interface ChangePasswordFormData {
 // ═══════════════════════════════════════════════════
 
 export interface ComicFormData {
-  title: string;
-  slug: string;
-  description: string;
+  artistId: null | number;
+  authorId: null | number;
   coverImage: string;
-  status: "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon";
-  publicationDate: Date | string;
-  authorId: number | null;
-  artistId: number | null;
-  typeId: number | null;
+  description: string;
   genreIds?: number[];
+  publicationDate: Date | string;
+  slug: string;
+  status: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+  title: string;
+  typeId: null | number;
 }
 
 export interface ChapterFormData {
-  title: string;
-  slug: string;
   chapterNumber: number;
-  releaseDate: Date | string;
   comicId: number;
   images?: ChapterImageFormData[];
+  releaseDate: Date | string;
+  slug: string;
+  title: string;
 }
 
 export interface ChapterImageFormData {
@@ -73,8 +73,8 @@ export interface ChapterImageFormData {
 }
 
 export interface ComicImageFormData {
-  imageUrl: string;
   imageOrder: number;
+  imageUrl: string;
 }
 
 // ═══════════════════════════════════════════════════
@@ -82,25 +82,25 @@ export interface ComicImageFormData {
 // ═══════════════════════════════════════════════════
 
 export interface AuthorFormData {
-  name: string;
   bio?: string;
   image?: string;
+  name: string;
 }
 
 export interface ArtistFormData {
-  name: string;
   bio?: string;
   image?: string;
+  name: string;
 }
 
 export interface GenreFormData {
-  name: string;
   description?: string;
+  name: string;
 }
 
 export interface TypeFormData {
-  name: string;
   description?: string;
+  name: string;
 }
 
 // ═══════════════════════════════════════════════════
@@ -108,24 +108,24 @@ export interface TypeFormData {
 // ═══════════════════════════════════════════════════
 
 export interface CommentFormData {
-  content: string;
   chapterId: number;
+  content: string;
 }
 
 export interface BookmarkFormData {
   comicId: number;
-  lastReadChapterId?: number | null;
+  lastReadChapterId?: null | number;
   notes?: string;
 }
 
 export interface ReadingProgressFormData {
-  comicId: number;
   chapterId: number;
+  comicId: number;
+  completedAt?: Date | null | string;
   pageNumber: number;
+  progressPercent: number;
   scrollPosition: number;
   totalPages: number;
-  progressPercent: number;
-  completedAt?: Date | string | null;
 }
 
 // ═══════════════════════════════════════════════════
@@ -133,16 +133,16 @@ export interface ReadingProgressFormData {
 // ═══════════════════════════════════════════════════
 
 export interface UserProfileFormData {
-  name?: string;
   email?: string;
   image?: string;
+  name?: string;
 }
 
 export interface UserManagementFormData {
-  name?: string;
   email?: string;
-  role?: "user" | "admin" | "moderator";
+  name?: string;
   password?: string;
+  role?: "admin" | "moderator" | "user";
 }
 
 // ═══════════════════════════════════════════════════
@@ -150,21 +150,21 @@ export interface UserManagementFormData {
 // ═══════════════════════════════════════════════════
 
 export interface ComicSearchFormData {
-  query?: string;
-  status?: string[];
-  genreIds?: number[];
-  authorIds?: number[];
   artistIds?: number[];
-  typeIds?: number[];
-  sortBy?: "title" | "rating" | "views" | "createdAt" | "updatedAt";
+  authorIds?: number[];
+  genreIds?: number[];
+  query?: string;
+  sortBy?: "createdAt" | "rating" | "title" | "updatedAt" | "views";
   sortOrder?: "asc" | "desc";
+  status?: string[];
+  typeIds?: number[];
 }
 
 export interface ComicFilterFormData {
-  status?: string;
-  genreId?: number;
-  authorId?: number;
   artistId?: number;
+  authorId?: number;
+  genreId?: number;
+  status?: string;
   typeId?: number;
 }
 
@@ -181,7 +181,7 @@ export interface ImageUploadFormData {
 export interface BulkUploadFormData {
   files: File[];
   folder?: string;
-  provider?: "cloudinary" | "imagekit" | "aws" | "local";
+  provider?: "aws" | "cloudinary" | "imagekit" | "local";
 }
 
 // ═══════════════════════════════════════════════════

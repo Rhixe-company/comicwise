@@ -16,8 +16,8 @@ export interface SignInDto {
 
 export interface SignUpDto {
   email: string;
-  password: string;
   name?: string;
+  password: string;
 }
 
 export interface VerifyEmailDto {
@@ -25,8 +25,8 @@ export interface VerifyEmailDto {
 }
 
 export interface ResetPasswordDto {
-  token: string;
   password: string;
+  token: string;
 }
 
 export interface RequestPasswordResetDto {
@@ -34,13 +34,13 @@ export interface RequestPasswordResetDto {
 }
 
 export interface AuthResponseDto {
-  success: boolean;
-  message?: string;
-  user?: UserDto;
   error?: string;
+  message?: string;
+  success: boolean;
+  user?: UserDto;
 }
 
 export interface SessionDto {
-  user: UserDto;
   expires: string;
+  user: UserDto;
 }

@@ -1,6 +1,8 @@
+import { Suspense } from "react";
+
 import { DataTable } from "@/components/admin/DataTable";
 import { db } from "@/database/db";
-import { Suspense } from "react";
+
 import { user } from "schema";
 
 async function UsersTable() {

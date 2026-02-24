@@ -4,17 +4,19 @@
 // Supports: local, imagekit, cloudinary
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import type { UploadProvider } from "@/services/upload";
+import crypto from "node:crypto";
+import { existsSync } from "node:fs";
+import path from "node:path";
+
 import { getUploadProvider } from "@/services/upload";
-import crypto from "crypto";
-import { existsSync } from "fs";
-import path from "path";
+
+import type { UploadProvider } from "@/services/upload";
 
 export interface ImageDownloadResult {
-  success: boolean;
-  localPath?: string;
-  url: string;
   error?: string;
+  localPath?: string;
+  success: boolean;
+  url: string;
 }
 
 /**
@@ -30,7 +32,7 @@ export interface ImageDownloadResult {
  */
 export class ImageService {
   private readonly downloadedImages = new Map<string, string>();
-  private uploadProvider: UploadProvider | null = null;
+  private uploadProvider: null | UploadProvider = null;
   private providerInitialized = false;
   private lastUploadTime = 0;
   private readonly minUploadInterval = 100; // Minimum 100ms between uploads to avoid rate limits
@@ -286,9 +288,9 @@ export class ImageService {
    * @param subDirectory
    */
   async processImageUrl(
-    url: string | null | undefined,
+    url: null | string | undefined,
     subDirectory: string = "uploads"
-  ): Promise<string | null> {
+  ): Promise<null | string> {
     if (!url) {
       return null;
     }

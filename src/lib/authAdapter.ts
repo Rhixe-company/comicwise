@@ -1,9 +1,11 @@
 import { DrizzleAdapter as NextAuthDrizzleAdapter } from "@auth/drizzle-adapter";
+
+import { account, authenticator, session, user, verificationToken } from "@/database/schema";
+
+import type * as schema from "@/database/schema";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { Adapter } from "next-auth/adapters";
 
-import type * as schema from "@/database/schema";
-import { account, authenticator, session, user, verificationToken } from "@/database/schema";
 
 /**
  * Initialize Drizzle ORM adapter for NextAuth v5
@@ -32,9 +34,8 @@ export function DrizzleAdapter(database: NodePgDatabase<typeof schema>): Adapter
       if (!standardAdapter.createUser) {
         throw new Error("standardAdapter.createUser is not available");
       }
-      const createdUser = await standardAdapter.createUser(user);
       // Optionally, update role or other custom fields here if needed
-      return createdUser;
+      return await standardAdapter.createUser(user);
     },
 
     /**
@@ -47,8 +48,7 @@ export function DrizzleAdapter(database: NodePgDatabase<typeof schema>): Adapter
       if (!standardAdapter.updateUser) {
         throw new Error("standardAdapter.updateUser is not available");
       }
-      const updatedUser = await standardAdapter.updateUser(user);
-      return updatedUser;
+      return await standardAdapter.updateUser(user);
     },
   };
 

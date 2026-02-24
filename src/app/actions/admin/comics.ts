@@ -1,10 +1,13 @@
 "use server";
 
-import { comicDal, comicToGenreDal } from "@/dal";
-import type { ComicFormData } from "@/lib/validations";
-import { comicFormSchema } from "@/lib/validations";
 import { redirect } from "next/navigation";
+
+import { comicDal, comicToGenreDal } from "@/dal";
+import { comicFormSchema } from "@/lib/validations";
+
 import { slugify } from "utils";
+
+import type { ComicFormData } from "@/lib/validations";
 
 export async function createComicAction(data: ComicFormData) {
   try {

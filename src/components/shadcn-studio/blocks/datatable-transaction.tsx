@@ -1,10 +1,7 @@
 "use client";
 
-import { useState } from "react";
 
-import { ChevronLeftIcon, ChevronRightIcon, EllipsisVerticalIcon } from "lucide-react";
 
-import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
@@ -13,6 +10,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { ChevronLeftIcon, ChevronRightIcon, EllipsisVerticalIcon } from "lucide-react";
+import { useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -38,18 +37,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import { usePagination } from "@/hooks/use-pagination";
 
+import type { ColumnDef, PaginationState } from "@tanstack/react-table";
+
 export interface Item {
-  id: string;
+  amount: number;
   avatar: string;
   avatarFallback: string;
-  name: string;
   email: string;
-  amount: number;
-  status: "pending" | "processing" | "paid" | "failed";
+  id: string;
+  name: string;
   paidBy: "mastercard" | "visa";
+  status: "failed" | "paid" | "pending" | "processing";
 }
 
 export const columns: ColumnDef<Item>[] = [
@@ -59,11 +59,11 @@ export const columns: ColumnDef<Item>[] = [
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
         <Avatar className="size-9">
-          <AvatarImage src={row.original.avatar} alt="Hallie Richards" />
+          <AvatarImage alt="Hallie Richards" src={row.original.avatar} />
           <AvatarFallback className="text-xs">{row.original.avatarFallback}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col text-sm">
-          <span className="font-medium text-card-foreground">{row.getValue("name")}</span>
+          <span className="text-card-foreground font-medium">{row.getValue("name")}</span>
           <span className="text-muted-foreground">{row.original.email}</span>
         </div>
       </div>
@@ -87,7 +87,7 @@ export const columns: ColumnDef<Item>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <Badge className="rounded-sm bg-primary/10 px-1.5 text-primary capitalize">
+      <Badge className="bg-primary/10 text-primary rounded-sm px-1.5 capitalize">
         {row.getValue("status")}
       </Badge>
     ),
@@ -97,13 +97,13 @@ export const columns: ColumnDef<Item>[] = [
     header: () => <span className="w-fit">Paid by</span>,
     cell: ({ row }) => (
       <img
+        alt="Payment platform"
+        className="w-10.5"
         src={
           row.getValue("paidBy") === "mastercard"
             ? "https://cdn.shadcnstudio.com/ss-assets/blocks/data-table/image-1.png"
             : "https://cdn.shadcnstudio.com/ss-assets/blocks/data-table/image-2.png"
         }
-        alt="Payment platform"
-        className="w-10.5"
       />
     ),
   },
@@ -153,11 +153,11 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                      key={header.id}
                       className={`
-                        h-14 text-muted-foreground
+                        text-muted-foreground h-14
                         first:pl-4
                       `}
+                      key={header.id}
                     >
                       {header.isPlaceholder
                         ? null
@@ -171,9 +171,9 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow data-state={row.getIsSelected() && "selected"} key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="first:pl-4">
+                    <TableCell className="first:pl-4" key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -181,7 +181,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell className="h-24 text-center" colSpan={columns.length}>
                   No results.
                 </TableCell>
               </TableRow>
@@ -197,7 +197,7 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
           md:max-lg:flex-col
         `}
       >
-        <p className="text-sm whitespace-nowrap text-muted-foreground" aria-live="polite">
+        <p aria-live="polite" className="text-muted-foreground text-sm whitespace-nowrap">
           Showing{" "}
           <span>
             {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{" "}
@@ -218,11 +218,11 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
             <PaginationContent>
               <PaginationItem>
                 <Button
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  variant={"ghost"}
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
                   aria-label="Go to previous page"
+                  className="disabled:pointer-events-none disabled:opacity-50"
+                  disabled={!table.getCanPreviousPage()}
+                  onClick={() => table.previousPage()}
+                  variant={"ghost"}
                 >
                   <ChevronLeftIcon aria-hidden="true" />
                   Previous
@@ -241,12 +241,12 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
                 return (
                   <PaginationItem key={page}>
                     <Button
-                      size="icon"
+                      aria-current={isActive ? "page" : undefined}
                       className={`
                         ${!isActive && "bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40"}
                       `}
                       onClick={() => table.setPageIndex(page - 1)}
-                      aria-current={isActive ? "page" : undefined}
+                      size="icon"
                     >
                       {page}
                     </Button>
@@ -262,11 +262,11 @@ const TransactionDatatable = ({ data }: { data: Item[] }) => {
 
               <PaginationItem>
                 <Button
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  variant={"ghost"}
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
                   aria-label="Go to next page"
+                  className="disabled:pointer-events-none disabled:opacity-50"
+                  disabled={!table.getCanNextPage()}
+                  onClick={() => table.nextPage()}
+                  variant={"ghost"}
                 >
                   Next
                   <ChevronRightIcon aria-hidden="true" />
@@ -287,8 +287,8 @@ function RowActions() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex">
-          <Button size="icon" variant="ghost" className="rounded-full p-2" aria-label="Edit item">
-            <EllipsisVerticalIcon className="size-5" aria-hidden="true" />
+          <Button aria-label="Edit item" className="rounded-full p-2" size="icon" variant="ghost">
+            <EllipsisVerticalIcon aria-hidden="true" className="size-5" />
           </Button>
         </div>
       </DropdownMenuTrigger>

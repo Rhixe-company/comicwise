@@ -1,13 +1,14 @@
 "use client";
 
 import { useEventListener } from "@/hooks/use-event-listener";
+
 import type { RefObject } from "react";
 
-type EventType = "mousedown" | "mouseup" | "touchstart" | "touchend" | "focusin" | "focusout";
+type EventType = "focusin" | "focusout" | "mousedown" | "mouseup" | "touchend" | "touchstart";
 
 export function useOnClickOutside<T extends HTMLElement = HTMLElement>(
   ref: RefObject<T> | RefObject<T>[],
-  handler: (event: MouseEvent | TouchEvent | FocusEvent) => void,
+  handler: (event: FocusEvent | MouseEvent | TouchEvent) => void,
   eventType: EventType = "mousedown",
   eventListenerOptions: AddEventListenerOptions = {}
 ): void {

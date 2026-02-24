@@ -117,6 +117,21 @@ pnpm test
 pnpm test:unit:coverage
 ```
 
+### MCP Integration for Vitest
+
+- **MCP Server:** The `.vscode/mcp.json` now includes a `vitest` server
+  configuration for running unit tests via MCP.
+- **How to Run:** The MCP server will invoke `pnpm test:unit:run` using your
+  existing Vitest configuration.
+- **Environment Variables:**
+  - Ensure all required variables in `.env.local` are set (see `.env.example`).
+  - Common required variables: `NODE_ENV`, `DATABASE_URL`, `AUTH_SECRET`, etc.
+- **Setup Steps:**
+  1. Copy `.env.example` to `.env.local` and fill in secrets.
+  2. Install dependencies: `pnpm install`
+  3. Initialize and seed the database if needed: `pnpm db:push && pnpm db:seed`
+  4. Use MCP tools or agents to trigger Vitest runs as needed.
+
 ## 🐳 Docker
 
 ```bash

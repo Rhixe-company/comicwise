@@ -22,9 +22,7 @@ function HoverCardContent({
   return (
     <HoverCardPrimitive.Portal data-slot="hover-card-portal">
       <HoverCardPrimitive.Content
-        data-slot="hover-card-content"
         align={align}
-        sideOffset={sideOffset}
         className={cn(
           `
             data-[state=open]:animate-in
@@ -36,12 +34,14 @@ function HoverCardContent({
             data-[side=left]:slide-in-from-right-2
             data-[side=right]:slide-in-from-left-2
             data-[side=top]:slide-in-from-bottom-2
-            z-50 w-64 origin-(--radix-hover-card-content-transform-origin)
-            rounded-md border bg-popover p-4 text-popover-foreground shadow-md
+            bg-popover text-popover-foreground z-50
+            w-64 origin-(--radix-hover-card-content-transform-origin) rounded-md border p-4 shadow-md
             outline-hidden
           `,
           className
         )}
+        data-slot="hover-card-content"
+        sideOffset={sideOffset}
         {...props}
       />
     </HoverCardPrimitive.Portal>

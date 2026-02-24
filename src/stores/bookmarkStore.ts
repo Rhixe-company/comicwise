@@ -2,14 +2,14 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface BookmarkState {
-  bookmarks: Set<number>;
-  readingProgress: Map<number, number>;
   addBookmark(comicId: number): void;
+  bookmarks: Set<number>;
+  clearAll(): void;
+  getProgress(comicId: number): number | undefined;
+  isBookmarked(comicId: number): boolean;
+  readingProgress: Map<number, number>;
   removeBookmark(comicId: number): void;
   updateProgress(comicId: number, chapterId: number): void;
-  isBookmarked(comicId: number): boolean;
-  getProgress(comicId: number): number | undefined;
-  clearAll(): void;
 }
 
 export const useBookmarkStore = create<BookmarkState>()(

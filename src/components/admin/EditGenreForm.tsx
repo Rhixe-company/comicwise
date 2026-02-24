@@ -9,13 +9,13 @@ import { BaseForm } from "@/components/admin/BaseForm";
 import { insertGenreSchema } from "@/lib/validations/genreSchema";
 
 export interface EditGenreFormProps {
-  id: string | number;
+  id: number | string;
 }
 
 export function EditGenreForm({ id }: EditGenreFormProps) {
   return (
     <BaseForm
-      schema={insertGenreSchema}
+      defaultValues={{ name: "", description: undefined }}
       fields={[
         { name: "name", label: "Name", type: "text", placeholder: "Enter genre name" },
         {
@@ -25,11 +25,11 @@ export function EditGenreForm({ id }: EditGenreFormProps) {
           placeholder: "Enter genre description",
         },
       ]}
-      defaultValues={{ name: "", description: undefined }}
       onSubmit={async (data) => {
         // Add submission logic
         console.log("Submitting:", data);
       }}
+      schema={insertGenreSchema}
     />
   );
 }

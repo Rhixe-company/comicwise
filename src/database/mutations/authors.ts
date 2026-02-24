@@ -1,11 +1,12 @@
-import { db as database } from "@/database/db";
-import { author } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
+import { db as database } from "@/database/db";
+import { author } from "@/database/schema";
+
 export async function createAuthor(data: {
-  name: string;
   bio?: string;
   image?: string;
+  name: string;
 }): Promise<typeof author.$inferSelect | undefined> {
   const [newAuthor] = await database
     .insert(author)
@@ -22,9 +23,9 @@ export async function createAuthor(data: {
 export async function updateAuthor(
   authorId: number,
   data: {
+    bio?: null | string;
+    image?: null | string;
     name?: string;
-    bio?: string | null;
-    image?: string | null;
   }
 ): Promise<typeof author.$inferSelect | undefined> {
   const cleanData = {

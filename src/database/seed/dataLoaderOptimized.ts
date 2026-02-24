@@ -4,22 +4,26 @@
  * Dynamically loads data from multiple JSON files with Zod validation
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
+import { glob } from "glob";
+
 import { logger } from "@/database/seed/logger";
-import type {
-  ChapterSeedData,
-  ComicSeedData,
-  UserSeedData,
-  ValidationResult,
-} from "@/database/seed/schemasOptimized";
 import {
   chapterSeedSchema,
   comicSeedSchema,
   userSeedSchema,
   validateArray,
 } from "@/database/seed/schemasOptimized";
-import fs from "fs/promises";
-import { glob } from "glob";
-import path from "path";
+
+import type {
+  ChapterSeedData,
+  ComicSeedData,
+  UserSeedData,
+  ValidationResult,
+} from "@/database/seed/schemasOptimized";
+
 
 // ═══════════════════════════════════════════════════════════════════════════
 // UNIVERSAL DATA LOADER

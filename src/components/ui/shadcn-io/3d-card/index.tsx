@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+
 import { cn } from "utils";
 
 const MouseEnterContext = createContext<
@@ -45,10 +46,6 @@ export const CardContainer = ({ children, className, containerClassName }: CardC
         }}
       >
         <div
-          ref={containerRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
           className={cn(
             `
               relative flex items-center justify-center transition-all
@@ -56,6 +53,10 @@ export const CardContainer = ({ children, className, containerClassName }: CardC
             `,
             className
           )}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+          ref={containerRef}
           style={{
             transformStyle: "preserve-3d",
           }}
@@ -92,12 +93,12 @@ export type CardItemProps = {
   as?: React.ElementType;
   children: React.ReactNode;
   className?: string;
-  translateX?: number | string;
-  translateY?: number | string;
-  translateZ?: number | string;
   rotateX?: number | string;
   rotateY?: number | string;
   rotateZ?: number | string;
+  translateX?: number | string;
+  translateY?: number | string;
+  translateZ?: number | string;
 } & Record<string, unknown>;
 
 export const CardItem = ({

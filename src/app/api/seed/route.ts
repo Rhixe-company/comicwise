@@ -5,11 +5,12 @@
  * DELETE: Clear all seed data
  */
 
+import { NextResponse } from "next/server";
+import { z } from "zod";
+
 import { seedChaptersFromFiles } from "@/database/seed/seeders/chapterSeeder";
 import { seedComicsFromFiles } from "@/database/seed/seeders/comicSeeder";
 import { seedUsersFromFiles } from "@/database/seed/seeders/userSeeder";
-import { NextResponse } from "next/server";
-import { z } from "zod";
 
 const seedOptionsSchema = z
   .object({

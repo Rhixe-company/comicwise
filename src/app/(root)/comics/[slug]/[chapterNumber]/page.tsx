@@ -1,14 +1,15 @@
 /* eslint-disable typescript-eslint/no-non-null-assertion */
+import { and, asc, eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
+
 import { ChapterReader } from "@/components/chapters/ChapterReader";
 import { db as database } from "@/database/db";
 import { chapter, chapterImage, comic } from "@/database/schema";
 import { updateProgress } from "@/lib/actions/bookmark";
 import { auth } from "@/lib/auth";
-import { and, asc, eq } from "drizzle-orm";
-import { notFound } from "next/navigation";
 
 interface ChapterPageProps {
-  params: Promise<{ slug: string; chapterNumber: string }>;
+  params: Promise<{ chapterNumber: string; slug: string; }>;
 }
 
 export default async function ChapterPage({ params }: ChapterPageProps) {
@@ -79,11 +80,11 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
 
   return (
     <ChapterReader
-      comic={comicData}
       chapter={currentChapter}
+      comic={comicData}
       images={images}
-      prevChapter={prevChapter!}
       nextChapter={nextChapter!}
+      prevChapter={prevChapter!}
     />
   );
 }

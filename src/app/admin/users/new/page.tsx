@@ -1,5 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -13,13 +21,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { registerUser } from "@/dto/usersDto";
 import { signUpSchema } from "@/lib/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 import type { z } from "zod";
 
@@ -63,7 +64,7 @@ export default function NewUserPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <Button variant="ghost" asChild className="mb-4">
+      <Button asChild className="mb-4" variant="ghost">
         <Link href="/admin/users">
           <ArrowLeft className="mr-2 size-4" />
           Back to Users
@@ -77,7 +78,7 @@ export default function NewUserPage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
                 name="name"
@@ -99,7 +100,7 @@ export default function NewUserPage() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="johnexample.com" {...field} />
+                      <Input placeholder="johnexample.com" type="email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -113,7 +114,7 @@ export default function NewUserPage() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input placeholder="••••••••" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -127,14 +128,14 @@ export default function NewUserPage() {
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input placeholder="••••••••" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <Button type="submit" disabled={isLoading}>
+              <Button disabled={isLoading} type="submit">
                 {isLoading ? "Creating..." : "Create User"}
               </Button>
             </form>

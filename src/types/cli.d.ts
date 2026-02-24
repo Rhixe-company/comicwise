@@ -6,13 +6,13 @@
  * CLI command
  */
 export interface CliCommand {
-  name: string;
-  description: string;
-  category: CliCommandCategory;
-  aliases?: string[];
-  options?: CliCommandOption[];
   action(...args: any[]): Promise<void> | void;
+  aliases?: string[];
+  category: CliCommandCategory;
+  description: string;
   examples?: string[];
+  name: string;
+  options?: CliCommandOption[];
 }
 
 /**
@@ -20,74 +20,74 @@ export interface CliCommand {
  */
 export type CliCommandCategory =
   | "build"
-  | "database"
-  | "development"
-  | "deployment"
-  | "testing"
-  | "monitoring"
   | "cache"
-  | "queue"
+  | "database"
+  | "deployment"
+  | "development"
   | "email"
-  | "upload"
   | "maintenance"
+  | "monitoring"
+  | "queue"
+  | "testing"
+  | "upload"
   | "utilities";
 
 /**
  * CLI command option
  */
 export interface CliCommandOption {
-  flag: string;
-  description: string;
-  required?: boolean;
-  default?: string | number | boolean;
   choices?: string[];
+  default?: boolean | number | string;
+  description: string;
+  flag: string;
+  required?: boolean;
 }
 
 /**
  * CLI output formatter
  */
 export interface CliFormatter {
-  success(message: string): void;
   error(message: string): void;
-  warning(message: string): void;
   info(message: string): void;
-  table(data: Record<string, unknown>[]): void;
   json(data: unknown): void;
+  success(message: string): void;
+  table(data: Record<string, unknown>[]): void;
+  warning(message: string): void;
 }
 
 /**
  * CLI progress indicator
  */
 export interface CliProgress {
-  start(total: number, message?: string): void;
-  update(current: number, message?: string): void;
   increment(message?: string): void;
+  start(total: number, message?: string): void;
   stop(message?: string): void;
+  update(current: number, message?: string): void;
 }
 
 /**
  * Script metadata
  */
 export interface ScriptMetadata {
-  name: string;
-  description: string;
-  category: CliCommandCategory;
-  tags: string[];
   author?: string;
-  version?: string;
-  examples?: string[];
+  category: CliCommandCategory;
   dependencies?: string[];
+  description: string;
+  examples?: string[];
+  name: string;
+  tags: string[];
+  version?: string;
 }
 
 /**
  * Workflow step
  */
 export interface WorkflowStep {
-  name: string;
-  description: string;
-  command: string;
   args?: string[];
+  command: string;
+  description: string;
   env?: Record<string, string>;
+  name: string;
   optional?: boolean;
   retryOnFail?: boolean;
   timeout?: number;
@@ -97,9 +97,9 @@ export interface WorkflowStep {
  * Workflow definition
  */
 export interface WorkflowDefinition {
-  name: string;
   description: string;
-  steps: WorkflowStep[];
-  onSuccess?: string;
+  name: string;
   onFailure?: string;
+  onSuccess?: string;
+  steps: WorkflowStep[];
 }

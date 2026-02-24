@@ -1,487 +1,499 @@
-// ESLint 9.x Flat Config for Next.js 16 + React 19 + TypeScript 5
-import css from "@eslint/css";
 import js from "@eslint/js";
-import json from "@eslint/json";
-import markdown from "@eslint/markdown";
-import eslintNextPlugin from "@next/eslint-plugin-next";
-import type { Linter } from "eslint";
-import prettierConfig from "eslint-config-prettier";
-import pluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
-import * as drizzle from "eslint-plugin-drizzle";
-import importPlugin from "eslint-plugin-import";
-import jsdoc from "eslint-plugin-jsdoc";
-import jsxA11y from "eslint-plugin-jsx-a11y";
-import prettier from "eslint-plugin-prettier";
-import pluginReact from "eslint-plugin-react";
-import pluginReactHooks from "eslint-plugin-react-hooks";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+import prettier from "eslint-config-prettier";
+import tailwindcss from "eslint-plugin-better-tailwindcss";
+import drizzle from "eslint-plugin-drizzle";
+import importX from "eslint-plugin-import-x";
+import jest from "eslint-plugin-jest";
+import nodePlugin from "eslint-plugin-n";
+import perfectionist from "eslint-plugin-perfectionist";
+import playwright from "eslint-plugin-playwright";
+import reactRefresh from "eslint-plugin-react-refresh";
 import security from "eslint-plugin-security";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
 import sonarjs from "eslint-plugin-sonarjs";
+import testingLibrary from "eslint-plugin-testing-library";
 import unicorn from "eslint-plugin-unicorn";
-import unused from "eslint-plugin-unused-imports";
-import zod from "eslint-plugin-zod";
+import vitest from "eslint-plugin-vitest";
 import globals from "globals";
-import tseslint from "typescript-eslint";
 
-const eslintRules = {
-  "no-unused-vars": "off",
-  "no-console": ["warn", { allow: ["warn", "error", "info"] }],
-  "no-debugger": "error",
-  "no-redeclare": "warn",
-  eqeqeq: ["error", "always"],
-  curly: ["error", "all"],
-  "prefer-const": ["warn", { destructuring: "all" }],
-  "prefer-arrow-callback": ["warn", { allowNamedFunctions: false, allowUnboundThis: true }],
-  "no-multi-spaces": "error",
-  "no-trailing-spaces": "error",
-  "no-whitespace-before-property": "error",
-  "space-before-blocks": "error",
-  "space-before-function-paren": [
-    "error",
-    { anonymous: "always", named: "never", asyncArrow: "always" },
-  ],
-  "space-in-parens": ["error", "never"],
-  "space-infix-ops": "error",
-  "space-unary-ops": "error",
-  "template-curly-spacing": ["error", "never"],
-  "comma-dangle": ["warn", "es5"],
-  "comma-spacing": "error",
-  "comma-style": ["error", "last"],
-  "computed-property-spacing": ["error", "never"],
-  "func-call-spacing": ["error", "never"],
-  "key-spacing": "error",
-  "keyword-spacing": "error",
-  quotes: ["error", "double", { avoidEscape: true, allowTemplateLiterals: true }],
-  semi: "off", // Handled by Prettier
-  "arrow-parens": "off", // Handled by Prettier
-  "arrow-spacing": "error",
-  "rest-spread-spacing": "error",
-  "template-tag-spacing": "error",
-
-  "@next/next/no-html-link-for-pages": "warn",
-  "@next/next/no-img-element": "warn",
-  "@next/next/no-page-custom-font": "error",
-  "@next/next/no-sync-scripts": "error",
-  "@next/next/no-css-tags": "error",
-
-  "typescript-eslint/no-unused-vars": [
-    "warn", // Changed from error to warning
-    { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-  ],
-  "@typescript-eslint/no-unused-vars": [
-    "warn", // Changed from error to warning
-    { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-  ],
-  "typescript-eslint/no-explicit-any": "off", // Disabled due to many legitimate any uses
-  "@typescript-eslint/no-explicit-any": "off", // Disabled due to many legitimate any uses
-  "@typescript-eslint/no-empty-object-type": "off", // Disabled - many legitimate {} uses
-  "typescript-eslint/explicit-module-boundary-types": "warn",
-  "typescript-eslint/no-floating-promises": "warn",
-  "typescript-eslint/no-misused-promises": [
-    "warn",
-    { checksVoidReturn: false, checksConditionals: false },
-  ],
-  "typescript-eslint/no-unsafe-assignment": "off", // Too strict for this codebase
-  "typescript-eslint/no-unsafe-call": "off", // Too strict for this codebase
-  "typescript-eslint/no-unsafe-member-access": "off", // Too strict for this codebase
-  "typescript-eslint/no-unsafe-return": "off", // Too strict for this codebase
-  "typescript-eslint/await-thenable": "warn", // Changed from error to warning
-  "typescript-eslint/no-unnecessary-type-assertion": "warn",
-  "typescript-eslint/prefer-nullish-coalescing": "warn",
-  "typescript-eslint/prefer-optional-chain": "warn",
-  "typescript-eslint/prefer-as-const": "error",
-  "typescript-eslint/consistent-type-definitions": ["warn", "interface"],
-  "typescript-eslint/consistent-type-imports": [
-    "warn",
-    { prefer: "type-imports", fixStyle: "separate-type-imports" },
-  ],
-  "typescript-eslint/no-non-null-assertion": "warn",
-  "typescript-eslint/no-non-null-asserted-optional-chain": "warn",
-  "typescript-eslint/naming-convention": "off", // Disabled - too strict for this codebase
-  // "typescript-eslint/naming-convention": [
-  //   "error",
-  //   { selector: "import", format: ["camelCase", "PascalCase"] },
-  //   {
-  //     selector: "variable",
-  //     format: ["camelCase", "UPPER_CASE", "PascalCase"],
-  //     leadingUnderscore: "allow",
-  //     trailingUnderscore: "allow",
-  //   },
-  //   { selector: "function", format: ["camelCase", "PascalCase"], leadingUnderscore: "allow" },
-  //   { selector: "typeLike", format: ["PascalCase"] },
-  //   { selector: "enumMember", format: ["PascalCase", "UPPER_CASE"] },
-  // ],
-  "typescript-eslint/no-require-imports": "warn",
-  "typescript-eslint/prefer-function-type": "warn",
-  "typescript-eslint/unified-signatures": "warn",
-  "typescript-eslint/method-signature-style": ["warn", "method"],
-  "typescript-eslint/no-duplicate-enum-values": "error",
-  "typescript-eslint/no-invalid-void-type": "error",
-
-  "react/react-in-jsx-scope": "warn",
-  "react/prop-types": "warn",
-  "react/no-unescaped-entities": "warn",
-  "react/no-unknown-property": "warn",
-  "react/display-name": "warn",
-  "react/no-render-return-value": "error",
-  "react/no-string-refs": "error",
-  "react/no-array-index-key": "warn",
-  "react/no-direct-mutation-state": "error",
-  "react/require-render-return": "error",
-  "react/self-closing-comp": "warn",
-  "react/jsx-key": ["error", { checkFragmentShorthand: true }],
-  "react/jsx-no-duplicate-props": "error",
-  "react/jsx-no-target-blank": "warn",
-  "react-hooks/rules-of-hooks": "error",
-  "react-hooks/exhaustive-deps": "warn",
-  "jsx-a11y/alt-text": "warn",
-  "jsx-a11y/anchor-has-content": "warn",
-  "jsx-a11y/anchor-is-valid": "warn",
-  "jsx-a11y/aria-props": "warn",
-  "jsx-a11y/aria-role": "warn",
-  "jsx-a11y/click-events-have-key-events": "warn",
-  "jsx-a11y/heading-has-content": "warn",
-  "jsx-a11y/interactive-supports-focus": "warn",
-  "jsx-a11y/label-has-associated-control": "warn",
-  "jsx-a11y/no-autofocus": "warn",
-  "import/no-unresolved": "error",
-  "import/no-duplicates": "error",
-  "import/order": "off",
-  "simple-import-sort/imports": "off",
-  "simple-import-sort/exports": "off",
-  "import/no-default-export": "off",
-  "import/prefer-default-export": "off",
-  "import/no-named-default": "error",
-  "import/no-anonymous-default-export": "warn",
-  "import/no-cycle": "warn",
-  "import/no-self-import": "error",
-  "import/named": "error",
-  "import/namespace": "error",
-  "import/default": "error",
-  "import/export": "error",
-  "import/no-absolute-path": "error",
-  "import/no-dynamic-require": "warn",
-  "import/extensions": [
-    "error",
-    "ignorePackages",
-    { ts: "never", tsx: "never", js: "never", jsx: "never" },
-  ],
-  "import/newline-after-import": "warn",
-  "import/no-amd": "error",
-  "import/no-webpack-loader-syntax": "error",
-  "import/no-relative-packages": "warn",
-  "import/consistent-type-specifier-style": ["warn", "prefer-top-level"],
-  "import/first": "error",
-  "import/no-mutable-exports": "error",
-  "unused-imports/no-unused-imports": "error",
-  "unused-imports/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
-
-  "better-tailwindcss/no-conflicting-classes": "warn",
-  "better-tailwindcss/enforce-consistent-line-wrapping": "off", // Plugin bug - index out of range
-  // "better-tailwindcss/no-unregistered-classes": "warn", // Rule not available in current version
-  "drizzle/enforce-delete-with-where": ["error", { drizzleObjectName: ["database", "db"] }],
-  "drizzle/enforce-update-with-where": ["error", { drizzleObjectName: ["database", "db"] }],
-  // "zod/prefer-enum": "error", // Rule not available in current version
-  // "zod/require-strict": "warn", // Rule not available in current version
-  "security/detect-object-injection": "off",
-  "security/detect-non-literal-regexp": "warn",
-  "security/detect-non-literal-fs-filename": "warn",
-  "security/detect-non-literal-require": "warn",
-  "security/detect-child-process": "warn",
-  "sonarjs/cognitive-complexity": ["warn", 15],
-  "sonarjs/no-identical-expressions": "warn",
-  "sonarjs/no-collapsible-if": "warn",
-  "sonarjs/no-duplicate-string": "warn",
-  "jsdoc/require-jsdoc": "off", // Too verbose for modern TypeScript projects
-  "jsdoc/require-param": "warn",
-  "jsdoc/require-returns": "warn",
-  "jsdoc/valid-types": "warn",
-  "unicorn/better-regex": "warn",
-  "unicorn/catch-error-name": ["warn", { name: "error" }],
-  "unicorn/consistent-destructuring": "warn",
-  "unicorn/escape-case": "warn",
-  "unicorn/filename-case": [
-    "warn",
-    {
-      cases: {
-        kebabCase: true,
-        pascalCase: true,
-        camelCase: true,
-      },
-      ignore: [
-        String.raw`^[A-Z].*\.tsx?$`, // React components (PascalCase)
-        String.raw`^use[A-Z].*\.tsx?$`, // React hooks (camelCase with 'use' prefix)
-        String.raw`README\.md$`,
-      ],
-    },
-  ],
-  "unicorn/new-for-builtins": "warn",
-  "unicorn/no-array-callback-reference": "warn",
-  "unicorn/no-array-method-this-argument": "warn",
-  "unicorn/no-await-expression-member": "warn",
-  "unicorn/no-console-spaces": "warn",
-  "unicorn/no-invalid-remove-event-listener": "warn",
-  "unicorn/no-new-array": "warn",
-  "unicorn/no-object-as-default-parameter": "warn",
-  "unicorn/no-static-only-class": "warn",
-  "unicorn/no-unreadable-array-destructuring": "warn",
-  "unicorn/no-unused-properties": "warn",
-  "unicorn/prefer-array-find": "warn",
-  "unicorn/prefer-array-flat": "warn",
-  "unicorn/prefer-array-index-of": "warn",
-  "unicorn/prefer-array-some": "warn",
-  "unicorn/prefer-date-now": "warn",
-  "unicorn/prefer-default-parameters": "warn",
-  "unicorn/prefer-includes": "warn",
-  "unicorn/prefer-logical-operator-over-ternary": "warn",
-  "unicorn/prefer-modern-dom-apis": "warn",
-  "unicorn/prefer-modern-math-apis": "warn",
-  "unicorn/prefer-number-properties": "warn",
-  "unicorn/prefer-object-from-entries": "warn",
-  "unicorn/prefer-optional-catch-binding": "warn",
-  "unicorn/prefer-prototype-methods": "warn",
-  "unicorn/prefer-query-selector": "warn",
-  "unicorn/prefer-reflect-apply": "warn",
-  "unicorn/prefer-regexp-test": "warn",
-  "unicorn/prefer-set-has": "warn",
-  "unicorn/prefer-spread": "warn",
-  "unicorn/prefer-string-replace-all": "warn",
-  "unicorn/prefer-string-slice": "warn",
-  "unicorn/prefer-string-starts-ends-with": "warn",
-  "unicorn/prefer-string-trim-start-end": "warn",
-  "unicorn/prefer-switch": "warn",
-  "unicorn/prefer-ternary": "warn",
-  "unicorn/prefer-top-level-await": "warn",
-  "unicorn/prevent-abbreviations": "off", // Disabled - too strict for this codebase
-  // "unicorn/prevent-abbreviations": [
-  //   "warn",
-  //   {
-  //     allowList: {
-  //       props: true,
-  //       Props: true,
-  //       ref: true,
-  //       Ref: true,
-  //       params: true,
-  //       Params: true,
-  //       args: true,
-  //       Args: true,
-  //       env: true,
-  //       Env: true,
-  //       db: true,
-  //       DB: true,
-  //       req: true,
-  //       res: true,
-  //       ctx: true,
-  //       fn: true,
-  //       src: true,
-  //       dest: true,
-  //       prev: true,
-  //       curr: true,
-  //       acc: true,
-  //       i: true,
-  //       j: true,
-  //       k: true,
-  //       err: true,
-  //     },
-  //   },
-  // ],
-  "unicorn/require-array-join-separator": "warn",
-  "unicorn/require-post-message-target-origin": "warn",
-  "unicorn/switch-case-braces": ["warn", "avoid"],
-  "unicorn/throw-new-error": "warn",
-};
-
-const eslintSettings = {
-  react: { version: "detect" },
-  "jsx-a11y": {
-    components: {
-      Button: "button",
-      Input: "input",
-    },
-  },
-  "better-tailwindcss": {
-    entryPoint: "src/styles/globals.css",
-    tailwindConfig: "",
-    attributes: ["class", "className"],
-    callees: [
-      "cc",
-      "clb",
-      "clsx",
-      "cn",
-      "cnb",
-      "ctl",
-      "cva",
-      "cx",
-      "dcnb",
-      "objstr",
-      "tv",
-      "twJoin",
-      "twMerge",
-    ],
-    variables: ["className", "classNames", "classes", "style", "styles"],
-  },
-  "import/resolver": {
-    next: {},
-    typescript: {
-      alwaysTryTypes: true,
-      project: ["./tsconfig.json"],
-    },
-    node: {
-      extensions: [".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs", ".mts", ".cts"],
-    },
-  },
-};
-
-const eslintConfig: Linter.Config[] = [
+const eslintConfig = defineConfig([
+  // ===========================
+  // Base configurations
+  // ===========================
   js.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...nextVitals,
+  ...nextTs,
+
+  // ===========================
+  // Global ignores
+  // ===========================
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "dist/**",
+    "node_modules/**",
+    "next-env.d.ts",
+    "logs/**",
+    "coverage/**",
+    "test-results/**",
+    "playwright-report/**",
+    ".vercel/**",
+    "*.d.ts",
+  ]),
+
+  // ===========================
+  // Global settings for all files
+  // ===========================
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
-    plugins: {
-      "@next/next": eslintNextPlugin,
-      "typescript-eslint": tseslint.plugin,
-      zod: zod as any,
-      "react-hooks": pluginReactHooks as any,
-      "jsx-a11y": jsxA11y,
-      "better-tailwindcss": pluginBetterTailwindcss,
-      "simple-import-sort": simpleImportSort,
-      "unused-imports": unused,
-      import: importPlugin,
-      react: pluginReact,
-      drizzle,
-      security,
-      sonarjs,
-      unicorn,
-      js,
-      jsdoc,
-      prettier,
-    } as any,
     languageOptions: {
-      parser: tseslint.parser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2022,
+      },
       parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
         ecmaFeatures: {
           jsx: true,
         },
-        project: ["./tsconfig.json"],
       },
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        ...globals.es2022,
-        React: "readonly",
-      },
-    },
-    linterOptions: {
-      noInlineConfig: false,
-      reportUnusedDisableDirectives: true,
     },
     settings: {
-      ...eslintSettings,
-    },
-    rules: {
-      ...js.configs.recommended.rules,
-      ...tseslint.configs.recommended?.[0]?.rules,
-      ...eslintNextPlugin.configs.recommended.rules,
-      ...pluginReactHooks.configs.recommended.rules,
-      ...pluginBetterTailwindcss.configs["recommended-warn"]?.rules,
-      ...(eslintRules as any),
-    },
-  },
-
-  // Type definitions
-  {
-    files: ["**/*.d.ts"],
-    rules: {
-      "typescript-eslint/no-explicit-any": "off",
-      "typescript-eslint/no-unused-vars": "off",
-    },
-  },
-  // Config files
-  {
-    files: ["*.config.{js,ts,mjs,cjs}", "next.config.ts", "tailwind.config.ts"],
-    rules: {
-      "typescript-eslint/no-var-requires": "warn",
-      "import/no-default-export": "off",
-      "typescript-eslint/no-explicit-any": "off",
-      "unicorn/prevent-abbreviations": "off",
+      "import-x/resolver": {
+        typescript: {
+          alwaysTryTypes: true,
+          project: "./tsconfig.json",
+        },
+        node: true,
+      },
+      react: {
+        version: "detect",
+      },
     },
   },
 
-  // Next.js app directory - allow default exports
+  // ===========================
+  // TypeScript files
+  // ===========================
+  {
+    files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
+    plugins: {
+      "import-x": importX,
+      // jsx-a11y and react-hooks are already included via eslint-config-next
+      unicorn,
+      security,
+      sonarjs,
+      perfectionist,
+      n: nodePlugin,
+    },
+    rules: {
+      // ----- TypeScript-ESLint -----
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/consistent-type-imports": [
+        "warn",
+        {
+          prefer: "type-imports",
+          fixStyle: "inline-type-imports",
+        },
+      ],
+
+      // ----- Import-X -----
+      "import-x/order": [
+        "warn",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+            "object",
+            "type",
+          ],
+          pathGroups: [
+            {
+              pattern: "@/**",
+              group: "internal",
+              position: "before",
+            },
+          ],
+          pathGroupsExcludedImportTypes: ["builtin", "type"],
+          "newlines-between": "always",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+        },
+      ],
+      "import-x/no-unresolved": "error", // TypeScript handles this
+      "import-x/no-duplicates": "warn",
+      "import-x/no-named-as-default": "warn",
+      "import-x/no-named-as-default-member": "warn",
+
+      // ----- React Hooks -----
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+
+      // ----- JSX Accessibility -----
+      "jsx-a11y/alt-text": "warn",
+      "jsx-a11y/anchor-has-content": "warn",
+      "jsx-a11y/anchor-is-valid": "warn",
+      "jsx-a11y/aria-props": "warn",
+      "jsx-a11y/aria-role": "warn",
+      "jsx-a11y/click-events-have-key-events": "warn",
+      "jsx-a11y/heading-has-content": "warn",
+      "jsx-a11y/html-has-lang": "warn",
+      "jsx-a11y/img-redundant-alt": "warn",
+      "jsx-a11y/interactive-supports-focus": "warn",
+      "jsx-a11y/label-has-associated-control": "warn",
+      "jsx-a11y/no-autofocus": "warn",
+      "jsx-a11y/no-redundant-roles": "warn",
+      "jsx-a11y/no-static-element-interactions": "warn",
+      "jsx-a11y/role-has-required-aria-props": "warn",
+      "jsx-a11y/tabindex-no-positive": "warn",
+
+      // ----- Unicorn -----
+      "unicorn/filename-case": [
+        "warn",
+        {
+          case: "kebabCase",
+          ignore: [
+            // Next.js special files
+            "^layout\\.tsx?$",
+            "^page\\.tsx?$",
+            "^error\\.tsx?$",
+            "^loading\\.tsx?$",
+            "^not-found\\.tsx?$",
+            "^template\\.tsx?$",
+            "^default\\.tsx?$",
+            "^route\\.ts$",
+            // React components (PascalCase allowed)
+            "^[A-Z][a-zA-Z0-9]*\\.tsx$",
+            // Test files
+            ".*\\.test\\.tsx?$",
+            ".*\\.spec\\.tsx?$",
+            // Config files
+            "^[A-Z][A-Z0-9_]*\\.md$",
+            // Special directories
+            "^__[a-zA-Z0-9_]+__$",
+          ],
+        },
+      ],
+      "unicorn/prefer-node-protocol": "warn",
+      "unicorn/no-abusive-eslint-disable": "warn",
+      "unicorn/no-array-for-each": "warn",
+      "unicorn/prefer-array-find": "warn",
+      "unicorn/prefer-array-flat-map": "warn",
+      "unicorn/prefer-string-replace-all": "warn",
+
+      // ----- Security -----
+      "security/detect-eval-with-expression": "warn",
+      "security/detect-non-literal-fs-filename": "warn",
+      "security/detect-non-literal-regexp": "warn",
+      "security/detect-object-injection": "warn", // Too many false positives
+      "security/detect-possible-timing-attacks": "warn",
+      "security/detect-unsafe-regex": "warn",
+
+      // ----- SonarJS -----
+      "sonarjs/cognitive-complexity": ["warn", 20],
+      "sonarjs/no-duplicate-string": ["warn", { threshold: 4 }],
+      "sonarjs/no-identical-functions": "warn",
+      "sonarjs/no-collapsible-if": "warn",
+      "sonarjs/prefer-immediate-return": "warn",
+
+      // ----- Perfectionist (full sorting) -----
+      "perfectionist/sort-imports": "off", // Using import-x/order instead
+      "perfectionist/sort-named-imports": [
+        "warn",
+        {
+          type: "alphabetical",
+          order: "asc",
+        },
+      ],
+      "perfectionist/sort-named-exports": [
+        "warn",
+        {
+          type: "alphabetical",
+          order: "asc",
+        },
+      ],
+      "perfectionist/sort-object-types": [
+        "warn",
+        {
+          type: "alphabetical",
+          order: "asc",
+        },
+      ],
+      "perfectionist/sort-interfaces": [
+        "warn",
+        {
+          type: "alphabetical",
+          order: "asc",
+        },
+      ],
+      "perfectionist/sort-jsx-props": [
+        "warn",
+        {
+          type: "alphabetical",
+          order: "asc",
+          ignoreCase: true,
+        },
+      ],
+      "perfectionist/sort-union-types": [
+        "warn",
+        {
+          type: "alphabetical",
+          order: "asc",
+        },
+      ],
+
+      // ----- Node.js (n) -----
+      "n/no-deprecated-api": "warn",
+      "n/no-missing-import": "off", // TypeScript handles this
+      "n/no-unsupported-features/es-syntax": "error", // Bundled by Next.js
+      "n/prefer-promises/fs": "warn",
+      "n/prefer-promises/dns": "warn",
+
+      // ----- General code quality -----
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-debugger": "error",
+      "prefer-const": "error",
+      eqeqeq: "error",
+    },
+  },
+
+  // ===========================
+  // React Refresh (TSX files in src)
+  // ===========================
+  {
+    files: ["src/**/*.tsx"],
+    plugins: {
+      "react-refresh": reactRefresh,
+    },
+    rules: {
+      "react-refresh/only-export-components": [
+        "warn",
+        {
+          allowConstantExport: true,
+          allowExportNames: [
+            "metadata",
+            "generateMetadata",
+            "viewport",
+            "generateViewport",
+            "generateStaticParams",
+            "dynamic",
+            "dynamicParams",
+            "revalidate",
+            "fetchCache",
+            "runtime",
+            "preferredRegion",
+            "maxDuration",
+          ],
+        },
+      ],
+    },
+  },
+
+  // ===========================
+  // Better TailwindCSS (JSX files)
+  // ===========================
+  {
+    files: ["**/*.tsx", "**/*.jsx"],
+    plugins: {
+      "better-tailwindcss": tailwindcss,
+    },
+    rules: {
+      "better-tailwindcss/enforce-consistent-class-order": "warn",
+      "better-tailwindcss/no-conflicting-classes": "warn",
+      "better-tailwindcss/no-duplicate-classes": "warn",
+      "better-tailwindcss/no-unnecessary-whitespace": "warn",
+    },
+  },
+
+  // ===========================
+  // Drizzle ORM (database files)
+  // ===========================
+  {
+    files: ["src/database/**/*.ts", "src/dal/**/*.ts"],
+    plugins: {
+      drizzle,
+    },
+    rules: {
+      "drizzle/enforce-delete-with-where": [
+        "warn",
+        {
+          drizzleObjectName: ["db", "tx"],
+        },
+      ],
+      "drizzle/enforce-update-with-where": [
+        "warn",
+        {
+          drizzleObjectName: ["db", "tx"],
+        },
+      ],
+    },
+  },
+
+  // ===========================
+  // Unit tests (Vitest + Jest + Testing Library)
+  // ===========================
   {
     files: [
-      "app/**/page.tsx",
-      "app/**/layout.tsx",
-      "app/**/loading.tsx",
-      "app/**/error.tsx",
-      "app/**/not-found.tsx",
-      "app/**/template.tsx",
-      "app/**/default.tsx",
-      "app/**/route.ts",
+      "tests/unit/**/*.ts",
+      "tests/unit/**/*.tsx",
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/*.spec.ts",
+      "**/*.spec.tsx",
     ],
+    plugins: {
+      vitest,
+      jest,
+      "testing-library": testingLibrary,
+    },
+    languageOptions: {
+      globals: {
+        ...vitest.environments.env.globals,
+        jest: "readonly",
+        describe: "readonly",
+        it: "readonly",
+        test: "readonly",
+        expect: "readonly",
+        beforeAll: "readonly",
+        beforeEach: "readonly",
+        afterAll: "readonly",
+        afterEach: "readonly",
+        vi: "readonly",
+      },
+    },
     rules: {
-      "import/no-default-export": "off",
-      "import/prefer-default-export": "error",
+      // ----- Vitest -----
+      "vitest/expect-expect": "warn",
+      "vitest/no-identical-title": "warn",
+      "vitest/no-disabled-tests": "warn",
+      "vitest/no-focused-tests": "error",
+      "vitest/prefer-to-be": "warn",
+      "vitest/prefer-to-have-length": "warn",
+      "vitest/valid-expect": "warn",
+
+      // ----- Jest -----
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "warn",
+      "jest/valid-expect": "warn",
+      "jest/expect-expect": "warn",
+
+      // ----- Testing Library -----
+      "testing-library/await-async-queries": "warn",
+      "testing-library/await-async-utils": "warn",
+      "testing-library/no-await-sync-queries": "warn",
+      "testing-library/no-debugging-utils": "warn",
+      "testing-library/no-dom-import": "warn",
+      "testing-library/prefer-screen-queries": "warn",
+
+      // Relax some rules for tests
+      "@typescript-eslint/no-explicit-any": "error",
+      "security/detect-non-literal-fs-filename": "error",
+      "sonarjs/no-duplicate-string": "error",
     },
   },
 
-  // Scripts - relaxed rules
+  // ===========================
+  // E2E tests (Playwright)
+  // ===========================
   {
-    files: ["scripts/**/*.{ts,mts,cts,js,mjs,cjs}"],
+    files: ["tests/e2e/**/*.ts", "tests/e2e/**/*.tsx"],
+    plugins: {
+      playwright,
+    },
+    rules: {
+      ...playwright.configs["flat/recommended"].rules,
+      "playwright/no-wait-for-timeout": "warn",
+      "playwright/prefer-web-first-assertions": "warn",
+      "playwright/expect-expect": "warn",
+      "playwright/no-focused-test": "error",
+      "playwright/no-skipped-test": "warn",
+      "playwright/valid-expect": "warn",
+      "playwright/no-standalone-expect": "warn",
+      "playwright/no-networkidle": "warn",
+      "playwright/no-conditional-in-test": "warn",
+      "playwright/no-conditional-expect": "warn",
+
+      // Relax some rules for E2E tests
+      "@typescript-eslint/no-explicit-any": "error",
+      "security/detect-non-literal-fs-filename": "error",
+      "sonarjs/no-duplicate-string": "error",
+      "no-console": "off",
+    },
+  },
+
+  // ===========================
+  // Scripts (relaxed rules)
+  // ===========================
+  {
+    files: ["scripts/**/*.ts", "scripts/**/*.mts"],
     rules: {
       "no-console": "off",
-      "typescript-eslint/no-explicit-any": "off",
-      "unicorn/prevent-abbreviations": "off",
-      "typescript-eslint/no-var-requires": "off",
+      "no-useless-escape": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "security/detect-non-literal-fs-filename": "off",
+      "security/detect-object-injection": "off",
+      "n/no-process-exit": "off",
+      "unicorn/filename-case": "off",
+      "sonarjs/cognitive-complexity": "off",
+      "sonarjs/no-duplicate-string": "off",
+      "sonarjs/preserve-caught-error": "off",
+      "preserve-caught-error": "off",
+      "no-useless-assignment": "off",
+      "no-case-declarations": "off",
     },
   },
-  // JSON files
+
+  // ===========================
+  // Config files (JS/MJS)
+  // ===========================
   {
-    files: ["**/*.jsonc"],
-    plugins: { json } as any,
-    language: "json/jsonc",
-  },
-  {
-    files: ["**/*.json5"],
-    plugins: { json } as any,
-    language: "json/json5",
-  },
-  // Markdown files
-  {
-    files: ["**/*.md"],
-    plugins: { markdown } as any,
-    language: "markdown/commonmark",
+    files: ["*.config.ts", "*.config.mjs", "*.config.js"],
     rules: {
-      "no-irregular-whitespace": "off",
+      "no-console": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "import-x/no-default-export": "off",
     },
   },
-  // CSS files
+
+  // ===========================
+  // Node ESM scripts (relax rules for legacy build scripts)
+  // ===========================
   {
-    files: ["**/*.css"],
-    plugins: { css } as any,
-    language: "css/css",
+    files: ["scripts/**/*.mjs", "scripts/eng/**/*.mjs"],
+    languageOptions: {
+      sourceType: "module",
+    },
     rules: {
-      "css/no-invalid-syntax": "warn",
+      "no-case-declarations": "off",
+      "preserve-caught-error": "off",
+      "no-useless-assignment": "off",
+      "@typescript-eslint/no-unused-vars": "off",
     },
   },
-  prettierConfig as any,
-  {
-    ignores: [
-      "**/.next/**",
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/build/**",
-      "**/.vercel/**",
-      "**/public/**",
-      "**/drizzle/**",
-      "**/coverage/**",
-      "**/.turbo/**",
-      "src/styles/globals.css",
-      "**/docs/**",
-    ],
-  },
-];
+
+  // ===========================
+  // Prettier (MUST BE LAST)
+  // Disables styling rules that conflict with Prettier
+  // ===========================
+  prettier,
+]);
 
 export default eslintConfig;

@@ -1,10 +1,11 @@
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Suspense } from "react";
+
 import { ComicCard } from "@/components/layout/ComicCard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getLatestComics, getPopularComics } from "@/database/queries";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { Suspense } from "react";
 
 import type { Metadata } from "next";
 
@@ -25,7 +26,7 @@ async function LatestComics() {
       `}
     >
       {comics.map((comic) => (
-        <ComicCard key={comic.id} comic={comic} authorName={null} typeName={null} />
+        <ComicCard authorName={null} comic={comic} key={comic.id} typeName={null} />
       ))}
     </div>
   );
@@ -43,7 +44,7 @@ async function PopularComics() {
       `}
     >
       {comics.map((comic) => (
-        <ComicCard key={comic.id} comic={comic} authorName={null} typeName={null} />
+        <ComicCard authorName={null} comic={comic} key={comic.id} typeName={null} />
       ))}
     </div>
   );
@@ -59,7 +60,7 @@ function ComicGridSkeleton() {
       `}
     >
       {Array.from({ length: 8 }).map((_, i) => (
-        <div key={i} className="space-y-3">
+        <div className="space-y-3" key={i}>
           <Skeleton className="aspect-2/3 w-full" />
           <Skeleton className="h-4 w-3/4" />
           <Skeleton className="h-3 w-1/2" />
@@ -87,7 +88,7 @@ export default function HomePage() {
         >
           Welcome to ComicWise
         </h1>
-        <p className="mx-auto max-w-2xl text-xl text-muted-foreground">
+        <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
           Discover and read thousands of comics from around the world
         </p>
         <div className="flex justify-center gap-4 pt-4">
@@ -140,7 +141,7 @@ export default function HomePage() {
       {/* CTA Section */}
       <section
         className={`
-          space-y-4 rounded-lg bg-muted p-8 text-center
+          bg-muted space-y-4 rounded-lg p-8 text-center
           md:p-12
         `}
       >
@@ -152,7 +153,7 @@ export default function HomePage() {
         >
           Join Our Community
         </h2>
-        <p className="mx-auto max-w-xl text-muted-foreground">
+        <p className="text-muted-foreground mx-auto max-w-xl">
           Sign up to bookmark your favorite comics, track your reading progress, and get
           personalized recommendations.
         </p>

@@ -14,18 +14,18 @@ import type { z } from "zod";
 export interface SeedOptions {
   /** Batch size for bulk operations */
   batchSize?: number;
-  /** Enable verbose logging */
-  verbose?: boolean;
   /** Dry run mode (no actual inserts) */
   dryRun?: boolean;
-  /** Skip Zod validation */
-  skipValidation?: boolean;
-  /** Skip image downloads */
-  skipImageDownload?: boolean;
   /** Force overwrite existing records */
   forceOverwrite?: boolean;
+  /** Skip image downloads */
+  skipImageDownload?: boolean;
+  /** Skip Zod validation */
+  skipValidation?: boolean;
   /** Transaction mode */
   useTransaction?: boolean;
+  /** Enable verbose logging */
+  verbose?: boolean;
 }
 
 // ═══════════════════════════════════════════════════
@@ -33,18 +33,18 @@ export interface SeedOptions {
 // ═══════════════════════════════════════════════════
 
 export interface SeedResult {
-  /** Records successfully inserted */
-  inserted: number;
-  /** Records successfully updated */
-  updated: number;
-  /** Records skipped (already exist) */
-  skipped: number;
-  /** Records with errors */
-  errors: number;
   /** Execution duration in ms */
   duration: number;
   /** Detailed error messages */
-  errorDetails?: Array<{ record: unknown; error: string }>;
+  errorDetails?: Array<{ error: string; record: unknown; }>;
+  /** Records with errors */
+  errors: number;
+  /** Records successfully inserted */
+  inserted: number;
+  /** Records skipped (already exist) */
+  skipped: number;
+  /** Records successfully updated */
+  updated: number;
 }
 
 // ═══════════════════════════════════════════════════
@@ -54,10 +54,10 @@ export interface SeedResult {
 export interface DataSourceConfig {
   /** Entity name (users, comics, chapters, etc.) */
   entity: string;
-  /** JSON file paths (supports glob patterns) */
-  sources: string[];
   /** Optional Zod schema for validation */
   schema?: z.ZodType<unknown>;
+  /** JSON file paths (supports glob patterns) */
+  sources: string[];
   /** Transformation function before seeding */
   transform?(data: unknown): unknown;
   /** Unique identifier field */
@@ -69,20 +69,20 @@ export interface DataSourceConfig {
 // ═══════════════════════════════════════════════════
 
 export interface ISeeder<T = unknown> {
+  /** Clear all data for this entity */
+  clear(): Promise<void>;
+
   /** Entity name */
   readonly entity: string;
-
-  /** Validate data against schema */
-  validate(data: unknown[]): T[];
-
-  /** Transform data if needed */
-  transform(data: T[]): T[];
 
   /** Seed data to database */
   seed(data: T[], options?: SeedOptions): Promise<SeedResult>;
 
-  /** Clear all data for this entity */
-  clear(): Promise<void>;
+  /** Transform data if needed */
+  transform(data: T[]): T[];
+
+  /** Validate data against schema */
+  validate(data: unknown[]): T[];
 }
 
 // ═══════════════════════════════════════════════════
@@ -91,13 +91,13 @@ export interface ISeeder<T = unknown> {
 
 export interface CLIConfig {
   enabled: {
-    users: boolean;
-    comics: boolean;
-    chapters: boolean;
     all: boolean;
+    chapters: boolean;
+    comics: boolean;
+    users: boolean;
   };
+  mode: "clear" | "reset" | "seed";
   options: SeedOptions;
-  mode: "seed" | "clear" | "reset";
 }
 
 // ═══════════════════════════════════════════════════
@@ -106,10 +106,10 @@ export interface CLIConfig {
 
 export interface ProgressInfo {
   current: number;
-  total: number;
-  percentage: number;
   entity: string;
-  operation: "validating" | "transforming" | "inserting" | "updating";
+  operation: "inserting" | "transforming" | "updating" | "validating";
+  percentage: number;
+  total: number;
 }
 
 export type ProgressCallback = (info: ProgressInfo) => void;
@@ -119,9 +119,9 @@ export type ProgressCallback = (info: ProgressInfo) => void;
 // ═══════════════════════════════════════════════════
 
 export interface ValidationError {
-  index: number;
   data: unknown;
   errors: z.ZodIssue[];
+  index: number;
 }
 
 // ═══════════════════════════════════════════════════

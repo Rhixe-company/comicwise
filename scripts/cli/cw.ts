@@ -9,8 +9,9 @@
  * @author ComicWise Team
  */
 
+import { execSync } from "node:child_process";
+
 import chalk from "chalk";
-import { execSync } from "child_process";
 import { Command } from "commander";
 
 const program = new Command();
@@ -30,11 +31,10 @@ function runCommand(command: string, options: { silent?: boolean } = {}) {
     if (!options.silent) {
       console.log(chalk.gray(`› ${command}`));
     }
-    const output = execSync(command, {
+    return execSync(command, {
       stdio: options.silent ? "pipe" : "inherit",
       encoding: "utf-8",
     });
-    return output;
   } catch (error) {
     if (error instanceof Error) {
       console.error(chalk.red(`✗ Command failed: ${command}`));

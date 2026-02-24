@@ -2,6 +2,9 @@
 // IMAGE UPLOAD API - ImageKit Integration
 // ═══════════════════════════════════════════════════
 
+import { NextResponse } from "next/server";
+import { z } from "zod";
+
 import appConfig from "@/appConfig";
 import {
   fileToBuffer,
@@ -12,10 +15,10 @@ import {
   uploadImage,
   validateImageFile,
 } from "@/lib/imagekit";
+
 import { auth } from "auth";
+
 import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
-import { z } from "zod";
 
 // ═══════════════════════════════════════════════════
 // UPLOAD VALIDATION SCHEMA
@@ -55,9 +58,9 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
-    const type = formData.get("type") as string | null;
-    const entityId = formData.get("entityId") as string | null;
-    const sequenceString = formData.get("sequence") as string | null;
+    const type = formData.get("type") as null | string;
+    const entityId = formData.get("entityId") as null | string;
+    const sequenceString = formData.get("sequence") as null | string;
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -173,7 +176,7 @@ export async function PUT(request: NextRequest) {
 
     const formData = await request.formData();
     const files = formData.getAll("files") as File[];
-    const type = formData.get("type") as string | null;
+    const type = formData.get("type") as null | string;
 
     if (!files || files.length === 0) {
       return NextResponse.json({ error: "No files provided" }, { status: 400 });
@@ -185,17 +188,17 @@ export async function PUT(request: NextRequest) {
     }
 
     const uploadResults: Array<{
+      filename: string;
       index: number;
       originalName: string;
-      url: string;
-      filename: string;
       size: number;
       type: string;
+      url: string;
     }> = [];
     const errors: Array<{
-      index: number;
-      filename: string;
       error: string;
+      filename: string;
+      index: number;
     }> = [];
 
     for (let i = 0; i < files.length; i++) {

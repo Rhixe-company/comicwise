@@ -1,5 +1,9 @@
 "use client";
 
+import { Search } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useTransition } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,9 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
 
 interface Type {
   id: number;
@@ -25,8 +26,8 @@ interface Genre {
 }
 
 interface ComicFiltersProps {
-  types: Type[];
   genres: Genre[];
+  types: Type[];
 }
 
 export function ComicFilters({ types, genres }: ComicFiltersProps) {
@@ -62,21 +63,21 @@ export function ComicFilters({ types, genres }: ComicFiltersProps) {
   };
 
   return (
-    <div className="rounded-lg border bg-card p-6">
+    <div className="bg-card rounded-lg border p-6">
       <h2 className="mb-4 text-lg font-semibold">Filters</h2>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
         <div className="space-y-2">
           <Label htmlFor="search">Search</Label>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
             <Input
+              className="pl-9"
               id="search"
+              onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+              onKeyDown={(e) => e.key === "Enter" && handleApplyFilters()}
               placeholder="Comic title..."
               value={filters.search}
-              onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-              className="pl-9"
-              onKeyDown={(e) => e.key === "Enter" && handleApplyFilters()}
             />
           </div>
         </div>
@@ -84,8 +85,8 @@ export function ComicFilters({ types, genres }: ComicFiltersProps) {
         <div className="space-y-2">
           <Label htmlFor="type">Type</Label>
           <Select
-            value={filters.type}
             onValueChange={(value) => setFilters({ ...filters, type: value })}
+            value={filters.type}
           >
             <SelectTrigger id="type">
               <SelectValue placeholder="All Types" />
@@ -104,8 +105,8 @@ export function ComicFilters({ types, genres }: ComicFiltersProps) {
         <div className="space-y-2">
           <Label htmlFor="status">Status</Label>
           <Select
-            value={filters.status}
             onValueChange={(value) => setFilters({ ...filters, status: value })}
+            value={filters.status}
           >
             <SelectTrigger id="status">
               <SelectValue placeholder="All Status" />
@@ -125,8 +126,8 @@ export function ComicFilters({ types, genres }: ComicFiltersProps) {
         <div className="space-y-2">
           <Label htmlFor="sort">Sort By</Label>
           <Select
-            value={filters.sort}
             onValueChange={(value) => setFilters({ ...filters, sort: value })}
+            value={filters.sort}
           >
             <SelectTrigger id="sort">
               <SelectValue />
@@ -141,10 +142,10 @@ export function ComicFilters({ types, genres }: ComicFiltersProps) {
         </div>
 
         <div className="flex items-end gap-2">
-          <Button onClick={handleApplyFilters} disabled={isPending} className="flex-1">
+          <Button className="flex-1" disabled={isPending} onClick={handleApplyFilters}>
             Apply
           </Button>
-          <Button onClick={handleReset} variant="outline" disabled={isPending}>
+          <Button disabled={isPending} onClick={handleReset} variant="outline">
             Reset
           </Button>
         </div>

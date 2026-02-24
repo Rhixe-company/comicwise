@@ -23,6 +23,11 @@
  *   pnpm db:seed          - Seed all
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
+import { eq } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import {
   artist,
@@ -44,10 +49,10 @@ import {
   UserSeedSchema,
 } from "@/database/seed/helpers/validationSchemas";
 import { logger } from "@/database/seed/logger";
-import { eq } from "drizzle-orm";
+
 import { env } from "env";
-import fs from "fs/promises";
-import path from "path";
+
+
 import type { z } from "zod";
 
 type UserSeedData = z.infer<typeof UserSeedSchema>;
@@ -190,7 +195,7 @@ async function seedComics() {
       const validatedComic = ComicSeedSchema.parse(comicData);
 
       // Handle comic type
-      let typeId: number | null = null;
+      let typeId: null | number = null;
       if (validatedComic.type?.name) {
         try {
           const [existingType] = await db
@@ -214,7 +219,7 @@ async function seedComics() {
       }
 
       // Handle author
-      let authorId: number | null = null;
+      let authorId: null | number = null;
       if (validatedComic.author?.name) {
         try {
           const [existingAuthor] = await db
@@ -238,7 +243,7 @@ async function seedComics() {
       }
 
       // Handle artist
-      let artistId: number | null = null;
+      let artistId: null | number = null;
       if (validatedComic.artist?.name) {
         try {
           const [existingArtist] = await db

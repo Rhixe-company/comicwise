@@ -1,5 +1,6 @@
-import { db } from "@/database/db";
 import { NextResponse } from "next/server";
+
+import { db } from "@/database/db";
 
 /**
  *

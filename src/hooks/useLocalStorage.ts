@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import type { Dispatch, SetStateAction } from "react";
 
 import { useEventCallback } from "@/hooks/use-event-callback";
 import { useEventListener } from "@/hooks/use-event-listener";
+
+import type { Dispatch, SetStateAction } from "react";
 
 declare global {
   interface WindowEventMap {
@@ -14,16 +15,16 @@ declare global {
 }
 
 interface UseLocalStorageOptions<T> {
-  serializer?(value: T): string;
   deserializer?(value: string): T;
   initializeWithValue?: boolean;
+  serializer?(value: T): string;
 }
 
 const IS_SERVER = typeof window === "undefined";
 
 export function useLocalStorage<T>(
   key: string,
-  initialValue: T | (() => T),
+  initialValue: (() => T) | T,
   options: UseLocalStorageOptions<T> = {}
 ): [T, Dispatch<SetStateAction<T>>, () => void] {
   const { initializeWithValue = true } = options;
@@ -144,7 +145,7 @@ export function useLocalStorage<T>(
   }, [key]);
 
   const handleStorageChange = useCallback(
-    (event: StorageEvent | CustomEvent) => {
+    (event: CustomEvent | StorageEvent) => {
       if ((event as StorageEvent).key && (event as StorageEvent).key !== key) {
         return;
       }

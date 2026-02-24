@@ -4,65 +4,67 @@
  * Supports both PostgreSQL full-text search and advanced filtering
  */
 
+import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { artist, author, comic, comicToGenre, genre } from "@/database/schema";
+
 import type { SQL } from "drizzle-orm";
-import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════
 // TYPE DEFINITIONS - Unified
 // ═══════════════════════════════════════════════════
 
 export interface SearchFilters {
-  query?: string;
-  searchMode?: "simple" | "phrase" | "websearch";
-  genres?: string[];
-  genreIds?: number[];
-  typeId?: number;
-  status?: string;
-  minRating?: number;
-  maxRating?: number;
-  authorName?: string;
   artistName?: string;
-  minViews?: number;
+  authorName?: string;
+  genreIds?: number[];
+  genres?: string[];
+  limit?: number;
+  maxRating?: number;
   maxViews?: number;
+  minRating?: number;
+  minViews?: number;
+  page?: number;
+  query?: string;
+  searchMode?: "phrase" | "simple" | "websearch";
+  sortBy?: "latest" | "rating" | "relevance" | "title" | "views";
+  sortOrder?: "asc" | "desc";
+  status?: string;
+  typeId?: number;
   yearFrom?: number;
   yearTo?: number;
-  sortBy?: "title" | "rating" | "views" | "latest" | "relevance";
-  sortOrder?: "asc" | "desc";
-  page?: number;
-  limit?: number;
 }
 
 export interface SearchResult {
-  id: number;
-  title: string;
-  description: string;
+  artistName: null | string;
+  authorName: null | string;
   coverImage: string;
-  status: string;
-  rating: string;
-  views: number;
-  authorName: string | null;
-  artistName: string | null;
-  genres: string[];
-  publicationDate: Date;
   createdAt: Date;
-  updatedAt: Date;
+  description: string;
+  genres: string[];
+  id: number;
+  publicationDate: Date;
+  rating: string;
   relevanceScore?: number;
+  status: string;
+  title: string;
+  updatedAt: Date;
+  views: number;
 }
 
 export interface SearchResponse {
-  results: SearchResult[];
+  facets?: {
+    genres: { count: number; genre: string; }[];
+    statuses: { count: number; status: string; }[];
+  };
   pagination: {
-    page: number;
     limit: number;
+    page: number;
     total: number;
     totalPages: number;
   };
-  facets?: {
-    statuses: { status: string; count: number }[];
-    genres: { genre: string; count: number }[];
-  };
+  results: SearchResult[];
 }
 
 // ═══════════════════════════════════════════════════
@@ -70,9 +72,9 @@ export interface SearchResponse {
 // ═══════════════════════════════════════════════════
 
 interface QueryConditions {
-  textSearch: SQL[];
-  filters: SQL[];
   all: SQL[];
+  filters: SQL[];
+  textSearch: SQL[];
 }
 
 // ═══════════════════════════════════════════════════
@@ -242,7 +244,7 @@ async function addGenreFilters(
  * Orchestrates all filter building functions
  * @param filters
  */
-async function buildQueryConditions(filters: SearchFilters): Promise<QueryConditions | null> {
+async function buildQueryConditions(filters: SearchFilters): Promise<null | QueryConditions> {
   const conditions: QueryConditions = {
     textSearch: [],
     filters: [],

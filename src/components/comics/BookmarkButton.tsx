@@ -1,16 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { addBookmark, removeBookmark } from "@/lib/actions/bookmark";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { addBookmark, removeBookmark } from "@/lib/actions/bookmark";
+
 interface BookmarkButtonProps {
   comicId: number;
-  isBookmarked: boolean;
   isAuthenticated: boolean;
+  isBookmarked: boolean;
 }
 
 export function BookmarkButton({ comicId, isBookmarked, isAuthenticated }: BookmarkButtonProps) {
@@ -34,7 +35,7 @@ export function BookmarkButton({ comicId, isBookmarked, isAuthenticated }: Bookm
           toast.success("Added to bookmarks");
         }
         router.refresh();
-      } catch (error) {
+      } catch {
         toast.error("Failed to update bookmark");
       }
     });
@@ -42,10 +43,10 @@ export function BookmarkButton({ comicId, isBookmarked, isAuthenticated }: Bookm
 
   return (
     <Button
-      variant={isBookmarked ? "default" : "outline"}
       className="w-full"
-      onClick={handleToggleBookmark}
       disabled={isPending}
+      onClick={handleToggleBookmark}
+      variant={isBookmarked ? "default" : "outline"}
     >
       {isBookmarked ? (
         <>

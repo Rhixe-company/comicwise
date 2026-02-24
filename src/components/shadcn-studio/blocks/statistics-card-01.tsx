@@ -1,16 +1,17 @@
-import type { ReactNode } from "react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { cn } from "utils";
 
+import type { ReactNode } from "react";
+
 // Statistics card data type
 interface StatisticsCardProps {
-  icon: ReactNode;
-  value: string;
-  title: string;
   changePercentage: string;
   className?: string;
+  icon: ReactNode;
+  title: string;
+  value: string;
 }
 
 const StatisticsCard = ({
@@ -25,8 +26,8 @@ const StatisticsCard = ({
       <CardHeader className="flex items-center">
         <div
           className={`
-            flex size-8 shrink-0 items-center justify-center rounded-md
-            bg-primary/10 text-primary
+            bg-primary/10 text-primary flex size-8 shrink-0 items-center
+            justify-center rounded-md
           `}
         >
           {icon}
@@ -37,7 +38,7 @@ const StatisticsCard = ({
         <span className="font-semibold">{title}</span>
         <p className="space-x-2">
           <span className="text-sm">{changePercentage}</span>
-          <span className="text-sm text-muted-foreground">than last week</span>
+          <span className="text-muted-foreground text-sm">than last week</span>
         </p>
       </CardContent>
     </Card>

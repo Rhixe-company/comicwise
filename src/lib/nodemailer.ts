@@ -1,5 +1,6 @@
-import appConfig, { env } from "@/appConfig";
 import nodemailer from "nodemailer";
+
+import appConfig, { env } from "@/appConfig";
 
 import type { MailOptions, Transporter } from "nodemailer";
 
@@ -7,7 +8,7 @@ import type { MailOptions, Transporter } from "nodemailer";
 // TRANSPORTER CONFIGURATION
 // ═══════════════════════════════════════════════════
 
-let transporter: Transporter | null = null;
+let transporter: null | Transporter = null;
 
 function createTransporter(): Transporter {
   if (!transporter) {
@@ -32,17 +33,17 @@ function createTransporter(): Transporter {
 // ═══════════════════════════════════════════════════
 
 export interface EmailOptions {
-  to: string | string[];
-  subject: string;
-  html?: string;
-  text?: string;
   from?: string;
+  html?: string;
+  subject: string;
+  text?: string;
+  to: string | string[];
 }
 
 export interface EmailResult {
-  success: boolean;
-  messageId?: string;
   error?: string;
+  messageId?: string;
+  success: boolean;
 }
 
 // ═══════════════════════════════════════════════════

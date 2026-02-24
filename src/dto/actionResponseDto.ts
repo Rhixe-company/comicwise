@@ -14,73 +14,73 @@
  * @template T - The data type returned on success
  */
 export interface ActionSuccess<T = unknown> {
-  success: true;
   data?: T;
   message?: string;
+  success: true;
 }
 
 /**
  * Generic error response
  */
 export interface ActionError {
-  success: false;
-  error: string;
   code?: string;
   details?: Record<string, unknown>;
+  error: string;
+  success: false;
 }
 
 /**
  * Union type for all action results
  * @template T - The data type for successful responses
  */
-export type ActionResult<T = unknown> = ActionSuccess<T> | ActionError;
+export type ActionResult<T = unknown> = ActionError | ActionSuccess<T>;
 
 /**
  * Simple response without data payload
  */
-export type SimpleActionResult = ActionSuccess<void> | ActionError;
+export type SimpleActionResult = ActionError | ActionSuccess<void>;
 
 /**
  * ID response - Common pattern for create operations
  */
 export interface IdResponse {
-  id: string | number;
+  id: number | string;
 }
 
 /**
  * Paginated response metadata
  */
 export interface PaginationMeta {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages?: number;
   hasMore?: boolean;
+  limit: number;
+  page: number;
+  total: number;
+  totalPages?: number;
 }
 
 /**
  * Paginated list response
  */
 export interface PaginatedResult<T> {
-  success: true;
   data: T[];
-  pagination: PaginationMeta;
   message?: string;
+  pagination: PaginationMeta;
+  success: true;
 }
 
 /**
  * Paginated result or error
  */
-export type PaginatedActionResult<T = unknown> = PaginatedResult<T> | ActionError;
+export type PaginatedActionResult<T = unknown> = ActionError | PaginatedResult<T>;
 
 /**
  * Auth-specific response
  */
 export interface AuthActionResponse {
-  success: boolean;
-  message?: string;
-  error?: string;
   code?: string;
+  error?: string;
+  message?: string;
+  success: boolean;
 }
 
 /**
@@ -107,14 +107,14 @@ export type ReadActionResult<T> = ActionResult<T>;
  * Bulk operation response
  */
 export interface BulkActionResult {
-  success: boolean;
-  processed: number;
-  failed: number;
   errors?: Array<{
-    index: number;
     error: string;
+    index: number;
     item?: unknown;
   }>;
+  failed: number;
+  processed: number;
+  success: boolean;
 }
 
 /**
@@ -122,32 +122,32 @@ export interface BulkActionResult {
  * @template T - Individual item type
  */
 export interface BatchResult<T> {
-  success: true;
   items: T[];
+  message?: string;
   skipped?: Array<{
     item: unknown;
     reason: string;
   }>;
-  message?: string;
+  success: true;
 }
 
 /**
  * Upload/File response
  */
 export interface UploadActionResult {
-  success: boolean;
-  url?: string;
+  error?: string;
   fileName?: string;
   size?: number;
-  error?: string;
+  success: boolean;
+  url?: string;
 }
 
 /**
  * Validation result with detailed error information
  */
 export interface ValidationResult {
-  success: boolean;
   errors?: Record<string, string[]>;
+  success: boolean;
   warnings?: Record<string, string[]>;
 }
 
@@ -160,10 +160,10 @@ export type ValidatedActionResult<T = unknown> = ActionResult<T> & ValidationRes
  * Response for operations with side effects
  */
 export interface SideEffectResult {
-  success: boolean;
   affected: number;
-  message?: string;
   error?: string;
+  message?: string;
+  success: boolean;
 }
 
 /**
@@ -171,45 +171,45 @@ export interface SideEffectResult {
  */
 export interface RateLimitResult {
   allowed: boolean;
+  message?: string;
   remaining?: number;
   resetAt?: number;
-  message?: string;
 }
 
 /**
  * Cache operation response
  */
 export interface CacheActionResult {
-  success: boolean;
   cached: boolean;
-  ttl?: number;
   error?: string;
+  success: boolean;
+  ttl?: number;
 }
 
 /**
  * Search results response
  */
 export interface SearchResult<T> {
-  success: true;
-  results: T[];
-  total: number;
-  query: string;
   executionTime?: number;
+  query: string;
+  results: T[];
+  success: true;
+  total: number;
 }
 
 /**
  * Search result or error
  */
-export type SearchActionResult<T = unknown> = SearchResult<T> | ActionError;
+export type SearchActionResult<T = unknown> = ActionError | SearchResult<T>;
 
 /**
  * Health check response
  */
 export interface HealthCheckResult {
-  status: "healthy" | "degraded" | "unhealthy";
-  timestamp: string;
-  services: Record<string, { status: string; latency?: number }>;
   message?: string;
+  services: Record<string, { latency?: number; status: string; }>;
+  status: "degraded" | "healthy" | "unhealthy";
+  timestamp: string;
 }
 
 /**
@@ -217,13 +217,13 @@ export interface HealthCheckResult {
  * Used when action response types don't match standard patterns
  */
 export interface ApiResponse<T = unknown> {
-  success: boolean;
-  status: number;
   data?: T;
   error?: {
-    message: string;
     code?: string;
     details?: Record<string, unknown>;
+    message: string;
   };
+  status: number;
+  success: boolean;
   timestamp?: string;
 }

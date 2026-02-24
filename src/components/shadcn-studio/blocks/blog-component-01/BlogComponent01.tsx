@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/card";
 
 type BlogCard = {
-  img: string;
   alt: string;
-  title: string;
-  description: string;
   blogLink: string;
+  description: string;
+  img: string;
+  title: string;
 }[];
 
 const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
@@ -42,7 +42,7 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
             lg:mb-24
           `}
         >
-          <p className="text-sm font-medium text-primary uppercase">Blog list</p>
+          <p className="text-primary text-sm font-medium uppercase">Blog list</p>
           <h2
             className={`
               text-2xl font-semibold
@@ -52,7 +52,7 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
           >
             Plan your upcoming journey.
           </h2>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-muted-foreground text-xl">
             Explore new destinations, indulge in local cuisines, and immerse yourself in diverse
             cultures.
           </p>
@@ -75,9 +75,9 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
             >
               <CardContent className="px-0">
                 <img
-                  src={item.img}
                   alt={item.alt}
                   className="aspect-video h-60 w-full rounded-t-xl object-cover"
+                  src={item.img}
                 />
               </CardContent>
               <CardHeader className="mb-2 gap-3">
@@ -88,12 +88,12 @@ const Blog = ({ blogCards }: { blogCards: BlogCard }) => {
               </CardHeader>
               <CardFooter>
                 <Button
+                  asChild
                   className={`
                     group rounded-lg text-base
                     has-[>svg]:px-6
                   `}
                   size="lg"
-                  asChild
                 >
                   <a href={item.blogLink}>
                     Read More

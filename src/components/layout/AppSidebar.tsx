@@ -1,5 +1,18 @@
 "use client";
 
+import {
+  BookOpen,
+  FileText,
+  FolderOpen,
+  LayoutDashboard,
+  Palette,
+  Tag,
+  UserCircle,
+  Users,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import { ThemeToggle } from "@/components/admin/ThemeToggle";
 import {
   Sidebar,
@@ -13,18 +26,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  BookOpen,
-  FileText,
-  FolderOpen,
-  LayoutDashboard,
-  Palette,
-  Tag,
-  UserCircle,
-  Users,
-} from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 const menuItems = [
   {
@@ -103,11 +104,11 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="px-4 py-2 text-xs text-muted-foreground">
+        <div className="text-muted-foreground px-4 py-2 text-xs">
           ComicWise v1.0.0 • Press{" "}
           <kbd
             className={`
-              rounded-sm bg-muted px-1.5 py-0.5 text-[10px] font-semibold
+              bg-muted rounded-sm px-1.5 py-0.5 text-[10px] font-semibold
             `}
           >
             ⌘K

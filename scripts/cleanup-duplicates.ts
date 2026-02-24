@@ -16,11 +16,13 @@
  *   pnpm tsx scripts/cleanup-duplicates.ts --dry-run
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
 import chalk from "chalk";
-import fs from "fs/promises";
 import { glob } from "glob";
 import ora from "ora";
-import path from "path";
+
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
@@ -41,10 +43,10 @@ const EXCLUDED_DIRS = [
 
 interface CleanupStats {
   backupFiles: string[];
-  emptyFolders: string[];
   blankFiles: string[];
-  duplicateSchemas: string[];
   duplicateComponents: string[];
+  duplicateSchemas: string[];
+  emptyFolders: string[];
   totalDeleted: number;
   totalSize: number;
 }
@@ -262,7 +264,7 @@ async function findDuplicateSchemas() {
     for (const [schemaName, files] of schemaMap) {
       if (files.length > 1) {
         console.log(chalk.yellow(`  ⚠ Duplicate schema "${schemaName}" found in:`));
-        files.forEach((f) => console.log(chalk.gray(`    - ${f}`)));
+        for (const f of files) console.log(chalk.gray(`    - ${f}`));
       }
     }
 

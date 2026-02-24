@@ -1,8 +1,10 @@
+import { and, asc, desc, eq, gte, inArray, like, or, sql } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { artist, author, chapter, comic, comicToGenre, genre, type } from "@/database/schema";
+
 import type { ComicFilters, ComicWithDetails, Genre, PaginatedResponse } from "@/types";
 import type { SQL } from "drizzle-orm";
-import { and, asc, desc, eq, gte, inArray, like, or, sql } from "drizzle-orm";
 
 /**
  *
@@ -201,7 +203,7 @@ export async function getRecommendedComics(comicId: number, limit: number = 6) {
 
   if (!currentComic[0]) return [];
 
-  const recommended = await database
+  return await database
     .select({
       id: comic.id,
       title: comic.title,
@@ -215,8 +217,6 @@ export async function getRecommendedComics(comicId: number, limit: number = 6) {
     .where(and(eq(comic.typeId, currentComic[0].typeId!), sql`${comic.id} != ${comicId}`))
     .orderBy(desc(comic.rating))
     .limit(limit);
-
-  return recommended;
 }
 
 /**
@@ -231,7 +231,7 @@ export async function searchComics(query: string, limit: number = 10) {
 
   const searchTerm = `%${query.trim()}%`;
 
-  const results = await database
+  return await database
     .select({
       id: comic.id,
       title: comic.title,
@@ -251,8 +251,6 @@ export async function searchComics(query: string, limit: number = 10) {
     )
     .orderBy(desc(comic.views))
     .limit(limit);
-
-  return results;
 }
 
 /**

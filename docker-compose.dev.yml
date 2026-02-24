@@ -1,24 +1,46 @@
 version: '3.8'
 
+# ============================================
+# Development Docker Compose Configuration
+# All services with custom Dockerfiles
+# Optimized for rapid development and debugging
+# ============================================
+
 networks:
   comicwise-dev-network:
     driver: bridge
     name: comicwise_dev_network
+    driver_opts:
+      com.docker.network.bridge.name: br-comicwise-dev
+      com.docker.network.bridge.enable_icc: "true"
 
 volumes:
   postgres_data_dev:
     driver: local
     name: comicwise_postgres_data_dev
+    driver_opts:
+      type: local
   redis_data_dev:
     driver: local
     name: comicwise_redis_data_dev
+    driver_opts:
+      type: local
   pgadmin_data_dev:
     driver: local
     name: comicwise_pgadmin_data_dev
+    driver_opts:
+      type: local
 
 services:
+  # ============================================
+  # PostgreSQL - Development
+  # ============================================
   postgres:
-    image: postgres:17-alpine
+    build:
+      context: .
+      dockerfile: compose/local/postgres/Dockerfile
+      target: latest
+    image: comicwise-postgres:dev
     container_name: comicwise-db-dev
     restart: "no"
     environment:
@@ -31,6 +53,8 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data
+      # Mount initialization scripts if they exist
+      - ./compose/local/postgres/init-scripts:/docker-entrypoint-initdb.d:ro
     networks:
       - comicwise-dev-network
     healthcheck:
@@ -40,33 +64,31 @@ services:
       retries: 5
       start_period: 10s
     shm_size: 256mb
-    command:
-      - "postgres"
-      - "-c"
-      - "max_connections=200"
-      - "-c"
-      - "shared_buffers=512MB"
-      - "-c"
-      - "effective_cache_size=2GB"
-      - "-c"
-      - "maintenance_work_mem=128MB"
-      - "-c"
-      - "checkpoint_completion_target=0.9"
-      - "-c"
-      - "wal_buffers=16MB"
-      - "-c"
-      - "default_statistics_target=100"
-      - "-c"
-      - "random_page_cost=1.1"
-      - "-c"
-      - "effective_io_concurrency=200"
-      - "-c"
-      - "work_mem=5242kB"
-      - "-c"
-      - "huge_pages=off"
+    # Development: generous resources for testing
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "2"
+        labels: "service=postgres,env=dev"
 
+  # ============================================
+  # Redis - Development
+  # ============================================
   redis:
-    image: redis:7-alpine
+    build:
+      context: .
+      dockerfile: compose/local/redis/Dockerfile
+      target: latest
+    image: comicwise-redis:dev
     container_name: comicwise-redis-dev
     restart: "no"
     ports:
@@ -81,19 +103,31 @@ services:
       timeout: 3s
       retries: 5
       start_period: 5s
-    command: >
-      redis-server
-      --appendonly yes
-      --appendfsync everysec
-      --maxmemory 1gb
-      --maxmemory-policy allkeys-lru
-      --save 900 1
-      --save 300 10
-      --save 60 10000
-      --loglevel warning
+    # Development: resources for testing
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "2"
+        labels: "service=redis,env=dev"
 
+  # ============================================
+  # PgAdmin - Development
+  # ============================================
   pgadmin:
-    image: dpage/pgadmin4:latest
+    build:
+      context: .
+      dockerfile: compose/local/pgadmin/Dockerfile.pgadmin
+      target: latest
+    image: comicwise-pgadmin:dev
     container_name: comicwise-pgadmin-dev
     restart: "no"
     environment:
@@ -104,46 +138,149 @@ services:
       PGADMIN_CONFIG_PROXY_X_HOST_COUNT: 1
       PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
       PGADMIN_CONFIG_COOKIE_DEFAULT_SECURE: "False"
-      PGADMIN_CONFIG_COOKIE_SAMESITE: "'Lax'"
+      PGADMIN_CONFIG_COOKIE_SAMESITE: "Lax"
     ports:
       - "5051:80"
     volumes:
       - pgadmin_data_dev:/var/lib/pgadmin
     networks:
       - comicwise-dev-network
+    depends_on:
+      postgres:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:80/misc/ping"]
       interval: 30s
       timeout: 10s
-      retries: 3
-      start_period: 40s
-    depends_on:
-      postgres:
-        condition: service_healthy
+      retries: 2
+      start_period: 60s
+    # Development: moderate resources
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "2"
+        labels: "service=pgadmin,env=dev"
 
+  # ============================================
+  # Next.js Application - Development
+  # ============================================
   app:
-    image: node:22-alpine
+    build:
+      context: .
+      dockerfile: compose/local/node/Dockerfile
+      target: latest
+      args:
+        - NODE_ENV=development
+    image: comicwise-app:dev
     container_name: comicwise-app-dev
     restart: "no"
     ports:
       - "3000:3000"
+      - "3001:3001"  # Node inspector/debugger
     environment:
-      DATABASE_URL: postgresql://dev:dev123@postgres:5432/comicwise_dev
+      # Database Configuration
+      DATABASE_URL: postgresql://dev:dev123@postgres:5432/comicwise_dev?schema=public&connection_limit=20&pool_timeout=20&connect_timeout=10
+      
+      # Redis Configuration
       REDIS_URL: redis://redis:6379
+      UPSTASH_REDIS_REST_URL: ""
+      UPSTASH_REDIS_REST_TOKEN: ""
+      
+      # Authentication
       NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: dev-secret-change-in-production
       NEXT_PUBLIC_APP_URL: http://localhost:3000
+      
+      # Email (optional in dev)
+      EMAIL_SERVER_HOST: smtp.gmail.com
+      EMAIL_SERVER_PORT: 587
+      EMAIL_SERVER_USER: ""
+      EMAIL_SERVER_PASSWORD: ""
+      EMAIL_FROM: noreply@comicwise.local
+      EMAIL_SECURE: "false"
+      
+      # Development Environment
       NODE_ENV: development
+      NEXT_TELEMETRY_DISABLED: "1"
+      PORT: 3000
+      HOSTNAME: "0.0.0.0"
+      
+      # File Watching & Hot Reload
       CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+      FAST_REFRESH: "true"
+      
+      # Debugging
+      DEBUG: "*"
+      NODE_OPTIONS: "--max-old-space-size=2048"
+    
+    # Volume mounts for hot reload
     volumes:
+      # Mount entire project
       - .:/app
+      # Exclude node_modules (use container's)
       - /app/node_modules
+      # Exclude .next (use container's)
       - /app/.next
+      # Exclude build/cache directories
+      - /app/.turbo
+      - /app/.swc
+    
     working_dir: /app
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    command: pnpm dev
+    
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
+    
     networks:
       - comicwise-dev-network
+    
+    # Development: relaxed resources
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:3000', (r) => process.exit(r.statusCode === 200 ? 0 : 1))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 2
+      start_period: 60s
+    
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "2"
+        labels: "service=app,env=dev"
+    
+    # Enable interactive mode
+    stdin_open: true
+    tty: true
+    
+    # Allow container to access host's localhost (for debugging)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

@@ -14,15 +14,17 @@
  * Based on the battle-tested run-optimized.ts with enhanced performance
  */
 
+import { existsSync } from "node:fs";
+import { mkdir, readFile } from "node:fs/promises";
+import * as path from "node:path";
+
+import { eq, sql } from "drizzle-orm";
+import pLimit from "p-limit";
+import { z } from "zod";
+
 import { db } from "@/database/db";
 import { chapter, chapterImage, comic, comicToGenre, genre, user } from "@/database/schema";
 import { imageService } from "@/services/imageService";
-import { eq, sql } from "drizzle-orm";
-import { existsSync } from "fs";
-import { mkdir, readFile } from "fs/promises";
-import pLimit from "p-limit";
-import * as path from "path";
-import { z } from "zod";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
@@ -176,20 +178,20 @@ type ValidatedComic = z.infer<typeof ComicSchema>;
 type ValidatedChapter = z.infer<typeof ChapterSchema>;
 
 interface SeedStats {
-  users: { created: number; updated: number; errors: number; skipped: number };
-  comics: { created: number; updated: number; errors: number; skipped: number };
-  chapters: { created: number; updated: number; errors: number; skipped: number };
-  images: { total: number; downloaded: number; cached: number; failed: number };
+  chapters: { created: number; errors: number; skipped: number; updated: number; };
+  comics: { created: number; errors: number; skipped: number; updated: number; };
   duration: number;
+  images: { cached: number; downloaded: number; failed: number; total: number; };
+  users: { created: number; errors: number; skipped: number; updated: number; };
 }
 
 interface SeedOptions {
-  dryRun?: boolean;
-  verbose?: boolean;
-  usersOnly?: boolean;
-  comicsOnly?: boolean;
   chaptersOnly?: boolean;
+  comicsOnly?: boolean;
+  dryRun?: boolean;
   skipImages?: boolean;
+  usersOnly?: boolean;
+  verbose?: boolean;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -305,7 +307,7 @@ async function loadAllData() {
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function ensureImageExists(
-  url: string | null | undefined,
+  url: null | string | undefined,
   localPath: string,
   fallback: string
 ): Promise<string> {
@@ -433,7 +435,7 @@ async function seedComics(
                 slug: comicData.slug,
                 description: comicData.description || "No description available",
                 coverImage,
-                status: comicData.status as "Ongoing" | "Completed" | "Hiatus",
+                status: comicData.status as "Completed" | "Hiatus" | "Ongoing",
                 rating: rating ? rating.toString() : "0",
                 views: comicData.views || 0,
                 publicationDate: new Date(),
@@ -444,7 +446,7 @@ async function seedComics(
                   title: finalTitle,
                   description: comicData.description || "No description available",
                   coverImage,
-                  status: comicData.status as "Ongoing" | "Completed" | "Hiatus",
+                  status: comicData.status as "Completed" | "Hiatus" | "Ongoing",
                   rating: rating ? rating.toString() : "0",
                 },
               })
@@ -643,7 +645,7 @@ export async function runUltraOptimizedSeed(options: SeedOptions = {}): Promise<
     if (!options.usersOnly && !options.chaptersOnly) {
       await seedComics(comics, stats, options.skipImages || false);
       const newComics = await db.select({ id: comic.id, slug: comic.slug }).from(comic);
-      newComics.forEach((c) => comicsMap.set(c.slug, c.id));
+      for (const c of newComics) comicsMap.set(c.slug, c.id);
     }
 
     if (!options.usersOnly && !options.comicsOnly) {

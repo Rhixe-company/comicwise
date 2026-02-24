@@ -1,6 +1,7 @@
+import React, { Suspense } from "react";
+
 import { AppNavbar } from "@/components/layout/AppNavbar";
 import CurrentYear from "@/components/layout/CurrentYear";
-import React, { Suspense } from "react";
 
 export default function RootLayout({
   children,
@@ -21,7 +22,7 @@ export default function RootLayout({
       >
         <div
           className={`
-            container mx-auto px-4 text-center text-sm text-muted-foreground
+            text-muted-foreground container mx-auto px-4 text-center text-sm
           `}
         >
           <p>

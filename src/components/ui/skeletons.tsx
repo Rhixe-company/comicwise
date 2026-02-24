@@ -33,10 +33,10 @@ export function ChapterListSkeleton({ count = 10 }: { count?: number }) {
     <div className="space-y-2">
       {Array.from({ length: count }).map((_, i) => (
         <div
-          key={i}
           className={`
-            flex items-center gap-3 rounded-md border border-border p-3
+            border-border flex items-center gap-3 rounded-md border p-3
           `}
+          key={i}
         >
           <Skeleton className="size-16 rounded-md" />
           <div className="flex-1 space-y-2">
@@ -109,8 +109,8 @@ export function AdminTableSkeleton({ rows = 10 }: { rows?: number }) {
         <Skeleton className="h-10 w-64" />
         <Skeleton className="h-10 w-32" />
       </div>
-      <div className="rounded-md border border-border">
-        <div className="border-b border-border bg-muted p-4">
+      <div className="border-border rounded-md border">
+        <div className="border-border bg-muted border-b p-4">
           <div className="flex gap-4">
             <Skeleton className="h-5 w-1/4" />
             <Skeleton className="h-5 w-1/4" />
@@ -120,11 +120,11 @@ export function AdminTableSkeleton({ rows = 10 }: { rows?: number }) {
         </div>
         {Array.from({ length: rows }).map((_, i) => (
           <div
-            key={i}
             className={`
-              border-b border-border p-4
+              border-border border-b p-4
               last:border-0
             `}
+            key={i}
           >
             <div className="flex gap-4">
               <Skeleton className="h-5 w-1/4" />

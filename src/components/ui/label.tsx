@@ -8,7 +8,6 @@ import { cn } from "utils";
 function Label({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
   return (
     <LabelPrimitive.Root
-      data-slot="label"
       className={cn(
         `
           flex items-center gap-2 text-sm leading-none font-medium select-none
@@ -18,6 +17,7 @@ function Label({ className, ...props }: React.ComponentProps<typeof LabelPrimiti
         `,
         className
       )}
+      data-slot="label"
       {...props}
     />
   );

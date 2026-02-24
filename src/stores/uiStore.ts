@@ -2,23 +2,23 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface UIState {
-  sidebarOpen: boolean;
-  toggleSidebar(): void;
-  setSidebarOpen(open: boolean): void;
-
-  theme: "light" | "dark" | "system";
-  setTheme(theme: "light" | "dark" | "system"): void;
-
-  readingMode: "single" | "double" | "long-strip";
-  setReadingMode(mode: "single" | "double" | "long-strip"): void;
-
-  activeModal: string | null;
-  openModal(modalId: string): void;
+  activeModal: null | string;
   closeModal(): void;
+  openModal(modalId: string): void;
 
+  readingMode: "double" | "long-strip" | "single";
   searchOpen: boolean;
-  toggleSearch(): void;
+
+  setReadingMode(mode: "double" | "long-strip" | "single"): void;
   setSearchOpen(open: boolean): void;
+
+  setSidebarOpen(open: boolean): void;
+  setTheme(theme: "dark" | "light" | "system"): void;
+  sidebarOpen: boolean;
+
+  theme: "dark" | "light" | "system";
+  toggleSearch(): void;
+  toggleSidebar(): void;
 }
 export const useUIStore = create<UIState>()(
   devtools(
@@ -30,10 +30,10 @@ export const useUIStore = create<UIState>()(
         setSidebarOpen: (open: boolean) => set({ sidebarOpen: open }),
 
         theme: "system",
-        setTheme: (theme: "light" | "dark" | "system") => set({ theme }),
+        setTheme: (theme: "dark" | "light" | "system") => set({ theme }),
 
         readingMode: "single",
-        setReadingMode: (mode: "single" | "double" | "long-strip") => set({ readingMode: mode }),
+        setReadingMode: (mode: "double" | "long-strip" | "single") => set({ readingMode: mode }),
 
         activeModal: null,
         openModal: (modalId: string) => set({ activeModal: modalId }),

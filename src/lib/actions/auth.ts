@@ -1,9 +1,12 @@
 "use server";
 
+import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
+
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
-import type { AuthActionResponse } from "@/dto";
 import {
   sendAccountUpdatedEmail,
   sendPasswordResetEmail,
@@ -11,13 +14,6 @@ import {
   sendWelcomeEmail,
 } from "@/lib/email";
 import { checkRateLimit } from "@/lib/ratelimit";
-import type {
-  ForgotPasswordInput,
-  ResendVerificationEmailInput,
-  ResetPasswordInput,
-  SignUpInput,
-  VerifyEmailInput,
-} from "@/lib/validations";
 import {
   forgotPasswordSchema,
   resendVerificationEmailSchema,
@@ -25,10 +21,17 @@ import {
   signUpSchema,
   verifyEmailSchema,
 } from "@/lib/validations";
+
 import { signIn, signOut } from "auth";
-import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
+
+import type { AuthActionResponse } from "@/dto";
+import type {
+  ForgotPasswordInput,
+  ResendVerificationEmailInput,
+  ResetPasswordInput,
+  SignUpInput,
+  VerifyEmailInput,
+} from "@/lib/validations";
 
 // ═══════════════════════════════════════════════════
 // HELPER FUNCTIONS

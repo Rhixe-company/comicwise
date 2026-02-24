@@ -1,8 +1,19 @@
 "use server";
 
+import { and, desc, eq, sql } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { bookmark, comment } from "@/database/schema";
+import {
+  createBookmarkSchema,
+  createCommentSchema,
+  paginationSchema,
+  updateBookmarkSchema,
+  updateCommentSchema,
+} from "@/lib/validations";
+
 import type { ActionResult } from "@/dto";
 import type {
   CreateBookmarkInput,
@@ -11,15 +22,6 @@ import type {
   UpdateBookmarkInput,
   UpdateCommentInput,
 } from "@/lib/validations";
-import {
-  createBookmarkSchema,
-  createCommentSchema,
-  paginationSchema,
-  updateBookmarkSchema,
-  updateCommentSchema,
-} from "@/lib/validations";
-import { and, desc, eq, sql } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 
 // ═══════════════════════════════════════════════════
 // BOOKMARKS

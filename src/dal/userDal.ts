@@ -3,12 +3,13 @@
  * Handles all database operations for users
  */
 
-import type { ListOptions } from "@/dal/baseDal";
 import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
 import { user } from "@/database/schema";
+
+import type { ListOptions } from "@/dal/baseDal";
 import type { User } from "@/types/database";
 
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
@@ -23,7 +24,7 @@ class UserDal extends BaseDal<User, Partial<User>> {
     return BaseDal.getInstance("userDal", () => new UserDal());
   }
 
-  override async create(data: Partial<User>): Promise<User | undefined> {
+  override async create(data: Partial<User>): Promise<undefined | User> {
     // Validate required fields
     const email = data.email ?? "";
     const name = data.name ?? "";
@@ -47,7 +48,7 @@ class UserDal extends BaseDal<User, Partial<User>> {
     );
   }
 
-  async findById(id: string): Promise<User | undefined> {
+  async findById(id: string): Promise<undefined | User> {
     return this.executeWithLogging(
       async () => await queries.getUserById(id),
       "Finding user by ID",
@@ -55,7 +56,7 @@ class UserDal extends BaseDal<User, Partial<User>> {
     );
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findByEmail(email: string): Promise<undefined | User> {
     return this.executeWithLogging(
       async () => await queries.getUserByEmail(email),
       "Finding user by email",
@@ -63,7 +64,7 @@ class UserDal extends BaseDal<User, Partial<User>> {
     );
   }
 
-  async update(id: string, data: Partial<User>): Promise<User | undefined> {
+  async update(id: string, data: Partial<User>): Promise<undefined | User> {
     return this.executeWithLogging(
       async () =>
         await mutations.updateUser(id, {
@@ -78,13 +79,13 @@ class UserDal extends BaseDal<User, Partial<User>> {
     );
   }
 
-  async delete(id: string): Promise<User | undefined> {
+  async delete(id: string): Promise<undefined | User> {
     return this.executeWithLogging(async () => await mutations.deleteUser(id), "Deleting user", {
       id,
     });
   }
 
-  async findByResetToken(token: string): Promise<User | undefined> {
+  async findByResetToken(token: string): Promise<undefined | User> {
     return this.executeWithLogging(
       async () => {
         // Note: This functionality needs to be implemented in the queries
@@ -95,7 +96,7 @@ class UserDal extends BaseDal<User, Partial<User>> {
     );
   }
 
-  async updatePassword(id: string, hashedPassword: string): Promise<User | undefined> {
+  async updatePassword(id: string, hashedPassword: string): Promise<undefined | User> {
     return this.executeWithLogging(
       async () => await mutations.updateUserPassword(id, hashedPassword),
       "Updating user password",
@@ -107,7 +108,7 @@ class UserDal extends BaseDal<User, Partial<User>> {
     id: string,
     resetToken: string,
     resetTokenExpiry: Date
-  ): Promise<User | undefined> {
+  ): Promise<undefined | User> {
     return this.executeWithLogging(
       async () => {
         // Note: User mutations don't support resetToken - this should use passwordResetToken table
@@ -141,14 +142,14 @@ class UserDal extends BaseDal<User, Partial<User>> {
    * @param filters.sortOrder
    */
   async findWithFilters(filters: {
-    search?: string;
-    role?: "user" | "admin" | "moderator";
     emailVerified?: boolean;
-    page?: number;
     limit?: number;
+    page?: number;
+    role?: "admin" | "moderator" | "user";
+    search?: string;
     sortBy?: string;
     sortOrder?: "asc" | "desc";
-  }): Promise<{ users: User[]; total: number; page: number; limit: number; totalPages: number }> {
+  }): Promise<{ limit: number; page: number; total: number; totalPages: number; users: User[]; }> {
     return this.executeWithLogging(
       async () => await queries.getAllUsers(filters),
       "Finding users with filters",
@@ -160,7 +161,7 @@ class UserDal extends BaseDal<User, Partial<User>> {
    * Verify user email
    * @param id
    */
-  async verifyEmail(id: string): Promise<User | undefined> {
+  async verifyEmail(id: string): Promise<undefined | User> {
     return this.executeWithLogging(
       async () => await mutations.verifyUserEmail(id),
       "Verifying user email",
@@ -175,8 +176,8 @@ class UserDal extends BaseDal<User, Partial<User>> {
    * @param params.role
    */
   async count(params?: {
+    role?: "admin" | "moderator" | "user";
     search?: string;
-    role?: "user" | "admin" | "moderator";
   }): Promise<number> {
     return this.executeWithLogging(
       async () => await queries.getUserCount(params),

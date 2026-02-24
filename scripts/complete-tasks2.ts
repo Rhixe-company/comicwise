@@ -10,23 +10,24 @@
  * 3. Validates all operations with comprehensive logging
  */
 
-import { exec } from "child_process";
+import { exec } from "node:child_process";
+import path from "node:path";
+import { promisify } from "node:util";
+
 import fs from "fs-extra";
-import path from "path";
-import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
 interface TaskResult {
-  task: string;
-  success: boolean;
-  message: string;
   duration?: number;
+  message: string;
+  success: boolean;
+  task: string;
 }
 
 const results: TaskResult[] = [];
 
-function log(message: string, type: "info" | "success" | "error" | "warn" = "info") {
+function log(message: string, type: "error" | "info" | "success" | "warn" = "info") {
   const icons = {
     info: "ℹ️ ",
     success: "✅",
@@ -91,7 +92,7 @@ async function runSeedCommand(command: string, taskName: string) {
 
     log(`${taskName} completed`, "success");
   } catch (error) {
-    const err = error as { stdout?: string; stderr?: string; message: string };
+    const err = error as { message: string; stderr?: string; stdout?: string; };
     log(`${taskName} encountered issues:`, "warn");
     if (err.stdout) console.log(err.stdout);
     if (err.stderr) console.error(err.stderr);
@@ -140,11 +141,10 @@ async function main() {
 
   if (failed > 0) {
     console.log("\nFailed Tasks:");
-    results
-      .filter((r) => !r.success)
-      .forEach((r) => {
+    for (const r of results
+      .filter((r) => !r.success)) {
         console.log(`  ❌ ${r.task}: ${r.message}`);
-      });
+      }
   }
 
   process.exit(failed > 0 ? 1 : 0);

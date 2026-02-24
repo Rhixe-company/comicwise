@@ -18,11 +18,11 @@ import {
 } from "@react-email/components";
 
 interface AccountUpdatedEmailProps {
-  userName: string;
-  userEmail: string;
-  changeType: "password" | "email" | "profile";
   changeDetails?: string;
+  changeType: "email" | "password" | "profile";
   ipAddress?: string;
+  userEmail: string;
+  userName: string;
 }
 
 export const AccountUpdatedEmail = ({
@@ -66,11 +66,11 @@ export const AccountUpdatedEmail = ({
         <Container style={container}>
           <Section style={header}>
             <Img
-              src="https://comicwise.app/logo.png"
-              width="48"
-              height="48"
               alt="ComicWise"
+              height="48"
+              src="https://comicwise.app/logo.png"
               style={logo}
+              width="48"
             />
             <Heading style={heading}>{getChangeTitle()}</Heading>
           </Section>
@@ -114,14 +114,14 @@ export const AccountUpdatedEmail = ({
             </Section>
 
             <Section style={buttonContainer}>
-              <Button style={button} href="https://comicwise.app/account/security">
+              <Button href="https://comicwise.app/account/security" style={button}>
                 Review Account Security
               </Button>
             </Section>
 
             <Text style={paragraph}>
               If you have any questions or concerns,{" "}
-              <Link style={link} href="https://comicwise.app/support">
+              <Link href="https://comicwise.app/support" style={link}>
                 contact our support team
               </Link>
               . We&apos;re here to help!
@@ -139,7 +139,7 @@ export const AccountUpdatedEmail = ({
           <Section style={footer}>
             <Text style={footerText}>
               This email was sent to{" "}
-              <Link style={footerLink} href={`mailto:${userEmail}`}>
+              <Link href={`mailto:${userEmail}`} style={footerLink}>
                 {userEmail}
               </Link>
             </Text>
@@ -147,11 +147,11 @@ export const AccountUpdatedEmail = ({
               ComicWise, Inc. | 123 Comic Street, Reading City, RC 12345
             </Text>
             <Text style={footerText}>
-              <Link style={footerLink} href="https://comicwise.app/privacy">
+              <Link href="https://comicwise.app/privacy" style={footerLink}>
                 Privacy Policy
               </Link>{" "}
               |{" "}
-              <Link style={footerLink} href="https://comicwise.app/terms">
+              <Link href="https://comicwise.app/terms" style={footerLink}>
                 Terms of Service
               </Link>
             </Text>

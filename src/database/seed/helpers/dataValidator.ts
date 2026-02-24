@@ -5,17 +5,19 @@
  */
 
 import { logger } from "@/database/seed/logger";
-import type { z } from "zod";
+
 import { ChapterSeedSchema, ComicSeedSchema, UserSeedSchema } from "./validationSchemas";
 
+import type { z } from "zod";
+
 export interface ValidationResult<T> {
-  valid: T[];
   invalid: Array<{ data: unknown; error: string }>;
   stats: {
+    invalid: number;
     total: number;
     valid: number;
-    invalid: number;
   };
+  valid: T[];
 }
 
 export async function validateUsers(

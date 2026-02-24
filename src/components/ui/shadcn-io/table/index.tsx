@@ -1,3 +1,13 @@
+import {
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { atom, useAtom } from "jotai";
+import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from "lucide-react";
+import { createContext, memo, useCallback, useContext } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,6 +23,9 @@ import {
   Table as TableRaw,
   TableRow as TableRowRaw,
 } from "@/components/ui/table";
+
+import { cn } from "utils";
+
 import type {
   Cell,
   Column,
@@ -23,26 +36,18 @@ import type {
   SortingState,
   Table,
 } from "@tanstack/react-table";
-import {
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { atom, useAtom } from "jotai";
-import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from "lucide-react";
 import type { HTMLAttributes, ReactNode } from "react";
-import { createContext, memo, useCallback, useContext } from "react";
-import { cn } from "utils";
+
+
 
 export type { ColumnDef } from "@tanstack/react-table";
 
 const sortingAtom = atom<SortingState>([]);
 
 export const TableContext = createContext<{
-  data: unknown[];
   columns: ColumnDef<unknown, unknown>[];
-  table: Table<unknown> | null;
+  data: unknown[];
+  table: null | Table<unknown>;
 }>({
   data: [],
   columns: [],
@@ -50,10 +55,10 @@ export const TableContext = createContext<{
 });
 
 export interface TableProviderProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
   children: ReactNode;
   className?: string;
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
 export function TableProvider<TData, TValue>({
@@ -91,8 +96,8 @@ export function TableProvider<TData, TValue>({
 }
 
 export interface TableHeadProps {
-  header: Header<unknown, unknown>;
   className?: string;
+  header: Header<unknown, unknown>;
 }
 
 export const TableHead = memo(({ header, className }: TableHeadProps) => (
@@ -104,8 +109,8 @@ export const TableHead = memo(({ header, className }: TableHeadProps) => (
 TableHead.displayName = "TableHead";
 
 export interface TableHeaderGroupProps {
-  headerGroup: HeaderGroup<unknown>;
   children(props: { header: Header<unknown, unknown> }): ReactNode;
+  headerGroup: HeaderGroup<unknown>;
 }
 
 export const TableHeaderGroup = ({ headerGroup, children }: TableHeaderGroupProps) => (
@@ -115,8 +120,8 @@ export const TableHeaderGroup = ({ headerGroup, children }: TableHeaderGroupProp
 );
 
 export interface TableHeaderProps {
-  className?: string;
   children(props: { headerGroup: HeaderGroup<unknown> }): ReactNode;
+  className?: string;
 }
 
 export const TableHeader = ({ className, children }: TableHeaderProps) => {
@@ -158,8 +163,8 @@ export function TableColumnHeader<TData, TValue>({
         <DropdownMenuTrigger asChild>
           <Button
             className={`
-              -ml-3 h-8
-              data-[state=open]:bg-accent
+              data-[state=open]:bg-accent -ml-3
+              h-8
             `}
             size="sm"
             variant="ghost"
@@ -176,11 +181,11 @@ export function TableColumnHeader<TData, TValue>({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem onClick={handleSortAsc}>
-            <ArrowUpIcon className="mr-2 size-3.5 text-muted-foreground/70" />
+            <ArrowUpIcon className="text-muted-foreground/70 mr-2 size-3.5" />
             Asc
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleSortDesc}>
-            <ArrowDownIcon className="mr-2 size-3.5 text-muted-foreground/70" />
+            <ArrowDownIcon className="text-muted-foreground/70 mr-2 size-3.5" />
             Desc
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -201,9 +206,9 @@ export const TableCell = ({ cell, className }: TableCellProps) => (
 );
 
 export interface TableRowProps {
-  row: Row<unknown>;
   children(props: { cell: Cell<unknown, unknown> }): ReactNode;
   className?: string;
+  row: Row<unknown>;
 }
 
 export const TableRow = ({ row, children, className }: TableRowProps) => (

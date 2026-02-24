@@ -9,13 +9,13 @@ import { BaseForm } from "@/components/admin/BaseForm";
 import { insertTypeSchema } from "@/lib/validations/typeSchema";
 
 export interface EditTypeFormProps {
-  id: string | number;
+  id: number | string;
 }
 
 export function EditTypeForm({ id }: EditTypeFormProps) {
   return (
     <BaseForm
-      schema={insertTypeSchema}
+      defaultValues={{ name: "", description: undefined }}
       fields={[
         { name: "name", label: "Name", type: "text", placeholder: "Enter type name" },
         {
@@ -25,11 +25,11 @@ export function EditTypeForm({ id }: EditTypeFormProps) {
           placeholder: "Enter type description",
         },
       ]}
-      defaultValues={{ name: "", description: undefined }}
       onSubmit={async (data) => {
         // Add submission logic
         console.log("Submitting:", data);
       }}
+      schema={insertTypeSchema}
     />
   );
 }

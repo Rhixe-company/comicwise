@@ -5,16 +5,18 @@
  * NextAuth integration with full CRUD functionality
  */
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { User } from "next-auth";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import type { User } from "next-auth";
+
 interface ProfileManagementProps {
-  user: User;
   bookmarkCount?: number;
+  user: User;
 }
 
 export function ProfileManagement({ user, bookmarkCount = 0 }: ProfileManagementProps) {
@@ -44,7 +46,7 @@ export function ProfileManagement({ user, bookmarkCount = 0 }: ProfileManagement
                 <AvatarFallback className="text-3xl">{initials}</AvatarFallback>
               </Avatar>
               <h2 className="text-xl font-bold">{user.name}</h2>
-              <p className="text-sm text-muted-foreground">{user.email}</p>
+              <p className="text-muted-foreground text-sm">{user.email}</p>
             </CardContent>
           </Card>
         </TabsContent>

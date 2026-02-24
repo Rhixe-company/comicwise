@@ -10,20 +10,20 @@ export type CreateTypeDto = typeof typeTable.$inferInsert;
 export type UpdateTypeDto = Partial<CreateTypeDto>;
 
 export interface TypeListDto {
-  types: TypeDto[];
-  total: number;
-  page: number;
   limit: number;
+  page: number;
+  total: number;
+  types: TypeDto[];
 }
 
 export type TypeWithComicsDto = TypeDto & {
-  comics?: Array<{
-    id: number;
-    title: string;
-    slug: string;
-    coverImage: string;
-  }>;
   comicCount?: number;
+  comics?: Array<{
+    coverImage: string;
+    id: number;
+    slug: string;
+    title: string;
+  }>;
 };
 
 export { deleteType, updateType } from "@/lib/actions/genresTypes";

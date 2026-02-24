@@ -3,11 +3,12 @@
 import { Bar, BarChart } from "recharts";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import type { ChartConfig } from "@/components/ui/chart";
 import { ChartContainer } from "@/components/ui/chart";
 import { Separator } from "@/components/ui/separator";
 
 import { cn } from "utils";
+
+import type { ChartConfig } from "@/components/ui/chart";
 
 // Product reached data
 const productReachChartData = [
@@ -47,12 +48,12 @@ const ProductInsightsCard = ({ className }: { className?: string }) => {
       <CardHeader className="flex justify-between">
         <div className="flex flex-col gap-1">
           <span className="text-lg font-semibold">Product insight</span>
-          <span className="text-sm text-muted-foreground">Published on 12 MAY 2025 - 6:10 PM</span>
+          <span className="text-muted-foreground text-sm">Published on 12 MAY 2025 - 6:10 PM</span>
         </div>
         <img
-          src="https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/image-7.png"
           alt="Product"
           className="w-20.5 rounded-md"
+          src="https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/image-7.png"
         />
       </CardHeader>
       <CardContent className="space-y-4">
@@ -62,8 +63,8 @@ const ProductInsightsCard = ({ className }: { className?: string }) => {
             <span className="text-xs">Product reached</span>
             <span className="text-2xl font-semibold">21,153</span>
           </div>
-          <ChartContainer config={productReachChartConfig} className={`min-h-13 max-w-18`}>
-            <BarChart accessibilityLayer data={productReachChartData} barSize={8}>
+          <ChartContainer className={`min-h-13 max-w-18`} config={productReachChartConfig}>
+            <BarChart accessibilityLayer barSize={8} data={productReachChartData}>
               <Bar dataKey="reached" fill="var(--color-reached)" radius={2} />
             </BarChart>
           </ChartContainer>
@@ -74,8 +75,8 @@ const ProductInsightsCard = ({ className }: { className?: string }) => {
             <span className="text-xs">Order placed </span>
             <span className="text-2xl font-semibold">2,123</span>
           </div>
-          <ChartContainer config={orderPlacedChartConfig} className={`min-h-13 max-w-18`}>
-            <BarChart accessibilityLayer data={orderPlacedChartData} barSize={8}>
+          <ChartContainer className={`min-h-13 max-w-18`} config={orderPlacedChartConfig}>
+            <BarChart accessibilityLayer barSize={8} data={orderPlacedChartData}>
               <Bar dataKey="orders" fill="var(--color-orders)" radius={2} />
             </BarChart>
           </ChartContainer>

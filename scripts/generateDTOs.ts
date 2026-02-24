@@ -22,8 +22,9 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
+import path from "node:path";
+
 import fs from "fs-extra";
-import path from "path";
 
 // ═══════════════════════════════════════════════════
 // TYPES
@@ -32,15 +33,15 @@ import path from "path";
 interface ServerAction {
   filePath: string;
   functionName: string;
+  jsDoc?: string;
   parameters: string[];
   returnType: string;
-  jsDoc?: string;
 }
 
 interface DTOConfig {
+  actions: ServerAction[];
   timestamp: string;
   totalActions: number;
-  actions: ServerAction[];
 }
 
 // ═══════════════════════════════════════════════════
@@ -48,7 +49,7 @@ interface DTOConfig {
 // ═══════════════════════════════════════════════════
 
 class Logger {
-  log(msg: string, type: "info" | "success" | "warn" | "error" = "info") {
+  log(msg: string, type: "error" | "info" | "success" | "warn" = "info") {
     const icons = { info: "ℹ️ ", success: "✅", warn: "⚠️ ", error: "❌" };
     console.log(`${icons[type]} ${msg}`);
   }

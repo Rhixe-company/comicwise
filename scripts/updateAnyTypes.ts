@@ -5,8 +5,9 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
+import { readFileSync, writeFileSync } from "node:fs";
+
 import chalk from "chalk";
-import { readFileSync, writeFileSync } from "fs";
 import { globSync } from "glob";
 
 console.log(chalk.cyan("\n╔══════════════════════════════════════════════════════════════╗"));
@@ -20,9 +21,9 @@ const files = globSync("**/*.{ts,tsx}", {
 console.log(chalk.blue(`📁 Found ${files.length} files to process\n`));
 
 interface Replacement {
+  description: string;
   from: RegExp;
   to: string;
-  description: string;
 }
 
 const replacements: Replacement[] = [

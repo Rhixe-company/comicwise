@@ -28,8 +28,8 @@
 
 export interface RateLimitConfig {
   max: number;
-  window: number;
   message?: string;
+  window: number;
 }
 
 export interface RateLimitResult {
@@ -56,8 +56,8 @@ const DEFAULT_LIMITS: Record<string, RateLimitConfig> = {
 // ═══════════════════════════════════════════════════
 
 interface TokenBucket {
-  tokens: number;
   lastRefill: number;
+  tokens: number;
 }
 
 class InMemoryRateLimiter {

@@ -1,9 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { removeBookmark } from "@/lib/actions/bookmark";
 import { BookmarkX, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,22 +7,27 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { removeBookmark } from "@/lib/actions/bookmark";
+
 interface Bookmark {
   comic: {
-    id: number;
-    title: string;
-    slug: string;
     coverImage: string;
+    id: number;
+    rating: null | string;
+    slug: string;
     status: string;
-    rating: string | null;
+    title: string;
   };
   lastReadChapter: {
-    id: number;
-    title: string;
-    slug: string;
     chapterNumber: number;
+    id: number;
+    slug: string;
+    title: string;
   } | null;
-  notes: string | null;
+  notes: null | string;
   updatedAt: Date;
 }
 
@@ -44,7 +45,7 @@ export function BookmarksList({ bookmarks }: BookmarksListProps) {
         await removeBookmark(comicId);
         toast.success("Bookmark removed");
         router.refresh();
-      } catch (error) {
+      } catch {
         toast.error("Failed to remove bookmark");
       }
     });
@@ -53,7 +54,7 @@ export function BookmarksList({ bookmarks }: BookmarksListProps) {
   if (bookmarks.length === 0) {
     return (
       <div className="py-20 text-center">
-        <p className="mb-4 text-lg text-muted-foreground">No bookmarks yet</p>
+        <p className="text-muted-foreground mb-4 text-lg">No bookmarks yet</p>
         <Link href="/comics">
           <Button>Browse Comics</Button>
         </Link>
@@ -64,15 +65,15 @@ export function BookmarksList({ bookmarks }: BookmarksListProps) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {bookmarks.map((bookmark) => (
-        <Card key={bookmark.comic.id} className="overflow-hidden">
+        <Card className="overflow-hidden" key={bookmark.comic.id}>
           <div className="flex gap-4 p-4">
-            <Link href={`/comics/${bookmark.comic.slug}`} className="shrink-0">
-              <div className="relative h-32 w-24 overflow-hidden rounded">
+            <Link className="shrink-0" href={`/comics/${bookmark.comic.slug}`}>
+              <div className="relative h-32 w-24 overflow-hidden rounded-sm">
                 <Image
-                  src={bookmark.comic.coverImage}
                   alt={bookmark.comic.title}
-                  fill
                   className="object-cover"
+                  fill
+                  src={bookmark.comic.coverImage}
                 />
               </div>
             </Link>
@@ -84,12 +85,12 @@ export function BookmarksList({ bookmarks }: BookmarksListProps) {
                     {bookmark.comic.title}
                   </h3>
                 </Link>
-                <Badge variant="secondary" className="mb-2 text-xs">
+                <Badge className="mb-2 text-xs" variant="secondary">
                   {bookmark.comic.status}
                 </Badge>
 
                 {bookmark.lastReadChapter && (
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     Last read: Ch. {bookmark.lastReadChapter.chapterNumber}
                   </p>
                 )}
@@ -98,17 +99,17 @@ export function BookmarksList({ bookmarks }: BookmarksListProps) {
               <div className="flex gap-2">
                 {bookmark.lastReadChapter ? (
                   <Link
-                    href={`/comics/${bookmark.comic.slug}/${bookmark.lastReadChapter.slug}`}
                     className="flex-1"
+                    href={`/comics/${bookmark.comic.slug}/${bookmark.lastReadChapter.slug}`}
                   >
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button className="w-full" size="sm" variant="outline">
                       <Play className="mr-1 size-3" />
                       Continue
                     </Button>
                   </Link>
                 ) : (
-                  <Link href={`/comics/${bookmark.comic.slug}`} className="flex-1">
-                    <Button variant="outline" size="sm" className="w-full">
+                  <Link className="flex-1" href={`/comics/${bookmark.comic.slug}`}>
+                    <Button className="w-full" size="sm" variant="outline">
                       <Play className="mr-1 size-3" />
                       Start
                     </Button>
@@ -116,10 +117,10 @@ export function BookmarksList({ bookmarks }: BookmarksListProps) {
                 )}
 
                 <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleRemove(bookmark.comic.id)}
                   disabled={isPending}
+                  onClick={() => handleRemove(bookmark.comic.id)}
+                  size="sm"
+                  variant="ghost"
                 >
                   <BookmarkX className="size-4" />
                 </Button>

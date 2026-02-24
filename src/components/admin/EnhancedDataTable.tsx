@@ -1,5 +1,17 @@
 "use client";
 
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { Download, Filter, X } from "lucide-react";
+import Papa from "papaparse";
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -17,31 +29,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
 } from "@tanstack/react-table";
-import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { Download, Filter, X } from "lucide-react";
-import Papa from "papaparse";
-import { useState } from "react";
-import { toast } from "sonner";
 
 interface EnhancedDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchPlaceholder?: string;
-  onBulkDelete?(selectedIds: number[]): Promise<void>;
   enableRowSelection?: boolean;
   exportFilename?: string;
+  onBulkDelete?(selectedIds: number[]): Promise<void>;
+  searchPlaceholder?: string;
 }
 
 export function EnhancedDataTable<TData, TValue>({
@@ -111,12 +113,12 @@ export function EnhancedDataTable<TData, TValue>({
   function exportToCSV() {
     const exportData = table.getFilteredRowModel().rows.map((row) => {
       const rowData: Record<string, unknown> = {};
-      columns.forEach((col) => {
+      for (const col of columns) {
         const column = col as { accessorKey?: string; header?: string };
         if (column.accessorKey && column.header) {
           rowData[column.header] = (row.original as Record<string, unknown>)[column.accessorKey];
         }
-      });
+      }
       return rowData;
     });
 
@@ -139,27 +141,27 @@ export function EnhancedDataTable<TData, TValue>({
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-1 items-center gap-2">
           <Input
+            className="h-9 max-w-sm"
+            onChange={(event) =>
+              table
+                .getColumn((columns[1] as { id?: string })?.id || "search")
+                ?.setFilterValue(event.target.value)
+            }
             placeholder={searchPlaceholder}
             value={
               (table
                 .getColumn((columns[1] as { id?: string })?.id || "search")
                 ?.getFilterValue() as string) ?? ""
             }
-            onChange={(event) =>
-              table
-                .getColumn((columns[1] as { id?: string })?.id || "search")
-                ?.setFilterValue(event.target.value)
-            }
-            className="h-9 max-w-sm"
           />
           {columnFilters.length > 0 && (
             <Button
-              variant="ghost"
-              onClick={() => setColumnFilters([])}
               className={`
                 h-9 px-2
                 lg:px-3
               `}
+              onClick={() => setColumnFilters([])}
+              variant="ghost"
             >
               Reset
               <X className="ml-2 size-4" />
@@ -167,13 +169,13 @@ export function EnhancedDataTable<TData, TValue>({
           )}
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={exportToCSV}>
+          <Button onClick={exportToCSV} size="sm" variant="outline">
             <Download className="mr-2 size-4" />
             Export CSV
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button size="sm" variant="outline">
                 <Filter className="mr-2 size-4" />
                 Columns
               </Button>
@@ -185,9 +187,9 @@ export function EnhancedDataTable<TData, TValue>({
                 .map((column) => {
                   return (
                     <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
                       checked={column.getIsVisible()}
+                      className="capitalize"
+                      key={column.id}
                       onCheckedChange={(value) => column.toggleVisibility(!!value)}
                     >
                       {column.id}
@@ -203,7 +205,7 @@ export function EnhancedDataTable<TData, TValue>({
       {enableRowSelection && selectedRowCount > 0 && (
         <div
           className={`
-            flex items-center justify-between rounded-md bg-muted px-4 py-2
+            bg-muted flex items-center justify-between rounded-md px-4 py-2
           `}
         >
           <span className="text-sm">
@@ -211,10 +213,10 @@ export function EnhancedDataTable<TData, TValue>({
           </span>
           {onBulkDelete && (
             <Button
-              variant="destructive"
-              size="sm"
-              onClick={handleBulkDelete}
               disabled={isDeleting}
+              onClick={handleBulkDelete}
+              size="sm"
+              variant="destructive"
             >
               {isDeleting ? "Deleting..." : "Delete Selected"}
             </Button>
@@ -243,7 +245,7 @@ export function EnhancedDataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow data-state={row.getIsSelected() && "selected"} key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -253,7 +255,7 @@ export function EnhancedDataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell className="h-24 text-center" colSpan={columns.length}>
                   No results.
                 </TableCell>
               </TableRow>
@@ -265,7 +267,7 @@ export function EnhancedDataTable<TData, TValue>({
       {/* Pagination Info */}
       <div
         className={`
-          flex items-center justify-between text-sm text-muted-foreground
+          text-muted-foreground flex items-center justify-between text-sm
         `}
       >
         <div>
@@ -287,16 +289,16 @@ export function createSelectionColumn<TData>(): ColumnDef<TData> {
     id: "select",
     header: ({ table }) => (
       <Checkbox
+        aria-label="Select all"
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
+        aria-label="Select row"
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
       />
     ),
     enableSorting: false,

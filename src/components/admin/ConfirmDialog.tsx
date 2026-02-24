@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,16 +14,15 @@ import {
 } from "@/components/ui/AlertDialog";
 
 // Hook for easier use
-import { useState } from "react";
 
 interface ConfirmDialogProps {
-  open: boolean;
-  onOpenChange(open: boolean): void;
-  title?: string;
-  description?: string;
-  confirmText?: string;
   cancelText?: string;
+  confirmText?: string;
+  description?: string;
   onConfirm(): void;
+  onOpenChange(open: boolean): void;
+  open: boolean;
+  title?: string;
   variant?: "default" | "destructive";
 }
 
@@ -36,7 +37,7 @@ export function ConfirmDialog({
   variant = "default",
 }: ConfirmDialogProps) {
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
+    <AlertDialog onOpenChange={onOpenChange} open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
@@ -45,12 +46,12 @@ export function ConfirmDialog({
         <AlertDialogFooter>
           <AlertDialogCancel>{cancelText}</AlertDialogCancel>
           <AlertDialogAction
-            onClick={onConfirm}
             className={
               variant === "destructive"
                 ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 : ""
             }
+            onClick={onConfirm}
           >
             {confirmText}
           </AlertDialogAction>
@@ -63,23 +64,23 @@ export function ConfirmDialog({
 export function useConfirmDialog() {
   const [isOpen, setIsOpen] = useState(false);
   const [config, setConfig] = useState<{
-    title?: string;
-    description?: string;
-    confirmText?: string;
     cancelText?: string;
-    variant?: "default" | "destructive";
+    confirmText?: string;
+    description?: string;
     onConfirm(): void;
+    title?: string;
+    variant?: "default" | "destructive";
   }>({
     onConfirm: () => {},
   });
 
   const confirm = (options: {
-    title?: string;
-    description?: string;
-    confirmText?: string;
     cancelText?: string;
-    variant?: "default" | "destructive";
+    confirmText?: string;
+    description?: string;
     onConfirm(): void;
+    title?: string;
+    variant?: "default" | "destructive";
   }) => {
     setConfig(options);
     setIsOpen(true);
@@ -87,17 +88,17 @@ export function useConfirmDialog() {
 
   const ConfirmDialogComponent = () => (
     <ConfirmDialog
-      open={isOpen}
-      onOpenChange={setIsOpen}
-      title={config.title}
-      description={config.description}
-      confirmText={config.confirmText}
       cancelText={config.cancelText}
-      variant={config.variant}
+      confirmText={config.confirmText}
+      description={config.description}
       onConfirm={() => {
         config.onConfirm();
         setIsOpen(false);
       }}
+      onOpenChange={setIsOpen}
+      open={isOpen}
+      title={config.title}
+      variant={config.variant}
     />
   );
 

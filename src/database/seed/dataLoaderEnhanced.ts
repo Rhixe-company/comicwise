@@ -4,11 +4,14 @@
  * Supports dynamic file patterns and comprehensive validation
  */
 
-import { logger } from "@/database/seed/logger";
-import type { ChapterSeedData, ComicSeedData, UserSeedData } from "@/database/seed/schemas";
-import { chapterSeedSchema, comicSeedSchema, userSeedSchema } from "@/database/seed/schemas";
-import fs from "fs/promises";
+import fs from "node:fs/promises";
+
 import { glob } from "glob";
+
+import { logger } from "@/database/seed/logger";
+import { chapterSeedSchema, comicSeedSchema, userSeedSchema } from "@/database/seed/schemas";
+
+import type { ChapterSeedData, ComicSeedData, UserSeedData } from "@/database/seed/schemas";
 import type { z } from "zod";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -17,9 +20,9 @@ import type { z } from "zod";
 
 export interface LoadResult<T> {
   data: T[];
-  valid: number;
+  errors: Array<{ error: string; file: string; }>;
   invalid: number;
-  errors: Array<{ file: string; error: string }>;
+  valid: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -45,7 +48,7 @@ async function loadFromJsonFiles<T>(
 
     for (const p of patterns) {
       const matches = await glob(p, { cwd: process.cwd() });
-      matches.forEach((f) => files.add(f));
+      for (const f of matches) files.add(f);
     }
 
     logger.debug(`Found ${files.size} files for ${context}`);
@@ -145,9 +148,9 @@ export async function loadAllSeedData() {
   const allErrors = [...users.errors, ...comics.errors, ...chapters.errors];
   if (allErrors.length > 0) {
     logger.warn(`Total validation errors: ${allErrors.length}`);
-    allErrors.forEach((err) => {
+    for (const err of allErrors) {
       logger.debug(`${err.file}: ${err.error}`);
-    });
+    }
   }
 
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);

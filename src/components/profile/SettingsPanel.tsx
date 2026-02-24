@@ -1,12 +1,14 @@
 "use client";
 
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+
 import type { User } from "next-auth";
-import { useState } from "react";
-import { toast } from "sonner";
 
 interface SettingsPanelProps {
   user: User;
@@ -35,11 +37,11 @@ export function SettingsPanel({ user }: SettingsPanelProps) {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="emailNotifications">Email Notifications</Label>
-              <p className="text-sm text-muted-foreground">Receive email updates</p>
+              <p className="text-muted-foreground text-sm">Receive email updates</p>
             </div>
             <Switch
-              id="emailNotifications"
               checked={settings.emailNotifications}
+              id="emailNotifications"
               onCheckedChange={(checked) =>
                 setSettings({ ...settings, emailNotifications: checked })
               }
@@ -49,13 +51,13 @@ export function SettingsPanel({ user }: SettingsPanelProps) {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="newChapterNotifications">New Chapter Alerts</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Get notified when new chapters are released
               </p>
             </div>
             <Switch
-              id="newChapterNotifications"
               checked={settings.newChapterNotifications}
+              id="newChapterNotifications"
               onCheckedChange={(checked) =>
                 setSettings({ ...settings, newChapterNotifications: checked })
               }
@@ -65,11 +67,11 @@ export function SettingsPanel({ user }: SettingsPanelProps) {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="bookmarkReminders">Bookmark Reminders</Label>
-              <p className="text-sm text-muted-foreground">Remind me about bookmarked comics</p>
+              <p className="text-muted-foreground text-sm">Remind me about bookmarked comics</p>
             </div>
             <Switch
-              id="bookmarkReminders"
               checked={settings.bookmarkReminders}
+              id="bookmarkReminders"
               onCheckedChange={(checked) =>
                 setSettings({ ...settings, bookmarkReminders: checked })
               }
@@ -87,11 +89,11 @@ export function SettingsPanel({ user }: SettingsPanelProps) {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="darkMode">Dark Mode</Label>
-              <p className="text-sm text-muted-foreground">Use dark theme</p>
+              <p className="text-muted-foreground text-sm">Use dark theme</p>
             </div>
             <Switch
-              id="darkMode"
               checked={settings.darkMode}
+              id="darkMode"
               onCheckedChange={(checked) => setSettings({ ...settings, darkMode: checked })}
             />
           </div>

@@ -11,48 +11,48 @@ export type UpdateComicDto = Partial<CreateComicDto>;
 
 export interface ComicListDto {
   comics: ComicDto[];
-  total: number;
-  page: number;
   limit: number;
+  page: number;
+  total: number;
 }
 
 export type ComicWithRelationsDto = ComicDto & {
-  author?: {
-    id: number;
-    name: string;
-  };
   artist?: {
     id: number;
     name: string;
   };
-  type?: {
+  author?: {
     id: number;
     name: string;
   };
+  chapters?: Array<{
+    chapterNumber: number;
+    id: number;
+    slug: string;
+    title: string;
+  }>;
   genres?: Array<{
     id: number;
     name: string;
   }>;
-  chapters?: Array<{
+  type?: {
     id: number;
-    title: string;
-    slug: string;
-    chapterNumber: number;
-  }>;
+    name: string;
+  };
 };
 
 export interface ComicFiltersDto {
-  search?: string;
-  status?: string;
-  genreIds?: number[];
-  typeId?: number;
-  authorId?: number;
   artistId?: number;
-  rating?: number;
-  sortBy?: "title" | "rating" | "views" | "createdAt" | "updatedAt";
-  sortOrder?: "asc" | "desc";
-  page?: number;
+  authorId?: number;
+  genreIds?: number[];
   limit?: number;
+  page?: number;
+  rating?: number;
+  search?: string;
+  sortBy?: "createdAt" | "rating" | "title" | "updatedAt" | "views";
+  sortOrder?: "asc" | "desc";
+  status?: string;
+  typeId?: number;
 }
 
 export { createComic } from "@/lib/actions/comics";

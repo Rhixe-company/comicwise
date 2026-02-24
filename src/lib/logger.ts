@@ -4,8 +4,9 @@
 // This file consolidates logger.ts (basic) and loggerEnhanced.ts
 // for unified logging across the application
 
-import { env } from "@/appConfig";
 import pino from "pino";
+
+import { env } from "@/appConfig";
 
 const isDevelopment = env.NODE_ENV === "development";
 const isProduction = env.NODE_ENV === "production";

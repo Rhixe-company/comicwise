@@ -8,15 +8,15 @@ import type { ActionResponse } from "@/types/api";
  * Base DTO interface
  */
 export interface BaseDto {
-  id: number | string;
   createdAt: Date;
+  id: number | string;
   updatedAt?: Date;
 }
 
 /**
  * Create DTO - Omit system fields
  */
-export type CreateDto<T extends BaseDto> = Omit<T, "id" | "createdAt" | "updatedAt">;
+export type CreateDto<T extends BaseDto> = Omit<T, "createdAt" | "id" | "updatedAt">;
 
 /**
  * Update DTO - Partial of Create DTO
@@ -32,18 +32,18 @@ export type DtoActionResponse<T = unknown> = ActionResponse<T>;
  * DTO List Response
  */
 export interface DtoListResponse<T> {
+  hasMore: boolean;
   items: T[];
-  total: number;
   page: number;
   perPage: number;
-  hasMore: boolean;
+  total: number;
 }
 
 /**
  * DTO Operation Result
  */
 export interface DtoOperationResult {
-  success: boolean;
-  message?: string;
   error?: string;
+  message?: string;
+  success: boolean;
 }

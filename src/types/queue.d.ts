@@ -5,97 +5,97 @@
 /**
  * Job status
  */
-export type JobStatus = "waiting" | "active" | "completed" | "failed" | "delayed" | "paused";
+export type JobStatus = "active" | "completed" | "delayed" | "failed" | "paused" | "waiting";
 
 /**
  * Job priority
  */
-export type JobPriority = "low" | "normal" | "high" | "critical";
+export type JobPriority = "critical" | "high" | "low" | "normal";
 
 /**
  * Queue job
  */
 export interface QueueJob<T = unknown> {
+  attemptsMade: number;
+  data: T;
+  failedReason?: string;
+  finishedOn?: number;
   id: string;
   name: string;
-  data: T;
   opts?: QueueJobOptions;
-  status: JobStatus;
+  processedOn?: number;
   progress?: number;
   returnValue?: unknown;
-  failedReason?: string;
   stacktrace?: string[];
-  attemptsMade: number;
+  status: JobStatus;
   timestamp: number;
-  processedOn?: number;
-  finishedOn?: number;
 }
 
 /**
  * Queue job options
  */
 export interface QueueJobOptions {
-  priority?: number;
-  delay?: number;
   attempts?: number;
-  backoff?: number | { type: string; delay: number };
-  lifo?: boolean;
-  timeout?: number;
+  backoff?: { delay: number; type: string; } | number;
+  delay?: number;
   jobId?: string;
+  lifo?: boolean;
+  priority?: number;
   removeOnComplete?: boolean | number;
   removeOnFail?: boolean | number;
   stackTraceLimit?: number;
+  timeout?: number;
 }
 
 /**
  * Queue statistics
  */
 export interface QueueStats {
-  waiting: number;
   active: number;
   completed: number;
-  failed: number;
   delayed: number;
+  failed: number;
   paused: number;
+  waiting: number;
 }
 
 /**
  * Email job data
  */
 export interface EmailJobData {
-  to: string;
-  subject: string;
-  html: string;
-  text?: string;
-  from?: string;
-  replyTo?: string;
   attachments?: Array<{
-    filename: string;
-    content: string | Buffer;
+    content: Buffer | string;
     encoding?: string;
+    filename: string;
   }>;
+  from?: string;
+  html: string;
+  replyTo?: string;
+  subject: string;
+  text?: string;
+  to: string;
 }
 
 /**
  * Image processing job data
  */
 export interface ImageProcessingJobData {
-  sourceUrl: string;
   operations: Array<{
-    type: "resize" | "crop" | "compress" | "watermark";
     params: Record<string, unknown>;
+    type: "compress" | "crop" | "resize" | "watermark";
   }>;
-  outputFormat?: "jpeg" | "png" | "webp" | "avif";
+  outputFormat?: "avif" | "jpeg" | "png" | "webp";
   quality?: number;
+  sourceUrl: string;
 }
 
 /**
  * Notification job data
  */
 export interface NotificationJobData {
-  userId: string;
-  type: "email" | "push" | "sms";
-  title: string;
-  message: string;
   data?: Record<string, unknown>;
+  message: string;
+  title: string;
+  type: "email" | "push" | "sms";
+  userId: string;
 }

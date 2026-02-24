@@ -1,15 +1,16 @@
 "use client";
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
 export interface EmailFieldProps {
-  name?: string;
-  label?: string;
-  placeholder?: string;
-  disabled?: boolean;
   autoComplete?: string;
+  disabled?: boolean;
+  label?: string;
+  name?: string;
+  placeholder?: string;
 }
 
 export function EmailField({
@@ -30,10 +31,10 @@ export function EmailField({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Input
-              type="email"
-              placeholder={placeholder}
               autoComplete={autoComplete}
               disabled={disabled}
+              placeholder={placeholder}
+              type="email"
               {...field}
             />
           </FormControl>

@@ -5,8 +5,8 @@
 
 // Base entity interfaces
 export interface BaseEntity {
-  id: number | string;
   createdAt?: Date;
+  id: number | string;
   updatedAt?: Date;
 }
 
@@ -17,7 +17,7 @@ export interface TimestampedEntity extends BaseEntity {
 
 // Async/Sync types
 export type AsyncResult<T> = Promise<T>;
-export type SyncOrAsync<T> = T | Promise<T>;
+export type SyncOrAsync<T> = Promise<T> | T;
 
 // Array helpers
 export type ValueOrArray<T> = T | T[];

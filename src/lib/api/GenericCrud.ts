@@ -4,11 +4,12 @@
  */
 
 import { NextResponse } from "next/server";
+
 import type { z } from "zod";
 
 export interface ValidationResult {
-  success: boolean;
   errors?: Record<string, string[]>;
+  success: boolean;
 }
 
 export function zodToValidationResult<T extends z.ZodTypeAny>(
@@ -38,9 +39,9 @@ export function zodToValidationResult<T extends z.ZodTypeAny>(
 }
 
 interface GetEntityOptions {
-  getFn(id: string): Promise<unknown | null>;
-  validateFn(data: unknown): ValidationResult;
   entityName: string;
+  getFn(id: string): Promise<null | unknown>;
+  validateFn(data: unknown): ValidationResult;
 }
 
 export async function getGenericEntity(
@@ -63,10 +64,10 @@ export async function getGenericEntity(
 }
 
 interface UpdateEntityOptions {
-  updateFn(id: string, data: unknown): Promise<unknown>;
-  idValidateFn(data: unknown): ValidationResult;
   dataValidateFn(data: unknown): ValidationResult;
   entityName: string;
+  idValidateFn(data: unknown): ValidationResult;
+  updateFn(id: string, data: unknown): Promise<unknown>;
 }
 
 export async function updateGenericEntity(
@@ -99,8 +100,8 @@ export async function updateGenericEntity(
 
 interface DeleteEntityOptions {
   deleteFn(id: string): Promise<boolean>;
-  validateFn(data: unknown): ValidationResult;
   entityName: string;
+  validateFn(data: unknown): ValidationResult;
 }
 
 export async function deleteGenericEntity(

@@ -68,14 +68,14 @@ export default function DMCAPage() {
           <section className="mb-8">
             <h2 className="mb-4 text-2xl font-semibold">Contact Information</h2>
             <p className="mb-4">DMCA notices can be sent to our designated Copyright Agent at:</p>
-            <div className="mb-4 rounded-lg bg-muted p-4">
+            <div className="bg-muted mb-4 rounded-lg p-4">
               <p className="font-mono">
                 Email: dmcacomicwise.com
                 <br />
                 Subject: DMCA Copyright Infringement Notice
               </p>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Please note that under Section 512(f) of the DMCA, any person who knowingly materially
               misrepresents that material or activity is infringing may be subject to liability.
             </p>
@@ -120,11 +120,11 @@ export default function DMCAPage() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">Changes to This Policy</h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               We reserve the right to modify this DMCA policy at any time. Any changes will be
               effective immediately upon posting on this page.
             </p>
-            <p className="mt-4 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-4 text-sm">
               Last updated: <ClientDate />
             </p>
           </section>

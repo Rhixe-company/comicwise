@@ -7,18 +7,19 @@
 
 import { Clock, SearchIcon, TrendingUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+
 import { cn } from "utils";
 
 interface SearchResult {
-  id: number;
-  title: string;
-  slug: string;
   description?: string;
+  id: number;
+  slug: string;
+  title: string;
 }
 
 interface SearchSuggestion {
-  query: string;
   count?: number;
+  query: string;
   trending?: boolean;
 }
 
@@ -101,36 +102,36 @@ export function ComicSearchAutocomplete() {
   };
 
   return (
-    <div ref={containerRef} className="relative w-full">
+    <div className="relative w-full" ref={containerRef}>
       <div className="relative">
         <SearchIcon
           className={`
-            absolute top-1/2 left-3 size-4 -translate-y-1/2
-            text-muted-foreground
+            text-muted-foreground absolute top-1/2 left-3 size-4
+            -translate-y-1/2
           `}
         />
         <input
-          ref={inputRef}
-          type="text"
-          placeholder="Search comics..."
-          value={query}
+          className={cn(
+            `
+              border-input bg-background w-full rounded-lg border py-2 pr-4
+              pl-10
+            `,
+            "placeholder:text-muted-foreground",
+            `
+              focus:ring-primary focus:border-transparent focus:ring-2
+              focus:outline-none
+            `
+          )}
           onChange={(e) => {
             setQuery(e.target.value);
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
-          className={cn(
-            `
-              w-full rounded-lg border border-input bg-background py-2 pr-4
-              pl-10
-            `,
-            "placeholder:text-muted-foreground",
-            `
-              focus:border-transparent focus:ring-2 focus:ring-primary
-              focus:outline-none
-            `
-          )}
+          placeholder="Search comics..."
+          ref={inputRef}
+          type="text"
+          value={query}
         />
       </div>
 
@@ -138,15 +139,15 @@ export function ComicSearchAutocomplete() {
       {isOpen && (
         <div
           className={`
-            absolute top-full z-50 mt-2 w-full rounded-lg border border-input
-            bg-popover shadow-md
+            border-input bg-popover absolute top-full z-50 mt-2 w-full rounded-lg
+            border shadow-md
           `}
         >
           {isLoading ? (
             <div className="flex items-center justify-center p-4">
               <div
                 className={`
-                  size-4 animate-spin rounded-full border-2 border-primary
+                  border-primary size-4 animate-spin rounded-full border-2
                   border-r-transparent
                 `}
               />
@@ -158,29 +159,29 @@ export function ComicSearchAutocomplete() {
                 <div className="border-b">
                   <div
                     className={`
-                      px-3 py-2 text-xs font-semibold tracking-wide
-                      text-muted-foreground uppercase
+                      text-muted-foreground px-3 py-2 text-xs font-semibold
+                      tracking-wide uppercase
                     `}
                   >
                     Results
                   </div>
                   {results.map((result) => (
                     <button
-                      key={result.id}
-                      onClick={() => handleSearch(result.title)}
                       className={cn(
                         `
-                          w-full px-3 py-2 text-left transition-colors
-                          hover:bg-accent
+                          hover:bg-accent w-full px-3 py-2 text-left
+                          transition-colors
                         `,
                         "truncate text-sm"
                       )}
+                      key={result.id}
+                      onClick={() => handleSearch(result.title)}
                     >
                       <div className="font-medium">{result.title}</div>
                       {result.description && (
                         <div
                           className={`
-                            line-clamp-1 text-xs text-muted-foreground
+                            text-muted-foreground line-clamp-1 text-xs
                           `}
                         >
                           {result.description}
@@ -196,28 +197,28 @@ export function ComicSearchAutocomplete() {
                 <div className="border-b">
                   <div
                     className={`
-                      px-3 py-2 text-xs font-semibold tracking-wide
-                      text-muted-foreground uppercase
+                      text-muted-foreground px-3 py-2 text-xs font-semibold
+                      tracking-wide uppercase
                     `}
                   >
                     Suggestions
                   </div>
                   {suggestions.map((suggestion) => (
                     <button
-                      key={suggestion.query}
-                      onClick={() => handleSearch(suggestion.query)}
                       className={cn(
                         `
-                          w-full px-3 py-2 text-left transition-colors
-                          hover:bg-accent
+                          hover:bg-accent w-full px-3 py-2 text-left
+                          transition-colors
                         `,
                         "flex items-center justify-between"
                       )}
+                      key={suggestion.query}
+                      onClick={() => handleSearch(suggestion.query)}
                     >
                       <span className="text-sm">{suggestion.query}</span>
                       {suggestion.trending && <TrendingUp className={`size-3 text-orange-500`} />}
                       {suggestion.count && (
-                        <span className="text-xs text-muted-foreground">{suggestion.count}</span>
+                        <span className="text-muted-foreground text-xs">{suggestion.count}</span>
                       )}
                     </button>
                   ))}
@@ -229,25 +230,25 @@ export function ComicSearchAutocomplete() {
                 <div>
                   <div
                     className={`
-                      px-3 py-2 text-xs font-semibold tracking-wide
-                      text-muted-foreground uppercase
+                      text-muted-foreground px-3 py-2 text-xs font-semibold
+                      tracking-wide uppercase
                     `}
                   >
                     Recent Searches
                   </div>
                   {recentSearches.map((search) => (
                     <button
-                      key={search}
-                      onClick={() => handleSearch(search)}
                       className={cn(
                         `
-                          w-full px-3 py-2 text-left transition-colors
-                          hover:bg-accent
+                          hover:bg-accent w-full px-3 py-2 text-left
+                          transition-colors
                         `,
                         "flex items-center gap-2 text-sm"
                       )}
+                      key={search}
+                      onClick={() => handleSearch(search)}
                     >
-                      <Clock className="size-3 text-muted-foreground" />
+                      <Clock className="text-muted-foreground size-3" />
                       {search}
                     </button>
                   ))}
@@ -258,7 +259,7 @@ export function ComicSearchAutocomplete() {
               {query.length >= 2 && results.length === 0 && suggestions.length === 0 && (
                 <div
                   className={`
-                    px-3 py-8 text-center text-sm text-muted-foreground
+                    text-muted-foreground px-3 py-8 text-center text-sm
                   `}
                 >
                   No results found for "{query}"
@@ -268,7 +269,7 @@ export function ComicSearchAutocomplete() {
               {query.length < 2 && recentSearches.length === 0 && (
                 <div
                   className={`
-                    px-3 py-4 text-center text-sm text-muted-foreground
+                    text-muted-foreground px-3 py-4 text-center text-sm
                   `}
                 >
                   Type at least 2 characters to search
@@ -296,30 +297,30 @@ export function ComicSearchBox() {
   };
 
   return (
-    <form onSubmit={handleSearch} className="w-full max-w-md">
+    <form className="w-full max-w-md" onSubmit={handleSearch}>
       <div className="relative">
         <SearchIcon
           className={`
-            pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2
-            text-muted-foreground
+            text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4
+            -translate-y-1/2
           `}
         />
         <input
-          type="search"
-          placeholder="Search comics..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
           className={cn(
             `
-              w-full rounded-lg border border-input bg-background py-2 pr-4
+              border-input bg-background w-full rounded-lg border py-2 pr-4
               pl-10
             `,
             "placeholder:text-muted-foreground",
             `
-              focus:border-transparent focus:ring-2 focus:ring-primary
+              focus:ring-primary focus:border-transparent focus:ring-2
               focus:outline-none
             `
           )}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search comics..."
+          type="search"
+          value={query}
         />
       </div>
     </form>

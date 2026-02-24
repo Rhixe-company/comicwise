@@ -1,12 +1,14 @@
 "use server";
 
-import appConfig, { checkRateLimit } from "@/appConfig";
-import * as mutations from "@/database/mutations";
-import type { ActionResult } from "@/dto";
-import { error } from "@/lib/actions/utils";
-import { createGenreSchema, updateGenreSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import z from "zod";
+
+import appConfig, { checkRateLimit } from "@/appConfig";
+import * as mutations from "@/database/mutations";
+import { error } from "@/lib/actions/utils";
+import { createGenreSchema, updateGenreSchema } from "@/lib/validations";
+
+import type { ActionResult } from "@/dto";
 
 export async function createGenre(formData: FormData): Promise<ActionResult<{ id: number }>> {
   try {

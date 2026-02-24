@@ -7,7 +7,7 @@
 // CORE & UTILITIES
 // ═══════════════════════════════════════════════════
 
-export * from "./Core"; // BaseEntity, TimestampedEntity, etc.
+export * from "./core"; // BaseEntity, TimestampedEntity, etc.
 export * from "./Utility"; // Nullable, Prettify, DeepPartial, etc.
 
 // ═══════════════════════════════════════════════════

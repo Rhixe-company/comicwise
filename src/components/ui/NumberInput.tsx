@@ -1,14 +1,16 @@
 import { Input } from "@/components/ui/input";
-import type { ComponentProps } from "react";
+
 import { cn } from "utils";
+
+import type { ComponentProps } from "react";
 
 export function NumberInput({
   onChange,
   value,
   ...props
-}: Omit<ComponentProps<typeof Input>, "type" | "onChange" | "value"> & {
-  onChange(value: number | null): void;
-  value: undefined | null | number;
+}: Omit<ComponentProps<typeof Input>, "onChange" | "type" | "value"> & {
+  onChange(value: null | number): void;
+  value: null | number | undefined;
 }) {
   return (
     <Input
@@ -17,8 +19,8 @@ export function NumberInput({
         const number = e.target.valueAsNumber;
         onChange(isNaN(number) ? null : number);
       }}
-      value={value ?? ""}
       type="number"
+      value={value ?? ""}
     />
   );
 }
@@ -29,7 +31,6 @@ export function InputGroupNumberInput({
 }: React.ComponentProps<typeof NumberInput>) {
   return (
     <NumberInput
-      data-slot="input-group-control"
       className={cn(
         `
           flex-1 rounded-none border-0 bg-transparent shadow-none
@@ -38,6 +39,7 @@ export function InputGroupNumberInput({
         `,
         className
       )}
+      data-slot="input-group-control"
       {...props}
     />
   );

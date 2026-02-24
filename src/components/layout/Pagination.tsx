@@ -1,13 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
+
 interface PaginationProps {
+  baseUrl?: string;
   currentPage: number;
   totalPages: number;
-  baseUrl?: string;
 }
 
 export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: PaginationProps) {
@@ -39,16 +40,16 @@ export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: Pag
       pages.push(
         <Button
           key={1}
-          variant={currentPage === 1 ? "default" : "outline"}
-          size="sm"
           onClick={() => goToPage(1)}
+          size="sm"
+          variant={currentPage === 1 ? "default" : "outline"}
         >
           1
         </Button>
       );
       if (start > 2) {
         pages.push(
-          <span key="ellipsis-start" className="px-2">
+          <span className="px-2" key="ellipsis-start">
             ...
           </span>
         );
@@ -59,9 +60,9 @@ export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: Pag
       pages.push(
         <Button
           key={i}
-          variant={currentPage === i ? "default" : "outline"}
-          size="sm"
           onClick={() => goToPage(i)}
+          size="sm"
+          variant={currentPage === i ? "default" : "outline"}
         >
           {i}
         </Button>
@@ -71,7 +72,7 @@ export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: Pag
     if (end < totalPages) {
       if (end < totalPages - 1) {
         pages.push(
-          <span key="ellipsis-end" className="px-2">
+          <span className="px-2" key="ellipsis-end">
             ...
           </span>
         );
@@ -79,9 +80,9 @@ export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: Pag
       pages.push(
         <Button
           key={totalPages}
-          variant={currentPage === totalPages ? "default" : "outline"}
-          size="sm"
           onClick={() => goToPage(totalPages)}
+          size="sm"
+          variant={currentPage === totalPages ? "default" : "outline"}
         >
           {totalPages}
         </Button>
@@ -98,10 +99,10 @@ export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: Pag
   return (
     <div className="flex items-center justify-center gap-2">
       <Button
-        variant="outline"
-        size="sm"
-        onClick={() => goToPage(currentPage - 1)}
         disabled={currentPage === 1}
+        onClick={() => goToPage(currentPage - 1)}
+        size="sm"
+        variant="outline"
       >
         <ChevronLeft className="size-4" />
         Previous
@@ -110,10 +111,10 @@ export function Pagination({ currentPage, totalPages, baseUrl = "/comics" }: Pag
       <div className="flex items-center gap-1">{renderPageNumbers()}</div>
 
       <Button
-        variant="outline"
-        size="sm"
-        onClick={() => goToPage(currentPage + 1)}
         disabled={currentPage === totalPages}
+        onClick={() => goToPage(currentPage + 1)}
+        size="sm"
+        variant="outline"
       >
         Next
         <ChevronRight className="size-4" />

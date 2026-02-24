@@ -5,6 +5,8 @@
  * Centralizes user, comic, and chapter creation/update logic
  */
 
+import { and, eq } from "drizzle-orm";
+
 import { db } from "@/database";
 import {
   artist,
@@ -18,6 +20,8 @@ import {
   genre,
   user,
 } from "@/database/schema";
+import { logger as baseLogger } from "@/lib/logger";
+
 import type {
   ChapterMetadata,
   ChapterPayload,
@@ -25,8 +29,6 @@ import type {
   ComicPayload,
   ProcessingResult,
 } from "@/dto";
-import { logger as baseLogger } from "@/lib/logger";
-import { and, eq } from "drizzle-orm";
 import type { Logger } from "pino";
 
 /**
@@ -201,7 +203,7 @@ export class SeederDal {
   async findExistingComic(
     slug: string,
     title: string
-  ): Promise<{ id: number; exists: boolean } | null> {
+  ): Promise<{ exists: boolean; id: number; } | null> {
     const existing = await db.query.comic.findFirst({
       where: (table, { eq, or }) => or(eq(table.slug, slug), eq(table.title, title)),
     });
@@ -296,7 +298,7 @@ export class SeederDal {
   async findExistingChapter(
     comicId: number,
     slug: string
-  ): Promise<{ id: number; exists: boolean } | null> {
+  ): Promise<{ exists: boolean; id: number; } | null> {
     const existing = await db.query.chapter.findFirst({
       where: and(eq(chapter.comicId, comicId), eq(chapter.slug, slug)),
     });
@@ -395,7 +397,7 @@ export class SeederDal {
 /**
  * Singleton instance
  */
-let instance: SeederDal | null = null;
+let instance: null | SeederDal = null;
 
 /**
  * Get or create seeder DAL instance

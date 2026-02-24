@@ -51,7 +51,7 @@ export function FormSkeleton({ fields = 5 }: { fields?: number }) {
   return (
     <div className="space-y-6">
       {Array.from({ length: fields }).map((_, i) => (
-        <div key={i} className="space-y-2">
+        <div className="space-y-2" key={i}>
           <Skeleton className="h-4 w-[100px]" />
           <Skeleton className="h-10 w-full" />
         </div>
@@ -115,7 +115,7 @@ export function DashboardSkeleton() {
           </CardHeader>
           <CardContent className="space-y-3">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-3">
+              <div className="flex items-center gap-3" key={i}>
                 <Skeleton className="size-10 rounded-sm" />
                 <div className="flex-1 space-y-2">
                   <Skeleton className="h-4 w-full" />
@@ -132,7 +132,7 @@ export function DashboardSkeleton() {
           </CardHeader>
           <CardContent className="space-y-3">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-3">
+              <div className="flex items-center gap-3" key={i}>
                 <Skeleton className="size-10 rounded-full" />
                 <div className="flex-1 space-y-2">
                   <Skeleton className="h-4 w-full" />

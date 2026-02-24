@@ -12,6 +12,7 @@ import {
   seedComicsFromJSON,
   seedUsersFromJSON,
 } from "./seeders/universalSeeder";
+
 import type { SeedOptions, SeedResult } from "./types";
 
 // ═══════════════════════════════════════════════════
@@ -48,9 +49,9 @@ export async function seedChapters(_options: SeedOptions = {}): Promise<SeedResu
   return { inserted: 0, updated: 0, skipped: 0, errors: 0, duration: Date.now() - startTime };
 }
 export async function seedAll(_options: SeedOptions = {}): Promise<{
-  users: SeedResult;
-  comics: SeedResult;
   chapters: SeedResult;
+  comics: SeedResult;
+  users: SeedResult;
 }> {
   const startTime = Date.now();
 
@@ -92,9 +93,9 @@ export async function resetDatabase(options: SeedOptions = {}): Promise<void> {
  * @param _options
  */
 export async function validateSeedData(_options: SeedOptions = {}): Promise<{
-  users: boolean;
-  comics: boolean;
   chapters: boolean;
+  comics: boolean;
+  users: boolean;
 }> {
   logger.header("Validating Seed Data");
 

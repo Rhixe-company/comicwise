@@ -1,16 +1,20 @@
 "use server";
 
+import crypto from "node:crypto";
+
+import bcrypt from "bcryptjs";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
 import appConfig, { checkRateLimit } from "@/appConfig";
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
-import type { ActionResult } from "@/dto";
 import { error } from "@/lib/actions/utils";
 import { sendPasswordResetEmail, sendWelcomeEmail } from "@/lib/nodemailer";
 import { signUpSchema } from "@/lib/validations";
-import bcrypt from "bcryptjs";
-import crypto from "crypto";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
+
+import type { ActionResult } from "@/dto";
+
 
 const updateUserAdminSchema = z
   .object({

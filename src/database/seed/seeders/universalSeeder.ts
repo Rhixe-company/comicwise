@@ -17,6 +17,13 @@
  * - Error handling and recovery
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
+import { and, eq } from "drizzle-orm";
+import { glob } from "glob";
+import { z } from "zod";
+
 import { db } from "@/database";
 import {
   artist,
@@ -40,12 +47,11 @@ import {
   getImageHash,
 } from "@/database/seed/utils/imageCache";
 import { imageService } from "@/services/imageService";
+
 import { hashPassword } from "auth";
-import { and, eq } from "drizzle-orm";
-import fs from "fs/promises";
-import { glob } from "glob";
-import path from "path";
-import { z } from "zod";
+
+
+
 
 // ═══════════════════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS
@@ -187,7 +193,7 @@ async function downloadAndUploadImage(
   folder: string,
 
   _fileName: string
-): Promise<string | null> {
+): Promise<null | string> {
   try {
     // OPTIMIZATION 1: Check URL cache first - exact URL match (most efficient)
     const cachedUrl = getCachedUrl(imageUrl);
@@ -258,8 +264,8 @@ async function downloadAndUploadImages(
   imageUrls: string[],
   folder: string,
   concurrency: number = 3
-): Promise<(string | null)[]> {
-  const results: (string | null)[] = [];
+): Promise<(null | string)[]> {
+  const results: (null | string)[] = [];
   const queue = [...imageUrls];
 
   logger.info(`📦 Batch downloading ${imageUrls.length} images (concurrency: ${concurrency})`);
@@ -326,7 +332,7 @@ export function normalizeComicData(comicData: Record<string, unknown>): Record<s
  * Reduces cognitive complexity by isolating image extraction logic
  * @param validatedComic
  */
-export function extractCoverImageUrl(validatedComic: any): string | null {
+export function extractCoverImageUrl(validatedComic: any): null | string {
   if (validatedComic.coverImage) return validatedComic.coverImage;
   if (validatedComic.images?.length > 0) return validatedComic.images[0]?.url;
   if (validatedComic.image_urls?.length > 0) return validatedComic.image_urls[0];
@@ -396,13 +402,13 @@ export function extractArtistName(validatedComic: any): string {
 export async function processComicRecord(
   validatedComic: any,
   normalizedData: Record<string, unknown>,
-  uploadedCoverImage: string | null,
+  uploadedCoverImage: null | string,
   processedComicImageUrls: string[],
   authorId: number,
   artistId: number,
   typeId: number,
   genreIds: number[]
-): Promise<{ success: boolean; comicId?: number; error?: string }> {
+): Promise<{ comicId?: number; error?: string; success: boolean; }> {
   try {
     const comicPayload = {
       title: validatedComic.title,
@@ -476,9 +482,9 @@ export async function processComicRecord(
  */
 function extractChapterMetadata(validatedChapter: any): {
   chapterName: string;
-  chapterTitle: string;
   chapterNumber: number;
   chapterSlug: string;
+  chapterTitle: string;
   comicSlug: string;
   imageUrls: string[];
 } {
@@ -516,7 +522,7 @@ async function processChapterRecord(
   metadata: ReturnType<typeof extractChapterMetadata>,
   comicRecord: any,
   processedImageUrls: string[]
-): Promise<{ success: boolean; chapterId?: number; error?: string }> {
+): Promise<{ chapterId?: number; error?: string; success: boolean; }> {
   try {
     const chapterPayload = {
       title: metadata.chapterTitle,
@@ -667,7 +673,7 @@ async function findOrCreateGenre(genreName: string): Promise<number> {
  * @param validatedComic - The validated comic data
  * @returns The uploaded cover image URL or the original URL
  */
-async function processCoverImage(validatedComic: any): Promise<string | null> {
+async function processCoverImage(validatedComic: any): Promise<null | string> {
   const coverImageUrl = extractCoverImageUrl(validatedComic);
   if (!coverImageUrl) return null;
 
@@ -713,10 +719,10 @@ async function processComicImages(validatedComic: any): Promise<string[]> {
  * @returns Object containing IDs for author, artist, type, and genres
  */
 async function getOrCreateComicEntities(validatedComic: any): Promise<{
-  authorId: number;
   artistId: number;
-  typeId: number;
+  authorId: number;
   genreIds: number[];
+  typeId: number;
 } | null> {
   const authorId = await findOrCreateAuthor(extractAuthorName(validatedComic));
   if (!authorId) {
@@ -758,8 +764,8 @@ async function getOrCreateComicEntities(validatedComic: any): Promise<{
  * @returns Processing result with statistics
  */
 async function processSingleComic(comicData: Record<string, unknown>): Promise<{
-  success: boolean;
   created?: boolean;
+  success: boolean;
 }> {
   const normalizedData = normalizeComicData(comicData);
   const validatedComic = ComicSchema.parse(normalizedData);
@@ -891,7 +897,7 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
   let totalErrors = 0;
   const fileResults: Record<
     string,
-    { processed: number; created: number; updated: number; errors: number }
+    { created: number; errors: number; processed: number; updated: number; }
   > = {};
 
   for (const jsonFile of jsonFiles) {
@@ -1083,7 +1089,7 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json"): 
     totalSkipped: 0,
     fileResults: {} as Record<
       string,
-      { processed: number; created: number; updated: number; errors: number; skipped: number }
+      { created: number; errors: number; processed: number; skipped: number; updated: number; }
     >,
   };
 
@@ -1284,7 +1290,7 @@ function logImageCacheStats() {
  * Validate that all images are using imageService
  * This checks the cache to ensure images were properly processed
  */
-function validateImageProcessing(): { valid: boolean; issues: string[] } {
+function validateImageProcessing(): { issues: string[]; valid: boolean; } {
   const stats = getCacheStats();
   const issues: string[] = [];
 

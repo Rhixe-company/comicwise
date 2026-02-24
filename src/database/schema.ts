@@ -1,4 +1,3 @@
-import type { SQL } from "drizzle-orm";
 import { sql } from "drizzle-orm";
 import {
   boolean,
@@ -13,6 +12,8 @@ import {
   timestamp,
   unique,
 } from "drizzle-orm/pg-core";
+
+import type { SQL } from "drizzle-orm";
 import type { AdapterAccountType } from "next-auth/adapters";
 
 // ═══════════════════════════════════════════════════

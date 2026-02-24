@@ -1,114 +1,144 @@
 {
   "compounds": [
     {
-      "name": "🚀 Full Stack Debug",
       "configurations": ["Next.js Dev", "Attach to Chrome"],
-      "presentation": { "group": "primary", "order": 1 },
+      "name": "🚀 Full Stack Debug",
+      "presentation": {
+        "group": "primary",
+        "order": 1
+      },
       "stopAll": true
     },
     {
-      "name": "🧪 Complete Test Suite",
       "configurations": ["Vitest Tests", "Playwright Tests"],
-      "presentation": { "group": "testing", "order": 1 },
+      "name": "🧪 Complete Test Suite",
+      "presentation": {
+        "group": "testing",
+        "order": 1
+      },
       "stopAll": true
     }
   ],
   "configurations": [
     {
-      "name": "Next.js Dev",
-      "type": "node",
-      "request": "launch",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["dev"],
-      "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
       "autoAttachChildProcesses": true,
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
       "env": {
         "NODE_ENV": "development",
         "NODE_OPTIONS": "--enable-source-maps --max-old-space-size=8192"
       },
-      "presentation": { "group": "development", "order": 1 }
+      "name": "Next.js Dev",
+      "presentation": {
+        "group": "development",
+        "order": 1
+      },
+      "request": "launch",
+      "runtimeArgs": ["dev"],
+      "runtimeExecutable": "pnpm",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "type": "node"
     },
     {
-      "name": "Next.js Debug Mode",
-      "type": "node",
-      "request": "launch",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["dev:debug"],
-      "cwd": "${workspaceFolder}",
+      "autoAttachChildProcesses": true,
       "console": "integratedTerminal",
-      "port": 9229,
+      "cwd": "${workspaceFolder}",
+      "name": "Next.js Debug Mode",
+      "presentation": {
+        "group": "development",
+        "order": 2
+      },
+      "request": "launch",
+      "runtimeArgs": ["dev:debug"],
+      "runtimeExecutable": "pnpm",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-      "presentation": { "group": "development", "order": 2 }
+      "type": "node"
     },
     {
       "name": "Attach to Chrome",
-      "type": "chrome",
-      "request": "attach",
       "port": 9222,
-      "webRoot": "${workspaceFolder}",
-      "urlFilter": "http://localhost:3000/*"
+      "request": "attach",
+      "type": "chrome",
+      "urlFilter": "http://localhost:3000/*",
+      "webRoot": "${workspaceFolder}"
     },
     {
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
       "name": "Vitest Tests",
-      "type": "node",
+      "presentation": {
+        "group": "testing",
+        "order": 1
+      },
       "request": "launch",
-      "runtimeExecutable": "pnpm",
       "runtimeArgs": ["test:unit"],
-      "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
-      "presentation": { "group": "testing", "order": 1 }
+      "runtimeExecutable": "pnpm",
+      "type": "node"
     },
     {
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
       "name": "Playwright Tests",
-      "type": "node",
+      "presentation": {
+        "group": "testing",
+        "order": 2
+      },
       "request": "launch",
-      "runtimeExecutable": "pnpm",
       "runtimeArgs": ["test"],
-      "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
-      "presentation": { "group": "testing", "order": 2 }
+      "runtimeExecutable": "pnpm",
+      "type": "node"
     },
     {
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
       "name": "TypeScript Check",
-      "type": "node",
+      "presentation": {
+        "group": "validation",
+        "order": 1
+      },
       "request": "launch",
-      "runtimeExecutable": "pnpm",
       "runtimeArgs": ["type-check"],
-      "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
-      "presentation": { "group": "validation", "order": 1 }
+      "runtimeExecutable": "pnpm",
+      "type": "node"
     },
     {
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
       "name": "ESLint",
-      "type": "node",
+      "presentation": {
+        "group": "validation",
+        "order": 2
+      },
       "request": "launch",
-      "runtimeExecutable": "pnpm",
       "runtimeArgs": ["lint"],
-      "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
-      "presentation": { "group": "validation", "order": 2 }
+      "runtimeExecutable": "pnpm",
+      "type": "node"
     },
     {
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
       "name": "Database Seed",
-      "type": "node",
+      "presentation": {
+        "group": "database",
+        "order": 1
+      },
       "request": "launch",
-      "runtimeExecutable": "pnpm",
       "runtimeArgs": ["db:seed"],
-      "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
-      "presentation": { "group": "database", "order": 1 }
+      "runtimeExecutable": "pnpm",
+      "type": "node"
     },
     {
-      "name": "Database Studio",
-      "type": "node",
-      "request": "launch",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["db:studio"],
-      "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "presentation": { "group": "database", "order": 2 }
+      "cwd": "${workspaceFolder}",
+      "name": "Database Studio",
+      "presentation": {
+        "group": "database",
+        "order": 2
+      },
+      "request": "launch",
+      "runtimeArgs": ["db:studio"],
+      "runtimeExecutable": "pnpm",
+      "type": "node"
     }
   ],
   "version": "0.2.0"

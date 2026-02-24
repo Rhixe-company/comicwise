@@ -13,8 +13,8 @@ import { type } from "@/database/schema";
  * @param data.description
  */
 export async function createType(data: {
+  description?: null | string;
   name: string;
-  description?: string | null;
 }): Promise<typeof type.$inferSelect | undefined> {
   const [newType] = await database
     .insert(type)
@@ -41,8 +41,8 @@ export async function createType(data: {
 export async function updateType(
   typeId: number,
   data: {
+    description?: null | string;
     name?: string;
-    description?: string | null;
   }
 ): Promise<typeof type.$inferSelect | undefined> {
   const cleanData: Partial<typeof type.$inferInsert> = {};

@@ -50,35 +50,35 @@ declare module "recharts" {
   export const Customized: FC<any>;
 
   export interface LegendProps {
-    content?: FC<any> | ReactNode;
-    wrapperStyle?: CSSProperties;
-    chartWidth?: number;
+    [key: string]: any;
+    align?: "center" | "left" | "right";
     chartHeight?: number;
-    width?: number;
+    chartWidth?: number;
+    content?: FC<any> | ReactNode;
     height?: number;
     iconSize?: number;
     iconType?:
-      | "line"
-      | "plainline"
-      | "square"
-      | "rect"
       | "circle"
       | "cross"
       | "diamond"
+      | "line"
+      | "plainline"
+      | "rect"
+      | "square"
       | "star"
       | "triangle"
       | "wye";
     layout?: "horizontal" | "vertical";
-    align?: "left" | "center" | "right";
-    verticalAlign?: "top" | "middle" | "bottom";
     margin?: {
-      top?: number;
-      right?: number;
       bottom?: number;
       left?: number;
+      right?: number;
+      top?: number;
     };
     payload?: any[];
-    [key: string]: any;
+    verticalAlign?: "bottom" | "middle" | "top";
+    width?: number;
+    wrapperStyle?: CSSProperties;
   }
 
   // Namespaces

@@ -1,6 +1,7 @@
+import { Providers } from "@/app/Providers";
+
 import type { Metadata, Viewport } from "next";
 
-import { Providers } from "@/app/Providers";
 import "@/styles/globals.css";
 import localFont from "next/font/local";
 // Primary Font: IBM Plex Sans (Variable)
@@ -128,10 +129,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta httpEquiv="x-ua-compatible" content="IE=edge" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://ik.imagekit.io" />
-        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <meta content="IE=edge" httpEquiv="x-ua-compatible" />
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link href="https://ik.imagekit.io" rel="preconnect" />
+        <link href="https://res.cloudinary.com" rel="dns-prefetch" />
       </head>
       <body
         className={`
@@ -144,7 +145,7 @@ export default function RootLayout({
           font-sans antialiased
         `}
       >
-        <Providers attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <Providers attribute="class" defaultTheme="system" disableTransitionOnChange enableSystem>
           {children}
         </Providers>
       </body>

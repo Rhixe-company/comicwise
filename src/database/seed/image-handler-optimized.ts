@@ -11,10 +11,11 @@
  * - Comprehensive error handling
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
 import { logger } from "@/database/seed/logger-optimized";
 import { ImageService } from "@/services/imageService";
-import fs from "fs/promises";
-import path from "path";
 
 // ─────────────────────────────────────────────────────────────────────────
 // CONFIGURATION
@@ -30,9 +31,9 @@ const CONCURRENT_DOWNLOADS = 5;
 // ─────────────────────────────────────────────────────────────────────────
 
 interface ImageCache {
-  url: string;
   localPath: string;
   timestamp: number;
+  url: string;
 }
 
 class ImageCache {
@@ -210,7 +211,7 @@ export class OptimizedImageHandler {
 }
 
 // Export singleton instance
-let handler: OptimizedImageHandler | null = null;
+let handler: null | OptimizedImageHandler = null;
 
 export async function getImageHandler(): Promise<OptimizedImageHandler> {
   if (!handler) {

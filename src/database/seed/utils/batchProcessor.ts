@@ -8,8 +8,8 @@ import { logger } from "@/database/seed/logger";
 export interface BatchProcessorOptions {
   batchSize?: number;
   concurrency?: number;
-  onProgress?(processed: number, total: number): void;
   onError?(error: unknown, item: unknown): void;
+  onProgress?(processed: number, total: number): void;
 }
 
 export class BatchProcessor<T, R = void> {

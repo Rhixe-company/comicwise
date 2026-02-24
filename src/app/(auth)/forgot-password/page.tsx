@@ -13,12 +13,13 @@ import { AuthForm, EmailField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { forgotPassword } from "@/lib/actions/auth";
-import type { ForgotPasswordInput } from "@/lib/validations";
 import { forgotPasswordSchema } from "@/lib/validations";
+
+import type { ForgotPasswordInput } from "@/lib/validations";
 
 export default function ForgotPasswordPage() {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<null | string>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onSubmit = async (data: ForgotPasswordInput) => {
@@ -62,10 +63,10 @@ export default function ForgotPasswordPage() {
           </CardDescription>
         </CardHeader>
         <CardFooter className="flex-col space-y-2">
-          <Link href="/sign-in" className="w-full">
+          <Link className="w-full" href="/sign-in">
             <Button className="w-full">Back to Sign In</Button>
           </Link>
-          <Button variant="ghost" className="w-full" onClick={() => setIsSubmitted(false)}>
+          <Button className="w-full" onClick={() => setIsSubmitted(false)} variant="ghost">
             Send another link
           </Button>
         </CardFooter>
@@ -75,28 +76,28 @@ export default function ForgotPasswordPage() {
 
   return (
     <AuthForm
-      title="Forgot Password"
-      description="Enter your email address and we'll send you a link to reset your password"
-      schema={forgotPasswordSchema}
       defaultValues={{ email: "" }}
-      onSubmit={onSubmit}
+      description="Enter your email address and we'll send you a link to reset your password"
       error={error}
-      isLoading={isPending}
-      submitLabel="Send Reset Link"
       footer={
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-center text-sm">
           Remember your password?{" "}
           <Link
-            href="/sign-in"
             className={`
               text-primary
               hover:underline
             `}
+            href="/sign-in"
           >
             Sign in
           </Link>
         </p>
       }
+      isLoading={isPending}
+      onSubmit={onSubmit}
+      schema={forgotPasswordSchema}
+      submitLabel="Send Reset Link"
+      title="Forgot Password"
     >
       <EmailField disabled={isPending} />
     </AuthForm>

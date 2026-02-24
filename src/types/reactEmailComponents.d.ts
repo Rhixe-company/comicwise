@@ -3,17 +3,17 @@ declare module "@react-email/components" {
   import type * as React from "react";
 
   export interface ImgProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-    src?: string;
     alt?: string;
-    width?: string | number;
-    height?: string | number;
+    height?: number | string;
+    src?: string;
+    width?: number | string;
   }
 
   export const Img: React.FC<ImgProps>;
 
   export interface HeadingProps {
+    as?: React.ElementType | string;
     children?: React.ReactNode;
-    as?: string | React.ElementType;
     style?: React.CSSProperties;
   }
 

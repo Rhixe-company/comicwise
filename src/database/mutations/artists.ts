@@ -15,9 +15,9 @@ import { artist } from "@/database/schema";
  * @param data.image
  */
 export async function createArtist(data: {
-  name: string;
   bio?: string;
   image?: string;
+  name: string;
 }): Promise<typeof artist.$inferSelect | undefined> {
   const [newArtist] = await database
     .insert(artist)
@@ -47,9 +47,9 @@ export async function createArtist(data: {
 export async function updateArtist(
   artistId: number,
   data: {
+    bio?: null | string;
+    image?: null | string;
     name?: string;
-    bio?: string | null;
-    image?: string | null;
   }
 ): Promise<typeof artist.$inferSelect | undefined> {
   const cleanData = {

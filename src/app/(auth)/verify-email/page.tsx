@@ -4,6 +4,11 @@
 // VERIFY EMAIL PAGE (Next.js 16 + React 19)
 // ═══════════════════════════════════════════════════
 
+import { CheckCircle2, Loader2, XCircle } from "lucide-react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,13 +19,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { verifyEmail as verifyEmailAction } from "@/lib/actions/auth";
-import { CheckCircle2, Loader2, XCircle } from "lucide-react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
 
 function VerifyEmailContent() {
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  const [status, setStatus] = useState<"error" | "loading" | "success">("loading");
   const [errorMessage, setErrorMessage] = useState("");
   const searchParameters = useSearchParams();
 
@@ -58,7 +59,7 @@ function VerifyEmailContent() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div className={`mx-auto mb-2 flex size-12 items-center justify-center`}>
-            <Loader2 className="size-8 animate-spin text-primary" />
+            <Loader2 className="text-primary size-8 animate-spin" />
           </div>
           <CardTitle className="text-2xl font-bold">Verifying Email</CardTitle>
           <CardDescription>Please wait while we verify your email address...</CardDescription>
@@ -83,11 +84,11 @@ function VerifyEmailContent() {
           <CardDescription className="text-red-600">{errorMessage}</CardDescription>
         </CardHeader>
         <CardFooter className="flex-col space-y-2">
-          <Link href="/resend-verification" className="w-full">
+          <Link className="w-full" href="/resend-verification">
             <Button className="w-full">Request New Link</Button>
           </Link>
-          <Link href="/sign-in" className="w-full">
-            <Button variant="outline" className="w-full">
+          <Link className="w-full" href="/sign-in">
+            <Button className="w-full" variant="outline">
               Back to Sign In
             </Button>
           </Link>
@@ -113,16 +114,16 @@ function VerifyEmailContent() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="rounded-lg border border-border bg-muted/50 p-4">
+        <div className="border-border bg-muted/50 rounded-lg border p-4">
           <h3 className="mb-2 font-semibold">Welcome to ComicWise!</h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Start exploring thousands of comics, bookmark your favorites, and join our community of
             readers.
           </p>
         </div>
       </CardContent>
       <CardFooter>
-        <Link href="/sign-in" className="w-full">
+        <Link className="w-full" href="/sign-in">
           <Button className="w-full">Continue to Sign In</Button>
         </Link>
       </CardFooter>

@@ -1,15 +1,19 @@
+import { Trash2 } from "lucide-react";
+import { notFound, redirect } from "next/navigation";
+import { Suspense } from "react";
+
 import { deleteComicAction, updateComicAction } from "@/app/actions/admin/comics";
 import { ComicForm } from "@/components/admin/ComicForm";
 import { useConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getComicById } from "@/database/queries/adminComics";
+
 import { auth } from "auth";
-import { Trash2 } from "lucide-react";
+
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
 import type { JSX } from "react";
-import { Suspense } from "react";
+
 
 interface ComicDetailPageProps {
   params: Promise<{ id: string }>;
@@ -50,7 +54,7 @@ async function ComicEditForm({ id }: { id: number }) {
           description: comic.description,
           slug: comic.slug,
           coverImage: comic.coverImage,
-          status: comic.status as "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Coming Soon",
+          status: comic.status as "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing",
           publicationDate: comic.publicationDate,
           authorId: comic.authorId ? String(comic.authorId) : undefined,
           artistId: comic.artistId ? String(comic.artistId) : undefined,
@@ -85,7 +89,6 @@ function DeleteComicButton({ comicId }: { comicId: number }) {
     <>
       <ConfirmDialog />
       <Button
-        variant="destructive"
         onClick={() =>
           confirm({
             title: "Delete Comic",
@@ -102,6 +105,7 @@ function DeleteComicButton({ comicId }: { comicId: number }) {
             },
           })
         }
+        variant="destructive"
       >
         <Trash2 className="mr-2 size-4" />
         Delete Comic

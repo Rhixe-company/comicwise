@@ -1,12 +1,13 @@
-import { ComicsListContent } from "@/components/admin/ComicsListContent";
-import { getComicsWithPagination, searchComics } from "@/database/queries/adminComics";
 import { Suspense } from "react";
 
+import { ComicsListContent } from "@/components/admin/ComicsListContent";
+import { getComicsWithPagination, searchComics } from "@/database/queries/adminComics";
+
 interface ComicsPageProps {
-  searchParams: Promise<{ q?: string; cursor?: string }>;
+  searchParams: Promise<{ cursor?: string; q?: string; }>;
 }
 
-async function ComicsListPageContent({ q, cursor }: { q?: string; cursor?: string }) {
+async function ComicsListPageContent({ q, cursor }: { cursor?: string; q?: string; }) {
   let data;
 
   if (q) {
@@ -22,8 +23,8 @@ async function ComicsListPageContent({ q, cursor }: { q?: string; cursor?: strin
 
   return (
     <ComicsListContent
-      initialComics={data.data as any}
       hasNextPage={data.hasNextPage}
+      initialComics={data.data as any}
       nextCursor={data.nextCursor}
     />
   );
@@ -33,7 +34,7 @@ export default async function ComicsPage({ searchParams }: ComicsPageProps) {
   const params = await searchParams;
   return (
     <Suspense fallback={<div>Loading comics...</div>}>
-      <ComicsListPageContent q={params.q} cursor={params.cursor} />
+      <ComicsListPageContent cursor={params.cursor} q={params.q} />
     </Suspense>
   );
 }

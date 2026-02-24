@@ -1,6 +1,7 @@
+import { eq } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { chapterImage } from "@/database/schema";
-import { eq } from "drizzle-orm";
 
 export async function createChapterImage(data: {
   chapterId: number;
@@ -26,7 +27,7 @@ export async function createChapterImages(
     pageNumber: number;
   }>
 ): Promise<(typeof chapterImage.$inferSelect)[]> {
-  const newImages = await database
+  return await database
     .insert(chapterImage)
     .values(
       images.map((img) => ({
@@ -35,7 +36,6 @@ export async function createChapterImages(
       }))
     )
     .returning();
-  return newImages;
 }
 
 export async function updateChapterImage(
@@ -66,9 +66,8 @@ export async function deleteChapterImage(
 export async function deleteChapterImages(
   chapterId: number
 ): Promise<(typeof chapterImage.$inferSelect)[]> {
-  const deletedImages = await database
+  return await database
     .delete(chapterImage)
     .where(eq(chapterImage.chapterId, chapterId))
     .returning();
-  return deletedImages;
 }

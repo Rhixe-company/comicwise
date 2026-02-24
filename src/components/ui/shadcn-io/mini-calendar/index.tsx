@@ -1,10 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { addDays, format, isSameDay, isToday } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Slot } from "radix-ui";
+import { createContext, useContext } from "react";
+
+import { Button } from "@/components/ui/button";
+
+import { cn } from "utils";
+
 import type {
   ButtonHTMLAttributes,
   ComponentProps,
@@ -12,16 +17,14 @@ import type {
   MouseEventHandler,
   ReactNode,
 } from "react";
-import { createContext, useContext } from "react";
-import { cn } from "utils";
 
 // Context for sharing state between components
 interface MiniCalendarContextType {
-  selectedDate: Date | null | undefined;
-  onDateSelect(date: Date): void;
-  startDate: Date;
-  onNavigate(direction: "prev" | "next"): void;
   days: number;
+  onDateSelect(date: Date): void;
+  onNavigate(direction: "next" | "prev"): void;
+  selectedDate: Date | null | undefined;
+  startDate: Date;
 }
 
 const MiniCalendarContext = createContext<MiniCalendarContextType | null>(null);
@@ -54,13 +57,13 @@ const formatDate = (date: Date) => {
 };
 
 export type MiniCalendarProps = HTMLAttributes<HTMLDivElement> & {
-  value?: Date;
+  days?: number;
+  defaultStartDate?: Date;
   defaultValue?: Date;
+  onStartDateChange?(date: Date | undefined): void;
   onValueChange?(date: Date | undefined): void;
   startDate?: Date;
-  defaultStartDate?: Date;
-  onStartDateChange?(date: Date | undefined): void;
-  days?: number;
+  value?: Date;
 };
 
 export const MiniCalendar = ({
@@ -91,7 +94,7 @@ export const MiniCalendar = ({
     setSelectedDate(date);
   };
 
-  const handleNavigate = (direction: "prev" | "next") => {
+  const handleNavigate = (direction: "next" | "prev") => {
     const newStartDate = addDays(
       currentStartDate || new Date(),
       direction === "next" ? days : -days
@@ -112,7 +115,7 @@ export const MiniCalendar = ({
       <div
         className={cn(
           `
-          flex items-center gap-2 rounded-lg border bg-background p-2
+          bg-background flex items-center gap-2 rounded-lg border p-2
         `,
           className
         )}
@@ -125,8 +128,8 @@ export const MiniCalendar = ({
 };
 
 export type MiniCalendarNavigationProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  direction: "prev" | "next";
   asChild?: boolean;
+  direction: "next" | "prev";
 };
 
 export const MiniCalendarNavigation = ({
@@ -208,7 +211,7 @@ export const MiniCalendarDay = ({ date, className, ...props }: MiniCalendarDayPr
     >
       <span
         className={cn(
-          "text-[10px] font-medium text-muted-foreground",
+          "text-muted-foreground text-[10px] font-medium",
           isSelected && "text-primary-foreground/70"
         )}
       >

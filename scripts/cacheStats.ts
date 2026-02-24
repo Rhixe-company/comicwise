@@ -5,12 +5,13 @@
  */
 
 import IORedis from "ioredis";
+
 import { env } from "../appConfig";
 
 const redis = new IORedis({
-  host: env.REDIS_HOST || "localhost",
-  port: Number(env.REDIS_PORT) || 6379,
-  password: env.REDIS_PASSWORD || undefined,
+  host: typeof env.REDIS_HOST !== "undefined" ? env.REDIS_HOST : "localhost",
+  port: typeof env.REDIS_PORT !== "undefined" ? Number(env.REDIS_PORT) : 6379,
+  password: typeof env.REDIS_PASSWORD !== "undefined" ? env.REDIS_PASSWORD : undefined,
 });
 
 async function getCacheStats() {
@@ -32,17 +33,17 @@ async function getCacheStats() {
     console.log(`  Keys: ${dbsize}`);
 
     console.log("\n💾 Memory:");
-    memoryLines.forEach((line) => {
+    for (const line of memoryLines) {
       if (line.startsWith("used_memory_human:")) {
         console.log(`  Used: ${line.split(":")[1]}`);
       }
       if (line.startsWith("used_memory_peak_human:")) {
         console.log(`  Peak: ${line.split(":")[1]}`);
       }
-    });
+    }
 
     console.log("\n📈 Stats:");
-    infoLines.forEach((line) => {
+    for (const line of infoLines) {
       if (line.startsWith("total_commands_processed:")) {
         console.log(`  Commands: ${line.split(":")[1]}`);
       }
@@ -52,7 +53,7 @@ async function getCacheStats() {
       if (line.startsWith("keyspace_misses:")) {
         console.log(`  Misses: ${line.split(":")[1]}`);
       }
-    });
+    }
 
     // Get keys by pattern
     const patterns = ["comic:*", "chapter:*", "user:*", "cache:*"];

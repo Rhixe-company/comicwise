@@ -5,15 +5,16 @@
  */
 
 import { logger as baseLogger } from "@/lib/logger";
+
 import type { SQL } from "drizzle-orm";
 import type { Logger } from "pino";
 
 export interface ListOptions {
+  [key: string]: unknown;
   limit?: number;
   offset?: number;
-  search?: string;
   orderBy?: string;
-  [key: string]: unknown;
+  search?: string;
 }
 
 /**
@@ -56,19 +57,19 @@ export abstract class BaseDal<TData, TInsert> {
    * Find a record by ID
    * Must be implemented by subclasses
    */
-  abstract findById(id: string | number): Promise<TData | undefined>;
+  abstract findById(id: number | string): Promise<TData | undefined>;
 
   /**
    * Update a record
    * Must be implemented by subclasses
    */
-  abstract update(id: string | number, data: Partial<TInsert>): Promise<TData | undefined>;
+  abstract update(id: number | string, data: Partial<TInsert>): Promise<TData | undefined>;
 
   /**
    * Delete a record
    * Must be implemented by subclasses
    */
-  abstract delete(id: string | number): Promise<TData | undefined>;
+  abstract delete(id: number | string): Promise<TData | undefined>;
 
   /**
    * List records with optional filtering and pagination

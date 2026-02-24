@@ -1,14 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Bookmark, BookOpen, LogOut, Menu, Search, User } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import type { FormEvent } from "react";
+import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 import { cn } from "utils";
+
+import type { FormEvent } from "react";
 
 export function AppNavbar() {
   const pathname = usePathname();
@@ -43,8 +46,8 @@ export function AppNavbar() {
   return (
     <nav
       className={`
-        sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm
-        supports-backdrop-filter:bg-background/60
+        bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 border-b
+        backdrop-blur-sm
       `}
     >
       <div
@@ -53,7 +56,7 @@ export function AppNavbar() {
         `}
       >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 text-xl font-bold">
+        <Link className="flex items-center gap-2 text-xl font-bold" href="/">
           <BookOpen className="size-6" />
           <span
             className={`
@@ -78,15 +81,15 @@ export function AppNavbar() {
             }
             return (
               <Link
-                key={link.href}
-                href={link.href}
                 className={cn(
                   `
-                    text-sm font-medium transition-colors
-                    hover:text-primary
+                    hover:text-primary text-sm font-medium
+                    transition-colors
                   `,
                   isActive(link.href) ? "text-foreground" : "text-muted-foreground"
                 )}
+                href={link.href}
+                key={link.href}
               >
                 {link.label}
               </Link>
@@ -96,25 +99,25 @@ export function AppNavbar() {
 
         {/* Search Bar (Desktop) */}
         <form
-          onSubmit={handleSearch}
           className={`
             mx-6 hidden max-w-sm flex-1
             lg:flex
           `}
+          onSubmit={handleSearch}
         >
           <div className="relative w-full">
             <Search
               className={`
-                absolute top-1/2 left-3 size-4 -translate-y-1/2
-                text-muted-foreground
+                text-muted-foreground absolute top-1/2 left-3 size-4
+                -translate-y-1/2
               `}
             />
             <Input
-              type="search"
-              placeholder="Search comics..."
               className="w-full pl-9"
-              value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search comics..."
+              type="search"
+              value={searchQuery}
             />
           </div>
         </form>
@@ -122,33 +125,33 @@ export function AppNavbar() {
         {/* User Menu */}
         <div className="flex items-center gap-2">
           {status === "loading" ? (
-            <div className="size-8 animate-pulse rounded-full bg-muted" />
+            <div className="bg-muted size-8 animate-pulse rounded-full" />
           ) : status === "authenticated" ? (
             <>
               <Link
-                href="/bookmarks"
                 className={`
                   hidden
                   md:inline-block
                 `}
+                href="/bookmarks"
               >
-                <Button variant="ghost" size="icon">
+                <Button size="icon" variant="ghost">
                   <Bookmark className="size-5" />
                 </Button>
               </Link>
               <Link href="/profile">
-                <Button variant="ghost" size="icon">
+                <Button size="icon" variant="ghost">
                   <User className="size-5" />
                 </Button>
               </Link>
               <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => signOut()}
                 className={`
                   hidden
                   md:inline-flex
                 `}
+                onClick={() => signOut()}
+                size="icon"
+                variant="ghost"
               >
                 <LogOut className="size-5" />
               </Button>
@@ -161,7 +164,7 @@ export function AppNavbar() {
               `}
             >
               <Link href="/sign-in">
-                <Button variant="ghost" size="sm">
+                <Button size="sm" variant="ghost">
                   Sign In
                 </Button>
               </Link>
@@ -173,10 +176,10 @@ export function AppNavbar() {
 
           {/* Mobile Menu Button */}
           <Button
-            variant="ghost"
-            size="icon"
             className="md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            size="icon"
+            variant="ghost"
           >
             <Menu className="size-5" />
           </Button>
@@ -193,19 +196,19 @@ export function AppNavbar() {
         >
           <div className="container mx-auto space-y-4 p-4">
             {/* Mobile Search */}
-            <form onSubmit={handleSearch} className="relative">
+            <form className="relative" onSubmit={handleSearch}>
               <Search
                 className={`
-                  absolute top-1/2 left-3 size-4 -translate-y-1/2
-                  text-muted-foreground
+                  text-muted-foreground absolute top-1/2 left-3 size-4
+                  -translate-y-1/2
                 `}
               />
               <Input
-                type="search"
-                placeholder="Search comics..."
                 className="w-full pl-9"
-                value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search comics..."
+                type="search"
+                value={searchQuery}
               />
             </form>
 
@@ -217,9 +220,6 @@ export function AppNavbar() {
                 }
                 return (
                   <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
                       `
                         rounded-md px-4 py-2 text-sm font-medium
@@ -229,6 +229,9 @@ export function AppNavbar() {
                         ? "bg-muted text-foreground"
                         : "text-muted-foreground hover:bg-muted"
                     )}
+                    href={link.href}
+                    key={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
                   </Link>
@@ -238,35 +241,35 @@ export function AppNavbar() {
               {status === "authenticated" ? (
                 <>
                   <Link
+                    className={`
+                      text-muted-foreground hover:bg-muted rounded-md px-4 py-2
+                      text-sm
+                      font-medium
+                    `}
                     href="/profile"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`
-                      rounded-md px-4 py-2 text-sm font-medium
-                      text-muted-foreground
-                      hover:bg-muted
-                    `}
                   >
                     Profile
                   </Link>
                   <Button
-                    variant="ghost"
                     className="justify-start"
                     onClick={() => {
                       signOut();
                       setIsMobileMenuOpen(false);
                     }}
+                    variant="ghost"
                   >
                     Sign Out
                   </Button>
                 </>
               ) : (
                 <div className="flex gap-2 pt-2">
-                  <Link href="/sign-in" className="flex-1">
-                    <Button variant="outline" className="w-full" size="sm">
+                  <Link className="flex-1" href="/sign-in">
+                    <Button className="w-full" size="sm" variant="outline">
                       Sign In
                     </Button>
                   </Link>
-                  <Link href="/register" className="flex-1">
+                  <Link className="flex-1" href="/register">
                     <Button className="w-full" size="sm">
                       Sign Up
                     </Button>

@@ -168,8 +168,8 @@ export function getResponsiveImageSizes(): string {
 }
 
 interface ImageDimensions {
-  width: number;
   height: number;
+  width: number;
 }
 
 /**

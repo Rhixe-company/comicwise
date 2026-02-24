@@ -11,6 +11,7 @@ import {
   zodToValidationResult,
 } from "@/lib/api/generic-crud";
 import { typeIdSchema, updateTypeSchema } from "@/lib/validations";
+
 import type { NextRequest } from "next/server";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -28,7 +29,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
   return updateGenericEntity(id, body, {
     updateFn: async (idValue, data) =>
-      updateType(Number(idValue), data as { name?: string; description?: string | null }),
+      updateType(Number(idValue), data as { description?: null | string; name?: string; }),
     idValidateFn: zodToValidationResult(typeIdSchema),
     dataValidateFn: zodToValidationResult(updateTypeSchema),
     entityName: "type",

@@ -1,12 +1,13 @@
+import { revalidatePath } from "next/cache";
+import Image from "next/image";
+import { redirect } from "next/navigation";
+
 import ClientImageUploader from "@/components/admin/ClientImageUploader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { deleteArtist, updateArtist } from "@/dto/artistsDto";
-import { revalidatePath } from "next/cache";
-import Image from "next/image";
-import { redirect } from "next/navigation";
 
 // `ClientImageUploader` moved to `components/admin/ClientImageUploader`
 
@@ -56,44 +57,44 @@ export default async function EditArtistForm({ params }: { params: { id: string 
         <CardContent>
           <form action={handleUpdate} className="space-y-6" method="post">
             <div className="space-y-2">
-              <label htmlFor="name" className="sr-only">
+              <label className="sr-only" htmlFor="name">
                 Name
               </label>
               <Input
+                defaultValue={artist.name ?? ""}
                 id="name"
                 name="name"
-                defaultValue={artist.name ?? ""}
                 placeholder="Artist's full name"
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="bio" className="sr-only">
+              <label className="sr-only" htmlFor="bio">
                 Biography
               </label>
               <Textarea
+                defaultValue={artist.bio ?? ""}
                 id="bio"
                 name="bio"
-                defaultValue={artist.bio ?? ""}
                 placeholder="Brief biography of the artist..."
                 rows={5}
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="image" className="sr-only">
+              <label className="sr-only" htmlFor="image">
                 Profile Image
               </label>
               <Input
+                defaultValue={artist.profileImage ?? ""}
                 id="image"
                 name="image"
-                type="url"
-                defaultValue={artist.profileImage ?? ""}
                 placeholder="https://example.com/image.jpg"
+                type="url"
               />
               <div className="flex items-center gap-4">
-                <span className="text-sm text-muted-foreground">or</span>
+                <span className="text-muted-foreground text-sm">or</span>
                 <ClientImageUploader targetInputId="image" />
               </div>
               {artist.profileImage && (
@@ -103,14 +104,14 @@ export default async function EditArtistForm({ params }: { params: { id: string 
                   `}
                 >
                   <Image
-                    src={artist.profileImage}
                     alt="Profile preview"
-                    fill
                     className="object-cover"
+                    fill
+                    src={artist.profileImage}
                   />
                 </div>
               )}
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Upload or provide URL for artist's profile image
               </p>
             </div>
@@ -122,7 +123,7 @@ export default async function EditArtistForm({ params }: { params: { id: string 
                 </Button>
               </form>
               <div className="flex gap-4">
-                <Button type="button" variant="outline" onClick={() => window.history.back()}>
+                <Button onClick={() => window.history.back()} type="button" variant="outline">
                   Cancel
                 </Button>
                 <Button type="submit">Save Changes</Button>

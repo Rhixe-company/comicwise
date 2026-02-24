@@ -4,13 +4,14 @@
  * Handles user creation with avatar image management
  */
 
+import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { user } from "@/database/schema";
 import { loadUsers } from "@/database/seed/dataLoaderOptimized";
 import { downloadImage } from "@/database/seed/imageHandlerOptimized";
 import { logger } from "@/database/seed/logger";
-import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -23,9 +24,9 @@ interface SeedOptions {
 
 interface SeedStats {
   created: number;
-  updated: number;
-  skipped: number;
   errors: number;
+  skipped: number;
+  updated: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -54,9 +55,9 @@ export async function seedUsers(options: SeedOptions = {}): Promise<SeedStats> {
 
     if (loadResult.invalid > 0) {
       logger.warn(`⚠ User validation errors: ${loadResult.invalid}`);
-      loadResult.errors.forEach((error) => {
+      for (const error of loadResult.errors) {
         logger.debug(`  Row ${error.index}: ${error.error}`);
-      });
+      }
     }
 
     if (loadResult.data.length === 0) {
@@ -114,7 +115,7 @@ async function upsertUser(
     });
 
     // Download avatar if provided
-    let avatarUrl: string | null = null;
+    let avatarUrl: null | string = null;
     if (data.image) {
       const imageResult = await downloadImage(data.image, "avatars");
       if (imageResult.success && imageResult.local) {

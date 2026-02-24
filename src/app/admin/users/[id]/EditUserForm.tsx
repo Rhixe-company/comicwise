@@ -1,9 +1,10 @@
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { deleteUser, updateUser } from "@/dto/usersDto";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export default async function EditUserForm({ params }: { params: { id: string } }) {
   const id = String(params.id);
@@ -27,7 +28,7 @@ export default async function EditUserForm({ params }: { params: { id: string } 
     const result = await updateUser(id, {
       name: formData.get("name") as string | undefined,
       email: formData.get("email") as string | undefined,
-      role: formData.get("role") as "user" | "admin" | "moderator" | undefined,
+      role: formData.get("role") as "admin" | "moderator" | "user" | undefined,
       image: formData.get("image") as string | undefined,
       emailVerified: formData.get("emailVerified") === "true" ? new Date() : undefined,
     });
@@ -63,34 +64,34 @@ export default async function EditUserForm({ params }: { params: { id: string } 
         <CardContent>
           <form action={handleUpdate} className="space-y-6" method="post">
             <div>
-              <label htmlFor="name" className="sr-only">
+              <label className="sr-only" htmlFor="name">
                 Name
               </label>
-              <Input id="name" name="name" defaultValue={user.name ?? ""} placeholder="John Doe" />
+              <Input defaultValue={user.name ?? ""} id="name" name="name" placeholder="John Doe" />
             </div>
 
             <div>
-              <label htmlFor="email" className="sr-only">
+              <label className="sr-only" htmlFor="email">
                 Email
               </label>
               <Input
+                defaultValue={user.email ?? ""}
                 id="email"
                 name="email"
-                type="email"
-                defaultValue={user.email ?? ""}
                 placeholder="johnexample.com"
+                type="email"
               />
             </div>
 
             <div>
-              <label htmlFor="role" className="sr-only">
+              <label className="sr-only" htmlFor="role">
                 Role
               </label>
               <select
+                className="w-full rounded-sm border px-3 py-2"
+                defaultValue={user.role ?? "user"}
                 id="role"
                 name="role"
-                defaultValue={user.role ?? "user"}
-                className="w-full rounded-sm border px-3 py-2"
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
@@ -99,15 +100,15 @@ export default async function EditUserForm({ params }: { params: { id: string } 
             </div>
 
             <div>
-              <label htmlFor="image" className="sr-only">
+              <label className="sr-only" htmlFor="image">
                 Avatar Image URL
               </label>
               <Input
+                defaultValue={user.image ?? ""}
                 id="image"
                 name="image"
-                type="url"
-                defaultValue={user.image ?? ""}
                 placeholder="https://example.com/avatar.jpg"
+                type="url"
               />
             </div>
 
@@ -118,7 +119,7 @@ export default async function EditUserForm({ params }: { params: { id: string } 
                 </Button>
               </form>
               <div className="flex gap-4">
-                <Button type="button" variant="outline" onClick={() => window.history.back()}>
+                <Button onClick={() => window.history.back()} type="button" variant="outline">
                   Cancel
                 </Button>
                 <Button type="submit">Save Changes</Button>

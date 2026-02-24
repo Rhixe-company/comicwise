@@ -4,21 +4,22 @@
  * Handles image downloads with caching and deduplication
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
 import { logger } from "@/database/seed/logger";
 import { ImageService } from "@/services/imageService";
-import fs from "fs/promises";
-import path from "path";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // IMAGE DOWNLOAD RESULT
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface ImageDownloadResult {
-  original: string;
-  local?: string;
   cached: boolean;
-  success: boolean;
   error?: string;
+  local?: string;
+  original: string;
+  success: boolean;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -66,11 +67,11 @@ async function initializeFileSystemCache(): Promise<void> {
     const uploadsDirectory = path.join(process.cwd(), "public", "uploads");
     const files = await fs.readdir(uploadsDirectory, { withFileTypes: true });
 
-    files.forEach((file) => {
+    for (const file of files) {
       if (file.isFile()) {
         fileSystemCache.add(file.name);
       }
-    });
+    }
 
     logger.debug(`Initialized file system cache with ${fileSystemCache.size} files`);
   } catch (error) {
@@ -196,7 +197,7 @@ export async function downloadImage(
  */
 export async function downloadImages(
   urls: string[],
-  folder?: string | number,
+  folder?: number | string,
   concurrency?: number
 ): Promise<ImageDownloadResult[]> {
   const results: ImageDownloadResult[] = [];
@@ -240,8 +241,8 @@ export async function initializeImageHandler(): Promise<void> {
  * Get image statistics
  */
 export function getImageStats(): {
-  sessionCached: number;
   fileSystemCached: number;
+  sessionCached: number;
   totalUnique: number;
 } {
   return {

@@ -1,11 +1,15 @@
+import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
+import NextAuth from "next-auth";
+
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
+
 import { authOptions } from "authConfig";
-import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
+
 import type { Session } from "next-auth";
-import NextAuth from "next-auth";
+
 // Type assertion to satisfy NextAuth's strict typing
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
 
@@ -21,7 +25,7 @@ export async function hashPassword(password: string): Promise<string> {
  * Get the current user's session
  * Safe to call from Server Components
  */
-export async function getSession(): Promise<Session | null> {
+export async function getSession(): Promise<null | Session> {
   try {
     return await auth();
   } catch {
@@ -32,7 +36,7 @@ export async function getSession(): Promise<Session | null> {
 /**
  * Get the currently logged-in user with full details from database
  */
-export async function getCurrentUser(): Promise<typeof user.$inferSelect | null> {
+export async function getCurrentUser(): Promise<null | typeof user.$inferSelect> {
   try {
     const session = await getSession();
 
@@ -53,7 +57,7 @@ export async function getCurrentUser(): Promise<typeof user.$inferSelect | null>
 /**
  * Get current user ID safely
  */
-export async function getCurrentUserId(): Promise<string | null> {
+export async function getCurrentUserId(): Promise<null | string> {
   try {
     const session = await getSession();
     return session?.user?.id ?? null;

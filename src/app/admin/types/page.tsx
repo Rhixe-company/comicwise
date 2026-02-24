@@ -1,9 +1,10 @@
-import { env } from "@/appConfig";
-import { DataTable } from "@/components/admin/DataTable";
-import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+
+import { env } from "@/appConfig";
+import { DataTable } from "@/components/admin/DataTable";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 

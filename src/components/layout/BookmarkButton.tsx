@@ -1,14 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useBookmarkStore } from "@/stores/bookmarkStore";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
+import { useBookmarkStore } from "@/stores/bookmarkStore";
+
 interface BookmarkButtonProps {
-  comicId: number;
   chapterId?: number;
+  comicId: number;
   onToggle?(isBookmarked: boolean): void;
 }
 
@@ -43,10 +44,10 @@ export function BookmarkButton({ comicId, onToggle }: Omit<BookmarkButtonProps, 
 
   return (
     <Button
-      onClick={handleToggle}
       disabled={isLoading}
-      variant={bookmarked ? "default" : "outline"}
+      onClick={handleToggle}
       size="lg"
+      variant={bookmarked ? "default" : "outline"}
     >
       {bookmarked ? (
         <BookmarkCheck className="mr-2 size-5" />

@@ -1,5 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,43 +25,40 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+
 import type { Path } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import type { z } from "zod";
 
 export type FieldType =
-  | "text"
+  | "date"
   | "email"
-  | "password"
+  | "file"
   | "number"
-  | "textarea"
+  | "password"
   | "select"
   | "switch"
-  | "date"
-  | "file";
+  | "text"
+  | "textarea";
 
 export interface FormFieldConfig<T extends z.ZodTypeAny> {
-  name: keyof z.infer<T>;
-  label: string;
-  type: FieldType;
-  placeholder?: string;
   description?: string;
-  options?: { label: string; value: string }[];
   disabled?: boolean;
+  label: string;
+  name: keyof z.infer<T>;
+  options?: { label: string; value: string }[];
+  placeholder?: string;
   required?: boolean;
+  type: FieldType;
 }
 
 interface BaseFormProps<T extends z.ZodTypeAny> {
-  schema: T;
-  fields: FormFieldConfig<T>[];
-  defaultValues: Partial<z.infer<T>>;
-  onSubmit(values: z.infer<T>): Promise<void>;
-  submitLabel?: string;
-  isLoading?: boolean;
   className?: string;
+  defaultValues: Partial<z.infer<T>>;
+  fields: FormFieldConfig<T>[];
+  isLoading?: boolean;
+  onSubmit(values: z.infer<T>): Promise<void>;
+  schema: T;
+  submitLabel?: string;
 }
 
 export function BaseForm<T extends z.ZodType<any, any, any>>({
@@ -92,16 +94,16 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
       case "textarea":
         return (
           <FormField
-            key={String(fieldName)}
             control={formInstance.control as any}
+            key={String(fieldName)}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem>
                 <FormLabel>{field.label}</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder={field.placeholder}
                     disabled={field.disabled}
+                    placeholder={field.placeholder}
                     {...formField}
                   />
                 </FormControl>
@@ -115,16 +117,16 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
       case "date":
         return (
           <FormField
-            key={String(fieldName)}
             control={formInstance.control as any}
+            key={String(fieldName)}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem>
                 <FormLabel>{field.label}</FormLabel>
                 <Select
-                  onValueChange={formField.onChange}
                   defaultValue={String(formField.value ?? "")}
                   disabled={field.disabled}
+                  onValueChange={formField.onChange}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -149,8 +151,8 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
       case "switch":
         return (
           <FormField
-            key={String(fieldName)}
             control={formInstance.control as any}
+            key={String(fieldName)}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem
@@ -166,8 +168,8 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
                 <FormControl>
                   <Switch
                     checked={Boolean(formField.value)}
-                    onCheckedChange={formField.onChange}
                     disabled={field.disabled}
+                    onCheckedChange={formField.onChange}
                   />
                 </FormControl>
               </FormItem>
@@ -178,20 +180,20 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
       case "number":
         return (
           <FormField
-            key={String(fieldName)}
             control={formInstance.control as any}
+            key={String(fieldName)}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem>
                 <FormLabel>{field.label}</FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
-                    placeholder={field.placeholder}
                     disabled={field.disabled}
+                    placeholder={field.placeholder}
+                    type="number"
                     {...formField}
-                    value={formField.value as number}
                     onChange={(e) => formField.onChange(Number.parseFloat(e.target.value) || 0)}
+                    value={formField.value as number}
                   />
                 </FormControl>
                 {field.description && <FormDescription>{field.description}</FormDescription>}
@@ -204,17 +206,17 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
       default:
         return (
           <FormField
-            key={String(fieldName)}
             control={formInstance.control as any}
+            key={String(fieldName)}
             name={fieldName}
             render={({ field: formField }) => (
               <FormItem>
                 <FormLabel>{field.label}</FormLabel>
                 <FormControl>
                   <Input
-                    type={field.type}
-                    placeholder={field.placeholder}
                     disabled={field.disabled}
+                    placeholder={field.placeholder}
+                    type={field.type}
                     {...formField}
                     value={formField.value as string}
                   />
@@ -231,14 +233,14 @@ export function BaseForm<T extends z.ZodType<any, any, any>>({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmit)}
         className={`
           space-y-6
           ${className}
         `}
+        onSubmit={form.handleSubmit(handleSubmit)}
       >
         {fields.map((field) => renderField(field, form))}
-        <Button type="submit" disabled={isLoading}>
+        <Button disabled={isLoading} type="submit">
           {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
           {submitLabel}
         </Button>

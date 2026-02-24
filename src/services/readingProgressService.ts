@@ -1,38 +1,39 @@
 "use server";
 
+import { and, desc, eq, lt, sql } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { chapter, comic, readingProgress } from "@/database/schema";
 import { cacheKeys, cacheService, cacheTTL } from "@/services/cacheService";
-import { and, desc, eq, lt, sql } from "drizzle-orm";
 
 export interface ReadingProgressData {
-  userId: string;
   chapterId: number;
   comicId: number;
   pageNumber: number;
   scrollPosition: number;
   totalPages: number;
+  userId: string;
 }
 
 export interface ReadingHistory {
-  id: number;
   chapterId: number;
+  chapterNumber: number;
+  chapterTitle: string;
   comicId: number;
   comicTitle: string;
-  chapterTitle: string;
-  chapterNumber: number;
+  completedAt: Date | null;
+  id: number;
+  lastReadAt: Date;
   pageNumber: number;
   progressPercent: number;
-  lastReadAt: Date;
-  completedAt: Date | null;
 }
 
 export interface ReadingStats {
-  totalComics: number;
-  totalChapters: number;
   completedChapters: number;
-  totalPages: number;
   pagesRead: number;
+  totalChapters: number;
+  totalComics: number;
+  totalPages: number;
 }
 
 /**

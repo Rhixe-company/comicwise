@@ -1,5 +1,9 @@
 "use client";
 
+import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { ChevronsUpDownIcon, PlusIcon } from "lucide-react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -11,11 +15,11 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { ChevronsUpDownIcon, PlusIcon } from "lucide-react";
-import type { ComponentProps, ReactNode } from "react";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+
 import { cn } from "utils";
+
+import type { ComponentProps, ReactNode } from "react";
+
 
 interface ComboboxData {
   label: string;
@@ -24,15 +28,15 @@ interface ComboboxData {
 
 interface ComboboxContextType {
   data: ComboboxData[];
-  type: string;
-  value: string;
+  inputValue: string;
+  onOpenChange(open: boolean): void;
   onValueChange(value: string): void;
   open: boolean;
-  onOpenChange(open: boolean): void;
-  width: number;
-  setWidth(width: number): void;
-  inputValue: string;
   setInputValue(value: string): void;
+  setWidth(width: number): void;
+  type: string;
+  value: string;
+  width: number;
 }
 
 const ComboboxContext = createContext<ComboboxContextType>({
@@ -50,12 +54,12 @@ const ComboboxContext = createContext<ComboboxContextType>({
 
 export type ComboboxProps = ComponentProps<typeof Popover> & {
   data: ComboboxData[];
-  type: string;
   defaultValue?: string;
-  value?: string;
+  onOpenChange?(open: boolean): void;
   onValueChange?(value: string): void;
   open?: boolean;
-  onOpenChange?(open: boolean): void;
+  type: string;
+  value?: string;
 };
 
 export const Combobox = ({
@@ -135,7 +139,7 @@ export const ComboboxTrigger = ({ children, ...props }: ComboboxTriggerProps) =>
         {children ?? (
           <span className="flex w-full items-center justify-between gap-2">
             {value ? data.find((item) => item.value === value)?.label : `Select ${type}...`}
-            <ChevronsUpDownIcon className="shrink-0 text-muted-foreground" size={16} />
+            <ChevronsUpDownIcon className="text-muted-foreground shrink-0" size={16} />
           </span>
         )}
       </Button>
@@ -158,9 +162,9 @@ export const ComboboxContent = ({ className, popoverOptions, ...props }: Combobo
 };
 
 export type ComboboxInputProps = ComponentProps<typeof CommandInput> & {
-  value?: string;
   defaultValue?: string;
   onValueChange?(value: string): void;
+  value?: string;
 };
 
 export const ComboboxInput = ({
@@ -239,9 +243,9 @@ export const ComboboxSeparator = (props: ComboboxSeparatorProps) => (
 );
 
 export interface ComboboxCreateNewProps {
-  onCreateNew(value: string): void;
   children?(inputValue: string): ReactNode;
   className?: string;
+  onCreateNew(value: string): void;
 }
 
 export const ComboboxCreateNew = ({ onCreateNew, children, className }: ComboboxCreateNewProps) => {
@@ -261,9 +265,9 @@ export const ComboboxCreateNew = ({ onCreateNew, children, className }: Combobox
     <button
       className={cn(
         `
-          relative flex w-full cursor-pointer items-center gap-2 rounded-sm px-2
-          py-1.5 text-sm outline-none select-none
-          aria-selected:bg-accent aria-selected:text-accent-foreground
+          aria-selected:bg-accent aria-selected:text-accent-foreground relative flex w-full cursor-pointer items-center gap-2
+          rounded-sm px-2 py-1.5 text-sm
+          outline-none select-none
           data-disabled:pointer-events-none data-disabled:opacity-50
         `,
         className
@@ -275,7 +279,7 @@ export const ComboboxCreateNew = ({ onCreateNew, children, className }: Combobox
         children(inputValue)
       ) : (
         <>
-          <PlusIcon className="size-4 text-muted-foreground" />
+          <PlusIcon className="text-muted-foreground size-4" />
           <span>
             Create new {type}: "{inputValue}"
           </span>

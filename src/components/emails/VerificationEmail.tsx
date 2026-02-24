@@ -1,4 +1,3 @@
-import appConfig from "@/appConfig";
 import {
   Body,
   Button,
@@ -12,9 +11,11 @@ import {
   Text,
 } from "@react-email/components";
 
+import appConfig from "@/appConfig";
+
 interface VerificationEmailProps {
-  name: string;
   email: string;
+  name: string;
   token: string;
 }
 
@@ -40,7 +41,7 @@ export default function VerificationEmail({ name, email, token }: VerificationEm
             </Text>
 
             <Section style={buttonContainer}>
-              <Button style={button} href={verificationUrl}>
+              <Button href={verificationUrl} style={button}>
                 Verify Email Address
               </Button>
             </Section>

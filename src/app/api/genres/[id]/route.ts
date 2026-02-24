@@ -11,6 +11,7 @@ import {
   zodToValidationResult,
 } from "@/lib/genericCrud";
 import { genreIdSchema, updateGenreSchema } from "@/lib/validations";
+
 import type { NextRequest } from "next/server";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {

@@ -8,8 +8,10 @@
  * - Uses ComicDal and related DALs
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
 import { artistDal, authorDal, comicDal, genreDal } from "@/dal";
-import type { comic } from "@/database/schema";
 import { logger } from "@/database/seed/logger";
 import { extractImageUrls, imageCacheManager } from "@/database/seed/utils/imageSeederHelper";
 import {
@@ -20,11 +22,11 @@ import {
   safeParseString,
   validateData,
 } from "@/database/seed/utils/seederHelpers";
-import type { ComicSeedData } from "@/lib/validations/comicSchema";
 import { ComicSeedSchema } from "@/lib/validations/comicSchema";
+
+import type { comic } from "@/database/schema";
+import type { ComicSeedData } from "@/lib/validations/comicSchema";
 import type { Author, Comic } from "@/types";
-import fs from "fs/promises";
-import path from "path";
 
 /**
  * Helper: Pre-seed and cache authors
@@ -149,7 +151,7 @@ async function preSeedGenres(comicsData: ComicSeedData[]): Promise<Map<string, n
  */
 async function linkGenresToComic(
   comicId: number,
-  genreItems: (string | { name?: string } | undefined)[],
+  genreItems: ({ name?: string } | string | undefined)[],
   genreCache: Map<string, number>
 ): Promise<number> {
   const genreIds: number[] = [];
@@ -179,7 +181,7 @@ async function linkGenresToComic(
  * @param authorCache
  */
 function extractAuthorId(
-  author: string | { name?: string } | undefined,
+  author: { name?: string } | string | undefined,
   authorCache: Map<string, number>
 ): number | undefined {
   const authorName = safeParseString(typeof author === "string" ? author : author?.name);
@@ -193,7 +195,7 @@ function extractAuthorId(
  * @param artistCache
  */
 function extractArtistId(
-  artist: string | { name?: string } | undefined,
+  artist: { name?: string } | string | undefined,
   artistCache: Map<string, number>
 ): number | undefined {
   const artistName = safeParseString(typeof artist === "string" ? artist : artist?.name);
@@ -206,11 +208,11 @@ function extractArtistId(
  * @param pattern
  */
 export async function seedComicsFromFiles(pattern: string = "comics*.json"): Promise<{
-  total: number;
   created: number;
-  updated: number;
-  skipped: number;
   errors: number;
+  skipped: number;
+  total: number;
+  updated: number;
 }> {
   logger.info("🌱 Starting comic seeding...");
 

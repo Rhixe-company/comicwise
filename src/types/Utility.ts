@@ -7,9 +7,9 @@
 // NULL/UNDEFINED HELPERS
 // ═══════════════════════════════════════════════════
 
-export type Nullable<T> = T | null;
+export type Nullable<T> = null | T;
 export type Optional<T> = T | undefined;
-export type Maybe<T> = T | null | undefined;
+export type Maybe<T> = null | T | undefined;
 
 // ═══════════════════════════════════════════════════
 // OBJECT TRANSFORMATIONS

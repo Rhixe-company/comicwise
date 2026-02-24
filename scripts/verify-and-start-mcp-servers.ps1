@@ -49,18 +49,18 @@ function Write-Log {
         [ValidateSet("INFO", "SUCCESS", "WARNING", "ERROR")]
         [string]$Level = "INFO"
     )
-    
+
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $logMessage = "[$timestamp] [$Level] $Message"
-    
+
     # Ensure log directory exists
     if (!(Test-Path $LOG_DIR)) {
         New-Item -ItemType Directory -Path $LOG_DIR -Force | Out-Null
     }
-    
+
     # Write to log file
     Add-Content -Path $LOG_FILE -Value $logMessage
-    
+
     # Console output with colors
     switch ($Level) {
         "SUCCESS" { Write-Host $logMessage -ForegroundColor Green }
@@ -72,7 +72,7 @@ function Write-Log {
 
 function Test-CommandExists {
     param([string]$Command)
-    
+
     try {
         if (Get-Command $Command -ErrorAction SilentlyContinue) {
             return $true
@@ -86,25 +86,25 @@ function Test-CommandExists {
 
 function Test-MCPConfig {
     Write-Log "Verifying MCP configuration file..."
-    
+
     if (!(Test-Path $CONFIG_FILE)) {
         Write-Log "MCP configuration file not found at: $CONFIG_FILE" -Level "ERROR"
         return $false
     }
-    
+
     try {
         $config = Get-Content $CONFIG_FILE -Raw | ConvertFrom-Json
         Write-Log "MCP configuration loaded successfully" -Level "SUCCESS"
-        
+
         # Validate required fields
         if (!$config.mcpServers) {
             Write-Log "No MCP servers configured" -Level "ERROR"
             return $false
         }
-        
+
         $serverCount = ($config.mcpServers.PSObject.Properties | Where-Object { $_.Name -notlike "//*" }).Count
         Write-Log "Found $serverCount MCP servers configured" -Level "INFO"
-        
+
         return $config
     }
     catch {
@@ -115,21 +115,21 @@ function Test-MCPConfig {
 
 function Get-EnabledServers {
     param($Config)
-    
+
     $servers = @()
-    
+
     foreach ($prop in $Config.mcpServers.PSObject.Properties) {
         if ($prop.Name -like "//*") { continue }
-        
+
         $server = $prop.Value
         $serverName = $prop.Name
-        
+
         # Check if server is disabled
         if ($server.disabled -eq $true) {
             Write-Log "Server '$serverName' is disabled, skipping" -Level "WARNING"
             continue
         }
-        
+
         $servers += @{
             Name = $serverName
             Command = $server.command
@@ -139,11 +139,11 @@ function Get-EnabledServers {
             Timeout = $server.timeout
         }
     }
-    
+
     # Sort by priority
     $priorityOrder = @{ "critical" = 0; "high" = 1; "medium" = 2; "low" = 3 }
     $servers = $servers | Sort-Object { $priorityOrder[$_.Priority] }
-    
+
     return $servers
 }
 
@@ -152,9 +152,9 @@ function Test-ServerCommand {
         [string]$Command,
         [string]$ServerName
     )
-    
+
     Write-Log "Checking command availability for '$ServerName': $Command"
-    
+
     if (Test-CommandExists $Command) {
         Write-Log "Command '$Command' is available" -Level "SUCCESS"
         return $true
@@ -169,17 +169,17 @@ function Start-MCPServer {
     param(
         [hashtable]$Server
     )
-    
+
     if ($DryRun) {
         Write-Log "DRY RUN: Would start server '$($Server.Name)'" -Level "INFO"
         return $true
     }
-    
+
     Write-Log "Starting MCP server: $($Server.Name)" -Level "INFO"
     Write-Log "  Command: $($Server.Command) $($Server.Args -join ' ')" -Level "INFO"
     Write-Log "  Priority: $($Server.Priority)" -Level "INFO"
     Write-Log "  Description: $($Server.Description)" -Level "INFO"
-    
+
     try {
         # Note: Actual server startup would be handled by VS Code
         # This script verifies the configuration is valid
@@ -207,7 +207,7 @@ Write-Log "`n[1/4] Checking prerequisites..." -Level "INFO"
 $prerequisites = @{
     "node" = "Node.js runtime"
     "npx" = "NPX package runner"
-    "code" = "VS Code CLI (optional)"
+    "code-insiders" = "VS Code Insiders CLI (optional)"
 }
 
 foreach ($cmd in $prerequisites.Keys) {
@@ -248,12 +248,12 @@ $failCount = 0
 
 foreach ($server in $servers) {
     Write-Log "`n--- Processing: $($server.Name) ---" -Level "INFO"
-    
+
     # Check command availability
     if (!(Test-ServerCommand -Command $server.Command -ServerName $server.Name)) {
         Write-Log "Server '$($server.Name)' command not available, may need installation" -Level "WARNING"
     }
-    
+
     # Verify/start server
     if (Start-MCPServer -Server $server) {
         $successCount++

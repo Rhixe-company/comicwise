@@ -5,29 +5,29 @@
 /**
  * System health status
  */
-export type HealthStatus = "healthy" | "degraded" | "unhealthy";
+export type HealthStatus = "degraded" | "healthy" | "unhealthy";
 
 /**
  * System health check result
  */
 export interface HealthCheckResult {
+  metrics?: SystemMetrics;
+  services: Record<string, ServiceHealthCheck>;
   status: HealthStatus;
   timestamp: string;
   uptime: number;
   version: string;
-  services: Record<string, ServiceHealthCheck>;
-  metrics?: SystemMetrics;
 }
 
 /**
  * Service health check
  */
 export interface ServiceHealthCheck {
-  status: "up" | "down" | "degraded";
-  message?: string;
-  latency?: number;
-  lastChecked: string;
   details?: Record<string, unknown>;
+  lastChecked: string;
+  latency?: number;
+  message?: string;
+  status: "degraded" | "down" | "up";
 }
 
 /**
@@ -35,8 +35,8 @@ export interface ServiceHealthCheck {
  */
 export interface SystemMetrics {
   cpu: CpuMetrics;
-  memory: MemoryMetrics;
   disk?: DiskMetrics;
+  memory: MemoryMetrics;
   network?: NetworkMetrics;
 }
 
@@ -44,29 +44,29 @@ export interface SystemMetrics {
  * CPU metrics
  */
 export interface CpuMetrics {
-  usage: number;
-  loadAverage: number[];
   cores: number;
+  loadAverage: number[];
+  usage: number;
 }
 
 /**
  * Memory metrics
  */
 export interface MemoryMetrics {
-  total: number;
-  used: number;
   free: number;
+  total: number;
   usagePercent: number;
+  used: number;
 }
 
 /**
  * Disk metrics
  */
 export interface DiskMetrics {
-  total: number;
-  used: number;
   free: number;
+  total: number;
   usagePercent: number;
+  used: number;
 }
 
 /**
@@ -83,25 +83,25 @@ export interface NetworkMetrics {
  */
 export interface PerformanceMetric {
   name: string;
-  value: number;
-  unit: string;
-  timestamp: string;
   tags?: Record<string, string>;
+  timestamp: string;
+  unit: string;
+  value: number;
 }
 
 /**
  * Error tracking
  */
 export interface ErrorTracking {
+  context?: Record<string, unknown>;
   id: string;
+  level: "error" | "info" | "warning";
   message: string;
   stack?: string;
-  level: "error" | "warning" | "info";
   timestamp: string;
-  context?: Record<string, unknown>;
   user?: {
-    id: string;
     email?: string;
+    id: string;
   };
 }
 
@@ -109,26 +109,26 @@ export interface ErrorTracking {
  * CI/CD status
  */
 export interface CiCdStatus {
-  workflowName: string;
-  status: "success" | "failure" | "pending" | "cancelled";
   branch: string;
   commit: string;
-  triggeredBy: string;
-  startedAt: string;
   completedAt?: string;
   duration?: number;
   jobs: CiCdJob[];
+  startedAt: string;
+  status: "cancelled" | "failure" | "pending" | "success";
+  triggeredBy: string;
+  workflowName: string;
 }
 
 /**
  * CI/CD job
  */
 export interface CiCdJob {
-  name: string;
-  status: "success" | "failure" | "pending" | "skipped";
-  startedAt: string;
   completedAt?: string;
   duration?: number;
+  name: string;
+  startedAt: string;
+  status: "failure" | "pending" | "skipped" | "success";
   steps: CiCdStep[];
 }
 
@@ -136,8 +136,8 @@ export interface CiCdJob {
  * CI/CD step
  */
 export interface CiCdStep {
-  name: string;
-  status: "success" | "failure" | "pending" | "skipped";
-  output?: string;
   duration?: number;
+  name: string;
+  output?: string;
+  status: "failure" | "pending" | "skipped" | "success";
 }

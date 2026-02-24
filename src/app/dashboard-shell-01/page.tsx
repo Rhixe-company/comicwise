@@ -22,6 +22,13 @@ import {
   UsersIcon,
 } from "lucide-react";
 
+import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
+import TransactionDatatable from "@/components/shadcn-studio/blocks/datatable-transaction";
+import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
+import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
+import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
+import ProductInsightsCard from "@/components/shadcn-studio/blocks/widget-product-insights";
+import TotalEarningCard from "@/components/shadcn-studio/blocks/widget-total-earning";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Breadcrumb,
@@ -48,14 +55,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-import SalesMetricsCard from "@/components/shadcn-studio/blocks/chart-sales-metrics";
 import type { Item } from "@/components/shadcn-studio/blocks/datatable-transaction";
-import TransactionDatatable from "@/components/shadcn-studio/blocks/datatable-transaction";
-import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
-import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
-import StatisticsCard from "@/components/shadcn-studio/blocks/statistics-card-01";
-import ProductInsightsCard from "@/components/shadcn-studio/blocks/widget-product-insights";
-import TotalEarningCard from "@/components/shadcn-studio/blocks/widget-total-earning";
+
 
 // Statistics card data
 const StatisticsCardData = [
@@ -367,7 +368,7 @@ const DashboardShell = () => {
                         <span>Dashboard</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="rounded-full bg-primary/10">5</SidebarMenuBadge>
+                    <SidebarMenuBadge className="bg-primary/10 rounded-full">5</SidebarMenuBadge>
                   </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
@@ -407,7 +408,7 @@ const DashboardShell = () => {
                         <span>Hashtag Performance</span>
                       </a>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge className="rounded-full bg-primary/10">3</SidebarMenuBadge>
+                    <SidebarMenuBadge className="bg-primary/10 rounded-full">3</SidebarMenuBadge>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
@@ -494,7 +495,7 @@ const DashboardShell = () => {
           </SidebarContent>
         </Sidebar>
         <div className="flex flex-1 flex-col">
-          <header className="sticky top-0 z-50 border-b bg-card">
+          <header className="bg-card sticky top-0 z-50 border-b">
             <div
               className={`
                 mx-auto flex max-w-7xl items-center justify-between gap-6 px-4
@@ -505,11 +506,11 @@ const DashboardShell = () => {
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="[&_svg]:size-5!" />
                 <Separator
-                  orientation="vertical"
                   className={`
                     hidden h-4!
                     sm:block
                   `}
+                  orientation="vertical"
                 />
                 <Breadcrumb
                   className={`
@@ -535,14 +536,14 @@ const DashboardShell = () => {
               <div className="flex items-center gap-1.5">
                 <LanguageDropdown
                   trigger={
-                    <Button variant="ghost" size="icon">
+                    <Button size="icon" variant="ghost">
                       <LanguagesIcon />
                     </Button>
                   }
                 />
                 <ProfileDropdown
                   trigger={
-                    <Button variant="ghost" size="icon" className="size-9.5">
+                    <Button className="size-9.5" size="icon" variant="ghost">
                       <Avatar className="size-9.5 rounded-md">
                         <AvatarImage src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png" />
                         <AvatarFallback>JD</AvatarFallback>
@@ -575,11 +576,11 @@ const DashboardShell = () => {
               >
                 {StatisticsCardData.map((card, index) => (
                   <StatisticsCard
-                    key={index}
+                    changePercentage={card.changePercentage}
                     icon={card.icon}
+                    key={index}
                     title={card.title}
                     value={card.value}
-                    changePercentage={card.changePercentage}
                   />
                 ))}
               </div>
@@ -601,17 +602,17 @@ const DashboardShell = () => {
 
                 {/* Total Earning Card */}
                 <TotalEarningCard
-                  title="Total Earning"
-                  earning={24650}
-                  trend="up"
-                  percentage={10}
-                  comparisonText="Compare to last year ($84,325)"
-                  earningData={earningData}
                   className={`
                     justify-between gap-5
                     *:data-[slot=card-content]:space-y-7
                     sm:min-w-0
                   `}
+                  comparisonText="Compare to last year ($84,325)"
+                  earning={24650}
+                  earningData={earningData}
+                  percentage={10}
+                  title="Total Earning"
+                  trend="up"
                 />
               </div>
 
@@ -631,8 +632,8 @@ const DashboardShell = () => {
           <footer>
             <div
               className={`
-                mx-auto flex size-full max-w-7xl items-center justify-between
-                gap-3 px-4 py-3 text-muted-foreground
+                text-muted-foreground mx-auto flex size-full max-w-7xl items-center
+                justify-between gap-3 px-4 py-3
                 max-sm:flex-col
                 sm:gap-6 sm:px-6
               `}
@@ -644,7 +645,7 @@ const DashboardShell = () => {
                 `}
               >
                 {`©${new Date().getFullYear()}`}{" "}
-                <a href="" className="text-primary">
+                <a className="text-primary" href="">
                   shadcn/studio
                 </a>
                 , Made for better web design

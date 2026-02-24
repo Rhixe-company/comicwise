@@ -2,6 +2,9 @@
 // EMAIL SERVICE - Send Emails with React Email Templates
 // ═══════════════════════════════════════════════════
 
+import { render } from "@react-email/components";
+import nodemailer from "nodemailer";
+
 import appConfig, { isDevelopment } from "@/appConfig";
 import AccountUpdatedEmail from "@/components/emails/AccountUpdatedEmail";
 import CommentNotificationEmail from "@/components/emails/CommentNotificationEmail";
@@ -9,8 +12,6 @@ import NewChapterEmail from "@/components/emails/NewChapterEmail";
 import PasswordResetEmail from "@/components/emails/PasswordResetEmail";
 import VerificationEmail from "@/components/emails/VerificationEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
-import { render } from "@react-email/components";
-import nodemailer from "nodemailer";
 
 import type { SendEmailOptions } from "@/types";
 
@@ -51,10 +52,10 @@ if ((appConfig.email?.enabled ?? false) && isDevelopment) {
 // ═══════════════════════════════════════════════════
 
 export interface SendEmailParams {
-  to: string;
-  subject: string;
   html: string;
+  subject: string;
   text?: string;
+  to: string;
 }
 
 /**
@@ -101,7 +102,7 @@ export async function sendEmail({ to, subject, html, text }: SendEmailParams) {
  * @param params.name
  * @param params.email
  */
-export async function sendWelcomeEmail(params: { name: string; email: string }) {
+export async function sendWelcomeEmail(params: { email: string; name: string; }) {
   const html = await render(WelcomeEmail({ name: params.name, email: params.email }));
 
   return sendEmail({
@@ -119,8 +120,8 @@ export async function sendWelcomeEmail(params: { name: string; email: string }) 
  * @param params.verificationToken
  */
 export async function sendVerificationEmail(params: {
-  name: string;
   email: string;
+  name: string;
   verificationToken: string;
 }) {
   const html = await render(
@@ -147,10 +148,10 @@ export async function sendVerificationEmail(params: {
  * @param params.ipAddress
  */
 export async function sendPasswordResetEmail(params: {
-  name: string;
   email: string;
-  resetToken: string;
   ipAddress?: string;
+  name: string;
+  resetToken: string;
 }) {
   const html = await render(
     PasswordResetEmail({
@@ -177,11 +178,11 @@ export async function sendPasswordResetEmail(params: {
  * @param params.ipAddress
  */
 export async function sendAccountUpdatedEmail(params: {
-  name: string;
-  email: string;
-  changeType: "password" | "email" | "profile";
   changeDetails?: string;
+  changeType: "email" | "password" | "profile";
+  email: string;
   ipAddress?: string;
+  name: string;
 }) {
   const html = await render(
     AccountUpdatedEmail({
@@ -213,14 +214,14 @@ export async function sendAccountUpdatedEmail(params: {
  * @param params.releaseDate
  */
 export async function sendNewChapterEmail(params: {
-  userName: string;
-  userEmail: string;
-  comicTitle: string;
-  comicCoverUrl: string;
   chapterNumber: number;
-  chapterTitle: string;
   chapterSlug: string;
+  chapterTitle: string;
+  comicCoverUrl: string;
+  comicTitle: string;
   releaseDate: string;
+  userEmail: string;
+  userName: string;
 }) {
   const chapterUrl = `${appConfig.url}/read/${params.chapterSlug}`;
 
@@ -255,12 +256,12 @@ export async function sendNewChapterEmail(params: {
  * @param params.chapterUrl
  */
 export async function sendNewChapterNotification(params: {
+  chapterNumber: number;
+  chapterTitle: string;
+  chapterUrl: string;
+  comicTitle: string;
   to: string;
   userName: string;
-  comicTitle: string;
-  chapterTitle: string;
-  chapterNumber: number;
-  chapterUrl: string;
 }) {
   const html = await render(
     NewChapterEmail({
@@ -296,15 +297,15 @@ export async function sendNewChapterNotification(params: {
  * @param params.commentType
  */
 export async function sendCommentNotificationEmail(params: {
-  userName: string;
-  userEmail: string;
-  commenterName: string;
-  commenterAvatar?: string;
-  commentText: string;
-  comicTitle: string;
   chapterNumber?: number;
+  comicTitle: string;
+  commenterAvatar?: string;
+  commenterName: string;
   commentId: string;
-  commentType: "reply" | "mention" | "new";
+  commentText: string;
+  commentType: "mention" | "new" | "reply";
+  userEmail: string;
+  userName: string;
 }) {
   const commentUrl = `${appConfig.url}/comic/${params.comicTitle}comment-${params.commentId}`;
 

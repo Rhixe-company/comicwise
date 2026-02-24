@@ -2,39 +2,41 @@
 // FULL-TEXT SEARCH SERVICE - PostgreSQL FTS Implementation
 // ═══════════════════════════════════════════════════
 
+import { and, asc, desc, eq, ilike, or, sql } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { artist, author, comic, comicToGenre, type as comicType } from "@/database/schema";
+
 import type { SQL } from "drizzle-orm";
-import { and, asc, desc, eq, ilike, or, sql } from "drizzle-orm";
 // ═══════════════════════════════════════════════════
 // TYPE DEFINITIONS
 // ═══════════════════════════════════════════════════
 
 export interface SearchOptions {
-  query?: string;
   filters?: {
-    status?: string[];
-    genres?: number[];
-    typeId?: number;
-    authorId?: number;
     artistId?: number;
+    authorId?: number;
+    genres?: number[];
     minRating?: number;
+    status?: string[];
+    typeId?: number;
   };
-  sort?: "relevance" | "title" | "rating" | "views" | "date";
+  limit?: number;
   order?: "asc" | "desc";
   page?: number;
-  limit?: number;
+  query?: string;
+  sort?: "date" | "rating" | "relevance" | "title" | "views";
 }
 
 export interface SearchResult {
-  success: boolean;
   data?: {
+    page: number;
     results: unknown[];
     total: number;
-    page: number;
     totalPages: number;
   };
   error?: string;
+  success: boolean;
 }
 
 // ═══════════════════════════════════════════════════
@@ -348,7 +350,7 @@ export async function smartSearch(
 export async function getSearchSuggestions(
   query: string,
   limit: number = 10
-): Promise<{ success: boolean; suggestions?: unknown[]; error?: string }> {
+): Promise<{ error?: string; success: boolean; suggestions?: unknown[]; }> {
   try {
     if (!query || query.trim().length < 2) {
       return { success: true, suggestions: [] };

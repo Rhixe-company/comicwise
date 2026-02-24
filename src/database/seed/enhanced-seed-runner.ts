@@ -19,6 +19,14 @@
  * - chapters.json, chaptersdata1.json, chaptersdata2.json
  */
 
+import { existsSync } from "node:fs";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import * as path from "node:path";
+
+import { eq } from "drizzle-orm";
+import pLimit from "p-limit";
+import { z } from "zod";
+
 import { db } from "@/database/db";
 import {
   artist,
@@ -34,13 +42,11 @@ import {
 } from "@/database/schema";
 import { env } from "@/lib/env";
 import { imageService } from "@/services/imageService";
+
 import { hashPassword } from "auth";
-import { eq } from "drizzle-orm";
-import { existsSync } from "fs";
-import { mkdir, readFile, writeFile } from "fs/promises";
-import pLimit from "p-limit";
-import * as path from "path";
-import { z } from "zod";
+
+
+
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
@@ -116,9 +122,9 @@ async function loadImageCache() {
     if (existsSync(cachePath)) {
       const data = await readFile(cachePath, "utf-8");
       const cached = JSON.parse(data);
-      Object.entries(cached).forEach(([url, localPath]) => {
+      for (const [url, localPath] of Object.entries(cached)) {
         imageCache.set(url, localPath as string);
-      });
+      }
       console.log(`✓ Loaded ${imageCache.size} cached image mappings`);
     }
   } catch (error) {
@@ -401,7 +407,7 @@ async function seedComics(data: unknown[]) {
         }
 
         // Upsert Type
-        let typeId: number | null = null;
+        let typeId: null | number = null;
         if (validated.type?.name) {
           const [typeRecord] = await db
             .insert(comicType)
@@ -415,7 +421,7 @@ async function seedComics(data: unknown[]) {
         }
 
         // Upsert Author - check if exists first
-        let authorId: number | null = null;
+        let authorId: null | number = null;
         if (validated.author?.name) {
           // Try to find existing author
           const [existingAuthor] = await db
@@ -436,7 +442,7 @@ async function seedComics(data: unknown[]) {
         }
 
         // Upsert Artist - check if exists first
-        let artistId: number | null = null;
+        let artistId: null | number = null;
         if (validated.artist?.name) {
           // Try to find existing artist
           const [existingArtist] = await db

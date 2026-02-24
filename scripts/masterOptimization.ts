@@ -15,27 +15,28 @@
  * Usage: pnpm tsx scripts/masterOptimization.ts [--phase=1-5] [--dry-run]
  */
 
+import { execSync } from "node:child_process";
+import fs from "node:fs";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import chalk from "chalk";
-import { execSync } from "child_process";
-import fs from "fs";
-import * as path from "path";
-import { fileURLToPath } from "url";
 
 interface Phase {
-  name: string;
   description: string;
   execute(): Promise<void>;
+  name: string;
 }
 
 interface OptimizationReport {
-  timestamp: string;
   phase: number;
-  status: "success" | "warning" | "error";
+  status: "error" | "success" | "warning";
   tasks: Array<{
-    name: string;
-    status: "completed" | "skipped" | "error";
     details?: string;
+    name: string;
+    status: "completed" | "error" | "skipped";
   }>;
+  timestamp: string;
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -46,7 +47,7 @@ const REPORTS_DIR = path.join(ROOT_DIR, "reports");
 class MasterOptimizer {
   private reports: OptimizationReport[] = [];
   private dryRun: boolean;
-  private phase: number | null;
+  private phase: null | number;
 
   constructor() {
     this.dryRun = process.argv.includes("--dry-run");
@@ -91,12 +92,11 @@ class MasterOptimizer {
     }
 
     try {
-      const output = execSync(command, {
+      return execSync(command, {
         cwd: ROOT_DIR,
         encoding: "utf-8",
         stdio: ["pipe", "pipe", "pipe"],
       });
-      return output;
     } catch (error) {
       throw new Error(`Command failed: ${command}\n${(error as any).message}`);
     }
@@ -181,7 +181,7 @@ class MasterOptimizer {
 
       this.success(`Seed system analyzed: ${tsFiles.length} TypeScript files found`);
 
-      tsFiles.forEach((f) => this.log(`    - ${f}`, "gray"));
+      for (const f of tsFiles) this.log(`    - ${f}`, "gray");
     } catch (error) {
       this.error(`Phase 2.1 failed: ${(error as any).message}`);
     }
@@ -279,7 +279,7 @@ class MasterOptimizer {
       if (fs.existsSync(workflowsDir)) {
         const workflows = fs.readdirSync(workflowsDir).filter((f) => f.endsWith(".yml"));
         this.success(`${workflows.length} workflow(s) found`);
-        workflows.forEach((w) => this.log(`    - ${w}`, "gray"));
+        for (const w of workflows) this.log(`    - ${w}`, "gray");
       } else {
         this.warn("No .github/workflows directory found");
       }
@@ -324,7 +324,7 @@ class MasterOptimizer {
       const backups = findBackups();
       this.success(`Found ${backups.length} backup file(s)`);
       if (backups.length > 0) {
-        backups.slice(0, 5).forEach((b) => this.log(`    - ${path.relative(ROOT_DIR, b)}`, "gray"));
+        for (const b of backups.slice(0, 5)) this.log(`    - ${path.relative(ROOT_DIR, b)}`, "gray");
         if (backups.length > 5) {
           this.log(`    ... and ${backups.length - 5} more`, "gray");
         }

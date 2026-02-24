@@ -9,7 +9,7 @@ const rateLimitMap = new Map<string, RateLimitRecord>();
 
 export interface RateLimitConfig {
   limit?: number;
-  window?: string | number; // Support both string format and numeric seconds
+  window?: number | string; // Support both string format and numeric seconds
 }
 
 export async function checkRateLimit(
@@ -17,10 +17,10 @@ export async function checkRateLimit(
   config: RateLimitConfig = {}
 ): Promise<{
   allowed: boolean;
-  success: boolean;
   limit: number;
   remaining: number;
   reset: number;
+  success: boolean;
 }> {
   const requests =
     config.limit ??
@@ -95,8 +95,8 @@ export function clearRateLimit(identifier: string): void {
 }
 
 export function getRateLimitStatus(identifier: string): {
-  exists: boolean;
   count?: number;
+  exists: boolean;
   resetAt?: number;
 } {
   const record = rateLimitMap.get(identifier);

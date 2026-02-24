@@ -18,15 +18,15 @@ import {
 } from "@react-email/components";
 
 interface CommentNotificationEmailProps {
-  userName: string;
-  userEmail: string;
-  commenterName: string;
-  commenterAvatar?: string;
-  commentText: string;
-  comicTitle: string;
   chapterNumber?: number;
+  comicTitle: string;
+  commenterAvatar?: string;
+  commenterName: string;
+  commentText: string;
+  commentType: "mention" | "new" | "reply";
   commentUrl: string;
-  commentType: "reply" | "mention" | "new";
+  userEmail: string;
+  userName: string;
 }
 
 export const CommentNotificationEmail = ({
@@ -76,11 +76,11 @@ export const CommentNotificationEmail = ({
         <Container style={container}>
           <Section style={header}>
             <Img
-              src="https://comicwise.app/logo.png"
-              width="48"
-              height="48"
               alt="ComicWise"
+              height="48"
+              src="https://comicwise.app/logo.png"
               style={logo}
+              width="48"
             />
             <Heading style={heading}>💬 New Comment Activity</Heading>
           </Section>
@@ -93,11 +93,11 @@ export const CommentNotificationEmail = ({
               <Section style={commenterInfo}>
                 {commenterAvatar ? (
                   <Img
-                    src={commenterAvatar}
-                    width="40"
-                    height="40"
                     alt={commenterName}
+                    height="40"
+                    src={commenterAvatar}
                     style={avatar}
+                    width="40"
                   />
                 ) : (
                   <div style={avatarPlaceholder}>{commenterName.charAt(0).toUpperCase()}</div>
@@ -121,7 +121,7 @@ export const CommentNotificationEmail = ({
             </Section>
 
             <Section style={buttonContainer}>
-              <Button style={button} href={commentUrl}>
+              <Button href={commentUrl} style={button}>
                 View Comment & Reply
               </Button>
             </Section>
@@ -138,7 +138,7 @@ export const CommentNotificationEmail = ({
             <Text style={smallText}>
               You&apos;re receiving this because you&apos;re following this comic or participated in
               this discussion.{" "}
-              <Link style={link} href="https://comicwise.app/account/notifications">
+              <Link href="https://comicwise.app/account/notifications" style={link}>
                 Manage notification preferences
               </Link>
             </Text>
@@ -149,7 +149,7 @@ export const CommentNotificationEmail = ({
           <Section style={footer}>
             <Text style={footerText}>
               This email was sent to{" "}
-              <Link style={footerLink} href={`mailto:${userEmail}`}>
+              <Link href={`mailto:${userEmail}`} style={footerLink}>
                 {userEmail}
               </Link>
             </Text>
@@ -157,15 +157,15 @@ export const CommentNotificationEmail = ({
               ComicWise, Inc. | 123 Comic Street, Reading City, RC 12345
             </Text>
             <Text style={footerText}>
-              <Link style={footerLink} href="https://comicwise.app/unsubscribe">
+              <Link href="https://comicwise.app/unsubscribe" style={footerLink}>
                 Unsubscribe
               </Link>{" "}
               |{" "}
-              <Link style={footerLink} href="https://comicwise.app/privacy">
+              <Link href="https://comicwise.app/privacy" style={footerLink}>
                 Privacy Policy
               </Link>{" "}
               |{" "}
-              <Link style={footerLink} href="https://comicwise.app/terms">
+              <Link href="https://comicwise.app/terms" style={footerLink}>
                 Terms of Service
               </Link>
             </Text>

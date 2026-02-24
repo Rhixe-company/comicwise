@@ -9,19 +9,19 @@ declare module "react-dropzone" {
   export type DropEvent = React.DragEvent<HTMLElement> | React.SyntheticEvent<any>;
 
   export interface DropzoneOptions {
+    accept?: Record<string, string[]> | string;
     multiple?: boolean;
-    accept?: string | Record<string, string[]>;
   }
 
   export function useDropzone(options?: DropzoneOptions): {
-    getRootProps(props?: any): any;
-    getInputProps(props?: any): any;
-    open(): void;
     acceptedFiles: FileWithPath[];
-    isDragActive: boolean;
-    isDragAccept: boolean;
-    isDragReject: boolean;
     fileRejections: Array<any>;
+    getInputProps(props?: any): any;
+    getRootProps(props?: any): any;
+    isDragAccept: boolean;
+    isDragActive: boolean;
+    isDragReject: boolean;
+    open(): void;
   };
 
   export const Dropzone: React.FC<any>;

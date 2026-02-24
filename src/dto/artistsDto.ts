@@ -11,17 +11,17 @@ export type UpdateArtistDto = Partial<CreateArtistDto>;
 
 export interface ArtistListDto {
   artists: ArtistDto[];
-  total: number;
-  page: number;
   limit: number;
+  page: number;
+  total: number;
 }
 
 export type ArtistWithComicsDto = ArtistDto & {
   comics?: Array<{
-    id: number;
-    title: string;
-    slug: string;
     coverImage: string;
+    id: number;
+    slug: string;
+    title: string;
   }>;
 };
 

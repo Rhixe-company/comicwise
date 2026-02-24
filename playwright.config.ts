@@ -1,6 +1,8 @@
-import { env } from "@/appConfig";
-import type { Config } from "@playwright/test";
 import { defineConfig, devices } from "@playwright/test";
+
+import { env } from "@/appConfig";
+
+import type { Config } from "@playwright/test";
 
 const PlaywrightTestConfig = {
   testDir: "./src/tests/e2e",

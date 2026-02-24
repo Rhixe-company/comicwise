@@ -4,41 +4,44 @@
 // Consolidates: cache.ts + cacheService.ts + cacheMiddleware.ts fundamentals
 // Provides unified Redis/in-memory caching with type safety and advanced operations
 
-import { env } from "@/appConfig";
-import { createHash } from "crypto";
+import { createHash } from "node:crypto";
+
 import Redis from "ioredis";
+
+import { env } from "@/appConfig";
+
 import type { NextRequest } from "next/server";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════════════════════════════
 
-export type CacheValue = string | number | object | null;
+export type CacheValue = null | number | object | string;
 
 export interface CacheClient {
-  get(key: string): Promise<string | null>;
-  set(key: string, value: string, ttlSeconds?: number): Promise<void>;
-  del(key: string): Promise<void>;
   clear?(): Promise<void>;
-  raw?: Redis | Record<string, unknown> | null;
+  del(key: string): Promise<void>;
+  get(key: string): Promise<null | string>;
+  raw?: null | Record<string, unknown> | Redis;
+  set(key: string, value: string, ttlSeconds?: number): Promise<void>;
 }
 
 export interface CacheOptions {
-  ttl?: number;
   prefix?: string;
   tags?: string[];
+  ttl?: number;
 }
 
 export interface CacheMiddlewareConfig {
-  ttl?: number;
-  prefix?: string;
-  includeQuery?: boolean;
   includeBody?: boolean;
-  keyGenerator?(request: NextRequest): string | Promise<string>;
-  userSpecific?: boolean;
-  tags?: string[];
-  skipCache?(request: NextRequest): boolean | Promise<boolean>;
+  includeQuery?: boolean;
+  keyGenerator?(request: NextRequest): Promise<string> | string;
+  prefix?: string;
   revalidate?(request: NextRequest): boolean | Promise<boolean>;
+  skipCache?(request: NextRequest): boolean | Promise<boolean>;
+  tags?: string[];
+  ttl?: number;
+  userSpecific?: boolean;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -53,8 +56,7 @@ const getRedisConfig = (): Record<string, unknown> => {
     database: Number(env.REDIS_DB ?? 0) || 0,
     maxRetriesPerRequest: 3,
     retryStrategy(times: number) {
-      const delay = Math.min(times * 50, 2000);
-      return delay;
+      return Math.min(times * 50, 2000);
     },
     reconnectOnError(err: Error) {
       const targetErrors = ["READONLY", "ECONNRESET"];
@@ -74,7 +76,7 @@ const getRedisConfig = (): Record<string, unknown> => {
   return baseConfig;
 };
 
-let redisClient: Redis | null = null;
+let redisClient: null | Redis = null;
 
 export function getRedisClient(): Redis {
   if (!redisClient) {
@@ -116,7 +118,7 @@ export async function closeRedis(): Promise<void> {
 // CACHE CLIENT FACTORY
 // ═══════════════════════════════════════════════════════════════════════════
 
-export function createCacheClient(rawClient: Redis | Record<string, unknown> | null): CacheClient {
+export function createCacheClient(rawClient: null | Record<string, unknown> | Redis): CacheClient {
   // Upstash Redis client detection
   if (
     rawClient &&
@@ -130,7 +132,7 @@ export function createCacheClient(rawClient: Redis | Record<string, unknown> | n
       raw: rawClient as Record<string, unknown>,
       async get(key: string) {
         const getFunction = (rawClient as Record<string, unknown>)["get"] as
-          | ((k: string) => Promise<string | null>)
+          | ((k: string) => Promise<null | string>)
           | undefined;
         if (!getFunction) return null;
         const result = await getFunction(key);
@@ -281,7 +283,7 @@ export class RedisCache {
     this.redis = getRedisClient();
   }
 
-  async get<T>(key: string): Promise<T | null> {
+  async get<T>(key: string): Promise<null | T> {
     try {
       const value = await this.redis["get"](key);
       if (!value) return null;
@@ -545,11 +547,11 @@ export class RedisCache {
   }
 
   async getStats(): Promise<{
+    hitRate: number;
+    hits: number;
     keys: number;
     memory: string;
-    hits: number;
     misses: number;
-    hitRate: number;
   }> {
     try {
       const infoFunction = (this.redis as unknown as Record<string, unknown>)["info"] as
@@ -718,8 +720,8 @@ export function withCache(
 }
 
 export async function invalidateCache(options: {
-  prefix?: string;
   pattern?: string;
+  prefix?: string;
   tags?: string[];
 }): Promise<number> {
   let totalInvalidated = 0;
@@ -751,9 +753,9 @@ export async function invalidateCache(options: {
 export function withCacheInvalidation(
   handler: (request: NextRequest) => Promise<unknown>,
   config: {
+    invalidate?(request: NextRequest): Promise<void>;
     patterns?: string[];
     tags?: string[];
-    invalidate?(request: NextRequest): Promise<void>;
   }
 ) {
   return async (request: NextRequest) => {
@@ -792,9 +794,9 @@ export function withSmartCache(
   config: {
     cache?: CacheMiddlewareConfig;
     invalidate?: {
+      invalidate?(request: NextRequest): Promise<void>;
       patterns?: string[];
       tags?: string[];
-      invalidate?(request: NextRequest): Promise<void>;
     };
   }
 ) {
@@ -813,10 +815,10 @@ export function withSmartCache(
 export async function rateLimit(
   identifier: string,
   options: {
-    window: number;
     max: number;
+    window: number;
   }
-): Promise<{ success: boolean; remaining: number; reset: number }> {
+): Promise<{ remaining: number; reset: number; success: boolean; }> {
   const key = `ratelimit:${identifier}`;
 
   try {
@@ -843,9 +845,9 @@ export async function rateLimit(
 export function withRateLimit(
   handler: (request: NextRequest) => Promise<unknown>,
   options: {
-    window?: number;
-    max?: number;
     keyGenerator?(request: NextRequest): string;
+    max?: number;
+    window?: number;
   } = {}
 ) {
   return async (request: NextRequest) => {

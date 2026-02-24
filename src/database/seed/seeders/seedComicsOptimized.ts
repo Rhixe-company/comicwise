@@ -6,13 +6,14 @@
  * Fallback: /placeholder-comic.jpg
  */
 
+import { eq } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { artist, author, comic, comicImage, comicToGenre, genre, type } from "@/database/schema";
 import { loadComics } from "@/database/seed/dataLoaderOptimized";
 import { downloadImage, downloadImages } from "@/database/seed/imageHandlerOptimized";
 import { logger } from "@/database/seed/logger";
 import { FALLBACK_COMIC_IMAGE } from "@/database/seed/utils/imagePathConfig";
-import { eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -25,16 +26,16 @@ interface SeedOptions {
 
 interface SeedStats {
   created: number;
-  updated: number;
-  skipped: number;
   errors: number;
+  skipped: number;
+  updated: number;
 }
 
 interface MetadataCache {
-  types: Map<string, number>;
-  authors: Map<string, number>;
   artists: Map<string, number>;
+  authors: Map<string, number>;
   genres: Map<string, number>;
+  types: Map<string, number>;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -128,10 +129,10 @@ async function initializeMetadataCache(): Promise<MetadataCache> {
       db.query.genre.findMany(),
     ]);
 
-    types.forEach((t) => cache.types.set(t.name, t.id));
-    authors.forEach((a) => cache.authors.set(a.name, a.id));
-    artists.forEach((a) => cache.artists.set(a.name, a.id));
-    genres.forEach((g) => cache.genres.set(g.name, g.id));
+    for (const t of types) cache.types.set(t.name, t.id);
+    for (const a of authors) cache.authors.set(a.name, a.id);
+    for (const a of artists) cache.artists.set(a.name, a.id);
+    for (const g of genres) cache.genres.set(g.name, g.id);
 
     logger.debug(
       `Initialized caches: ${types.length} types, ${authors.length} authors, ${artists.length} artists, ${genres.length} genres`
@@ -149,9 +150,9 @@ async function initializeMetadataCache(): Promise<MetadataCache> {
 
 async function getOrCreateMetadata(
   name: string | undefined,
-  table: "type" | "author" | "artist" | "genre",
+  table: "artist" | "author" | "genre" | "type",
   cache: MetadataCache
-): Promise<number | null> {
+): Promise<null | number> {
   if (!name || name === "_") return null;
 
   const cacheMap =

@@ -1,20 +1,21 @@
+import { and, eq } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { authenticator } from "@/database/schema";
-import { and, eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════
 // AUTHENTICATOR MUTATIONS
 // ═══════════════════════════════════════════════════
 
 export async function createAuthenticator(data: {
-  credentialID: string;
-  userId: string;
-  providerAccountId: string;
-  credentialPublicKey: string;
   counter: number;
-  credentialDeviceType: string;
   credentialBackedUp: boolean;
-  transports?: string | null;
+  credentialDeviceType: string;
+  credentialID: string;
+  credentialPublicKey: string;
+  providerAccountId: string;
+  transports?: null | string;
+  userId: string;
 }): Promise<typeof authenticator.$inferSelect | undefined> {
   const [newAuthenticator] = await database.insert(authenticator).values(data).returning();
   return newAuthenticator;
@@ -26,7 +27,7 @@ export async function updateAuthenticator(
   data: {
     counter?: number;
     credentialBackedUp?: boolean;
-    transports?: string | null;
+    transports?: null | string;
   }
 ): Promise<typeof authenticator.$inferSelect | undefined> {
   const [updatedAuthenticator] = await database

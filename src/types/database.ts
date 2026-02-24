@@ -66,15 +66,15 @@ export type ComicStatus = (typeof schema.comicStatus.enumValues)[number];
 // ═══════════════════════════════════════════════════
 
 export type ComicWithRelations = Comic & {
-  author?: Author | null;
-  authorName?: string | null;
   artist?: Artist | null;
-  artistName?: string | null;
-  type?: Type | null;
-  typeName?: string | null;
-  genres?: Genre[];
+  artistName?: null | string;
+  author?: Author | null;
+  authorName?: null | string;
   chapters?: Chapter[];
+  genres?: Genre[];
   images?: ComicImage[];
+  type?: null | Type;
+  typeName?: null | string;
 };
 
 export type ChapterWithRelations = Chapter & {
@@ -89,20 +89,20 @@ export type UserWithRelations = User & {
 };
 
 export type BookmarkWithRelations = Bookmark & {
-  user?: User;
   comic?: Comic;
   lastReadChapter?: Chapter | null;
+  user?: User;
 };
 
 export type CommentWithRelations = Comment & {
-  user?: User;
   chapter?: Chapter;
+  user?: User;
 };
 
 export type ReadingProgressWithRelations = ReadingProgress & {
-  user?: User;
-  comic?: Comic;
   chapter?: Chapter;
+  comic?: Comic;
+  user?: User;
 };
 
 // ═══════════════════════════════════════════════════
@@ -113,10 +113,10 @@ export type ReadingProgressWithRelations = ReadingProgress & {
 export type ComicWithDetails = ComicWithRelations;
 
 // Partial views for specific use cases
-export type ComicWithChapters = Pick<ComicWithRelations, keyof Comic | "chapters">;
+export type ComicWithChapters = Pick<ComicWithRelations, "chapters" | keyof Comic>;
 export type ComicSearchResult = Pick<
   ComicWithRelations,
-  keyof Comic | "author" | "artist" | "type" | "genres"
+  "artist" | "author" | "genres" | "type" | keyof Comic
 >;
 export type ChapterWithComments = Chapter & { comments?: Comment[] };
 export type UserWithStats = User & {
@@ -130,18 +130,18 @@ export type UserWithStats = User & {
 // ═══════════════════════════════════════════════════
 
 export interface ComicFilters {
-  status?: ComicStatus;
-  authorId?: number;
   artistId?: number;
-  typeId?: number;
+  authorId?: number;
   genreIds?: number[];
-  minRating?: number;
-  maxRating?: number;
-  search?: string;
-  published?: boolean;
-  sortBy?: "latest" | "rating" | "title" | "views";
-  page?: number;
   limit?: number;
+  maxRating?: number;
+  minRating?: number;
+  page?: number;
+  published?: boolean;
+  search?: string;
+  sortBy?: "latest" | "rating" | "title" | "views";
+  status?: ComicStatus;
+  typeId?: number;
 }
 
 // ═══════════════════════════════════════════════════
@@ -150,40 +150,40 @@ export interface ComicFilters {
 
 export type CreateComicInput = Omit<
   InsertComic,
-  "id" | "createdAt" | "updatedAt" | "views" | "rating"
+  "createdAt" | "id" | "rating" | "updatedAt" | "views"
 >;
 export type UpdateComicInput = Partial<CreateComicInput> & { id: number };
 
-export type CreateChapterInput = Omit<InsertChapter, "id" | "createdAt" | "views">;
+export type CreateChapterInput = Omit<InsertChapter, "createdAt" | "id" | "views">;
 export type UpdateChapterInput = Partial<CreateChapterInput> & { id: number };
 
-export type CreateUserInput = Omit<InsertUser, "id" | "createdAt" | "updatedAt" | "emailVerified">;
+export type CreateUserInput = Omit<InsertUser, "createdAt" | "emailVerified" | "id" | "updatedAt">;
 export type UpdateUserInput = Partial<CreateUserInput> & { id: string };
 
-export type CreateAuthorInput = Omit<InsertAuthor, "id" | "createdAt" | "search_vector">;
+export type CreateAuthorInput = Omit<InsertAuthor, "createdAt" | "id" | "search_vector">;
 export type UpdateAuthorInput = Partial<CreateAuthorInput> & { id: number };
 
-export type CreateArtistInput = Omit<InsertArtist, "id" | "createdAt" | "search_vector">;
+export type CreateArtistInput = Omit<InsertArtist, "createdAt" | "id" | "search_vector">;
 export type UpdateArtistInput = Partial<CreateArtistInput> & { id: number };
 
-export type CreateGenreInput = Omit<InsertGenre, "id" | "createdAt">;
+export type CreateGenreInput = Omit<InsertGenre, "createdAt" | "id">;
 export type UpdateGenreInput = Partial<CreateGenreInput> & { id: number };
 
-export type CreateTypeInput = Omit<InsertType, "id" | "createdAt">;
+export type CreateTypeInput = Omit<InsertType, "createdAt" | "id">;
 export type UpdateTypeInput = Partial<CreateTypeInput> & { id: number };
 
-export type CreateCommentInput = Omit<InsertComment, "id" | "createdAt" | "updatedAt">;
-export type UpdateCommentInput = Partial<Omit<CreateCommentInput, "userId" | "chapterId">> & {
+export type CreateCommentInput = Omit<InsertComment, "createdAt" | "id" | "updatedAt">;
+export type UpdateCommentInput = Partial<Omit<CreateCommentInput, "chapterId" | "userId">> & {
   id: number;
 };
 
 export type CreateBookmarkInput = Omit<InsertBookmark, "createdAt" | "updatedAt">;
-export type UpdateBookmarkInput = Partial<Omit<CreateBookmarkInput, "userId" | "comicId">>;
+export type UpdateBookmarkInput = Partial<Omit<CreateBookmarkInput, "comicId" | "userId">>;
 
 export type CreateReadingProgressInput = Omit<
   InsertReadingProgress,
-  "id" | "createdAt" | "updatedAt" | "lastReadAt"
+  "createdAt" | "id" | "lastReadAt" | "updatedAt"
 >;
 export type UpdateReadingProgressInput = Partial<
-  Omit<CreateReadingProgressInput, "userId" | "comicId">
+  Omit<CreateReadingProgressInput, "comicId" | "userId">
 > & { id: number };

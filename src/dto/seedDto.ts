@@ -126,51 +126,51 @@ export type ChapterSeedDto = z.infer<typeof ChapterSeedSchema>;
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface ComicNormalizedData {
-  title: string;
-  slug: string;
-  description: string;
-  coverImage?: string | null;
-  status: "Ongoing" | "Completed" | "Hiatus" | "Dropped" | "Coming Soon";
-  rating?: number;
   [key: string]: unknown;
+  coverImage?: null | string;
+  description: string;
+  rating?: number;
+  slug: string;
+  status: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+  title: string;
 }
 
 export interface ChapterMetadata {
   chapterName: string;
-  chapterTitle: string;
   chapterNumber: number;
   chapterSlug: string;
+  chapterTitle: string;
   comicSlug: string;
   imageUrls: string[];
 }
 
 export interface ComicEntities {
-  authorId: number;
   artistId: number;
-  typeId: number;
+  authorId: number;
   genreIds: number[];
+  typeId: number;
 }
 
 export interface ComicPayload {
-  title: string;
-  slug: string;
-  description: string;
-  coverImage: string;
-  status: "Ongoing" | "Completed" | "Hiatus" | "Dropped" | "Coming Soon";
-  rating: string;
-  authorId: number;
   artistId: number;
-  typeId: number;
+  authorId: number;
+  coverImage: string;
+  description: string;
   publicationDate: Date;
+  rating: string;
+  slug: string;
+  status: "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing";
+  title: string;
+  typeId: number;
 }
 
 export interface ChapterPayload {
-  title: string;
-  slug: string;
   chapterNumber: number;
-  releaseDate: Date;
-  views: number;
   comicId: number;
+  releaseDate: Date;
+  slug: string;
+  title: string;
+  views: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -178,36 +178,36 @@ export interface ChapterPayload {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface ProcessingResult<T = unknown> {
-  success: boolean;
-  id?: number | T;
   created?: boolean;
   error?: string;
+  id?: number | T;
   message?: string;
+  success: boolean;
 }
 
 export interface SeedingStatistics {
-  processed: number;
   created: number;
-  updated: number;
   errors: number;
+  processed: number;
   skipped?: number;
+  updated: number;
 }
 
 export interface FileProcessingStats {
-  processed: number;
   created: number;
-  updated: number;
   errors: number;
+  processed: number;
   skipped?: number;
+  updated: number;
 }
 
 export interface SeedingSummary {
-  totalProcessed: number;
-  totalCreated: number;
-  totalUpdated: number;
-  totalErrors: number;
-  totalSkipped: number;
   fileResults: Record<string, FileProcessingStats>;
+  totalCreated: number;
+  totalErrors: number;
+  totalProcessed: number;
+  totalSkipped: number;
+  totalUpdated: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -215,17 +215,17 @@ export interface SeedingSummary {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface ImageCacheStats {
-  urlCacheSize: number;
-  hashCacheSize: number;
   cacheHits: number;
   cacheMisses: number;
+  hashCacheSize: number;
   hitRate: number;
+  urlCacheSize: number;
 }
 
 export interface ImageProcessingResult {
-  success: boolean;
-  url: string | null;
   error?: string;
+  success: boolean;
+  url: null | string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -270,7 +270,7 @@ export function safeValidate<T>(
   schema: z.ZodSchema<T>,
   data: unknown,
   context: string
-): { success: boolean; data?: T; error?: string } {
+): { data?: T; error?: string; success: boolean; } {
   try {
     const validated = schema.parse(data);
     return { success: true, data: validated };

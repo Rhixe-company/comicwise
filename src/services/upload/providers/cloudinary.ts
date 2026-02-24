@@ -3,8 +3,9 @@
 // Next.js 16.0.7 + Cloudinary Integration
 // ═══════════════════════════════════════════════════
 
-import { env } from "@/appConfig";
 import { v2 as cloudinary } from "cloudinary";
+
+import { env } from "@/appConfig";
 
 import type { UploadOptions, UploadProvider, UploadResult } from "@/services/upload/index";
 
@@ -36,7 +37,7 @@ export class CloudinaryProvider implements UploadProvider {
    * @param options
    */
   async upload(
-    file: File | Buffer,
+    file: Buffer | File,
     options: UploadOptions & { transformation?: Record<string, unknown> } = {}
   ): Promise<UploadResult> {
     try {

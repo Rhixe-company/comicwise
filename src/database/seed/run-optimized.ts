@@ -11,36 +11,37 @@
  * - Dry-run capability
  */
 
+import { sql } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { loadAllData } from "@/database/seed/data-loader-optimized";
 import { getImageHandler, getImageStats } from "@/database/seed/image-handler-optimized";
 import { logger } from "@/database/seed/logger-optimized";
 import { seedChapters, seedComics, seedUsers } from "@/database/seed/seeders-optimized";
-import { sql } from "drizzle-orm";
 
 // ─────────────────────────────────────────────────────────────────────────
 // TYPES
 // ─────────────────────────────────────────────────────────────────────────
 
 interface SeedOptions {
-  dryRun?: boolean;
-  verbose?: boolean;
-  usersOnly?: boolean;
-  comicsOnly?: boolean;
   chaptersOnly?: boolean;
+  comicsOnly?: boolean;
+  dryRun?: boolean;
+  usersOnly?: boolean;
+  verbose?: boolean;
 }
 
 interface SeedStats {
-  users: { created: number; updated: number; skipped: number; errors: number };
-  comics: { created: number; updated: number; skipped: number; errors: number };
-  chapters: { created: number; updated: number; skipped: number; errors: number };
+  chapters: { created: number; errors: number; skipped: number; updated: number; };
+  comics: { created: number; errors: number; skipped: number; updated: number; };
   images?: {
-    total: number;
-    downloaded: number;
     cached: number;
+    downloaded: number;
     failed: number;
+    total: number;
   };
   totalTime?: string;
+  users: { created: number; errors: number; skipped: number; updated: number; };
 }
 
 // ─────────────────────────────────────────────────────────────────────────

@@ -11,9 +11,9 @@ export type UpdateChapterDto = Partial<CreateChapterDto>;
 
 export interface ChapterListDto {
   chapters: ChapterDto[];
-  total: number;
-  page: number;
   limit: number;
+  page: number;
+  total: number;
 }
 
 export type ChapterWithImagesDto = ChapterDto & {
@@ -26,8 +26,8 @@ export type ChapterWithImagesDto = ChapterDto & {
 
 export interface ChapterNavigationDto {
   current: ChapterDto;
-  previous?: ChapterDto;
   next?: ChapterDto;
+  previous?: ChapterDto;
 }
 
 export { deleteChapter, updateChapter } from "@/lib/actions/chapters";

@@ -1,10 +1,11 @@
+import { Suspense } from "react";
+
 import { ComicCard } from "@/components/layout/ComicCard";
 import { Filters } from "@/components/layout/Filters";
 import { Pagination } from "@/components/layout/Pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getAllComics } from "@/database/queries/comics";
 import { getAllGenres, getAllTypes } from "@/dto/genresTypesDto";
-import { Suspense } from "react";
 
 import type { ComicFilters, ComicStatus } from "@/types/database";
 import type { Metadata } from "next";
@@ -69,9 +70,9 @@ async function ComicsGrid({
       >
         {comics.map((comic) => (
           <ComicCard
-            key={comic.id}
-            comic={comic}
             authorName={comic.authorName}
+            comic={comic}
+            key={comic.id}
             typeName={comic.typeName}
           />
         ))}
@@ -80,9 +81,9 @@ async function ComicsGrid({
       {pagination.totalPages > 1 && (
         <div className="mt-8">
           <Pagination
+            baseUrl="/comics"
             currentPage={pagination.page}
             totalPages={pagination.totalPages}
-            baseUrl="/comics"
           />
         </div>
       )}
@@ -100,7 +101,7 @@ function LoadingSkeleton() {
       `}
     >
       {Array.from({ length: 12 }).map((_, i) => (
-        <div key={i} className="space-y-3">
+        <div className="space-y-3" key={i}>
           <Skeleton className="aspect-2/3 w-full" />
           <Skeleton className="h-4 w-3/4" />
           <Skeleton className="h-3 w-1/2" />
@@ -131,7 +132,7 @@ export default async function ComicsPage({ searchParams }: PageProps) {
         <p className="text-muted-foreground">Discover your next favorite story</p>
       </div>
 
-      <Filters types={types} genres={genres} />
+      <Filters genres={genres} types={types} />
 
       <Suspense fallback={<LoadingSkeleton />}>
         <ComicsGrid searchParams={resolvedSearchParams} />

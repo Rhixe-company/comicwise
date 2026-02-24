@@ -1,5 +1,5 @@
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
-import { join } from "path";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 const actionsDir = join(process.cwd(), "src", "lib", "actions");
 const dtoDir = join(process.cwd(), "src", "dto");
@@ -62,7 +62,7 @@ console.log(`\n✓ Migration complete: ${migratedCount} files updated`);
 
 if (errors.length > 0) {
   console.log("\n⚠ Errors:");
-  errors.forEach((err) => console.log(`  - ${err}`));
+  for (const err of errors) console.log(`  - ${err}`);
 }
 
 console.log("\nNext steps:");

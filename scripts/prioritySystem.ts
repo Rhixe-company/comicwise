@@ -22,32 +22,32 @@
  *   CONTINUE_ON_ERROR=1 - Continue even if a command fails
  */
 
-import { execSync } from "child_process";
+import { execSync } from "node:child_process";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPE DEFINITIONS
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface Task {
-  id: string;
-  name: string;
-  description: string;
-  commands: string[];
   acceptance: string[];
-  priority: "P0" | "P1" | "P2" | "P3" | "Enhancement";
-  estimatedHours: number;
+  commands: string[];
   completed: boolean;
   dependsOn?: string[];
+  description: string;
+  estimatedHours: number;
+  id: string;
+  name: string;
+  priority: "Enhancement" | "P0" | "P1" | "P2" | "P3";
 }
 
 interface PriorityGroup {
-  level: "P0" | "P1" | "P2" | "P3" | "Enhancement";
-  name: string;
+  color: string;
   description: string;
   icon: string;
-  color: string;
-  totalHours: number;
+  level: "Enhancement" | "P0" | "P1" | "P2" | "P3";
+  name: string;
   tasks: Task[];
+  totalHours: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -418,7 +418,7 @@ function logVerbose(message: string): void {
   }
 }
 
-function executeCommand(cmd: string): { success: boolean; output?: string } {
+function executeCommand(cmd: string): { output?: string; success: boolean; } {
   logVerbose(`Executing: ${cmd}`);
   if (ENV.dryRun) {
     console.log(colorText(`   [DRY RUN] ${cmd}`, "\x1B[33m"));

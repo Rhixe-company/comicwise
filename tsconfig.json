@@ -6,7 +6,6 @@
     "alwaysStrict": true,
     "declaration": false,
     "declarationMap": false,
-    "downlevelIteration": true,
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": false,
     "forceConsistentCasingInFileNames": true,

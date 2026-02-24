@@ -5,6 +5,11 @@
  * Full CRUD functionality with Zod validation and enhanced UX
  */
 
+import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,26 +28,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { CreateUserInput, UpdateUserInput } from "@/lib/validations";
 import { createUserSchema, updateUserSchema } from "@/lib/validations";
+
+import type { CreateUserInput, UpdateUserInput } from "@/lib/validations";
 import type { User } from "@/types/database";
-import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { toast } from "sonner";
 
 // ═══════════════════════════════════════════════════
 // TYPE DEFINITIONS
 // ═══════════════════════════════════════════════════
 
 interface AdminUsersProps {
-  users: User[];
-  createUserAction(data: CreateUserInput): Promise<{ success: boolean; error?: string }>;
+  createUserAction(data: CreateUserInput): Promise<{ error?: string; success: boolean; }>;
+  deleteUserAction(id: string): Promise<{ error?: string; success: boolean; }>;
   updateUserAction(
     id: string,
     data: UpdateUserInput
-  ): Promise<{ success: boolean; error?: string }>;
-  deleteUserAction(id: string): Promise<{ success: boolean; error?: string }>;
+  ): Promise<{ error?: string; success: boolean; }>;
+  users: User[];
 }
 
 // ═══════════════════════════════════════════════════
@@ -64,7 +66,7 @@ export function AdminUsers({
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   // Form states
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<null | User>(null);
   const [formData, setFormData] = useState<CreateUserInput>({
     name: "",
     email: "",
@@ -182,7 +184,7 @@ export function AdminUsers({
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">User Management</h2>
-          <p className="text-sm text-muted-foreground">Manage system users and their permissions</p>
+          <p className="text-muted-foreground text-sm">Manage system users and their permissions</p>
         </div>
         <Button onClick={handleCreate}>
           <Plus className="mr-2 size-4" />
@@ -194,7 +196,7 @@ export function AdminUsers({
       <div className="rounded-md border">
         <table className="w-full">
           <thead>
-            <tr className="border-b bg-muted/50">
+            <tr className="bg-muted/50 border-b">
               <th className="p-4 text-left font-medium">Name</th>
               <th className="p-4 text-left font-medium">Email</th>
               <th className="p-4 text-left font-medium">Role</th>
@@ -204,20 +206,20 @@ export function AdminUsers({
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id} className="border-b">
+              <tr className="border-b" key={user.id}>
                 <td className="p-4">{user.name}</td>
                 <td className="p-4">{user.email}</td>
                 <td className="p-4">
-                  <span className="rounded-full bg-primary/10 px-2 py-1 text-xs">{user.role}</span>
+                  <span className="bg-primary/10 rounded-full px-2 py-1 text-xs">{user.role}</span>
                 </td>
                 <td className="p-4">{user.emailVerified ? "✓" : "✗"}</td>
                 <td className="p-4">
                   <div className="flex justify-end gap-2">
-                    <Button variant="ghost" size="sm" onClick={() => handleEdit(user)}>
+                    <Button onClick={() => handleEdit(user)} size="sm" variant="ghost">
                       <Pencil className="size-4" />
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleDelete(user)}>
-                      <Trash2 className="size-4 text-destructive" />
+                    <Button onClick={() => handleDelete(user)} size="sm" variant="ghost">
+                      <Trash2 className="text-destructive size-4" />
                     </Button>
                   </div>
                 </td>
@@ -228,7 +230,7 @@ export function AdminUsers({
       </div>
 
       {/* Create Dialog */}
-      <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+      <Dialog onOpenChange={setCreateOpen} open={createOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Create User</DialogTitle>
@@ -239,43 +241,43 @@ export function AdminUsers({
             <div>
               <Label htmlFor="name">Name</Label>
               <Input
-                id="name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 disabled={isPending}
+                id="name"
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                value={formData.name}
               />
             </div>
 
             <div>
               <Label htmlFor="email">Email</Label>
               <Input
+                disabled={isPending}
                 id="email"
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                disabled={isPending}
               />
             </div>
 
             <div>
               <Label htmlFor="password">Password</Label>
               <Input
+                disabled={isPending}
                 id="password"
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 type="password"
                 value={formData.password || ""}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                disabled={isPending}
               />
             </div>
 
             <div>
               <Label htmlFor="role">Role</Label>
               <Select
-                value={formData.role}
-                onValueChange={(value: "user" | "admin" | "moderator") =>
+                disabled={isPending}
+                onValueChange={(value: "admin" | "moderator" | "user") =>
                   setFormData({ ...formData, role: value })
                 }
-                disabled={isPending}
+                value={formData.role}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -290,10 +292,10 @@ export function AdminUsers({
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setCreateOpen(false)} disabled={isPending}>
+            <Button disabled={isPending} onClick={() => setCreateOpen(false)} variant="outline">
               Cancel
             </Button>
-            <Button onClick={handleSubmitCreate} disabled={isPending}>
+            <Button disabled={isPending} onClick={handleSubmitCreate}>
               {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
               Create
             </Button>
@@ -302,7 +304,7 @@ export function AdminUsers({
       </Dialog>
 
       {/* Edit Dialog */}
-      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+      <Dialog onOpenChange={setEditOpen} open={editOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit User</DialogTitle>
@@ -313,32 +315,32 @@ export function AdminUsers({
             <div>
               <Label htmlFor="edit-name">Name</Label>
               <Input
-                id="edit-name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 disabled={isPending}
+                id="edit-name"
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                value={formData.name}
               />
             </div>
 
             <div>
               <Label htmlFor="edit-email">Email</Label>
               <Input
+                disabled={isPending}
                 id="edit-email"
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                disabled={isPending}
               />
             </div>
 
             <div>
               <Label htmlFor="edit-role">Role</Label>
               <Select
-                value={formData.role}
-                onValueChange={(value: "user" | "admin" | "moderator") =>
+                disabled={isPending}
+                onValueChange={(value: "admin" | "moderator" | "user") =>
                   setFormData({ ...formData, role: value })
                 }
-                disabled={isPending}
+                value={formData.role}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -353,10 +355,10 @@ export function AdminUsers({
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setEditOpen(false)} disabled={isPending}>
+            <Button disabled={isPending} onClick={() => setEditOpen(false)} variant="outline">
               Cancel
             </Button>
-            <Button onClick={handleSubmitEdit} disabled={isPending}>
+            <Button disabled={isPending} onClick={handleSubmitEdit}>
               {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
               Update
             </Button>
@@ -365,7 +367,7 @@ export function AdminUsers({
       </Dialog>
 
       {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+      <Dialog onOpenChange={setDeleteOpen} open={deleteOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete User</DialogTitle>
@@ -375,10 +377,10 @@ export function AdminUsers({
           </DialogHeader>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteOpen(false)} disabled={isPending}>
+            <Button disabled={isPending} onClick={() => setDeleteOpen(false)} variant="outline">
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleConfirmDelete} disabled={isPending}>
+            <Button disabled={isPending} onClick={handleConfirmDelete} variant="destructive">
               {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
               Delete
             </Button>

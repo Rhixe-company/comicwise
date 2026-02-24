@@ -28,7 +28,7 @@
 param(
     [Parameter(Mandatory = $false)]
     [switch]$DryRun,
-    
+
     [Parameter(Mandatory = $false)]
     [switch]$Force
 )
@@ -50,16 +50,16 @@ function Write-Log {
         [ValidateSet("INFO", "SUCCESS", "WARNING", "ERROR")]
         [string]$Level = "INFO"
     )
-    
+
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $logMessage = "[$timestamp] [$Level] $Message"
-    
+
     if (!(Test-Path $LOG_DIR)) {
         New-Item -ItemType Directory -Path $LOG_DIR -Force | Out-Null
     }
-    
+
     Add-Content -Path $LOG_FILE -Value $logMessage
-    
+
     switch ($Level) {
         "SUCCESS" { Write-Host $logMessage -ForegroundColor Green }
         "WARNING" { Write-Host $logMessage -ForegroundColor Yellow }
@@ -70,7 +70,7 @@ function Write-Log {
 
 function Test-VSCodeCLI {
     try {
-        $null = code --version 2>&1
+        $null = code-insiders --version 2>&1
         return $true
     }
     catch {
@@ -80,7 +80,7 @@ function Test-VSCodeCLI {
 
 function Get-InstalledExtensions {
     try {
-        $output = code --list-extensions 2>&1
+        $output = code-insiders --list-extensions 2>&1
         if ($LASTEXITCODE -eq 0) {
             return $output
         }
@@ -95,16 +95,16 @@ function Get-InstalledExtensions {
 
 function Install-Extension {
     param([string]$ExtensionId)
-    
+
     if ($DryRun) {
         Write-Log "DRY RUN: Would install $ExtensionId" -Level "INFO"
         return $true
     }
-    
+
     try {
         Write-Log "Installing $ExtensionId..." -Level "INFO"
-        $output = code --install-extension $ExtensionId --force 2>&1
-        
+        $output = code-insiders --install-extension $ExtensionId --force 2>&1
+
         if ($LASTEXITCODE -eq 0) {
             Write-Log "Successfully installed $ExtensionId" -Level "SUCCESS"
             return $true
@@ -132,8 +132,8 @@ Write-Log "═══════════════════════
 # Check VS Code CLI
 Write-Log "`nChecking VS Code CLI availability..." -Level "INFO"
 if (!(Test-VSCodeCLI)) {
-    Write-Log "VS Code CLI 'code' command not found!" -Level "ERROR"
-    Write-Log "Please ensure VS Code is installed and 'code' is in your PATH" -Level "ERROR"
+    Write-Log "VS Code CLI 'code-insiders' command not found!" -Level "ERROR"
+    Write-Log "Please ensure VS Code Insiders is installed and 'code-insiders' is in your PATH" -Level "ERROR"
     exit 1
 }
 Write-Log "VS Code CLI is available" -Level "SUCCESS"
@@ -194,10 +194,10 @@ if ($alreadyInstalled.Count -gt 0) {
 # Install missing extensions
 if ($toInstall.Count -gt 0) {
     Write-Log "`nInstalling extensions..." -Level "INFO"
-    
+
     $successCount = 0
     $failCount = 0
-    
+
     foreach ($ext in $toInstall) {
         if (Install-Extension -ExtensionId $ext) {
             $successCount++
@@ -207,7 +207,7 @@ if ($toInstall.Count -gt 0) {
         }
         Start-Sleep -Milliseconds 500  # Rate limiting
     }
-    
+
     Write-Log "`n═══════════════════════════════════════════════════════════════" -Level "INFO"
     Write-Log "Installation Complete" -Level "INFO"
     Write-Log "═══════════════════════════════════════════════════════════════" -Level "INFO"

@@ -1,6 +1,7 @@
+import { asc, desc, eq, ilike } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { genre } from "@/database/schema";
-import { asc, desc, eq, ilike } from "drizzle-orm";
 
 export async function getGenreById(genreId: number) {
   return await database.query.genre.findFirst({
@@ -24,9 +25,9 @@ export async function getGenreByNameForSeed(name: string) {
 export async function getGenres(params?: {
   limit?: number;
   offset?: number;
-  sortBy?: "name" | "createdAt";
-  sortOrder?: "asc" | "desc";
   search?: string;
+  sortBy?: "createdAt" | "name";
+  sortOrder?: "asc" | "desc";
 }) {
   const { limit = 10, offset = 0, sortBy = "name", sortOrder = "asc", search } = params || {};
 
@@ -63,9 +64,9 @@ export async function getGenreCount(params?: { search?: string }) {
 
 // Wrapper function for API compatibility
 export async function getAllGenres(filters?: {
-  search?: string;
-  page?: number;
   limit?: number;
+  page?: number;
+  search?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }) {

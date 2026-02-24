@@ -1,14 +1,16 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import {
   createChapter as createChapterMutation,
   updateChapter as updateChapterMutation,
 } from "@/database/mutations";
 import { getChapterImages as getChapterImagesMutation } from "@/database/queries";
-import type { createChapterSchema, updateChapterSchema } from "@/lib/validations";
-import { auth } from "auth";
-import { revalidatePath } from "next/cache";
 
+import { auth } from "auth";
+
+import type { createChapterSchema, updateChapterSchema } from "@/lib/validations";
 import type { z } from "zod";
 
 export async function getChapterImages(chapterId: number) {

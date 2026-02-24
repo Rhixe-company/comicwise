@@ -4,25 +4,27 @@
  * Implements upsert logic with comprehensive error handling
  */
 
+import bcryptjs from "bcryptjs";
+import { eq } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { user } from "@/database/schema";
 import { loadUsers } from "@/database/seed/dataLoaderEnhanced";
 import { getImageManager } from "@/database/seed/imageManager";
 import { logger } from "@/database/seed/logger";
+
 import type { UserSeedData } from "@/database/seed/schemas";
-import bcryptjs from "bcryptjs";
-import { eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // USER SEEDER
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface SeedStats {
-  total: number;
   created: number;
-  updated: number;
-  skipped: number;
   errors: number;
+  skipped: number;
+  total: number;
+  updated: number;
 }
 
 /**

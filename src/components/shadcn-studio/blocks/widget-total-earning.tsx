@@ -15,19 +15,19 @@ import { Progress } from "@/components/ui/progress";
 const listItems = ["Share", "Update", "Refresh"];
 
 interface Props {
-  title: string;
-  earning: number;
-  trend: "up" | "down";
-  percentage: number;
+  className?: string;
   comparisonText: string;
+  earning: number;
   earningData: {
+    earnings: string;
     img: string;
     platform: string;
-    technologies: string;
-    earnings: string;
     progressPercentage: number;
+    technologies: string;
   }[];
-  className?: string;
+  percentage: number;
+  title: string;
+  trend: "down" | "up";
 }
 
 const TotalEarningCard = ({
@@ -46,9 +46,9 @@ const TotalEarningCard = ({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              variant="ghost"
+              className="text-muted-foreground size-6 rounded-full"
               size="icon"
-              className="size-6 rounded-full text-muted-foreground"
+              variant="ghost"
             >
               <EllipsisVerticalIcon />
               <span className="sr-only">Menu</span>
@@ -76,25 +76,25 @@ const TotalEarningCard = ({
               <span className="text-sm">{percentage}%</span>
             </span>
           </div>
-          <span className="text-sm text-muted-foreground">{comparisonText}</span>
+          <span className="text-muted-foreground text-sm">{comparisonText}</span>
         </div>
         <div className="flex flex-1 flex-col justify-evenly gap-4">
           {earningData.map((earning, index) => (
-            <div key={index} className={`flex items-center justify-between gap-2.5`}>
+            <div className={`flex items-center justify-between gap-2.5`} key={index}>
               <div className="flex items-center justify-between gap-2.5">
                 <Avatar className="size-11 rounded-sm">
-                  <AvatarFallback className="shrink-0 rounded-sm bg-primary/10">
-                    <img src={earning.img} alt={earning.platform} className={`size-6`} />
+                  <AvatarFallback className="bg-primary/10 shrink-0 rounded-sm">
+                    <img alt={earning.platform} className={`size-6`} src={earning.img} />
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col gap-1">
                   <span className="font-medium">{earning.platform}</span>
-                  <span className="text-sm text-muted-foreground">{earning.technologies}</span>
+                  <span className="text-muted-foreground text-sm">{earning.technologies}</span>
                 </div>
               </div>
               <div className="space-y-2">
                 <p className="text-sm">{earning.earnings}</p>
-                <Progress value={earning.progressPercentage} className="w-36" />
+                <Progress className="w-36" value={earning.progressPercentage} />
               </div>
             </div>
           ))}

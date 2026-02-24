@@ -1,21 +1,23 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+
 import { ComicCard } from "./ComicCard";
 import { ComicFilters } from "./ComicFilters";
 
 interface Comic {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
   coverImage: string;
-  status: string;
-  rating: string | null;
-  views: number;
+  description: string;
+  id: number;
   publicationDate: Date;
+  rating: null | string;
+  slug: string;
+  status: string;
+  title: string;
+  views: number;
 }
 
 interface Type {
@@ -30,11 +32,11 @@ interface Genre {
 
 interface ComicsListProps {
   comics: Comic[];
-  totalCount: number;
   currentPage: number;
-  pageSize: number;
-  types: Type[];
   genres: Genre[];
+  pageSize: number;
+  totalCount: number;
+  types: Type[];
 }
 
 export function ComicsList({
@@ -49,40 +51,40 @@ export function ComicsList({
 
   return (
     <div className="space-y-8">
-      <ComicFilters types={types} genres={genres} />
+      <ComicFilters genres={genres} types={types} />
 
       {comics.length === 0 ? (
         <div className="py-20 text-center">
-          <p className="text-lg text-muted-foreground">No comics found</p>
+          <p className="text-muted-foreground text-lg">No comics found</p>
         </div>
       ) : (
         <>
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {comics.map((comic) => (
-              <ComicCard key={comic.id} comic={comic} />
+              <ComicCard comic={comic} key={comic.id} />
             ))}
           </div>
 
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2">
               <Link
-                href={`/comics?page=${currentPage - 1}`}
                 className={currentPage <= 1 ? "pointer-events-none opacity-50" : ""}
+                href={`/comics?page=${currentPage - 1}`}
               >
-                <Button variant="outline" size="icon" disabled={currentPage <= 1}>
+                <Button disabled={currentPage <= 1} size="icon" variant="outline">
                   <ChevronLeft className="size-4" />
                 </Button>
               </Link>
 
-              <span className="text-sm text-muted-foreground">
+              <span className="text-muted-foreground text-sm">
                 Page {currentPage} of {totalPages}
               </span>
 
               <Link
-                href={`/comics?page=${currentPage + 1}`}
                 className={currentPage >= totalPages ? "pointer-events-none opacity-50" : ""}
+                href={`/comics?page=${currentPage + 1}`}
               >
-                <Button variant="outline" size="icon" disabled={currentPage >= totalPages}>
+                <Button disabled={currentPage >= totalPages} size="icon" variant="outline">
                   <ChevronRight className="size-4" />
                 </Button>
               </Link>

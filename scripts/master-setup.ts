@@ -20,10 +20,12 @@
  *   pnpm tsx scripts/master-setup.ts --task=readme
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
 import chalk from "chalk";
-import fs from "fs/promises";
 import ora from "ora";
-import path from "path";
+
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
@@ -38,9 +40,9 @@ const taskArg = process.argv.find((arg) => arg.startsWith("--task="));
 const specificTask = taskArg?.split("=")[1];
 
 interface SetupTask {
-  name: string;
   description: string;
   execute(): Promise<void>;
+  name: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -710,7 +712,7 @@ async function main() {
     } else {
       console.log(chalk.red(`✗ Task '${specificTask}' not found\n`));
       console.log(chalk.white("Available tasks:"));
-      tasks.forEach((t) => console.log(`  - ${t.name}: ${t.description}`));
+      for (const t of tasks) console.log(`  - ${t.name}: ${t.description}`);
       process.exit(1);
     }
   } else {

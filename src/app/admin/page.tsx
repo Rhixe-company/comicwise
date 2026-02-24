@@ -1,11 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { db } from "@/database/db";
-import { bookmark, chapter, comic, comment, user } from "@/database/schema";
 import { desc, sql } from "drizzle-orm";
 import { BookMarked, BookOpen, BookPlus, Eye, FileText, Plus, UserPlus, Users } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { db } from "@/database/db";
+import { bookmark, chapter, comic, comment, user } from "@/database/schema";
 
 function QuickActions() {
   const quickActions = [
@@ -45,16 +46,16 @@ function QuickActions() {
             const Icon = action.icon;
             return (
               <Button
+                asChild
+                className="h-auto flex-col items-start justify-start p-4"
                 key={action.title}
                 variant="outline"
-                className="h-auto flex-col items-start justify-start p-4"
-                asChild
               >
                 <Link href={action.href}>
                   <Icon className="mb-2 size-6" />
                   <div className="text-left">
                     <div className="font-semibold">{action.title}</div>
-                    <div className="text-xs text-muted-foreground">{action.description}</div>
+                    <div className="text-muted-foreground text-xs">{action.description}</div>
                   </div>
                 </Link>
               </Button>
@@ -141,11 +142,11 @@ async function StatsGrid() {
               `}
             >
               <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-              <Icon className="size-4 text-muted-foreground" />
+              <Icon className="text-muted-foreground size-4" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>
-              <p className="text-xs text-muted-foreground">{stat.description}</p>
+              <p className="text-muted-foreground text-xs">{stat.description}</p>
             </CardContent>
           </Card>
         );
@@ -176,33 +177,33 @@ async function RecentComics() {
         <div className="space-y-4">
           {recentComics.map((c) => (
             <div
-              key={c.id}
               className={`
                 flex items-center justify-between border-b pb-2
                 last:border-0
               `}
+              key={c.id}
             >
               <div className="flex-1">
                 <Link
-                  href={`/admin/comics/${c.id}`}
                   className={`
                     font-medium
                     hover:underline
                   `}
+                  href={`/admin/comics/${c.id}`}
                 >
                   {c.title}
                 </Link>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   {c.status} • {c.views} views
                 </p>
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-muted-foreground text-xs">
                 {new Date(c.createdAt).toLocaleDateString()}
               </div>
             </div>
           ))}
           {recentComics.length === 0 && (
-            <p className="text-sm text-muted-foreground">No comics yet</p>
+            <p className="text-muted-foreground text-sm">No comics yet</p>
           )}
         </div>
       </CardContent>
@@ -232,25 +233,25 @@ async function RecentUsers() {
         <div className="space-y-4">
           {recentUsers.map((u) => (
             <div
-              key={u.id}
               className={`
                 flex items-center justify-between border-b pb-2
                 last:border-0
               `}
+              key={u.id}
             >
               <div className="flex-1">
                 <div className="font-medium">{u.name || u.email}</div>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   {u.role} • {u.email}
                 </p>
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-muted-foreground text-xs">
                 {new Date(u.createdAt).toLocaleDateString()}
               </div>
             </div>
           ))}
           {recentUsers.length === 0 && (
-            <p className="text-sm text-muted-foreground">No users yet</p>
+            <p className="text-muted-foreground text-sm">No users yet</p>
           )}
         </div>
       </CardContent>
@@ -280,31 +281,31 @@ async function RecentChapters() {
         <div className="space-y-4">
           {recentChapters.map((ch) => (
             <div
-              key={ch.id}
               className={`
                 flex items-center justify-between border-b pb-2
                 last:border-0
               `}
+              key={ch.id}
             >
               <div className="flex-1">
                 <Link
-                  href={`/admin/chapters/${ch.id}`}
                   className={`
                     font-medium
                     hover:underline
                   `}
+                  href={`/admin/chapters/${ch.id}`}
                 >
                   Ch. {ch.chapterNumber}: {ch.title}
                 </Link>
-                <p className="text-xs text-muted-foreground">{ch.views} views</p>
+                <p className="text-muted-foreground text-xs">{ch.views} views</p>
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-muted-foreground text-xs">
                 {new Date(ch.createdAt).toLocaleDateString()}
               </div>
             </div>
           ))}
           {recentChapters.length === 0 && (
-            <p className="text-sm text-muted-foreground">No chapters yet</p>
+            <p className="text-muted-foreground text-sm">No chapters yet</p>
           )}
         </div>
       </CardContent>
@@ -334,23 +335,23 @@ async function RecentComments() {
         <div className="space-y-4">
           {recentComments.map((cm) => (
             <div
-              key={cm.id}
               className={`
                 flex items-center justify-between border-b pb-2
                 last:border-0
               `}
+              key={cm.id}
             >
               <div className="flex-1">
                 <div className="text-sm font-medium">{cm.userName || "Anonymous"}</div>
-                <p className="line-clamp-2 text-xs text-muted-foreground">{cm.content}</p>
+                <p className="text-muted-foreground line-clamp-2 text-xs">{cm.content}</p>
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-muted-foreground text-xs">
                 {new Date(cm.createdAt).toLocaleDateString()}
               </div>
             </div>
           ))}
           {recentComments.length === 0 && (
-            <p className="text-sm text-muted-foreground">No comments yet</p>
+            <p className="text-muted-foreground text-sm">No comments yet</p>
           )}
         </div>
       </CardContent>

@@ -7,7 +7,7 @@
  * - Fallback images: /placeholder-comic.jpg, /shadcn.jpg
  */
 
-import path from "path";
+import path from "node:path";
 
 // Fallback images
 export const FALLBACK_COMIC_IMAGE = "/placeholder-comic.jpg";
@@ -66,7 +66,7 @@ export function getChapterImageFsPath(comicSlug: string, chapterSlug: string): s
  * @returns Normalized image URL or fallback
  */
 export function normalizeImageUrl(
-  imageUrl: string | undefined | null,
+  imageUrl: null | string | undefined,
   fallback: string = FALLBACK_COMIC_IMAGE
 ): string {
   if (!imageUrl || typeof imageUrl !== "string") {

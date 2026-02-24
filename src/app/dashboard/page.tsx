@@ -1,3 +1,4 @@
+import data from "@/app/dashboard/data.json";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { ChartAreaInteractive } from "@/components/layout/ChartAreaInteractive";
 import { DataTable } from "@/components/layout/DataTable";
@@ -5,7 +6,6 @@ import { SectionCards } from "@/components/layout/SectionCards";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-import data from "@/app/dashboard/data.json";
 
 export default function Page() {
   return (

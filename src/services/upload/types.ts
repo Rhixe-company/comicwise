@@ -5,49 +5,49 @@
 /**
  * Supported upload providers
  */
-export type UploadProviderType = "local" | "imagekit" | "cloudinary";
+export type UploadProviderType = "cloudinary" | "imagekit" | "local";
 
 /**
  * Upload types for categorizing images
  */
-export type UploadType = "comic-cover" | "chapter-image" | "avatar" | "general";
+export type UploadType = "avatar" | "chapter-image" | "comic-cover" | "general";
 
 /**
  * File upload configuration options
  */
 export interface UploadOptions {
-  /** Folder path in storage (e.g., "comicwise/comics") */
-  folder?: string;
   /** Custom filename without extension */
   filename?: string;
-  /** Image transformation options (provider-specific) */
-  transformation?: Record<string, unknown>;
+  /** Folder path in storage (e.g., "comicwise/comics") */
+  folder?: string;
   /** Tags for organizing/filtering uploads */
   tags?: string[];
+  /** Image transformation options (provider-specific) */
+  transformation?: Record<string, unknown>;
 }
 
 /**
  * Result of a successful upload operation
  */
 export interface UploadResult {
-  /** Public URL to access the uploaded file */
-  url: string;
-  /** Provider-specific public ID for file identification */
-  publicId: string;
-  /** Image width in pixels (if available) */
-  width?: number;
-  /** Image height in pixels (if available) */
-  height?: number;
-  /** File format/extension */
-  format?: string;
-  /** File size in bytes */
-  size: number;
-  /** Thumbnail URL (if provider supports) */
-  thumbnail?: string;
-  /** Whether upload was successful */
-  success?: boolean;
   /** Error message if upload failed */
   error?: string;
+  /** File format/extension */
+  format?: string;
+  /** Image height in pixels (if available) */
+  height?: number;
+  /** Provider-specific public ID for file identification */
+  publicId: string;
+  /** File size in bytes */
+  size: number;
+  /** Whether upload was successful */
+  success?: boolean;
+  /** Thumbnail URL (if provider supports) */
+  thumbnail?: string;
+  /** Public URL to access the uploaded file */
+  url: string;
+  /** Image width in pixels (if available) */
+  width?: number;
 }
 
 /**
@@ -55,14 +55,6 @@ export interface UploadResult {
  * Each provider must implement these methods
  */
 export interface UploadProvider {
-  /**
-   * Upload a file to the storage backend
-   * param file - File or Buffer to upload
-   * param options - Upload configuration
-   * returns Upload result with URL and metadata
-   */
-  upload(file: File | Buffer, options?: UploadOptions): Promise<UploadResult>;
-
   /**
    * Delete a file from storage
    * param publicId - File ID returned from upload
@@ -77,56 +69,64 @@ export interface UploadProvider {
    * returns Public URL with transformations applied
    */
   getUrl(publicId: string, transformation?: Record<string, unknown>): string;
+
+  /**
+   * Upload a file to the storage backend
+   * param file - File or Buffer to upload
+   * param options - Upload configuration
+   * returns Upload result with URL and metadata
+   */
+  upload(file: Buffer | File, options?: UploadOptions): Promise<UploadResult>;
 }
 
 /**
  * Configuration for a specific provider
  */
 export interface ProviderConfig {
-  /** Provider type */
-  provider: UploadProviderType;
+  /** Provider-specific configuration */
+  config?: Record<string, boolean | number | string>;
   /** Whether this provider is enabled */
   enabled: boolean;
-  /** Provider-specific configuration */
-  config?: Record<string, string | boolean | number>;
+  /** Provider type */
+  provider: UploadProviderType;
 }
 
 /**
  * Validation result for file uploads
  */
 export interface FileValidationResult {
-  /** Whether the file is valid */
-  valid: boolean;
   /** Error message if validation failed */
   error?: string;
+  /** Whether the file is valid */
+  valid: boolean;
 }
 
 /**
  * Image transformation options
  */
 export interface ImageTransformation {
-  /** Image width in pixels */
-  width?: number;
+  /** Crop mode (fill, scale, etc.) */
+  crop?: string;
+  /** Output format (jpeg, png, webp, etc.) */
+  format?: string;
   /** Image height in pixels */
   height?: number;
   /** Image quality (1-100) */
   quality?: number;
-  /** Output format (jpeg, png, webp, etc.) */
-  format?: string;
-  /** Crop mode (fill, scale, etc.) */
-  crop?: string;
+  /** Image width in pixels */
+  width?: number;
 }
 
 /**
  * File upload constraints
  */
 export interface UploadConstraints {
-  /** Maximum file size in MB */
-  maxSizeMB: number;
   /** Allowed MIME types */
   allowedMimeTypes: string[];
   /** Whether multiple files can be uploaded at once */
   allowMultiple: boolean;
+  /** Maximum file size in MB */
+  maxSizeMB: number;
 }
 
 /**

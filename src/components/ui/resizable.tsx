@@ -14,7 +14,6 @@ function ResizablePanelGroup({
 }) {
   return (
     <Group
-      data-slot="resizable-panel-group"
       className={cn(
         `
           flex size-full
@@ -22,13 +21,14 @@ function ResizablePanelGroup({
         `,
         className
       )}
+      data-slot="resizable-panel-group"
       {...props}
     />
   );
 }
 
 function ResizablePanel({ className, ...props }: React.ComponentProps<typeof Panel>) {
-  return <Panel data-slot="resizable-panel" className={cn(className)} {...props} />;
+  return <Panel className={cn(className)} data-slot="resizable-panel" {...props} />;
 }
 
 function ResizableHandle({
@@ -40,13 +40,12 @@ function ResizableHandle({
 }) {
   return (
     <Separator
-      data-slot="resizable-handle"
       className={cn(
         `
-          relative flex w-px items-center justify-center bg-border
-          after:absolute after:inset-y-0 after:left-1/2 after:w-1
-          after:-translate-x-1/2
-          focus-visible:ring-1 focus-visible:ring-ring
+          bg-border focus-visible:ring-ring relative flex w-px items-center
+          justify-center after:absolute after:inset-y-0 after:left-1/2
+          after:w-1
+          after:-translate-x-1/2 focus-visible:ring-1
           focus-visible:ring-offset-1 focus-visible:outline-hidden
           data-[panel-group-direction=vertical]:h-px
           data-[panel-group-direction=vertical]:w-full
@@ -59,13 +58,14 @@ function ResizableHandle({
         `,
         className
       )}
+      data-slot="resizable-handle"
       {...props}
     >
       {withHandle && (
         <div
           className={`
-            z-10 flex h-4 w-3 items-center justify-center rounded-xs border
-            bg-border
+            bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs
+            border
           `}
         >
           <GripVerticalIcon className="size-2.5" />

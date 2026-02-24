@@ -1,5 +1,9 @@
 "use client";
 
+import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,9 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MoreHorizontal, Pencil, Trash } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
 
 interface Column<T = Record<string, unknown>> {
   accessorKey: keyof T & string;
@@ -30,8 +31,8 @@ interface Column<T = Record<string, unknown>> {
 interface DataTableProps<T extends Record<string, unknown> = Record<string, unknown>> {
   columns: Column<T>[];
   data: T[];
-  onEdit?(id: number | string): void;
   onDelete?(id: number | string): void;
+  onEdit?(id: number | string): void;
 }
 
 export function DataTable<T extends Record<string, unknown> & { id: number | string }>({
@@ -51,10 +52,10 @@ export function DataTable<T extends Record<string, unknown> & { id: number | str
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <Input
+          className="max-w-sm"
+          onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
         />
       </div>
 
@@ -80,7 +81,7 @@ export function DataTable<T extends Record<string, unknown> & { id: number | str
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="size-8 p-0">
+                        <Button className="size-8 p-0" variant="ghost">
                           <span className="sr-only">Open menu</span>
                           <MoreHorizontal className="size-4" />
                         </Button>
@@ -109,10 +110,10 @@ export function DataTable<T extends Record<string, unknown> & { id: number | str
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length + 1}
                   className={`
                   h-24 text-center
                 `}
+                  colSpan={columns.length + 1}
                 >
                   No results.
                 </TableCell>

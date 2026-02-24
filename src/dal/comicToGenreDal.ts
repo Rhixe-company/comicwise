@@ -3,9 +3,10 @@
  * Handles all database operations for comic-genre relationships
  */
 
+import { and, eq } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { comicToGenre } from "@/database/schema";
-import { and, eq } from "drizzle-orm";
 
 export interface ComicToGenreRecord {
   comicId: number;

@@ -1,7 +1,9 @@
+import { asc, desc, eq, ilike, or } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { user } from "@/database/schema";
+
 import type { SQL } from "drizzle-orm";
-import { asc, desc, eq, ilike, or } from "drizzle-orm";
 
 export async function getUserById(userId: string) {
   return await database.query.user.findFirst({
@@ -18,10 +20,10 @@ export async function getUserByEmail(email: string) {
 export async function getUsers(params?: {
   limit?: number;
   offset?: number;
-  sortBy?: "name" | "email" | "role" | "createdAt";
-  sortOrder?: "asc" | "desc";
+  role?: "admin" | "moderator" | "user";
   search?: string;
-  role?: "user" | "admin" | "moderator";
+  sortBy?: "createdAt" | "email" | "name" | "role";
+  sortOrder?: "asc" | "desc";
 }) {
   const {
     limit = 10,
@@ -61,8 +63,8 @@ export async function getUsers(params?: {
 }
 
 export async function getUserCount(params?: {
+  role?: "admin" | "moderator" | "user";
   search?: string;
-  role?: "user" | "admin" | "moderator";
 }) {
   const { search, role } = params || {};
 
@@ -88,11 +90,11 @@ export async function getUserCount(params?: {
 
 // Wrapper function for API compatibility
 export async function getAllUsers(filters?: {
-  search?: string;
-  role?: "user" | "admin" | "moderator";
   emailVerified?: boolean;
-  page?: number;
   limit?: number;
+  page?: number;
+  role?: "admin" | "moderator" | "user";
+  search?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }) {

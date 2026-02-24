@@ -1,10 +1,11 @@
-import type { ClassValue } from "clsx";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import type { ClassValue } from "clsx";
+
 export const cn = (...inputs: ClassValue[]): string => twMerge(clsx(inputs));
 
-export const formatDate = (date: Date | string | number): string => {
+export const formatDate = (date: Date | number | string): string => {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
@@ -12,7 +13,7 @@ export const formatDate = (date: Date | string | number): string => {
   }).format(new Date(date));
 };
 
-export const formatRelativeTime = (date: Date | string | number): string => {
+export const formatRelativeTime = (date: Date | number | string): string => {
   const now = Date.now();
   const then = new Date(date).getTime();
   const diff = now - then;
@@ -67,12 +68,12 @@ export function isNumber(v: unknown): v is number {
   return typeof v === "number" && !Number.isNaN(v);
 }
 
-export function isRegExpMatch(match: RegExpExecArray | null | undefined, index = 0): boolean {
+export function isRegExpMatch(match: null | RegExpExecArray | undefined, index = 0): boolean {
   return !!(match && match.length > index && typeof match[index] === "string");
 }
 
 export function safeGet<T, K extends keyof T>(
-  object: T | null | undefined,
+  object: null | T | undefined,
   key: K,
   fallback?: T[K]
 ): T[K] | undefined {

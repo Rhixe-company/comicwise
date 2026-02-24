@@ -1,12 +1,16 @@
+import { BookmarkX } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
 import { ComicCard } from "@/components/layout/ComicCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUserBookmarks } from "@/database/queries";
+
 import { auth } from "auth";
-import { BookmarkX } from "lucide-react";
+
 import type { Metadata } from "next";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+
 
 export const metadata: Metadata = {
   title: "My Bookmarks - ComicWise",
@@ -26,9 +30,9 @@ export default async function BookmarksPage() {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="space-y-4 text-center">
-          <BookmarkX className="mx-auto size-16 text-muted-foreground" />
+          <BookmarkX className="text-muted-foreground mx-auto size-16" />
           <h1 className="text-3xl font-bold">No Bookmarks Yet</h1>
-          <p className="mx-auto max-w-md text-muted-foreground">
+          <p className="text-muted-foreground mx-auto max-w-md">
             Start bookmarking comics you want to read and track your progress here.
           </p>
           <Link href="/comics">
@@ -66,15 +70,15 @@ export default async function BookmarksPage() {
           if (!comic) return null;
 
           return (
-            <div key={bookmark.comicId} className="group relative">
-              <ComicCard comic={comic} authorName={null} typeName={null} />
+            <div className="group relative" key={bookmark.comicId}>
+              <ComicCard authorName={null} comic={comic} typeName={null} />
               {chapter && (
                 <div className="absolute top-2 left-2 z-10">
                   <Link href={`/comics/${comic.id}/read/${chapter.id}`}>
                     <Badge
                       className={`
-                        cursor-pointer
                         hover:bg-primary/90
+                        cursor-pointer
                       `}
                       variant="default"
                     >

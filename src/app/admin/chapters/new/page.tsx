@@ -1,4 +1,11 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,12 +28,6 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const chapterSchema = z
   .object({
@@ -162,7 +163,7 @@ export default function NewChapterPage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
                 name="comicId"
@@ -170,8 +171,8 @@ export default function NewChapterPage() {
                   <FormItem>
                     <FormLabel>Comic *</FormLabel>
                     <Select
-                      onValueChange={(value) => field.onChange(Number.parseInt(value))}
                       defaultValue={field.value?.toString()}
+                      onValueChange={(value) => field.onChange(Number.parseInt(value))}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -205,9 +206,9 @@ export default function NewChapterPage() {
                       <FormLabel>Chapter Number *</FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
                           min="0"
                           step="0.1"
+                          type="number"
                           {...field}
                           onChange={(e) => field.onChange(Number.parseFloat(e.target.value))}
                         />
@@ -270,12 +271,12 @@ export default function NewChapterPage() {
                   Upload images for this chapter (in reading order)
                 </FormDescription>
                 <ImageUpload
-                  onUploadComplete={handleImageUpload}
                   onRemove={handleImageRemove}
+                  onUploadComplete={handleImageUpload}
                   uploadType="chapter"
                 />
                 {uploadedImages.length > 0 && (
-                  <p className="mt-2 text-sm text-muted-foreground">
+                  <p className="text-muted-foreground mt-2 text-sm">
                     {uploadedImages.length} image(s) uploaded
                   </p>
                 )}
@@ -306,14 +307,14 @@ export default function NewChapterPage() {
 
               <div className="flex justify-end gap-4">
                 <Button
+                  disabled={isLoading}
+                  onClick={() => router.back()}
                   type="button"
                   variant="outline"
-                  onClick={() => router.back()}
-                  disabled={isLoading}
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isLoading}>
+                <Button disabled={isLoading} type="submit">
                   {isLoading ? "Creating..." : "Create Chapter"}
                 </Button>
               </div>

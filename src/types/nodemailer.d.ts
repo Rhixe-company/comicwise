@@ -7,76 +7,76 @@ export function createTransport(transporter: any, defaults: any): any;
 export function getTestMessageUrl(info: any): any;
 
 declare module "nodemailer" {
-  import type { Readable } from "stream";
+  import type { Readable } from "node:stream";
 
   export interface TransportOptions {
-    host?: string;
-    port?: number;
-    secure?: boolean;
     auth?: {
-      user: string;
       pass: string;
+      user: string;
     };
+    host?: string;
+    maxConnections?: number;
+    maxMessages?: number;
+    pool?: boolean;
+    port?: number;
+    rateDelta?: number;
+    rateLimit?: number;
+    secure?: boolean;
     tls?: {
       rejectUnauthorized?: boolean;
     };
-    pool?: boolean;
-    maxConnections?: number;
-    maxMessages?: number;
-    rateDelta?: number;
-    rateLimit?: number;
   }
 
   export interface Address {
-    name: string;
     address: string;
+    name: string;
   }
 
   export interface Attachment {
-    filename?: string;
-    content?: string | Buffer | Readable;
-    path?: string;
-    href?: string;
-    contentType?: string;
-    contentDisposition?: "attachment" | "inline";
     cid?: string;
+    content?: Buffer | Readable | string;
+    contentDisposition?: "attachment" | "inline";
+    contentType?: string;
     encoding?: string;
+    filename?: string;
     headers?: Record<string, string>;
-    raw?: string | Buffer | Readable;
+    href?: string;
+    path?: string;
+    raw?: Buffer | Readable | string;
   }
 
   export interface MailOptions {
-    from?: string | Address;
-    to?: string | string[] | Address | Address[];
-    cc?: string | string[] | Address | Address[];
-    bcc?: string | string[] | Address | Address[];
-    subject?: string;
-    text?: string | Buffer | Readable;
-    html?: string | Buffer | Readable;
     attachments?: Attachment[];
+    bcc?: Address | Address[] | string | string[];
+    cc?: Address | Address[] | string | string[];
+    from?: Address | string;
     headers?: Record<string, string>;
-    priority?: "high" | "normal" | "low";
-    replyTo?: string | Address;
+    html?: Buffer | Readable | string;
+    priority?: "high" | "low" | "normal";
+    replyTo?: Address | string;
+    subject?: string;
+    text?: Buffer | Readable | string;
+    to?: Address | Address[] | string | string[];
   }
 
   export interface SentMessageInfo {
     accepted: string[];
-    rejected: string[];
-    envelopeTime: number;
-    messageTime: number;
-    messageSize: number;
-    response: string;
     envelope: {
       from: string;
       to: string[];
     };
+    envelopeTime: number;
     messageId: string;
+    messageSize: number;
+    messageTime: number;
+    rejected: string[];
+    response: string;
   }
 
   export interface Transporter {
+    close(): void;
     sendMail(mailOptions: MailOptions): Promise<SentMessageInfo>;
     verify(): Promise<boolean>;
-    close(): void;
   }
 
   export function createTransport(options: TransportOptions): Transporter;

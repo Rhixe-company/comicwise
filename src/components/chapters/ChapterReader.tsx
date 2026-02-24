@@ -1,5 +1,10 @@
 "use client";
 
+import { ChevronLeft, ChevronRight, Home, List } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -8,22 +13,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronLeft, ChevronRight, Home, List } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
 
 interface Comic {
   id: number;
-  title: string;
   slug: string;
+  title: string;
 }
 
 interface Chapter {
+  chapterNumber: number;
   id: number;
   slug: string;
   title: string;
-  chapterNumber: number;
 }
 
 interface ChapterImage {
@@ -33,11 +34,11 @@ interface ChapterImage {
 }
 
 interface ChapterReaderProps {
-  comic: Comic;
   chapter: Chapter;
+  comic: Comic;
   images: ChapterImage[];
-  prevChapter: { slug: string; chapterNumber: number } | null;
-  nextChapter: { slug: string; chapterNumber: number } | null;
+  nextChapter: { chapterNumber: number; slug: string; } | null;
+  prevChapter: { chapterNumber: number; slug: string; } | null;
 }
 
 export function ChapterReader({
@@ -47,21 +48,21 @@ export function ChapterReader({
   prevChapter,
   nextChapter,
 }: ChapterReaderProps) {
-  const [readingMode, setReadingMode] = useState<"vertical" | "horizontal">("vertical");
+  const [readingMode, setReadingMode] = useState<"horizontal" | "vertical">("vertical");
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="bg-background min-h-screen">
+      <div className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 border-b backdrop-blur-sm">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-4">
             <Link href={`/comics/${comic.slug}`}>
-              <Button variant="ghost" size="icon">
+              <Button size="icon" variant="ghost">
                 <Home className="size-4" />
               </Button>
             </Link>
             <div>
               <h1 className="font-semibold">{comic.title}</h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Chapter {chapter.chapterNumber}: {chapter.title}
               </p>
             </div>
@@ -69,8 +70,8 @@ export function ChapterReader({
 
           <div className="flex items-center gap-2">
             <Select
+              onValueChange={(value: "horizontal" | "vertical") => setReadingMode(value)}
               value={readingMode}
-              onValueChange={(value: "vertical" | "horizontal") => setReadingMode(value)}
             >
               <SelectTrigger className="w-32">
                 <SelectValue />
@@ -82,7 +83,7 @@ export function ChapterReader({
             </Select>
 
             <Link href={`/comics/${comic.slug}`}>
-              <Button variant="outline" size="icon">
+              <Button size="icon" variant="outline">
                 <List className="size-4" />
               </Button>
             </Link>
@@ -93,19 +94,19 @@ export function ChapterReader({
       <div className="container mx-auto px-4 py-8">
         {images.length === 0 ? (
           <div className="py-20 text-center">
-            <p className="text-lg text-muted-foreground">No images available for this chapter.</p>
+            <p className="text-muted-foreground text-lg">No images available for this chapter.</p>
           </div>
         ) : readingMode === "vertical" ? (
           <div className="mx-auto max-w-4xl space-y-2">
             {images.map((image) => (
-              <div key={image.id} className="relative">
+              <div className="relative" key={image.id}>
                 <Image
-                  src={image.imageUrl}
                   alt={`Page ${image.pageNumber}`}
-                  width={1200}
+                  className="h-auto w-full"
                   height={1800}
-                  className="w-full h-auto"
                   priority={image.pageNumber <= 3}
+                  src={image.imageUrl}
+                  width={1200}
                 />
               </div>
             ))}
@@ -117,8 +118,8 @@ export function ChapterReader({
         )}
       </div>
 
-      <div className="sticky bottom-0 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
+      <div className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky bottom-0 border-t backdrop-blur-sm">
+        <div className="container mx-auto flex items-center justify-between p-4">
           {prevChapter ? (
             <Link href={`/comics/${comic.slug}/${prevChapter.chapterNumber}`}>
               <Button variant="outline">
@@ -127,13 +128,13 @@ export function ChapterReader({
               </Button>
             </Link>
           ) : (
-            <Button variant="outline" disabled>
+            <Button disabled variant="outline">
               <ChevronLeft className="mr-2 size-4" />
               No Previous
             </Button>
           )}
 
-          <span className="text-sm text-muted-foreground">{images.length} pages</span>
+          <span className="text-muted-foreground text-sm">{images.length} pages</span>
 
           {nextChapter ? (
             <Link href={`/comics/${comic.slug}/${nextChapter.chapterNumber}`}>
@@ -143,7 +144,7 @@ export function ChapterReader({
               </Button>
             </Link>
           ) : (
-            <Button variant="outline" disabled>
+            <Button disabled variant="outline">
               No Next
               <ChevronRight className="ml-2 size-4" />
             </Button>

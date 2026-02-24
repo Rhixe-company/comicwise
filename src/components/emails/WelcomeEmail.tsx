@@ -1,4 +1,3 @@
-import appConfig from "@/appConfig";
 import {
   Body,
   Button,
@@ -12,9 +11,11 @@ import {
   Text,
 } from "@react-email/components";
 
+import appConfig from "@/appConfig";
+
 interface WelcomeEmailProps {
-  name: string;
   email: string;
+  name: string;
 }
 
 export default function WelcomeEmail({ name }: WelcomeEmailProps) {
@@ -46,7 +47,7 @@ export default function WelcomeEmail({ name }: WelcomeEmailProps) {
             </ul>
 
             <Section style={buttonContainer}>
-              <Button style={button} href={`${appConfig.url}/comics`}>
+              <Button href={`${appConfig.url}/comics`} style={button}>
                 Start Reading
               </Button>
             </Section>

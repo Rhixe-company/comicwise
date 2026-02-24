@@ -3,12 +3,15 @@
  * Handles all database operations for chapters
  */
 
-import type { ListOptions } from "@/dal/baseDal";
+import { and, asc, desc, eq } from "drizzle-orm";
+
 import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import { chapter } from "@/database/schema";
+
+import type { ListOptions } from "@/dal/baseDal";
 import type { Chapter } from "@/types/database";
-import { and, asc, desc, eq } from "drizzle-orm";
+
 
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 export class ChapterDal extends BaseDal<Chapter, typeof chapter.$inferInsert> {

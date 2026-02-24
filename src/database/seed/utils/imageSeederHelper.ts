@@ -12,15 +12,16 @@
  * - Handles fallback for download failures
  */
 
+import crypto from "node:crypto";
+
 import { logger } from "@/database/seed/logger";
 import { ImageService } from "@/services/imageService";
-import crypto from "crypto";
 
 export interface CachedImage {
-  originalUrl: string;
-  localPath: string;
   checksum: string;
   downloadedAt: Date;
+  localPath: string;
+  originalUrl: string;
 }
 
 /**

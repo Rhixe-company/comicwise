@@ -6,13 +6,14 @@
  * Fallback: /shadcn.jpg
  */
 
+import { and, eq } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { chapter, chapterImage, comic } from "@/database/schema";
 import { loadChapters } from "@/database/seed/dataLoaderOptimized";
 import { downloadImages } from "@/database/seed/imageHandlerOptimized";
 import { logger } from "@/database/seed/logger";
 import { FALLBACK_CHAPTER_IMAGE } from "@/database/seed/utils/imagePathConfig";
-import { and, eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -25,9 +26,9 @@ interface SeedOptions {
 
 interface SeedStats {
   created: number;
-  updated: number;
-  skipped: number;
   errors: number;
+  skipped: number;
+  updated: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

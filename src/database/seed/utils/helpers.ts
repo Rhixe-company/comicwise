@@ -2,6 +2,8 @@
  * Helper Utilities
  */
 
+import { z } from "zod";
+
 import {
   artistSeedSchema,
   authorSeedSchema,
@@ -11,8 +13,8 @@ import {
   typeSeedSchema,
   userSeedSchema,
 } from "@/lib/validations/index";
+
 import type { ZodType } from "zod";
-import { z } from "zod";
 
 /**
  * Validate data against a schema
@@ -75,7 +77,7 @@ export function validateArray<T>(data: unknown[], schema: ZodType<T>): T[] {
 export function safeValidate<T>(
   data: unknown,
   schema: ZodType<T>
-): { success: true; data: T } | { success: false; errors: z.ZodError } {
+): { data: T; success: true; } | { errors: z.ZodError; success: false; } {
   const result = schema.safeParse(data);
   if (result.success) {
     return { success: true, data: result.data };
@@ -136,7 +138,7 @@ export function extractChapterNumber(chapterName: string): number {
  * param dateString
  * @param dateString
  */
-export function normalizeDate(dateString: string | Date | null | undefined): Date {
+export function normalizeDate(dateString: Date | null | string | undefined): Date {
   if (!dateString) {
     return new Date();
   }

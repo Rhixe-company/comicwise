@@ -25,27 +25,28 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { execSync } from "child_process";
+import { execSync } from "node:child_process";
+import path from "node:path";
+
 import fs from "fs-extra";
-import path from "path";
 
 // ═══════════════════════════════════════════════════
 // TYPES & INTERFACES
 // ═══════════════════════════════════════════════════
 
 interface SetupOptions {
+  backup: boolean;
   migrate: boolean;
   validate: boolean;
   verbose: boolean;
-  backup: boolean;
 }
 
 interface DatabaseConfig {
-  name: string;
-  url: string;
-  type: "postgresql" | "mysql" | "sqlite";
   isHealthy: boolean;
   lastCheck: Date;
+  name: string;
+  type: "mysql" | "postgresql" | "sqlite";
+  url: string;
 }
 
 // ═══════════════════════════════════════════════════
@@ -59,7 +60,7 @@ class DrizzleLogger {
     this.verbose = verbose;
   }
 
-  log(msg: string, type: "info" | "success" | "warn" | "error" = "info") {
+  log(msg: string, type: "error" | "info" | "success" | "warn" = "info") {
     const icons = { info: "ℹ️ ", success: "✅", warn: "⚠️ ", error: "❌" };
     console.log(`${icons[type]} ${msg}`);
   }
@@ -92,7 +93,7 @@ function validateDatabaseConnection(logger: DrizzleLogger): DatabaseConfig {
   }
 
   // Detect database type
-  let type: "postgresql" | "mysql" | "sqlite" = "postgresql";
+  let type: "mysql" | "postgresql" | "sqlite" = "postgresql";
   if (dbUrl.includes("mysql")) type = "mysql";
   if (dbUrl.includes("sqlite")) type = "sqlite";
 

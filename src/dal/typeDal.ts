@@ -3,12 +3,15 @@
  * Handles all database operations for types
  */
 
-import type { ListOptions } from "@/dal/baseDal";
+import { asc, eq } from "drizzle-orm";
+
 import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import { type as typeTable } from "@/database/schema";
+
+import type { ListOptions } from "@/dal/baseDal";
 import type { Type } from "@/types/database";
-import { asc, eq } from "drizzle-orm";
+
 
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 class TypeDal extends BaseDal<Type, typeof typeTable.$inferInsert> {

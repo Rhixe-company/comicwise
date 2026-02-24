@@ -5,10 +5,13 @@
  * @description Loads and processes JSON data files with validation and transformation
  */
 
-import * as fs from "fs/promises";
+import * as fs from "node:fs/promises";
+
 import { glob } from "glob";
-import type { z } from "zod";
+
 import { logger } from "./logger";
+
+import type { z } from "zod";
 
 // ═══════════════════════════════════════════════════
 // DATA LOADER CLASS
@@ -63,13 +66,11 @@ export class DataLoader<T = unknown> {
     }
 
     // Use glob to find matching files
-    const files = await glob(pattern, {
+    return await glob(pattern, {
       cwd: process.cwd(),
       absolute: true,
       nodir: true,
     });
-
-    return files;
   }
 
   /**
@@ -106,9 +107,9 @@ export class DataLoader<T = unknown> {
     }
 
     const validated: T[] = [];
-    const errors: Array<{ index: number; error: string }> = [];
+    const errors: Array<{ error: string; index: number; }> = [];
 
-    data.forEach((item, index) => {
+    for (const [index, item] of data.entries()) {
       try {
         const result = this.schema?.parse(item) ?? item;
         validated.push(result as T);
@@ -118,13 +119,13 @@ export class DataLoader<T = unknown> {
           error: error instanceof Error ? error.message : String(error),
         });
       }
-    });
+    }
 
     if (errors.length > 0) {
       logger.warn(`Validation errors in ${this.entity}:`);
-      errors.slice(0, 5).forEach((err) => {
+      for (const err of errors.slice(0, 5)) {
         logger.warn(`  Record ${err.index}: ${err.error}`);
-      });
+      }
       if (errors.length > 5) {
         logger.warn(`  ... and ${errors.length - 5} more errors`);
       }

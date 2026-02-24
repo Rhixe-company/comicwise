@@ -6,6 +6,7 @@ import { createArtist } from "@/database/mutations/artists";
 import { getAllArtists } from "@/database/queries/artists";
 import { createGenericEntity, listGenericEntity, zodToValidationResult } from "@/lib/genericCrud";
 import { artistFilterSchema, createArtistSchema } from "@/lib/validations";
+
 import type { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {

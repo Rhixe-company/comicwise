@@ -11,28 +11,30 @@
  * - Error handling and recovery
  */
 
-import { logger } from "@/database/seed/logger";
+import crypto from "node:crypto";
+import fs from "node:fs/promises";
+import path from "node:path";
+
 import axios from "axios";
-import crypto from "crypto";
-import fs from "fs/promises";
-import path from "path";
+
+import { logger } from "@/database/seed/logger";
 
 export interface ImageDownloadOptions {
-  url: string;
   destinationPath: string;
   filename?: string;
   maxRetries?: number;
-  timeout?: number;
   skipIfExists?: boolean;
+  timeout?: number;
+  url: string;
 }
 
 export interface ImageDownloadResult {
-  success: boolean;
-  filePath?: string;
-  filename?: string;
-  size?: number;
-  fromCache?: boolean;
   error?: string;
+  filename?: string;
+  filePath?: string;
+  fromCache?: boolean;
+  size?: number;
+  success: boolean;
 }
 
 /**

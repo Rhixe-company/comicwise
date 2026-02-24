@@ -9,16 +9,19 @@
  * - Zod-based parsing
  */
 
+import fs from "node:fs/promises";
+import path from "node:path";
+
+import { eq } from "drizzle-orm";
+import { z } from "zod";
+
 import { chapterDal } from "@/dal/chapterDal";
 import { db } from "@/database/db";
 import { chapter } from "@/database/schema";
 import { logger } from "@/database/seed/logger";
 import { extractImageUrls, imageCacheManager } from "@/database/seed/utils/imageSeederHelper";
 import { logProgress, validateData } from "@/database/seed/utils/seederHelpers";
-import { eq } from "drizzle-orm";
-import fs from "fs/promises";
-import path from "path";
-import { z } from "zod";
+
 
 /**
  * Chapter validation schema - flexible to handle multiple formats
@@ -89,7 +92,7 @@ export type ChapterSeedData = z.infer<typeof ChapterSchema>;
 function transformChapterData(
   rawChapter: any,
   comicCache: Map<string, number>
-): Partial<ChapterSeedData> | null {
+): null | Partial<ChapterSeedData> {
   try {
     // Extract comic slug (try multiple field names)
     const comicSlug = rawChapter.comic?.slug || rawChapter.comicSlug || rawChapter.comicslug;
@@ -175,11 +178,11 @@ async function buildComicCache(): Promise<Map<string, number>> {
 export async function seedChaptersFromFiles(
   jsonFiles: string[] = ["chapters.json", "chapters*.json"]
 ): Promise<{
-  total: number;
   created: number;
-  updated: number;
-  skipped: number;
   errors: number;
+  skipped: number;
+  total: number;
+  updated: number;
 }> {
   logger.info("🌱 Starting chapter seeding...");
 

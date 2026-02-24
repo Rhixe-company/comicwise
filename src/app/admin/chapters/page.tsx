@@ -1,11 +1,12 @@
-import { DataTable } from "@/components/admin/DataTable";
-import { Button } from "@/components/ui/button";
-import { db } from "@/database/db";
-import { chapter, comic } from "@/database/schema";
 import { eq } from "drizzle-orm";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+
+import { DataTable } from "@/components/admin/DataTable";
+import { Button } from "@/components/ui/button";
+import { db } from "@/database/db";
+import { chapter, comic } from "@/database/schema";
 
 async function ChaptersTable() {
   const chapters = await db

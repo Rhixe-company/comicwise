@@ -1,69 +1,78 @@
 {
   "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/servers/main/schema/mcp-config.schema.json",
-  "// Description": "ComicWise - Enhanced Model Context Protocol Configuration",
-  "// FEATURE FLAGS": "Enable/disable specific MCP features",
-  "// Last Updated": "2026-01-18",
-  "// PROJECT-SPECIFIC SETTINGS": "ComicWise customizations",
-  "// Package Manager": "pnpm",
-  "// Platform": "Windows, Linux, macOS (Cross-Platform)",
-  "// Project": "Next.js 16 + PostgreSQL + Redis + AI Comic Platform",
-  "// Version": "3.0.0",
-
   "features": {
-    "enableCaching": true,
-    "enableMetrics": true,
-    "enableHealthChecks": true,
     "enableAutoReconnect": true,
-    "enableRequestLogging": true,
-    "enableErrorReporting": true
+    "enableCaching": true,
+    "enableErrorReporting": true,
+    "enableHealthChecks": true,
+    "enableMetrics": true,
+    "enableRequestLogging": true
   },
   "globalSettings": {
-    "retries": 3,
-    "cacheEnabled": true,
-    "maxConcurrentRequests": 100,
-    "logFile": "${workspaceFolder}\\.vscode\\logs\\mcp.log",
-    "cacheTTL": 7200,
-    "enableMetrics": true,
-    "timeout": 600000,
-    "metricsInterval": 300000,
-    "logLevel": "info",
-    "healthCheckInterval": 60000,
-    "enableCompression": true,
-    "maxLogFileSize": 104857600,
-    "enableDetailedErrors": true,
-    "errorNotifications": true,
     "autoReconnect": true,
+    "cacheEnabled": true,
+    "cacheTTL": 7200,
+    "enableCompression": true,
+    "enableDetailedErrors": true,
+    "enableMetrics": true,
+    "errorNotifications": true,
+    "healthCheckInterval": 60000,
+    "logFile": "${workspaceFolder}\\.vscode\\logs\\mcp.log",
+    "logLevel": "info",
+    "maxConcurrentRequests": 100,
+    "maxLogFileSize": 104857600,
+    "maxReconnectAttempts": 5,
+    "metricsInterval": 300000,
     "reconnectDelay": 5000,
-    "maxReconnectAttempts": 5
+    "retries": 3,
+    "timeout": 600000
   },
-
   "loggingSettings": {
-    "enableFileLogging": true,
     "enableConsoleLogging": false,
-    "logRotation": true,
-    "maxLogFiles": 10,
-    "logFormat": "json",
-    "includeTimestamp": true,
+    "enableFileLogging": true,
     "includeServerName": true,
-    "logPerformance": true,
+    "includeTimestamp": true,
     "logErrors": true,
-    "logWarnings": true
+    "logFormat": "json",
+    "logPerformance": true,
+    "logRotation": true,
+    "logWarnings": true,
+    "maxLogFiles": 10
   },
-
   "mcpServers": {
-    "// CORE DEVELOPMENT SERVERS": "Essential for ComicWise Next.js development",
-
-    "filesystem": {
+    "brave-search": {
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "autoApprove": ["brave_web_search", "brave_local_search"],
       "command": "npx",
+      "description": "Web search for documentation and solutions",
+      "disabled": false,
+      "env": {
+        "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
+      },
+      "priority": "medium",
+      "retries": 3,
+      "timeout": 60000
+    },
+    "context7": {
+      "args": ["-y", "@upstash/context7-mcp@latest"],
+      "command": "npx"
+    },
+    "fetch": {
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "autoApprove": ["fetch"],
+      "command": "npx",
+      "description": "HTTP client for API testing and documentation fetching",
+      "disabled": false,
+      "priority": "medium",
+      "retries": 3,
+      "timeout": 45000
+    },
+    "filesystem": {
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "${workspaceFolder}"
       ],
-      "timeout": 120000,
-      "retries": 3,
-      "disabled": false,
-      "priority": "critical",
       "autoApprove": [
         "read_file",
         "write_file",
@@ -77,16 +86,15 @@
         "read_multiple_files",
         "list_allowed_directories"
       ],
-      "description": "Full filesystem access for Next.js project management"
-    },
-
-    "git": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-git", "${workspaceFolder}"],
-      "timeout": 90000,
-      "retries": 3,
+      "description": "Full filesystem access for Next.js project management",
       "disabled": false,
-      "priority": "high",
+      "priority": "critical",
+      "retries": 3,
+      "timeout": 120000
+    },
+    "git": {
+      "args": ["-y", "@modelcontextprotocol/server-git", "${workspaceFolder}"],
       "autoApprove": [
         "git_status",
         "git_diff",
@@ -105,16 +113,15 @@
         "git_pull",
         "git_push"
       ],
-      "description": "Complete Git version control integration"
-    },
-
-    "github": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "timeout": 120000,
-      "retries": 3,
+      "description": "Complete Git version control integration",
       "disabled": false,
       "priority": "high",
+      "retries": 3,
+      "timeout": 90000
+    },
+    "github": {
+      "args": ["-y", "@modelcontextprotocol/server-github"],
       "autoApprove": [
         "search_repositories",
         "search_code",
@@ -136,75 +143,25 @@
         "create_or_update_file",
         "push_files"
       ],
-      "description": "GitHub API integration for repository management"
-    },
-
-    "// DATABASE SERVERS": "PostgreSQL and data management",
-
-    "postgres": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-postgres",
-        "postgresql://postgresbot:6|lyj9,h2)&a@localhost:5432/comicwise"
-      ],
-      "timeout": 60000,
-      "retries": 3,
+      "description": "GitHub API integration for repository management",
       "disabled": false,
       "priority": "high",
-      "autoApprove": [
-        "query",
-        "list_tables",
-        "describe_table",
-        "list_schemas",
-        "execute_query",
-        "get_table_schema"
-      ],
-      "description": "PostgreSQL database management and query execution",
-      "env": {
-        "POSTGRES_CONNECTION_POOL_SIZE": "20",
-        "POSTGRES_TIMEOUT": "30000"
-      }
-    },
-
-    "// AI & ANALYSIS SERVERS": "AI-powered development assistance",
-
-    "brave-search": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
-      "timeout": 60000,
       "retries": 3,
-      "disabled": false,
-      "priority": "medium",
-      "autoApprove": ["brave_web_search", "brave_local_search"],
-      "description": "Web search for documentation and solutions",
+      "timeout": 120000
+    },
+    "MCP_DOCKER": {
+      "args": ["mcp", "gateway", "run"],
+      "command": "docker",
       "env": {
-        "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
-      }
+        "LOCALAPPDATA": "C:\\Users\\Alexa\\AppData\\Local",
+        "ProgramData": "C:\\ProgramData",
+        "ProgramFiles": "C:\\Program Files"
+      },
+      "type": "stdio"
     },
-
-    "// CODE ANALYSIS SERVERS": "Static analysis and code quality",
-
-    "sequential-thinking": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-      "timeout": 120000,
-      "retries": 2,
-      "disabled": false,
-      "priority": "medium",
-      "autoApprove": ["sequentialThinking"],
-      "description": "Enhanced reasoning for complex problem-solving"
-    },
-
-    "// UTILITY SERVERS": "Development productivity tools",
-
     "memory": {
-      "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-memory"],
-      "timeout": 30000,
-      "retries": 3,
-      "disabled": false,
-      "priority": "medium",
       "autoApprove": [
         "create_entities",
         "create_relations",
@@ -216,29 +173,81 @@
         "search_nodes",
         "open_nodes"
       ],
-      "description": "Knowledge graph for project context retention"
-    },
-
-    "fetch": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-fetch"],
-      "timeout": 45000,
-      "retries": 3,
+      "description": "Knowledge graph for project context retention",
       "disabled": false,
       "priority": "medium",
-      "autoApprove": ["fetch"],
-      "description": "HTTP client for API testing and documentation fetching"
+      "retries": 3,
+      "timeout": 30000
     },
-
-    "// TYPESCRIPT & NEXT.JS SERVERS": "Framework-specific tooling",
-
-    "typescript-language-server": {
+    "postgres": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgresbot:6|lyj9,h2)&a@localhost:5432/comicwise"
+      ],
+      "autoApprove": [
+        "query",
+        "list_tables",
+        "describe_table",
+        "list_schemas",
+        "execute_query",
+        "get_table_schema"
+      ],
       "command": "npx",
-      "args": ["-y", "@vtsls/language-server", "--stdio"],
-      "timeout": 90000,
-      "retries": 2,
+      "description": "PostgreSQL database management and query execution",
       "disabled": false,
+      "env": {
+        "POSTGRES_CONNECTION_POOL_SIZE": "20",
+        "POSTGRES_TIMEOUT": "30000"
+      },
       "priority": "high",
+      "retries": 3,
+      "timeout": 60000
+    },
+    "puppeteer": {
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "autoApprove": [
+        "puppeteer_navigate",
+        "puppeteer_screenshot",
+        "puppeteer_click",
+        "puppeteer_fill",
+        "puppeteer_evaluate"
+      ],
+      "command": "npx",
+      "description": "Browser automation for E2E testing and scraping",
+      "disabled": true,
+      "priority": "low",
+      "retries": 2,
+      "timeout": 90000
+    },
+    "sentry": {
+      "args": ["-y", "@modelcontextprotocol/server-sentry"],
+      "autoApprove": ["get_issues", "get_issue_details", "get_project_stats"],
+      "command": "npx",
+      "description": "Error tracking and monitoring integration",
+      "disabled": true,
+      "env": {
+        "SENTRY_AUTH_TOKEN": "${env:SENTRY_AUTH_TOKEN}",
+        "SENTRY_ORG": "${env:SENTRY_ORG}",
+        "SENTRY_PROJECT": "${env:SENTRY_PROJECT}"
+      },
+      "priority": "low",
+      "retries": 3,
+      "timeout": 60000
+    },
+    "sequential-thinking": {
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "autoApprove": ["sequentialThinking"],
+      "command": "npx",
+      "description": "Enhanced reasoning for complex problem-solving",
+      "disabled": false,
+      "priority": "medium",
+      "retries": 2,
+      "timeout": 120000
+    },
+    "typescript-language-server": {
+      "args": ["-y", "@vtsls/language-server", "--stdio"],
       "autoApprove": [
         "initialize",
         "textDocument/definition",
@@ -248,60 +257,42 @@
         "textDocument/codeAction",
         "workspace/symbol"
       ],
+      "command": "npx",
       "description": "TypeScript language server for intelligent code analysis",
+      "disabled": false,
       "env": {
         "TSSERVER_LOG_FILE": "${workspaceFolder}\\.vscode\\logs\\tsserver.log"
-      }
-    },
-
-    "// DEVELOPMENT TOOLS": "Code generation and scaffolding",
-
-    "puppeteer": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
-      "timeout": 90000,
+      },
+      "priority": "high",
       "retries": 2,
-      "disabled": true,
-      "priority": "low",
-      "autoApprove": [
-        "puppeteer_navigate",
-        "puppeteer_screenshot",
-        "puppeteer_click",
-        "puppeteer_fill",
-        "puppeteer_evaluate"
-      ],
-      "description": "Browser automation for E2E testing and scraping"
+      "timeout": 90000
     },
-
-    "// MONITORING & LOGGING": "Application observability",
-
-    "sentry": {
+    "vitest": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-vitest",
+        "pnpm",
+        "test:unit:run"
+      ],
+      "autoApprove": ["run_vitest_tests"],
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sentry"],
-      "timeout": 60000,
-      "retries": 3,
-      "disabled": true,
-      "priority": "low",
-      "autoApprove": ["get_issues", "get_issue_details", "get_project_stats"],
-      "description": "Error tracking and monitoring integration",
-      "env": {
-        "SENTRY_AUTH_TOKEN": "${env:SENTRY_AUTH_TOKEN}",
-        "SENTRY_ORG": "${env:SENTRY_ORG}",
-        "SENTRY_PROJECT": "${env:SENTRY_PROJECT}"
-      }
+      "description": "Vitest unit test runner integration for MCP",
+      "disabled": false,
+      "priority": "high",
+      "retries": 2,
+      "timeout": 180000
     }
   },
-
   "projectContext": {
+    "authentication": "NextAuth v5",
+    "cache": "Redis (ioredis + Upstash)",
+    "database": "PostgreSQL with Drizzle ORM",
+    "deployment": "Vercel/Docker",
     "framework": "Next.js 16.1.3",
     "language": "TypeScript 5+",
-    "database": "PostgreSQL with Drizzle ORM",
-    "cache": "Redis (ioredis + Upstash)",
-    "authentication": "NextAuth v5",
-    "styling": "Tailwind CSS 4.1",
-    "testing": "Vitest + Playwright",
-    "deployment": "Vercel/Docker",
+    "nodeVersion": "20+",
     "packageManager": "pnpm",
-    "nodeVersion": "20+"
+    "styling": "Tailwind CSS 4.1",
+    "testing": "Vitest + Playwright"
   }
 }

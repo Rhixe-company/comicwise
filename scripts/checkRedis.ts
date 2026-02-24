@@ -4,6 +4,7 @@
  */
 
 import IORedis from "ioredis";
+
 import { env } from "../appConfig";
 
 async function checkRedis() {
@@ -11,9 +12,9 @@ async function checkRedis() {
 
   try {
     const redis = new IORedis({
-      host: env.REDIS_HOST || "localhost",
-      port: Number(env.REDIS_PORT) || 6379,
-      password: env.REDIS_PASSWORD || undefined,
+      host: typeof env.REDIS_HOST !== "undefined" ? env.REDIS_HOST : "localhost",
+      port: typeof env.REDIS_PORT !== "undefined" ? Number(env.REDIS_PORT) : 6379,
+      password: typeof env.REDIS_PASSWORD !== "undefined" ? env.REDIS_PASSWORD : undefined,
     });
 
     const pong = await redis.ping();
@@ -39,4 +40,5 @@ async function checkRedis() {
   }
 }
 
+ 
 checkRedis();

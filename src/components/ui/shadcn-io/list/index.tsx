@@ -1,24 +1,26 @@
 "use client";
 
-import type { DragEndEvent } from "@dnd-kit/core";
 import { DndContext, rectIntersection, useDraggable, useDroppable } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import type { ReactNode } from "react";
+
 import { cn } from "utils";
+
+import type { DragEndEvent } from "@dnd-kit/core";
+import type { ReactNode } from "react";
 
 export type { DragEndEvent } from "@dnd-kit/core";
 
 interface Status {
+  color: string;
   id: string;
   name: string;
-  color: string;
 }
 
 interface Feature {
+  endAt: Date;
   id: string;
   name: string;
   startAt: Date;
-  endAt: Date;
   status: Status;
 }
 
@@ -36,25 +38,25 @@ export type ListHeaderProps =
       children: ReactNode;
     }
   | {
-      name: Status["name"];
-      color: Status["color"];
       className?: string;
+      color: Status["color"];
+      name: Status["name"];
     };
 
 export const ListHeader = (props: ListHeaderProps) =>
   "children" in props ? (
     props.children
   ) : (
-    <div className={cn("flex shrink-0 items-center gap-2 bg-foreground/5 p-3", props.className)}>
+    <div className={cn("bg-foreground/5 flex shrink-0 items-center gap-2 p-3", props.className)}>
       <div className="size-2 rounded-full" style={{ backgroundColor: props.color }} />
       <p className="m-0 text-sm font-semibold">{props.name}</p>
     </div>
   );
 
 export interface ListGroupProps {
-  id: Status["id"];
   children: ReactNode;
   className?: string;
+  id: Status["id"];
 }
 
 export const ListGroup = ({ id, children, className }: ListGroupProps) => {
@@ -71,10 +73,10 @@ export const ListGroup = ({ id, children, className }: ListGroupProps) => {
 };
 
 export type ListItemProps = Pick<Feature, "id" | "name"> & {
-  readonly index: number;
-  readonly parent: string;
   readonly children?: ReactNode;
   readonly className?: string;
+  readonly index: number;
+  readonly parent: string;
 };
 
 export const ListItem = ({ id, name, index, parent, children, className }: ListItemProps) => {
@@ -87,7 +89,7 @@ export const ListItem = ({ id, name, index, parent, children, className }: ListI
     <div
       className={cn(
         `
-          flex cursor-grab items-center gap-2 rounded-md border bg-background
+          bg-background flex cursor-grab items-center gap-2 rounded-md border
           p-2 shadow-sm
         `,
         isDragging && "cursor-grabbing",
@@ -107,8 +109,8 @@ export const ListItem = ({ id, name, index, parent, children, className }: ListI
 
 export interface ListProviderProps {
   children: ReactNode;
-  onDragEnd(event: DragEndEvent): void;
   className?: string;
+  onDragEnd(event: DragEndEvent): void;
 }
 
 export const ListProvider = ({ children, onDragEnd, className }: ListProviderProps) => (

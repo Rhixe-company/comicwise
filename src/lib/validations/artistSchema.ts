@@ -13,8 +13,8 @@ export const ArtistIdSchema = createArtistSchema;
 export { updateArtistSchema };
 
 export interface InsertArtist {
-  name: string;
   bio?: string;
   image?: string;
+  name: string;
 }
 export type UpdateArtist = Partial<InsertArtist>;

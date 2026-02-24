@@ -1,5 +1,9 @@
 "use server";
 
+import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
+import { z } from "zod";
+
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
@@ -12,10 +16,8 @@ import {
   signUpSchema,
   verifyEmailSchema,
 } from "@/lib/validations";
+
 import type { ActionResponse } from "@/types";
-import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
-import { z } from "zod";
 
 export async function registerWorkflow(formData: FormData): Promise<ActionResponse> {
   try {

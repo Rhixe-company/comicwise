@@ -39,9 +39,9 @@ export async function getAuthorByName(name: string) {
 export async function getAuthors(parameters?: {
   limit?: number;
   offset?: number;
-  sortBy?: "name" | "createdAt";
-  sortOrder?: "asc" | "desc";
   search?: string;
+  sortBy?: "createdAt" | "name";
+  sortOrder?: "asc" | "desc";
 }) {
   const { limit = 10, offset = 0, sortBy = "name", sortOrder = "asc", search } = parameters || {};
 
@@ -100,9 +100,9 @@ export async function getAuthorCount(parameters?: { search?: string }) {
  * @param filters.sortOrder
  */
 export async function getAllAuthors(filters?: {
-  search?: string;
-  page?: number;
   limit?: number;
+  page?: number;
+  search?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }) {

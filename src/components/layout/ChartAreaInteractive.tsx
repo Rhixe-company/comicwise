@@ -10,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { ChartConfig } from "@/components/ui/chart";
 import { ChartContainer } from "@/components/ui/chart";
 import {
   Select,
@@ -21,6 +20,8 @@ import {
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+import type { ChartConfig } from "@/components/ui/chart";
 
 export const description = "An interactive area chart";
 
@@ -176,22 +177,23 @@ export function ChartAreaInteractive() {
         </CardDescription>
         <CardAction>
           <ToggleGroup
-            type="single"
-            value={timeRange}
-            onValueChange={setTimeRange}
-            variant="outline"
             className={`
               [767px]/card:flex
               hidden
               *:data-[slot=toggle-group-item]:px-4!
             `}
+            onValueChange={setTimeRange}
+            type="single"
+            value={timeRange}
+            variant="outline"
           >
             <ToggleGroupItem value="90d">Last 3 months</ToggleGroupItem>
             <ToggleGroupItem value="30d">Last 30 days</ToggleGroupItem>
             <ToggleGroupItem value="7d">Last 7 days</ToggleGroupItem>
           </ToggleGroup>
-          <Select value={timeRange} onValueChange={setTimeRange}>
+          <Select onValueChange={setTimeRange} value={timeRange}>
             <SelectTrigger
+              aria-label="Select a value"
               className={`
                 [767px]/card:hidden
                 flex w-40
@@ -199,18 +201,17 @@ export function ChartAreaInteractive() {
                 **:data-[slot=select-value]:truncate
               `}
               size="sm"
-              aria-label="Select a value"
             >
               <SelectValue placeholder="Last 3 months" />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
-              <SelectItem value="90d" className="rounded-lg">
+              <SelectItem className="rounded-lg" value="90d">
                 Last 3 months
               </SelectItem>
-              <SelectItem value="30d" className="rounded-lg">
+              <SelectItem className="rounded-lg" value="30d">
                 Last 30 days
               </SelectItem>
-              <SelectItem value="7d" className="rounded-lg">
+              <SelectItem className="rounded-lg" value="7d">
                 Last 7 days
               </SelectItem>
             </SelectContent>
@@ -223,11 +224,11 @@ export function ChartAreaInteractive() {
           sm:px-6 sm:pt-6
         `}
       >
-        <ChartContainer config={chartConfig} className={`aspect-auto h-[250px] w-full`}>
+        <ChartContainer className={`aspect-auto h-[250px] w-full`} config={chartConfig}>
           {/* Chart commented out due to recharts compatibility */}
           <div
             className={`
-              flex h-full items-center justify-center text-muted-foreground
+              text-muted-foreground flex h-full items-center justify-center
             `}
           >
             Chart temporarily disabled

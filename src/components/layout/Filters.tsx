@@ -1,12 +1,13 @@
 "use client";
 
+import { SlidersHorizontal, X } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { SlidersHorizontal, X } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 interface Type {
   id: number;
@@ -19,21 +20,21 @@ interface Genre {
 }
 
 interface FiltersProps {
-  types: Type[];
   genres: Genre[];
+  types: Type[];
 }
 
 export function Filters({ types, genres }: FiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [selectedType, setSelectedType] = useState<number | null>(
+  const [selectedType, setSelectedType] = useState<null | number>(
     searchParams.get("type") ? Number(searchParams.get("type")) : null
   );
   const [selectedGenres, setSelectedGenres] = useState<number[]>(
     searchParams.get("genres") ? searchParams.get("genres")!.split(",").map(Number) : []
   );
-  const [selectedStatus, setSelectedStatus] = useState<string | null>(
+  const [selectedStatus, setSelectedStatus] = useState<null | string>(
     searchParams.get("status") || null
   );
   const [sortBy, setSortBy] = useState<string>(searchParams.get("sort") || "latest");
@@ -91,7 +92,7 @@ export function Filters({ types, genres }: FiltersProps) {
           md:hidden
         `}
       >
-        <Button variant="outline" className="w-full" onClick={() => setIsOpen(!isOpen)}>
+        <Button className="w-full" onClick={() => setIsOpen(!isOpen)} variant="outline">
           <SlidersHorizontal className="mr-2 size-4" />
           Filters {hasActiveFilters && `(${1 + selectedGenres.length})`}
         </Button>
@@ -109,12 +110,12 @@ export function Filters({ types, genres }: FiltersProps) {
             <span>Filters</span>
             {hasActiveFilters && (
               <Button
-                variant="ghost"
-                size="sm"
-                onClick={resetFilters}
                 className={`
                 text-sm
               `}
+                onClick={resetFilters}
+                size="sm"
+                variant="ghost"
               >
                 Reset
               </Button>
@@ -128,11 +129,11 @@ export function Filters({ types, genres }: FiltersProps) {
             <div className="grid grid-cols-2 gap-2">
               {sortOptions.map((option) => (
                 <Button
-                  key={option.value}
-                  variant={sortBy === option.value ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSortBy(option.value)}
                   className="w-full"
+                  key={option.value}
+                  onClick={() => setSortBy(option.value)}
+                  size="sm"
+                  variant={sortBy === option.value ? "default" : "outline"}
                 >
                   {option.label}
                 </Button>
@@ -146,13 +147,13 @@ export function Filters({ types, genres }: FiltersProps) {
             <div className="flex flex-wrap gap-2">
               {types.map((type) => (
                 <Badge
-                  key={type.id}
-                  variant={selectedType === type.id ? "default" : "outline"}
                   className={`
-                    cursor-pointer
                     hover:bg-primary/10
+                    cursor-pointer
                   `}
+                  key={type.id}
                   onClick={() => setSelectedType(selectedType === type.id ? null : type.id)}
+                  variant={selectedType === type.id ? "default" : "outline"}
                 >
                   {type.name}
                   {selectedType === type.id && <X className="ml-1 size-3" />}
@@ -167,13 +168,13 @@ export function Filters({ types, genres }: FiltersProps) {
             <div className="flex flex-wrap gap-2">
               {statuses.map((status) => (
                 <Badge
-                  key={status}
-                  variant={selectedStatus === status ? "default" : "outline"}
                   className={`
-                    cursor-pointer
                     hover:bg-primary/10
+                    cursor-pointer
                   `}
+                  key={status}
                   onClick={() => setSelectedStatus(selectedStatus === status ? null : status)}
+                  variant={selectedStatus === status ? "default" : "outline"}
                 >
                   {status}
                   {selectedStatus === status && <X className="ml-1 size-3" />}
@@ -191,13 +192,13 @@ export function Filters({ types, genres }: FiltersProps) {
             <div className="flex flex-wrap gap-2">
               {genres.map((genre) => (
                 <Badge
-                  key={genre.id}
-                  variant={selectedGenres.includes(genre.id) ? "default" : "outline"}
                   className={`
-                    cursor-pointer
                     hover:bg-primary/10
+                    cursor-pointer
                   `}
+                  key={genre.id}
                   onClick={() => toggleGenre(genre.id)}
+                  variant={selectedGenres.includes(genre.id) ? "default" : "outline"}
                 >
                   {genre.name}
                   {selectedGenres.includes(genre.id) && (
@@ -213,7 +214,7 @@ export function Filters({ types, genres }: FiltersProps) {
           </div>
 
           {/* Apply Button */}
-          <Button onClick={applyFilters} className="w-full">
+          <Button className="w-full" onClick={applyFilters}>
             Apply Filters
           </Button>
         </CardContent>

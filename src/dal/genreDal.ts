@@ -3,12 +3,15 @@
  * Handles all database operations for genres
  */
 
-import type { ListOptions } from "@/dal/baseDal";
+import { asc, eq } from "drizzle-orm";
+
 import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import { genre } from "@/database/schema";
+
+import type { ListOptions } from "@/dal/baseDal";
 import type { Genre } from "@/types/database";
-import { asc, eq } from "drizzle-orm";
+
 
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 class GenreDal extends BaseDal<Genre, typeof genre.$inferInsert> {

@@ -1,6 +1,7 @@
+import { asc, desc, eq, ilike } from "drizzle-orm";
+
 import { db as database } from "@/database/db";
 import { type } from "@/database/schema";
-import { asc, desc, eq, ilike } from "drizzle-orm";
 
 export async function getTypeById(typeId: number) {
   return await database.query.type.findFirst({
@@ -24,9 +25,9 @@ export async function getTypeByNameForSeed(name: string) {
 export async function getTypes(params?: {
   limit?: number;
   offset?: number;
-  sortBy?: "name" | "createdAt";
-  sortOrder?: "asc" | "desc";
   search?: string;
+  sortBy?: "createdAt" | "name";
+  sortOrder?: "asc" | "desc";
 }) {
   const { limit = 10, offset = 0, sortBy = "name", sortOrder = "asc", search } = params || {};
 
@@ -63,9 +64,9 @@ export async function getTypeCount(params?: { search?: string }) {
 
 // Wrapper function for API compatibility
 export async function getAllTypes(filters?: {
-  search?: string;
-  page?: number;
   limit?: number;
+  page?: number;
+  search?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }) {

@@ -8,6 +8,7 @@
 
 import chalk from "chalk";
 import { Command } from "commander";
+
 import { cache } from "./commands/cache";
 import { ci } from "./commands/ci";
 import { db as database } from "./commands/db";

@@ -4,24 +4,26 @@
  * Implements comprehensive upsert logic with batch image processing
  */
 
+import { and, eq } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import { chapter, chapterImage, comic } from "@/database/schema";
 import { loadChapters } from "@/database/seed/dataLoaderEnhanced";
 import { getImageManager } from "@/database/seed/imageManager";
 import { logger } from "@/database/seed/logger";
+
 import type { ChapterSeedData } from "@/database/seed/schemas";
-import { and, eq } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES & INTERFACES
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface SeedStats {
-  total: number;
   created: number;
-  updated: number;
-  skipped: number;
   errors: number;
+  skipped: number;
+  total: number;
+  updated: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

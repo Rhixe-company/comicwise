@@ -7,7 +7,7 @@
  * - Fallbacks: /placeholder-comic.jpg, /shadcn.jpg
  */
 
-import path from "path";
+import path from "node:path";
 
 /** Fallback image for comics when primary image is unavailable */
 export const FALLBACK_COMIC_IMAGE = "/placeholder-comic.jpg";
@@ -82,7 +82,7 @@ export function getChapterImagesFsPath(comicSlug: string, chapterSlug: string): 
  * @returns Valid image URL or fallback
  */
 export function normalizeImageUrl(
-  imageUrl: string | undefined | null,
+  imageUrl: null | string | undefined,
   fallback: string = FALLBACK_COMIC_IMAGE
 ): string {
   if (!imageUrl || typeof imageUrl !== "string") {

@@ -2,12 +2,15 @@
 // BOOKMARK ACTIONS - UNIT TESTS
 // ═══════════════════════════════════════════════════
 
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
 import { addBookmark, getBookmarks, removeBookmark, updateProgress } from "@/lib/actions/bookmark";
+
 import * as authLib from "auth";
+
 import type { Mock } from "vitest";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock dependencies
 vi.mock("auth");

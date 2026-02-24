@@ -1,18 +1,19 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronLeft, ChevronRight, Home, List, Maximize, Minimize } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+
 interface Chapter {
-  id: number;
-  title: string;
   chapterNumber: number;
   comicId: number;
+  id: number;
+  title: string;
 }
 
 interface Comic {
@@ -30,8 +31,8 @@ interface ReaderProps {
   chapter: Chapter;
   comic: Comic;
   images: ChapterImage[];
-  prevChapter: Chapter | null;
   nextChapter: Chapter | null;
+  prevChapter: Chapter | null;
 }
 
 export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter }: ReaderProps) {
@@ -105,7 +106,7 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
         >
           <div className="flex items-center gap-4">
             <Link href={`/comics/${comic.id}`}>
-              <Button variant="ghost" size="icon">
+              <Button size="icon" variant="ghost">
                 <Home className="size-5" />
               </Button>
             </Link>
@@ -125,13 +126,13 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
               Page {currentPage} / {totalPages}
             </span>
             <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleFullscreen}
               className={`
                 hidden
                 md:inline-flex
               `}
+              onClick={toggleFullscreen}
+              size="icon"
+              variant="ghost"
             >
               {isFullscreen ? (
                 <Minimize className="size-5" />
@@ -155,13 +156,13 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
             {isLoading && <Skeleton className="absolute inset-0 bg-gray-800" />}
             {currentImage && (
               <Image
-                src={currentImage.imageUrl}
                 alt={`Page ${currentPage}`}
-                width={1200}
-                height={1800}
                 className="h-auto w-full"
+                height={1800}
                 onLoad={() => setIsLoading(false)}
                 priority
+                src={currentImage.imageUrl}
+                width={1200}
               />
             )}
           </div>
@@ -169,8 +170,8 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
           {/* Navigation */}
           <div className="mt-6 flex items-center justify-between gap-4">
             <Button
-              onClick={handlePreviousPage}
               disabled={currentPage === 1 && !prevChapter}
+              onClick={handlePreviousPage}
               size="lg"
             >
               <ChevronLeft className="mr-2 size-5" />
@@ -178,15 +179,15 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
             </Button>
 
             <Link href={`/comics/${comic.id}`}>
-              <Button variant="outline" size="lg">
+              <Button size="lg" variant="outline">
                 <List className="mr-2 size-5" />
                 Chapters
               </Button>
             </Link>
 
             <Button
-              onClick={handleNextPage}
               disabled={currentPage === totalPages && !nextChapter}
+              onClick={handleNextPage}
               size="lg"
             >
               {currentPage === totalPages && nextChapter ? "Next Chapter" : "Next"}
@@ -203,11 +204,6 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
           >
             {images.map((image, index) => (
               <button
-                key={image.id}
-                onClick={() => {
-                  setCurrentPage(index + 1);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
                 className={`
                   relative aspect-2/3 overflow-hidden rounded-sm border-2
                   transition-all
@@ -217,13 +213,18 @@ export function ChapterReader({ chapter, comic, images, prevChapter, nextChapter
                       : "border-transparent opacity-50 hover:opacity-100"
                   }
                 `}
+                key={image.id}
+                onClick={() => {
+                  setCurrentPage(index + 1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
               >
                 <Image
-                  src={image.imageUrl}
                   alt={`Page ${index + 1}`}
-                  fill
                   className="object-cover"
+                  fill
                   sizes="(max-width: 768px) 20vw, 10vw"
+                  src={image.imageUrl}
                 />
               </button>
             ))}

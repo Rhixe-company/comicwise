@@ -3,8 +3,9 @@
  * Re-exports from consolidated @/lib/cache
  */
 
-import type { CacheOptions } from "@/lib/cache";
 import { cache, CACHE_KEYS, CACHE_TTL, cacheKeys, cacheTTL } from "@/lib/cache";
+
+import type { CacheOptions } from "@/lib/cache";
 
 export { cache, CACHE_KEYS, CACHE_TTL, cacheKeys, cacheTTL };
 export type { CacheOptions };

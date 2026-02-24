@@ -1,0 +1,41 @@
+# ============================================
+# PgAdmin Production Dockerfile
+# Features: Hardened, optimized, security-focused
+# ============================================
+
+FROM dpage/pgadmin4:9.13
+
+LABEL maintainer="ComicWise Team"
+LABEL description="PgAdmin 4 for production - hardened and optimized"
+
+# Production environment - security focused
+ENV PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-admin@example.com} \
+    PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-changeme} \
+    PGADMIN_CONFIG_PROXY_X_FOR_COUNT=1 \
+    PGADMIN_CONFIG_PROXY_X_PROTO_COUNT=1 \
+    PGADMIN_CONFIG_PROXY_X_HOST_COUNT=1 \
+    PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True \
+    PGADMIN_CONFIG_COOKIE_DEFAULT_SECURE=True \
+    PGADMIN_CONFIG_COOKIE_SAMESITE=Strict \
+    PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=30 \
+    PGADMIN_CONFIG_LOGGING_LEVEL=30 \
+    PGADMIN_CONFIG_LOG_FILE=/var/log/pgadmin/pgadmin4.log \
+    SCRIPT_NAME=/pgadmin \
+    PGADMIN_CONFIG_ALLOW_SAVE_PASSWORD=False \
+    PGADMIN_CONFIG_ALLOW_SAVE_TUNNEL_PASSWORD=False
+
+# Create necessary directories with restricted permissions
+RUN mkdir -p /var/lib/pgadmin/storage && \
+    mkdir -p /var/log/pgadmin && \
+    chown -R pgadmin:pgadmin /var/lib/pgadmin /var/log/pgadmin && \
+    chmod 700 /var/lib/pgadmin /var/log/pgadmin
+
+VOLUME ["/var/lib/pgadmin", "/var/log/pgadmin"]
+
+EXPOSE 80
+
+# Production: Strict health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
+    CMD wget --spider -q http://localhost:80/misc/ping || exit 1
+
+ENTRYPOINT ["/entrypoint.sh"]

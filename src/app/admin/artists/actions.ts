@@ -5,12 +5,15 @@
 
 "use server";
 
-import { db as database } from "@/database/db";
-import { artist } from "@/database/schema";
-import type { ActionResult } from "@/dto";
-import { requireRole } from "auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
+
+import { db as database } from "@/database/db";
+import { artist } from "@/database/schema";
+
+import { requireRole } from "auth";
+
+import type { ActionResult } from "@/dto";
 
 const createArtistSchema = z
   .object({

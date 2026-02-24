@@ -4,20 +4,20 @@
 
 export interface SeedConfig {
   enabled: {
-    users: boolean;
-    comics: boolean;
-    chapters: boolean;
     all: boolean;
+    chapters: boolean;
+    comics: boolean;
+    users: boolean;
   };
-  mode: "seed" | "clear" | "reset";
+  mode: "clear" | "reset" | "seed";
   options: {
     batchSize: number;
+    dryRun: boolean;
+    forceOverwrite: boolean;
     imageDownloadConcurrency: number;
     skipImageDownload: boolean;
-    verbose: boolean;
-    dryRun: boolean;
     skipValidation: boolean;
-    forceOverwrite: boolean;
+    verbose: boolean;
   };
 }
 
@@ -44,7 +44,7 @@ export function parseCLIArgs(args: string[]): SeedConfig {
     },
   };
 
-  args.forEach((argument) => {
+  for (const argument of args) {
     if (argument === "--users") config.enabled.users = true;
     if (argument === "--comics") config.enabled.comics = true;
     if (argument === "--chapters") config.enabled.chapters = true;
@@ -60,7 +60,7 @@ export function parseCLIArgs(args: string[]): SeedConfig {
       config.options.batchSize =
         Number.parseInt(argument.split("=")[1] || "", 10) || DEFAULT_BATCH_SIZE;
     }
-  });
+  }
 
   if (
     !config.enabled.users &&

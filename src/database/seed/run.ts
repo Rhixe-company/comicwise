@@ -26,6 +26,8 @@
  * - Exponential backoff retry logic for resilience
  */
 
+import { sql } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import {
   getImageStats,
@@ -36,7 +38,6 @@ import { logger } from "@/database/seed/logger";
 import { seedChapters } from "@/database/seed/seeders/seedChaptersOptimized";
 import { seedComics } from "@/database/seed/seeders/seedComicsOptimized";
 import { seedUsers } from "@/database/seed/seeders/seedUsersOptimized";
-import { sql } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION

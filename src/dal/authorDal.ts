@@ -3,12 +3,15 @@
  * Handles all database operations for authors
  */
 
-import type { ListOptions } from "@/dal/baseDal";
+import { desc, eq, like } from "drizzle-orm";
+
 import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import { author } from "@/database/schema";
+
+import type { ListOptions } from "@/dal/baseDal";
 import type { Author } from "@/types/database";
-import { desc, eq, like } from "drizzle-orm";
+
 
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 class AuthorDal extends BaseDal<Author, typeof author.$inferInsert> {

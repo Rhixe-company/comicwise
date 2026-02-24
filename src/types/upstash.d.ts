@@ -1,7 +1,7 @@
 declare module "upstash/redis" {
   export interface RedisConfig {
-    url: string;
     token: string;
+    url: string;
   }
 
   /**
@@ -15,14 +15,14 @@ declare module "upstash/redis" {
     /**
      *
      */
-    get<T = string>(key: string): Promise<T | null>;
+    get<T = string>(key: string): Promise<null | T>;
     /**
      *
      */
     set(
       key: string,
-      value: string | number | object,
-      options?: { ex?: number; px?: number; nx?: boolean; xx?: boolean }
+      value: number | object | string,
+      options?: { ex?: number; nx?: boolean; px?: number; xx?: boolean }
     ): Promise<"OK" | null>;
     /**
      *
@@ -65,12 +65,12 @@ declare module "upstash/qstash" {
   }
 
   export interface PublishOptions {
-    url: string;
-    body?: string | object;
-    headers?: Record<string, string>;
+    body?: object | string;
     delay?: number;
+    headers?: Record<string, string>;
     notBefore?: number;
     retries?: number;
+    url: string;
   }
 
   export interface PublishResponse {
@@ -78,8 +78,8 @@ declare module "upstash/qstash" {
   }
 
   export interface VerifyOptions {
-    signature: string;
     body: string;
+    signature: string;
     url: string;
   }
 
@@ -112,6 +112,6 @@ declare module "upstash/qstash" {
     /**
      *
      */
-    verify(options: { signature: string; body: string; url?: string }): Promise<boolean>;
+    verify(options: { body: string; signature: string; url?: string }): Promise<boolean>;
   }
 }

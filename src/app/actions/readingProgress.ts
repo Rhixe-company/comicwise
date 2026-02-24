@@ -1,31 +1,34 @@
 "use server";
 
-import { db } from "@/database/db";
-import { chapter, comic, readingProgress } from "@/database/schema";
-import type { SimpleActionResult } from "@/dto";
-import { auth } from "auth";
 import { and, desc, eq, lt } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
+import { db } from "@/database/db";
+import { chapter, comic, readingProgress } from "@/database/schema";
+
+import { auth } from "auth";
+
+import type { SimpleActionResult } from "@/dto";
+
 export interface SaveProgressData {
-  comicId: number;
   chapterId: number;
+  comicId: number;
   pageNumber: number;
   scrollPosition: number;
   totalPages: number;
 }
 
 export interface ReadingHistory {
-  id: number;
+  chapterId: number;
+  chapterNumber: number;
+  chapterTitle: string;
   comicId: number;
   comicTitle: string;
-  chapterId: number;
-  chapterTitle: string;
-  chapterNumber: number;
+  completedAt: Date | null;
+  id: number;
+  lastReadAt: Date;
   pageNumber: number;
   progressPercent: number;
-  lastReadAt: Date;
-  completedAt: Date | null;
 }
 
 /**
@@ -135,7 +138,7 @@ export async function getReadingProgress(chapterId: number) {
  */
 export async function getReadingHistory(
   limit = 20
-): Promise<{ success: boolean; data?: ReadingHistory[]; error?: string }> {
+): Promise<{ data?: ReadingHistory[]; error?: string; success: boolean; }> {
   try {
     const session = await auth();
     if (!session?.user?.id) {

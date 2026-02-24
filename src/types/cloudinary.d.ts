@@ -1,43 +1,43 @@
 declare module "cloudinary" {
   export interface ConfigOptions {
-    cloud_name: string;
     api_key: string;
     api_secret: string;
+    cloud_name: string;
     secure?: boolean;
   }
 
   export interface UploadOptions {
     folder?: string;
     public_id?: string;
-    use_filename?: boolean;
-    unique_filename?: boolean;
-    resource_type?: "image" | "video" | "raw" | "auto";
+    resource_type?: "auto" | "image" | "raw" | "video";
     tags?: string[];
+    unique_filename?: boolean;
+    use_filename?: boolean;
   }
 
   export interface UploadResult {
-    public_id: string;
-    version: number;
-    signature: string;
-    width: number;
-    height: number;
-    format: string;
-    resource_type: string;
-    created_at: string;
     bytes: number;
+    created_at: string;
+    format: string;
+    height: number;
+    public_id: string;
+    resource_type: string;
+    secure_url: string;
+    signature: string;
     type: string;
     url: string;
-    secure_url: string;
+    version: number;
+    width: number;
   }
 
   export interface DestroyOptions {
-    resource_type?: "image" | "video" | "raw";
-    type?: string;
     invalidate?: boolean;
+    resource_type?: "image" | "raw" | "video";
+    type?: string;
   }
 
   export interface DestroyResult {
-    result: "ok" | "not found";
+    result: "not found" | "ok";
   }
 
   export interface SearchOptions {
@@ -47,23 +47,23 @@ declare module "cloudinary" {
   }
 
   export interface SearchResult {
-    total_count: number;
-    resources: UploadResult[];
     next_cursor?: string;
+    resources: UploadResult[];
+    total_count: number;
   }
 
   export const v2: {
     config(options: ConfigOptions): void;
-    uploader: {
-      upload(file: string | Buffer, options?: UploadOptions): Promise<UploadResult>;
-      destroy(publicId: string, options?: DestroyOptions): Promise<DestroyResult>;
-    };
     search: {
       expression(expr: string): {
         max_results(number_: number): {
           execute(): Promise<SearchResult>;
         };
       };
+    };
+    uploader: {
+      destroy(publicId: string, options?: DestroyOptions): Promise<DestroyResult>;
+      upload(file: Buffer | string, options?: UploadOptions): Promise<UploadResult>;
     };
   };
 }

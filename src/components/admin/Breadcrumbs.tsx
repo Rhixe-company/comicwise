@@ -21,13 +21,13 @@ export function Breadcrumbs() {
   });
 
   return (
-    <nav className="flex items-center space-x-1 text-sm text-muted-foreground">
+    <nav className="text-muted-foreground flex items-center space-x-1 text-sm">
       <Link
-        href="/admin"
         className={`
-          flex items-center transition-colors
-          hover:text-foreground
+          hover:text-foreground flex items-center
+          transition-colors
         `}
+        href="/admin"
       >
         <Home className="size-4" />
       </Link>
@@ -37,14 +37,14 @@ export function Breadcrumbs() {
           <Fragment key={crumb.href}>
             <ChevronRight className="size-4" />
             {isLast ? (
-              <span className="font-medium text-foreground">{crumb.label}</span>
+              <span className="text-foreground font-medium">{crumb.label}</span>
             ) : (
               <Link
-                href={crumb.href}
                 className={`
-                  transition-colors
                   hover:text-foreground
+                  transition-colors
                 `}
+                href={crumb.href}
               >
                 {crumb.label}
               </Link>

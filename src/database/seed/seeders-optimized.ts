@@ -11,6 +11,8 @@
  * - Detailed operation logging
  */
 
+import { eq } from "drizzle-orm";
+
 import { db } from "@/database/db";
 import {
   artist,
@@ -23,14 +25,14 @@ import {
   type as typeTable,
   user,
 } from "@/database/schema";
-import type { OptimizedImageHandler } from "@/database/seed/image-handler-optimized";
 import { logger } from "@/database/seed/logger-optimized";
+
+import type { OptimizedImageHandler } from "@/database/seed/image-handler-optimized";
 import type {
   ChapterSeedData,
   ComicSeedData,
   UserSeedData,
 } from "@/database/seed/schemas-optimized";
-import { eq } from "drizzle-orm";
 
 // ─────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -38,22 +40,22 @@ import { eq } from "drizzle-orm";
 
 interface SeederOptions {
   dryRun?: boolean;
-  verbose?: boolean;
   imageHandler?: OptimizedImageHandler;
+  verbose?: boolean;
 }
 
 interface SeederStats {
   created: number;
-  updated: number;
-  skipped: number;
   errors: number;
+  skipped: number;
+  updated: number;
 }
 
 interface MetadataCache {
-  types: Map<string, number>;
-  authors: Map<string, number>;
   artists: Map<string, number>;
+  authors: Map<string, number>;
   genres: Map<string, number>;
+  types: Map<string, number>;
 }
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -233,9 +235,9 @@ export async function seedComics(
       });
 
       // Get or create metadata
-      let typeId: number | null = null;
-      let authorId: number | null = null;
-      let artistId: number | null = null;
+      let typeId: null | number = null;
+      let authorId: null | number = null;
+      let artistId: null | number = null;
 
       if (comicData.type?.name) {
         typeId = await getOrCreateMetadata(

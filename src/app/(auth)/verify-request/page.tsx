@@ -1,5 +1,8 @@
 "use client";
 
+import { Mail } from "lucide-react";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,8 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Mail } from "lucide-react";
-import Link from "next/link";
 
 export default function VerifyRequestPage() {
   return (
@@ -18,11 +19,11 @@ export default function VerifyRequestPage() {
       <CardHeader className="text-center">
         <div
           className={`
-            mx-auto mb-4 flex size-16 items-center justify-center rounded-full
-            bg-primary/10
+            bg-primary/10 mx-auto mb-4 flex size-16 items-center justify-center
+            rounded-full
           `}
         >
-          <Mail className="size-8 text-primary" />
+          <Mail className="text-primary size-8" />
         </div>
         <CardTitle>Check your email</CardTitle>
         <CardDescription>
@@ -31,11 +32,11 @@ export default function VerifyRequestPage() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="rounded-lg border border-border bg-muted/50 p-4">
+        <div className="border-border bg-muted/50 rounded-lg border p-4">
           <h3 className="mb-2 font-semibold">What&apos;s next?</h3>
           <ul
             className={`
-              list-inside list-disc space-y-1 text-sm text-muted-foreground
+              text-muted-foreground list-inside list-disc space-y-1 text-sm
             `}
           >
             <li>Check your inbox (and spam folder)</li>
@@ -45,17 +46,17 @@ export default function VerifyRequestPage() {
         </div>
       </CardContent>
       <CardFooter className="flex-col space-y-2">
-        <Link href="/sign-in" className="w-full">
+        <Link className="w-full" href="/sign-in">
           <Button className="w-full">Back to Sign In</Button>
         </Link>
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-center text-sm">
           Didn&apos;t receive the email?{" "}
           <Link
-            href="/resend-verification"
             className={`
               text-primary
               hover:underline
             `}
+            href="/resend-verification"
           >
             Resend
           </Link>

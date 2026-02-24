@@ -11,7 +11,7 @@
  * - Thread-safe operations
  */
 
-import { createHash } from "crypto";
+import { createHash } from "node:crypto";
 
 // ═══════════════════════════════════════════════════
 // CACHE STORAGE

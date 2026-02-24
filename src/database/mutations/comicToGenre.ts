@@ -35,11 +35,10 @@ export async function addGenresToComic(
   comicId: number,
   genreIds: number[]
 ): Promise<(typeof comicToGenre.$inferSelect)[]> {
-  const relations = await database
+  return await database
     .insert(comicToGenre)
     .values(genreIds.map((genreId) => ({ comicId, genreId })))
     .returning();
-  return relations;
 }
 
 /**
@@ -68,11 +67,10 @@ export async function removeGenreFromComic(
 export async function removeAllGenresFromComic(
   comicId: number
 ): Promise<(typeof comicToGenre.$inferSelect)[]> {
-  const deletedRelations = await database
+  return await database
     .delete(comicToGenre)
     .where(eq(comicToGenre.comicId, comicId))
     .returning();
-  return deletedRelations;
 }
 
 /**

@@ -92,4 +92,4 @@ export type ChapterSeedData = z.infer<typeof chapterSeedSchema>;
 // TYPE EXPORTS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export type SeedSchemaType = UserSeedData | ComicSeedData | ChapterSeedData;
+export type SeedSchemaType = ChapterSeedData | ComicSeedData | UserSeedData;

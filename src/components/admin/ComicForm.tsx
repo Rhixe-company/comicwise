@@ -1,6 +1,12 @@
 "use client";
 
-import type { z } from "zod";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AlertCircle, Loader2, Upload } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -25,19 +31,15 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { comicFormSchema } from "@/lib/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, Loader2, Upload } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+
+import type { z } from "zod";
 
 interface ComicFormProps {
-  onSubmit(
-    data: z.infer<typeof comicFormSchema>
-  ): Promise<{ success: boolean; error?: string } | void>;
   initialData?: Partial<z.infer<typeof comicFormSchema>>;
   isLoading?: boolean;
+  onSubmit(
+    data: z.infer<typeof comicFormSchema>
+  ): Promise<{ error?: string; success: boolean; } | void>;
   submitLabel?: string;
 }
 
@@ -48,7 +50,7 @@ export function ComicForm({
   submitLabel = "Create Comic",
 }: ComicFormProps) {
   const router = useRouter();
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<null | string>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -109,7 +111,7 @@ export function ComicForm({
       )}
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleFormSubmit)} className={`space-y-6`}>
+        <form className={`space-y-6`} onSubmit={form.handleSubmit(handleFormSubmit)}>
           {/* Cover Image Upload */}
           <Card>
             <CardHeader>
@@ -125,10 +127,10 @@ export function ComicForm({
                     `}
                   >
                     <Image
-                      src={coverImageValue}
                       alt="Cover preview"
-                      fill
                       className="object-cover"
+                      fill
+                      src={coverImageValue}
                     />
                   </div>
                 )}
@@ -142,18 +144,18 @@ export function ComicForm({
                   )}
 
                   <Input
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleFileSelect}
                     ref={fileInputRef}
                     type="file"
-                    accept="image/*"
-                    onChange={handleFileSelect}
-                    className="hidden"
                   />
 
                   <Button
+                    disabled={isUploading}
+                    onClick={() => fileInputRef.current?.click()}
                     type="button"
                     variant="outline"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={isUploading}
                   >
                     {isUploading ? (
                       <>
@@ -228,7 +230,7 @@ export function ComicForm({
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Comic description" className={`min-h-32`} {...field} />
+                      <Textarea className={`min-h-32`} placeholder="Comic description" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -249,7 +251,7 @@ export function ComicForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Status</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select defaultValue={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select status" />
@@ -281,9 +283,9 @@ export function ComicForm({
                       <FormLabel>Publication Date</FormLabel>
                       <FormControl>
                         <Input
+                          onChange={(e) => field.onChange(new Date(e.target.value))}
                           type="date"
                           value={dateValue}
-                          onChange={(e) => field.onChange(new Date(e.target.value))}
                         />
                       </FormControl>
                       <FormMessage />
@@ -308,7 +310,7 @@ export function ComicForm({
                   <FormItem>
                     <FormLabel>Author ID</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="Author ID" {...field} />
+                      <Input placeholder="Author ID" type="text" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -322,7 +324,7 @@ export function ComicForm({
                   <FormItem>
                     <FormLabel>Artist ID</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="Artist ID" {...field} />
+                      <Input placeholder="Artist ID" type="text" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -336,7 +338,7 @@ export function ComicForm({
                   <FormItem>
                     <FormLabel>Type ID</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="Type ID" {...field} />
+                      <Input placeholder="Type ID" type="text" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -347,7 +349,7 @@ export function ComicForm({
 
           {/* Action Buttons */}
           <div className="flex gap-4">
-            <Button type="submit" disabled={isSubmitting || isLoading}>
+            <Button disabled={isSubmitting || isLoading} type="submit">
               {isSubmitting || isLoading ? (
                 <>
                   <Loader2 className="mr-2 size-4 animate-spin" />
@@ -357,7 +359,7 @@ export function ComicForm({
                 submitLabel
               )}
             </Button>
-            <Button type="button" variant="outline" onClick={() => router.back()}>
+            <Button onClick={() => router.back()} type="button" variant="outline">
               Cancel
             </Button>
           </div>

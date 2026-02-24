@@ -8,18 +8,13 @@ const DEFAULT_ALLOWED = ["image/jpeg", "image/jpg", "image/png", "image/webp", "
 
 export interface UseImageUploadOptions {
   /**
-   * Maximum file size in MB (default: 10)
-   */
-  maxSizeMB?: number;
-  /**
    * Allowed MIME types (default: common image formats)
    */
   allowedTypes?: string[];
   /**
-   * Upload type for server-side categorization
-   * Examples: 'comic-cover', 'chapter-image', 'avatar', 'general'
+   * Maximum file size in MB (default: 10)
    */
-  uploadType?: string;
+  maxSizeMB?: number;
   /**
    * Callback when file URL is set (fires immediately after validation)
    */
@@ -28,37 +23,42 @@ export interface UseImageUploadOptions {
    * Callback when upload completes successfully
    */
   onUploadComplete?(url: string): void;
+  /**
+   * Upload type for server-side categorization
+   * Examples: 'comic-cover', 'chapter-image', 'avatar', 'general'
+   */
+  uploadType?: string;
 }
 
 export interface UseImageUploadReturn {
+  /**
+   * Error message if upload failed, null otherwise
+   */
+  error: null | string;
   /**
    * Ref to attach to hidden file input element
    */
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   /**
+   * Handle file input change event
+   */
+  handleFileSelect(e: React.ChangeEvent<HTMLInputElement>): Promise<void>;
+  /**
    * Whether an upload is currently in progress
    */
   isUploading: boolean;
   /**
-   * Upload progress as percentage (0-100)
+   * Reset all state to initial values
    */
-  uploadProgress: number;
-  /**
-   * Error message if upload failed, null otherwise
-   */
-  error: string | null;
+  reset(): void;
   /**
    * Whether the last upload was successful
    */
   success: boolean;
   /**
-   * Handle file input change event
+   * Upload progress as percentage (0-100)
    */
-  handleFileSelect(e: React.ChangeEvent<HTMLInputElement>): Promise<void>;
-  /**
-   * Reset all state to initial values
-   */
-  reset(): void;
+  uploadProgress: number;
 }
 
 /**
@@ -108,7 +108,7 @@ export function useImageUpload(options: UseImageUploadOptions = {}): UseImageUpl
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<null | string>(null);
   const [success, setSuccess] = useState(false);
 
   /**
@@ -116,7 +116,7 @@ export function useImageUpload(options: UseImageUploadOptions = {}): UseImageUpl
    * Returns null when valid, otherwise an error message string.
    * @param file
    */
-  function validateFile(file: File): string | null {
+  function validateFile(file: File): null | string {
     if (file.size > maxSizeMB * 1024 * 1024) {
       return `File size must be less than ${maxSizeMB}MB (current: ${(file.size / 1024 / 1024).toFixed(2)}MB)`;
     }

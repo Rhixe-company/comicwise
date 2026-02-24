@@ -1,13 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updatePasswordActionOptimized } from "@/lib/actions/authOptimized";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { toast } from "sonner";
 
 interface ChangePasswordFormProps {
   userId: string;
@@ -54,32 +55,32 @@ export function ChangePasswordForm({ userId }: ChangePasswordFormProps) {
         <CardDescription>Update your account password</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <Label htmlFor="currentPassword">Current Password</Label>
             <Input
+              disabled={isPending}
               id="currentPassword"
-              type="password"
-              value={formData.currentPassword}
+              minLength={8}
               onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
               required
-              minLength={8}
-              disabled={isPending}
+              type="password"
+              value={formData.currentPassword}
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="newPassword">New Password</Label>
             <Input
+              disabled={isPending}
               id="newPassword"
-              type="password"
-              value={formData.newPassword}
+              minLength={8}
               onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
               required
-              minLength={8}
-              disabled={isPending}
+              type="password"
+              value={formData.newPassword}
             />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Must contain at least one uppercase letter, one lowercase letter, and one number
             </p>
           </div>
@@ -87,25 +88,25 @@ export function ChangePasswordForm({ userId }: ChangePasswordFormProps) {
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirm New Password</Label>
             <Input
+              disabled={isPending}
               id="confirmPassword"
-              type="password"
-              value={formData.confirmPassword}
+              minLength={8}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
               required
-              minLength={8}
-              disabled={isPending}
+              type="password"
+              value={formData.confirmPassword}
             />
           </div>
 
           <div className="flex gap-4">
-            <Button type="submit" disabled={isPending}>
+            <Button disabled={isPending} type="submit">
               {isPending ? "Updating..." : "Update Password"}
             </Button>
             <Button
+              disabled={isPending}
+              onClick={() => router.push("/profile")}
               type="button"
               variant="outline"
-              onClick={() => router.push("/profile")}
-              disabled={isPending}
             >
               Cancel
             </Button>

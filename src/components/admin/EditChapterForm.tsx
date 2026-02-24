@@ -9,13 +9,19 @@ import { BaseForm } from "@/components/admin/BaseForm";
 import { insertChapterSchema } from "@/lib/validations/chapterSchema";
 
 export interface EditChapterFormProps {
-  id: string | number;
+  id: number | string;
 }
 
 export function EditChapterForm({ id }: EditChapterFormProps) {
   return (
     <BaseForm
-      schema={insertChapterSchema}
+      defaultValues={{
+        title: "",
+        chapterNumber: 1,
+        releaseDate: new Date(),
+        comicId: 0,
+        views: 0,
+      }}
       fields={[
         { name: "title", label: "Title", type: "text", placeholder: "Enter chapter title" },
         {
@@ -27,17 +33,11 @@ export function EditChapterForm({ id }: EditChapterFormProps) {
         { name: "releaseDate", label: "Release Date", type: "date" },
         { name: "comicId", label: "Comic ID", type: "number", placeholder: "Enter comic ID" },
       ]}
-      defaultValues={{
-        title: "",
-        chapterNumber: 1,
-        releaseDate: new Date(),
-        comicId: 0,
-        views: 0,
-      }}
       onSubmit={async (data) => {
         // Add submission logic
         console.log("Submitting:", data);
       }}
+      schema={insertChapterSchema}
     />
   );
 }

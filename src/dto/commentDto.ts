@@ -11,17 +11,17 @@ export type UpdateCommentDto = Partial<CreateCommentDto>;
 
 export interface CommentListDto {
   comments: CommentDto[];
-  total: number;
-  page: number;
   limit: number;
+  page: number;
+  total: number;
 }
 
 export type CommentWithUserDto = CommentDto & {
-  user?: {
-    id: string;
-    name: string;
-    image?: string | null;
-  };
   replies?: CommentDto[];
   replyCount?: number;
+  user?: {
+    id: string;
+    image?: null | string;
+    name: string;
+  };
 };

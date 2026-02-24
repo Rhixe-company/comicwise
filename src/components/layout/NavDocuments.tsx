@@ -1,6 +1,5 @@
 "use client";
 
-import type { Icon } from "@tabler/icons-react";
 import { IconDots, IconFolder, IconShare3, IconTrash } from "@tabler/icons-react";
 
 import {
@@ -20,13 +19,15 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
+import type { Icon } from "@tabler/icons-react";
+
 export function NavDocuments({
   items,
 }: {
   items: {
+    icon: Icon;
     name: string;
     url: string;
-    icon: Icon;
   }[];
 }) {
   const { isMobile } = useSidebar();
@@ -46,20 +47,20 @@ export function NavDocuments({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction
-                  showOnHover
                   className={`
-                    rounded-sm
                     data-[state=open]:bg-accent
+                    rounded-sm
                   `}
+                  showOnHover
                 >
                   <IconDots />
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
+                align={isMobile ? "end" : "start"}
                 className="w-24 rounded-lg"
                 side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
               >
                 <DropdownMenuItem>
                   <IconFolder />

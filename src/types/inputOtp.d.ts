@@ -3,9 +3,9 @@ declare module "input-otp" {
   import type * as React from "react";
 
   export interface OTPInputContextType {
-    value: string;
     onChange?(v: string): void;
     slots?: any;
+    value: string;
   }
 
   export const OTPInputContext: React.Context<OTPInputContextType>;

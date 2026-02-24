@@ -11,25 +11,25 @@ export type UpdateBookmarkDto = Partial<CreateBookmarkDto>;
 
 export interface BookmarkListDto {
   bookmarks: BookmarkDto[];
-  total: number;
-  page: number;
   limit: number;
+  page: number;
+  total: number;
 }
 
 export type BookmarkWithComicDto = BookmarkDto & {
   comic?: {
-    id: number;
-    title: string;
-    slug: string;
-    coverImage: string;
     author?: {
       id: number;
       name: string;
     };
+    coverImage: string;
+    id: number;
+    slug: string;
+    title: string;
   };
   lastReadChapter?: {
+    chapterNumber: number;
     id: number;
     title: string;
-    chapterNumber: number;
   };
 };

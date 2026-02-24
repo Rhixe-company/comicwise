@@ -169,11 +169,11 @@ export default function TermsOfServicePage() {
             <p className="mb-4">
               If you believe that any content on the Service violates your copyright, please see our{" "}
               <a
-                href="/dmca"
                 className={`
                   text-primary
                   hover:underline
                 `}
+                href="/dmca"
               >
                 DMCA Policy
               </a>{" "}
@@ -250,14 +250,14 @@ export default function TermsOfServicePage() {
           <section>
             <h2 className="mb-4 text-2xl font-semibold">Contact Us</h2>
             <p className="mb-4">If you have any questions about these Terms, please contact us:</p>
-            <div className="mb-4 rounded-lg bg-muted p-4">
+            <div className="bg-muted mb-4 rounded-lg p-4">
               <p className="font-mono">
                 Email: legalcomicwise.com
                 <br />
                 Subject: Terms of Service Inquiry
               </p>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-4 text-sm">
               Last updated: <ClientDate />
             </p>
           </section>

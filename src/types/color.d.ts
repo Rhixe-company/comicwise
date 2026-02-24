@@ -1,17 +1,17 @@
 // Narrowed types for `color` used by the project
 declare module "color" {
   export interface RGBObject {
-    r: number;
-    g: number;
-    b: number;
     alpha?: number;
+    b: number;
+    g: number;
+    r: number;
   }
 
   export interface Color {
-    rgb(): { object(): RGBObject; array(): number[] };
-    object(): RGBObject;
     array(): number[];
     hex(): string;
+    object(): RGBObject;
+    rgb(): { array(): number[]; object(): RGBObject; };
     toString(): string;
   }
 

@@ -3,12 +3,15 @@
  * Handles all database operations for artists
  */
 
-import type { ListOptions } from "@/dal/baseDal";
+import { desc, eq, like } from "drizzle-orm";
+
 import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import { artist } from "@/database/schema";
+
+import type { ListOptions } from "@/dal/baseDal";
 import type { Artist } from "@/types/database";
-import { desc, eq, like } from "drizzle-orm";
+
 
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 class ArtistDal extends BaseDal<Artist, typeof artist.$inferInsert> {

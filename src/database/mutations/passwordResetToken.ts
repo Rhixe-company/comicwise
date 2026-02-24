@@ -16,8 +16,8 @@ import { passwordResetToken } from "@/database/schema";
  */
 export async function createPasswordResetToken(data: {
   email: string;
-  token: string;
   expires: Date;
+  token: string;
 }): Promise<typeof passwordResetToken.$inferSelect | undefined> {
   const [newToken] = await database
     .insert(passwordResetToken)
@@ -53,9 +53,8 @@ export async function deletePasswordResetToken(
 export async function deletePasswordResetTokensByEmail(
   email: string
 ): Promise<(typeof passwordResetToken.$inferSelect)[]> {
-  const deletedTokens = await database
+  return await database
     .delete(passwordResetToken)
     .where(eq(passwordResetToken.email, email))
     .returning();
-  return deletedTokens;
 }

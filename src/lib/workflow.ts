@@ -4,39 +4,40 @@
 // COMPREHENSIVE WORKFLOW SYSTEM (Next.js 16)
 // ═══════════════════════════════════════════════════
 
+import { z } from "zod";
+
 import appConfig from "@/appConfig";
 import emailService, { sendEmail } from "@/lib/email";
 import { checkRateLimit } from "@/lib/ratelimit";
-import { z } from "zod";
 
 // ═══════════════════════════════════════════════════
 // WORKFLOW TYPES & SCHEMAS
 // ═══════════════════════════════════════════════════
 
 export type WorkflowType =
-  | "user.welcome"
-  | "user.verification"
-  | "user.password-reset"
-  | "user.account-updated"
-  | "user.account-deleted"
-  | "comic.created"
-  | "comic.updated"
-  | "comic.deleted"
-  | "chapter.created"
-  | "chapter.updated"
-  | "chapter.deleted"
+  | "admin.notification"
   | "bookmark.created"
   | "bookmark.reminder"
+  | "chapter.created"
+  | "chapter.deleted"
+  | "chapter.updated"
+  | "comic.created"
+  | "comic.deleted"
+  | "comic.updated"
   | "comment.created"
   | "comment.reply"
-  | "admin.notification";
+  | "user.account-deleted"
+  | "user.account-updated"
+  | "user.password-reset"
+  | "user.verification"
+  | "user.welcome";
 
 export interface WorkflowPayload {
-  type: WorkflowType;
   data: Record<string, unknown>;
+  metadata?: Record<string, unknown>;
   recipientEmail: string;
   recipientName?: string;
-  metadata?: Record<string, unknown>;
+  type: WorkflowType;
 }
 
 const workflowPayloadSchema = z
@@ -92,9 +93,7 @@ export async function executeWorkflow(payload: WorkflowPayload) {
     }
 
     // Execute workflow based on type
-    const result = await routeWorkflow(validatedPayload);
-
-    return result;
+    return await routeWorkflow(validatedPayload);
   } catch (error) {
     console.error("Workflow execution error:", error);
     return {
@@ -272,7 +271,7 @@ async function sendCommentNotification(payload: WorkflowPayload) {
     comicTitle: data["comicTitle"] as string,
     chapterNumber: data["chapterNumber"] as number | undefined,
     commentId: data["commentId"] as string,
-    commentType: (data["commentType"] as "reply" | "mention" | "new") || "new",
+    commentType: (data["commentType"] as "mention" | "new" | "reply") || "new",
   });
 
   return { success: result.success };
@@ -298,7 +297,7 @@ async function sendAccountUpdatedEmail(payload: WorkflowPayload) {
   const result = await emailService.sendAccountUpdatedEmail({
     name: recipientName || "Comic Reader",
     email: recipientEmail,
-    changeType: (data["changeType"] as "password" | "email" | "profile") || "profile",
+    changeType: (data["changeType"] as "email" | "password" | "profile") || "profile",
     changeDetails: data["changes"] as string | undefined,
     ipAddress: data["ipAddress"] as string | undefined,
   });

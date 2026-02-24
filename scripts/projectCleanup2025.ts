@@ -26,9 +26,10 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { execSync } from "child_process";
+import { execSync } from "node:child_process";
+import path from "node:path";
+
 import fs from "fs-extra";
-import path from "path";
 
 // ═══════════════════════════════════════════════════
 // TYPES & INTERFACES
@@ -36,18 +37,18 @@ import path from "path";
 
 interface CleanupOptions {
   dryRun: boolean;
-  verbose: boolean;
   quiet: boolean;
+  verbose: boolean;
 }
 
 interface CleanupStats {
-  deletedFiles: number;
   deletedDirs: number;
-  removedPackages: number;
+  deletedFiles: number;
   duplicateSchemasFound: number;
-  totalSizeFreed: number;
-  startTime: number;
   endTime: number;
+  removedPackages: number;
+  startTime: number;
+  totalSizeFreed: number;
 }
 
 // ═══════════════════════════════════════════════════
@@ -63,7 +64,7 @@ class Logger {
     this.quiet = quiet;
   }
 
-  log(message: string, type: "info" | "success" | "warn" | "error" = "info") {
+  log(message: string, type: "error" | "info" | "success" | "warn" = "info") {
     if (this.quiet) return;
 
     const icons = {

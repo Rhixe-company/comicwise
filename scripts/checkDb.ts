@@ -3,8 +3,9 @@
  * Check Database Connection
  */
 
-import { db } from "@/database/db";
 import { sql } from "drizzle-orm";
+
+import { db } from "@/database/db";
 
 async function checkDatabase() {
   console.log("🗄️  Checking database connection...\n");
@@ -30,4 +31,5 @@ async function checkDatabase() {
   }
 }
 
+ 
 checkDatabase();

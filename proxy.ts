@@ -9,9 +9,11 @@
 // - Security headers
 // ═══════════════════════════════════════════════════
 
-import { auth } from "auth";
-import type { NextAuthRequest } from "next-auth";
 import { NextResponse } from "next/server";
+
+import { auth } from "auth";
+
+import type { NextAuthRequest } from "next-auth";
 
 // ═══════════════════════════════════════════════════
 // ROUTE CONFIGURATION

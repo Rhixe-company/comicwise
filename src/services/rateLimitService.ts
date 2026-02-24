@@ -4,8 +4,9 @@
  * Using sliding window algorithm with Redis
  */
 
-import { env } from "@/appConfig";
 import { Redis } from "upstash/redis";
+
+import { env } from "@/appConfig";
 
 const redis = new Redis({
   url: env.UPSTASH_REDIS_REST_URL || "",
@@ -18,10 +19,10 @@ export interface RateLimitConfig {
 }
 
 export interface RateLimitResult {
-  success: boolean;
   limit: number;
   remaining: number;
   reset: number; // Timestamp when limit resets
+  success: boolean;
 }
 
 export class RateLimiter {

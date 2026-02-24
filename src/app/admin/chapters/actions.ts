@@ -5,12 +5,15 @@
 
 "use server";
 
-import { db as database } from "@/database/db";
-import { chapter, comic } from "@/database/schema";
-import type { ActionResult } from "@/dto";
-import { requireRole } from "auth";
 import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
+
+import { db as database } from "@/database/db";
+import { chapter, comic } from "@/database/schema";
+
+import { requireRole } from "auth";
+
+import type { ActionResult } from "@/dto";
 
 const createChapterSchema = z
   .object({
@@ -111,9 +114,8 @@ export async function updateChapter(
     const updateData: Record<string, unknown> = data;
 
     // Remove undefined values
-    Object.keys(updateData).forEach(
-      (key) => updateData[key] === undefined && delete updateData[key]
-    );
+    for (const key of Object.keys(updateData)) updateData[key] === undefined && delete updateData[key]
+    ;
 
     await database.update(chapter).set(updateData).where(eq(chapter.id, id));
     console.log(`✅ Chapter updated: ${existing.title} (ID: ${id})`);

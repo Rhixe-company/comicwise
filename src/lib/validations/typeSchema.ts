@@ -12,7 +12,7 @@ export const insertTypeSchema = createTypeSchema;
 export { updateTypeSchema };
 
 export interface InsertType {
-  name: string;
   description?: string;
+  name: string;
 }
 export type UpdateType = Partial<InsertType>;

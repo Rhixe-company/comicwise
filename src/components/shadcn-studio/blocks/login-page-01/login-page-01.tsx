@@ -1,10 +1,10 @@
+import AuthBackgroundShape from "@/assets/svg/auth-background-shape";
+import Logo from "@/assets/svg/logo";
+import LoginForm from "@/components/shadcn-studio/blocks/login-page-01/login-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-import AuthBackgroundShape from "@/assets/svg/auth-background-shape";
-import Logo from "@/assets/svg/logo";
-import LoginForm from "@/components/shadcn-studio/blocks/login-page-01/login-form";
 
 const Login = () => {
   return (
@@ -38,14 +38,14 @@ const Login = () => {
         </CardHeader>
 
         <CardContent>
-          <p className="mb-6 text-muted-foreground">
+          <p className="text-muted-foreground mb-6">
             Login with{" "}
             <a
-              href=""
               className={`
                 text-card-foreground
                 hover:underline
               `}
+              href=""
             >
               Magic Link
             </a>
@@ -58,10 +58,10 @@ const Login = () => {
               sm:gap-6
             `}
           >
-            <Button variant="outline" className="grow">
+            <Button className="grow" variant="outline">
               Login as User
             </Button>
-            <Button variant="outline" className="grow">
+            <Button className="grow" variant="outline">
               Login as Admin
             </Button>
           </div>
@@ -70,14 +70,14 @@ const Login = () => {
           <div className="space-y-4">
             <LoginForm />
 
-            <p className="text-center text-muted-foreground">
+            <p className="text-muted-foreground text-center">
               New on our platform?{" "}
               <a
-                href=""
                 className={`
                   text-card-foreground
                   hover:underline
                 `}
+                href=""
               >
                 Create an account
               </a>
@@ -89,7 +89,7 @@ const Login = () => {
               <Separator className="flex-1" />
             </div>
 
-            <Button variant="ghost" className="w-full" asChild>
+            <Button asChild className="w-full" variant="ghost">
               <a href="">Sign in with google</a>
             </Button>
           </div>

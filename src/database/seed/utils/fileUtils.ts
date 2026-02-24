@@ -2,8 +2,8 @@
  * File Utilities for Seed Operations
  */
 
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 export class FileUtils {
   /**
@@ -37,11 +37,9 @@ export class FileUtils {
       const regex = new RegExp("^" + basePattern.replaceAll("*", ".*").replaceAll("?", ".") + "$");
 
       const files = await fs.readdir(dir);
-      const matches = files
+      return files
         .filter((file) => regex.test(file))
         .map((file) => path.resolve(dir, file));
-
-      return matches;
     } catch (error) {
       console.warn(`Pattern ${pattern} matched no files:`, error);
       return [];

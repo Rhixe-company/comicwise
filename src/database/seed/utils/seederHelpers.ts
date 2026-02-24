@@ -10,6 +10,7 @@
  */
 
 import { logger } from "@/database/seed/logger";
+
 import type { z } from "zod";
 
 /**
@@ -23,7 +24,7 @@ export async function validateData<T>(
   data: unknown,
   schema: z.ZodType<T>,
   context: string
-): Promise<{ valid: true; data: T } | { valid: false; error: string }> {
+): Promise<{ data: T; valid: true; } | { error: string; valid: false; }> {
   try {
     const result = schema.safeParse(data);
     if (!result.success) {
@@ -74,8 +75,8 @@ export async function processBatch<T, R>(
  */
 export interface UpsertResult {
   created: boolean;
-  id: string | number;
-  operation: "insert" | "update" | "skip";
+  id: number | string;
+  operation: "insert" | "skip" | "update";
 }
 
 /**
@@ -164,7 +165,7 @@ export function extractUniqueEntities<T extends Record<K, any>, K extends string
  */
 export function logProgress(
   context: string,
-  stats: { processed: number; created: number; updated: number; skipped: number; errors: number },
+  stats: { created: number; errors: number; processed: number; skipped: number; updated: number; },
   total: number
 ): void {
   const percentage = ((stats.processed / total) * 100).toFixed(1);

@@ -1,5 +1,9 @@
 "use client";
 
+import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,13 +14,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, Pencil, Trash } from "lucide-react";
-import Link from "next/link";
-import { toast } from "sonner";
+import { deleteUser } from "@/dto/usersDto";
 
 import type { user } from "@/database/schema";
-import { deleteUser } from "@/dto/usersDto";
+import type { ColumnDef } from "@tanstack/react-table";
+
+
 
 export type User = typeof user.$inferSelect;
 
@@ -79,7 +82,7 @@ export const columns: ColumnDef<User>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="size-8 p-0">
+            <Button className="size-8 p-0" variant="ghost">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal className="size-4" />
             </Button>
@@ -97,10 +100,10 @@ export const columns: ColumnDef<User>[] = [
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={handleDelete}
               className={`
               text-destructive
             `}
+              onClick={handleDelete}
             >
               <Trash className="mr-2 size-4" />
               Delete

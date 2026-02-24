@@ -8,10 +8,10 @@
  * Standard action response structure
  */
 export interface ActionResponse<T = unknown> {
-  success: boolean;
   data?: T;
   error?: string;
   message?: string;
+  success: boolean;
 }
 
 /**
@@ -20,10 +20,10 @@ export interface ActionResponse<T = unknown> {
 export interface AuthActionResponse<T = unknown> extends ActionResponse<T> {
   redirectTo?: string;
   user?: {
-    id: string;
-    name?: string | null;
     email: string;
-    role: "user" | "admin" | "moderator";
+    id: string;
+    name?: null | string;
+    role: "admin" | "moderator" | "user";
   };
 }
 
@@ -32,8 +32,8 @@ export interface AuthActionResponse<T = unknown> extends ActionResponse<T> {
  */
 export interface PaginatedActionResponse<T> extends ActionResponse<T[]> {
   pagination: {
-    page: number;
     limit: number;
+    page: number;
     total: number;
     totalPages: number;
   };

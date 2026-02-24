@@ -1,7 +1,8 @@
-import type { Comic } from "@/types/database";
+import { cache, CACHE_KEYS, CACHE_TTL } from "@/lib/cache";
 
 import type { CacheOptions } from "@/lib/cache";
-import { cache, CACHE_KEYS, CACHE_TTL } from "@/lib/cache";
+import type { Comic } from "@/types/database";
+
 
 /**
  * Comic Caching Service
@@ -388,8 +389,8 @@ export class ComicCacheService {
    * Get cache statistics for comics
    */
   async getComicCacheStats(): Promise<{
-    comicsCached: number;
     chaptersCached: number;
+    comicsCached: number;
     searchesCached: number;
   }> {
     const [comics, chapters, searches] = await Promise.all([

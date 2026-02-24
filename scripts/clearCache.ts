@@ -5,6 +5,7 @@
  */
 
 import IORedis from "ioredis";
+
 import { env } from "../appConfig";
 
 const redis = new IORedis({

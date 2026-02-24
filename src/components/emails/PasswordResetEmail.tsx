@@ -1,4 +1,3 @@
-import appConfig from "@/appConfig";
 import {
   Body,
   Button,
@@ -12,9 +11,11 @@ import {
   Text,
 } from "@react-email/components";
 
+import appConfig from "@/appConfig";
+
 interface PasswordResetEmailProps {
-  name: string;
   email: string;
+  name: string;
   token: string;
 }
 
@@ -40,7 +41,7 @@ export default function PasswordResetEmail({ name, email, token }: PasswordReset
             </Text>
 
             <Section style={buttonContainer}>
-              <Button style={button} href={resetUrl}>
+              <Button href={resetUrl} style={button}>
                 Reset Password
               </Button>
             </Section>

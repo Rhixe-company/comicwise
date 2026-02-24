@@ -3,19 +3,21 @@
  * Unified implementation combining GenericCrud.ts and genericCrud.ts
  */
 
-import { auth } from "auth";
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+
+import { auth } from "auth";
+
+import type { NextRequest } from "next/server";
 import type { z, ZodSchema } from "zod";
 
 export interface ValidationResult {
-  success: boolean;
   errors?: Record<string, string[]>;
+  success: boolean;
 }
 
 type TypedValidationResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: { errors: unknown[] } };
+  | { data: T; success: true; }
+  | { error: { errors: unknown[] }; success: false; };
 
 /**
  * Convert Zod schema to validation result format
@@ -71,9 +73,9 @@ export function zodToTypedValidationResult<T>(
 // ═══════════════════════════════════════════════════
 
 interface GetEntityOptions {
-  getFn(id: string): Promise<unknown | null>;
-  validateFn(data: unknown): ValidationResult;
   entityName: string;
+  getFn(id: string): Promise<null | unknown>;
+  validateFn(data: unknown): ValidationResult;
 }
 
 export async function getGenericEntity(
@@ -112,8 +114,8 @@ export async function createGenericEntity<TInput, TOutput>(
     entityName,
   }: {
     createFn(data: TInput): Promise<TOutput>;
-    validateFn(data: unknown): TypedValidationResult<TInput>;
     entityName: string;
+    validateFn(data: unknown): TypedValidationResult<TInput>;
   }
 ): Promise<NextResponse> {
   try {
@@ -142,10 +144,10 @@ export async function createGenericEntity<TInput, TOutput>(
 // ═══════════════════════════════════════════════════
 
 interface UpdateEntityOptions<T> {
-  updateFn(id: string, data: T): Promise<unknown>;
-  idValidateFn(data: unknown): ValidationResult;
   dataValidateFn(data: unknown): ValidationResult;
   entityName: string;
+  idValidateFn(data: unknown): ValidationResult;
+  updateFn(id: string, data: T): Promise<unknown>;
 }
 
 export async function updateGenericEntity<T>(
@@ -189,8 +191,8 @@ export async function updateGenericEntity<T>(
 
 interface DeleteEntityOptions {
   deleteFn(id: string): Promise<boolean>;
-  validateFn(data: unknown): ValidationResult;
   entityName: string;
+  validateFn(data: unknown): ValidationResult;
 }
 
 export async function deleteGenericEntity(

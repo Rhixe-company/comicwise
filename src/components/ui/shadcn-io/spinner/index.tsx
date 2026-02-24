@@ -1,6 +1,8 @@
-import type { LucideProps } from "lucide-react";
 import { LoaderCircleIcon, LoaderIcon, LoaderPinwheelIcon } from "lucide-react";
+
 import { cn } from "utils";
+
+import type { LucideProps } from "lucide-react";
 
 type SpinnerVariantProps = Omit<SpinnerProps, "variant">;
 
@@ -231,14 +233,14 @@ const Infinite = ({ size = 24, ...props }: SpinnerVariantProps) => (
 
 export type SpinnerProps = LucideProps & {
   variant?:
-    | "default"
-    | "circle"
-    | "pinwheel"
-    | "circle-filled"
-    | "ellipsis"
-    | "ring"
     | "bars"
-    | "infinite";
+    | "circle-filled"
+    | "circle"
+    | "default"
+    | "ellipsis"
+    | "infinite"
+    | "pinwheel"
+    | "ring";
 };
 
 export const Spinner = ({ variant, ...props }: SpinnerProps) => {

@@ -11,6 +11,7 @@ import {
   zodToValidationResult,
 } from "@/lib/api/generic-crud";
 import { authorIdSchema, updateAuthorSchema } from "@/lib/validations";
+
 import type { NextRequest } from "next/server";
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -30,7 +31,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     updateFn: async (idValue, data) =>
       updateAuthor(
         Number(idValue),
-        data as { name?: string; bio?: string | null; image?: string | null }
+        data as { bio?: null | string; image?: null | string; name?: string; }
       ),
     idValidateFn: zodToValidationResult(authorIdSchema),
     dataValidateFn: zodToValidationResult(updateAuthorSchema),

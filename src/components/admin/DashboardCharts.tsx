@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Bar,
   BarChart,
@@ -17,6 +16,8 @@ import {
   YAxis,
 } from "recharts";
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 interface UserGrowthChartProps {
   data: { month: string; users: number }[];
 }
@@ -28,14 +29,14 @@ export function UserGrowthChart({ data }: UserGrowthChartProps) {
         <CardTitle>User Growth</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer height={300} width="100%">
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="users" stroke="hsl(var(--primary))" strokeWidth={2} />
+            <Line dataKey="users" stroke="hsl(var(--primary))" strokeWidth={2} type="monotone" />
           </LineChart>
         </ResponsiveContainer>
       </CardContent>
@@ -54,7 +55,7 @@ export function TopComicsChart({ data }: TopComicsChartProps) {
         <CardTitle>Most Viewed Comics</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer height={300} width="100%">
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="title" />
@@ -88,22 +89,22 @@ export function GenreDistributionChart({ data }: GenreDistributionChartProps) {
         <CardTitle>Comics by Genre</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer height={300} width="100%">
           <PieChart>
             <Pie
-              data={data}
               cx="50%"
               cy="50%"
-              labelLine={false}
+              data={data}
+              dataKey="value"
+              fill="8884d8"
               label={(entry: { name: string; percent: number }) =>
                 `${entry.name} ${(entry.percent * 100).toFixed(0)}%`
               }
+              labelLine={false}
               outerRadius={80}
-              fill="8884d8"
-              dataKey="value"
             >
               {data.map((_entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell fill={COLORS[index % COLORS.length]} key={`cell-${index}`} />
               ))}
             </Pie>
             <Tooltip />
@@ -115,7 +116,7 @@ export function GenreDistributionChart({ data }: GenreDistributionChartProps) {
 }
 
 interface ChapterPublishingChartProps {
-  data: { date: string; chapters: number }[];
+  data: { chapters: number; date: string; }[];
 }
 
 export function ChapterPublishingChart({ data }: ChapterPublishingChartProps) {
@@ -125,7 +126,7 @@ export function ChapterPublishingChart({ data }: ChapterPublishingChartProps) {
         <CardTitle>Chapter Publishing Activity</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer height={300} width="100%">
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />

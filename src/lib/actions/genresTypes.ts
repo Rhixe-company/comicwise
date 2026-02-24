@@ -1,8 +1,19 @@
 "use server";
 
+import { asc, eq, like, sql } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { type as comicType, genre } from "@/database/schema";
+import {
+  createGenreSchema,
+  createTypeSchema,
+  paginationSchema,
+  updateGenreSchema,
+  updateTypeSchema,
+} from "@/lib/validations";
+
 import type { ActionResult } from "@/dto";
 import type {
   CreateGenreInput,
@@ -11,15 +22,6 @@ import type {
   UpdateGenreInput,
   UpdateTypeInput,
 } from "@/lib/validations";
-import {
-  createGenreSchema,
-  createTypeSchema,
-  paginationSchema,
-  updateGenreSchema,
-  updateTypeSchema,
-} from "@/lib/validations";
-import { asc, eq, like, sql } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 
 export async function createGenre(
   input: CreateGenreInput

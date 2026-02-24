@@ -2,8 +2,9 @@
 // CONFIGURATION MANAGEMENT - Using dotenv & convict
 // ═══════════════════════════════════════════════════
 
+import { resolve } from "node:path";
+
 import { config as dotenvConfig } from "dotenv";
-import { resolve } from "path";
 
 // Load environment variables
 dotenvConfig({ path: resolve(process.cwd(), ".env.local") });
@@ -87,10 +88,10 @@ export const config = {
   // Upload providers
   upload: {
     provider: (process.env["UPLOAD_PROVIDER"] || "local") as
-      | "local"
-      | "imagekit"
+      | "aws"
       | "cloudinary"
-      | "aws",
+      | "imagekit"
+      | "local",
     maxFileSize: 10 * 1024 * 1024, // 10MB
     allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"],
 

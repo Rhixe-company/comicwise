@@ -6,28 +6,28 @@
 import { getUploadProvider } from "@/services/upload/factory";
 
 export interface UploadOptions {
-  folder?: string;
   filename?: string;
-  transformation?: Record<string, unknown>;
+  folder?: string;
   tags?: string[];
+  transformation?: Record<string, unknown>;
 }
 
 export interface UploadResult {
-  url: string;
-  publicId: string;
-  width?: number;
-  height?: number;
-  format?: string;
-  size: number;
-  thumbnail?: string;
-  success?: boolean;
   error?: string;
+  format?: string;
+  height?: number;
+  publicId: string;
+  size: number;
+  success?: boolean;
+  thumbnail?: string;
+  url: string;
+  width?: number;
 }
 
 export interface UploadProvider {
-  upload(file: File | Buffer, options?: UploadOptions): Promise<UploadResult>;
   delete(publicId: string): Promise<boolean>;
   getUrl(publicId: string, transformation?: Record<string, unknown>): string;
+  upload(file: Buffer | File, options?: UploadOptions): Promise<UploadResult>;
 }
 
 // ═══════════════════════════════════════════════════
@@ -53,7 +53,7 @@ export {
  * @param options
  */
 export async function uploadImage(
-  file: File | Buffer,
+  file: Buffer | File,
   options?: UploadOptions
 ): Promise<UploadResult> {
   const provider = await getUploadProvider();

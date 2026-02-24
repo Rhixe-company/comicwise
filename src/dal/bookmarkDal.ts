@@ -3,12 +3,15 @@
  * Handles all database operations for bookmarks
  */
 
-import type { ListOptions } from "@/dal/baseDal";
+import { and, desc, eq } from "drizzle-orm";
+
 import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import { bookmark } from "@/database/schema";
+
+import type { ListOptions } from "@/dal/baseDal";
 import type { Bookmark } from "@/types/database";
-import { and, desc, eq } from "drizzle-orm";
+
 
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 export class BookmarkDal extends BaseDal<Bookmark, typeof bookmark.$inferInsert> {
@@ -31,7 +34,7 @@ export class BookmarkDal extends BaseDal<Bookmark, typeof bookmark.$inferInsert>
   }
 
   override async update(
-    id: string | number,
+    id: number | string,
     data: Partial<typeof bookmark.$inferInsert>
   ): Promise<Bookmark | undefined> {
     // For bookmarks with composite key, use updateByUserAndComic instead
@@ -39,13 +42,13 @@ export class BookmarkDal extends BaseDal<Bookmark, typeof bookmark.$inferInsert>
     return undefined;
   }
 
-  override async delete(id: string | number): Promise<Bookmark | undefined> {
+  override async delete(id: number | string): Promise<Bookmark | undefined> {
     // For bookmarks with composite key, use deleteByUserAndComic instead
     // This method is kept for BaseDal compatibility
     return undefined;
   }
 
-  override async findById(id: string | number): Promise<Bookmark | undefined> {
+  override async findById(id: number | string): Promise<Bookmark | undefined> {
     // For bookmarks with composite key, use findByUserAndComic instead
     // This method is kept for BaseDal compatibility
     return undefined;

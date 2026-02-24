@@ -5,26 +5,20 @@
 // Enhanced with rate limiting, workflows, and comprehensive error handling
 // ═══════════════════════════════════════════════════
 
+import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+
 import appConfig, { checkRateLimit } from "@/appConfig";
 import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
-import type { AuthActionResponse } from "@/dto";
 import {
   sendAccountUpdatedEmail,
   sendPasswordResetEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
 } from "@/lib/email";
-import type {
-  ForgotPasswordInput,
-  ResendVerificationEmailInput,
-  ResetPasswordInput,
-  SignInInput,
-  SignUpInput,
-  UpdatePasswordInput,
-  UpdateProfileInput,
-  VerifyEmailInput,
-} from "@/lib/validations";
 import {
   forgotPasswordSchema,
   resendVerificationEmailSchema,
@@ -35,11 +29,20 @@ import {
   updateProfileSchema,
   verifyEmailSchema,
 } from "@/lib/validations";
+
 import { signIn, signOut } from "auth";
-import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
+
+import type { AuthActionResponse } from "@/dto";
+import type {
+  ForgotPasswordInput,
+  ResendVerificationEmailInput,
+  ResetPasswordInput,
+  SignInInput,
+  SignUpInput,
+  UpdatePasswordInput,
+  UpdateProfileInput,
+  VerifyEmailInput,
+} from "@/lib/validations";
 
 // ═══════════════════════════════════════════════════
 // HELPER FUNCTIONS

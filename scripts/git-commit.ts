@@ -4,17 +4,18 @@
  * Automates git add, commit, and push operations
  */
 
+import { execSync } from "node:child_process";
+
 import chalk from "chalk";
 import inquirer from "inquirer";
-import { execSync } from "node:child_process";
 import ora from "ora";
 
 interface CommitOptions {
-  message?: string;
-  type?: string;
-  scope?: string;
-  push?: boolean;
   branch?: string;
+  message?: string;
+  push?: boolean;
+  scope?: string;
+  type?: string;
 }
 
 const COMMIT_TYPES = [
@@ -32,11 +33,10 @@ const COMMIT_TYPES = [
 
 function exec(command: string, silent = false): string {
   try {
-    const output = execSync(command, {
+    return execSync(command, {
       encoding: "utf8",
       stdio: silent ? "pipe" : "inherit",
     });
-    return output;
   } catch (error) {
     if (!silent) {
       console.error(chalk.red(`Command failed: ${command}`));

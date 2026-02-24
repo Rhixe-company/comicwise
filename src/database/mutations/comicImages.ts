@@ -1,8 +1,9 @@
-import type { InferSelectModel } from "drizzle-orm";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/database/db";
 import { comicImage } from "@/database/schema";
+
+import type { InferSelectModel } from "drizzle-orm";
 
 /**
  *
@@ -17,8 +18,8 @@ import { comicImage } from "@/database/schema";
  */
 export async function createComicImage(data: {
   comicId: number;
-  imageUrl: string;
   imageOrder: number;
+  imageUrl: string;
 }): Promise<InferSelectModel<typeof comicImage>> {
   const [newImage] = await db
     .insert(comicImage)
@@ -40,11 +41,11 @@ export async function createComicImage(data: {
 export async function createComicImages(
   images: Array<{
     comicId: number;
-    imageUrl: string;
     imageOrder: number;
+    imageUrl: string;
   }>
 ): Promise<InferSelectModel<typeof comicImage>[]> {
-  const newImages = await db
+  return await db
     .insert(comicImage)
     .values(
       images.map((img) => ({
@@ -53,7 +54,6 @@ export async function createComicImages(
       }))
     )
     .returning();
-  return newImages;
 }
 
 /**
@@ -70,8 +70,8 @@ export async function createComicImages(
 export async function updateComicImage(
   imageId: number,
   data: {
-    imageUrl?: string;
     imageOrder?: number;
+    imageUrl?: string;
   }
 ): Promise<InferSelectModel<typeof comicImage> | undefined> {
   const [updatedImage] = await db
@@ -102,9 +102,8 @@ export async function deleteComicImage(
 export async function deleteComicImages(
   comicId: number
 ): Promise<InferSelectModel<typeof comicImage>[]> {
-  const deletedImages = await db
+  return await db
     .delete(comicImage)
     .where(eq(comicImage.comicId, comicId))
     .returning();
-  return deletedImages;
 }

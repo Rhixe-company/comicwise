@@ -1,8 +1,10 @@
 import { and, eq } from "drizzle-orm";
-import type { AdapterAccountType } from "next-auth/adapters";
+
 
 import { db as database } from "@/database/db";
 import { account } from "@/database/schema";
+
+import type { AdapterAccountType } from "next-auth/adapters";
 
 // ═══════════════════════════════════════════════════
 // ACCOUNT MUTATIONS
@@ -36,17 +38,17 @@ import { account } from "@/database/schema";
  * @param data.sessionState
  */
 export async function createAccount(data: {
-  userId: string;
-  type: AdapterAccountType;
+  accessToken?: null | string;
+  expiresAt?: null | number;
+  idToken?: null | string;
   provider: string;
   providerAccountId: string;
-  refreshToken?: string | null;
-  accessToken?: string | null;
-  expiresAt?: number | null;
-  tokenType?: string | null;
-  scope?: string | null;
-  idToken?: string | null;
-  sessionState?: string | null;
+  refreshToken?: null | string;
+  scope?: null | string;
+  sessionState?: null | string;
+  tokenType?: null | string;
+  type: AdapterAccountType;
+  userId: string;
 }): Promise<typeof account.$inferSelect | undefined> {
   const [newAccount] = await database.insert(account).values(data).returning();
   return newAccount;
@@ -79,13 +81,13 @@ export async function updateAccount(
   provider: string,
   providerAccountId: string,
   data: {
-    refreshToken?: string | null;
-    accessToken?: string | null;
-    expiresAt?: number | null;
-    tokenType?: string | null;
-    scope?: string | null;
-    idToken?: string | null;
-    sessionState?: string | null;
+    accessToken?: null | string;
+    expiresAt?: null | number;
+    idToken?: null | string;
+    refreshToken?: null | string;
+    scope?: null | string;
+    sessionState?: null | string;
+    tokenType?: null | string;
   }
 ): Promise<typeof account.$inferSelect | undefined> {
   const [updatedAccount] = await database

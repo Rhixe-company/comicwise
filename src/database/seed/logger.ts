@@ -6,7 +6,7 @@
 
 import { seedLogger } from "@/lib/logger";
 
-export type LogLevel = "info" | "success" | "warn" | "error" | "debug";
+export type LogLevel = "debug" | "error" | "info" | "success" | "warn";
 
 /**
  * Seed logger with formatted output
@@ -61,7 +61,7 @@ export class SeedLogger {
     }
   }
 
-  stat(label: string, value: string | number) {
+  stat(label: string, value: number | string) {
     console.log(`   ${label}: ${value}`);
   }
 }

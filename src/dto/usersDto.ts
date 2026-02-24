@@ -10,17 +10,17 @@ export type CreateUserDto = typeof user.$inferInsert;
 export type UpdateUserDto = Partial<CreateUserDto>;
 
 export interface UserListDto {
-  users: UserDto[];
-  total: number;
-  page: number;
   limit: number;
+  page: number;
+  total: number;
+  users: UserDto[];
 }
 
 export type UserWithBookmarksDto = UserDto & {
   bookmarks?: Array<{
     comicId: number;
-    lastReadChapterId?: number | null;
     createdAt: Date;
+    lastReadChapterId?: null | number;
   }>;
 };
 

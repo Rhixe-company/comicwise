@@ -1,8 +1,8 @@
 "use client";
 
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
 
-import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -20,7 +20,7 @@ const RegisterForm = () => {
         <Label className="leading-5" htmlFor="username">
           Username*
         </Label>
-        <Input type="text" id="username" placeholder="Enter your username" />
+        <Input id="username" placeholder="Enter your username" type="text" />
       </div>
 
       {/* Email */}
@@ -28,7 +28,7 @@ const RegisterForm = () => {
         <Label className="leading-5" htmlFor="userEmail">
           Email address*
         </Label>
-        <Input type="email" id="userEmail" placeholder="Enter your email address" />
+        <Input id="userEmail" placeholder="Enter your email address" type="email" />
       </div>
 
       {/* Password */}
@@ -38,20 +38,20 @@ const RegisterForm = () => {
         </Label>
         <div className="relative">
           <Input
-            id="password"
-            type={isPasswordVisible ? "text" : "password"}
-            placeholder="••••••••••••••••"
             className="pr-9"
+            id="password"
+            placeholder="••••••••••••••••"
+            type={isPasswordVisible ? "text" : "password"}
           />
           <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsPasswordVisible((prevState) => !prevState)}
             className={`
-              absolute inset-y-0 right-0 rounded-l-none text-muted-foreground
+              text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0
+              rounded-l-none
               hover:bg-transparent
-              focus-visible:ring-ring/50
             `}
+            onClick={() => setIsPasswordVisible((prevState) => !prevState)}
+            size="icon"
+            variant="ghost"
           >
             {isPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
             <span className="sr-only">{isPasswordVisible ? "Hide password" : "Show password"}</span>
@@ -66,20 +66,20 @@ const RegisterForm = () => {
         </Label>
         <div className="relative">
           <Input
-            id="confirmPassword"
-            type={isConfirmPasswordVisible ? "text" : "password"}
-            placeholder="••••••••••••••••"
             className="pr-9"
+            id="confirmPassword"
+            placeholder="••••••••••••••••"
+            type={isConfirmPasswordVisible ? "text" : "password"}
           />
           <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsConfirmPasswordVisible((prevState) => !prevState)}
             className={`
-              absolute inset-y-0 right-0 rounded-l-none text-muted-foreground
+              text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0
+              rounded-l-none
               hover:bg-transparent
-              focus-visible:ring-ring/50
             `}
+            onClick={() => setIsConfirmPasswordVisible((prevState) => !prevState)}
+            size="icon"
+            variant="ghost"
           >
             {isConfirmPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
             <span className="sr-only">
@@ -91,7 +91,7 @@ const RegisterForm = () => {
 
       {/* Privacy policy */}
       <div className="flex items-center gap-3">
-        <Checkbox id="rememberMe" className="size-6" />
+        <Checkbox className="size-6" id="rememberMe" />
         <Label htmlFor="rememberMe">
           <span className="text-muted-foreground">I agree to</span>{" "}
           <a href="">privacy policy & terms</a>

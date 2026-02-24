@@ -1,13 +1,14 @@
 "use client";
 
 import Zoom from "react-medium-image-zoom";
+
 import { cn } from "utils";
 
 export type ImageZoomProps = any & {
+  backdropClassName?: string;
+  className?: string;
   isZoomed?: boolean;
   onZoomChange?(isZoomed: boolean): void;
-  className?: string;
-  backdropClassName?: string;
 };
 
 export const ImageZoom = ({ className, backdropClassName, ...properties }: ImageZoomProps) => (
@@ -16,22 +17,22 @@ export const ImageZoom = ({ className, backdropClassName, ...properties }: Image
       "relative",
       "**:data-rmiz-ghost:pointer-events-none **:data-rmiz-ghost:absolute",
       `
-        **:data-rmiz-btn-zoom:m-0 **:data-rmiz-btn-zoom:size-10
-        **:data-rmiz-btn-zoom:touch-manipulation
-        **:data-rmiz-btn-zoom:appearance-none
+        **:data-rmiz-btn-zoom:bg-foreground/70 **:data-rmiz-btn-zoom:text-background
+        **:data-rmiz-btn-zoom:m-0
+        **:data-rmiz-btn-zoom:size-10
+        **:data-rmiz-btn-zoom:touch-manipulation **:data-rmiz-btn-zoom:appearance-none
         **:data-rmiz-btn-zoom:rounded-[50%] **:data-rmiz-btn-zoom:border-none
-        **:data-rmiz-btn-zoom:bg-foreground/70 **:data-rmiz-btn-zoom:p-2
-        **:data-rmiz-btn-zoom:text-background
+        **:data-rmiz-btn-zoom:p-2
         **:data-rmiz-btn-zoom:outline-offset-2
       `,
       `
-        **:data-rmiz-btn-unzoom:m-0 **:data-rmiz-btn-unzoom:size-10
+        **:data-rmiz-btn-unzoom:bg-foreground/70 **:data-rmiz-btn-unzoom:text-background
+        **:data-rmiz-btn-unzoom:m-0
+        **:data-rmiz-btn-unzoom:size-10
         **:data-rmiz-btn-unzoom:touch-manipulation
         **:data-rmiz-btn-unzoom:appearance-none
-        **:data-rmiz-btn-unzoom:rounded-[50%]
-        **:data-rmiz-btn-unzoom:border-none
-        **:data-rmiz-btn-unzoom:bg-foreground/70 **:data-rmiz-btn-unzoom:p-2
-        **:data-rmiz-btn-unzoom:text-background
+        **:data-rmiz-btn-unzoom:rounded-[50%] **:data-rmiz-btn-unzoom:border-none
+        **:data-rmiz-btn-unzoom:p-2
         **:data-rmiz-btn-unzoom:outline-offset-2
       `,
       `

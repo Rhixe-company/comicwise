@@ -1,10 +1,11 @@
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { deleteChapter, updateChapter } from "@/dto/chaptersDto";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export default async function EditChapterForm({ params }: { params: { id: string } }) {
   const id = Number(params.id);
@@ -65,14 +66,14 @@ export default async function EditChapterForm({ params }: { params: { id: string
         <CardContent>
           <form action={handleUpdate} className="space-y-6" method="post">
             <div>
-              <label htmlFor="comicId" className="sr-only">
+              <label className="sr-only" htmlFor="comicId">
                 Comic
               </label>
               <select
+                className="w-full rounded-sm border px-3 py-2"
+                defaultValue={String(chapter.comicId)}
                 id="comicId"
                 name="comicId"
-                defaultValue={String(chapter.comicId)}
-                className="w-full rounded-sm border px-3 py-2"
               >
                 <option value="">Select a comic</option>
                 {comics.map((c: { id: number; title: string }) => (
@@ -90,56 +91,56 @@ export default async function EditChapterForm({ params }: { params: { id: string
               `}
             >
               <div>
-                <label htmlFor="chapterNumber" className="sr-only">
+                <label className="sr-only" htmlFor="chapterNumber">
                   Chapter Number
                 </label>
                 <Input
-                  id="chapterNumber"
-                  name="chapterNumber"
-                  type="number"
                   defaultValue={String(chapter.chapterNumber)}
+                  id="chapterNumber"
                   min="0"
+                  name="chapterNumber"
                   step="0.1"
+                  type="number"
                 />
               </div>
 
               <div>
-                <label htmlFor="releaseDate" className="sr-only">
+                <label className="sr-only" htmlFor="releaseDate">
                   Release Date
                 </label>
                 <Input
-                  id="releaseDate"
-                  name="releaseDate"
-                  type="date"
                   defaultValue={
                     chapter.releaseDate
                       ? new Date(chapter.releaseDate).toISOString().split("T")[0]
                       : ""
                   }
+                  id="releaseDate"
+                  name="releaseDate"
+                  type="date"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="title" className="sr-only">
+              <label className="sr-only" htmlFor="title">
                 Title
               </label>
               <Input
+                defaultValue={chapter.title ?? ""}
                 id="title"
                 name="title"
-                defaultValue={chapter.title ?? ""}
                 placeholder="Chapter title"
               />
             </div>
 
             <div>
-              <label htmlFor="content" className="sr-only">
+              <label className="sr-only" htmlFor="content">
                 Content
               </label>
               <Textarea
+                defaultValue={chapter.content ?? ""}
                 id="content"
                 name="content"
-                defaultValue={chapter.content ?? ""}
                 placeholder="Chapter summary or description..."
                 rows={4}
               />
@@ -152,7 +153,7 @@ export default async function EditChapterForm({ params }: { params: { id: string
                 </Button>
               </form>
               <div className="flex gap-4">
-                <Button type="button" variant="outline" onClick={() => window.history.back()}>
+                <Button onClick={() => window.history.back()} type="button" variant="outline">
                   Cancel
                 </Button>
                 <Button type="submit">Save Changes</Button>

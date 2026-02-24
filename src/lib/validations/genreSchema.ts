@@ -12,7 +12,7 @@ export const insertGenreSchema = createGenreSchema;
 export { updateGenreSchema };
 
 export interface InsertGenre {
-  name: string;
   description?: string;
+  name: string;
 }
 export type UpdateGenre = Partial<InsertGenre>;

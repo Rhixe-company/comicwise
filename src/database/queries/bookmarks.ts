@@ -9,7 +9,7 @@ import { bookmark, chapter, comic, user } from "@/database/schema";
  * @param userId
  */
 export async function getUserBookmarks(userId: string) {
-  const bookmarks = await database
+  return await database
     .select({
       bookmark: bookmark,
       comic: comic,
@@ -20,8 +20,6 @@ export async function getUserBookmarks(userId: string) {
     .leftJoin(chapter, eq(bookmark.lastReadChapterId, chapter.id))
     .where(eq(bookmark.userId, userId))
     .orderBy(desc(bookmark.updatedAt));
-
-  return bookmarks;
 }
 
 /**
@@ -82,7 +80,7 @@ export async function getBookmarkCount(userId: string): Promise<number> {
  * @param comicId
  */
 export async function getUsersBookmarkedComic(comicId: number) {
-  const bookmarks = await database
+  return await database
     .select({
       userId: bookmark.userId,
       email: user.email,
@@ -91,6 +89,4 @@ export async function getUsersBookmarkedComic(comicId: number) {
     .from(bookmark)
     .innerJoin(user, eq(bookmark.userId, user.id))
     .where(eq(bookmark.comicId, comicId));
-
-  return bookmarks;
 }

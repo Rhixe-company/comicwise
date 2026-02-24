@@ -2,8 +2,9 @@
 // IMAGEKIT SERVICE - Image Upload & Management
 // ═══════════════════════════════════════════════════
 
-import appConfig from "@/appConfig";
 import ImageKit from "imagekit";
+
+import appConfig from "@/appConfig";
 
 // ═══════════════════════════════════════════════════
 // IMAGEKIT CLIENT
@@ -35,28 +36,28 @@ export interface UploadOptions {
   file: Buffer | string;
   fileName: string;
   folder?: string;
-  tags?: string[];
-  useUniqueFileName?: boolean;
   isPrivateFile?: boolean;
+  tags?: string[];
   transformation?: Record<string, unknown>;
+  useUniqueFileName?: boolean;
 }
 
 export interface UploadResult {
-  success: boolean;
-  url?: string;
+  error?: string;
   fileId?: string;
   name?: string;
   size?: number;
+  success: boolean;
   thumbnailUrl?: string;
-  error?: string;
+  url?: string;
 }
 
 export interface DeleteResult {
-  success: boolean;
   error?: string;
+  success: boolean;
 }
 
-export type UploadType = "comic-cover" | "chapter-image" | "avatar" | "general";
+export type UploadType = "avatar" | "chapter-image" | "comic-cover" | "general";
 
 // ═══════════════════════════════════════════════════
 // UPLOAD FUNCTIONS
@@ -244,9 +245,9 @@ export async function deleteMultipleImages(fileIds: string[]): Promise<DeleteRes
  * Generate authentication parameters for client-side uploads
  */
 export function getAuthenticationParameters(): {
-  token: string;
   expire: number;
   signature: string;
+  token: string;
 } {
   const ik = getImageKitInstance();
   return ik.getAuthenticationParameters();
@@ -265,16 +266,16 @@ export function getAuthenticationParameters(): {
 export function getOptimizedUrl(
   filePath: string,
   options?: {
-    width?: number;
+    blur?: number;
+    format?: "avif" | "jpg" | "png" | "webp";
     height?: number;
     quality?: number;
-    format?: "jpg" | "png" | "webp" | "avif";
-    blur?: number;
+    width?: number;
   }
 ): string {
   const ik = getImageKitInstance();
 
-  const transformation: Array<{ [key: string]: string | number }> = [];
+  const transformation: Array<{ [key: string]: number | string }> = [];
 
   if (options?.width) {
     transformation.push({ width: options.width });
@@ -305,7 +306,7 @@ export function getOptimizedUrl(
  */
 export function getThumbnailUrl(
   filePath: string,
-  size: "small" | "medium" | "large" = "medium"
+  size: "large" | "medium" | "small" = "medium"
 ): string {
   const sizes = {
     small: { width: 150, height: 150 },
@@ -325,11 +326,11 @@ export function getThumbnailUrl(
  * @param filePath
  */
 export function getResponsiveUrls(filePath: string): {
-  thumbnail: string;
-  small: string;
-  medium: string;
   large: string;
+  medium: string;
   original: string;
+  small: string;
+  thumbnail: string;
 } {
   return {
     thumbnail: getOptimizedUrl(filePath, { width: 150, height: 150, quality: 70, format: "webp" }),
@@ -397,7 +398,7 @@ export async function getFileDetails(fileId: string) {
  * Validate image file
  * @param file
  */
-export function validateImageFile(file: File): { valid: boolean; error?: string } {
+export function validateImageFile(file: File): { error?: string; valid: boolean; } {
   // Check file size (10MB max)
   const maxSize = 10 * 1024 * 1024;
   if (file.size > maxSize) {
@@ -452,12 +453,12 @@ export function generateUniqueFileName(originalName: string, prefix?: string): s
 // ═══════════════════════════════════════════════════
 
 export interface OptimizationOptions {
-  quality?: number;
-  format?: "jpg" | "png" | "webp" | "avif";
-  maxWidth?: number;
-  maxHeight?: number;
-  progressive?: boolean;
+  format?: "avif" | "jpg" | "png" | "webp";
   lossless?: boolean;
+  maxHeight?: number;
+  maxWidth?: number;
+  progressive?: boolean;
+  quality?: number;
 }
 
 /**
@@ -573,10 +574,10 @@ export async function uploadOptimizedChapterImage(
  * @param fileIds
  */
 export async function bulkOptimizeImages(fileIds: string[]): Promise<{
-  success: boolean;
-  optimized: number;
-  failed: number;
   errors: string[];
+  failed: number;
+  optimized: number;
+  success: boolean;
 }> {
   const results = {
     success: true,
@@ -649,8 +650,8 @@ export function generateSrcSet(
 export function generatePictureSources(
   filePath: string,
   widths: number[] = [400, 800, 1200]
-): Array<{ type: string; srcset: string }> {
-  const formats: Array<"avif" | "webp" | "jpg"> = ["avif", "webp", "jpg"];
+): Array<{ srcset: string; type: string; }> {
+  const formats: Array<"avif" | "jpg" | "webp"> = ["avif", "webp", "jpg"];
 
   return formats.map((format) => {
     const srcset = widths
@@ -732,16 +733,16 @@ export async function compressAndUpload(
  * @param fileId
  */
 export async function getImageMetadata(fileId: string): Promise<{
-  success: boolean;
-  metadata?: {
-    width: number;
-    height: number;
-    format: string;
-    size: number;
-    hasAlpha: boolean;
-    isAnimated?: boolean;
-  };
   error?: string;
+  metadata?: {
+    format: string;
+    hasAlpha: boolean;
+    height: number;
+    isAnimated?: boolean;
+    size: number;
+    width: number;
+  };
+  success: boolean;
 }> {
   try {
     const ik: ImageKit = getImageKitInstance();
@@ -749,12 +750,12 @@ export async function getImageMetadata(fileId: string): Promise<{
 
     const meta = metadataResult as any;
     const details: {
-      width: number;
-      height: number;
       format: string;
-      size: number;
       hasAlpha: boolean;
+      height: number;
       isAnimated?: boolean;
+      size: number;
+      width: number;
     } = {
       width: typeof meta.width === "number" ? meta.width : 0,
       height: typeof meta.height === "number" ? meta.height : 0,

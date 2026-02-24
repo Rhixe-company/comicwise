@@ -41,9 +41,10 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import chalk from "chalk";
 import { execSync } from "node:child_process";
 import fs from "node:fs/promises";
+
+import chalk from "chalk";
 import ora from "ora";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -51,11 +52,11 @@ import ora from "ora";
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface TaskConfig {
+  description: string;
+  files?: string[];
   id: number;
   name: string;
-  description: string;
   script?: string;
-  files?: string[];
   skip?: boolean;
 }
 
@@ -255,7 +256,7 @@ const TASKS: TaskConfig[] = [
 // UTILITY FUNCTIONS
 // ═══════════════════════════════════════════════════════════════════════════
 
-function log(message: string, type: "info" | "success" | "error" | "warning" = "info") {
+function log(message: string, type: "error" | "info" | "success" | "warning" = "info") {
   const icons = {
     info: "ℹ️",
     success: "✅",
@@ -282,7 +283,7 @@ async function fileExists(filePath: string): Promise<boolean> {
   }
 }
 
-function runCommand(command: string): { success: boolean; output: string } {
+function runCommand(command: string): { output: string; success: boolean; } {
   try {
     const output = execSync(command, { encoding: "utf-8", stdio: "pipe" });
     return { success: true, output };

@@ -9,12 +9,12 @@ import type { z } from "zod";
 // ═══════════════════════════════════════════════════
 
 export interface ActionResponse<T = unknown> {
-  success: boolean;
   data?: T;
   error?: string;
   errors?: Record<string, string[]>;
   message?: string;
   statusCode?: number;
+  success: boolean;
 }
 
 export type ActionResult<T = unknown> = Promise<ActionResponse<T>>;
@@ -42,10 +42,10 @@ export type ActionResult<T = unknown> = Promise<ActionResponse<T>>;
 // ═══════════════════════════════════════════════════
 
 export interface SearchResponse<T = unknown> {
+  filters?: Record<string, unknown>;
+  query: string;
   results: T[];
   totalResults: number;
-  query: string;
-  filters?: Record<string, unknown>;
 }
 
 export type SearchActionResult<T = unknown> = ActionResult<SearchResponse<T>>;
@@ -69,12 +69,12 @@ export type ValidationResult<T> = ValidatedInput<T>;
 // ═══════════════════════════════════════════════════
 
 export type CreateAction<TInput, TOutput> = (input: TInput) => ActionResult<TOutput>;
-export type ReadAction<TOutput> = (id: string | number) => ActionResult<TOutput>;
+export type ReadAction<TOutput> = (id: number | string) => ActionResult<TOutput>;
 export type UpdateAction<TInput, TOutput> = (
-  id: string | number,
+  id: number | string,
   input: TInput
 ) => ActionResult<TOutput>;
-export type DeleteAction = (id: string | number) => ActionResult<void>;
+export type DeleteAction = (id: number | string) => ActionResult<void>;
 export type ListAction<TOutput, TFilters = unknown> = (
   filters?: TFilters
 ) => ActionResult<TOutput[]>;
@@ -84,10 +84,10 @@ export type ListAction<TOutput, TFilters = unknown> = (
 // ═══════════════════════════════════════════════════
 
 export interface AuthActionResponse {
-  success: boolean;
-  message?: string;
   error?: string;
+  message?: string;
   redirectUrl?: string;
+  success: boolean;
 }
 
 export type AuthActionResult = Promise<AuthActionResponse>;
@@ -97,19 +97,19 @@ export type AuthActionResult = Promise<AuthActionResponse>;
 // ═══════════════════════════════════════════════════
 
 export interface UploadActionResponse {
+  error?: string;
+  publicId?: string;
   success: boolean;
   url?: string;
-  publicId?: string;
-  error?: string;
 }
 
 export type UploadActionResult = Promise<UploadActionResponse>;
 
 export interface BulkUploadActionResponse {
+  error?: string;
+  failed?: string[];
   success: boolean;
   urls?: string[];
-  failed?: string[];
-  error?: string;
 }
 
 export type BulkUploadActionResult = Promise<BulkUploadActionResponse>;
@@ -119,17 +119,17 @@ export type BulkUploadActionResult = Promise<BulkUploadActionResponse>;
 // ═══════════════════════════════════════════════════
 
 export interface WorkflowStepResult<T = unknown> {
-  success: boolean;
   data?: T;
   error?: string;
   stepName: string;
+  success: boolean;
 }
 
 export interface WorkflowResult<T = unknown> {
-  success: boolean;
-  results: WorkflowStepResult[];
-  finalData?: T;
   error?: string;
+  finalData?: T;
+  results: WorkflowStepResult[];
+  success: boolean;
 }
 
 export type WorkflowActionResult<T = unknown> = Promise<WorkflowResult<T>>;
@@ -139,10 +139,10 @@ export type WorkflowActionResult<T = unknown> = Promise<WorkflowResult<T>>;
 // ═══════════════════════════════════════════════════
 
 export interface CacheActionResponse {
-  success: boolean;
-  data?: unknown;
   cached?: boolean;
+  data?: unknown;
   error?: string;
+  success: boolean;
 }
 
 export type CacheActionResult = Promise<CacheActionResponse>;
@@ -152,11 +152,11 @@ export type CacheActionResult = Promise<CacheActionResponse>;
 // ═══════════════════════════════════════════════════
 
 export interface RateLimitResult {
-  success: boolean;
   allowed: boolean;
   limit: number;
   remaining: number;
   reset: number;
+  success: boolean;
 }
 
 export type RateLimitCheck = (identifier: string) => Promise<RateLimitResult>;

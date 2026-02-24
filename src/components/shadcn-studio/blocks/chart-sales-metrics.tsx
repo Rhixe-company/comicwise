@@ -1,7 +1,5 @@
 "use client";
 
-import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
-
 import {
   BadgePercentIcon,
   ChartNoAxesCombinedIcon,
@@ -10,11 +8,14 @@ import {
   ShoppingBagIcon,
   TrendingUpIcon,
 } from "lucide-react";
+import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
+
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import type { ChartConfig } from "@/components/ui/chart";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+
+import type { ChartConfig } from "@/components/ui/chart";
 
 const salesPlanPercentage = 54;
 const totalBars = 24;
@@ -108,13 +109,13 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
             <span className="text-lg font-semibold">Sales metrics</span>
             <div className="flex items-center gap-3">
               <img
-                src="https://cdn.shadcnstudio.com/ss-assets/logo/logo-square.png"
-                className="size-10.5 rounded-lg"
                 alt="logo"
+                className="size-10.5 rounded-lg"
+                src="https://cdn.shadcnstudio.com/ss-assets/logo/logo-square.png"
               />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xl font-medium">Sandy&apos; Company</span>
-                <span className="text-sm text-muted-foreground">sandycompany.com</span>
+                <span className="text-muted-foreground text-sm">sandycompany.com</span>
               </div>
             </div>
 
@@ -126,22 +127,22 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
             >
               {MetricsData.map((metric, index) => (
                 <div
-                  key={index}
                   className={`
                     flex items-center gap-3 rounded-md border px-4 py-2
                   `}
+                  key={index}
                 >
                   <Avatar className="size-8.5 rounded-sm">
                     <AvatarFallback
                       className={`
-                        shrink-0 rounded-sm bg-primary/10 text-primary
+                        bg-primary/10 text-primary shrink-0 rounded-sm
                       `}
                     >
                       {metric.icons}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-sm font-medium text-muted-foreground">
+                    <span className="text-muted-foreground text-sm font-medium">
                       {metric.title}
                     </span>
                     <span className="text-lg font-medium">{metric.value}</span>
@@ -161,42 +162,42 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
             </CardHeader>
 
             <CardContent className="px-0">
-              <ChartContainer config={revenueChartConfig} className={`h-38.5 w-full`}>
+              <ChartContainer className={`h-38.5 w-full`} config={revenueChartConfig}>
                 <PieChart margin={{ top: 0, bottom: 0, left: 0, right: 0 }}>
-                  <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                  <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
                   <Pie
                     data={revenueChartData}
                     dataKey="sales"
-                    nameKey="month"
-                    startAngle={300}
                     endAngle={660}
                     innerRadius={58}
+                    nameKey="month"
                     outerRadius={75}
                     paddingAngle={2}
+                    startAngle={300}
                   >
                     <Label
                       content={({ viewBox }: { viewBox: any }) => {
                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                           return (
                             <text
+                              dominantBaseline="middle"
+                              textAnchor="middle"
                               x={viewBox.cx}
                               y={viewBox.cy}
-                              textAnchor="middle"
-                              dominantBaseline="middle"
                             >
                               <tspan
-                                x={viewBox.cx}
-                                y={(viewBox.cy || 0) - 12}
                                 className={`
                                   fill-card-foreground text-lg font-medium
                                 `}
+                                x={viewBox.cx}
+                                y={(viewBox.cy || 0) - 12}
                               >
                                 256.24
                               </tspan>
                               <tspan
+                                className="fill-muted-foreground text-sm"
                                 x={viewBox.cx}
                                 y={(viewBox.cy || 0) + 19}
-                                className="fill-muted-foreground text-sm"
                               >
                                 Total Profit
                               </tspan>
@@ -234,7 +235,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               >
                 {salesPlanPercentage}%
               </span>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-muted-foreground text-sm">
                 Percentage profit from total sales
               </span>
             </div>
@@ -245,7 +246,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
               `}
             >
               <span className="font-medium">Cohort analysis indicators</span>
-              <span className="text-wrap text-muted-foreground">
+              <span className="text-muted-foreground text-wrap">
                 Analyzes the behaviour of a group of users who joined a product/service at the same
                 time. over a certain period.
               </span>
@@ -265,7 +266,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                 </div>
               </div>
 
-              <ChartContainer config={salesChartConfig} className={`h-7.75 w-full`}>
+              <ChartContainer className={`h-7.75 w-full`} config={salesChartConfig}>
                 <BarChart
                   accessibilityLayer
                   data={salesChartData}
@@ -276,12 +277,12 @@ const SalesMetricsCard = ({ className }: { className?: string }) => {
                   maxBarSize={16}
                 >
                   <Bar
-                    dataKey="sales"
-                    fill="var(--primary)"
                     background={{
                       fill: "color-mix(in oklab, var(--primary) 10%, transparent)",
                       radius: 12,
                     }}
+                    dataKey="sales"
+                    fill="var(--primary)"
                     radius={12}
                   />
                 </BarChart>

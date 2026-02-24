@@ -14,14 +14,15 @@ import { AuthForm, PasswordField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { resetPassword } from "@/lib/actions/auth";
-import type { ResetPasswordInput } from "@/lib/validations";
 import { resetPasswordSchema } from "@/lib/validations";
+
+import type { ResetPasswordInput } from "@/lib/validations";
 
 function ResetPasswordForm() {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<null | string>(null);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<null | string>(null);
   const router = useRouter();
   const searchParameters = useSearchParams();
 
@@ -85,7 +86,7 @@ function ResetPasswordForm() {
           </CardDescription>
         </CardHeader>
         <CardFooter>
-          <Link href="/sign-in" className="w-full">
+          <Link className="w-full" href="/sign-in">
             <Button className="w-full">Go to Sign In</Button>
           </Link>
         </CardFooter>
@@ -95,27 +96,27 @@ function ResetPasswordForm() {
 
   return (
     <AuthForm
-      title="Reset Password"
-      description="Enter your new password below"
-      schema={resetPasswordSchema.omit({ token: true })}
       defaultValues={{ password: "", confirmPassword: "" }}
-      onSubmit={onSubmit}
+      description="Enter your new password below"
       error={error}
       isLoading={isPending || !token}
+      onSubmit={onSubmit}
+      schema={resetPasswordSchema.omit({ token: true })}
       submitLabel="Reset Password"
+      title="Reset Password"
     >
       <PasswordField
-        name="password"
-        label="New Password"
         autoComplete="new-password"
         disabled={isPending || !token}
         helperText="Must be at least 8 characters with uppercase, lowercase, and number"
+        label="New Password"
+        name="password"
       />
       <PasswordField
-        name="confirmPassword"
-        label="Confirm Password"
         autoComplete="new-password"
         disabled={isPending || !token}
+        label="Confirm Password"
+        name="confirmPassword"
       />
     </AuthForm>
   );

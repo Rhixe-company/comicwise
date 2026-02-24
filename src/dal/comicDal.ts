@@ -3,18 +3,21 @@
  * Handles all database operations for comics
  */
 
-import type { ListOptions } from "@/dal/baseDal";
+import { and, desc, eq, like, sql } from "drizzle-orm";
+
 import { BaseDal } from "@/dal/baseDal";
 import { db } from "@/database/db";
 import { comic, comicToGenre } from "@/database/schema";
+
+import type { ListOptions } from "@/dal/baseDal";
 import type { Comic, ComicStatus } from "@/types/database";
 import type { SQL } from "drizzle-orm";
-import { and, desc, eq, like, sql } from "drizzle-orm";
+
 
 interface ComicListOptions extends ListOptions {
+  orderBy?: "latest" | "popular" | "rating";
   status?: string;
   type?: string;
-  orderBy?: "latest" | "popular" | "rating";
 }
 
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods

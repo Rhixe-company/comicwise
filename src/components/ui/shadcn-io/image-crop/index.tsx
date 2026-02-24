@@ -1,8 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { CropIcon, RotateCcwIcon } from "lucide-react";
 import { Slot } from "radix-ui";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
+
+import { Button } from "@/components/ui/button";
+
+import { cn } from "utils";
+
 import type {
   ComponentProps,
   CSSProperties,
@@ -11,10 +17,7 @@ import type {
   RefObject,
   SyntheticEvent,
 } from "react";
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { PercentCrop, PixelCrop, ReactCropProps } from "react-image-crop";
-import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
-import { cn } from "utils";
 
 import "react-image-crop/dist/ReactCrop.css";
 
@@ -83,18 +86,18 @@ const getCroppedPngImage = async (
 };
 
 interface ImageCropContextType {
-  file: File;
-  maxImageSize: number;
-  imgSrc: string;
+  applyCrop(): Promise<void>;
+  completedCrop: null | PixelCrop;
   crop: PercentCrop | undefined;
-  completedCrop: PixelCrop | null;
-  imgRef: RefObject<HTMLImageElement | null>;
-  onCrop?(croppedImage: string): void;
-  reactCropProps: Omit<ReactCropProps, "onChange" | "onComplete" | "children">;
+  file: File;
   handleChange(pixelCrop: PixelCrop, percentCrop: PercentCrop): void;
   handleComplete(pixelCrop: PixelCrop, percentCrop: PercentCrop): Promise<void>;
+  imgRef: RefObject<HTMLImageElement | null>;
+  imgSrc: string;
+  maxImageSize: number;
+  onCrop?(croppedImage: string): void;
   onImageLoad(e: SyntheticEvent<HTMLImageElement>): void;
-  applyCrop(): Promise<void>;
+  reactCropProps: Omit<ReactCropProps, "children" | "onChange" | "onComplete">;
   resetCrop(): void;
 }
 
@@ -109,13 +112,13 @@ const useImageCrop = () => {
 };
 
 export type ImageCropProps = {
+  children: ReactNode;
   file: File;
   maxImageSize?: number;
-  onCrop?(croppedImage: string): void;
-  children: ReactNode;
   onChange?: ReactCropProps["onChange"];
   onComplete?: ReactCropProps["onComplete"];
-} & Omit<ReactCropProps, "onChange" | "onComplete" | "children">;
+  onCrop?(croppedImage: string): void;
+} & Omit<ReactCropProps, "children" | "onChange" | "onComplete">;
 
 export const ImageCrop = ({
   file,
@@ -129,7 +132,7 @@ export const ImageCrop = ({
   const imgRef = useRef<HTMLImageElement | null>(null);
   const [imgSource, setImgSource] = useState<string>("");
   const [crop, setCrop] = useState<PercentCrop>();
-  const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
+  const [completedCrop, setCompletedCrop] = useState<null | PixelCrop>(null);
   const [initialCrop, setInitialCrop] = useState<PercentCrop>();
 
   useEffect(() => {
@@ -196,8 +199,8 @@ export const ImageCrop = ({
 };
 
 export interface ImageCropContentProps {
-  style?: CSSProperties;
   className?: string;
+  style?: CSSProperties;
 }
 
 export const ImageCropContent = ({ style, className }: ImageCropContentProps) => {
@@ -303,8 +306,8 @@ export const ImageCropReset = ({
 export type CropperProps = Omit<ReactCropProps, "onChange"> & {
   file: File;
   maxImageSize?: number;
-  onCrop?(croppedImage: string): void;
   onChange?: ReactCropProps["onChange"];
+  onCrop?(croppedImage: string): void;
 };
 
 export const Cropper = ({

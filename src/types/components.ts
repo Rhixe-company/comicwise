@@ -9,27 +9,27 @@ import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 // ═══════════════════════════════════════════════════
 
 export interface BaseComponentProps {
-  className?: string;
   children?: ReactNode;
+  className?: string;
 }
 
 export interface BaseButtonProps extends BaseComponentProps {
   disabled?: boolean;
   loading?: boolean;
-  type?: "button" | "submit" | "reset";
   onClick?(): void;
+  type?: "button" | "reset" | "submit";
 }
 
 export interface BaseInputProps extends BaseComponentProps {
+  defaultValue?: string;
+  disabled?: boolean;
   id?: string;
   name?: string;
-  value?: string;
-  defaultValue?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  required?: boolean;
-  readOnly?: boolean;
   onChange?(value: string): void;
+  placeholder?: string;
+  readOnly?: boolean;
+  required?: boolean;
+  value?: string;
 }
 
 // ═══════════════════════════════════════════════════
@@ -56,13 +56,13 @@ export interface ErrorProps {
 // ═══════════════════════════════════════════════════
 
 export interface CardProps extends BaseComponentProps {
-  title?: string;
   description?: string;
+  footer?: ReactNode;
+  href?: string;
   image?: string;
   imageAlt?: string;
-  footer?: ReactNode;
   onClick?(): void;
-  href?: string;
+  title?: string;
 }
 
 // ═══════════════════════════════════════════════════
@@ -70,23 +70,23 @@ export interface CardProps extends BaseComponentProps {
 // ═══════════════════════════════════════════════════
 
 export interface TableColumn<T = unknown> {
+  align?: "center" | "left" | "right";
   key: string;
   label: string;
-  sortable?: boolean;
   render?(value: unknown, row: T): ReactNode;
+  sortable?: boolean;
   width?: string;
-  align?: "left" | "center" | "right";
 }
 
 export interface TableProps<T = unknown> {
-  data: T[];
   columns: TableColumn<T>[];
-  loading?: boolean;
+  data: T[];
   emptyMessage?: string;
+  loading?: boolean;
   onRowClick?(row: T): void;
+  onSort?(column: string): void;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
-  onSort?(column: string): void;
 }
 
 // ═══════════════════════════════════════════════════
@@ -94,15 +94,15 @@ export interface TableProps<T = unknown> {
 // ═══════════════════════════════════════════════════
 
 export interface FormFieldProps extends BaseInputProps {
-  label?: string;
   error?: string;
   helperText?: string;
+  label?: string;
 }
 
 export interface FormProps extends BaseComponentProps {
-  onSubmit(data: FormData): void | Promise<void>;
-  loading?: boolean;
   error?: string;
+  loading?: boolean;
+  onSubmit(data: FormData): Promise<void> | void;
   success?: boolean;
 }
 
@@ -111,17 +111,17 @@ export interface FormProps extends BaseComponentProps {
 // ═══════════════════════════════════════════════════
 
 export interface ModalProps extends BaseComponentProps {
-  open: boolean;
-  onOpenChange(open: boolean): void;
-  title?: string;
   description?: string;
   footer?: ReactNode;
+  onOpenChange(open: boolean): void;
+  open: boolean;
+  title?: string;
 }
 
 export interface DialogProps extends ModalProps {
-  showClose?: boolean;
-  closeOnOutsideClick?: boolean;
   closeOnEscape?: boolean;
+  closeOnOutsideClick?: boolean;
+  showClose?: boolean;
 }
 
 // ═══════════════════════════════════════════════════
@@ -130,11 +130,11 @@ export interface DialogProps extends ModalProps {
 
 export interface PaginationProps {
   currentPage: number;
-  totalPages: number;
-  pageSize: number;
-  totalItems: number;
   onPageChange(page: number): void;
   onPageSizeChange?(size: number): void;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
 }
 
 // ═══════════════════════════════════════════════════
@@ -142,12 +142,12 @@ export interface PaginationProps {
 // ═══════════════════════════════════════════════════
 
 export interface SearchProps {
-  value: string;
-  onChange(value: string): void;
-  placeholder?: string;
   debounce?: number;
   loading?: boolean;
+  onChange(value: string): void;
   onSearch?(value: string): void;
+  placeholder?: string;
+  value: string;
 }
 
 // ═══════════════════════════════════════════════════
@@ -160,12 +160,12 @@ export interface FilterOption {
 }
 
 export interface FilterProps {
-  options: FilterOption[];
-  value?: string | string[];
-  onChange(value: string | string[]): void;
   label?: string;
   multiple?: boolean;
+  onChange(value: string | string[]): void;
+  options: FilterOption[];
   searchable?: boolean;
+  value?: string | string[];
 }
 
 // ═══════════════════════════════════════════════════
@@ -173,16 +173,16 @@ export interface FilterProps {
 // ═══════════════════════════════════════════════════
 
 export interface ImageProps {
-  src: string;
   alt: string;
-  width?: number;
-  height?: number;
-  fill?: boolean;
-  priority?: boolean;
   className?: string;
-  loading?: "lazy" | "eager";
-  onLoad?(): void;
+  fill?: boolean;
+  height?: number;
+  loading?: "eager" | "lazy";
   onError?(): void;
+  onLoad?(): void;
+  priority?: boolean;
+  src: string;
+  width?: number;
 }
 
 // ═══════════════════════════════════════════════════
@@ -198,27 +198,27 @@ export type PolymorphicComponentProps<E extends ElementType> = ComponentPropsWit
 // ═══════════════════════════════════════════════════
 
 export interface ComicCardProps {
-  id: number;
-  title: string;
-  slug: string;
+  artist?: string;
+  author?: string;
   coverImage: string;
   description?: string;
-  rating?: number;
-  views?: number;
-  status?: string;
-  author?: string;
-  artist?: string;
   genres?: string[];
+  id: number;
   onClick?(): void;
+  rating?: number;
+  slug: string;
+  status?: string;
+  title: string;
+  views?: number;
 }
 
 export interface ChapterListProps {
   chapters: Array<{
-    id: number;
-    title: string;
-    slug: string;
     chapterNumber: number;
+    id: number;
     releaseDate: Date | string;
+    slug: string;
+    title: string;
     views?: number;
   }>;
   comicId: number;
@@ -227,12 +227,12 @@ export interface ChapterListProps {
 
 export interface ChapterReaderProps {
   chapterId: number;
+  currentPage?: number;
   images: Array<{
     id: number;
     imageUrl: string;
     pageNumber: number;
   }>;
-  currentPage?: number;
   onPageChange?(page: number): void;
 }
 
@@ -244,22 +244,22 @@ export interface BookmarkButtonProps {
 
 export interface CommentListProps {
   comments: Array<{
-    id: number;
     content: string;
-    userId: string;
-    userName?: string;
-    userImage?: string;
     createdAt: Date | string;
+    id: number;
+    userId: string;
+    userImage?: string;
+    userName?: string;
   }>;
-  onReply?(commentId: number): void;
   onDelete?(commentId: number): void;
   onEdit?(commentId: number, content: string): void;
+  onReply?(commentId: number): void;
 }
 
 export interface ReadingProgressProps {
-  comicId: number;
   chapterId: number;
+  comicId: number;
+  currentPage: number;
   progress: number;
   totalPages: number;
-  currentPage: number;
 }

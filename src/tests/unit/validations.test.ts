@@ -1,3 +1,5 @@
+import { describe, expect, it } from "vitest";
+
 import {
   createBookmarkSchema,
   createChapterSchema,
@@ -12,7 +14,6 @@ import {
   updateCommentSchema,
   verifyEmailSchema,
 } from "@/lib/validations";
-import { describe, expect, it } from "vitest";
 
 describe("Authentication Validation Schemas", () => {
   describe("signUpSchema", () => {
@@ -294,7 +295,7 @@ describe("Comic Validation Schemas", () => {
     it("should accept valid status values", () => {
       const statuses = ["ongoing", "completed", "hiatus", "cancelled"];
 
-      statuses.forEach((status) => {
+      for (const status of statuses) {
         const data = {
           title: "Test Comic",
           description: "A test comic description",
@@ -304,7 +305,7 @@ describe("Comic Validation Schemas", () => {
 
         const result = createComicSchema.safeParse(data);
         expect(result.success).toBe(true);
-      });
+      }
     });
   });
 

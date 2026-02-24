@@ -1,8 +1,19 @@
 "use server";
 
+import { asc, eq, like, sql } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { artist, author } from "@/database/schema";
+import {
+  createArtistSchema,
+  createAuthorSchema,
+  paginationSchema,
+  updateArtistSchema,
+  updateAuthorSchema,
+} from "@/lib/validations";
+
 import type { ActionResult } from "@/dto";
 import type {
   CreateArtistInput,
@@ -11,15 +22,6 @@ import type {
   UpdateArtistInput,
   UpdateAuthorInput,
 } from "@/lib/validations";
-import {
-  createArtistSchema,
-  createAuthorSchema,
-  paginationSchema,
-  updateArtistSchema,
-  updateAuthorSchema,
-} from "@/lib/validations";
-import { asc, eq, like, sql } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 
 export async function createAuthor(
   input: CreateAuthorInput

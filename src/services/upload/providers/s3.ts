@@ -6,9 +6,9 @@ import { logger } from "@/database/seed/logger";
 
 export interface S3Config {
   accessKeyId: string;
-  secretAccessKey: string;
-  region: string;
   bucket: string;
+  region: string;
+  secretAccessKey: string;
 }
 
 export class S3Provider {

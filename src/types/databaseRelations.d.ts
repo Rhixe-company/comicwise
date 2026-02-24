@@ -26,12 +26,12 @@ import type {
  * Includes chapters, genres, author, artist, type, and images
  */
 export interface ComicWithChapters extends Comic {
+  artist?: Artist | null;
+  author?: Author | null;
   chapters: Chapter[];
   genres?: Genre[];
-  author?: Author | null;
-  artist?: Artist | null;
-  type?: ComicType | null;
   images?: ComicImage[];
+  type?: ComicType | null;
 }
 
 /**
@@ -39,20 +39,20 @@ export interface ComicWithChapters extends Comic {
  * Optimized for search result pages
  */
 export interface ComicSearchResult {
-  id: number;
-  title: string;
-  slug: string;
-  coverImage: string;
-  description: string;
-  rating: string | null;
-  views: number;
-  status: Comic["status"];
-  authorName?: string | null;
-  artistName?: string | null;
-  typeName?: string | null;
-  genreCount?: number;
+  artistName?: null | string;
+  authorName?: null | string;
   chapterCount?: number;
+  coverImage: string;
   createdAt: Date;
+  description: string;
+  genreCount?: number;
+  id: number;
+  rating: null | string;
+  slug: string;
+  status: Comic["status"];
+  title: string;
+  typeName?: null | string;
+  views: number;
 }
 
 /**
@@ -60,16 +60,16 @@ export interface ComicSearchResult {
  * For lists and cards
  */
 export interface ComicListItem {
-  id: number;
-  title: string;
-  slug: string;
-  coverImage: string;
-  rating: string | null;
-  views: number;
-  status: Comic["status"];
-  authorName?: string | null;
+  authorName?: null | string;
   chapterCount: number;
+  coverImage: string;
   createdAt: Date;
+  id: number;
+  rating: null | string;
+  slug: string;
+  status: Comic["status"];
+  title: string;
+  views: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -81,9 +81,9 @@ export interface ComicListItem {
  */
 export interface ChapterWithComic extends Chapter {
   comic: Comic;
-  images?: ChapterImage[];
-  comments?: Comment[];
   commentCount?: number;
+  comments?: Comment[];
+  images?: ChapterImage[];
 }
 
 /**
@@ -92,12 +92,12 @@ export interface ChapterWithComic extends Chapter {
  */
 export interface ChapterWithContext extends Chapter {
   comic: Comic & {
-    author?: Author | null;
     artist?: Artist | null;
+    author?: Author | null;
     type?: ComicType | null;
   };
-  images: ChapterImage[];
   comments: CommentWithUser[];
+  images: ChapterImage[];
   totalComments: number;
 }
 
@@ -113,8 +113,8 @@ export interface UserWithStats extends User {
   bookmarkCount: number;
   commentCount: number;
   readingProgressCount: number;
-  recentReading?: ReadingProgress[];
   recentBookmarks?: Bookmark[];
+  recentReading?: ReadingProgress[];
 }
 
 /**
@@ -127,8 +127,8 @@ export interface UserProfile extends User {
   stats: {
     bookmarkCount: number;
     commentCount: number;
-    readingProgressCount: number;
     lastActiveAt: Date | null;
+    readingProgressCount: number;
   };
 }
 
@@ -140,18 +140,18 @@ export interface UserProfile extends User {
  * Comment with user information
  */
 export interface CommentWithUser extends Comment {
-  user: User;
   chapter?: Chapter;
+  user: User;
 }
 
 /**
  * Comment with full context
  */
 export interface CommentWithContext extends Comment {
-  user: User;
   chapter: Chapter & {
     comic: Comic;
   };
+  user: User;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -170,11 +170,11 @@ export interface BookmarkWithComic extends Bookmark {
  * Bookmark with brief comic info
  */
 export interface BookmarkListItem extends Bookmark {
-  comicTitle: string;
-  comicSlug: string;
   comicCoverImage: string;
-  lastReadChapterTitle?: string | null;
-  lastReadChapterNumber?: number | null;
+  comicSlug: string;
+  comicTitle: string;
+  lastReadChapterNumber?: null | number;
+  lastReadChapterTitle?: null | string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -185,8 +185,8 @@ export interface BookmarkListItem extends Bookmark {
  * Reading progress with comic and chapter context
  */
 export interface ReadingProgressWithContext extends ReadingProgress {
-  comic: Comic;
   chapter: Chapter;
+  comic: Comic;
   user?: User;
 }
 
@@ -194,16 +194,16 @@ export interface ReadingProgressWithContext extends ReadingProgress {
  * Reading progress for dashboard display
  */
 export interface ReadingProgressItem {
-  comicId: number;
-  comicTitle: string;
-  comicSlug: string;
-  comicCoverImage: string;
   chapterId: number;
   chapterNumber: number;
   chapterTitle: string;
-  progressPercent: number;
-  lastReadAt: Date;
+  comicCoverImage: string;
+  comicId: number;
+  comicSlug: string;
+  comicTitle: string;
   isCompleted: boolean;
+  lastReadAt: Date;
+  progressPercent: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -214,24 +214,24 @@ export interface ReadingProgressItem {
  * Author with list of comics
  */
 export interface AuthorWithComicsList extends Author {
-  comics: ComicListItem[];
   comicCount: number;
+  comics: ComicListItem[];
 }
 
 /**
  * Artist with list of comics
  */
 export interface ArtistWithComicsList extends Artist {
-  comics: ComicListItem[];
   comicCount: number;
+  comics: ComicListItem[];
 }
 
 /**
  * Genre with associated comics
  */
 export interface GenreWithComicsList extends Genre {
-  comics: ComicListItem[];
   comicCount: number;
+  comics: ComicListItem[];
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -242,9 +242,9 @@ export interface GenreWithComicsList extends Genre {
  * Combined relations for comic detail page
  */
 export interface ComicDetailPage extends ComicWithChapters {
-  relatedComics: ComicListItem[];
   bookmarkCount: number;
   commentCount: number;
+  relatedComics: ComicListItem[];
   userBookmark?: Bookmark | null;
 }
 
@@ -252,8 +252,8 @@ export interface ComicDetailPage extends ComicWithChapters {
  * Combined relations for chapter detail page
  */
 export interface ChapterDetailPage extends ChapterWithContext {
-  previousChapter?: Chapter | null;
   nextChapter?: Chapter | null;
+  previousChapter?: Chapter | null;
   relatedChapters: Chapter[];
 }
 
@@ -261,11 +261,11 @@ export interface ChapterDetailPage extends ChapterWithContext {
  * Dashboard data with all relations
  */
 export interface DashboardData {
-  user: UserWithStats;
-  recentReadings: ReadingProgressItem[];
-  recentBookmarks: BookmarkListItem[];
-  recommendedComics: ComicSearchResult[];
   continueReadingComics: ReadingProgressItem[];
+  recentBookmarks: BookmarkListItem[];
+  recentReadings: ReadingProgressItem[];
+  recommendedComics: ComicSearchResult[];
+  user: UserWithStats;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -276,24 +276,24 @@ export interface DashboardData {
  * Unified search result across comics, chapters, authors
  */
 export interface UnifiedSearchResult {
-  type: "comic" | "chapter" | "author" | "artist" | "genre";
-  id: number | string;
-  title: string;
   description?: string;
+  id: number | string;
   image?: string;
   metadata?: Record<string, unknown>;
+  title: string;
+  type: "artist" | "author" | "chapter" | "comic" | "genre";
 }
 
 /**
  * Search results with pagination
  */
 export interface SearchResultsPage {
+  hasMore: boolean;
+  limit: number;
+  offset: number;
   query: string;
   results: UnifiedSearchResult[];
   total: number;
-  limit: number;
-  offset: number;
-  hasMore: boolean;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -305,11 +305,11 @@ export interface SearchResultsPage {
  */
 export interface ChapterReaderContext {
   chapter: ChapterWithContext;
-  previousChapter: Chapter | null;
-  nextChapter: Chapter | null;
-  userProgress: ReadingProgress | null;
   isBookmarked: boolean;
+  nextChapter: Chapter | null;
+  previousChapter: Chapter | null;
   userComment?: Comment | null;
+  userProgress: null | ReadingProgress;
 }
 
 /**
@@ -319,5 +319,5 @@ export interface ComicBrowseContext {
   comic: ComicDetailPage;
   currentChapter?: Chapter | null;
   userBookmark?: Bookmark | null;
-  userProgress?: ReadingProgress | null;
+  userProgress?: null | ReadingProgress;
 }

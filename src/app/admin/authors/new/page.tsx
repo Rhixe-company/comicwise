@@ -1,5 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -14,13 +22,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useImageUpload } from "@/hooks/useImageUpload";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const authorSchema = z
   .object({
@@ -97,7 +98,7 @@ export default function NewAuthorPage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
                 name="name"
@@ -138,29 +139,29 @@ export default function NewAuthorPage() {
                     <FormLabel>Profile Image</FormLabel>
                     <FormControl>
                       <div className="space-y-4">
-                        <Input type="url" placeholder="https://example.com/image.jpg" {...field} />
+                        <Input placeholder="https://example.com/image.jpg" type="url" {...field} />
                         <div className="flex items-center gap-4">
-                          <span className="text-sm text-muted-foreground">or</span>
+                          <span className="text-muted-foreground text-sm">or</span>
                           <Button
+                            disabled={isUploading}
+                            onClick={() => fileInputRef.current?.click()}
                             type="button"
                             variant="outline"
-                            onClick={() => fileInputRef.current?.click()}
-                            disabled={isUploading}
                           >
                             {isUploading ? "Uploading..." : "Upload Image"}
                           </Button>
-                          <label htmlFor="profile-upload" className="sr-only">
+                          <label className="sr-only" htmlFor="profile-upload">
                             Upload author profile image
                           </label>
                           <input
-                            id="profile-upload"
-                            type="file"
                             accept="image/*"
-                            className="sr-only"
-                            ref={fileInputRef}
-                            onChange={handleFileSelect}
                             aria-label="Upload author profile image"
+                            className="sr-only"
+                            id="profile-upload"
+                            onChange={handleFileSelect}
+                            ref={fileInputRef}
                             title="Upload author profile image"
+                            type="file"
                           />
                         </div>
                         {profileImage && (
@@ -170,10 +171,10 @@ export default function NewAuthorPage() {
                             `}
                           >
                             <Image
-                              src={profileImage}
                               alt="Profile preview"
-                              fill
                               className="object-cover"
+                              fill
+                              src={profileImage}
                             />
                           </div>
                         )}
@@ -189,14 +190,14 @@ export default function NewAuthorPage() {
 
               <div className="flex justify-end gap-4">
                 <Button
+                  disabled={isLoading}
+                  onClick={() => router.back()}
                   type="button"
                   variant="outline"
-                  onClick={() => router.back()}
-                  disabled={isLoading}
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isLoading || isUploading}>
+                <Button disabled={isLoading || isUploading} type="submit">
                   {isLoading ? "Creating..." : "Create Author"}
                 </Button>
               </div>

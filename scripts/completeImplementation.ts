@@ -9,20 +9,21 @@
  * Usage: pnpm exec tsx scripts/completeImplementation.ts
  */
 
+import { execSync } from "node:child_process";
+import * as fs from "node:fs";
+import * as path from "node:path";
+
 import chalk from "chalk";
-import { execSync } from "child_process";
-import * as fs from "fs";
-import * as path from "path";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface TaskResult {
-  task: string;
-  status: "success" | "failed" | "skipped";
-  message: string;
   duration?: number;
+  message: string;
+  status: "failed" | "skipped" | "success";
+  task: string;
 }
 
 const results: TaskResult[] = [];
@@ -31,7 +32,7 @@ const results: TaskResult[] = [];
 // HELPER FUNCTIONS
 // ═══════════════════════════════════════════════════════════════════════════
 
-function log(message: string, type: "info" | "success" | "error" | "warn" = "info") {
+function log(message: string, type: "error" | "info" | "success" | "warn" = "info") {
   const symbols = {
     info: "ℹ",
     success: "✓",
@@ -74,7 +75,7 @@ function exec(command: string, description: string): boolean {
 
 function recordTask(
   task: string,
-  status: "success" | "failed" | "skipped",
+  status: "failed" | "skipped" | "success",
   message: string,
   startTime?: number
 ) {
@@ -303,7 +304,7 @@ async function main() {
   console.log(chalk.bold("\nTask Results:"));
   console.log(chalk.bold("═══════════════════════════════════════════════════════════\n"));
 
-  results.forEach((result) => {
+  for (const result of results) {
     const symbol = result.status === "success" ? "✓" : result.status === "failed" ? "✗" : "○";
     const color =
       result.status === "success"
@@ -318,7 +319,7 @@ async function main() {
       console.log(chalk.gray(`  Duration: ${(result.duration / 1000).toFixed(2)}s`));
     }
     console.log();
-  });
+  }
 
   console.log(chalk.bold("\nOverall Statistics:"));
   console.log(chalk.bold("═══════════════════════════════════════════════════════════\n"));
@@ -345,7 +346,7 @@ function generateMarkdownReport(results: TaskResult[], totalDuration: number): s
   md += `---\n\n`;
   md += `## Task Results\n\n`;
 
-  results.forEach((result) => {
+  for (const result of results) {
     const emoji = result.status === "success" ? "✅" : result.status === "failed" ? "❌" : "⏸️";
     md += `### ${emoji} ${result.task}\n\n`;
     md += `- **Status:** ${result.status}\n`;
@@ -354,7 +355,7 @@ function generateMarkdownReport(results: TaskResult[], totalDuration: number): s
       md += `- **Duration:** ${(result.duration / 1000).toFixed(2)}s\n`;
     }
     md += `\n`;
-  });
+  }
 
   md += `---\n\n`;
   md += `## Summary\n\n`;

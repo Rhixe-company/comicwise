@@ -2,6 +2,8 @@
 // BOOKMARKS API - Full CRUD
 // ═══════════════════════════════════════════════════
 
+import { NextResponse } from "next/server";
+
 import {
   addBookmark,
   removeBookmark,
@@ -10,9 +12,10 @@ import {
 } from "@/database/mutations/bookmarks";
 import { getUserBookmarks } from "@/database/queries/bookmarks";
 import { createBookmarkSchema, updateBookmarkSchema } from "@/lib/validations";
+
 import { auth } from "auth";
+
 import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
 
 // ═══════════════════════════════════════════════════
 // GET - List User Bookmarks

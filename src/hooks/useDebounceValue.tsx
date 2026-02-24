@@ -1,14 +1,16 @@
 "use client";
 
-import type { DebouncedState } from "@/hooks/use-debounce-callback";
-import { useDebounceCallback } from "@/hooks/use-debounce-callback";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { useDebounceCallback } from "@/hooks/use-debounce-callback";
+
+import type { DebouncedState } from "@/hooks/use-debounce-callback";
+
 interface UseDebounceValueOptions<T> {
-  leading?: boolean;
-  trailing?: boolean;
-  maxWait?: number;
   equalityFn?(left: T, right: T): boolean;
+  leading?: boolean;
+  maxWait?: number;
+  trailing?: boolean;
 }
 
 /**
@@ -22,7 +24,7 @@ interface UseDebounceValueOptions<T> {
  * @param options
  */
 export function useDebounceValue<T>(
-  initialValue: T | (() => T),
+  initialValue: (() => T) | T,
   delay: number,
   options?: UseDebounceValueOptions<T>
 ): [T, DebouncedState<(value: T) => void>] {

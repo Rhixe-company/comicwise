@@ -1,15 +1,16 @@
 "use client";
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { PasswordInput } from "@/components/ui/PasswordInput";
 import { useFormContext } from "react-hook-form";
 
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { PasswordInput } from "@/components/ui/PasswordInput";
+
 export interface PasswordFieldProps {
-  name?: string;
-  label?: string;
-  disabled?: boolean;
   autoComplete?: string;
+  disabled?: boolean;
   helperText?: string;
+  label?: string;
+  name?: string;
 }
 
 export function PasswordField({
@@ -32,7 +33,7 @@ export function PasswordField({
             <PasswordInput autoComplete={autoComplete} disabled={disabled} {...field} />
           </FormControl>
           <FormMessage />
-          {helperText && <p className="text-xs text-muted-foreground">{helperText}</p>}
+          {helperText && <p className="text-muted-foreground text-xs">{helperText}</p>}
         </FormItem>
       )}
     />
