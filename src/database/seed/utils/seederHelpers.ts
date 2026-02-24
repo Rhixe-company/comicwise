@@ -24,7 +24,7 @@ export async function validateData<T>(
   data: unknown,
   schema: z.ZodType<T>,
   context: string
-): Promise<{ data: T; valid: true; } | { error: string; valid: false; }> {
+): Promise<{ data: T; valid: true } | { error: string; valid: false }> {
   try {
     const result = schema.safeParse(data);
     if (!result.success) {
@@ -165,7 +165,7 @@ export function extractUniqueEntities<T extends Record<K, any>, K extends string
  */
 export function logProgress(
   context: string,
-  stats: { created: number; errors: number; processed: number; skipped: number; updated: number; },
+  stats: { created: number; errors: number; processed: number; skipped: number; updated: number },
   total: number
 ): void {
   const percentage = ((stats.processed / total) * 100).toFixed(1);

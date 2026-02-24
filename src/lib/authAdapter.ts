@@ -6,7 +6,6 @@ import type * as schema from "@/database/schema";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { Adapter } from "next-auth/adapters";
 
-
 /**
  * Initialize Drizzle ORM adapter for NextAuth v5
  * Maps Drizzle schema tables to NextAuth tables

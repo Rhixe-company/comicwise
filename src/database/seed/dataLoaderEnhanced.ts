@@ -20,7 +20,7 @@ import type { z } from "zod";
 
 export interface LoadResult<T> {
   data: T[];
-  errors: Array<{ error: string; file: string; }>;
+  errors: Array<{ error: string; file: string }>;
   invalid: number;
   valid: number;
 }

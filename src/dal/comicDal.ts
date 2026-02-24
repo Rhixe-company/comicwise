@@ -13,7 +13,6 @@ import type { ListOptions } from "@/dal/baseDal";
 import type { Comic, ComicStatus } from "@/types/database";
 import type { SQL } from "drizzle-orm";
 
-
 interface ComicListOptions extends ListOptions {
   orderBy?: "latest" | "popular" | "rating";
   status?: string;

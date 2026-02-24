@@ -52,7 +52,7 @@ declare module "imagekit" {
   }
 
   export default class ImageKit {
-    getAuthenticationParameters(): { expire: number; signature: string; token: string; } {
+    getAuthenticationParameters(): { expire: number; signature: string; token: string } {
       throw new Error("Method not implemented.");
     }
     url(argument0: { path: string; transformation: { [key: string]: number | string }[] }): string {

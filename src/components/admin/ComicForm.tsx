@@ -1,6 +1,5 @@
 "use client";
 
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, Loader2, Upload } from "lucide-react";
 import Image from "next/image";
@@ -39,7 +38,7 @@ interface ComicFormProps {
   isLoading?: boolean;
   onSubmit(
     data: z.infer<typeof comicFormSchema>
-  ): Promise<{ error?: string; success: boolean; } | void>;
+  ): Promise<{ error?: string; success: boolean } | void>;
   submitLabel?: string;
 }
 

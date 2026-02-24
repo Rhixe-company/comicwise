@@ -29,7 +29,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
   return updateGenericEntity(id, body, {
     updateFn: async (idValue, data) =>
-      updateType(Number(idValue), data as { description?: null | string; name?: string; }),
+      updateType(Number(idValue), data as { description?: null | string; name?: string }),
     idValidateFn: zodToValidationResult(typeIdSchema),
     dataValidateFn: zodToValidationResult(updateTypeSchema),
     entityName: "type",

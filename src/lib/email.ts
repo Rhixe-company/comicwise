@@ -102,7 +102,7 @@ export async function sendEmail({ to, subject, html, text }: SendEmailParams) {
  * @param params.name
  * @param params.email
  */
-export async function sendWelcomeEmail(params: { email: string; name: string; }) {
+export async function sendWelcomeEmail(params: { email: string; name: string }) {
   const html = await render(WelcomeEmail({ name: params.name, email: params.email }));
 
   return sendEmail({

@@ -77,7 +77,7 @@ export function validateArray<T>(data: unknown[], schema: ZodType<T>): T[] {
 export function safeValidate<T>(
   data: unknown,
   schema: ZodType<T>
-): { data: T; success: true; } | { errors: z.ZodError; success: false; } {
+): { data: T; success: true } | { errors: z.ZodError; success: false } {
   const result = schema.safeParse(data);
   if (result.success) {
     return { success: true, data: result.data };

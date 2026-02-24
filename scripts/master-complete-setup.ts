@@ -283,7 +283,7 @@ async function fileExists(filePath: string): Promise<boolean> {
   }
 }
 
-function runCommand(command: string): { output: string; success: boolean; } {
+function runCommand(command: string): { output: string; success: boolean } {
   try {
     const output = execSync(command, { encoding: "utf-8", stdio: "pipe" });
     return { success: true, output };

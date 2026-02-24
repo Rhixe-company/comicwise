@@ -12,7 +12,6 @@ import { comment } from "@/database/schema";
 import type { ListOptions } from "@/dal/baseDal";
 import type { Comment } from "@/types/database";
 
-
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 export class CommentDal extends BaseDal<Comment, typeof comment.$inferInsert> {
   private static instance: CommentDal;

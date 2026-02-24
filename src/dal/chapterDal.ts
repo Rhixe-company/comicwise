@@ -12,7 +12,6 @@ import { chapter } from "@/database/schema";
 import type { ListOptions } from "@/dal/baseDal";
 import type { Chapter } from "@/types/database";
 
-
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 export class ChapterDal extends BaseDal<Chapter, typeof chapter.$inferInsert> {
   private static instance: ChapterDal;

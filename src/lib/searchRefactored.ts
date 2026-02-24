@@ -66,9 +66,9 @@ export interface SearchResult {
 
 export interface SearchResponse {
   facets?: {
-    genres: { count: number; genre: string; }[];
-    statuses: { count: number; status: string; }[];
-    types: { count: number; type: string; }[];
+    genres: { count: number; genre: string }[];
+    statuses: { count: number; status: string }[];
+    types: { count: number; type: string }[];
   };
   pagination: {
     limit: number;
@@ -519,7 +519,7 @@ async function getComicGenres(comicIds: number[]): Promise<Record<number, string
 export async function getSearchSuggestions(
   query: string,
   limit: number = 5
-): Promise<{ artists: string[]; authors: string[]; comics: string[]; }> {
+): Promise<{ artists: string[]; authors: string[]; comics: string[] }> {
   if (!query || query.length < 2) {
     return { comics: [], authors: [], artists: [] };
   }

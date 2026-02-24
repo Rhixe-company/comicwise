@@ -8,7 +8,6 @@ import { cn } from "utils";
 
 import type { ComponentProps, ReactNode } from "react";
 
-
 export type PillProps = ComponentProps<typeof Badge> & {
   themed?: boolean;
 };

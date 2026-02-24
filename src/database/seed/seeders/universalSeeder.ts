@@ -50,9 +50,6 @@ import { imageService } from "@/services/imageService";
 
 import { hashPassword } from "auth";
 
-
-
-
 // ═══════════════════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -408,7 +405,7 @@ export async function processComicRecord(
   artistId: number,
   typeId: number,
   genreIds: number[]
-): Promise<{ comicId?: number; error?: string; success: boolean; }> {
+): Promise<{ comicId?: number; error?: string; success: boolean }> {
   try {
     const comicPayload = {
       title: validatedComic.title,
@@ -522,7 +519,7 @@ async function processChapterRecord(
   metadata: ReturnType<typeof extractChapterMetadata>,
   comicRecord: any,
   processedImageUrls: string[]
-): Promise<{ chapterId?: number; error?: string; success: boolean; }> {
+): Promise<{ chapterId?: number; error?: string; success: boolean }> {
   try {
     const chapterPayload = {
       title: metadata.chapterTitle,
@@ -897,7 +894,7 @@ export async function seedComicsFromJSON(pattern: string = "comics*.json"): Prom
   let totalErrors = 0;
   const fileResults: Record<
     string,
-    { created: number; errors: number; processed: number; updated: number; }
+    { created: number; errors: number; processed: number; updated: number }
   > = {};
 
   for (const jsonFile of jsonFiles) {
@@ -1089,7 +1086,7 @@ export async function seedChaptersFromJSON(pattern: string = "chapters*.json"): 
     totalSkipped: 0,
     fileResults: {} as Record<
       string,
-      { created: number; errors: number; processed: number; skipped: number; updated: number; }
+      { created: number; errors: number; processed: number; skipped: number; updated: number }
     >,
   };
 
@@ -1290,7 +1287,7 @@ function logImageCacheStats() {
  * Validate that all images are using imageService
  * This checks the cache to ensure images were properly processed
  */
-function validateImageProcessing(): { issues: string[]; valid: boolean; } {
+function validateImageProcessing(): { issues: string[]; valid: boolean } {
   const stats = getCacheStats();
   const issues: string[] = [];
 

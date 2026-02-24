@@ -138,7 +138,7 @@ export async function getReadingProgress(chapterId: number) {
  */
 export async function getReadingHistory(
   limit = 20
-): Promise<{ data?: ReadingHistory[]; error?: string; success: boolean; }> {
+): Promise<{ data?: ReadingHistory[]; error?: string; success: boolean }> {
   try {
     const session = await auth();
     if (!session?.user?.id) {

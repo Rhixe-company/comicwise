@@ -4,10 +4,10 @@ import { ComicsListContent } from "@/components/admin/ComicsListContent";
 import { getComicsWithPagination, searchComics } from "@/database/queries/adminComics";
 
 interface ComicsPageProps {
-  searchParams: Promise<{ cursor?: string; q?: string; }>;
+  searchParams: Promise<{ cursor?: string; q?: string }>;
 }
 
-async function ComicsListPageContent({ q, cursor }: { cursor?: string; q?: string; }) {
+async function ComicsListPageContent({ q, cursor }: { cursor?: string; q?: string }) {
   let data;
 
   if (q) {

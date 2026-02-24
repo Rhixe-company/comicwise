@@ -14,7 +14,6 @@ import type { ActionResult } from "@/dto";
 import type { ChapterFilterInput, CreateChapterInput, UpdateChapterInput } from "@/lib/validations";
 import type { SQL } from "drizzle-orm";
 
-
 type ParsedCreateChapter = CreateChapterInput & { slug?: string };
 
 // ═══════════════════════════════════════════════════

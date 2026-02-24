@@ -149,7 +149,7 @@ class UserDal extends BaseDal<User, Partial<User>> {
     search?: string;
     sortBy?: string;
     sortOrder?: "asc" | "desc";
-  }): Promise<{ limit: number; page: number; total: number; totalPages: number; users: User[]; }> {
+  }): Promise<{ limit: number; page: number; total: number; totalPages: number; users: User[] }> {
     return this.executeWithLogging(
       async () => await queries.getAllUsers(filters),
       "Finding users with filters",

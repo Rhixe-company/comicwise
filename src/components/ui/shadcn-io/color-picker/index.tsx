@@ -27,7 +27,6 @@ import { cn } from "@/lib/utils";
 
 import type { ComponentProps, HTMLAttributes } from "react";
 
-
 // Workaround for color package type issues
 const Color = ColorLib as any;
 

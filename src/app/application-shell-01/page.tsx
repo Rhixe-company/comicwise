@@ -47,7 +47,6 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-
 const ApplicationShell = () => {
   return (
     <div className="flex min-h-dvh w-full">

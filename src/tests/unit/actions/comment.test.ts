@@ -10,7 +10,6 @@ import { createComment, deleteComment, updateComment } from "@/lib/actions/comme
 
 import type { Mock } from "vitest";
 
-
 // Mock dependencies
 vi.mock("mutations");
 vi.mock("next/cache", () => ({

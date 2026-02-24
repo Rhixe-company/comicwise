@@ -6,7 +6,6 @@ import { SectionCards } from "@/components/layout/SectionCards";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-
 export default function Page() {
   return (
     <SidebarProvider

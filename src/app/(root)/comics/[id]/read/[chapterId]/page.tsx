@@ -5,7 +5,7 @@ import { incrementChapterViews } from "@/database/mutations";
 import { getChapter, getNextChapter, getPreviousChapter } from "@/database/queries";
 
 interface PageProps {
-  params: Promise<{ chapterId: string; id: string; }>;
+  params: Promise<{ chapterId: string; id: string }>;
 }
 
 export default async function ChapterReaderPage({ params }: PageProps) {

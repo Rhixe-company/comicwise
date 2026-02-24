@@ -110,7 +110,7 @@ async function searchInFiles(packageName: string): Promise<string[]> {
   }
 }
 
-async function isPackageUsed(packageName: string): Promise<{ locations: string[]; used: boolean; }> {
+async function isPackageUsed(packageName: string): Promise<{ locations: string[]; used: boolean }> {
   // Always keep essential packages
   if (ALWAYS_KEEP.has(packageName)) {
     return { used: true, locations: ["[essential package]"] };

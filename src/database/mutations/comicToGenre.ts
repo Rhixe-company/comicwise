@@ -67,10 +67,7 @@ export async function removeGenreFromComic(
 export async function removeAllGenresFromComic(
   comicId: number
 ): Promise<(typeof comicToGenre.$inferSelect)[]> {
-  return await database
-    .delete(comicToGenre)
-    .where(eq(comicToGenre.comicId, comicId))
-    .returning();
+  return await database.delete(comicToGenre).where(eq(comicToGenre.comicId, comicId)).returning();
 }
 
 /**

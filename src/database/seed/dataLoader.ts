@@ -107,7 +107,7 @@ export class DataLoader<T = unknown> {
     }
 
     const validated: T[] = [];
-    const errors: Array<{ error: string; index: number; }> = [];
+    const errors: Array<{ error: string; index: number }> = [];
 
     for (const [index, item] of data.entries()) {
       try {

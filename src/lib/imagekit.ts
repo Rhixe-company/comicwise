@@ -398,7 +398,7 @@ export async function getFileDetails(fileId: string) {
  * Validate image file
  * @param file
  */
-export function validateImageFile(file: File): { error?: string; valid: boolean; } {
+export function validateImageFile(file: File): { error?: string; valid: boolean } {
   // Check file size (10MB max)
   const maxSize = 10 * 1024 * 1024;
   if (file.size > maxSize) {
@@ -650,7 +650,7 @@ export function generateSrcSet(
 export function generatePictureSources(
   filePath: string,
   widths: number[] = [400, 800, 1200]
-): Array<{ srcset: string; type: string; }> {
+): Array<{ srcset: string; type: string }> {
   const formats: Array<"avif" | "jpg" | "webp"> = ["avif", "webp", "jpg"];
 
   return formats.map((format) => {

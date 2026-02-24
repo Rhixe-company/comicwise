@@ -10,9 +10,9 @@ import { db as database } from "@/database/db";
 import { DataLoader } from "./dataLoader";
 import { logger } from "./logger";
 
-import type { ISeeder, SeedOptions, SeedResult } from "./types";
 import type { PgTable } from "drizzle-orm/pg-core";
 import type { z } from "zod";
+import type { ISeeder, SeedOptions, SeedResult } from "./types";
 
 // ═══════════════════════════════════════════════════
 // ABSTRACT BASE SEEDER
@@ -201,7 +201,7 @@ export abstract class BaseSeeder<T = unknown> implements ISeeder<T> {
    */
   async clear(): Promise<void> {
     logger.info(`Clearing ${this.entity} table...`);
-     
+
     await database.delete(this.table);
     logger.success(`${this.entity} table cleared`);
   }

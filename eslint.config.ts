@@ -1,5 +1,4 @@
 import js from "@eslint/js";
-import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import prettier from "eslint-config-prettier";
@@ -16,6 +15,7 @@ import sonarjs from "eslint-plugin-sonarjs";
 import testingLibrary from "eslint-plugin-testing-library";
 import unicorn from "eslint-plugin-unicorn";
 import vitest from "eslint-plugin-vitest";
+import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
 
 const eslintConfig = defineConfig([

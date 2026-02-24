@@ -11,8 +11,8 @@ import type { NextRequest } from "next/server";
 import type { ZodSchema } from "zod";
 
 type ValidationResult<T> =
-  | { data: T; success: true; }
-  | { error: { errors: unknown[] }; success: false; };
+  | { data: T; success: true }
+  | { error: { errors: unknown[] }; success: false };
 
 /**
  * Convert Zod SafeParseResult to ValidationResult format

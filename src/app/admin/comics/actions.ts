@@ -115,8 +115,8 @@ export async function updateComic(
     };
 
     // Remove undefined values
-    for (const key of Object.keys(updateData)) updateData[key] === undefined && delete updateData[key]
-    ;
+    for (const key of Object.keys(updateData))
+      updateData[key] === undefined && delete updateData[key];
 
     await database.update(comic).set(updateData).where(eq(comic.id, id));
 

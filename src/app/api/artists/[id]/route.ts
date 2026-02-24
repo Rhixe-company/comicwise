@@ -31,7 +31,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     updateFn: async (idValue, data) =>
       updateArtist(
         Number(idValue),
-        data as { bio?: null | string; image?: null | string; name?: string; }
+        data as { bio?: null | string; image?: null | string; name?: string }
       ),
     idValidateFn: zodToValidationResult(artistIdSchema),
     dataValidateFn: zodToValidationResult(updateArtistSchema),

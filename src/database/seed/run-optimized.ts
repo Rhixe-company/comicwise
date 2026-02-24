@@ -32,8 +32,8 @@ interface SeedOptions {
 }
 
 interface SeedStats {
-  chapters: { created: number; errors: number; skipped: number; updated: number; };
-  comics: { created: number; errors: number; skipped: number; updated: number; };
+  chapters: { created: number; errors: number; skipped: number; updated: number };
+  comics: { created: number; errors: number; skipped: number; updated: number };
   images?: {
     cached: number;
     downloaded: number;
@@ -41,7 +41,7 @@ interface SeedStats {
     total: number;
   };
   totalTime?: string;
-  users: { created: number; errors: number; skipped: number; updated: number; };
+  users: { created: number; errors: number; skipped: number; updated: number };
 }
 
 // ─────────────────────────────────────────────────────────────────────────

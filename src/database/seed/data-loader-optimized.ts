@@ -28,7 +28,6 @@ import type {
   ValidationResult,
 } from "@/database/seed/schemas-optimized";
 
-
 // ─────────────────────────────────────────────────────────────────────────
 // CONFIGURATION - Define data sources and their patterns
 // ─────────────────────────────────────────────────────────────────────────

@@ -12,7 +12,6 @@ import { type as typeTable } from "@/database/schema";
 import type { ListOptions } from "@/dal/baseDal";
 import type { Type } from "@/types/database";
 
-
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 class TypeDal extends BaseDal<Type, typeof typeTable.$inferInsert> {
   private static instance: TypeDal;

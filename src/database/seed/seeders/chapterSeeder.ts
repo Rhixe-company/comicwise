@@ -22,7 +22,6 @@ import { logger } from "@/database/seed/logger";
 import { extractImageUrls, imageCacheManager } from "@/database/seed/utils/imageSeederHelper";
 import { logProgress, validateData } from "@/database/seed/utils/seederHelpers";
 
-
 /**
  * Chapter validation schema - flexible to handle multiple formats
  */

@@ -350,7 +350,7 @@ export async function smartSearch(
 export async function getSearchSuggestions(
   query: string,
   limit: number = 10
-): Promise<{ error?: string; success: boolean; suggestions?: unknown[]; }> {
+): Promise<{ error?: string; success: boolean; suggestions?: unknown[] }> {
   try {
     if (!query || query.trim().length < 2) {
       return { success: true, suggestions: [] };

@@ -92,7 +92,7 @@ async function runSeedCommand(command: string, taskName: string) {
 
     log(`${taskName} completed`, "success");
   } catch (error) {
-    const err = error as { message: string; stderr?: string; stdout?: string; };
+    const err = error as { message: string; stderr?: string; stdout?: string };
     log(`${taskName} encountered issues:`, "warn");
     if (err.stdout) console.log(err.stdout);
     if (err.stderr) console.error(err.stderr);
@@ -141,10 +141,9 @@ async function main() {
 
   if (failed > 0) {
     console.log("\nFailed Tasks:");
-    for (const r of results
-      .filter((r) => !r.success)) {
-        console.log(`  ❌ ${r.task}: ${r.message}`);
-      }
+    for (const r of results.filter((r) => !r.success)) {
+      console.log(`  ❌ ${r.task}: ${r.message}`);
+    }
   }
 
   process.exit(failed > 0 ? 1 : 0);

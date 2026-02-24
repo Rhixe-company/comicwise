@@ -3,7 +3,6 @@ import { FacebookIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from "lucide-re
 import Logo from "@/assets/svg/logo";
 import { Separator } from "@/components/ui/separator";
 
-
 const Footer = () => {
   return (
     <footer>

@@ -18,7 +18,6 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, extname, join, relative } from "node:path";
 
-
 // Import providers
 import { CloudinaryProvider } from "@/services/upload/providers/cloudinary";
 import { ImageKitProvider } from "@/services/upload/providers/imagekit";
@@ -285,7 +284,7 @@ class BulkUploader {
     console.log("════════════════════════════════════════════════════════════\n");
 
     // Group results by provider
-    const byProvider = new Map<string, { bytes: number; failed: number; success: number; }>();
+    const byProvider = new Map<string, { bytes: number; failed: number; success: number }>();
 
     for (const result of this.results) {
       if (!byProvider.has(result.provider)) {

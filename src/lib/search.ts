@@ -55,8 +55,8 @@ export interface SearchResult {
 
 export interface SearchResponse {
   facets?: {
-    genres: { count: number; genre: string; }[];
-    statuses: { count: number; status: string; }[];
+    genres: { count: number; genre: string }[];
+    statuses: { count: number; status: string }[];
   };
   pagination: {
     limit: number;

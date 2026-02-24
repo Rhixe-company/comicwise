@@ -207,7 +207,7 @@ export type SearchActionResult<T = unknown> = ActionError | SearchResult<T>;
  */
 export interface HealthCheckResult {
   message?: string;
-  services: Record<string, { latency?: number; status: string; }>;
+  services: Record<string, { latency?: number; status: string }>;
   status: "degraded" | "healthy" | "unhealthy";
   timestamp: string;
 }

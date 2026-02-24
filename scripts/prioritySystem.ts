@@ -418,7 +418,7 @@ function logVerbose(message: string): void {
   }
 }
 
-function executeCommand(cmd: string): { output?: string; success: boolean; } {
+function executeCommand(cmd: string): { output?: string; success: boolean } {
   logVerbose(`Executing: ${cmd}`);
   if (ENV.dryRun) {
     console.log(colorText(`   [DRY RUN] ${cmd}`, "\x1B[33m"));

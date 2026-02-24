@@ -203,7 +203,7 @@ export class SeederDal {
   async findExistingComic(
     slug: string,
     title: string
-  ): Promise<{ exists: boolean; id: number; } | null> {
+  ): Promise<{ exists: boolean; id: number } | null> {
     const existing = await db.query.comic.findFirst({
       where: (table, { eq, or }) => or(eq(table.slug, slug), eq(table.title, title)),
     });
@@ -298,7 +298,7 @@ export class SeederDal {
   async findExistingChapter(
     comicId: number,
     slug: string
-  ): Promise<{ exists: boolean; id: number; } | null> {
+  ): Promise<{ exists: boolean; id: number } | null> {
     const existing = await db.query.chapter.findFirst({
       where: and(eq(chapter.comicId, comicId), eq(chapter.slug, slug)),
     });

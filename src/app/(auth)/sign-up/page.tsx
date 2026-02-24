@@ -4,9 +4,9 @@
 // SIGN UP PAGE (Next.js 16 + React 19)
 // ═══════════════════════════════════════════════════
 
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 

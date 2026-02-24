@@ -36,7 +36,7 @@ export interface SeedResult {
   /** Execution duration in ms */
   duration: number;
   /** Detailed error messages */
-  errorDetails?: Array<{ error: string; record: unknown; }>;
+  errorDetails?: Array<{ error: string; record: unknown }>;
   /** Records with errors */
   errors: number;
   /** Records successfully inserted */

@@ -102,8 +102,5 @@ export async function deleteComicImage(
 export async function deleteComicImages(
   comicId: number
 ): Promise<InferSelectModel<typeof comicImage>[]> {
-  return await db
-    .delete(comicImage)
-    .where(eq(comicImage.comicId, comicId))
-    .returning();
+  return await db.delete(comicImage).where(eq(comicImage.comicId, comicId)).returning();
 }

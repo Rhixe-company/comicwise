@@ -116,7 +116,7 @@ export function GenreDistributionChart({ data }: GenreDistributionChartProps) {
 }
 
 interface ChapterPublishingChartProps {
-  data: { chapters: number; date: string; }[];
+  data: { chapters: number; date: string }[];
 }
 
 export function ChapterPublishingChart({ data }: ChapterPublishingChartProps) {

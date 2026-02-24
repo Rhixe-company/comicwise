@@ -166,7 +166,7 @@ export const authOptions: NextAuthConfig = {
       return session;
     },
 
-    async redirect({ url, baseUrl }: { baseUrl: string; url: string; }) {
+    async redirect({ url, baseUrl }: { baseUrl: string; url: string }) {
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       if (new URL(url).origin === baseUrl) return url;
       return baseUrl;

@@ -31,5 +31,4 @@ async function checkDatabase() {
   }
 }
 
- 
 checkDatabase();

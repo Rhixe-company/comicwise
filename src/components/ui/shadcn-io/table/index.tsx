@@ -38,8 +38,6 @@ import type {
 } from "@tanstack/react-table";
 import type { HTMLAttributes, ReactNode } from "react";
 
-
-
 export type { ColumnDef } from "@tanstack/react-table";
 
 const sortingAtom = atom<SortingState>([]);

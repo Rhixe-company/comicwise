@@ -37,9 +37,7 @@ export class FileUtils {
       const regex = new RegExp("^" + basePattern.replaceAll("*", ".*").replaceAll("?", ".") + "$");
 
       const files = await fs.readdir(dir);
-      return files
-        .filter((file) => regex.test(file))
-        .map((file) => path.resolve(dir, file));
+      return files.filter((file) => regex.test(file)).map((file) => path.resolve(dir, file));
     } catch (error) {
       console.warn(`Pattern ${pattern} matched no files:`, error);
       return [];

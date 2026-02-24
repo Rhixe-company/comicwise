@@ -40,5 +40,4 @@ async function checkRedis() {
   }
 }
 
- 
 checkRedis();

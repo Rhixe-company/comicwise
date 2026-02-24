@@ -14,7 +14,6 @@ import { auth } from "auth";
 import type { Metadata } from "next";
 import type { JSX } from "react";
 
-
 interface ComicDetailPageProps {
   params: Promise<{ id: string }>;
 }

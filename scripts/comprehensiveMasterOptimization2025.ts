@@ -14,7 +14,6 @@ import chalk from "chalk";
 import fs from "fs-extra";
 import ora from "ora";
 
-
 const execAsync = promisify(exec);
 
 interface TaskResult {

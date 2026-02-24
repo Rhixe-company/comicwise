@@ -183,7 +183,7 @@ export interface ValidationResult<T> {
  */
 export function validateArray<T>(items: unknown[], schema: z.ZodSchema<T>): ValidationResult<T> {
   const data: T[] = [];
-  const errors: Array<{ error: string; index: number; }> = [];
+  const errors: Array<{ error: string; index: number }> = [];
 
   for (const [index, item] of items.entries()) {
     const result = schema.safeParse(item);

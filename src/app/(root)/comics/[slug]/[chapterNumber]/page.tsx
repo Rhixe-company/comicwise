@@ -9,7 +9,7 @@ import { updateProgress } from "@/lib/actions/bookmark";
 import { auth } from "@/lib/auth";
 
 interface ChapterPageProps {
-  params: Promise<{ chapterNumber: string; slug: string; }>;
+  params: Promise<{ chapterNumber: string; slug: string }>;
 }
 
 export default async function ChapterPage({ params }: ChapterPageProps) {

@@ -20,8 +20,6 @@ import { cn } from "utils";
 
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
-
-
 interface MultiSelectContextType {
   items: Map<string, ReactNode>;
   onItemAdded(value: string, label: ReactNode): void;
@@ -260,7 +258,7 @@ export function MultiSelectContent({
   ...props
 }: {
   children: ReactNode;
-  search?: { emptyMessage?: string; placeholder?: string; } | boolean;
+  search?: { emptyMessage?: string; placeholder?: string } | boolean;
 } & Omit<ComponentPropsWithoutRef<typeof Command>, "children">) {
   const canSearch = typeof search === "object" ? true : search;
 

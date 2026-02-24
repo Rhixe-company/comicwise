@@ -14,7 +14,6 @@ import type { ActionResult } from "@/dto";
 import type { CreateUserInput, UpdateUserInput, UserFilterInput } from "@/lib/validations";
 import type { SQL } from "drizzle-orm";
 
-
 export async function createUserAdmin(
   input: CreateUserInput
 ): Promise<ActionResult<typeof user.$inferSelect>> {

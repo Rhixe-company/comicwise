@@ -13,7 +13,6 @@ import { auth } from "auth";
 import type { ComicFilters } from "@/types";
 import type { NextRequest } from "next/server";
 
-
 // ═══════════════════════════════════════════════════
 // GET - List Comics with Filtering & Pagination
 // ═══════════════════════════════════════════════════

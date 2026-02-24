@@ -9,7 +9,7 @@ import type { Comic } from "@/types";
 
 interface ComicCardProps {
   authorName?: null | string;
-  comic: Partial<Comic> & { coverImage: string; id: number; rating?: null | string; title: string; };
+  comic: Partial<Comic> & { coverImage: string; id: number; rating?: null | string; title: string };
   typeName?: null | string;
 }
 

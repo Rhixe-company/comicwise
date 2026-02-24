@@ -16,8 +16,8 @@ export interface ValidationResult {
 }
 
 type TypedValidationResult<T> =
-  | { data: T; success: true; }
-  | { error: { errors: unknown[] }; success: false; };
+  | { data: T; success: true }
+  | { error: { errors: unknown[] }; success: false };
 
 /**
  * Convert Zod schema to validation result format

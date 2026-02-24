@@ -52,7 +52,6 @@ import { logger } from "@/database/seed/logger";
 
 import { env } from "env";
 
-
 import type { z } from "zod";
 
 type UserSeedData = z.infer<typeof UserSeedSchema>;

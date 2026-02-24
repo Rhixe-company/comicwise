@@ -12,7 +12,6 @@ import { artist } from "@/database/schema";
 import type { ListOptions } from "@/dal/baseDal";
 import type { Artist } from "@/types/database";
 
-
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 class ArtistDal extends BaseDal<Artist, typeof artist.$inferInsert> {
   private static instance: ArtistDal;

@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
 
-
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";

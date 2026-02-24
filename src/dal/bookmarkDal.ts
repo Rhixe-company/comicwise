@@ -12,7 +12,6 @@ import { bookmark } from "@/database/schema";
 import type { ListOptions } from "@/dal/baseDal";
 import type { Bookmark } from "@/types/database";
 
-
 // @ts-expect-error - TypeScript limitation: static methods cannot properly override generic static methods
 export class BookmarkDal extends BaseDal<Bookmark, typeof bookmark.$inferInsert> {
   private static instance: BookmarkDal;

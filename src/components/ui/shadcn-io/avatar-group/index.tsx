@@ -216,8 +216,8 @@ function AvatarGroup({
 
 export {
   AvatarGroup,
-  type AvatarGroupProps,
   AvatarGroupTooltip,
+  type AvatarGroupProps,
   type AvatarGroupTooltipProps,
   type AvatarGroupVariant,
 };

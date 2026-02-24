@@ -31,7 +31,6 @@ import * as path from "node:path";
 import chalk from "chalk";
 import { globSync } from "glob";
 
-
 // ═══════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════

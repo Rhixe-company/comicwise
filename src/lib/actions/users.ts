@@ -15,7 +15,6 @@ import { signUpSchema } from "@/lib/validations";
 
 import type { ActionResult } from "@/dto";
 
-
 const updateUserAdminSchema = z
   .object({
     name: z.string().min(2).optional(),

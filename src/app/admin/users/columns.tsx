@@ -19,8 +19,6 @@ import { deleteUser } from "@/dto/usersDto";
 import type { user } from "@/database/schema";
 import type { ColumnDef } from "@tanstack/react-table";
 
-
-
 export type User = typeof user.$inferSelect;
 
 export const columns: ColumnDef<User>[] = [

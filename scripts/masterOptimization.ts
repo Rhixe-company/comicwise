@@ -324,7 +324,8 @@ class MasterOptimizer {
       const backups = findBackups();
       this.success(`Found ${backups.length} backup file(s)`);
       if (backups.length > 0) {
-        for (const b of backups.slice(0, 5)) this.log(`    - ${path.relative(ROOT_DIR, b)}`, "gray");
+        for (const b of backups.slice(0, 5))
+          this.log(`    - ${path.relative(ROOT_DIR, b)}`, "gray");
         if (backups.length > 5) {
           this.log(`    ... and ${backups.length - 5} more`, "gray");
         }

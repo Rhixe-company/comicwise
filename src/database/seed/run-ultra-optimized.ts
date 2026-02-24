@@ -178,11 +178,11 @@ type ValidatedComic = z.infer<typeof ComicSchema>;
 type ValidatedChapter = z.infer<typeof ChapterSchema>;
 
 interface SeedStats {
-  chapters: { created: number; errors: number; skipped: number; updated: number; };
-  comics: { created: number; errors: number; skipped: number; updated: number; };
+  chapters: { created: number; errors: number; skipped: number; updated: number };
+  comics: { created: number; errors: number; skipped: number; updated: number };
   duration: number;
-  images: { cached: number; downloaded: number; failed: number; total: number; };
-  users: { created: number; errors: number; skipped: number; updated: number; };
+  images: { cached: number; downloaded: number; failed: number; total: number };
+  users: { created: number; errors: number; skipped: number; updated: number };
 }
 
 interface SeedOptions {

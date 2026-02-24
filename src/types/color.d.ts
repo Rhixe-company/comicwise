@@ -11,7 +11,7 @@ declare module "color" {
     array(): number[];
     hex(): string;
     object(): RGBObject;
-    rgb(): { array(): number[]; object(): RGBObject; };
+    rgb(): { array(): number[]; object(): RGBObject };
     toString(): string;
   }
 

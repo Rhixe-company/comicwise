@@ -19,7 +19,6 @@ import * as authLib from "auth";
 import type { ComicFilters } from "@/types";
 import type { Mock } from "vitest";
 
-
 // Removed unused import
 // Mock dependencies
 vi.mock("auth");

@@ -81,7 +81,7 @@ function ChartContainer({
   );
 }
 
-const ChartStyle = ({ id, config }: { config: ChartConfig; id: string; }) => {
+const ChartStyle = ({ id, config }: { config: ChartConfig; id: string }) => {
   const colorConfig = Object.entries(config).filter(([, config]) => config.theme || config.color);
 
   if (!colorConfig.length) {

@@ -13,7 +13,6 @@ import { auth } from "auth";
 
 import type { NextRequest } from "next/server";
 
-
 // ═══════════════════════════════════════════════════
 // GET - List Users with Filtering & Pagination
 // ═══════════════════════════════════════════════════

@@ -37,8 +37,8 @@ interface ChapterReaderProps {
   chapter: Chapter;
   comic: Comic;
   images: ChapterImage[];
-  nextChapter: { chapterNumber: number; slug: string; } | null;
-  prevChapter: { chapterNumber: number; slug: string; } | null;
+  nextChapter: { chapterNumber: number; slug: string } | null;
+  prevChapter: { chapterNumber: number; slug: string } | null;
 }
 
 export function ChapterReader({

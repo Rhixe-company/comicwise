@@ -270,7 +270,7 @@ export function safeValidate<T>(
   schema: z.ZodSchema<T>,
   data: unknown,
   context: string
-): { data?: T; error?: string; success: boolean; } {
+): { data?: T; error?: string; success: boolean } {
   try {
     const validated = schema.parse(data);
     return { success: true, data: validated };

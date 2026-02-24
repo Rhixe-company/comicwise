@@ -15,7 +15,6 @@ import type { ComicFilterInput, CreateComicInput, UpdateComicInput } from "@/lib
 import type { Genre } from "@/types/database";
 import type { SQL } from "drizzle-orm";
 
-
 type ParsedCreateComic = CreateComicInput & { slug?: string };
 type ParsedUpdateComic = UpdateComicInput & { slug?: string };
 

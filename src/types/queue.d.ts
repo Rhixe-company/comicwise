@@ -36,7 +36,7 @@ export interface QueueJob<T = unknown> {
  */
 export interface QueueJobOptions {
   attempts?: number;
-  backoff?: { delay: number; type: string; } | number;
+  backoff?: { delay: number; type: string } | number;
   delay?: number;
   jobId?: string;
   lifo?: boolean;

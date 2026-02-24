@@ -818,7 +818,7 @@ export async function rateLimit(
     max: number;
     window: number;
   }
-): Promise<{ remaining: number; reset: number; success: boolean; }> {
+): Promise<{ remaining: number; reset: number; success: boolean }> {
   const key = `ratelimit:${identifier}`;
 
   try {

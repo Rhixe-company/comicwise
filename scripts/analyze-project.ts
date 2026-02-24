@@ -73,7 +73,7 @@ async function analyzeTypeScript(): Promise<void> {
     spinner.succeed(chalk.green("✓ No TypeScript errors found"));
     analysisResult.typeScriptErrors = 0;
   } catch (error: unknown) {
-    const err = error as { stderr?: string; stdout?: string; };
+    const err = error as { stderr?: string; stdout?: string };
     const output = err.stdout || err.stderr || "";
     const errorCount = (output.match(/error TS/g) || []).length;
     analysisResult.typeScriptErrors = errorCount;
@@ -94,7 +94,7 @@ async function analyzeESLint(): Promise<void> {
     analysisResult.eslintErrors = 0;
     analysisResult.eslintWarnings = 0;
   } catch (error: unknown) {
-    const err = error as { stderr?: string; stdout?: string; };
+    const err = error as { stderr?: string; stdout?: string };
     const output = err.stdout || err.stderr || "";
 
     const errorCount = (output.match(/✖.*error/g) || []).length;

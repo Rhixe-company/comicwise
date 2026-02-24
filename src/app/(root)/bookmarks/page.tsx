@@ -11,7 +11,6 @@ import { auth } from "auth";
 
 import type { Metadata } from "next";
 
-
 export const metadata: Metadata = {
   title: "My Bookmarks - ComicWise",
   description: "Your bookmarked comics and reading progress",

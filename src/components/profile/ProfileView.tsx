@@ -9,9 +9,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 import type { User } from "next-auth";
 
-
 interface ProfileViewProps {
-  user: User & { createdAt?: Date; role?: string; };
+  user: User & { createdAt?: Date; role?: string };
 }
 
 export function ProfileView({ user }: ProfileViewProps) {

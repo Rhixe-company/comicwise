@@ -114,8 +114,8 @@ export async function updateChapter(
     const updateData: Record<string, unknown> = data;
 
     // Remove undefined values
-    for (const key of Object.keys(updateData)) updateData[key] === undefined && delete updateData[key]
-    ;
+    for (const key of Object.keys(updateData))
+      updateData[key] === undefined && delete updateData[key];
 
     await database.update(chapter).set(updateData).where(eq(chapter.id, id));
     console.log(`✅ Chapter updated: ${existing.title} (ID: ${id})`);

@@ -9,7 +9,6 @@ import { searchComics } from "@/lib/search";
 import type { SearchFilters } from "@/lib/search";
 import type { NextRequest } from "next/server";
 
-
 // ═══════════════════════════════════════════════════
 // MAIN SEARCH ENDPOINT
 // ═══════════════════════════════════════════════════

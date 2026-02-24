@@ -38,12 +38,12 @@ import type { User } from "@/types/database";
 // ═══════════════════════════════════════════════════
 
 interface AdminUsersProps {
-  createUserAction(data: CreateUserInput): Promise<{ error?: string; success: boolean; }>;
-  deleteUserAction(id: string): Promise<{ error?: string; success: boolean; }>;
+  createUserAction(data: CreateUserInput): Promise<{ error?: string; success: boolean }>;
+  deleteUserAction(id: string): Promise<{ error?: string; success: boolean }>;
   updateUserAction(
     id: string,
     data: UpdateUserInput
-  ): Promise<{ error?: string; success: boolean; }>;
+  ): Promise<{ error?: string; success: boolean }>;
   users: User[];
 }
 
