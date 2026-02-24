@@ -6,7 +6,7 @@
 "use client";
 
 import { BaseForm } from "@/components/admin/BaseForm";
-import { insertArtistSchema } from "@/lib/validations/artistSchema";
+import { insertArtistSchema } from "@/schemas/artistSchema";
 
 export interface EditArtistFormProps {
   id: number | string;

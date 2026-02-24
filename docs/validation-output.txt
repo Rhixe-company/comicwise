@@ -1,0 +1,34 @@
+Full pnpm validate output captured on 2026-02-24
+
+(Abbreviated/filtered view: warnings and errors from eslint/tsc shown below)
+
+----------------------------------------
+Validation output (eslint/tsc warnings/errors)
+
+C:\Users\Alexa\Desktop\SandBox\comicwise\src\database\seed\imageManager.ts
+  1:1   warning  Filename is not in kebab case. Rename it to `image-manager.ts`  unicorn/filename-case
+  40:13 warning  Found mkdir from package "node:fs/promises" with non literal argument at index 0  security/detect-non-literal-fs-filename
+  92:9  warning  Found existsSync from package "node:fs" with non literal argument at index 0  security/detect-non-literal-fs-filename
+ 112:13 warning  Found writeFile from package "node:fs/promises" with non literal argument at index 0  security/detect-non-literal-fs-filename
+
+C:\Users\Alexa\Desktop\SandBox\comicwise\src\database\seed\imagePathHelper.ts
+  1:1   warning  Filename is not in kebab case. Rename it to `image-path-helper.ts`  unicorn/filename-case
+
+C:\Users\Alexa\Desktop\SandBox\comicwise\src\database\seed\logger-optimized.ts
+  many warnings: unexpected console statements (no-console), unexpected any, unused vars, cognitive-complexity notes
+
+C:\Users\Alexa\Desktop\SandBox\comicwise\src\database\seed\logger.ts
+  38:5  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+ 43:5  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+
+... (many seed files with filename-case, any usage, cognitive complexity, and security/fs warnings)
+
+Key error summary:
+- No remaining blocking ESLint errors after small fixes; primarily warnings remain:
+  - `unicorn/filename-case` (rename many files to kebab-case)
+  - `@typescript-eslint/no-explicit-any` (widespread any usage in seeders)
+  - `sonarjs/cognitive-complexity` (functions exceeding complexity limits)
+  - `security/detect-non-literal-fs-filename` and `security/detect-object-injection` (dynamic fs usage and object injection sinks)
+  - remaining `no-console` occurrences in a few files
+
+Full raw output available in the workspace if you need more detail.

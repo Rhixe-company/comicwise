@@ -4,7 +4,7 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { signInAction, signOutAction } from "@/lib/actions/auth";
+import { signInAction, signOutAction } from "@/actions/auth";
 import * as ratelimitLib from "@/lib/ratelimit";
 
 import * as authLib from "auth";

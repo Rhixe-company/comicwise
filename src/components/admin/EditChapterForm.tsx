@@ -6,7 +6,7 @@
 "use client";
 
 import { BaseForm } from "@/components/admin/BaseForm";
-import { insertChapterSchema } from "@/lib/validations/chapterSchema";
+import { insertChapterSchema } from "@/schemas/chapterSchema";
 
 export interface EditChapterFormProps {
   id: number | string;

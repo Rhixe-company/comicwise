@@ -22,10 +22,10 @@ import {
   safeParseString,
   validateData,
 } from "@/database/seed/utils/seederHelpers";
-import { ComicSeedSchema } from "@/lib/validations/comicSchema";
+import { ComicSeedSchema } from "@/schemas/comicSchema";
 
 import type { comic } from "@/database/schema";
-import type { ComicSeedData } from "@/lib/validations/comicSchema";
+import type { ComicSeedData } from "@/schemas/comicSchema";
 import type { Author, Comic } from "@/types";
 
 /**

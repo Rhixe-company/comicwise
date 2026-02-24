@@ -30,4 +30,4 @@ export interface ChapterNavigationDto {
   previous?: ChapterDto;
 }
 
-export { deleteChapter, updateChapter } from "@/lib/actions/chapters";
+export { deleteChapter, updateChapter } from "@/actions/chapters";

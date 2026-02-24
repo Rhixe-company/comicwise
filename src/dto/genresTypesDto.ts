@@ -20,4 +20,4 @@ export type { CreateGenreDto, UpdateGenreDto } from "@/dto/genresDto";
 export type { CreateTypeDto, UpdateTypeDto } from "@/dto/typesDto";
 export type { GenreDto, TypeDto };
 
-export { getAllGenres, getAllTypes } from "@/lib/actions/genresTypes";
+export { getAllGenres, getAllTypes } from "@/actions/genresTypes";

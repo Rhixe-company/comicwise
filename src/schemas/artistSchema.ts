@@ -5,7 +5,7 @@
  * This file maintained for backward compatibility only
  */
 
-import { createArtistSchema, updateArtistSchema } from "@/lib/validations/index";
+import { createArtistSchema, updateArtistSchema } from "@/schemas/index";
 
 // Re-export with legacy names for backward compatibility
 export const insertArtistSchema = createArtistSchema;

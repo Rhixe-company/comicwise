@@ -1,11 +1,10 @@
-/* eslint-disable typescript-eslint/no-non-null-assertion */
 import { and, asc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
+import { updateProgress } from "@/actions/bookmark";
 import { ChapterReader } from "@/components/chapters/ChapterReader";
 import { db as database } from "@/database/db";
 import { chapter, chapterImage, comic } from "@/database/schema";
-import { updateProgress } from "@/lib/actions/bookmark";
 import { auth } from "@/lib/auth";
 
 interface ChapterPageProps {

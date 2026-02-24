@@ -19,19 +19,19 @@ export class SeedLogger {
   }
 
   header(text: string) {
-    console.log("\n" + "═".repeat(60));
-    console.log(`  ${text}`);
-    console.log("═".repeat(60) + "\n");
+    seedLogger.info("\n" + "═".repeat(60));
+    seedLogger.info(`  ${text}`);
+    seedLogger.info("═".repeat(60) + "\n");
   }
 
   section(text: string) {
-    console.log("\n" + "─".repeat(60));
-    console.log(`  ${text}`);
-    console.log("─".repeat(60));
+    seedLogger.info("\n" + "─".repeat(60));
+    seedLogger.info(`  ${text}`);
+    seedLogger.info("─".repeat(60));
   }
 
   footer() {
-    console.log("═".repeat(60) + "\n");
+    seedLogger.info("═".repeat(60) + "\n");
   }
 
   info(message: string) {
@@ -56,13 +56,13 @@ export class SeedLogger {
 
   debug(message: string) {
     if (this.verboseMode) {
-      console.log(`🔍 ${message}`);
+      seedLogger.info(`🔍 ${message}`);
       seedLogger.debug(message);
     }
   }
 
   stat(label: string, value: number | string) {
-    console.log(`   ${label}: ${value}`);
+    seedLogger.info(`   ${label}: ${value}`);
   }
 }
 
@@ -115,19 +115,19 @@ export class ProgressTracker {
     const percentage = Math.round((this.current / this.total) * 100);
     const elapsed = ((Date.now() - this.startTime) / 1000).toFixed(1);
     const message_ = message ? ` - ${message}` : "";
-    console.log(
+    seedLogger.info(
       `[${this.name}] ${this.current}/${this.total} (${percentage}%) - ${elapsed}s - ${status}${message_}`
     );
   }
 
   complete() {
     const elapsed = ((Date.now() - this.startTime) / 1000).toFixed(2);
-    console.log(`\n[${this.name}] Summary:`);
-    console.log(`   Created:  ${this.created}`);
-    console.log(`   Updated:  ${this.updated}`);
-    console.log(`   Skipped:  ${this.skipped}`);
-    console.log(`   Errors:   ${this.errors}`);
-    console.log(`   Time:     ${elapsed}s`);
-    console.log(`   Total:    ${this.total}`);
+    seedLogger.info(`\n[${this.name}] Summary:`);
+    seedLogger.info(`   Created:  ${this.created}`);
+    seedLogger.info(`   Updated:  ${this.updated}`);
+    seedLogger.info(`   Skipped:  ${this.skipped}`);
+    seedLogger.info(`   Errors:   ${this.errors}`);
+    seedLogger.info(`   Time:     ${elapsed}s`);
+    seedLogger.info(`   Total:    ${this.total}`);
   }
 }

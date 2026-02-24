@@ -5,7 +5,7 @@
  * This file maintained for backward compatibility only
  */
 
-import { createGenreSchema, updateGenreSchema } from "@/lib/validations/index";
+import { createGenreSchema, updateGenreSchema } from "@/schemas/index";
 
 // Re-export with legacy names for backward compatibility
 export const insertGenreSchema = createGenreSchema;

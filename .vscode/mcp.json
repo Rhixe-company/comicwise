@@ -40,116 +40,116 @@
     "maxLogFiles": 10
   },
   "mcpServers": {
-    "brave-search": {
-      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
-      "autoApprove": ["brave_web_search", "brave_local_search"],
-      "command": "npx",
-      "description": "Web search for documentation and solutions",
-      "disabled": false,
-      "env": {
-        "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
-      },
-      "priority": "medium",
-      "retries": 3,
-      "timeout": 60000
-    },
-    "context7": {
-      "args": ["-y", "@upstash/context7-mcp@latest"],
-      "command": "npx"
-    },
-    "fetch": {
-      "args": ["-y", "@modelcontextprotocol/server-fetch"],
-      "autoApprove": ["fetch"],
-      "command": "npx",
-      "description": "HTTP client for API testing and documentation fetching",
-      "disabled": false,
-      "priority": "medium",
-      "retries": 3,
-      "timeout": 45000
-    },
-    "filesystem": {
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "${workspaceFolder}"
-      ],
-      "autoApprove": [
-        "read_file",
-        "write_file",
-        "edit_file",
-        "list_directory",
-        "directory_tree",
-        "create_directory",
-        "move_file",
-        "search_files",
-        "get_file_info",
-        "read_multiple_files",
-        "list_allowed_directories"
-      ],
-      "command": "npx",
-      "description": "Full filesystem access for Next.js project management",
-      "disabled": false,
-      "priority": "critical",
-      "retries": 3,
-      "timeout": 120000
-    },
-    "git": {
-      "args": ["-y", "@modelcontextprotocol/server-git", "${workspaceFolder}"],
-      "autoApprove": [
-        "git_status",
-        "git_diff",
-        "git_log",
-        "git_show",
-        "git_commit",
-        "git_add",
-        "git_reset",
-        "git_branch",
-        "list_branches",
-        "git_checkout",
-        "git_stash",
-        "git_stash_pop",
-        "git_remote",
-        "git_fetch",
-        "git_pull",
-        "git_push"
-      ],
-      "command": "npx",
-      "description": "Complete Git version control integration",
-      "disabled": false,
-      "priority": "high",
-      "retries": 3,
-      "timeout": 90000
-    },
-    "github": {
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "autoApprove": [
-        "search_repositories",
-        "search_code",
-        "search_issues",
-        "search_pull_requests",
-        "get_file_contents",
-        "list_commits",
-        "get_commit",
-        "list_issues",
-        "list_pull_requests",
-        "get_issue",
-        "get_pull_request",
-        "list_branches",
-        "fork_repository",
-        "create_repository",
-        "create_issue",
-        "create_pull_request",
-        "update_issue",
-        "create_or_update_file",
-        "push_files"
-      ],
-      "command": "npx",
-      "description": "GitHub API integration for repository management",
-      "disabled": false,
-      "priority": "high",
-      "retries": 3,
-      "timeout": 120000
-    },
+    // "brave-search": {
+    //   "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+    //   "autoApprove": ["brave_web_search", "brave_local_search"],
+    //   "command": "npx",
+    //   "description": "Web search for documentation and solutions",
+    //   "disabled": false,
+    //   "env": {
+    //     "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
+    //   },
+    //   "priority": "medium",
+    //   "retries": 3,
+    //   "timeout": 60000
+    // },
+    // "context7": {
+    //   "args": ["-y", "@upstash/context7-mcp@latest"],
+    //   "command": "npx"
+    // },
+    // "fetch": {
+    //   "args": ["-y", "@modelcontextprotocol/server-fetch"],
+    //   "autoApprove": ["fetch"],
+    //   "command": "npx",
+    //   "description": "HTTP client for API testing and documentation fetching",
+    //   "disabled": false,
+    //   "priority": "medium",
+    //   "retries": 3,
+    //   "timeout": 45000
+    // },
+    // "filesystem": {
+    //   "args": [
+    //     "-y",
+    //     "@modelcontextprotocol/server-filesystem",
+    //     "${workspaceFolder}"
+    //   ],
+    //   "autoApprove": [
+    //     "read_file",
+    //     "write_file",
+    //     "edit_file",
+    //     "list_directory",
+    //     "directory_tree",
+    //     "create_directory",
+    //     "move_file",
+    //     "search_files",
+    //     "get_file_info",
+    //     "read_multiple_files",
+    //     "list_allowed_directories"
+    //   ],
+    //   "command": "npx",
+    //   "description": "Full filesystem access for Next.js project management",
+    //   "disabled": false,
+    //   "priority": "critical",
+    //   "retries": 3,
+    //   "timeout": 120000
+    // },
+    // "git": {
+    //   "args": ["-y", "@modelcontextprotocol/server-git", "${workspaceFolder}"],
+    //   "autoApprove": [
+    //     "git_status",
+    //     "git_diff",
+    //     "git_log",
+    //     "git_show",
+    //     "git_commit",
+    //     "git_add",
+    //     "git_reset",
+    //     "git_branch",
+    //     "list_branches",
+    //     "git_checkout",
+    //     "git_stash",
+    //     "git_stash_pop",
+    //     "git_remote",
+    //     "git_fetch",
+    //     "git_pull",
+    //     "git_push"
+    //   ],
+    //   "command": "npx",
+    //   "description": "Complete Git version control integration",
+    //   "disabled": false,
+    //   "priority": "high",
+    //   "retries": 3,
+    //   "timeout": 90000
+    // },
+    // "github": {
+    //   "args": ["-y", "@modelcontextprotocol/server-github"],
+    //   "autoApprove": [
+    //     "search_repositories",
+    //     "search_code",
+    //     "search_issues",
+    //     "search_pull_requests",
+    //     "get_file_contents",
+    //     "list_commits",
+    //     "get_commit",
+    //     "list_issues",
+    //     "list_pull_requests",
+    //     "get_issue",
+    //     "get_pull_request",
+    //     "list_branches",
+    //     "fork_repository",
+    //     "create_repository",
+    //     "create_issue",
+    //     "create_pull_request",
+    //     "update_issue",
+    //     "create_or_update_file",
+    //     "push_files"
+    //   ],
+    //   "command": "npx",
+    //   "description": "GitHub API integration for repository management",
+    //   "disabled": false,
+    //   "priority": "high",
+    //   "retries": 3,
+    //   "timeout": 120000
+    // },
     "MCP_DOCKER": {
       "args": ["mcp", "gateway", "run"],
       "command": "docker",
@@ -180,47 +180,47 @@
       "retries": 3,
       "timeout": 30000
     },
-    "postgres": {
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-postgres",
-        "postgresql://postgresbot:6|lyj9,h2)&a@localhost:5432/comicwise"
-      ],
-      "autoApprove": [
-        "query",
-        "list_tables",
-        "describe_table",
-        "list_schemas",
-        "execute_query",
-        "get_table_schema"
-      ],
-      "command": "npx",
-      "description": "PostgreSQL database management and query execution",
-      "disabled": false,
-      "env": {
-        "POSTGRES_CONNECTION_POOL_SIZE": "20",
-        "POSTGRES_TIMEOUT": "30000"
-      },
-      "priority": "high",
-      "retries": 3,
-      "timeout": 60000
-    },
-    "puppeteer": {
-      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
-      "autoApprove": [
-        "puppeteer_navigate",
-        "puppeteer_screenshot",
-        "puppeteer_click",
-        "puppeteer_fill",
-        "puppeteer_evaluate"
-      ],
-      "command": "npx",
-      "description": "Browser automation for E2E testing and scraping",
-      "disabled": true,
-      "priority": "low",
-      "retries": 2,
-      "timeout": 90000
-    },
+    // "postgres": {
+    //   "args": [
+    //     "-y",
+    //     "@modelcontextprotocol/server-postgres",
+    //     "postgresql://postgresbot:6|lyj9,h2)&a@localhost:5432/comicwise"
+    //   ],
+    //   "autoApprove": [
+    //     "query",
+    //     "list_tables",
+    //     "describe_table",
+    //     "list_schemas",
+    //     "execute_query",
+    //     "get_table_schema"
+    //   ],
+    //   "command": "npx",
+    //   "description": "PostgreSQL database management and query execution",
+    //   "disabled": false,
+    //   "env": {
+    //     "POSTGRES_CONNECTION_POOL_SIZE": "20",
+    //     "POSTGRES_TIMEOUT": "30000"
+    //   },
+    //   "priority": "high",
+    //   "retries": 3,
+    //   "timeout": 60000
+    // },
+    // "puppeteer": {
+    //   "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+    //   "autoApprove": [
+    //     "puppeteer_navigate",
+    //     "puppeteer_screenshot",
+    //     "puppeteer_click",
+    //     "puppeteer_fill",
+    //     "puppeteer_evaluate"
+    //   ],
+    //   "command": "npx",
+    //   "description": "Browser automation for E2E testing and scraping",
+    //   "disabled": true,
+    //   "priority": "low",
+    //   "retries": 2,
+    //   "timeout": 90000
+    // },
     "sentry": {
       "args": ["-y", "@modelcontextprotocol/server-sentry"],
       "autoApprove": ["get_issues", "get_issue_details", "get_project_stats"],

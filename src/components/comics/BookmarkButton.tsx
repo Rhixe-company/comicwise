@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
+import { addBookmark, removeBookmark } from "@/actions/bookmark";
 import { Button } from "@/components/ui/button";
-import { addBookmark, removeBookmark } from "@/lib/actions/bookmark";
 
 interface BookmarkButtonProps {
   comicId: number;

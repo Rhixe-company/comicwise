@@ -116,7 +116,7 @@ export default async function EditAuthorForm({ params }: { params: { id: string 
                 </div>
               )}
               <p className="text-muted-foreground text-sm">
-                Upload or provide URL for author's profile image
+                Upload or provide URL for author&apos;s profile image
               </p>
             </div>
 

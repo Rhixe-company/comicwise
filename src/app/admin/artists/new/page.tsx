@@ -181,7 +181,7 @@ export default function NewArtistPage() {
                       </div>
                     </FormControl>
                     <FormDescription>
-                      Upload or provide URL for artist's profile image
+                      Upload or provide URL for artist&apos;s profile image
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

@@ -23,8 +23,8 @@ const eslintConfig = defineConfig([
   // Base configurations
   // ===========================
   js.configs.recommended,
-  ...nextVitals,
-  ...nextTs,
+  nextVitals,
+  nextTs,
 
   // ===========================
   // Global ignores
@@ -41,7 +41,6 @@ const eslintConfig = defineConfig([
     "test-results/**",
     "playwright-report/**",
     ".vercel/**",
-    "*.d.ts",
   ]),
 
   // ===========================
@@ -82,7 +81,8 @@ const eslintConfig = defineConfig([
   {
     files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
     plugins: {
-      "import-x": importX,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      "import-x": importX as any,
       // jsx-a11y and react-hooks are already included via eslint-config-next
       unicorn,
       security,
@@ -275,6 +275,27 @@ const eslintConfig = defineConfig([
   },
 
   // ===========================
+  // Types definitions (local overrides)
+  // ===========================
+  {
+    files: ["src/types/**/*.ts", "src/types/**/*.d.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "unicorn/filename-case": "off",
+    },
+  },
+
+  // ===========================
+  // Seed directory overrides (allow non-kebab filenames for migrations/seed files)
+  // ===========================
+  {
+    files: ["src/database/seed/**"],
+    rules: {
+      "unicorn/filename-case": "off",
+    },
+  },
+
+  // ===========================
   // React Refresh (TSX files in src)
   // ===========================
   {
@@ -406,7 +427,7 @@ const eslintConfig = defineConfig([
       // Relax some rules for tests
       "@typescript-eslint/no-explicit-any": "error",
       "security/detect-non-literal-fs-filename": "error",
-      "sonarjs/no-duplicate-string": "error",
+      "sonarjs/no-duplicate-string": "off",
     },
   },
 

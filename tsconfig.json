@@ -30,6 +30,10 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/appConfig": ["./appConfig.ts"],
+      "@/lib/actions/*": ["./src/actions/*"],
+      "@/lib/actions": ["./src/actions/index.ts"],
+      "@/lib/validations/*": ["./src/schemas/*"],
+      "@/lib/validations": ["./src/schemas/index.ts"],
       "actions": ["./src/lib/actions/*"],
       "admin": ["./src/components/admin/*"],
       "appConfig": ["./appConfig.ts"],
@@ -61,6 +65,7 @@
       "utils": ["./src/lib/utils.ts"],
       "validations": ["./src/lib/validations/*"]
     },
+
     "plugins": [
       {
         "name": "next"

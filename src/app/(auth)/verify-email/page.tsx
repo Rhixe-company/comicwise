@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
+import { verifyEmail as verifyEmailAction } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,7 +19,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { verifyEmail as verifyEmailAction } from "@/lib/actions/auth";
 
 function VerifyEmailContent() {
   const [status, setStatus] = useState<"error" | "loading" | "success">("loading");

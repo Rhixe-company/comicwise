@@ -6,10 +6,10 @@ import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { error } from "@/actions/utils";
 import appConfig, { checkRateLimit } from "@/appConfig";
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
-import { error } from "@/lib/actions/utils";
 import { sendPasswordResetEmail, sendWelcomeEmail } from "@/lib/nodemailer";
 import { signUpSchema } from "@/lib/validations";
 

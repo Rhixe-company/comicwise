@@ -4,15 +4,9 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { createComic, deleteComic, getComicById, getComics, updateComic } from "@/actions/comic";
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
-import {
-  createComic,
-  deleteComic,
-  getComicById,
-  getComics,
-  updateComic,
-} from "@/lib/actions/comic";
 
 import * as authLib from "auth";
 

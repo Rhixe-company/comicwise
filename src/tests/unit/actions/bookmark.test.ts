@@ -4,9 +4,9 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { addBookmark, getBookmarks, removeBookmark, updateProgress } from "@/actions/bookmark";
 import * as mutations from "@/database/mutations";
 import * as queries from "@/database/queries";
-import { addBookmark, getBookmarks, removeBookmark, updateProgress } from "@/lib/actions/bookmark";
 
 import * as authLib from "auth";
 

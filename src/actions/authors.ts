@@ -3,24 +3,24 @@
 import { revalidatePath } from "next/cache";
 import z from "zod";
 
+import { error } from "@/actions/utils";
 import appConfig, { checkRateLimit } from "@/appConfig";
 import * as mutations from "@/database/mutations";
-import { error } from "@/lib/actions/utils";
-import { createArtistSchema, updateArtistSchema } from "@/lib/validations";
+import { createAuthorSchema, updateAuthorSchema } from "@/lib/validations";
 
 import type { ActionResult } from "@/dto";
 
-export async function createArtist(formData: FormData): Promise<ActionResult<{ id: number }>> {
+export async function createAuthor(formData: FormData): Promise<ActionResult<{ id: number }>> {
   try {
     // Rate limiting
-    const rateLimit = await checkRateLimit("create:artist", {
+    const rateLimit = await checkRateLimit("create:author", {
       limit: appConfig.rateLimit.default ?? 10,
     });
     if (!rateLimit.allowed) {
       return error("Too many requests. Please try again later.");
     }
 
-    const data = createArtistSchema.parse({
+    const data = createAuthorSchema.parse({
       name: formData.get("name"),
       bio: formData.get("bio") || undefined,
       image: formData.get("image") || undefined,
@@ -32,55 +32,55 @@ export async function createArtist(formData: FormData): Promise<ActionResult<{ i
       image: data.image ?? undefined,
     };
 
-    const artist = await mutations.createArtist(cleanData);
-    if (!artist) {
-      return error("Failed to create artist");
+    const author = await mutations.createAuthor(cleanData);
+    if (!author) {
+      return error("Failed to create author");
     }
 
-    revalidatePath("/admin/artists");
-    return { success: true, data: { id: artist.id } };
+    revalidatePath("/admin/authors");
+    return { success: true, data: { id: author.id } };
   } catch (error_) {
     if (error_ instanceof z.ZodError) {
       return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Create artist error:", error_);
-    return error("Failed to create artist");
+    console.error("Create author error:", error_);
+    return error("Failed to create author");
   }
 }
 
-export async function updateArtist(
-  artistId: number,
+export async function updateAuthor(
+  authorId: number,
   formData: FormData
 ): Promise<ActionResult<unknown>> {
   try {
-    const data = updateArtistSchema.parse({
+    const data = updateAuthorSchema.parse({
       name: formData.get("name") || undefined,
       bio: formData.get("bio") || undefined,
       image: formData.get("image") || undefined,
     });
 
-    await mutations.updateArtist(artistId, data);
-    revalidatePath("/admin/artists");
-    revalidatePath(`/admin/artists/${artistId}`);
+    await mutations.updateAuthor(authorId, data);
+    revalidatePath("/admin/authors");
+    revalidatePath(`/admin/authors/${authorId}`);
 
     return { success: true };
   } catch (error_) {
     if (error_ instanceof z.ZodError) {
       return error(error_.issues[0]?.message || "Validation error");
     }
-    console.error("Update artist error:", error_);
-    return error("Failed to update artist");
+    console.error("Update author error:", error_);
+    return error("Failed to update author");
   }
 }
 
-export async function deleteArtist(artistId: number): Promise<ActionResult<unknown>> {
+export async function deleteAuthor(authorId: number): Promise<ActionResult<unknown>> {
   try {
-    await mutations.deleteArtist(artistId);
-    revalidatePath("/admin/artists");
+    await mutations.deleteAuthor(authorId);
+    revalidatePath("/admin/authors");
 
     return { success: true };
   } catch (error_) {
-    console.error("Delete artist error:", error_);
-    return error("Failed to delete artist");
+    console.error("Delete author error:", error_);
+    return error("Failed to delete author");
   }
 }

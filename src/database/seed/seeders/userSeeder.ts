@@ -18,11 +18,11 @@ import { db } from "@/database/db";
 import { user } from "@/database/schema";
 import { logger } from "@/database/seed/logger";
 import { deduplicateByField, logProgress, validateData } from "@/database/seed/utils/seederHelpers";
-import { UserSeedSchema } from "@/lib/validations/userSchema";
+import { UserSeedSchema } from "@/schemas/userSchema";
 
 import { extractImageUrls, imageCacheManager } from "../utils/imageSeederHelper";
 
-import type { InsertUser, UserSeedData } from "@/lib/validations/userSchema";
+import type { InsertUser, UserSeedData } from "@/schemas/userSchema";
 
 /**
  * Seed users from JSON files

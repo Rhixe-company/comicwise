@@ -4,8 +4,8 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+import { signOutUser } from "@/actions/auth";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { signOutUser } from "@/lib/actions/auth";
 
 /**
  *

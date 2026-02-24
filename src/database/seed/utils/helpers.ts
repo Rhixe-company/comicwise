@@ -12,7 +12,7 @@ import {
   genreSeedSchema,
   typeSeedSchema,
   userSeedSchema,
-} from "@/lib/validations/index";
+} from "@/schemas/index";
 
 import type { ZodType } from "zod";
 
@@ -33,7 +33,13 @@ export function validateData<T>(data: unknown, schema: ZodType<T>): T {
         message: err.message,
         code: err.code,
       }));
-      throw new Error(`Validation failed:\n${JSON.stringify(formattedErrors, null, 2)}`);
+      // Preserve the original error as the cause to satisfy preserve-caught-error rule
+      const validationError = new Error(
+        `Validation failed:\n${JSON.stringify(formattedErrors, null, 2)}`
+      );
+      // attach cause property instead of using Error constructor second arg to avoid Node version syntax issues
+      (validationError as any).cause = error;
+      throw validationError;
     }
     throw error;
   }
@@ -58,9 +64,12 @@ export function validateArray<T>(data: unknown[], schema: ZodType<T>): T[] {
           message: error_.message,
           code: error_.code,
         }));
-        throw new Error(
+        // Preserve original error as cause for better debugging and rule compliance
+        const validationErrorAtIndex = new Error(
           `Validation failed at index ${index}:\n${JSON.stringify(formattedErrors, null, 2)}`
         );
+        (validationErrorAtIndex as any).cause = error;
+        throw validationErrorAtIndex;
       }
       throw error;
     }

@@ -5,7 +5,7 @@
  * This file maintained for backward compatibility only
  */
 
-import { createAuthorSchema, updateAuthorSchema } from "@/lib/validations/index";
+import { createAuthorSchema, updateAuthorSchema } from "@/schemas/index";
 
 // Re-export with legacy names for backward compatibility
 export const insertAuthorSchema = createAuthorSchema;

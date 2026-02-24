@@ -10,6 +10,7 @@
  * Logs errors to Sentry (if configured)
  */
 
+import Link from "next/link";
 import { useEffect } from "react";
 
 export default function GlobalError({
@@ -30,7 +31,7 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html>
+    <html lang="en">
       <body>
         <div
           className="
@@ -48,7 +49,7 @@ export default function GlobalError({
                 Oops! Something went wrong
               </h1>
               <p className="text-muted-foreground text-lg">
-                We're sorry for the inconvenience. An unexpected error occurred.
+                We&apos;re sorry for the inconvenience. An unexpected error occurred.
               </p>
             </div>
 
@@ -77,7 +78,7 @@ export default function GlobalError({
               >
                 Try Again
               </button>
-              <a
+              <Link
                 className="
                   border-input bg-background hover:bg-accent hover:text-accent-foreground focus:ring-primary
                   inline-flex items-center justify-center rounded-md border px-6
@@ -89,7 +90,7 @@ export default function GlobalError({
                 href="/"
               >
                 Go Home
-              </a>
+              </Link>
             </div>
 
             {process.env["NODE_ENV"] === "development" && (

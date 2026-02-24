@@ -6,7 +6,7 @@
 "use client";
 
 import { BaseForm } from "@/components/admin/BaseForm";
-import { insertUserSchema } from "@/lib/validations/userSchema";
+import { insertUserSchema } from "@/schemas/userSchema";
 
 export interface EditUserFormProps {
   id: number | string;

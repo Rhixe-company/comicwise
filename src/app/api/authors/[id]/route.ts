@@ -9,7 +9,7 @@ import {
   getGenericEntity,
   updateGenericEntity,
   zodToValidationResult,
-} from "@/lib/api/generic-crud";
+} from "@/lib/genericCrud";
 import { authorIdSchema, updateAuthorSchema } from "@/lib/validations";
 
 import type { NextRequest } from "next/server";

@@ -6,7 +6,7 @@
 "use client";
 
 import { BaseForm } from "@/components/admin/BaseForm";
-import { insertGenreSchema } from "@/lib/validations/genreSchema";
+import { insertGenreSchema } from "@/schemas/genreSchema";
 
 export interface EditGenreFormProps {
   id: number | string;

@@ -10,10 +10,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 
+import { resetPassword } from "@/actions/auth";
 import { AuthForm, PasswordField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { resetPassword } from "@/lib/actions/auth";
 import { resetPasswordSchema } from "@/lib/validations";
 
 import type { ResetPasswordInput } from "@/lib/validations";

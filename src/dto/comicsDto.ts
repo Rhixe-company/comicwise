@@ -55,4 +55,4 @@ export interface ComicFiltersDto {
   typeId?: number;
 }
 
-export { createComic } from "@/lib/actions/comics";
+export { createComic } from "@/actions/comics";

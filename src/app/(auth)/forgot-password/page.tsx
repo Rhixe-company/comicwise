@@ -9,10 +9,10 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
+import { forgotPassword } from "@/actions/auth";
 import { AuthForm, EmailField } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { forgotPassword } from "@/lib/actions/auth";
 import { forgotPasswordSchema } from "@/lib/validations";
 
 import type { ForgotPasswordInput } from "@/lib/validations";

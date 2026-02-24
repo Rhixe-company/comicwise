@@ -5,7 +5,7 @@
  * This file maintained for backward compatibility only
  */
 
-import { createTypeSchema, updateTypeSchema } from "@/lib/validations/index";
+import { createTypeSchema, updateTypeSchema } from "@/schemas/index";
 
 // Re-export with legacy names for backward compatibility
 export const insertTypeSchema = createTypeSchema;

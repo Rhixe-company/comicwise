@@ -4,10 +4,10 @@ import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
+import { error } from "@/actions/utils";
 import appConfig from "@/appConfig";
 import { db as database } from "@/database/db";
 import { passwordResetToken, user, verificationToken } from "@/database/schema";
-import { error } from "@/lib/actions/utils";
 import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "@/lib/nodemailer";
 import { checkRateLimit } from "@/lib/ratelimit";
 import {

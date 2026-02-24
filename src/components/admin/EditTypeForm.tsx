@@ -6,7 +6,7 @@
 "use client";
 
 import { BaseForm } from "@/components/admin/BaseForm";
-import { insertTypeSchema } from "@/lib/validations/typeSchema";
+import { insertTypeSchema } from "@/schemas/typeSchema";
 
 export interface EditTypeFormProps {
   id: number | string;

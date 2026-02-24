@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
+import { updateProfileActionOptimized } from "@/actions/authOptimized";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { updateProfileActionOptimized } from "@/lib/actions/authOptimized";
 
 import type { User } from "next-auth";
 

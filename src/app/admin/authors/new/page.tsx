@@ -181,7 +181,7 @@ export default function NewAuthorPage() {
                       </div>
                     </FormControl>
                     <FormDescription>
-                      Upload or provide URL for author's profile image
+                      Upload or provide URL for author&apos;s profile image
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

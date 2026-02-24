@@ -50,30 +50,29 @@ export class SeedLogger {
   // ─────────────────────────────────────────────────────────────────────────
 
   header(text: string): void {
-    console.log("\n" + "═".repeat(78));
-    console.log(`  🌱 ${text}`);
-    console.log("═".repeat(78) + "\n");
+    this.logger.info("\n" + "═".repeat(78));
+    this.logger.info(`  🌱 ${text}`);
+    this.logger.info("═".repeat(78) + "\n");
   }
 
   section(text: string): void {
-    console.log("\n" + "─".repeat(78));
-    console.log(`  📍 ${text}`);
-    console.log("─".repeat(78));
+    this.logger.info("\n" + "─".repeat(78));
+    this.logger.info(`  📍 ${text}`);
+    this.logger.info("─".repeat(78));
   }
 
   subsection(text: string): void {
-    console.log(`\n  ├─ ${text}`);
+    this.logger.info(`\n  ├─ ${text}`);
   }
 
   success(message: string, context?: LogContext): void {
     const formatted = `✅ ${message}`;
-    console.log(formatted);
     this.logger.info({ ...context, message }, formatted);
   }
 
   info(message: string, context?: LogContext): void {
     const formatted = `ℹ️  ${message}`;
-    this.verboseMode && console.log(formatted);
+    this.verboseMode && this.logger.info(formatted);
     this.logger.info({ ...context, message }, formatted);
   }
 
@@ -85,32 +84,30 @@ export class SeedLogger {
 
   error(message: string, error?: Error, context?: LogContext): void {
     const formatted = `❌ ${message}`;
-    console.error(formatted);
-    if (error) console.error(`   Error: ${error.message}`);
     this.logger.error({ ...context, error, message }, formatted);
+    if (error) this.logger.error(`   Error: ${error.message}`);
   }
 
   debug(message: string, context?: LogContext): void {
     if (this.verboseMode) {
       const formatted = `🔍 ${message}`;
-      console.log(formatted);
+      this.logger.info(formatted);
       this.logger.debug({ ...context, message }, formatted);
     }
   }
 
   metric(label: string, value: number | string, unit = ""): void {
     const formatted = `📊 ${label}: ${value}${unit ? ` ${unit}` : ""}`;
-    console.log(formatted);
     this.logger.info({ label, value, unit }, formatted);
   }
 
   summary(stats: Record<string, unknown>): void {
-    console.log("\n" + "─".repeat(78));
-    console.log("  📈 SUMMARY");
-    console.log("─".repeat(78));
+    this.logger.info("\n" + "─".repeat(78));
+    this.logger.info("  📈 SUMMARY");
+    this.logger.info("─".repeat(78));
     for (const [key, value] of Object.entries(stats)) {
       const formattedKey = key.replaceAll(/([A-Z])/g, " $1").trim();
-      console.log(`  • ${formattedKey}: ${value}`);
+      this.logger.info(`  • ${formattedKey}: ${value}`);
     }
   }
 
@@ -126,9 +123,9 @@ export class SeedLogger {
 
   footer(): void {
     const elapsed = ((Date.now() - this.startTime) / 1000).toFixed(2);
-    console.log("\n" + "═".repeat(78));
-    console.log(`  ✨ Total time: ${elapsed}s`);
-    console.log("═".repeat(78) + "\n");
+    this.logger.info("\n" + "═".repeat(78));
+    this.logger.info(`  ✨ Total time: ${elapsed}s`);
+    this.logger.info("═".repeat(78) + "\n");
   }
 }
 

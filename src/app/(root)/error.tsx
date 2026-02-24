@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertTriangle } from "lucide-react";
+import Link from "next/link";
 import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -37,7 +38,7 @@ export default function RootError({ error, reset }: ErrorBoundaryProps) {
         >
           <Button onClick={reset}>Try Again</Button>
           <Button asChild variant="outline">
-            <a href="/">Back to Home</a>
+            <Link href="/">Back to Home</Link>
           </Button>
         </div>
 

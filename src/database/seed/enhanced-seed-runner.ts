@@ -40,6 +40,7 @@ import {
   genre,
   user,
 } from "@/database/schema";
+import { logger } from "@/database/seed/logger";
 import { env } from "@/lib/env";
 import { imageService } from "@/services/imageService";
 
@@ -122,10 +123,10 @@ async function loadImageCache() {
       for (const [url, localPath] of Object.entries(cached)) {
         imageCache.set(url, localPath as string);
       }
-      console.log(`✓ Loaded ${imageCache.size} cached image mappings`);
+      logger.info(`✓ Loaded ${imageCache.size} cached image mappings`);
     }
   } catch (error) {
-    console.warn("⚠️  Could not load image cache:", error);
+    logger.warn(`⚠️  Could not load image cache: ${String(error)}`);
   }
 }
 
@@ -137,9 +138,9 @@ async function saveImageCache() {
   try {
     const cacheObject = Object.fromEntries(imageCache.entries());
     await writeFile(cachePath, JSON.stringify(cacheObject, null, 2));
-    console.log(`✓ Saved ${imageCache.size} image mappings to cache`);
+    logger.info(`✓ Saved ${imageCache.size} image mappings to cache`);
   } catch (error) {
-    console.warn("⚠️  Could not save image cache:", error);
+    logger.warn(`⚠️  Could not save image cache: ${String(error)}`);
   }
 }
 

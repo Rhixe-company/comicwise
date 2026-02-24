@@ -5,7 +5,7 @@
  * This file maintained for backward compatibility only
  */
 
-import { createChapterSchema, updateChapterSchema } from "@/lib/validations/index";
+import { createChapterSchema, updateChapterSchema } from "@/schemas/index";
 
 // Re-export with legacy names for backward compatibility
 export const insertChapterSchema = createChapterSchema;

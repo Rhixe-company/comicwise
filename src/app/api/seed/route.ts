@@ -25,7 +25,7 @@ function validateOptions(body: unknown): SeedOptions {
   try {
     return seedOptionsSchema.parse(body ?? {});
   } catch (error) {
-    throw new Error(`Invalid seed options: ${error}`);
+    throw error instanceof Error ? error : new Error(String(error));
   }
 }
 

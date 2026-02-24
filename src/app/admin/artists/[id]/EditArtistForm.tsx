@@ -112,7 +112,7 @@ export default async function EditArtistForm({ params }: { params: { id: string 
                 </div>
               )}
               <p className="text-muted-foreground text-sm">
-                Upload or provide URL for artist's profile image
+                Upload or provide URL for artist&apos;s profile image
               </p>
             </div>
 

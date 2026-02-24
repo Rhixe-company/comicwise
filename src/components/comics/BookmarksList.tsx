@@ -7,10 +7,10 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
+import { removeBookmark } from "@/actions/bookmark";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { removeBookmark } from "@/lib/actions/bookmark";
 
 interface Bookmark {
   comic: {
