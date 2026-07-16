@@ -3,7 +3,7 @@
 ## Similar Open-Source Projects
 
 | Project | URL | Stack |
-| --------- | ----- | ------- |
+| --- | --- | --- |
 | **nextjs/saas-starter** | <https://github.com/nextjs/saas-starter> | Next.js + Postgres + Drizzle + Stripe + shadcn/ui ⭐15.8k |
 | **laribright/stripe-crashcourse** | <https://github.com/laribright/stripe-crashcourse> | Next.js + Drizzle + Stripe + PostgreSQL |
 | **burakorkmez/stripe-subscriptions** | <https://github.com/burakorkmez/stripe-subscriptions> | Next.js 14 + Prisma + MongoDB + Stripe + Kinde Auth |
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     line_items: [{ price: priceId, quantity: 1 }],
     metadata: { userId },
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/cancel`,
+    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/cancel`
   });
   return NextResponse.json({ url: session.url });
 }
@@ -69,15 +69,26 @@ export async function POST(req: Request) {
 export const config = { api: { bodyParser: false } };
 
 export async function POST(req: Request) {
-  const body = await req.text();  // raw body required for signature
+  const body = await req.text(); // raw body required for signature
   const sig = req.headers.get("stripe-signature");
-  if (!sig) return NextResponse.json({ error: "No signature" }, { status: 400 });
+  if (!sig)
+    return NextResponse.json(
+      { error: "No signature" },
+      { status: 400 }
+    );
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+    event = stripe.webhooks.constructEvent(
+      body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET!
+    );
   } catch {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid signature" },
+      { status: 400 }
+    );
   }
 
   switch (event.type) {

@@ -1,9 +1,6 @@
 # Comicwise — Research Report
 
-> **Project:** Comicwise (comic/manga streaming platform)
-> **Stack:** Next.js 16, React 19, TypeScript 5.9, PostgreSQL, Drizzle ORM (primary), Prisma, Stripe, Upstash Redis,
-Tailwind CSS v4, BullMQ, NextAuth v5
-> **Date:** 2026-07-16
+> **Project:** Comicwise (comic/manga streaming platform) **Stack:** Next.js 16, React 19, TypeScript 5.9, PostgreSQL, Drizzle ORM (primary), Prisma, Stripe, Upstash Redis, Tailwind CSS v4, BullMQ, NextAuth v5 **Date:** 2026-07-16
 
 ---
 
@@ -61,8 +58,7 @@ Cache comic pages aggressively with immutable headers (`Cache-Control: public, m
 
 **Architecture:** Next.js App Router with Server Components by default, `'use client'` only for interactivity (reader UI, checkout). BullMQ queues for async work (image processing, emails, webhook fulfillment). TanStack Query for client-side optimistic updates (favorites, ratings).
 
-**Key data entities:** User (with Stripe Customer ID), Comic (slug, coverUrl, status), Chapter (free/preview flag,
-pageCount), Page (imageUrl, blurDataUrl), Subscription (Stripe subscription ID, plan, status), Bookmark. Use cursor-based pagination for chapter lists.
+**Key data entities:** User (with Stripe Customer ID), Comic (slug, coverUrl, status), Chapter (free/preview flag, pageCount), Page (imageUrl, blurDataUrl), Subscription (Stripe subscription ID, plan, status), Bookmark. Use cursor-based pagination for chapter lists.
 
 ---
 
@@ -83,8 +79,10 @@ TypeScript strict mode (`strict: true`). Module layout: `src/db/schema/` (tables
 
 ---
 
-*Research from web search and authoritative sources (July 2026). Full citations in `web-research-comicwise.md`.*
+_Research from web search and authoritative sources (July 2026). Full citations in `web-research-comicwise.md`._
+
 ## Related Projects
+
 - **Banking** — shared Next.js 16 + Tailwind CSS + PostgreSQL stack
 - **ecom** — shared PostgreSQL + React/Redux frontend patterns
 - **cookiecutter-django-tailwind** — shared Tailwind CSS v4 + Postgres conventions

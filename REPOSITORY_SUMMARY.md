@@ -7,6 +7,7 @@
 **comicwise** is a full-stack **comic / manga streaming platform**. It lets users browse comics by genre/author/popularity, read them in an immersive reader, manage tiered subscriptions via Stripe, and engage through bookmarks, reading progress, comments, and ratings. Like Banking, it is a real code submodule (large `src/` tree, `docs/`, seed data, lint reports) rather than a stub.
 
 The product is built on **Next.js 16** (App Router) with **PostgreSQL via Drizzle ORM** (a Prisma migration is noted as "in progress"), and integrates:
+
 - **Stripe** — subscription / payment management
 - **ImageKit + Cloudinary** — image optimization and storage
 - **NextAuth v5 (beta)** with **WebAuthn passkeys** — authentication
@@ -33,6 +34,7 @@ Status per `README.md`: **Active**. License: **Private** (no license specified).
 - **Package manager:** pnpm 9.12.3
 
 ### Layer map (from `ARCHITECTURE.md`)
+
 ```
 Browser → Next.js App Router → RSC / Server Action
         → Drizzle ORM → PostgreSQL
@@ -54,6 +56,7 @@ External: Stripe (payments), Sentry (monitoring), Resend (email)
 ## Technologies
 
 See `technology-stack.md`. Highlights:
+
 - Next.js 16.1.6, React 19.2.4, TypeScript 5.9.3, Tailwind CSS 4.0.0, shadcn/ui 4.0.6, Zustand 5.0.11, Zod 4.3.6, React Hook Form 7.71.2, TanStack Query 5.90.21, TanStack Table 8.21.3, Recharts 3.8.0
 - Backend/DB: NextAuth v5 5.0.0-beta.30, Drizzle ORM 0.45.1, Upstash Redis 1.37.0, BullMQ 5.71.0
 - Integrations: ImageKit, Cloudinary, Stripe, Resend, Sentry
@@ -66,6 +69,7 @@ See `technology-stack.md`. Highlights:
 ## Team
 
 Git contributor statistics (`git shortlog -sn`):
+
 - **Total contributors:** 1
 - **Contributor:** `rhixecompany <rhixecompany@gmail.com>` — 7 commits (100%)
 
