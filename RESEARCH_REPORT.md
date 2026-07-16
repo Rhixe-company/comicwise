@@ -1,122 +1,90 @@
-# RESEARCH_REPORT.md
+# Comicwise — Research Report
 
-## Project: comicwise
-
-**Type:** Comic streaming / reader platform
-**Tech Stack:** Next.js 16, TypeScript strict, React 19, Drizzle ORM (Prisma migration in progress), PostgreSQL, NextAuth v5 beta, Stripe, ImageKit, Cloudinary, BullMQ, Upstash QStash, Upstash Redis, Sentry, Vitest, Playwright, pnpm
-**Status:** Consolidation target (patterns extracted → rhixecompany-comics)
-
----
-
-## Similar Projects
-
-| Project | Relevance |
-|---------|-----------|
-| rhixe_scans | Comic reader; shared Stripe + NextAuth + Tailwind |
-| rhixecompany-comics | Consolidation target |
-| university-libary-jsm | Next.js 15 + Prisma + PostgreSQL |
-| Banking | Next.js + payment flows |
+> **Project:** Comicwise (comic/manga streaming platform)
+> **Stack:** Next.js 16, React 19, TypeScript 5.9, PostgreSQL, Drizzle ORM (primary), Prisma, Stripe, Upstash Redis,
+Tailwind CSS v4, BullMQ, NextAuth v5
+> **Date:** 2026-07-16
 
 ---
 
-## Key Findings
+## 1. Drizzle ORM vs Prisma
 
-### Next.js 16 Comic Reader Patterns
-- **Partial Prerendering (PPR)** — static shell + streamed dynamic content via Suspense
-- **Server Actions stable** for mutations (checkout, chapter access)
-- **Image optimization** for comic assets via `next/image` + CDN signed URLs
-- **Async `params`/`searchParams`** in App Router (Next.js 16+)
-- **Cache Components** with `"use cache"` directive for granular caching
-- **`proxy.ts` replaces `middleware.ts`** — explicit network boundary
-
-### Drizzle + Prisma Migration
-- **Drizzle ~50KB bundle** vs Prisma ~500KB+ — main driver for migration
-- **Migration strategy:** dual-ORM during transition; migrate one domain at a time
-- **Drizzle 0.45+** stable v1; edge-runtime compatible, no codegen step
-- **Prisma 7** rewrote engine in TypeScript (dropped Rust binary)
-
-### Stripe Subscriptions + State Management
-- **Server Actions** for Checkout Sessions; Embedded Checkout for no-redirect flow
-- **Verify webhooks** via `constructEvent()`; idempotency key per event
-- **TanStack Query v5** for server state (catalog, chapters, progress sync)
-- **Zustand v5** for client-only UI state (reader mode, zoom, theme)
-- **Pattern:** TanStack for async server data; Zustand for synchronous UI
+Drizzle (~7.4 KB gzip, near-zero cold start, full SQL transparency) is the primary ORM — ideal for serverless Next.js. Prisma v7 (~1.6 MB, abstracted, richer tooling) also exists in the project; plan to consolidate. **Key pitfall:** Connection leaks in dev — always use `globalThis` singleton pattern with both.
 
 ---
 
-## Cheatsheets & Quick Reference
+## 2. Redis (Upstash) Caching
 
-| Topic | Resource | Type |
-|-------|----------|------|
-| Next.js 16 | <https://nextjs.org/docs/app> | Docs |
-| Drizzle ORM | <https://orm.drizzle.dev> | Docs |
-| Stripe Subscriptions | <https://docs.stripe.com/billing/subscriptions/webhooks> | Guide |
-| TanStack/Zustand | <https://tanstack.com/query/latest> | Docs |
-| NextAuth v5 | <https://authjs.dev> | Docs |
+Upstash Redis (HTTP-based, zero cold starts) is ideal for serverless. **Use cases:** metadata 1h TTL, reading progress (per-user, no expiry), trending 5–15 min, rate limiting, BullMQ state. Cache-aside + DB fallback; never primary store. `use cache` + `cacheLife` enable component caching via a Redis adapter.
 
 ---
 
-## Best Practices
+## 3. Tailwind CSS v4
 
-1. **Server Components first** — server-side render catalog; only interactivity hydrates
-2. **Drizzle DAL boundaries** — `dal/*` modules with precise `select`/`include`
-3. **Stripe webhook idempotency** — check event ID uniqueness; verify `constructEvent`
-4. **TanStack for API state, Zustand for UI state** — clean separation of concerns
-5. **Signed image URLs** — protect paywalled comic content from unauthorized access
+Major rewrite from v3. CSS-first config via `@theme { ... }` replaces `tailwind.config.js`. Lightning CSS (Rust-based) provides 100x faster builds, always-on JIT, no purge config needed. Custom breakpoints: 540px (manga single-page) and 720px (two-page spread). Avoid dynamic class construction (`text-${color}`) — Lightning CSS cannot detect these.
 
 ---
 
-## Common Pitfalls
+## 4. Stripe + Next.js (2026 Patterns)
 
-| Pitfall | Impact | Avoidance |
-|---------|--------|-----------|
-| Dual ORM during migration | Data drift | Migrate one domain at a time; eschew cross-ORM transactions |
-| Missing Stripe webhook secret | 400 errors | Set `STRIPE_WEBHOOK_SECRET`; verify signature |
-| Unsigned image URLs | Content theft | Sign URLs for subscriber-only content |
-| Server data in client state | Stale UI | TanStack Query for API; Zustand only for UI state |
+Server-Action-first: create Checkout Sessions via `'use server'`, not `/api/checkout`. Stripe pushes **Embedded Checkout** (`@stripe/react-stripe-js`) for PCI compliance on your domain. Webhooks still need a Route Handler with raw-body parsing + `stripe.webhooks.constructEvent()` signature verification. Use idempotency keys for retry safety.
 
 ---
 
-## Performance
+## 5. Server Actions Security
 
-1. **`next/image` for catalog** — CDN-signed URLs for chapter images; preload next chapter
-2. **Partial Prerendering** — static shell + dynamic content streams
-3. **Cache static metadata** — `force-static` + `revalidateTag` invalidation
-4. **Drizzle edge runtime** — smaller bundles for serverless deployments
-5. **Upstash Redis** — global replication, zero cold starts for caching/queuing
+Every `'use server'` function is a public POST endpoint — TypeScript types provide zero runtime protection. Five essential protections:
 
----
+1. **Input validation:** Zod v4 schemas with `safeParse()`
+2. **Authentication:** Check session in every protected action
+3. **Authorization:** Verify ownership/role/permission
+4. **Rate limiting:** `@upstash/ratelimit` per user or IP
+5. **Closure data exposure:** Move sensitive actions to separate files
 
-## Security
-
-1. **Signed image URLs** — protect paywalled comic content; expire after auth
-2. **Stripe webhook verification** — `constructEvent()` with endpoint secret
-3. **WebAuthn/Passkeys** — phishing-resistant auth for subscribers
-4. **Rate limit auth endpoints** — Upstash Redis for throttle control
-5. **CSP headers** — content security for comic reader iframes/embeds
+Set `experimental.serverActions.allowedOrigins` in `next.config.ts` for CSRF protection.
 
 ---
 
-## Related Projects (in workspace)
+## 6. Image Optimization (Critical for Comicwise)
 
-- **rhixe_scans** — comic reader; shared Stripe + NextAuth + Tailwind patterns
-- **rhixecompany-comics** — consolidation target inheriting reader architecture
-- **university-libary-jsm** — Next.js 15 + Prisma + PostgreSQL reference
-- **Banking** — Next.js + payment flow patterns
+Comic pages are 40–60% of page weight — one page can be 1–3 MB. **Techniques:** AVIF+WebP fallback (30–50% smaller), declare dimensions (eliminates CLS), `fetchpriority="high"` on LCP, lazy-load below-fold, blur placeholders, CDN immutable caching. **Hybrid:** covers via `next/image`, pages pre-optimized as AVIF via CDN with `<picture>` fallback. Budget: ≤200 KB/page.
 
 ---
 
-## Resources
+## 7. Content Delivery & CDN Strategy
 
-| Resource | URL |
-|----------|-----|
-| Next.js 16 | <https://nextjs.org/docs> |
-| Drizzle ORM | <https://orm.drizzle.dev> |
-| Stripe Billing | <https://docs.stripe.com/billing> |
-| Auth.js v5 | <https://authjs.dev> |
+Cache comic pages aggressively with immutable headers (`Cache-Control: public, max-age=31536000, immutable`). Preconnect to CDN origin; preload next 3 pages on chapter open. Use bandwidth detection (`navigator.connection.effectiveType`) for adaptive quality. CDN options: Cloudinary (free 25 GB), imgix, Cloudflare Images, Vercel Blob, AWS S3+CloudFront.
 
-### Research Methodology
-- **Web search:** web_search / web-research-pipeline
-- **Documentation:** web_extract (Next.js, Stripe, Drizzle docs)
-- **State management patterns:** TanStack Query + Zustand documentation
-- **Last verified:** 2026-07-16
+---
+
+## 8. Platform Architecture & Data Model
+
+**Architecture:** Next.js App Router with Server Components by default, `'use client'` only for interactivity (reader UI, checkout). BullMQ queues for async work (image processing, emails, webhook fulfillment). TanStack Query for client-side optimistic updates (favorites, ratings).
+
+**Key data entities:** User (with Stripe Customer ID), Comic (slug, coverUrl, status), Chapter (free/preview flag,
+pageCount), Page (imageUrl, blurDataUrl), Subscription (Stripe subscription ID, plan, status), Bookmark. Use cursor-based pagination for chapter lists.
+
+---
+
+## 9. TypeScript & Project Structure
+
+TypeScript strict mode (`strict: true`). Module layout: `src/db/schema/` (tables + Zod schemas), `src/db/queries/` (query functions), `src/app/actions/` (Server Actions), `src/app/api/` (Route Handlers — webhooks only), `src/components/` (React), `src/lib/` (utilities). Use `drizzle-zod` for schema-to-validation type gen. Keep migration files as reviewable plain SQL from `drizzle-kit`.
+
+---
+
+## 10. Performance Checklist
+
+- Singleton patterns to prevent DB connection leaks in dev
+- Indexes on all foreign keys and queried columns
+- Comic images on CDN only (never in DB)
+- Cache-aside with Redis; stream pages with `<Suspense>`
+- Prefetch next chapter metadata; bundle <200 KB initial load
+- Rate limiting on auth/payment; Sentry in production; CSP headers
+
+---
+
+*Research from web search and authoritative sources (July 2026). Full citations in `web-research-comicwise.md`.*
+## Related Projects
+- **Banking** — shared Next.js 16 + Tailwind CSS + PostgreSQL stack
+- **ecom** — shared PostgreSQL + React/Redux frontend patterns
+- **cookiecutter-django-tailwind** — shared Tailwind CSS v4 + Postgres conventions
