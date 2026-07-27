@@ -1,0 +1,454 @@
+{
+  "findings": [
+    {
+      "topic": "Next.js 16 / React 19 / App Router",
+      "sources": [
+        "https://nextjs.org/blog/next-16",
+        "https://nextjs.org/blog",
+        "https://medium.com/@rtsekov/next-js-16-deep-dive-performance-caching-the-future-of-react-apps-76c1e55c583a"
+      ],
+      "keyFindings": [
+        "Next.js 16 introduces Cache Components using Partial Pre-Rendering (PPR) and use cache for instant navigation",
+        "Turbopack is now stable - default bundler with 5-10x faster Fast Refresh, 2-5x faster builds",
+        "Next.js Devtools MCP integration for improved debugging and workflow",
+        "All dynamic code executes at request time by default - better aligned with full-stack expectations",
+        "React 19 RC is tested and supported in Next.js 15+, stable in Next.js 16",
+        "Migration: Enable Cache Components in next.config.ts, upgrade Turbopack config"
+      ],
+      "bestPractices": [
+        "Use Server Components by default, opt into Client Components with 'use client'",
+        "Leverage Partial Pre-Rendering (PPR) for static shells with dynamic islands",
+        "Use use cache directive for function-level caching",
+        "Configure Turbopack in next.config.ts for production builds",
+        "Use Next.js Devtools MCP for AI-assisted debugging"
+      ],
+      "commonPitfalls": [
+        "React 19 peer dependency conflicts - use --legacy-peer-deps or --force temporarily",
+        "Server Components cannot use hooks or browser APIs",
+        "Cache invalidation requires understanding new Cache Components model"
+      ],
+      "performanceTips": [
+        "Turbopack provides massive dev/build speedups out of the box",
+        "PPR reduces TTFB by streaming static shells first",
+        "Function-level caching with use cache avoids full page re-renders"
+      ]
+    },
+    {
+      "topic": "Prisma / Drizzle ORM Migration",
+      "sources": [
+        "https://www.prisma.io/docs/guides/switch-to-prisma-orm/from-drizzle",
+        "https://www.digitalapplied.com/blog/prisma-orm-production-guide-nextjs",
+        "https://github.com/drizzle-team/drizzle-orm/discussions/3146",
+        "https://orm.drizzle.team/docs/migrations",
+        "https://makerkit.dev/blog/tutorials/drizzle-vs-prisma"
+      ],
+      "keyFindings": [
+        "Prisma provides migration guide from Drizzle with step-by-step approach",
+        "Prisma: Schema-first, mature ecosystem, Prisma Accelerate for serverless connection pooling",
+        "Drizzle: Code-first, SQL-like, smaller bundles, faster cold starts for serverless",
+        "Migration strategy: Run both ORMs side-by-side, migrate queries incrementally",
+        "Prisma singleton pattern with globalThis prevents connection pool exhaustion in dev"
+      ],
+      "bestPractices": [
+        "Use Prisma singleton pattern: globalThis.prisma = new PrismaClient()",
+        "For serverless: connection_limit=1, scale up with Prisma Accelerate",
+        "Use native DB types (@db.VarChar, @db.Text), strategic indexes",
+        "Run prisma migrate dev in dev, prisma migrate deploy in prod",
+        "Drizzle: Use drizzle-kit generate + drizzle-kit migrate for migrations"
+      ],
+      "commonPitfalls": [
+        "Prisma connection pool exhaustion in dev without singleton pattern",
+        "Drizzle requires manual relation definitions (no Prisma magic)",
+        "Migration from Prisma to Drizzle loses automatic relations - must recreate manually"
+      ],
+      "performanceTips": [
+        "Prisma Accelerate for edge/serverless: HTTP pooling + global caching",
+        "Drizzle smaller bundle = faster cold starts on serverless",
+        "Connection pooling critical for serverless PostgreSQL"
+      ]
+    },
+    {
+      "topic": "NextAuth v5 + WebAuthn / Passkeys",
+      "sources": [
+        "https://authjs.dev/getting-started/providers/passkey",
+        "https://clerk.com/blog/how-do-i-implement-passkeys-in-nextjs",
+        "https://www.hanko.io/blog/passkeys-nextjs-nextauth",
+        "https://www.aditjangid.com/blogs/implementing-passkeys",
+        "https://medium.com/@vetriselvan_11/auth-js-nextauth-v5-credentials-authentication-in-next-js-app-router-complete-guide-ef77aaae7fdf"
+      ],
+      "keyFindings": [
+        "NextAuth v5 Passkey provider is experimental - requires database adapter + new table",
+        "Requires @simplewebauthn/browser@9.0.1 + @simplewebauthn/server@9.0.3",
+        "Database adapter must be edge-compatible for Next.js <16",
+        "Auth.js provides signIn from next-auth/webauthn for custom flows",
+        "Hanko provides @teamhanko/passkeys-next-auth-provider wrapper"
+      ],
+      "bestPractices": [
+        "Use @auth/prisma-adapter with Passkey provider migration",
+        "Store only public keys server-side; private keys never leave device",
+        "Implement both registration (create credential) and authentication (get assertion) flows",
+        "Use WebAuthn JSON library for browser/server coordination",
+        "Test with multiple authenticator types (Touch ID, Windows Hello, YubiKey)"
+      ],
+      "commonPitfalls": [
+        "Passkey provider marked experimental - not recommended for production yet",
+        "Database adapter edge compatibility issues with Next.js <16",
+        "Custom sign-in pages require @simplewebauthn/browser peer dependency",
+        "Challenge timeout handling and user verification requirements vary by authenticator"
+      ],
+      "securityTips": [
+        "Validate origin and rpId strictly",
+        "Enforce user verification (biometric/PIN) for credential creation",
+        "Implement credential exclusion to prevent duplicate registrations",
+        "Rate limit authentication attempts"
+      ]
+    },
+    {
+      "topic": "Stripe Subscriptions + Webhooks",
+      "sources": [
+        "https://www.youtube.com/watch?v=R9PwoQwVpPQ",
+        "https://medium.com/@gragson.john/stripe-checkout-and-webhook-in-a-next-js-15-2025-925d7529855e",
+        "https://www.reddit.com/r/nextjs/comments/1g3lwxd/integrating_stripe_with_nextjs_a_comprehensive",
+        "https://www.pedroalonso.net/blog/stripe-subscriptions-nextjs"
+      ],
+      "keyFindings": [
+        "Use Stripe Checkout Sessions for subscription sign-up flow",
+        "Webhooks critical for subscription lifecycle: customer.subscription.created/updated/deleted, invoice.payment_succeeded/failed",
+        "Stripe CLI for local webhook testing: stripe listen --forward-to localhost:3000/api/webhooks/stripe",
+        "App Router: Use Server Actions for checkout session creation",
+        "Stripe Customer Portal for self-service subscription management"
+      ],
+      "bestPractices": [
+        "Verify webhook signatures with stripe.webhooks.constructEvent()",
+        "Handle idempotency with stripe-event-id deduplication",
+        "Store Stripe customer/subscription IDs in database",
+        "Use metadata on checkout sessions to pass internal user IDs",
+        "Implement grace period handling for failed payments"
+      ],
+      "commonPitfalls": [
+        "Webhook endpoint not accessible in local dev without Stripe CLI",
+        "Missing idempotency keys causing duplicate event processing",
+        "Not handling invoice.payment_failed -> subscription past_due -> canceled flow",
+        "Forgetting to sync subscription status on webhook receipt"
+      ],
+      "securityTips": [
+        "Always verify webhook signatures",
+        "Use Stripe secret keys only server-side",
+        "Restrict webhook endpoints to Stripe IPs if possible",
+        "Never log full card details"
+      ]
+    },
+    {
+      "topic": "BullMQ + Upstash Redis + QStash",
+      "sources": [
+        "https://upstash.com/docs/qstash/overall/compare",
+        "https://upstash.com/docs/redis/integrations/bullmq",
+        "https://www.reddit.com/r/nestjs/comments/1lfxrl7/nestjs_bullmq_best_practices",
+        "https://uzochukwubenamara.medium.com/bullmq-scaling-your-node-backend-like-a-boss-35a8d9281015",
+        "https://upstash.com/blog/syncing-state-with-qstash"
+      ],
+      "keyFindings": [
+        "BullMQ requires self-managed Redis; Upstash Redis provides managed Redis compatible with BullMQ",
+        "QStash is serverless alternative - no Redis maintenance, pay-per-use",
+        "Upstash recommends Fixed plans for BullMQ to avoid high command costs",
+        "BullMQ connection config: host, port, password, tls: {} for Upstash",
+        "QStash can sync Redis state to database via scheduled CRON jobs"
+      ],
+      "bestPractices": [
+        "Use separate Redis instances for queues vs caching",
+        "Enable job retries with exponential backoff: attempts: 3, backoff: {type: exponential, delay: 1000}",
+        "Set removeOnComplete: true and removeOnFail: 1000 to manage queue size",
+        "Use QStash for scheduled/retryable jobs, BullMQ for high-throughput queues",
+        "Monitor queue depth and processing latency"
+      ],
+      "commonPitfalls": [
+        "BullMQ on Upstash Redis can incur high command counts on free tier",
+        "Not separating queue Redis from cache Redis causes contention",
+        "Missing job cleanup leads to memory bloat",
+        "QStash vs BullMQ: different paradigms (serverless HTTP vs persistent Redis)"
+      ],
+      "performanceTips": [
+        "Fixed Upstash plan for BullMQ workloads",
+        "Batch job additions with queue.addBulk()",
+        "Use QueueScheduler for delayed/repeatable jobs",
+        "Connection pooling via Upstash Redis config"
+      ]
+    },
+    {
+      "topic": "ImageKit + Cloudinary + Next.js Image Optimization",
+      "sources": [
+        "https://cloudinary.com/documentation/nextjs_image_optimization_tutorial",
+        "https://www.youtube.com/watch?v=L34FfNBwsfA",
+        "https://cloudinary.com/blog/optimize-images-in-a-next-js-app-using-nextimage-and-custom-loaders",
+        "https://imagekit.io/blog/nextjs-image-optimization",
+        "https://blog.cybermindworks.com/post/advanced-guide-to-image-optimization-in-next-js-best-practices-and-expert-tips"
+      ],
+      "keyFindings": [
+        "Next.js next/image supports custom loaders for ImageKit/Cloudinary",
+        "Cloudinary: Configure loader in next.config.js to use Cloudinary URLs",
+        "ImageKit: Supports AVIF delivery, responsive images, lazy loading, smart cropping",
+        "Both provide CDN + transformations; ImageKit has AI-powered DAM",
+        "Custom loader pattern: return https://ik.imagekit.io/${bucket}/${src}?tr=w-${width},q-${quality}"
+      ],
+      "bestPractices": [
+        "Use next/image with fill + sizes for responsive layouts",
+        "Implement blur placeholders: placeholder=blur + blurDataURL",
+        "Configure formats: [image/avif, image/webp] in next.config",
+        "Use Cloudinary CldImage component for advanced transformations",
+        "Leverage ImageKit's real-time transformations for comic page variants"
+      ],
+      "commonPitfalls": [
+        "CLS (Cumulative Layout Shift) without proper width/height or fill",
+        "Missing blurDataURL causes layout shift on load",
+        "Not configuring remote patterns for external image domains",
+        "Over-transforming images increases origin fetch time"
+      ],
+      "performanceTips": [
+        "Pre-generate blur placeholders at build time",
+        "Use priority for above-the-fold images (LCP optimization)",
+        "Leverage Cloudinary/ImageKit auto-format (f_auto) and auto-quality (q_auto)",
+        "Smart cropping for comic panels (face/region detection)"
+      ]
+    },
+    {
+      "topic": "Sentry Next.js Monitoring",
+      "sources": [
+        "https://medium.com/@rukshan1122/error-monitoring-the-ultimate-guide-to-sentry-in-next-js-never-miss-a-production-error-again-e678a93760ae",
+        "https://sentry.io/for/nextjs",
+        "https://prateeksha.com/blog/next-js-logs-and-error-tracking-tools-and-best-practices",
+        "https://medium.com/@iqzaardiansyah/setting-up-error-monitoring-in-next-js-with-sentry-a-complete-guide-985363262c93"
+      ],
+      "keyFindings": [
+        "Sentry Next.js SDK v8+ instruments App Router, Server Components, Server Actions, Edge Middleware",
+        "Single SDK captures client + server + edge errors with full context",
+        "Vercel drains integrate platform logs + distributed traces",
+        "React Server Component errors captured with stack traces + request context",
+        "Performance monitoring tracks Core Web Vitals, API latency, DB queries"
+      ],
+      "bestPractices": [
+        "Create sentry.config.ts and wrap next.config.ts with withSentryConfig",
+        "Configure separate client/server/edge configs",
+        "Use Sentry.captureException() with custom context for business logic errors",
+        "Enable tracesSampleRate for performance monitoring (10-20% in prod)",
+        "Set up alerting on error rate spikes and transaction latency"
+      ],
+      "commonPitfalls": [
+        "Not wrapping Next.js config - missing source maps in production",
+        "Forgetting edge middleware instrumentation",
+        "Sampling too low (miss errors) or too high (costs)",
+        "Not filtering noisy errors (network, browser extensions)"
+      ],
+      "securityTips": [
+        "Scrub PII from error contexts with beforeSend",
+        "Don't send auth tokens in breadcrumbs",
+        "Configure denyUrls to ignore known noisy scripts"
+      ]
+    },
+    {
+      "topic": "TanStack Query 5 + Next.js 15 App Router",
+      "sources": [
+        "https://www.reddit.com/r/reactjs/comments/1k27s0y/how_is_tanstack_a_better_choice",
+        "https://tanstack.com",
+        "https://github.com/tanstack"
+      ],
+      "keyFindings": [
+        "TanStack Query v5: modern async state management, works with App Router",
+        "Use with Server Components for initial data, client components for mutations",
+        "Hydration pattern: dehydrate(queryClient) in Server Component -> HydrationBoundary in Client",
+        "Prefetch on server, hydrate on client for zero-waterfall data fetching",
+        "DevTools panel for debugging cache state"
+      ],
+      "bestPractices": [
+        "Server Component: await queryClient.fetchQuery() + dehydrate()",
+        "Client Component: useQuery() with HydrationBoundary provider",
+        "Use queryKey factories for consistent invalidation",
+        "Enable staleTime to reduce refetching (5min default)",
+        "Mutations: useMutation() with onSuccess -> queryClient.invalidateQueries()"
+      ],
+      "commonPitfalls": [
+        "Using TanStack Query for data that should be fetched in Server Components",
+        "Not hydrating properly -> double fetching",
+        "Infinite query pagination without proper getNextPageParam",
+        "Cache key collisions across routes"
+      ],
+      "performanceTips": [
+        "Prefetch critical queries in parallel in Server Components",
+        "Use select to subscribe to partial query data",
+        "Enable gcTime (cacheTime) tuning for memory management",
+        "Persist query cache to localStorage for instant reloads"
+      ]
+    },
+    {
+      "topic": "Zustand 5 + Next.js 15",
+      "sources": [
+        "https://dev.to/mrsupercraft/mastering-state-management-with-zustand-in-nextjs-and-react-1g26",
+        "https://www.reddit.com/r/nextjs/comments/1n1fvb9/best_approaches_for_managing_global_state_in",
+        "https://zustand.docs.pmnd.rs/learn/guides/nextjs"
+      ],
+      "keyFindings": [
+        "Zustand v5: minimal, hook-based, no Context Provider needed",
+        "Critical: No global stores - create store per-request for SSR compatibility",
+        "RSC cannot read/write Zustand stores (no hooks in RSC)",
+        "Use Context to initialize store per-request in App Router",
+        "Module-state stores work with Next.js aggressive server caching"
+      ],
+      "bestPractices": [
+        "Create store in /src/store folder, not global module scope",
+        "Initialize via Context Provider in layout for per-request isolation",
+        "Use shallow equality for selector optimization",
+        "Persist with persist middleware + localStorage for client-only state",
+        "Separate server-safe vs client-only state"
+      ],
+      "commonPitfalls": [
+        "Global store module variable causes cross-request contamination",
+        "RSC trying to read Zustand state -> violates Next.js architecture",
+        "Hydration mismatches from server-initialized store state",
+        "Not resetting store on SPA navigation"
+      ],
+      "performanceTips": [
+        "Zustand ~1KB - negligible bundle impact",
+        "Selector-based subscriptions prevent unnecessary re-renders",
+        "Transient updates (outside React) for high-frequency state"
+      ]
+    },
+    {
+      "topic": "Radix UI + shadcn/ui + Next.js 15",
+      "sources": [
+        "https://insight.akarinti.tech/best-practices-for-using-shadcn-ui-in-next-js-2134108553ae",
+        "https://noqta.tn/en/tutorials/shadcn-ui-nextjs-component-library-guide-2026",
+        "https://ui.shadcn.com/docs/react-19",
+        "https://ui.shadcn.com/docs/installation/next"
+      ],
+      "keyFindings": [
+        "shadcn/ui: copy-paste components, not npm package - full ownership",
+        "Built on Radix UI primitives + Tailwind CSS",
+        "React 19 RC supported in Next.js 15, stable in 16",
+        "Use --legacy-peer-deps for packages not yet updated for React 19",
+        "Component structure: /components/ui + /components/forms + /components/modals"
+      ],
+      "bestPractices": [
+        "Use pnpm dlx shadcn@latest add <component> for consistent installs",
+        "Customize theme via CSS variables in globals.css",
+        "Use class-variance-authority (cva) for component variants",
+        "Build forms with React Hook Form + Zod validation",
+        "Use shadcn/ui components in Server Components where possible"
+      ],
+      "commonPitfalls": [
+        "React 19 peer dep conflicts - use legacy peer deps flag",
+        "Not customizing theme leads to generic look",
+        "Over-composing - keep components focused",
+        "Forgetting Radix accessibility attributes"
+      ],
+      "performanceTips": [
+        "Tree-shaking works - only import used components",
+        "Server Components for static UI parts",
+        "Tailwind JIT compiles only used utilities"
+      ]
+    },
+    {
+      "topic": "Resend + React Email + Next.js",
+      "sources": [
+        "https://dev.to/thatanjan/send-emails-from-nextjs-with-resend-and-react-email-39fb",
+        "https://resend.com/docs/send-with-nextjs",
+        "https://www.sitepoint.com/react-email-resend",
+        "https://resend.com/nextjs"
+      ],
+      "keyFindings": [
+        "Resend: email API built for React, integrates with React Email components",
+        "React Email: React components for responsive HTML emails",
+        "Use Server Actions (use server) for sending emails in App Router",
+        "Domain verification required for production sending",
+        "Components: Html, Head, Body, Button, Section etc."
+      ],
+      "bestPractices": [
+        "Create /emails folder with React Email components",
+        "Server Action: const { data, error } = await resend.emails.send({ react: <EmailTemplate /> })",
+        "Verify domain in Resend dashboard + add DNS records",
+        "Use @react-email/components for pre-built responsive components",
+        "Test with Resend's preview and inbox testing"
+      ],
+      "commonPitfalls": [
+        "Sending from unverified domain -> spam/rejection",
+        "Not handling Resend rate limits",
+        "Email client rendering differences - test widely",
+        "Missing text fallback for HTML emails"
+      ],
+      "securityTips": [
+        "Store RESEND_API_KEY in env, never in code",
+        "Validate email inputs server-side",
+        "Implement rate limiting on email endpoints"
+      ]
+    },
+    {
+      "topic": "Framer Motion + Next.js 15",
+      "sources": [
+        "https://blog.stackademic.com/how-to-use-framer-motion-in-next-js-a-beginner-friendly-guide-to-smooth-modern-ui-animations-e67c9f4d7ae2",
+        "https://stackoverflow.com/questions/78675087/framer-motion-animations-not-working-on-first-load-but-work-after-page-refresh",
+        "https://www.reddit.com/r/nextjs/comments/1d48ok7/framer_motion_and_ssr"
+      ],
+      "keyFindings": [
+        "Framer Motion requires use client - components become client-rendered",
+        "SSR issue: animations don't play on first load in dev (partial hydration)",
+        "Workaround: use motion components only in client components",
+        "SEO concern: wrapped content not in initial HTML for crawlers",
+        "Solution: conditional rendering - static content in RSC, animate in client wrapper"
+      ],
+      "bestPractices": [
+        "Wrap animated sections in Client Components, keep content in Server Components",
+        "Use whileInView + viewport={{ once: true }} for scroll animations",
+        "Prefer CSS animations for simple transitions (lower bundle size)",
+        "Lazy load Framer Motion: dynamic(() => import('./AnimatedComponent'), { ssr: false })"
+      ],
+      "commonPitfalls": [
+        "Animations not playing on first npm run dev (dev-mode SSR issue)",
+        "Wrapping entire page in motion component kills SSR/SEO",
+        "Bundle size impact (~50KB gzipped)",
+        "Hydration mismatches with initial variants"
+      ],
+      "performanceTips": [
+        "Use layout animations for shared layout transitions",
+        "Reduce motion for users with prefers-reduced-motion",
+        "Animate transform/opacity only (GPU accelerated)",
+        "Code-split heavy animation components"
+      ]
+    }
+  ],
+  "project": "comicwise",
+  "queries": [
+    "comicwise Next.js comic streaming platform",
+    "Next.js 16 Prisma Drizzle ORM migration guide best practices",
+    "NextAuth v5 beta WebAuthn passkeys implementation guide",
+    "Next.js Stripe subscriptions webhooks best practices 2024",
+    "BullMQ Upstash Redis QStash best practices",
+    "ImageKit Cloudinary Next.js image optimization best practices",
+    "Sentry Next.js 15 monitoring error tracking best practices",
+    "TanStack Query 5 Next.js 15 App Router best practices",
+    "Zustand 5 state management Next.js 15 best practices",
+    "Next.js 16 React 19 App Router new features 2025",
+    "Radix UI shadcn/ui Next.js 15 best practices",
+    "Resend React Email Next.js email templates best practices",
+    "Framer Motion Next.js 15 animations best practices performance"
+  ],
+  "techStack": [
+    "Next.js 16.1.6 (App Router, Turbopack)",
+    "TypeScript 5.9.3 (strict mode)",
+    "React 19",
+    "Radix UI + shadcn/ui",
+    "Tailwind CSS 4",
+    "Framer Motion",
+    "Zustand 5.x",
+    "TanStack Query 5.x",
+    "PostgreSQL via Drizzle ORM (Prisma migration in progress)",
+    "NextAuth v5 (beta)",
+    "WebAuthn / Passkeys",
+    "Stripe Subscriptions",
+    "ImageKit",
+    "Cloudinary",
+    "Resend + React Email",
+    "BullMQ + Upstash Redis",
+    "Upstash QStash",
+    "Sentry",
+    "Vitest + Playwright",
+    "pnpm 9.12.3"
+  ]
+}

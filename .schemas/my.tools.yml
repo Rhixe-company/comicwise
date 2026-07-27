@@ -251,7 +251,7 @@ tools:
     features:
       - "🔍 Auto-Discovery: Point the Agent Manager to any GitHub repository, and it will automatically index all available agents"
       - "📦 One-Click Installation: Install agents in seconds. Choose to install them globally (User Profile) for access in all projects, or locally (Workspace) for project-specific needs."
-      - "🔄 Smart Updates & Version Control: Stay up to date. The extension tracks installed versions against the remote source, alerting you when updates are available. View changelogs and author details at a glance."
+      - "🔄 Smart Updates & Version Control: Stay up-to-date. Tracks installed versions vs remote source, alerts on updates. See changelogs & author details."
       - "🛡️ Git-Powered Reliability: Built on top of Git, ensuring that you always get the exact version of the agent you expect, with verified author and commit data."
     tags:
       - vscode

@@ -43,10 +43,7 @@
             "description": "Programming languages supported by this cookbook",
             "items": {
               "type": "object",
-              "required": [
-                "id",
-                "name"
-              ],
+              "required": ["id", "name"],
               "properties": {
                 "id": {
                   "type": "string",
@@ -74,11 +71,7 @@
             "description": "List of recipes in this cookbook",
             "items": {
               "type": "object",
-              "required": [
-                "id",
-                "name",
-                "description"
-              ],
+              "required": ["id", "name", "description"],
               "properties": {
                 "id": {
                   "type": "string",
@@ -107,9 +100,7 @@
       }
     }
   },
-  "required": [
-    "cookbooks"
-  ],
+  "required": ["cookbooks"],
   "title": "Cookbook Manifest",
   "type": "object"
 }

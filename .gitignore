@@ -79,3 +79,7 @@ node_modules/
 # AI-generated analysis and architecture docs
 project-analysis-report.md
 Project_Architecture_*.md
+
+__pycache__/
+*.py[cod]
+*$py.class
