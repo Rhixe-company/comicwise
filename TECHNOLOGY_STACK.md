@@ -1,15 +1,13 @@
 # 🏗 Technology Stack Blueprint - comicwise
 
-**Project Path:** `projects/comicwise`
-**Generated:** 2026-07-28
-**Type:** Comic Streaming Platform — Next.js 15 + Prisma + Stripe
+**Project Path:** `projects/comicwise` **Generated:** 2026-07-28 **Type:** Comic Streaming Platform — Next.js 15 + Prisma + Stripe
 
 ---
 
 ## Core Technologies
 
 | Category | Technology | Version | License |
-|----------|-----------|---------|---------|
+| --- | --- | --- | --- |
 | **Runtime** | Node.js | 18+ | MIT |
 | **Package Manager** | pnpm | 9.12.3 | MIT |
 | **Framework** | Next.js | 16.1.6 | MIT |
@@ -36,12 +34,14 @@
 ## Architecture Pattern
 
 **Next.js App Router** with:
+
 - Server Components by default
 - Client Components only when needed (interactivity)
 - Route Groups for layout separation
 - Server Actions for mutations
 
 ### Data Flow
+
 ```
 Client → Server Components (RSC) → Drizzle ORM → PostgreSQL
          ↓
@@ -57,7 +57,7 @@ Client → Server Components (RSC) → Drizzle ORM → PostgreSQL
 ### Production (~100 packages)
 
 | Category | Key Packages |
-|----------|-------------|
+| --- | --- |
 | **Framework** | `next@16.1.6`, `react@19.2.4`, `react-dom@19.2.4` |
 | **Auth** | `next-auth@5.0.0-beta.30`, `@auth/drizzle-adapter@1.11.1` |
 | **Database** | `drizzle-orm@0.45.1`, `drizzle-zod@0.8.3`, `postgres@3.4.8` |
@@ -74,7 +74,7 @@ Client → Server Components (RSC) → Drizzle ORM → PostgreSQL
 ### Development (~60 packages)
 
 | Category | Key Packages |
-|----------|-------------|
+| --- | --- |
 | **TypeScript** | `typescript@^5.9.3`, `@types/react@^19`, `@types/node@^25` |
 | **ESLint** | `eslint@^9`, `eslint-config-next@16.1.6`, `typescript-eslint@^8.57`, 15+ plugins |
 | **Prettier** | `prettier@^3.8.1`, `prettier-plugin-tailwindcss@^0.7.2` |
@@ -88,32 +88,40 @@ Client → Server Components (RSC) → Drizzle ORM → PostgreSQL
 
 ```typescript
 // src/db/schema.ts
-import { pgTable, serial, text, timestamp, integer, boolean, decimal } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  integer,
+  boolean,
+  decimal
+} from "drizzle-orm/pg-core";
 
-export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  email: text('email').unique().notNull(),
-  name: text('name'),
-  image: text('image'),
-  stripeCustomerId: text('stripe_customer_id'),
-  createdAt: timestamp('created_at').defaultNow(),
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  email: text("email").unique().notNull(),
+  name: text("name"),
+  image: text("image"),
+  stripeCustomerId: text("stripe_customer_id"),
+  createdAt: timestamp("created_at").defaultNow()
 });
 
-export const comics = pgTable('comics', {
-  id: serial('id').primaryKey(),
-  title: text('title').notNull(),
-  description: text('description'),
-  coverImage: text('cover_image'),
-  price: decimal('price', { precision: 10, scale: 2 }),
+export const comics = pgTable("comics", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  coverImage: text("cover_image"),
+  price: decimal("price", { precision: 10, scale: 2 })
   // ...
 });
 
-export const subscriptions = pgTable('subscriptions', {
-  id: serial('id').primaryKey(),
-  userId: integer('user_id').references(() => users.id),
-  stripeSubscriptionId: text('stripe_subscription_id').unique(),
-  status: text('status'),
-  currentPeriodEnd: timestamp('current_period_end'),
+export const subscriptions = pgTable("subscriptions", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  stripeSubscriptionId: text("stripe_subscription_id").unique(),
+  status: text("status"),
+  currentPeriodEnd: timestamp("current_period_end")
 });
 ```
 
@@ -132,7 +140,7 @@ export const subscriptions = pgTable('subscriptions', {
 ## Payment Integration (Stripe)
 
 | Feature | Implementation |
-|---------|---------------|
+| --- | --- |
 | **Subscriptions** | Stripe Billing + Webhooks |
 | **Checkout** | Stripe Checkout Sessions (Server Action) |
 | **Portal** | Stripe Billing Portal (manage subscription) |
@@ -157,21 +165,21 @@ User Action → Server Action → Upstash QStash → Workflow → Background Job
 
 ## Key Scripts
 
-| Script | Command | Purpose |
-|--------|---------|---------|
-| `dev` | `next dev` | Development server |
-| `build` | `next build` | Production build |
-| `lint` | `eslint .` | Lint check |
-| `lint:fix` | `eslint . --fix` | Auto-fix |
-| `lint:strict` | `eslint . --max-warnings=0` | Zero-warnings gate |
-| `format` | `prettier --write .` | Format code |
-| `type-check` | `tsc --noEmit` | Type check |
-| `test` | `vitest run` | Unit tests |
-| `test:ui` | `playwright test` | E2E tests |
-| `db:generate` | `drizzle-kit generate` | Generate migrations |
-| `db:push` | `drizzle-kit push` | Push schema (dev) |
-| `db:studio` | `drizzle-kit studio` | Database UI |
-| `validate` | Full quality gate | Pre-deployment check |
+| Script        | Command                     | Purpose              |
+| ------------- | --------------------------- | -------------------- |
+| `dev`         | `next dev`                  | Development server   |
+| `build`       | `next build`                | Production build     |
+| `lint`        | `eslint .`                  | Lint check           |
+| `lint:fix`    | `eslint . --fix`            | Auto-fix             |
+| `lint:strict` | `eslint . --max-warnings=0` | Zero-warnings gate   |
+| `format`      | `prettier --write .`        | Format code          |
+| `type-check`  | `tsc --noEmit`              | Type check           |
+| `test`        | `vitest run`                | Unit tests           |
+| `test:ui`     | `playwright test`           | E2E tests            |
+| `db:generate` | `drizzle-kit generate`      | Generate migrations  |
+| `db:push`     | `drizzle-kit push`          | Push schema (dev)    |
+| `db:studio`   | `drizzle-kit studio`        | Database UI          |
+| `validate`    | Full quality gate           | Pre-deployment check |
 
 ---
 
@@ -231,13 +239,13 @@ projects/comicwise/
 
 ## License Summary
 
-| License | Approx. Count |
-|---------|--------------|
-| MIT | ~140 |
-| Apache 2.0 | ~15 |
-| ISC | ~5 |
-| BSD | ~5 |
+| License    | Approx. Count |
+| ---------- | ------------- |
+| MIT        | ~140          |
+| Apache 2.0 | ~15           |
+| ISC        | ~5            |
+| BSD        | ~5            |
 
 ---
 
-*Generated by Hermes Agent Technology Stack Blueprint Generator*
+_Generated by Hermes Agent Technology Stack Blueprint Generator_
