@@ -1,36 +1,14 @@
 {
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[prisma]": {
-    "editor.defaultFormatter": "Prisma.prisma"
-  },
-  "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
-  },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
   "editor.inlineSuggest.enabled": true,
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.css": "tailwindcss",
+    "*.scss": "tailwindcss"
   },
   "tailwindCSS.emmetCompletions": true,
   "tailwindCSS.includeLanguages": {
@@ -39,5 +17,21 @@
     "javascript": "jsx",
     "typescript": "tsx"
   },
-  "terminal.integrated.defaultProfile.windows": "Git Bash"
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.profiles.windows": {
+    "Command Prompt": { "icon": "terminal-cmd", "path": "cmd.exe" },
+    "Git Bash": { "icon": "terminal-bash", "source": "Git Bash" },
+    "PowerShell": { "icon": "terminal-powershell", "source": "PowerShell" }
+  },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.wordWrap": "on" },
+  "[prisma]": { "editor.defaultFormatter": "Prisma.prisma" },
+  "[scss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
 }

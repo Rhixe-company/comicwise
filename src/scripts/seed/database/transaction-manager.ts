@@ -49,7 +49,7 @@ export class TransactionManager {
   static async withBatchTransaction(
     entityName: string,
     options: SeedOptions,
-    operations: Array<() => Promise<void>>
+    operations: Array<() => Promise<void>>,
   ): Promise<void> {
     if (!options.useTransaction) {
       for (const op of operations) {

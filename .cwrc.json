@@ -23,23 +23,8 @@
     "api": "cli/templates/api"
   },
   "workflows": {
-    "full-check": [
-      "cw health",
-      "pnpm type-check",
-      "pnpm lint",
-      "pnpm test:unit:run"
-    ],
-    "deploy-prep": [
-      "pnpm clean",
-      "cw db migrate",
-      "cw health",
-      "pnpm build"
-    ],
-    "dev-setup": [
-      "pnpm install",
-      "cw db migrate",
-      "cw db seed",
-      "cw queue start --workers 3"
-    ]
+    "full-check": ["cw health", "pnpm type-check", "pnpm lint", "pnpm test:unit:run"],
+    "deploy-prep": ["pnpm clean", "cw db migrate", "cw health", "pnpm build"],
+    "dev-setup": ["pnpm install", "cw db migrate", "cw db seed", "cw queue start --workers 3"]
   }
 }

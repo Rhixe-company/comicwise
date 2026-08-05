@@ -337,7 +337,7 @@ export class DependencyGraphValidator {
    */
   static validateSeedingPlan(
     graph: DependencyGraph,
-    entitiesToSeed: string[]
+    entitiesToSeed: string[],
   ): {
     errors: string[];
     orderedActual: string[];

@@ -120,7 +120,7 @@ function parseEslintIssues(content: string): TriageIssue[] {
       const isAutoFixable =
         rule.includes("/") ||
         ["semi", "quotes", "indent", "comma-dangle", "no-trailing-spaces", "eol-last", "prettier/prettier"].includes(
-          rule
+          rule,
         );
 
       issues.push({

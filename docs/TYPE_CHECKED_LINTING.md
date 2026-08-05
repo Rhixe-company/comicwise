@@ -79,33 +79,33 @@ The following 10 async functions had missing `await` expressions and were system
 
 ### `src/actions/user-preferences.actions.ts`
 
-| Function | Line | Fix Applied |
-| --- | --- | --- |
-| `getUserPreferencesAction` | 19 | Added `await` to `userPreferenceDal.getByUserId()` |
-| `updateThemeAction` | 66 | Added `await` to `updateUserPreferencesAction()` call |
-| `updateLayoutPreferenceAction` | 73 | Added `await` to `updateUserPreferencesAction()` call |
-| `updateNotificationSettingsAction` | 82 | Added `await` to `updateUserPreferencesAction()` call |
-| `updatePrivacySettingsAction` | 93 | Added `await` to `updateUserPreferencesAction()` call |
+| Function                           | Line | Fix Applied                                           |
+| ---------------------------------- | ---- | ----------------------------------------------------- |
+| `getUserPreferencesAction`         | 19   | Added `await` to `userPreferenceDal.getByUserId()`    |
+| `updateThemeAction`                | 66   | Added `await` to `updateUserPreferencesAction()` call |
+| `updateLayoutPreferenceAction`     | 73   | Added `await` to `updateUserPreferencesAction()` call |
+| `updateNotificationSettingsAction` | 82   | Added `await` to `updateUserPreferencesAction()` call |
+| `updatePrivacySettingsAction`      | 93   | Added `await` to `updateUserPreferencesAction()` call |
 
 ### `src/app/(root)/settings/page.tsx`
 
-| Function | Line | Fix Applied |
-| --- | --- | --- |
-| `SettingsContent` | 18 | Added `await` to `userPreferenceDal.getByUserId()` |
+| Function          | Line | Fix Applied                                        |
+| ----------------- | ---- | -------------------------------------------------- |
+| `SettingsContent` | 18   | Added `await` to `userPreferenceDal.getByUserId()` |
 
 ### `src/app/(root)/comics/[slug]/page.tsx`
 
-| Function | Line | Fix Applied |
-| --- | --- | --- |
-| `generateMetadata` | 28 | Added `await` to `comicDal.getBySlug()` |
-| `ComicDetailsContent` | 42 | Added `await` to `comicDal.getBySlug()` |
+| Function              | Line | Fix Applied                             |
+| --------------------- | ---- | --------------------------------------- |
+| `generateMetadata`    | 28   | Added `await` to `comicDal.getBySlug()` |
+| `ComicDetailsContent` | 42   | Added `await` to `comicDal.getBySlug()` |
 
 ### `src/app/(root)/comics/[slug]/[chapterNumber]/page.tsx`
 
-| Function | Line | Fix Applied |
-| --- | --- | --- |
-| `getChapterData` | 19-24 | Added `await` to `comicDal.getBySlug()` and `chapterDal.getByComicAndNumber()` |
-| `checkIsBookmarked` | 51 | Added `await` to `bookmarkDal.getByUserAndComic()` |
+| Function            | Line  | Fix Applied                                                                    |
+| ------------------- | ----- | ------------------------------------------------------------------------------ |
+| `getChapterData`    | 19-24 | Added `await` to `comicDal.getBySlug()` and `chapterDal.getByComicAndNumber()` |
+| `checkIsBookmarked` | 51    | Added `await` to `bookmarkDal.getByUserAndComic()`                             |
 
 ---
 
@@ -218,13 +218,13 @@ Type-checked linting adds ~5-15 seconds to:
 
 The `recommendedTypeChecked` preset includes:
 
-| Rule | Description | Severity |
-| --- | --- | --- |
-| `@typescript-eslint/await-thenable` | Enforces awaiting only thenables | error |
-| `@typescript-eslint/no-floating-promises` | Requires handling of promise rejections | error |
-| `@typescript-eslint/no-misused-promises` | Prevents promise misuse in control flow | error |
-| `@typescript-eslint/require-await` | Requires async functions to use await | **warn** |
-| + 8 more type-aware rules | See TypeScript ESLint docs | varies |
+| Rule                                      | Description                             | Severity |
+| ----------------------------------------- | --------------------------------------- | -------- |
+| `@typescript-eslint/await-thenable`       | Enforces awaiting only thenables        | error    |
+| `@typescript-eslint/no-floating-promises` | Requires handling of promise rejections | error    |
+| `@typescript-eslint/no-misused-promises`  | Prevents promise misuse in control flow | error    |
+| `@typescript-eslint/require-await`        | Requires async functions to use await   | **warn** |
+| + 8 more type-aware rules                 | See TypeScript ESLint docs              | varies   |
 
 ### Disabled for Test Files
 

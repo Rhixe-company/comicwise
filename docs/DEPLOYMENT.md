@@ -247,13 +247,9 @@ export async function register() {
     await Sentry.init({
       dsn: process.env.SENTRY_DSN,
       environment: process.env.NODE_ENV,
-      integrations: [
-        new Sentry.Integrations.Http({ tracing: true }),
-        new Sentry.Integrations.OnUncaughtException()
-      ],
-      tracesSampleRate:
-        process.env.NODE_ENV === "production" ? 0.1 : 1.0,
-      release: process.env.VERCEL_GIT_COMMIT_SHA
+      integrations: [new Sentry.Integrations.Http({ tracing: true }), new Sentry.Integrations.OnUncaughtException()],
+      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+      release: process.env.VERCEL_GIT_COMMIT_SHA,
     });
   }
 
@@ -261,7 +257,7 @@ export async function register() {
     await Sentry.init({
       dsn: process.env.SENTRY_DSN,
       environment: process.env.NODE_ENV,
-      tracesSampleRate: 0.1
+      tracesSampleRate: 0.1,
     });
   }
 }
@@ -282,17 +278,16 @@ export async function GET() {
     return NextResponse.json({
       status: "healthy",
       timestamp: new Date().toISOString(),
-      database: "connected"
+      database: "connected",
     });
   } catch (error) {
     return NextResponse.json(
       {
         status: "unhealthy",
         timestamp: new Date().toISOString(),
-        error:
-          error instanceof Error ? error.message : "Unknown error"
+        error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 503 }
+      { status: 503 },
     );
   }
 }

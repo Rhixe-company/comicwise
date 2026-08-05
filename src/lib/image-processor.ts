@@ -40,7 +40,7 @@ const DEFAULT_OPTIONS: Required<OptimizeOptions> = {
 
 export async function optimizeImage(
   inputPath: string,
-  options: Partial<OptimizeOptions> = {}
+  options: Partial<OptimizeOptions> = {},
 ): Promise<OptimizeResult> {
   const opts: Required<OptimizeOptions> = {
     maxWidth: options.maxWidth ?? DEFAULT_OPTIONS.maxWidth,
@@ -216,7 +216,7 @@ export interface ReprocessStats {
 export async function reprocessImagesInDirectory(
   dirPath: string,
   options: Partial<OptimizeOptions>,
-  onProgress?: (current: number, total: number, saved: number) => void
+  onProgress?: (current: number, total: number, saved: number) => void,
 ): Promise<ReprocessStats> {
   const stats: ReprocessStats = {
     processed: 0,

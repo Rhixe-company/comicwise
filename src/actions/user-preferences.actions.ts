@@ -35,7 +35,7 @@ export async function getUserPreferencesAction(): Promise<ActionResult<UserPrefe
  * Update user preferences
  */
 export async function updateUserPreferencesAction(
-  input: UpdateUserPreferenceInput
+  input: UpdateUserPreferenceInput,
 ): Promise<ActionResult<UserPreference>> {
   const session = await auth();
   if (!session?.user?.id) {
@@ -71,7 +71,7 @@ export async function updateThemeAction(theme: "dark" | "light" | "system"): Pro
  * Update reading layout preference
  */
 export async function updateLayoutPreferenceAction(
-  layout: "book" | "comic" | "webtoon"
+  layout: "book" | "comic" | "webtoon",
 ): Promise<ActionResult<UserPreference>> {
   return await updateUserPreferencesAction({ defaultLayout: layout });
 }

@@ -61,7 +61,7 @@ export interface CreatorCache {
 export async function lookupOrCreateCreator(
   name: string,
   cache: CreatorCache,
-  createFn: (name: string) => Promise<{ id: string; name: string }>
+  createFn: (name: string) => Promise<{ id: string; name: string }>,
 ): Promise<{ id: string; name: string }> {
   const normalized = normalizeCreatorName(name);
 

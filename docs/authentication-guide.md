@@ -103,8 +103,7 @@ User/Account/Session Tables (PostgreSQL)
 
 ```typescript
 // Exports handlers (GET/POST), auth(), signIn(), signOut()
-export const { handlers, auth, signIn, signOut } =
-  NextAuth(authConfig);
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
 ```
 
 **2. `src/auth-config.ts` - Configuration**
@@ -403,7 +402,7 @@ Configured in `auth-config.ts`:
 const session = {
   strategy: "database" as const,
   maxAge: 30 * 24 * 60 * 60, // 30 days
-  updateAge: 24 * 60 * 60 // Refresh if older than 1 day
+  updateAge: 24 * 60 * 60, // Refresh if older than 1 day
 };
 ```
 
@@ -425,7 +424,7 @@ const callbacks = {
     session.user = user ?? token?.user;
     session.lastLogin = token?.lastLogin || null;
     return session;
-  }
+  },
 };
 ```
 
@@ -450,7 +449,7 @@ const callbacks = {
     }
 
     return token;
-  }
+  },
 };
 ```
 
@@ -531,17 +530,14 @@ export async function GET(request: NextRequest) {
 
   // Not authenticated
   if (!session?.user) {
-    return NextResponse.json(
-      { error: "Unauthorized" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   // Return protected data
   return NextResponse.json({
     id: session.user.id,
     email: session.user.email,
-    name: session.user.name
+    name: session.user.name,
   });
 }
 ```
@@ -560,9 +556,7 @@ export async function middleware(request: NextRequest) {
     const session = await auth();
 
     if (!session?.user) {
-      return NextResponse.redirect(
-        new URL("/auth/signin", request.url)
-      );
+      return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
   }
 
@@ -570,7 +564,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/profile/:path*"]
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/profile/:path*"],
 };
 ```
 
@@ -635,7 +629,7 @@ export async function getCurrentSessionAction() {
     id: session.user.id,
     email: session.user.email,
     name: session.user.name,
-    role: session.user.role
+    role: session.user.role,
   };
 }
 ```
@@ -828,9 +822,7 @@ export async function deleteCommentAction(commentId: number) {
 
   // Verify authorization
   const user = session.user as { role?: unknown };
-  const isModerator =
-    typeof user.role === "string" &&
-    (user.role === "moderator" || user.role === "admin");
+  const isModerator = typeof user.role === "string" && (user.role === "moderator" || user.role === "admin");
 
   if (!isModerator) {
     return { ok: false, error: "Insufficient permissions" };
@@ -846,10 +838,7 @@ export async function deleteCommentAction(commentId: number) {
 
 ```typescript
 // src/lib/auth-utils.ts
-export function hasRole(
-  user: unknown,
-  requiredRole: "admin" | "moderator" | "user"
-): boolean {
+export function hasRole(user: unknown, requiredRole: "admin" | "moderator" | "user"): boolean {
   const u = user as { role?: unknown };
   const userRole = typeof u.role === "string" ? u.role : "user";
 
@@ -857,8 +846,7 @@ export function hasRole(
   if (userRole === "admin") return true;
 
   // Moderator can do moderator tasks
-  if (requiredRole === "moderator" && userRole === "moderator")
-    return true;
+  if (requiredRole === "moderator" && userRole === "moderator") return true;
 
   // User is default
   if (requiredRole === "user") return true;
@@ -866,10 +854,7 @@ export function hasRole(
   return false;
 }
 
-export function requireRole(
-  user: unknown,
-  requiredRole: "admin" | "moderator"
-) {
+export function requireRole(user: unknown, requiredRole: "admin" | "moderator") {
   if (!hasRole(user, requiredRole)) {
     throw new Error(`Required role: ${requiredRole}`);
   }
@@ -925,9 +910,7 @@ test.describe("Authentication", () => {
     await expect(page.getByText(/welcome/i)).toBeVisible();
   });
 
-  test("user cannot access admin panel without admin role", async ({
-    page
-  }) => {
+  test("user cannot access admin panel without admin role", async ({ page }) => {
     // Sign in as regular user
     await page.goto("/auth/signin");
     await page.fill('input[name="username"]', "user");

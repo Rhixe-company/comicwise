@@ -30,9 +30,9 @@ ComicWise has implemented comprehensive security controls addressing **OWASP Top
 - Role-based access control (RBAC) implemented via NextAuth callbacks (`src/auth-config.ts`)
 - Session strategy uses database sessions (30-day expiration)
 - Protected routes via `src/proxy.ts` middleware:
-  - `/admin` requires `role: "admin"`
-  - `/dashboard` requires authenticated user
-  - `/profile` requires authenticated user
+    - `/admin` requires `role: "admin"`
+    - `/dashboard` requires authenticated user
+    - `/profile` requires authenticated user
 - JWT signing disables `jti` claim to prevent token replay
 
 **Implementation:**
@@ -114,13 +114,11 @@ cookies: {
 ```typescript
 // ✅ GOOD - Parameterized (Drizzle)
 const user = await db.query.user.findFirst({
-  where: eq(user.id, userId)
+  where: eq(user.id, userId),
 });
 
 // ❌ NEVER - Raw SQL
-const user = await db.execute(
-  `SELECT * FROM user WHERE id = '${userId}'`
-);
+const user = await db.execute(`SELECT * FROM user WHERE id = '${userId}'`);
 ```
 
 **Validation Pattern:**
@@ -129,7 +127,7 @@ const user = await db.execute(
 // src/schemas/comic.ts
 const CreateComicSchema = z.object({
   title: z.string().min(1).max(255),
-  slug: z.string().min(1).max(255)
+  slug: z.string().min(1).max(255),
   // ...validation ensures no injection vectors
 });
 ```
@@ -163,7 +161,7 @@ export const SECURITY_CONSTANTS = {
   SESSION_TIMEOUT_MS: 30 * 24 * 60 * 60 * 1000, // 30 days
   RATE_LIMIT_LOGIN_ATTEMPTS: 5,
   RATE_LIMIT_WINDOW_MS: 15 * 60 * 1000, // 15 min
-  MAX_UPLOAD_SIZE_MB: 10
+  MAX_UPLOAD_SIZE_MB: 10,
 };
 ```
 
@@ -192,14 +190,13 @@ export const SECURITY_CONSTANTS = {
 "use server";
 export async function rateComicAction(input: unknown) {
   const session = await auth();
-  if (!session?.user?.id)
-    return { ok: false, error: "Not authenticated" };
+  if (!session?.user?.id) return { ok: false, error: "Not authenticated" };
 
   // Use session.user.id, not input.userId
   const rating = await db.insert(rating).values({
     userId: session.user.id, // ✅ From trusted source
     comicId: parsed.data.comicId,
-    rating: parsed.data.rating
+    rating: parsed.data.rating,
   });
 }
 ```
@@ -256,23 +253,16 @@ pnpm up                             # Update dependencies safely
 
 ```typescript
 // src/lib/security.ts - Password validation
-export function validatePassword(
-  password: string
-): PasswordValidationResult {
+export function validatePassword(password: string): PasswordValidationResult {
   const errors: string[] = [];
 
   if (password.length < SECURITY_CONSTANTS.PASSWORD_MIN_LENGTH) {
-    errors.push(
-      `Password must be at least ${SECURITY_CONSTANTS.PASSWORD_MIN_LENGTH} characters`
-    );
+    errors.push(`Password must be at least ${SECURITY_CONSTANTS.PASSWORD_MIN_LENGTH} characters`);
   }
-  if (!/[A-Z]/.test(password))
-    errors.push("Must contain uppercase letter");
-  if (!/[a-z]/.test(password))
-    errors.push("Must contain lowercase letter");
+  if (!/[A-Z]/.test(password)) errors.push("Must contain uppercase letter");
+  if (!/[a-z]/.test(password)) errors.push("Must contain lowercase letter");
   if (!/[0-9]/.test(password)) errors.push("Must contain digit");
-  if (!/[!@#$%^&*]/.test(password))
-    errors.push("Must contain special character");
+  if (!/[!@#$%^&*]/.test(password)) errors.push("Must contain special character");
 
   return { isValid: errors.length === 0, errors };
 }
@@ -329,11 +319,11 @@ export function sanitizeForLogging(message: string): string {
     credit_card: /\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g,
     api_key: /api[_-]?key[:\s]*['"]?([a-zA-Z0-9_-]{20,})/gi,
     password: /password[:\s]*['"]?([^'"]{6,})/gi,
-    jwt: /eyJ[A-Za-z0-9_-]*\.eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*/g
+    jwt: /eyJ[A-Za-z0-9_-]*\.eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*/g,
   };
 
   let sanitized = message;
-  Object.values(patterns).forEach(pattern => {
+  Object.values(patterns).forEach((pattern) => {
     sanitized = sanitized.replace(pattern, "[REDACTED]");
   });
   return sanitized;
@@ -347,8 +337,8 @@ export function sanitizeForLogging(message: string): string {
 Sentry.captureException(error, {
   contexts: {
     userId: session?.user?.id,
-    action: "signin"
-  }
+    action: "signin",
+  },
 });
 ```
 
@@ -381,16 +371,14 @@ Sentry.captureException(error, {
 ```typescript
 // src/proxy.ts (TBD)
 export const middleware = (request: NextRequest) => {
-  const isMutation = ["POST", "PUT", "DELETE", "PATCH"].includes(
-    request.method
-  );
+  const isMutation = ["POST", "PUT", "DELETE", "PATCH"].includes(request.method);
 
   if (isMutation) {
     const csrfToken = request.headers.get("x-csrf-token");
     // Verify against session CSRF token
     if (!isValidCsrfToken(csrfToken)) {
       return new NextResponse("CSRF validation failed", {
-        status: 403
+        status: 403,
       });
     }
   }
@@ -431,7 +419,7 @@ export const CSP_DIRECTIVES = {
   CONNECT_SRC: ["'self'", "https://api.sentry.io"],
   FRAME_ANCESTORS: ["'none'"],
   FORM_ACTION: ["'self'"],
-  UPGRADE_INSECURE_REQUESTS: []
+  UPGRADE_INSECURE_REQUESTS: [],
 };
 ```
 
@@ -456,14 +444,10 @@ const isValid = validateEmail("user@example.com"); // true
 
 ```typescript
 // Prevents open redirect attacks
-const isValid = isValidRedirectUrl("/dashboard", [
-  "http://localhost:3000"
-]);
+const isValid = isValidRedirectUrl("/dashboard", ["http://localhost:3000"]);
 // true (relative URL, always allowed)
 
-const isValid = isValidRedirectUrl("https://evil.com", [
-  "http://localhost:3000"
-]);
+const isValid = isValidRedirectUrl("https://evil.com", ["http://localhost:3000"]);
 // false (not in allowlist)
 ```
 
@@ -479,26 +463,26 @@ const safe = sanitizeForLogging("Password is MyPass123!");
 
 ## Security Checklist
 
-| Category | Item | Status | Evidence |
-| --- | --- | --- | --- |
-| **Auth** | OAuth2 providers | ✅ PASS | GitHub, Keycloak implemented |
-| **Auth** | Password validation | ✅ PASS | validatePassword enforces policy |
-| **Auth** | Session expiry | ✅ PASS | 30-day max age in auth-config.ts |
-| **Auth** | bcryptjs hashing | ✅ PASS | Cost factor 10 (acceptable) |
-| **Network** | HTTPS enforced | ✅ PASS | Vercel + Cloudflare enforce |
-| **Network** | HSTS header | ✅ PASS | Set in next.config.ts |
-| **Network** | CSP policy | ✅ PASS | CSP_DIRECTIVES defined |
-| **Data** | SQL injection | ✅ PASS | Drizzle ORM prevents all vectors |
-| **Data** | XSS prevention | ✅ PASS | React auto-escapes |
-| **Data** | CSRF token | ⚠️ TBD | Middleware structure ready |
-| **Secrets** | No hardcoded secrets | ✅ PASS | All via environment variables |
-| **Secrets** | Sensitive data not logged | ✅ PASS | sanitizeForLogging implemented |
-| **Access** | RBAC enforced | ✅ PASS | NextAuth + proxy.ts middleware |
-| **Access** | Admin routes protected | ✅ PASS | role: 'admin' check enforced |
-| **Compliance** | Rate limiting structure | ✅ PASS | RATE*LIMIT*\* constants defined |
-| **Compliance** | Audit logging ready | ✅ PASS | Sentry integration active |
-| **Dependencies** | Lockfile committed | ✅ PASS | pnpm-lock.yaml in repo |
-| **Dependencies** | Audit setup | ⚠️ TBD | `pnpm audit` configured |
+| Category         | Item                      | Status  | Evidence                         |
+| ---------------- | ------------------------- | ------- | -------------------------------- |
+| **Auth**         | OAuth2 providers          | ✅ PASS | GitHub, Keycloak implemented     |
+| **Auth**         | Password validation       | ✅ PASS | validatePassword enforces policy |
+| **Auth**         | Session expiry            | ✅ PASS | 30-day max age in auth-config.ts |
+| **Auth**         | bcryptjs hashing          | ✅ PASS | Cost factor 10 (acceptable)      |
+| **Network**      | HTTPS enforced            | ✅ PASS | Vercel + Cloudflare enforce      |
+| **Network**      | HSTS header               | ✅ PASS | Set in next.config.ts            |
+| **Network**      | CSP policy                | ✅ PASS | CSP_DIRECTIVES defined           |
+| **Data**         | SQL injection             | ✅ PASS | Drizzle ORM prevents all vectors |
+| **Data**         | XSS prevention            | ✅ PASS | React auto-escapes               |
+| **Data**         | CSRF token                | ⚠️ TBD  | Middleware structure ready       |
+| **Secrets**      | No hardcoded secrets      | ✅ PASS | All via environment variables    |
+| **Secrets**      | Sensitive data not logged | ✅ PASS | sanitizeForLogging implemented   |
+| **Access**       | RBAC enforced             | ✅ PASS | NextAuth + proxy.ts middleware   |
+| **Access**       | Admin routes protected    | ✅ PASS | role: 'admin' check enforced     |
+| **Compliance**   | Rate limiting structure   | ✅ PASS | RATE*LIMIT*\* constants defined  |
+| **Compliance**   | Audit logging ready       | ✅ PASS | Sentry integration active        |
+| **Dependencies** | Lockfile committed        | ✅ PASS | pnpm-lock.yaml in repo           |
+| **Dependencies** | Audit setup               | ⚠️ TBD  | `pnpm audit` configured          |
 
 ---
 

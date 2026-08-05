@@ -168,7 +168,7 @@ export class ReadingGoalsDal extends BaseDal<ReadingGoalType> {
 
   async getGoalsByType(
     userId: string,
-    type: "daily_chapters" | "monthly_minutes" | "weekly_comics"
+    type: "daily_chapters" | "monthly_minutes" | "weekly_comics",
   ): Promise<ReadingGoalType[]> {
     return db.query.readingGoal.findMany({
       where: and(eq(readingGoal.userId, userId), eq(readingGoal.type, type)),

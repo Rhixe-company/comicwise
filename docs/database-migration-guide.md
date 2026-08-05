@@ -91,9 +91,9 @@ const envSchema = z.object({
     .string()
     .url("DATABASE_URL must be a valid database connection URL")
     .refine(
-      url => url.includes("postgresql") || url.includes("postgres"),
-      "DATABASE_URL must be a PostgreSQL connection string"
-    )
+      (url) => url.includes("postgresql") || url.includes("postgres"),
+      "DATABASE_URL must be a PostgreSQL connection string",
+    ),
   // ... other env vars
 });
 
@@ -121,16 +121,16 @@ pnpm db:studio     # Open interactive Drizzle Studio
 
 ### Understanding Each Command
 
-| Command | Purpose | Use Case | Safety |
-| --- | --- | --- | --- |
-| `db:check` | Verify no schema conflicts exist | Before merging PRs | ✅ Read-only |
-| `db:generate` | Create migration file for schema changes | Adding new tables/columns | ✅ Safe - creates file only |
-| `db:migrate` | Apply generated migrations to database | Production deploys | ⚠️ Warn before running |
-| `db:push` | Directly update schema without migrations | Local dev only | ❌ Skip prod changes |
-| `db:pull` | Read existing database schema | Syncing with external DB | ✅ Read-only |
-| `db:drop` | Delete entire database | Test cleanup | 🔴 DESTRUCTIVE |
-| `db:reset` | Drop + regenerate + push | Fresh start (dev) | 🔴 DESTRUCTIVE |
-| `db:studio` | Interactive database browser | Exploring/debugging | ✅ Read-only (by default) |
+| Command       | Purpose                                   | Use Case                  | Safety                      |
+| ------------- | ----------------------------------------- | ------------------------- | --------------------------- |
+| `db:check`    | Verify no schema conflicts exist          | Before merging PRs        | ✅ Read-only                |
+| `db:generate` | Create migration file for schema changes  | Adding new tables/columns | ✅ Safe - creates file only |
+| `db:migrate`  | Apply generated migrations to database    | Production deploys        | ⚠️ Warn before running      |
+| `db:push`     | Directly update schema without migrations | Local dev only            | ❌ Skip prod changes        |
+| `db:pull`     | Read existing database schema             | Syncing with external DB  | ✅ Read-only                |
+| `db:drop`     | Delete entire database                    | Test cleanup              | 🔴 DESTRUCTIVE              |
+| `db:reset`    | Drop + regenerate + push                  | Fresh start (dev)         | 🔴 DESTRUCTIVE              |
+| `db:studio`   | Interactive database browser              | Exploring/debugging       | ✅ Read-only (by default)   |
 
 ---
 
@@ -196,12 +196,7 @@ Edit `src/database/schema.ts` to add/modify tables:
 
 ```typescript
 // src/database/schema.ts
-import {
-  pgTable,
-  text,
-  integer,
-  timestamp
-} from "drizzle-orm/pg-core";
+import { pgTable, text, integer, timestamp } from "drizzle-orm/pg-core";
 
 // Add new table
 export const newFeature = pgTable("newFeature", {
@@ -210,7 +205,7 @@ export const newFeature = pgTable("newFeature", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   userId: text("userId")
     .notNull()
-    .references(() => user.id, { onDelete: "cascade" })
+    .references(() => user.id, { onDelete: "cascade" }),
 });
 ```
 
@@ -431,8 +426,8 @@ describe("Database Migrations", () => {
     expect(result).toContainEqual(
       expect.objectContaining({
         column_name: "score",
-        data_type: "integer"
-      })
+        data_type: "integer",
+      }),
     );
   });
 
@@ -441,7 +436,7 @@ describe("Database Migrations", () => {
     const invalidInsert = db.insert(rating).values({
       userId: "nonexistent-user",
       comicId: 1,
-      score: 5
+      score: 5,
     });
 
     expect(invalidInsert).rejects.toThrow(/foreign key/i);
@@ -540,7 +535,7 @@ export const rating = pgTable("rating", {
   comicId: integer("comicId")
     .notNull()
     .references(() => comic.id, { onDelete: "cascade" }),
-  score: integer("score").notNull()
+  score: integer("score").notNull(),
   // ... more fields
 });
 ```
@@ -660,9 +655,9 @@ git commit -m "fix: correct migration issues"
 
 **Migration Log:**
 
-| Migration | Date | Tables Added | Changes |
-| --- | --- | --- | --- |
-| `0000_sparkling_moonstone.sql` | Mar 1, 2026 | 26 | Initial schema: auth, content, interactions, RBAC |
+| Migration                      | Date        | Tables Added | Changes                                           |
+| ------------------------------ | ----------- | ------------ | ------------------------------------------------- |
+| `0000_sparkling_moonstone.sql` | Mar 1, 2026 | 26           | Initial schema: auth, content, interactions, RBAC |
 
 ---
 

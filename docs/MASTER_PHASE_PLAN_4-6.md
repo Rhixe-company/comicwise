@@ -49,13 +49,13 @@ This is the **Master Phase Plan** for ComicWise, consolidating all remaining wor
 
 - GOAL-CLN: Execute the 5 cleanup plans created in this session before starting new features
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-CLN-001 | Execute `process-vscode-config-audit-1.md` — Clean all `.vscode/*.json` files (49 tasks) | ⬜ |  |
-| TASK-CLN-002 | Execute `process-docs-triage-cleanup-1.md` — Triage 84 docs files (63 tasks) | ⬜ |  |
-| TASK-CLN-003 | Execute `process-app-routes-triage-1.md` — Clean 52 route files (29 tasks) | ⬜ |  |
-| TASK-CLN-004 | Execute `process-components-triage-1.md` — Clean 153 component files (32 tasks) | ⬜ |  |
-| TASK-CLN-005 | Execute `process-scripts-triage-1.md` — Clean 49 script files (42 tasks) | ⬜ |  |
+| Task         | Description                                                                              | Completed | Date |
+| ------------ | ---------------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-CLN-001 | Execute `process-vscode-config-audit-1.md` — Clean all `.vscode/*.json` files (49 tasks) | ⬜        |      |
+| TASK-CLN-002 | Execute `process-docs-triage-cleanup-1.md` — Triage 84 docs files (63 tasks)             | ⬜        |      |
+| TASK-CLN-003 | Execute `process-app-routes-triage-1.md` — Clean 52 route files (29 tasks)               | ⬜        |      |
+| TASK-CLN-004 | Execute `process-components-triage-1.md` — Clean 153 component files (32 tasks)          | ⬜        |      |
+| TASK-CLN-005 | Execute `process-scripts-triage-1.md` — Clean 49 script files (42 tasks)                 | ⬜        |      |
 
 > **CP-CLN** (Checkpoint): Quality gate passes, workspace is clean, all cruft removed **RP-CLN** (Recovery): Git branch `cleanup/workspace-hygiene` — can be abandoned without affecting main
 
@@ -67,12 +67,12 @@ This is the **Master Phase Plan** for ComicWise, consolidating all remaining wor
 
 ### 4.3.1 — Database Schema Extension
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.3.1-001 | Create `readingHistory` table in `src/database/schema.ts` | ⬜ |  |
-| TASK-4.3.1-002 | Add `timeSpentSeconds` column to existing `readingProgress` table | ⬜ |  |
-| TASK-4.3.1-003 | Run `pnpm db:generate` to create migration SQL | ⬜ |  |
-| TASK-4.3.1-004 | Run `pnpm db:push` to apply schema changes | ⬜ |  |
+| Task           | Description                                                       | Completed | Date |
+| -------------- | ----------------------------------------------------------------- | --------- | ---- |
+| TASK-4.3.1-001 | Create `readingHistory` table in `src/database/schema.ts`         | ⬜        |      |
+| TASK-4.3.1-002 | Add `timeSpentSeconds` column to existing `readingProgress` table | ⬜        |      |
+| TASK-4.3.1-003 | Run `pnpm db:generate` to create migration SQL                    | ⬜        |      |
+| TASK-4.3.1-004 | Run `pnpm db:push` to apply schema changes                        | ⬜        |      |
 
 **Code Sample — Schema Addition:**
 
@@ -108,14 +108,14 @@ This is the **Master Phase Plan** for ComicWise, consolidating all remaining wor
 
 ### 4.3.2 — Data Access Layer
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.3.2-001 | Create `src/dal/reading-history-dal.ts` extending `BaseDal<ReadingHistoryType>` | ⬜ |  |
-| TASK-4.3.2-002 | Implement `recordSession(userId, comicId, chapterId, timeSpent, pagesRead)` | ⬜ |  |
-| TASK-4.3.2-003 | Implement `getHistory(userId, { limit, offset })` with eager loading `.with({ comic, chapter })` | ⬜ |  |
-| TASK-4.3.2-004 | Implement `getStats(userId)` — total time, chapters read, comics completed, favorite genres | ⬜ |  |
-| TASK-4.3.2-005 | Implement `getRecentlyRead(userId, limit)` — last 10 unique comics read | ⬜ |  |
-| TASK-4.3.2-006 | Implement `getReadingStreak(userId)` — consecutive days with reading activity | ⬜ |  |
+| Task           | Description                                                                                      | Completed | Date |
+| -------------- | ------------------------------------------------------------------------------------------------ | --------- | ---- |
+| TASK-4.3.2-001 | Create `src/dal/reading-history-dal.ts` extending `BaseDal<ReadingHistoryType>`                  | ⬜        |      |
+| TASK-4.3.2-002 | Implement `recordSession(userId, comicId, chapterId, timeSpent, pagesRead)`                      | ⬜        |      |
+| TASK-4.3.2-003 | Implement `getHistory(userId, { limit, offset })` with eager loading `.with({ comic, chapter })` | ⬜        |      |
+| TASK-4.3.2-004 | Implement `getStats(userId)` — total time, chapters read, comics completed, favorite genres      | ⬜        |      |
+| TASK-4.3.2-005 | Implement `getRecentlyRead(userId, limit)` — last 10 unique comics read                          | ⬜        |      |
+| TASK-4.3.2-006 | Implement `getReadingStreak(userId)` — consecutive days with reading activity                    | ⬜        |      |
 
 **Code Sample — DAL Pattern:**
 
@@ -141,8 +141,7 @@ export class ReadingHistoryDal extends BaseDal<ReadingHistoryType> {
       .insert(readingHistory)
       .values({
         ...data,
-        finishedAt:
-          data.pagesRead >= data.totalPages ? new Date() : null
+        finishedAt: data.pagesRead >= data.totalPages ? new Date() : null,
       })
       .returning();
     return record;
@@ -154,7 +153,7 @@ export class ReadingHistoryDal extends BaseDal<ReadingHistoryType> {
       with: { comic: true, chapter: true },
       orderBy: [desc(readingHistory.startedAt)],
       limit,
-      offset
+      offset,
     });
   }
 
@@ -163,7 +162,7 @@ export class ReadingHistoryDal extends BaseDal<ReadingHistoryType> {
       where: eq(readingHistory.userId, userId),
       with: { comic: true, chapter: true },
       orderBy: [desc(readingHistory.startedAt)],
-      limit
+      limit,
     });
   }
 }
@@ -175,11 +174,11 @@ export const readingHistoryDal = new ReadingHistoryDal();
 
 ### 4.3.3 — Zod Schemas
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.3.3-001 | Create `src/schemas/reading-history.schema.ts` with `RecordReadingSessionSchema` | ⬜ |  |
-| TASK-4.3.3-002 | Create `ReadingHistoryFilterSchema` (date range, comic filter, pagination) | ⬜ |  |
-| TASK-4.3.3-003 | Write schema validation tests in `src/tests/schemas/reading-history-schema.spec.ts` | ⬜ |  |
+| Task           | Description                                                                         | Completed | Date |
+| -------------- | ----------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-4.3.3-001 | Create `src/schemas/reading-history.schema.ts` with `RecordReadingSessionSchema`    | ⬜        |      |
+| TASK-4.3.3-002 | Create `ReadingHistoryFilterSchema` (date range, comic filter, pagination)          | ⬜        |      |
+| TASK-4.3.3-003 | Write schema validation tests in `src/tests/schemas/reading-history-schema.spec.ts` | ⬜        |      |
 
 **Code Sample — Schema:**
 
@@ -192,7 +191,7 @@ export const RecordReadingSessionSchema = z.object({
   chapterId: z.number().int().positive(),
   timeSpentSeconds: z.number().int().min(0).max(86400),
   pagesRead: z.number().int().min(0),
-  totalPages: z.number().int().min(1)
+  totalPages: z.number().int().min(1),
 });
 
 export const ReadingHistoryFilterSchema = z.object({
@@ -200,28 +199,24 @@ export const ReadingHistoryFilterSchema = z.object({
   endDate: z.string().datetime().optional(),
   comicId: z.number().int().positive().optional(),
   page: z.number().int().min(1).default(1),
-  limit: z.number().int().min(1).max(100).default(20)
+  limit: z.number().int().min(1).max(100).default(20),
 });
 
-export type RecordReadingSession = z.infer<
-  typeof RecordReadingSessionSchema
->;
-export type ReadingHistoryFilter = z.infer<
-  typeof ReadingHistoryFilterSchema
->;
+export type RecordReadingSession = z.infer<typeof RecordReadingSessionSchema>;
+export type ReadingHistoryFilter = z.infer<typeof ReadingHistoryFilterSchema>;
 ```
 
 > **CP-4.3.3** (Checkpoint): Schema tests pass, type-check passes
 
 ### 4.3.4 — Server Actions
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.3.4-001 | Create `src/actions/reading-history.actions.ts` | ⬜ |  |
-| TASK-4.3.4-002 | Implement `recordReadingSessionAction(input)` — auth → validate → DAL → revalidate | ⬜ |  |
-| TASK-4.3.4-003 | Implement `getReadingHistoryAction(filter)` — auth → validate → DAL | ⬜ |  |
-| TASK-4.3.4-004 | Implement `getReadingStatsAction()` — auth → DAL (aggregations) | ⬜ |  |
-| TASK-4.3.4-005 | Write action tests in `src/tests/reading-history.actions.test.ts` | ⬜ |  |
+| Task           | Description                                                                        | Completed | Date |
+| -------------- | ---------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-4.3.4-001 | Create `src/actions/reading-history.actions.ts`                                    | ⬜        |      |
+| TASK-4.3.4-002 | Implement `recordReadingSessionAction(input)` — auth → validate → DAL → revalidate | ⬜        |      |
+| TASK-4.3.4-003 | Implement `getReadingHistoryAction(filter)` — auth → validate → DAL                | ⬜        |      |
+| TASK-4.3.4-004 | Implement `getReadingStatsAction()` — auth → DAL (aggregations)                    | ⬜        |      |
+| TASK-4.3.4-005 | Write action tests in `src/tests/reading-history.actions.test.ts`                  | ⬜        |      |
 
 **Code Sample — Server Action:**
 
@@ -235,24 +230,21 @@ import { readingHistoryDal } from "@/dal/reading-history-dal";
 import { revalidatePath } from "next/cache";
 import type { ActionResult } from "./types";
 
-export async function recordReadingSessionAction(
-  input: unknown
-): Promise<ActionResult<{ id: number }>> {
+export async function recordReadingSessionAction(input: unknown): Promise<ActionResult<{ id: number }>> {
   const session = await auth();
-  if (!session?.user?.id)
-    return { ok: false, error: "Not authenticated" };
+  if (!session?.user?.id) return { ok: false, error: "Not authenticated" };
 
   const parsed = RecordReadingSessionSchema.safeParse(input);
   if (!parsed.success)
     return {
       ok: false,
-      error: parsed.error.errors[0]?.message ?? "Invalid input"
+      error: parsed.error.errors[0]?.message ?? "Invalid input",
     };
 
   try {
     const record = await readingHistoryDal.recordSession({
       userId: session.user.id,
-      ...parsed.data
+      ...parsed.data,
     });
     revalidatePath("/reading-progress");
     return { ok: true, data: { id: record.id } };
@@ -266,35 +258,35 @@ export async function recordReadingSessionAction(
 
 ### 4.3.5 — UI Components
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.3.5-001 | Create `src/components/analytics/reading-dashboard.tsx` — Main analytics page component | ⬜ |  |
-| TASK-4.3.5-002 | Create `src/components/analytics/reading-timeline.tsx` — Chronological reading history | ⬜ |  |
-| TASK-4.3.5-003 | Create `src/components/analytics/reading-stats-overview.tsx` — Stats cards (total time, chapters, streak) | ⬜ |  |
-| TASK-4.3.5-004 | Create `src/components/analytics/recently-read-widget.tsx` — Sidebar widget for recent comics | ⬜ |  |
-| TASK-4.3.5-005 | Create `src/components/analytics/reading-goals.tsx` — Set and track reading goals | ⬜ |  |
-| TASK-4.3.5-006 | Create `src/components/analytics/index.ts` | ⬜ |  |
+| Task           | Description                                                                                               | Completed | Date |
+| -------------- | --------------------------------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-4.3.5-001 | Create `src/components/analytics/reading-dashboard.tsx` — Main analytics page component                   | ⬜        |      |
+| TASK-4.3.5-002 | Create `src/components/analytics/reading-timeline.tsx` — Chronological reading history                    | ⬜        |      |
+| TASK-4.3.5-003 | Create `src/components/analytics/reading-stats-overview.tsx` — Stats cards (total time, chapters, streak) | ⬜        |      |
+| TASK-4.3.5-004 | Create `src/components/analytics/recently-read-widget.tsx` — Sidebar widget for recent comics             | ⬜        |      |
+| TASK-4.3.5-005 | Create `src/components/analytics/reading-goals.tsx` — Set and track reading goals                         | ⬜        |      |
+| TASK-4.3.5-006 | Create `src/components/analytics/index.ts`                                                                | ⬜        |      |
 
 > **CP-4.3.5** (Checkpoint): All components render without errors, dark mode works, type-check passes
 
 ### 4.3.6 — Page Routes
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.3.6-001 | Update `src/app/(root)/reading-progress/page.tsx` to include analytics dashboard | ⬜ |  |
-| TASK-4.3.6-002 | Add `loading.tsx` and `error.tsx` for reading-progress route | ⬜ |  |
-| TASK-4.3.6-003 | Add metadata for SEO | ⬜ |  |
-| TASK-4.3.6-004 | Integrate `recently-read-widget.tsx` into sidebar or home page | ⬜ |  |
+| Task           | Description                                                                      | Completed | Date |
+| -------------- | -------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-4.3.6-001 | Update `src/app/(root)/reading-progress/page.tsx` to include analytics dashboard | ⬜        |      |
+| TASK-4.3.6-002 | Add `loading.tsx` and `error.tsx` for reading-progress route                     | ⬜        |      |
+| TASK-4.3.6-003 | Add metadata for SEO                                                             | ⬜        |      |
+| TASK-4.3.6-004 | Integrate `recently-read-widget.tsx` into sidebar or home page                   | ⬜        |      |
 
 > **CP-4.3.6** (Checkpoint): Full quality gate passes: type-check ✅, lint ✅, test ✅, build ✅ **RP-4.3.6** (Recovery): Revert to commit at CP-4.3.5
 
 ### 4.3.7 — Integration with Chapter Reader
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.3.7-001 | Update `ChapterReader` component to call `recordReadingSessionAction` on chapter completion | ⬜ |  |
-| TASK-4.3.7-002 | Track time spent per chapter (start timer on mount, stop on unmount/navigate) | ⬜ |  |
-| TASK-4.3.7-003 | Track pages read (count image views) | ⬜ |  |
+| Task           | Description                                                                                 | Completed | Date |
+| -------------- | ------------------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-4.3.7-001 | Update `ChapterReader` component to call `recordReadingSessionAction` on chapter completion | ⬜        |      |
+| TASK-4.3.7-002 | Track time spent per chapter (start timer on mount, stop on unmount/navigate)               | ⬜        |      |
+| TASK-4.3.7-003 | Track pages read (count image views)                                                        | ⬜        |      |
 
 > **CP-4.3** (PHASE CHECKPOINT): All Phase 4.3 features working, quality gate passes, commit tagged `phase-4.3`
 
@@ -306,36 +298,36 @@ export async function recordReadingSessionAction(
 
 ### 4.4.1 — Database Schema
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.4.1-001 | Add `review` table to `src/database/schema.ts` (userId, comicId, title, body, rating, helpfulCount, createdAt, updatedAt) | ⬜ |  |
-| TASK-4.4.1-002 | Add `reviewVote` table (userId, reviewId, isHelpful) for helpful/not helpful votes | ⬜ |  |
-| TASK-4.4.1-003 | Add relations for new tables | ⬜ |  |
-| TASK-4.4.1-004 | Run `pnpm db:generate && pnpm db:push` | ⬜ |  |
+| Task           | Description                                                                                                               | Completed | Date |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-4.4.1-001 | Add `review` table to `src/database/schema.ts` (userId, comicId, title, body, rating, helpfulCount, createdAt, updatedAt) | ⬜        |      |
+| TASK-4.4.1-002 | Add `reviewVote` table (userId, reviewId, isHelpful) for helpful/not helpful votes                                        | ⬜        |      |
+| TASK-4.4.1-003 | Add relations for new tables                                                                                              | ⬜        |      |
+| TASK-4.4.1-004 | Run `pnpm db:generate && pnpm db:push`                                                                                    | ⬜        |      |
 
 > **CP-4.4.1** (Checkpoint): Schema applied, type-check passes
 
 ### 4.4.2 — DAL + Schemas + Actions
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.4.2-001 | Create `src/dal/review-dal.ts` with CRUD + vote operations | ⬜ |  |
-| TASK-4.4.2-002 | Create `src/schemas/review.schema.ts` with `CreateReviewSchema`, `UpdateReviewSchema`, `ReviewFilterSchema` | ⬜ |  |
-| TASK-4.4.2-003 | Create `src/actions/review.actions.ts` with `createReviewAction`, `updateReviewAction`, `deleteReviewAction`, `voteReviewAction` | ⬜ |  |
-| TASK-4.4.2-004 | Write schema validation tests | ⬜ |  |
-| TASK-4.4.2-005 | Write action tests | ⬜ |  |
+| Task           | Description                                                                                                                      | Completed | Date |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-4.4.2-001 | Create `src/dal/review-dal.ts` with CRUD + vote operations                                                                       | ⬜        |      |
+| TASK-4.4.2-002 | Create `src/schemas/review.schema.ts` with `CreateReviewSchema`, `UpdateReviewSchema`, `ReviewFilterSchema`                      | ⬜        |      |
+| TASK-4.4.2-003 | Create `src/actions/review.actions.ts` with `createReviewAction`, `updateReviewAction`, `deleteReviewAction`, `voteReviewAction` | ⬜        |      |
+| TASK-4.4.2-004 | Write schema validation tests                                                                                                    | ⬜        |      |
+| TASK-4.4.2-005 | Write action tests                                                                                                               | ⬜        |      |
 
 > **CP-4.4.2** (Checkpoint): Tests pass, type-check clean
 
 ### 4.4.3 — UI Components
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.4.3-001 | Create `src/components/reviews/review-section.tsx` — Review list for comic detail page | ⬜ |  |
-| TASK-4.4.3-002 | Create `src/components/reviews/review-card.tsx` — Individual review display with vote buttons | ⬜ |  |
-| TASK-4.4.3-003 | Create `src/components/reviews/review-form.tsx` — Create/edit review form | ⬜ |  |
-| TASK-4.4.3-004 | Create `src/components/reviews/review-sort.tsx` — Sort by helpful, recent, rating | ⬜ |  |
-| TASK-4.4.3-005 | Update `src/app/(root)/comics/[slug]/page.tsx` to include review section | ⬜ |  |
+| Task           | Description                                                                                   | Completed | Date |
+| -------------- | --------------------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-4.4.3-001 | Create `src/components/reviews/review-section.tsx` — Review list for comic detail page        | ⬜        |      |
+| TASK-4.4.3-002 | Create `src/components/reviews/review-card.tsx` — Individual review display with vote buttons | ⬜        |      |
+| TASK-4.4.3-003 | Create `src/components/reviews/review-form.tsx` — Create/edit review form                     | ⬜        |      |
+| TASK-4.4.3-004 | Create `src/components/reviews/review-sort.tsx` — Sort by helpful, recent, rating             | ⬜        |      |
+| TASK-4.4.3-005 | Update `src/app/(root)/comics/[slug]/page.tsx` to include review section                      | ⬜        |      |
 
 > **CP-4.4** (PHASE CHECKPOINT): Quality gate passes, reviews working end-to-end
 
@@ -345,18 +337,18 @@ export async function recordReadingSessionAction(
 
 - GOAL-4.5: Optimize for mobile devices, add touch gestures, prepare for PWA
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-4.5-001 | Audit all pages for mobile responsiveness (viewport test: 320px, 375px, 414px) | ⬜ |  |
-| TASK-4.5-002 | Add touch swipe gesture support to chapter reader (left/right for page navigation) | ⬜ |  |
-| TASK-4.5-003 | Add pinch-to-zoom support in chapter reader | ⬜ |  |
-| TASK-4.5-004 | Create `public/manifest.webmanifest` for PWA support | ⬜ |  |
-| TASK-4.5-005 | Add PWA meta tags to root layout | ⬜ |  |
-| TASK-4.5-006 | Create service worker for offline reading (cache recently read chapters) | ⬜ |  |
-| TASK-4.5-007 | Optimize images for mobile (responsive `sizes` attribute, lazy loading) | ⬜ |  |
-| TASK-4.5-008 | Test touch targets (minimum 44x44px per WCAG 2.5.5) | ⬜ |  |
-| TASK-4.5-009 | Add mobile-specific bottom navigation bar | ⬜ |  |
-| TASK-4.5-010 | Performance audit: Lighthouse mobile score ≥ 90 | ⬜ |  |
+| Task         | Description                                                                        | Completed | Date |
+| ------------ | ---------------------------------------------------------------------------------- | --------- | ---- |
+| TASK-4.5-001 | Audit all pages for mobile responsiveness (viewport test: 320px, 375px, 414px)     | ⬜        |      |
+| TASK-4.5-002 | Add touch swipe gesture support to chapter reader (left/right for page navigation) | ⬜        |      |
+| TASK-4.5-003 | Add pinch-to-zoom support in chapter reader                                        | ⬜        |      |
+| TASK-4.5-004 | Create `public/manifest.webmanifest` for PWA support                               | ⬜        |      |
+| TASK-4.5-005 | Add PWA meta tags to root layout                                                   | ⬜        |      |
+| TASK-4.5-006 | Create service worker for offline reading (cache recently read chapters)           | ⬜        |      |
+| TASK-4.5-007 | Optimize images for mobile (responsive `sizes` attribute, lazy loading)            | ⬜        |      |
+| TASK-4.5-008 | Test touch targets (minimum 44x44px per WCAG 2.5.5)                                | ⬜        |      |
+| TASK-4.5-009 | Add mobile-specific bottom navigation bar                                          | ⬜        |      |
+| TASK-4.5-010 | Performance audit: Lighthouse mobile score ≥ 90                                    | ⬜        |      |
 
 > **CP-4.5** (PHASE CHECKPOINT): Mobile viewport tested, Lighthouse ≥ 90, quality gate passes
 
@@ -368,32 +360,32 @@ export async function recordReadingSessionAction(
 
 ### 6.1 — Comments & Discussion
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-6.1-001 | Implement comment threading (parent_id column already exists in schema) | ⬜ |  |
-| TASK-6.1-002 | Add `@username` mention support with autocomplete | ⬜ |  |
-| TASK-6.1-003 | Add comment reactions (like, love) via `commentReaction` table | ⬜ |  |
-| TASK-6.1-004 | Add moderation tools (flag, hide, delete for admins) | ⬜ |  |
-| TASK-6.1-005 | Add reply notifications via existing notification system | ⬜ |  |
+| Task         | Description                                                             | Completed | Date |
+| ------------ | ----------------------------------------------------------------------- | --------- | ---- |
+| TASK-6.1-001 | Implement comment threading (parent_id column already exists in schema) | ⬜        |      |
+| TASK-6.1-002 | Add `@username` mention support with autocomplete                       | ⬜        |      |
+| TASK-6.1-003 | Add comment reactions (like, love) via `commentReaction` table          | ⬜        |      |
+| TASK-6.1-004 | Add moderation tools (flag, hide, delete for admins)                    | ⬜        |      |
+| TASK-6.1-005 | Add reply notifications via existing notification system                | ⬜        |      |
 
 ### 6.2 — Notifications System Enhancement
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-6.2-001 | New chapter notifications (when bookmarked comic gets new chapter) | ⬜ |  |
-| TASK-6.2-002 | Email digest options (daily/weekly summary) | ⬜ |  |
-| TASK-6.2-003 | Push notifications via service worker (PWA) | ⬜ |  |
-| TASK-6.2-004 | Notification preferences page | ⬜ |  |
+| Task         | Description                                                        | Completed | Date |
+| ------------ | ------------------------------------------------------------------ | --------- | ---- |
+| TASK-6.2-001 | New chapter notifications (when bookmarked comic gets new chapter) | ⬜        |      |
+| TASK-6.2-002 | Email digest options (daily/weekly summary)                        | ⬜        |      |
+| TASK-6.2-003 | Push notifications via service worker (PWA)                        | ⬜        |      |
+| TASK-6.2-004 | Notification preferences page                                      | ⬜        |      |
 
 ### 6.3 — Admin Panel
 
-| Task | Description | Completed | Date |
-| --- | --- | --- | --- |
-| TASK-6.3-001 | Comic CRUD management (create, edit, delete with confirmation) | ⬜ |  |
-| TASK-6.3-002 | User management (list, ban, role change) | ⬜ |  |
-| TASK-6.3-003 | Moderation dashboard (flagged comments, reported content) | ⬜ |  |
-| TASK-6.3-004 | Analytics dashboard (user signups, reading activity, popular comics) | ⬜ |  |
-| TASK-6.3-005 | Batch operations (bulk status change, bulk delete) | ⬜ |  |
+| Task         | Description                                                          | Completed | Date |
+| ------------ | -------------------------------------------------------------------- | --------- | ---- |
+| TASK-6.3-001 | Comic CRUD management (create, edit, delete with confirmation)       | ⬜        |      |
+| TASK-6.3-002 | User management (list, ban, role change)                             | ⬜        |      |
+| TASK-6.3-003 | Moderation dashboard (flagged comments, reported content)            | ⬜        |      |
+| TASK-6.3-004 | Analytics dashboard (user signups, reading activity, popular comics) | ⬜        |      |
+| TASK-6.3-005 | Batch operations (bulk status change, bulk delete)                   | ⬜        |      |
 
 ### 6.4 — Full-Text Search Enhancement
 

@@ -44,13 +44,13 @@ I have analyzed the three orchestration prompts and created a comprehensive **Ba
 
 ### BATCH 2: Scripts Consolidation ✅ DOCUMENTED
 
-| Phase | Task | Subtasks | Status |
-| --- | --- | --- | --- |
-| 2A | Analyze & Categorize | Read 92 scripts, categorize, create docs/refactor-context.md | ⏳ READY |
-| 2B | Port New Scripts | 5 new TypeScript scripts with standard flags | ⏳ READY |
-| 2C | Enhance Existing | 2 scripts enhanced, flag consistency audit | ⏳ READY |
-| 2D | Shell Scripts | Enhance 2 pairs, create 2 new pairs | ⏳ READY |
-| 2E | Update package.json | Add 10 new script entries | ⏳ READY |
+| Phase | Task                 | Subtasks                                                     | Status   |
+| ----- | -------------------- | ------------------------------------------------------------ | -------- |
+| 2A    | Analyze & Categorize | Read 92 scripts, categorize, create docs/refactor-context.md | ⏳ READY |
+| 2B    | Port New Scripts     | 5 new TypeScript scripts with standard flags                 | ⏳ READY |
+| 2C    | Enhance Existing     | 2 scripts enhanced, flag consistency audit                   | ⏳ READY |
+| 2D    | Shell Scripts        | Enhance 2 pairs, create 2 new pairs                          | ⏳ READY |
+| 2E    | Update package.json  | Add 10 new script entries                                    | ⏳ READY |
 
 **New Scripts:**
 
@@ -69,11 +69,11 @@ I have analyzed the three orchestration prompts and created a comprehensive **Ba
 
 ### BATCH 3: Seeds + Quality Gate + Triage ✅ DOCUMENTED
 
-| Phase | Task | Subtasks | Status |
-| --- | --- | --- | --- |
-| 3A | Seed Enhancement | User, Comic, Chapter seeders + batch fixes + chunked processing | ⏳ READY |
-| 3B | Quality Gate Scripts | Enhance shell scripts with tee/logging/JSON | ⏳ READY |
-| 3C | Triage System | Create triage-quality-gate.ts + process JSON output | ⏳ READY |
+| Phase | Task                 | Subtasks                                                        | Status   |
+| ----- | -------------------- | --------------------------------------------------------------- | -------- |
+| 3A    | Seed Enhancement     | User, Comic, Chapter seeders + batch fixes + chunked processing | ⏳ READY |
+| 3B    | Quality Gate Scripts | Enhance shell scripts with tee/logging/JSON                     | ⏳ READY |
+| 3C    | Triage System        | Create triage-quality-gate.ts + process JSON output             | ⏳ READY |
 
 **Seed Enhancements:**
 
@@ -86,11 +86,11 @@ I have analyzed the three orchestration prompts and created a comprehensive **Ba
 
 ### BATCH 4: Full Source Audit ✅ DOCUMENTED
 
-| Phase | Task | Subtasks | Count | Status |
-| --- | --- | --- | --- | --- |
-| 4A | Pre-Identified Issues | Fix 10 specific issues | 10 | ⏳ READY |
-| 4B | process.env Violations | Fix 20 violations across 12 files | 20 | ⏳ READY |
-| 4C | Directory Audit | Audit all 11 src/ directories | 11 | ⏳ READY |
+| Phase | Task                   | Subtasks                          | Count | Status   |
+| ----- | ---------------------- | --------------------------------- | ----- | -------- |
+| 4A    | Pre-Identified Issues  | Fix 10 specific issues            | 10    | ⏳ READY |
+| 4B    | process.env Violations | Fix 20 violations across 12 files | 20    | ⏳ READY |
+| 4C    | Directory Audit        | Audit all 11 src/ directories     | 11    | ⏳ READY |
 
 **Pre-Identified Fixes (10):**
 
@@ -127,10 +127,10 @@ I have analyzed the three orchestration prompts and created a comprehensive **Ba
 
 ### BATCH 5: CI/CD + Phase Master Plan ✅ DOCUMENTED
 
-| Phase | Task | Subtasks | Status |
-| --- | --- | --- | --- |
-| 5A | CI/CD Modernization | Update 4 workflows + actions versions | ⏳ READY |
-| 5B | Phase Master Plan | Create comprehensive PHASE-MASTER-PLAN.md | ⏳ READY |
+| Phase | Task                | Subtasks                                  | Status   |
+| ----- | ------------------- | ----------------------------------------- | -------- |
+| 5A    | CI/CD Modernization | Update 4 workflows + actions versions     | ⏳ READY |
+| 5B    | Phase Master Plan   | Create comprehensive PHASE-MASTER-PLAN.md | ⏳ READY |
 
 **Workflow Updates:**
 

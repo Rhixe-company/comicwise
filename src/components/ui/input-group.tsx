@@ -27,7 +27,7 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
         // Error state.
         "has-[[data-slot][aria-invalid=true]]:border-destructive has-[[data-slot][aria-invalid=true]]:ring-destructive/20 dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40",
 
-        className
+        className,
       )}
       data-slot="input-group"
       role="group"
@@ -51,7 +51,7 @@ const inputGroupAddonVariants = cva(
     defaultVariants: {
       align: "inline-start",
     },
-  }
+  },
 );
 
 function InputGroupAddon({
@@ -121,7 +121,7 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
     <span
       className={cn(
         "flex items-center gap-2 text-sm text-muted-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
-        className
+        className,
       )}
       {...props}
     />
@@ -133,7 +133,7 @@ function InputGroupInput({ className, ...props }: React.ComponentProps<"input">)
     <Input
       className={cn(
         "flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent",
-        className
+        className,
       )}
       data-slot="input-group-control"
       {...props}
@@ -146,7 +146,7 @@ function InputGroupTextarea({ className, ...props }: React.ComponentProps<"texta
     <Textarea
       className={cn(
         "flex-1 resize-none rounded-none border-0 bg-transparent py-3 shadow-none focus-visible:ring-0 dark:bg-transparent",
-        className
+        className,
       )}
       data-slot="input-group-control"
       {...props}

@@ -148,7 +148,7 @@ export class BookmarkDal extends BaseDal<BookmarkType> {
    */
   async update(
     _id: number | string,
-    _data: unknown
+    _data: unknown,
   ): Promise<{
     comicId: number;
     createdAt: Date;

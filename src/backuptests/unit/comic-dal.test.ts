@@ -55,7 +55,7 @@ describe("ComicDal", () => {
       expect.objectContaining({
         limit: 5,
         offset: 10,
-      })
+      }),
     );
   });
 
@@ -66,7 +66,7 @@ describe("ComicDal", () => {
       expect.objectContaining({
         limit: 20,
         offset: 0,
-      })
+      }),
     );
   });
 });

@@ -94,7 +94,7 @@ export const chapterSeedItemSchema = z.object({
     .array(
       z.object({
         url: z.string().url("Invalid image URL"),
-      })
+      }),
     )
     .default([])
     .optional(),

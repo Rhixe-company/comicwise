@@ -13,13 +13,13 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 ## Batch Summary
 
-| Batch | Status | Description |
-| --- | --- | --- |
-| **Batch 1** | ✅ Complete | Stabilize & Clean — TS errors, docs cleanup, component cleanup, VS Code config |
-| **Batch 2** | ✅ Complete | Scripts Consolidation — All scripts created/enhanced, shell scripts ready |
-| **Batch 3** | ✅ Complete | Seeds + Quality Gate — Enhanced seeders, quality gate scripts, triage system |
+| Batch       | Status      | Description                                                                          |
+| ----------- | ----------- | ------------------------------------------------------------------------------------ |
+| **Batch 1** | ✅ Complete | Stabilize & Clean — TS errors, docs cleanup, component cleanup, VS Code config       |
+| **Batch 2** | ✅ Complete | Scripts Consolidation — All scripts created/enhanced, shell scripts ready            |
+| **Batch 3** | ✅ Complete | Seeds + Quality Gate — Enhanced seeders, quality gate scripts, triage system         |
 | **Batch 4** | ✅ Complete | Full Source Audit — All pre-identified issues fixed, process.env violations resolved |
-| **Batch 5** | ✅ Complete | CI/CD + Phase Master Plan — Workflows updated, this document created |
+| **Batch 5** | ✅ Complete | CI/CD + Phase Master Plan — Workflows updated, this document created                 |
 
 ---
 
@@ -42,17 +42,17 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 - **Status:** ✅ Complete
 - **Actions:**
-  - Created barrel exports for `bookmarks/` and `search/`
-  - Deleted `shadcn-studio/` directory
-  - Deleted `admin/data.json`
+    - Created barrel exports for `bookmarks/` and `search/`
+    - Deleted `shadcn-studio/` directory
+    - Deleted `admin/data.json`
 
 #### Phase 1D: VS Code Config Audit
 
 - **Status:** ✅ Complete
 - **Actions:**
-  - Hidden `.references/` in explorer
-  - Removed duplicate Type Check task
-  - Verified launch.json, extensions.json, mcp.json
+    - Hidden `.references/` in explorer
+    - Removed duplicate Type Check task
+    - Verified launch.json, extensions.json, mcp.json
 
 ---
 
@@ -68,27 +68,27 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 - **Status:** ✅ Complete
 - **Scripts:**
-  - `project-cleanup.ts` — Deep cleanup with dry-run
-  - `cleanup-duplicates.ts` — Pattern-based duplicate detection
-  - `optimize-performance.ts` — Bundle analysis
-  - `validate-env.ts` — Env validation + sync
-  - `fix-line-endings.ts` — CRLF→LF normalization
+    - `project-cleanup.ts` — Deep cleanup with dry-run
+    - `cleanup-duplicates.ts` — Pattern-based duplicate detection
+    - `optimize-performance.ts` — Bundle analysis
+    - `validate-env.ts` — Env validation + sync
+    - `fix-line-endings.ts` — CRLF→LF normalization
 
 #### Phase 2C: Enhanced Scripts
 
 - **Status:** ✅ Complete
 - **Enhanced:**
-  - `analyze-project.ts` — Added security scan, dependency analysis, metrics
-  - `scaffold.ts` — Added DAL, schema templates
+    - `analyze-project.ts` — Added security scan, dependency analysis, metrics
+    - `scaffold.ts` — Added DAL, schema templates
 
 #### Phase 2D: Shell Scripts
 
 - **Status:** ✅ Complete
 - **Created/Enhanced:**
-  - `dev.sh` / `dev.ps1` — Prerequisites + dev server + browser
-  - `cleanup.sh` / `cleanup.ps1` — Artifact removal
-  - `setup-dev.sh` / `setup-dev.ps1` — Added --skip-db, --skip-seed, --skip-install
-  - `quality-gate.sh` / `quality-gate.ps1` — tee logging, timing, JSON summary
+    - `dev.sh` / `dev.ps1` — Prerequisites + dev server + browser
+    - `cleanup.sh` / `cleanup.ps1` — Artifact removal
+    - `setup-dev.sh` / `setup-dev.ps1` — Added --skip-db, --skip-seed, --skip-install
+    - `quality-gate.sh` / `quality-gate.ps1` — tee logging, timing, JSON summary
 
 #### Phase 2E: Package.json Updates
 
@@ -103,21 +103,21 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 - **Status:** ✅ Complete
 - **Features:**
-  - User seeder: 10 users default (3 admin, 3 mod, 4 user)
-  - Comic/Chapter image seeders: multi-strategy (URL/local/ImageKit)
-  - Chunked processing with `--chunk-size` flag
-  - Checkpoint/resume via `.seed-checkpoints/` directory
-  - `--resume` flag to continue from checkpoint
+    - User seeder: 10 users default (3 admin, 3 mod, 4 user)
+    - Comic/Chapter image seeders: multi-strategy (URL/local/ImageKit)
+    - Chunked processing with `--chunk-size` flag
+    - Checkpoint/resume via `.seed-checkpoints/` directory
+    - `--resume` flag to continue from checkpoint
 
 #### Phase 3B: Quality Gate Scripts
 
 - **Status:** ✅ Complete
 - **Features:**
-  - `quality-gate.sh` / `quality-gate.ps1` with tee logging
-  - Per-gate timing
-  - `--continue-on-error` flag
-  - JSON summary output
-  - Skip flags for individual gates
+    - `quality-gate.sh` / `quality-gate.ps1` with tee logging
+    - Per-gate timing
+    - `--continue-on-error` flag
+    - JSON summary output
+    - Skip flags for individual gates
 
 #### Phase 3C: Triage System
 
@@ -134,17 +134,17 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 - **Status:** ✅ Complete
 
-| # | Issue | Status |
-| --- | --- | --- |
-| 1 | Move `auth-db.ts` → `src/dal/auth-db.ts` | ✅ Already there |
-| 2 | SearchDAL extends BaseDal | ✅ Already fixed |
-| 3 | Fix `any` types in SearchDAL | ✅ Already fixed |
-| 4 | Fix `goals.actions.ts` import | ✅ Already fixed |
-| 5 | Delete `comic-schema.ts` | ✅ Already deleted |
-| 6 | Delete `example.spec.ts` | ✅ Already deleted |
-| 7 | Rename `comic-schema.spec.ts` → `comic.schema.spec.ts` | ✅ Already done |
-| 8 | Reading-progress duplicates | ✅ No duplicates found |
-| 9 | Comment-rating bundling | ✅ Acceptable as-is |
+| #   | Issue                                                  | Status                 |
+| --- | ------------------------------------------------------ | ---------------------- |
+| 1   | Move `auth-db.ts` → `src/dal/auth-db.ts`               | ✅ Already there       |
+| 2   | SearchDAL extends BaseDal                              | ✅ Already fixed       |
+| 3   | Fix `any` types in SearchDAL                           | ✅ Already fixed       |
+| 4   | Fix `goals.actions.ts` import                          | ✅ Already fixed       |
+| 5   | Delete `comic-schema.ts`                               | ✅ Already deleted     |
+| 6   | Delete `example.spec.ts`                               | ✅ Already deleted     |
+| 7   | Rename `comic-schema.spec.ts` → `comic.schema.spec.ts` | ✅ Already done        |
+| 8   | Reading-progress duplicates                            | ✅ No duplicates found |
+| 9   | Comment-rating bundling                                | ✅ Acceptable as-is    |
 
 #### Phase 4B: process.env Violations
 
@@ -155,10 +155,10 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 - **Status:** ✅ Complete
 - **Verified:**
-  - `src/hooks/` — Clean ✅
-  - `src/types/` — Clean ✅
-  - `src/dal/` — Extends BaseDal ✅
-  - `src/actions/` — Server Actions pattern ✅
+    - `src/hooks/` — Clean ✅
+    - `src/types/` — Clean ✅
+    - `src/dal/` — Extends BaseDal ✅
+    - `src/actions/` — Server Actions pattern ✅
 
 ---
 
@@ -270,16 +270,16 @@ Batch 5 (CI/CD) ← Depends on Batch 4
 
 ## Checkpoints
 
-| Batch | Command | Expected Result |
-| --- | --- | --- |
-| 1 | `pnpm type-check` | 0 errors |
-| 1 | `pnpm test` | 241/241 passing |
-| 2 | `tsx src/scripts/validate-env.ts --dry-run` | Runs successfully |
-| 2 | `pnpm scaffold component Test` | Creates valid component |
-| 3 | `pnpm seed:validate` | All validations pass |
-| 3 | `./quality-gate.sh --json` | Generates JSON report |
-| 4 | `grep -r "process\.env\." src/ --include="\*.ts" | Minimal results (NODE_ENV only) |
-| 5 | All workflows | Valid YAML, no deprecated actions |
+| Batch | Command                                          | Expected Result                   |
+| ----- | ------------------------------------------------ | --------------------------------- |
+| 1     | `pnpm type-check`                                | 0 errors                          |
+| 1     | `pnpm test`                                      | 241/241 passing                   |
+| 2     | `tsx src/scripts/validate-env.ts --dry-run`      | Runs successfully                 |
+| 2     | `pnpm scaffold component Test`                   | Creates valid component           |
+| 3     | `pnpm seed:validate`                             | All validations pass              |
+| 3     | `./quality-gate.sh --json`                       | Generates JSON report             |
+| 4     | `grep -r "process\.env\." src/ --include="\*.ts" | Minimal results (NODE_ENV only)   |
+| 5     | All workflows                                    | Valid YAML, no deprecated actions |
 
 ---
 

@@ -59,7 +59,7 @@ export class ImageStrategy {
     urls: string[],
     entityType: string,
     entityId: number | string,
-    concurrency: number = 5
+    concurrency: number = 5,
   ): Promise<ImageResult[]> {
     if (!urls || urls.length === 0) {
       return [];
@@ -94,7 +94,6 @@ export class ImageStrategy {
         const cleanup = (): void => {
           const idx = active.indexOf(promise);
           if (idx > -1) {
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             active.splice(idx, 1);
           }
         };

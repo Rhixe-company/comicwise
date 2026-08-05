@@ -100,7 +100,7 @@ export abstract class BaseSeeder<T> {
       logger.progress(`Validating ${rawData.length} records...`);
       const validatedData = await this.validateData(rawData);
       logger.success(
-        `Validation complete: ${validatedData.length} valid, ${rawData.length - validatedData.length} errors`
+        `Validation complete: ${validatedData.length} valid, ${rawData.length - validatedData.length} errors`,
       );
 
       // Step 3: Check dry-run mode
@@ -119,14 +119,14 @@ export abstract class BaseSeeder<T> {
 
       // Step 4: Process batches and insert
       logger.progress(
-        `Processing in batches (batch-size=${this.options.batchSize}, concurrency=${this.options.concurrency})...`
+        `Processing in batches (batch-size=${this.options.batchSize}, concurrency=${this.options.concurrency})...`,
       );
 
       // If chunked seeding is enabled, prefer chunked processing with checkpointing/resume support
       let result: { errors: import("../types").SeedError[]; inserted: number; skipped: number; updated: number };
       if (this.options.chunkSize && this.options.chunkSize > 0) {
         logger.progress(
-          `Processing in chunks (chunkSize=${this.options.chunkSize}, batchSize=${this.options.batchSize})...`
+          `Processing in chunks (chunkSize=${this.options.chunkSize}, batchSize=${this.options.batchSize})...`,
         );
         result = await this.processInChunks(validatedData);
       } else {
@@ -138,7 +138,7 @@ export abstract class BaseSeeder<T> {
 
       logger.success(`${this.entityName} seeding completed`);
       logger.progress(
-        `Inserted: ${result.inserted} | Updated: ${result.updated} | Skipped: ${result.skipped} | Errors: ${result.errors.length} | Duration: ${(duration / 1000).toFixed(1)}s`
+        `Inserted: ${result.inserted} | Updated: ${result.updated} | Skipped: ${result.skipped} | Errors: ${result.errors.length} | Duration: ${(duration / 1000).toFixed(1)}s`,
       );
 
       return {
@@ -377,7 +377,7 @@ export abstract class BaseSeeder<T> {
       const chunk = data.slice(start, end);
 
       logger.section(
-        `${this.entityName} - Processing chunk ${chunkIndex + 1}/${totalChunks} (${chunk.length} records)`
+        `${this.entityName} - Processing chunk ${chunkIndex + 1}/${totalChunks} (${chunk.length} records)`,
       );
 
       try {

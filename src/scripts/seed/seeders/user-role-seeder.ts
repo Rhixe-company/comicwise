@@ -146,7 +146,7 @@ export class UserRoleSeeder extends BaseSeeder<UserRoleSeedItem> {
               roleId: item.roleId,
               assignedAt: item.assignedAt ?? new Date(),
               assignedBy: item.assignedBy,
-            }))
+            })),
           )
           .onConflictDoNothing()
           .returning();

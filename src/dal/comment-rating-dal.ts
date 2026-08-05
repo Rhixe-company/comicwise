@@ -26,7 +26,7 @@ export class CommentDal extends BaseDal<Comment> {
     chapterId: number,
     parentId: null | number = null,
     limit = 20,
-    offset = 0
+    offset = 0,
   ): Promise<Comment[]> {
     const results = await db.query.comment.findMany({
       where:
@@ -407,7 +407,7 @@ export class RatingDal extends BaseDal<Rating> {
           averageScore: parseFloat(item.averageScore.toFixed(2)),
           ratingCount: Number(item.ratingCount),
         };
-      })
+      }),
     );
   }
 }

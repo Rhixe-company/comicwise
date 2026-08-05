@@ -302,7 +302,7 @@ export class SeedOrchestrator {
 
       logger.section("Database Seeding");
       logger.info(
-        `Seeding ${entitiesToSeed.length} entities: ${entitiesToSeed.join(", ")}${this.config.options.dryRun ? " (DRY RUN)" : ""}`
+        `Seeding ${entitiesToSeed.length} entities: ${entitiesToSeed.join(", ")}${this.config.options.dryRun ? " (DRY RUN)" : ""}`,
       );
 
       // Configure image downloader with optimization settings
@@ -311,7 +311,7 @@ export class SeedOrchestrator {
 
       if (shouldOptimize) {
         logger.info(
-          `Image optimization enabled: maxWidth=${this.config.options.maxImageWidth}, quality=${this.config.options.imageQuality}`
+          `Image optimization enabled: maxWidth=${this.config.options.maxImageWidth}, quality=${this.config.options.imageQuality}`,
         );
         configureImageDownloader({
           enabled: true,
@@ -486,7 +486,7 @@ export class SeedOrchestrator {
 
     logger.section("Seeding Summary");
     logger.success(
-      `Total inserted: ${summary.totalInserted} | Updated: ${summary.totalUpdated} | Skipped: ${summary.totalSkipped}`
+      `Total inserted: ${summary.totalInserted} | Updated: ${summary.totalUpdated} | Skipped: ${summary.totalSkipped}`,
     );
 
     if (summary.totalErrors > 0) {
@@ -505,7 +505,7 @@ export class SeedOrchestrator {
       for (const result of this.results) {
         const status = result.errors.length > 0 ? "⚠️" : "✓";
         logger.info(
-          `${status} ${result.entityName}: inserted=${result.inserted}, updated=${result.updated}, skipped=${result.skipped}, errors=${result.errors.length} {duration:${result.duration}ms}`
+          `${status} ${result.entityName}: inserted=${result.inserted}, updated=${result.updated}, skipped=${result.skipped}, errors=${result.errors.length} {duration:${result.duration}ms}`,
         );
       }
 

@@ -10,14 +10,14 @@
 
 ## Fixes Applied
 
-| # | Category | Root Cause | Files Fixed | Attempts | Verified |
-| --- | --- | --- | --- | --- | --- |
-| 1 | lint-error | `@ts-expect-error` rule flagged correct usage | `eslint.config.mts` | 1 | ✓ |
-| 2 | lint-error | `no-explicit-any` in generated types file | `eslint.config.mts` | 1 | ✓ |
-| 3 | lint-error | `prefer-const` for unused reassignment | `type-seeder.ts` | 1 | ✓ |
-| 4 | lint-warning | `node:` protocol preference | `global-setup.ts` | 1 | ✓ |
-| 5 | test-infrastructure | Missing schema push before seeding | `global-setup.ts` | 1 | ✓ |
-| 6 | test-infrastructure | Missing cause preservation | `global-setup.ts` | 1 | ✓ |
+| #   | Category            | Root Cause                                    | Files Fixed         | Attempts | Verified |
+| --- | ------------------- | --------------------------------------------- | ------------------- | -------- | -------- |
+| 1   | lint-error          | `@ts-expect-error` rule flagged correct usage | `eslint.config.mts` | 1        | ✓        |
+| 2   | lint-error          | `no-explicit-any` in generated types file     | `eslint.config.mts` | 1        | ✓        |
+| 3   | lint-error          | `prefer-const` for unused reassignment        | `type-seeder.ts`    | 1        | ✓        |
+| 4   | lint-warning        | `node:` protocol preference                   | `global-setup.ts`   | 1        | ✓        |
+| 5   | test-infrastructure | Missing schema push before seeding            | `global-setup.ts`   | 1        | ✓        |
+| 6   | test-infrastructure | Missing cause preservation                    | `global-setup.ts`   | 1        | ✓        |
 
 ## Stats
 

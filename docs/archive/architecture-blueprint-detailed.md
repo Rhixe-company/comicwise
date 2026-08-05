@@ -200,13 +200,9 @@ import { z } from "zod";
 import { auth } from ".."; // auth helper
 import { db, bookmark } from "@/database/db";
 
-type ActionResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: string };
+type ActionResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
-export async function createBookmark(
-  input: unknown
-): Promise<ActionResult<{ id: string }>> {
+export async function createBookmark(input: unknown): Promise<ActionResult<{ id: string }>> {
   const schema = z.object({ comicId: z.string() });
   const parsed = schema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Invalid input" };
@@ -214,10 +210,7 @@ export async function createBookmark(
   const session = await auth();
   if (!session) return { ok: false, error: "Not authenticated" };
 
-  const res = await db
-    .insert(bookmark)
-    .values({ userId: session.user.id, comicId: parsed.data.comicId })
-    .returning();
+  const res = await db.insert(bookmark).values({ userId: session.user.id, comicId: parsed.data.comicId }).returning();
   if (res.length === 0) return { ok: false, error: "Insert failed" };
   return { ok: true, data: { id: res[0].id } };
 }
@@ -228,10 +221,7 @@ export async function createBookmark(
 ```typescript
 // src/dal/base-dal.ts (concept)
 export abstract class BaseDal<T> {
-  abstract list(options?: {
-    limit?: number;
-    offset?: number;
-  }): Promise<T[]>;
+  abstract list(options?: { limit?: number; offset?: number }): Promise<T[]>;
   abstract getById(id: string): Promise<T | null>;
   // common helpers for transactions, eager loading, mapping
 }

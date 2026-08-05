@@ -63,7 +63,7 @@ export class PermissionDal extends BaseDal<PermissionType> {
       (await db.query.permission.findFirst({
         where: and(
           eq(permission.resource, resource as PermissionType["resource"]),
-          eq(permission.action, action as PermissionType["action"])
+          eq(permission.action, action as PermissionType["action"]),
         ),
       })) ?? null
     );

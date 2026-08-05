@@ -48,5 +48,5 @@ export const UserSchemaLegacy = z.array(
       lastActivityDate: z.string(),
       emailVerified: z.string(),
     }),
-  ])
+  ]),
 );

@@ -8,22 +8,22 @@ A full-stack comic/manga streaming platform built with Next.js 16, featuring mul
 
 ## Technology Stack
 
-| Category | Technology |
-| --- | --- |
-| **Framework** | Next.js 16.1.6 (App Router) |
-| **Language** | TypeScript ^5.9.3 (strict) |
-| **UI** | React 19, Radix UI, shadcn/ui, Tailwind CSS 4, Framer Motion |
-| **State Management** | Zustand 5.x, TanStack Query 5.x |
-| **Database** | PostgreSQL via Drizzle ORM (Prisma migration in progress) |
-| **Authentication** | NextAuth v5 (beta), WebAuthn passkeys |
-| **Payments** | Stripe (subscriptions) |
-| **Media** | ImageKit, Cloudinary |
-| **Email** | Resend, React Email |
-| **Async/Queue** | BullMQ, Upstash QStash |
-| **Caching** | Upstash Redis |
-| **Monitoring** | Sentry |
-| **Testing** | Vitest, Playwright |
-| **Package Manager** | pnpm 9.12.3 |
+| Category             | Technology                                                   |
+| -------------------- | ------------------------------------------------------------ |
+| **Framework**        | Next.js 16.1.6 (App Router)                                  |
+| **Language**         | TypeScript ^5.9.3 (strict)                                   |
+| **UI**               | React 19, Radix UI, shadcn/ui, Tailwind CSS 4, Framer Motion |
+| **State Management** | Zustand 5.x, TanStack Query 5.x                              |
+| **Database**         | PostgreSQL via Drizzle ORM (Prisma migration in progress)    |
+| **Authentication**   | NextAuth v5 (beta), WebAuthn passkeys                        |
+| **Payments**         | Stripe (subscriptions)                                       |
+| **Media**            | ImageKit, Cloudinary                                         |
+| **Email**            | Resend, React Email                                          |
+| **Async/Queue**      | BullMQ, Upstash QStash                                       |
+| **Caching**          | Upstash Redis                                                |
+| **Monitoring**       | Sentry                                                       |
+| **Testing**          | Vitest, Playwright                                           |
+| **Package Manager**  | pnpm 9.12.3                                                  |
 
 ## Architecture
 

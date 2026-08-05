@@ -61,15 +61,8 @@ Place your data files in `src/data/`:
     "type": { "name": "Manga" },
     "author": { "name": "TurtleMe" },
     "artist": { "name": "Fuyuki23" },
-    "genres": [
-      { "name": "Action" },
-      { "name": "Fantasy" },
-      { "name": "Supernatural" }
-    ],
-    "images": [
-      { "url": "https://example.com/image1.jpg" },
-      { "url": "https://example.com/image2.jpg" }
-    ],
+    "genres": [{ "name": "Action" }, { "name": "Fantasy" }, { "name": "Supernatural" }],
+    "images": [{ "url": "https://example.com/image1.jpg" }, { "url": "https://example.com/image2.jpg" }],
     "updatedAt": "2025-03-04T00:00:00Z"
   }
 ]

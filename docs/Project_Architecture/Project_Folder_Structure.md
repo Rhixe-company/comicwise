@@ -132,13 +132,13 @@ comicwise/
 
 ## Naming Conventions
 
-| Convention | Pattern | Examples |
-| --- | --- | --- |
-| **Route groups** | `(group-name)` | `(auth)`, `(root)` |
-| **React components** | kebab-case | `reading-progress/`, `doughnut-chart/` |
-| **App routes** | plural-nouns | `comics/`, `authors/`, `genres/`, `chapters/` |
-| **Config** | dotted-prefix | `.env.example`, `.prettierrc.ts` |
-| **Quality reports** | kebab-case | `lint-report.json`, `test-report.txt` |
+| Convention           | Pattern        | Examples                                      |
+| -------------------- | -------------- | --------------------------------------------- |
+| **Route groups**     | `(group-name)` | `(auth)`, `(root)`                            |
+| **React components** | kebab-case     | `reading-progress/`, `doughnut-chart/`        |
+| **App routes**       | plural-nouns   | `comics/`, `authors/`, `genres/`, `chapters/` |
+| **Config**           | dotted-prefix  | `.env.example`, `.prettierrc.ts`              |
+| **Quality reports**  | kebab-case     | `lint-report.json`, `test-report.txt`         |
 
 ---
 

@@ -227,7 +227,7 @@ export async function deleteRatingAction(ratingId: number | string): Promise<Act
  * Get average rating for a comic
  */
 export async function getComicAverageRatingAction(
-  comicId: number
+  comicId: number,
 ): Promise<{ data: number; ok: true } | { error: string; ok: false }> {
   try {
     const average = await ratingDal.getAverageRating(comicId);

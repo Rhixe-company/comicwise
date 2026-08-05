@@ -207,7 +207,7 @@ async function main() {
       .version("1.0.0")
       .argument(
         "[entities...]",
-        "Entities to seed: types, authors, artists, genres, comics, chapters, or all (default: all)"
+        "Entities to seed: types, authors, artists, genres, comics, chapters, or all (default: all)",
       )
       .option("--batch-size <number>", "Batch size for concurrent processing", "100")
       .option("--concurrency <number>", "Number of concurrent operations", "5")
@@ -257,7 +257,7 @@ async function main() {
         }
 
         migrateLogger.info(
-          `Results: ${result.stats.migrated} migrated, ${result.stats.skipped} skipped, ${result.stats.errors} errors, ${result.stats.dbUpdated} DB records updated`
+          `Results: ${result.stats.migrated} migrated, ${result.stats.skipped} skipped, ${result.stats.errors} errors, ${result.stats.dbUpdated} DB records updated`,
         );
 
         process.exit(result.success ? 0 : 1);
@@ -291,7 +291,7 @@ async function main() {
         }
 
         migrateLogger.info(
-          `Results: ${result.comicsProcessed} comics + ${result.chaptersProcessed} chapters processed, saved ${(result.totalSavedBytes / 1024 / 1024).toFixed(2)}MB`
+          `Results: ${result.comicsProcessed} comics + ${result.chaptersProcessed} chapters processed, saved ${(result.totalSavedBytes / 1024 / 1024).toFixed(2)}MB`,
         );
 
         if (result.errors.length > 0) {
@@ -361,7 +361,7 @@ async function main() {
           stats[result.entityName] = result.inserted + result.updated;
           enhancedLogger.info(
             `${result.entityName}: inserted=${result.inserted}, updated=${result.updated}, skipped=${result.skipped}, errors=${result.errors.length}`,
-            { duration: `${(result.duration / 1000).toFixed(2)}s` }
+            { duration: `${(result.duration / 1000).toFixed(2)}s` },
           );
         }
         enhancedLogger.summary("Seed Results", stats);

@@ -111,7 +111,7 @@ interface ShareType {
 export async function getUserSharesAction(
   userId: string,
   page = 1,
-  limit = 20
+  limit = 20,
 ): Promise<ActionResult<{ shares: ShareType[]; total: number }>> {
   try {
     const shares = await shareDal.getUserShares(userId, {
@@ -128,7 +128,7 @@ export async function getUserSharesAction(
 export async function getFeedSharesAction(
   userId: string,
   page = 1,
-  limit = 20
+  limit = 20,
 ): Promise<ActionResult<{ shares: ShareType[]; total: number }>> {
   try {
     const followingIds = await shareDal.getFollowingIds?.(userId);

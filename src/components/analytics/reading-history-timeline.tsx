@@ -203,7 +203,7 @@ export function ReadingHistoryTimeline({
                     ))}
                   </div>
                 </div>
-              ) : null
+              ) : null,
             )}
 
             {/* Load more button */}

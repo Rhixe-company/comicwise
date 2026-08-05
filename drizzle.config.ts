@@ -30,7 +30,7 @@ const resolveDatabaseUrl = (): string => {
 
   if (!envUrl) {
     throw new Error(
-      "DATABASE_URL or NEON_DATABASE_URL must be defined in environment variables (set in .env.local or environment)."
+      "DATABASE_URL or NEON_DATABASE_URL must be defined in environment variables (set in .env.local or environment).",
     );
   }
 

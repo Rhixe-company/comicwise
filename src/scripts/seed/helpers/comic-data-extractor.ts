@@ -95,7 +95,7 @@ export async function extractEntitiesFromComics(): Promise<ExtractedEntities> {
   logger.info(
     `Extracted from comic.json: ${cachedResult.authors.length} authors, ` +
       `${cachedResult.artists.length} artists, ${cachedResult.genres.length} genres, ` +
-      `${cachedResult.types.length} types`
+      `${cachedResult.types.length} types`,
   );
 
   return cachedResult;

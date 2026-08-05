@@ -111,7 +111,7 @@ export async function GET(_request: NextRequest): Promise<NextResponse> {
           error: result.error,
           code: 400,
         } satisfies SeedApiResponse,
-        { status: 400 }
+        { status: 400 },
       );
     }
   } catch (error: unknown) {
@@ -122,7 +122,7 @@ export async function GET(_request: NextRequest): Promise<NextResponse> {
         error: "Validation failed",
         code: 500,
       } satisfies SeedApiResponse,
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           error: "Unauthorized - admin role required",
           code: 401,
         } satisfies SeedApiResponse,
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           error: `Invalid request: ${parsed.error.issues[0]?.message}`,
           code: 400,
         } satisfies SeedApiResponse,
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -198,7 +198,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         error: `Seeding failed: ${error instanceof Error ? error.message : "Unknown error"}`,
         code: 500,
       } satisfies SeedApiResponse,
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -218,7 +218,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
           error: "Unauthorized - admin role required",
           code: 401,
         } satisfies SeedApiResponse,
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -230,7 +230,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     // Note: In production, consider using CASCADE delete policies or stored procedures
     logger.warn("DELETE endpoint stub - would clear all seeded data in reverse dependency order");
     logger.info(
-      "Tables to be cleared: chapterImage, chapter, comicImage, comicToGenre, comic, genre, artist, author, type, user"
+      "Tables to be cleared: chapterImage, chapter, comicImage, comicToGenre, comic, genre, artist, author, type, user",
     );
 
     logger.success("[SEED API] DELETE - Data cleanup completed");
@@ -248,7 +248,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
         error: `Failed to clear data: ${error instanceof Error ? error.message : "Unknown error"}`,
         code: 500,
       } satisfies SeedApiResponse,
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -268,7 +268,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
           error: "Unauthorized - admin role required",
           code: 401,
         } satisfies SeedApiResponse,
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -283,7 +283,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
           error: `Invalid request: ${parsed.error.issues[0]?.message}`,
           code: 400,
         } satisfies SeedApiResponse,
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -298,7 +298,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
     // Note: In production, consider using CASCADE delete policies or stored procedures
     logger.warn("PUT reset: Would clear data in reverse dependency order");
     logger.info(
-      "Tables to be cleared: chapterImage, chapter, comicImage, comicToGenre, comic, genre, artist, author, type, user"
+      "Tables to be cleared: chapterImage, chapter, comicImage, comicToGenre, comic, genre, artist, author, type, user",
     );
 
     logger.success("[SEED API] PUT - Database cleared");
@@ -338,7 +338,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
         error: `Database reset failed: ${error instanceof Error ? error.message : "Unknown error"}`,
         code: 500,
       } satisfies SeedApiResponse,
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -358,7 +358,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
           error: "Unauthorized - admin role required",
           code: 401,
         } satisfies SeedApiResponse,
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -373,7 +373,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
           error: `Invalid request: ${parsed.error.issues[0]?.message}`,
           code: 400,
         } satisfies SeedApiResponse,
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -402,7 +402,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     const report = await orchestrator.execute();
 
     logger.success(
-      `[SEED API] PATCH completed - ${report.summary.totalInserted} inserted, ${report.summary.totalUpdated} updated`
+      `[SEED API] PATCH completed - ${report.summary.totalInserted} inserted, ${report.summary.totalUpdated} updated`,
     );
 
     return NextResponse.json({
@@ -419,7 +419,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
         error: `Upsert failed: ${error instanceof Error ? error.message : "Unknown error"}`,
         code: 500,
       } satisfies SeedApiResponse,
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

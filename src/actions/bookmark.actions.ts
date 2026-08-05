@@ -20,7 +20,7 @@ import type { ActionResult } from "@/types/actions-types";
  * Get user's bookmarks with pagination and filtering
  */
 export async function getBookmarksAction(
-  filter: BookmarkFilter
+  filter: BookmarkFilter,
 ): Promise<ActionResult<{ bookmarks: unknown[]; total: number }>> {
   try {
     const session = await auth();
@@ -113,7 +113,7 @@ export async function getBookmarksAction(
  * Update bookmark status
  */
 export async function updateBookmarkStatusAction(
-  input: UpdateBookmarkStatusInput
+  input: UpdateBookmarkStatusInput,
 ): Promise<ActionResult<typeof bookmark.$inferSelect>> {
   try {
     const session = await auth();
@@ -173,7 +173,7 @@ export async function removeBookmarkAction(comicId: number): Promise<ActionResul
  * Get bookmark reading progress
  */
 export async function getBookmarkProgressAction(
-  comicId: number
+  comicId: number,
 ): Promise<ActionResult<{ currentChapter: null | string; progress: number }>> {
   try {
     const session = await auth();
@@ -207,7 +207,7 @@ export async function getBookmarkProgressAction(
  */
 export async function addBookmarkAction(
   comicId: number,
-  status: BookmarkStatus = "Reading"
+  status: BookmarkStatus = "Reading",
 ): Promise<ActionResult<{ status: string }>> {
   try {
     const session = await auth();

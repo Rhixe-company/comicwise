@@ -8,12 +8,12 @@
 
 ## Similar Projects
 
-| Project | Relevance |
-| --- | --- |
-| rhixe_scans | Comic reader; shared Stripe + NextAuth + Tailwind + media delivery |
-| rhixecompany-comics | Consolidation target inheriting reader architecture |
-| Banking | Shared Next.js + payment flow patterns |
-| university-libary-jsm | Shared Next.js + Drizzle ORM + PostgreSQL catalog |
+| Project               | Relevance                                                          |
+| --------------------- | ------------------------------------------------------------------ |
+| rhixe_scans           | Comic reader; shared Stripe + NextAuth + Tailwind + media delivery |
+| rhixecompany-comics   | Consolidation target inheriting reader architecture                |
+| Banking               | Shared Next.js + payment flow patterns                             |
+| university-libary-jsm | Shared Next.js + Drizzle ORM + PostgreSQL catalog                  |
 
 ---
 
@@ -44,13 +44,13 @@
 
 ## Cheatsheets
 
-| Topic | Resource |
-| --- | --- |
-| Next.js 16 | <https://nextjs.org/docs/app> |
-| Drizzle ORM | <https://orm.drizzle.dev> |
+| Topic                | Resource                                                 |
+| -------------------- | -------------------------------------------------------- |
+| Next.js 16           | <https://nextjs.org/docs/app>                            |
+| Drizzle ORM          | <https://orm.drizzle.dev>                                |
 | Stripe Subscriptions | <https://docs.stripe.com/billing/subscriptions/webhooks> |
-| Auth.js v5 | <https://authjs.dev> |
-| TanStack Query | <https://tanstack.com/query/latest> |
+| Auth.js v5           | <https://authjs.dev>                                     |
+| TanStack Query       | <https://tanstack.com/query/latest>                      |
 
 ---
 
@@ -67,13 +67,13 @@
 
 ## Common Pitfalls
 
-| Pitfall | Impact | Avoidance |
-| --- | --- | --- |
-| Dual ORM during migration | Data drift | Migrate one domain at a time; no cross-ORM transactions |
-| Missing Stripe webhook secret | 400 errors on events | Set `STRIPE_WEBHOOK_SECRET`; verify signature |
-| Unsigned image URLs | Content theft | Sign URLs for subscriber-only content |
-| Server data in client state | Stale UI | TanStack Query for API; Zustand only for UI state |
-| Using `req.json()` in webhooks | Signature verify fails | Always `req.text()` for raw body |
+| Pitfall                        | Impact                 | Avoidance                                               |
+| ------------------------------ | ---------------------- | ------------------------------------------------------- |
+| Dual ORM during migration      | Data drift             | Migrate one domain at a time; no cross-ORM transactions |
+| Missing Stripe webhook secret  | 400 errors on events   | Set `STRIPE_WEBHOOK_SECRET`; verify signature           |
+| Unsigned image URLs            | Content theft          | Sign URLs for subscriber-only content                   |
+| Server data in client state    | Stale UI               | TanStack Query for API; Zustand only for UI state       |
+| Using `req.json()` in webhooks | Signature verify fails | Always `req.text()` for raw body                        |
 
 ---
 
@@ -109,13 +109,13 @@
 
 ## Resources
 
-| Resource | URL |
-| --- | --- |
-| Next.js 16 | <https://nextjs.org/docs> |
-| Drizzle ORM | <https://orm.drizzle.dev> |
-| Stripe Billing | <https://docs.stripe.com/billing> |
-| Auth.js v5 | <https://authjs.dev> |
-| Sentry | <https://docs.sentry.io/platforms/javascript/guides/nextjs> |
+| Resource       | URL                                                         |
+| -------------- | ----------------------------------------------------------- |
+| Next.js 16     | <https://nextjs.org/docs>                                   |
+| Drizzle ORM    | <https://orm.drizzle.dev>                                   |
+| Stripe Billing | <https://docs.stripe.com/billing>                           |
+| Auth.js v5     | <https://authjs.dev>                                        |
+| Sentry         | <https://docs.sentry.io/platforms/javascript/guides/nextjs> |
 
 ### Research Methodology
 

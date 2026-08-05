@@ -139,7 +139,7 @@ const eslintConfig = defineConfig([
       perfectionist,
       n: nodePlugin,
       "react-refresh": reactRefresh,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       drizzle,
       "better-tailwindcss": betterTailwind,
       zod,

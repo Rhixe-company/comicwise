@@ -94,7 +94,7 @@ export class ReadingHistorySeeder extends BaseSeeder<ReadingHistorySeedItem> {
           where: and(
             eq(readingHistory.userId, item.userId),
             eq(readingHistory.comicId, item.comicId),
-            eq(readingHistory.chapterId, item.chapterId)
+            eq(readingHistory.chapterId, item.chapterId),
           ),
         });
 

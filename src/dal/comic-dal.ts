@@ -71,8 +71,8 @@ export class ComicDal extends BaseDal<ComicType> {
         filters.push(
           eq(
             comic.status,
-            options.status as "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing" | "Season End"
-          )
+            options.status as "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing" | "Season End",
+          ),
         );
       }
     }
@@ -89,8 +89,8 @@ export class ComicDal extends BaseDal<ComicType> {
           db
             .select({ comicId: comicToGenre.comicId })
             .from(comicToGenre)
-            .where(eq(comicToGenre.genreId, options.genreId))
-        )
+            .where(eq(comicToGenre.genreId, options.genreId)),
+        ),
       );
     }
 
@@ -395,12 +395,7 @@ export class ComicDal extends BaseDal<ComicType> {
       const validStatuses = ["Ongoing", "Hiatus", "Completed", "Dropped", "Season End", "Coming Soon"] as const;
       if (validStatuses.includes(input.status as unknown as (typeof validStatuses)[number])) {
         updateSet.status = input.status as
-          | "Coming Soon"
-          | "Completed"
-          | "Dropped"
-          | "Hiatus"
-          | "Ongoing"
-          | "Season End";
+          "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing" | "Season End";
       }
     }
 

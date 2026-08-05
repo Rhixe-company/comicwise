@@ -98,7 +98,7 @@ export class ReadingHistoryDal extends BaseDal<ReadingHistoryType> {
     limit: number = 50,
     offset: number = 0,
     startDate?: Date,
-    endDate?: Date
+    endDate?: Date,
   ): Promise<ReadingHistoryType[]> {
     const whereConditions = [eq(readingHistory.userId, userId)];
 
@@ -140,7 +140,7 @@ export class ReadingHistoryDal extends BaseDal<ReadingHistoryType> {
   async getReadingStats(
     userId: string,
     startDate?: Date,
-    endDate?: Date
+    endDate?: Date,
   ): Promise<{
     averageTimePerChapter: number;
     completionRate: number;

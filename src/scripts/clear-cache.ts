@@ -95,8 +95,8 @@ async function clearCache() {
               keysDeleted: dryRun ? 0 : keys.length,
             },
             null,
-            2
-          )
+            2,
+          ),
         );
       }
     } else {
@@ -168,8 +168,8 @@ async function clearCache() {
                 sampleKeys: keys.slice(0, 10),
               },
               null,
-              2
-            )
+              2,
+            ),
           );
         }
       }

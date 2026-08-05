@@ -70,17 +70,17 @@ ComicWise Documentation/
 
 ## 🎯 What Each File Is For
 
-| File | Read Time | Purpose |
-| --- | --- | --- |
-| `docs/QUICK_START.md` | 5 min | 30-second setup guide |
-| `AGENTS.md` | 5 min | Project overview & phases |
-| `.github/AI_AGENT_SETUP_GUIDE.md` | 10 min | Complete AI agent reference (NEW) |
-| `.github/copilot-instructions.md` | 30 min | Comprehensive developer guide |
-| `docs/dev.content.md` | 45 min | 26 sections with code examples |
-| `.github/instructions/*` | As needed | Pattern-specific guidance |
-| `docs/database-context-map.md` | 15 min | Database schema explanation |
-| `docs/PHASE3-5-COMPLETE-SESSION.md` | 20 min | Phase 3.5 feature docs |
-| `docs/AI_AGENT_SETUP_COMPLETION_REPORT.md` | 15 min | Session report & summary |
+| File                                       | Read Time | Purpose                           |
+| ------------------------------------------ | --------- | --------------------------------- |
+| `docs/QUICK_START.md`                      | 5 min     | 30-second setup guide             |
+| `AGENTS.md`                                | 5 min     | Project overview & phases         |
+| `.github/AI_AGENT_SETUP_GUIDE.md`          | 10 min    | Complete AI agent reference (NEW) |
+| `.github/copilot-instructions.md`          | 30 min    | Comprehensive developer guide     |
+| `docs/dev.content.md`                      | 45 min    | 26 sections with code examples    |
+| `.github/instructions/*`                   | As needed | Pattern-specific guidance         |
+| `docs/database-context-map.md`             | 15 min    | Database schema explanation       |
+| `docs/PHASE3-5-COMPLETE-SESSION.md`        | 20 min    | Phase 3.5 feature docs            |
+| `docs/AI_AGENT_SETUP_COMPLETION_REPORT.md` | 15 min    | Session report & summary          |
 
 ---
 
@@ -385,15 +385,15 @@ This documentation is:
 
 ## 🎓 Learning Resources Quick Links
 
-| Topic | Location | Read Time |
-| --- | --- | --- |
-| Getting Started | `docs/QUICK_START.md` | 5 min |
-| Project Overview | `AGENTS.md` | 5 min |
-| AI Agent Guide | `.github/AI_AGENT_SETUP_GUIDE.md` | 10 min |
-| Complete Reference | `.github/copilot-instructions.md` | 30 min |
-| Implementation Patterns | `docs/dev.content.md` | 45 min |
-| Database Schema | `src/database/schema.ts` | 20 min |
-| Code Examples | Existing files in `src/` | 30 min |
+| Topic                   | Location                          | Read Time |
+| ----------------------- | --------------------------------- | --------- |
+| Getting Started         | `docs/QUICK_START.md`             | 5 min     |
+| Project Overview        | `AGENTS.md`                       | 5 min     |
+| AI Agent Guide          | `.github/AI_AGENT_SETUP_GUIDE.md` | 10 min    |
+| Complete Reference      | `.github/copilot-instructions.md` | 30 min    |
+| Implementation Patterns | `docs/dev.content.md`             | 45 min    |
+| Database Schema         | `src/database/schema.ts`          | 20 min    |
+| Code Examples           | Existing files in `src/`          | 30 min    |
 
 ---
 

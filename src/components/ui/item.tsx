@@ -33,7 +33,7 @@ const itemVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 function Item({
@@ -68,7 +68,7 @@ const itemMediaVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 function ItemMedia({
@@ -112,7 +112,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
       className={cn(
         "line-clamp-2 text-sm leading-normal font-normal text-balance text-muted-foreground",
         "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary",
-        className
+        className,
       )}
       data-slot="item-description"
       {...props}

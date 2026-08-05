@@ -58,9 +58,7 @@ const userNavItems = [
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession();
   const user = session?.user as
-    | { email?: null | string; image?: null | string; name?: null | string; role?: string }
-    | null
-    | undefined;
+    { email?: null | string; image?: null | string; name?: null | string; role?: string } | null | undefined;
   const isAdmin = user?.role === "admin";
 
   return (

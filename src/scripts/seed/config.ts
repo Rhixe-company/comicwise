@@ -60,7 +60,7 @@ export function parseCliArgs(): SeedConfig {
     .option(
       "--update <mode>",
       'Update mode: "smart" (update if different), "full" (overwrite all), "none" (skip existing)',
-      "smart"
+      "smart",
     )
     .option("--no-dedupe", "Disable image deduplication (download all images even if duplicate)")
     .option("--no-transaction", "Disable transaction wrapping")
@@ -68,7 +68,7 @@ export function parseCliArgs(): SeedConfig {
     .option(
       "--image-strategy <mode>",
       'Image handling strategy: "urls", "local", or "imagekit" (default: urls)',
-      "urls"
+      "urls",
     )
     .action((entities: string[], options: Record<string, unknown>) => {
       // Validate environment
@@ -78,7 +78,7 @@ export function parseCliArgs(): SeedConfig {
       const validStrategies = ["urls", "local", "imagekit"];
       if (!validStrategies.includes(options.imageStrategy as string)) {
         throw new Error(
-          `Invalid image-strategy: ${options.imageStrategy}. Must be one of: ${validStrategies.join(", ")}`
+          `Invalid image-strategy: ${options.imageStrategy}. Must be one of: ${validStrategies.join(", ")}`,
         );
       }
 
@@ -107,7 +107,7 @@ export function parseCliArgs(): SeedConfig {
       if (options.imageStrategy === "imagekit") {
         if (!env.IMAGEKIT_PUBLIC_KEY || !env.IMAGEKIT_PRIVATE_KEY) {
           throw new Error(
-            "ImageKit strategy requires IMAGEKIT_PUBLIC_KEY and IMAGEKIT_PRIVATE_KEY environment variables"
+            "ImageKit strategy requires IMAGEKIT_PUBLIC_KEY and IMAGEKIT_PRIVATE_KEY environment variables",
           );
         }
       }

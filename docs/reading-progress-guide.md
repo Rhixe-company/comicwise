@@ -55,15 +55,12 @@ export const readingProgress = pgTable(
       .references(() => comic.id, { onDelete: "cascade" }),
 
     // Current Position
-    currentChapterId: integer("currentChapterId").references(
-      () => chapter.id,
-      { onDelete: "set null" }
-    ),
+    currentChapterId: integer("currentChapterId").references(() => chapter.id, { onDelete: "set null" }),
 
     currentPageNumber: integer("currentPageNumber").default(0),
     currentPosition: decimal("currentPosition", {
       precision: 5,
-      scale: 2
+      scale: 2,
     }).default("0.00"),
 
     // Statistics
@@ -71,7 +68,7 @@ export const readingProgress = pgTable(
     totalChaptersRead: integer("totalChaptersRead").default(0),
     progressPercent: decimal("progressPercent", {
       precision: 5,
-      scale: 2
+      scale: 2,
     }).default("0.00"),
 
     // Timeline
@@ -89,13 +86,13 @@ export const readingProgress = pgTable(
 
     // Timestamps
     createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().notNull()
+    updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   },
-  table => [
+  (table) => [
     // Primary key
     primaryKey({
       columns: [table.userId, table.comicId],
-      name: "readingProgress_pk"
+      name: "readingProgress_pk",
     }),
 
     // Indexes for common queries
@@ -105,11 +102,8 @@ export const readingProgress = pgTable(
     index("readingProgress_lastReadAt_idx").on(table.lastReadAt),
 
     // Composite index for "continue reading"
-    index("readingProgress_user_lastRead_idx").on(
-      table.userId,
-      table.lastReadAt
-    )
-  ]
+    index("readingProgress_user_lastRead_idx").on(table.userId, table.lastReadAt),
+  ],
 );
 ```
 
@@ -126,7 +120,7 @@ export const chapter = pgTable("chapter", {
   chapterNumber: integer("chapterNumber").notNull(),
   title: text("title").notNull(),
   releaseDate: timestamp("releaseDate").notNull(),
-  pageCount: integer("pageCount").notNull() // Total pages in chapter
+  pageCount: integer("pageCount").notNull(), // Total pages in chapter
   // ... other fields
 });
 ```
@@ -156,19 +150,11 @@ export class ReadingProgressDal extends BaseDal<ReadingProgress> {
   /**
    * Get reading progress for a user on a specific comic
    */
-  async getProgress(
-    userId: string,
-    comicId: number
-  ): Promise<ReadingProgress | null> {
+  async getProgress(userId: string, comicId: number): Promise<ReadingProgress | null> {
     const [result] = await db
       .select()
       .from(readingProgress)
-      .where(
-        and(
-          eq(readingProgress.userId, userId),
-          eq(readingProgress.comicId, comicId)
-        )
-      );
+      .where(and(eq(readingProgress.userId, userId), eq(readingProgress.comicId, comicId)));
 
     return result ?? null;
   }
@@ -188,14 +174,11 @@ export class ReadingProgressDal extends BaseDal<ReadingProgress> {
         progressPercent: readingProgress.progressPercent,
         lastReadAt: readingProgress.lastReadAt,
         chapterNumber: chapter.chapterNumber,
-        chapterTitle: chapter.title
+        chapterTitle: chapter.title,
       })
       .from(readingProgress)
       .innerJoin(comic, eq(readingProgress.comicId, comic.id))
-      .leftJoin(
-        chapter,
-        eq(readingProgress.currentChapterId, chapter.id)
-      )
+      .leftJoin(chapter, eq(readingProgress.currentChapterId, chapter.id))
       .where(eq(readingProgress.userId, userId))
       .orderBy(desc(readingProgress.lastReadAt))
       .limit(limit);
@@ -205,9 +188,7 @@ export class ReadingProgressDal extends BaseDal<ReadingProgress> {
    * Update reading progress (idempotent upsert)
    * Called frequently when user reads chapters
    */
-  async updateProgress(
-    data: UpdateProgressInput
-  ): Promise<ReadingProgress> {
+  async updateProgress(data: UpdateProgressInput): Promise<ReadingProgress> {
     const [result] = await db
       .insert(readingProgress)
       .values({
@@ -218,7 +199,7 @@ export class ReadingProgressDal extends BaseDal<ReadingProgress> {
         currentPosition: data.currentPosition ?? "0",
         status: data.status ?? "Reading",
         lastReadAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .onConflictDoUpdate({
         target: [readingProgress.userId, readingProgress.comicId],
@@ -228,8 +209,8 @@ export class ReadingProgressDal extends BaseDal<ReadingProgress> {
           currentPosition: data.currentPosition ?? undefined,
           status: data.status ?? undefined,
           lastReadAt: new Date(),
-          updatedAt: new Date()
-        }
+          updatedAt: new Date(),
+        },
       })
       .returning();
 
@@ -239,24 +220,16 @@ export class ReadingProgressDal extends BaseDal<ReadingProgress> {
   /**
    * Mark comic as completed
    */
-  async markCompleted(
-    userId: string,
-    comicId: number
-  ): Promise<ReadingProgress | null> {
+  async markCompleted(userId: string, comicId: number): Promise<ReadingProgress | null> {
     const [result] = await db
       .update(readingProgress)
       .set({
         status: "Completed",
         completedAt: new Date(),
         progressPercent: "100.00",
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
-      .where(
-        and(
-          eq(readingProgress.userId, userId),
-          eq(readingProgress.comicId, comicId)
-        )
-      )
+      .where(and(eq(readingProgress.userId, userId), eq(readingProgress.comicId, comicId)))
       .returning();
 
     return result ?? null;
@@ -269,11 +242,9 @@ export class ReadingProgressDal extends BaseDal<ReadingProgress> {
     const stats = await db
       .select({
         totalComicsReading: count(readingProgress.comicId),
-        totalComicsCompleted: count(
-          eq(readingProgress.status, "Completed") ? 1 : null
-        ),
+        totalComicsCompleted: count(eq(readingProgress.status, "Completed") ? 1 : null),
         totalPagesRead: sum(readingProgress.totalPagesRead),
-        averageProgressPercent: avg(readingProgress.progressPercent)
+        averageProgressPercent: avg(readingProgress.progressPercent),
       })
       .from(readingProgress)
       .where(eq(readingProgress.userId, userId));
@@ -283,7 +254,7 @@ export class ReadingProgressDal extends BaseDal<ReadingProgress> {
         totalComicsReading: 0,
         totalComicsCompleted: 0,
         totalPagesRead: 0,
-        averageProgressPercent: 0
+        averageProgressPercent: 0,
       }
     );
   }
@@ -322,9 +293,7 @@ import { auth } from "@/auth";
 import { readingProgressDal } from "@/dal/reading-progress-dal";
 import { revalidatePath } from "next/cache";
 
-type ActionResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: string };
+type ActionResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
 /**
  * Update reading progress for a comic
@@ -334,7 +303,7 @@ export async function updateProgressAction(
   comicId: number,
   chapterId: number,
   pageNumber: number,
-  position: string
+  position: string,
 ): Promise<ActionResult<ReadingProgress>> {
   const session = await auth();
 
@@ -348,7 +317,7 @@ export async function updateProgressAction(
       comicId,
       currentChapterId: chapterId,
       currentPageNumber: pageNumber,
-      currentPosition: position
+      currentPosition: position,
     });
 
     // Revalidate reading dashboard
@@ -365,9 +334,7 @@ export async function updateProgressAction(
  * Get user's continue reading list
  * Used for dashboard and "resume" functionality
  */
-export async function getContinueReadingAction(): Promise<
-  ActionResult<any[]>
-> {
+export async function getContinueReadingAction(): Promise<ActionResult<any[]>> {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -375,11 +342,7 @@ export async function getContinueReadingAction(): Promise<
   }
 
   try {
-    const continueReading =
-      await readingProgressDal.getContinueReadingList(
-        session.user.id,
-        10
-      );
+    const continueReading = await readingProgressDal.getContinueReadingList(session.user.id, 10);
 
     return { ok: true, data: continueReading };
   } catch (error) {
@@ -391,9 +354,7 @@ export async function getContinueReadingAction(): Promise<
 /**
  * Mark comic as completed
  */
-export async function markComicCompletedAction(
-  comicId: number
-): Promise<ActionResult<ReadingProgress>> {
+export async function markComicCompletedAction(comicId: number): Promise<ActionResult<ReadingProgress>> {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -401,10 +362,7 @@ export async function markComicCompletedAction(
   }
 
   try {
-    const progress = await readingProgressDal.markCompleted(
-      session.user.id,
-      comicId
-    );
+    const progress = await readingProgressDal.markCompleted(session.user.id, comicId);
 
     if (!progress) {
       return { ok: false, error: "Progress record not found" };
@@ -423,9 +381,7 @@ export async function markComicCompletedAction(
 /**
  * Get user's reading statistics
  */
-export async function getUserReadingStatsAction(): Promise<
-  ActionResult<any>
-> {
+export async function getUserReadingStatsAction(): Promise<ActionResult<any>> {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -433,9 +389,7 @@ export async function getUserReadingStatsAction(): Promise<
   }
 
   try {
-    const stats = await readingProgressDal.getUserStats(
-      session.user.id
-    );
+    const stats = await readingProgressDal.getUserStats(session.user.id);
     return { ok: true, data: stats };
   } catch (error) {
     console.error("[getUserReadingStatsAction]", error);
@@ -841,7 +795,7 @@ describe("Reading Progress", () => {
       userId,
       comicId,
       currentChapterId: 1,
-      currentPageNumber: 5
+      currentPageNumber: 5,
     });
 
     expect(result).toBeDefined();
@@ -853,24 +807,21 @@ describe("Reading Progress", () => {
     await readingProgressDal.updateProgress({
       userId,
       comicId,
-      currentPageNumber: 5
+      currentPageNumber: 5,
     });
 
     // Second update - should replace, not duplicate
     const result = await readingProgressDal.updateProgress({
       userId,
       comicId,
-      currentPageNumber: 10
+      currentPageNumber: 10,
     });
 
     expect(result.currentPageNumber).toBe(10);
   });
 
   it("marks comic as completed", async () => {
-    const progress = await readingProgressDal.markCompleted(
-      userId,
-      comicId
-    );
+    const progress = await readingProgressDal.markCompleted(userId, comicId);
 
     expect(progress?.status).toBe("Completed");
     expect(progress?.progressPercent).toBe("100.00");

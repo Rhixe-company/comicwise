@@ -103,7 +103,7 @@ export class RoleSeeder extends BaseSeeder<RoleSeedItem> {
               isSystem: item.isSystem,
               createdAt: item.createdAt ?? new Date(),
               updatedAt: item.updatedAt ?? new Date(),
-            }))
+            })),
           )
           .onConflictDoNothing()
           .returning();

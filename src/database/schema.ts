@@ -67,7 +67,7 @@ export const user = pgTable(
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
-  (table) => [index("userEmailIdx").on(table.email), index("userRoleIdx").on(table.role)]
+  (table) => [index("userEmailIdx").on(table.email), index("userRoleIdx").on(table.role)],
 );
 
 export const account = pgTable(
@@ -89,7 +89,7 @@ export const account = pgTable(
   },
   (table) => ({
     pk: primaryKey({ columns: [table.provider, table.providerAccountId] }),
-  })
+  }),
 );
 
 export const session = pgTable("session", {
@@ -109,7 +109,7 @@ export const verificationToken = pgTable(
   },
   (table) => ({
     pk: primaryKey({ columns: [table.identifier, table.token] }),
-  })
+  }),
 );
 
 export const authenticator = pgTable(
@@ -128,7 +128,7 @@ export const authenticator = pgTable(
   },
   (table) => ({
     pk: primaryKey({ columns: [table.userId, table.credentialID] }),
-  })
+  }),
 );
 
 export const passwordResetToken = pgTable("passwordResetToken", {
@@ -212,7 +212,7 @@ export const comic = pgTable(
     index("comicArtistIdx").on(table.artistId),
     index("comicTypeIdx").on(table.typeId),
     index("comicCreatedAtIdx").on(table.createdAt),
-  ]
+  ],
 );
 
 export const chapter = pgTable(
@@ -240,7 +240,7 @@ export const chapter = pgTable(
     index("chapterComicChapterIdx").on(table.comicId, table.chapterNumber),
     // Unique constraint for upsert operations
     unique("chapter_comic_number_unique").on(table.comicId, table.chapterNumber),
-  ]
+  ],
 );
 
 export const comicImage = pgTable("comicImage", {
@@ -268,7 +268,7 @@ export const chapterImage = pgTable(
     index("chapterImageChapterIdIdx").on(table.chapterId),
     index("chapterImagePageNumberIdx").on(table.pageNumber),
     unique("chapterImage_chapterId_pageNumber_unique").on(table.chapterId, table.pageNumber),
-  ]
+  ],
 );
 
 export const comicToGenre = pgTable(
@@ -283,7 +283,7 @@ export const comicToGenre = pgTable(
   },
   (table) => ({
     pk: primaryKey({ columns: [table.comicId, table.genreId] }),
-  })
+  }),
 );
 
 // ═══════════════════════════════════════════════════
@@ -309,7 +309,7 @@ export const bookmark = pgTable(
     primaryKey({ columns: [table.userId, table.comicId] }),
     index("bookmarkUserIdIdx").on(table.userId),
     index("bookmarkComicIdIdx").on(table.comicId),
-  ]
+  ],
 );
 
 export const comment = pgTable(
@@ -333,7 +333,7 @@ export const comment = pgTable(
     index("commentChapterIdIdx").on(table.chapterId),
     index("commentParentIdIdx").on(table.parentId),
     index("commentCreatedAtIdx").on(table.createdAt),
-  ]
+  ],
 );
 
 export const readingProgress = pgTable(
@@ -366,7 +366,7 @@ export const readingProgress = pgTable(
     index("readingProgressChapterIdIdx").on(table.chapterId),
     index("readingProgressLastReadIdx").on(table.lastReadAt),
     index("readingProgressUserComicIdx").on(table.userId, table.comicId),
-  ]
+  ],
 );
 
 export const readerSettings = pgTable(
@@ -383,7 +383,7 @@ export const readerSettings = pgTable(
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
-  (table) => [index("readerSettingsUserIdIdx").on(table.userId)]
+  (table) => [index("readerSettingsUserIdIdx").on(table.userId)],
 );
 
 export const rating = pgTable(
@@ -407,7 +407,7 @@ export const rating = pgTable(
     index("ratingComicIdIdx").on(table.comicId),
     index("ratingValueIdx").on(table.rating),
     index("ratingCreatedAtIdx").on(table.createdAt),
-  ]
+  ],
 );
 
 export const notification = pgTable(
@@ -432,7 +432,7 @@ export const notification = pgTable(
     index("notificationTypeIdx").on(table.type),
     index("notificationCreatedAtIdx").on(table.createdAt),
     index("notificationUserReadIdx").on(table.userId, table.read),
-  ]
+  ],
 );
 
 // ═══════════════════════════════════════════════════
@@ -466,7 +466,7 @@ export const role = pgTable(
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
-  (table) => [index("roleNameIdx").on(table.name), index("roleIsSystemIdx").on(table.isSystem)]
+  (table) => [index("roleNameIdx").on(table.name), index("roleIsSystemIdx").on(table.isSystem)],
 );
 
 export const permission = pgTable(
@@ -484,7 +484,7 @@ export const permission = pgTable(
     index("permissionResourceIdx").on(table.resource),
     index("permissionActionIdx").on(table.action),
     unique("permissionResourceActionUnique").on(table.resource, table.action),
-  ]
+  ],
 );
 
 export const rolePermission = pgTable(
@@ -502,7 +502,7 @@ export const rolePermission = pgTable(
     primaryKey({ columns: [table.roleId, table.permissionId] }),
     index("rolePermissionRoleIdIdx").on(table.roleId),
     index("rolePermissionPermissionIdIdx").on(table.permissionId),
-  ]
+  ],
 );
 
 export const userRole2 = pgTable(
@@ -521,7 +521,7 @@ export const userRole2 = pgTable(
     primaryKey({ columns: [table.userId, table.roleId] }),
     index("userRoleUserIdIdx").on(table.userId),
     index("userRoleRoleIdIdx").on(table.roleId),
-  ]
+  ],
 );
 
 // ═══════════════════════════════════════════════════
@@ -554,7 +554,7 @@ export const auditLog = pgTable(
     index("auditLogCreatedAtIdx").on(table.createdAt),
     index("auditLogUserActionIdx").on(table.userId, table.action),
     index("auditLogResourceActionIdx").on(table.resource, table.action),
-  ]
+  ],
 );
 
 /**
@@ -600,7 +600,7 @@ export const userPreference = pgTable(
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow().notNull(),
   },
-  (table) => [index("userPreferenceUserIdIdx").on(table.userId)]
+  (table) => [index("userPreferenceUserIdIdx").on(table.userId)],
 );
 
 // ═══════════════════════════════════════════════════
@@ -640,7 +640,7 @@ export const readingHistory = pgTable(
     index("readingHistoryStartedAtIdx").on(table.startedAt),
     index("readingHistoryUserComicIdx").on(table.userId, table.comicId),
     index("readingHistoryUserStartedIdx").on(table.userId, table.startedAt),
-  ]
+  ],
 );
 
 /**
@@ -673,7 +673,7 @@ export const readingGoal = pgTable(
     index("readingGoalStartDateIdx").on(table.startDate),
     index("readingGoalEndDateIdx").on(table.endDate),
     index("readingGoalUserTypeIdx").on(table.userId, table.type),
-  ]
+  ],
 );
 
 // ═══════════════════════════════════════════════════
@@ -725,7 +725,7 @@ export const searchIndex = pgTable(
 
     // Index for rating-based filtering
     index("searchIndexRatingIdx").on(table.rating),
-  ]
+  ],
 );
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -752,7 +752,7 @@ export const follow = pgTable(
     primaryKey({ columns: [table.followerId, table.followingId] }),
     index("followFollowerIdx").on(table.followerId),
     index("followFollowingIdx").on(table.followingId),
-  ]
+  ],
 );
 
 /**
@@ -775,7 +775,7 @@ export const share = pgTable(
     index("shareUserIdx").on(table.userId),
     index("shareResourceIdx").on(table.resourceType, table.resourceId),
     index("shareCreatedAtIdx").on(table.createdAt),
-  ]
+  ],
 );
 
 // ═══════════════════════════════════════════════════

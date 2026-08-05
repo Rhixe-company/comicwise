@@ -6,19 +6,19 @@ Next.js-based comic streaming frontend with TypeScript, Tailwind CSS, Prisma ORM
 
 ## Frontend
 
-| Technology | Version | Purpose |
-| --- | --- | --- |
-| Next.js | 16.1.6 | React framework (App Router, Turbopack) |
-| React | 19.2.4 | UI library |
-| TypeScript | 5.9.3 | Type safety |
-| Tailwind CSS | 4.0.0 | Utility-first styling |
-| shadcn/ui | 4.0.6 | Component library |
-| Zustand | 5.0.11 | State management |
-| Zod | 4.3.6 | Schema validation |
-| React Hook Form | 7.71.2 | Form handling |
-| TanStack Query | 5.90.21 | Data fetching |
-| TanStack Table | 8.21.3 | Data tables |
-| Recharts | 3.8.0 | Charts |
+| Technology      | Version | Purpose                                 |
+| --------------- | ------- | --------------------------------------- |
+| Next.js         | 16.1.6  | React framework (App Router, Turbopack) |
+| React           | 19.2.4  | UI library                              |
+| TypeScript      | 5.9.3   | Type safety                             |
+| Tailwind CSS    | 4.0.0   | Utility-first styling                   |
+| shadcn/ui       | 4.0.6   | Component library                       |
+| Zustand         | 5.0.11  | State management                        |
+| Zod             | 4.3.6   | Schema validation                       |
+| React Hook Form | 7.71.2  | Form handling                           |
+| TanStack Query  | 5.90.21 | Data fetching                           |
+| TanStack Table  | 8.21.3  | Data tables                             |
+| Recharts        | 3.8.0   | Charts                                  |
 
 ## Backend & Database
 

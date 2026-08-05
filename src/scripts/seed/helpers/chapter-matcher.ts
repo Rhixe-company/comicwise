@@ -12,7 +12,7 @@
 export function matchChapterToComic(
   chapter: unknown,
   comicCache: Map<string, number>,
-  comicsByNormalizedSlug: Map<string, number>
+  comicsByNormalizedSlug: Map<string, number>,
 ): null | number {
   // Type guard: ensure chapter is an object with properties
   if (typeof chapter !== "object" || chapter === null) {

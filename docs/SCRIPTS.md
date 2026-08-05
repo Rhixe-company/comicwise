@@ -14,30 +14,30 @@ ComicWise includes 81 npm scripts organized into 5 functional tiers for develope
 
 Core development commands for daily work.
 
-| Script | Command | Purpose | Options |
-| --- | --- | --- | --- |
-| `dev` | `pnpm dev` | Start dev server (Turbopack, port 3000) | - |
-| `build` | `pnpm build` | Production build (Turbopack, ~24s) | - |
-| `build:analyze` | `pnpm build:analyze` | Build with bundle analysis | `ANALYZE=true` |
-| `build:debug` | `pnpm build:debug` | Build with debug output | - |
-| `build:standalone` | `pnpm build:standalone` | Standalone production build | - |
-| `start` | `pnpm start` | Run production build locally | - |
-| `prebuild` | (automatic) | Runs before build (type-gen) | - |
-| `postbuild` | (automatic) | Runs after build | - |
-| `predev` | (automatic) | Runs before dev (type-gen) | - |
-| `type-check` | `pnpm type-check` | Validate TypeScript (tsc --noEmit) | - |
-| `type-check:watch` | `pnpm type-check:watch` | Type-check in watch mode | - |
-| `type-gen` | `pnpm type-gen` | Generate next-env.d.ts | - |
-| `lint` | `pnpm lint` | Run ESLint (diagnostic mode) | - |
-| `lint:fix` | `pnpm lint:fix` | ESLint + Prettier auto-fix | - |
-| `lint:strict` | `pnpm lint:strict` | Lint with zero warnings | - |
-| `format` | `pnpm format` | Prettier format all files | - |
-| `format:check` | `pnpm format:check` | Check formatting (non-destructive) | - |
-| `test` | `pnpm test` | Run Vitest unit tests (jsdom) | `[file]` |
-| `test:watch` | `pnpm test --watch` | Run tests in watch mode | - |
-| `test:ui` | `pnpm test:ui` | Run Playwright E2E tests | - |
-| `test:ui:codegen` | `pnpm test:ui:codegen` | Playwright code generator | - |
-| `clean` | `pnpm clean` | Remove build artifacts (.next, .turbo, etc) | - |
+| Script             | Command                 | Purpose                                     | Options        |
+| ------------------ | ----------------------- | ------------------------------------------- | -------------- |
+| `dev`              | `pnpm dev`              | Start dev server (Turbopack, port 3000)     | -              |
+| `build`            | `pnpm build`            | Production build (Turbopack, ~24s)          | -              |
+| `build:analyze`    | `pnpm build:analyze`    | Build with bundle analysis                  | `ANALYZE=true` |
+| `build:debug`      | `pnpm build:debug`      | Build with debug output                     | -              |
+| `build:standalone` | `pnpm build:standalone` | Standalone production build                 | -              |
+| `start`            | `pnpm start`            | Run production build locally                | -              |
+| `prebuild`         | (automatic)             | Runs before build (type-gen)                | -              |
+| `postbuild`        | (automatic)             | Runs after build                            | -              |
+| `predev`           | (automatic)             | Runs before dev (type-gen)                  | -              |
+| `type-check`       | `pnpm type-check`       | Validate TypeScript (tsc --noEmit)          | -              |
+| `type-check:watch` | `pnpm type-check:watch` | Type-check in watch mode                    | -              |
+| `type-gen`         | `pnpm type-gen`         | Generate next-env.d.ts                      | -              |
+| `lint`             | `pnpm lint`             | Run ESLint (diagnostic mode)                | -              |
+| `lint:fix`         | `pnpm lint:fix`         | ESLint + Prettier auto-fix                  | -              |
+| `lint:strict`      | `pnpm lint:strict`      | Lint with zero warnings                     | -              |
+| `format`           | `pnpm format`           | Prettier format all files                   | -              |
+| `format:check`     | `pnpm format:check`     | Check formatting (non-destructive)          | -              |
+| `test`             | `pnpm test`             | Run Vitest unit tests (jsdom)               | `[file]`       |
+| `test:watch`       | `pnpm test --watch`     | Run tests in watch mode                     | -              |
+| `test:ui`          | `pnpm test:ui`          | Run Playwright E2E tests                    | -              |
+| `test:ui:codegen`  | `pnpm test:ui:codegen`  | Playwright code generator                   | -              |
+| `clean`            | `pnpm clean`            | Remove build artifacts (.next, .turbo, etc) | -              |
 
 ### Quality Gates (Required Before PR)
 
@@ -52,24 +52,24 @@ pnpm type-check && pnpm lint:fix && pnpm test && pnpm build
 
 Database schema management and test data seeding.
 
-| Script | Command | Purpose | Notes |
-| --- | --- | --- | --- |
-| `db:push` | `pnpm db:push` | Apply schema changes (dev only) | Use after schema.ts modifications |
-| `db:studio` | `pnpm db:studio` | Drizzle Studio browser UI | Visual DB viewer/editor |
-| `db:generate` | `pnpm db:generate` | Generate SQL migration files | From schema changes |
-| `db:migrate` | `pnpm db:migrate` | Run pending migrations (prod) | Safe for production |
-| `db:pull` | `pnpm db:pull` | Introspect database | Reverse engineering |
-| `db:check` | `pnpm db:check` | Validate schema vs database | Catch drift early |
-| `db:reset` | `pnpm db:reset` | Drop + regenerate + push | **DESTRUCTIVE** - dev only |
-| `db:drop` | `pnpm db:drop` | Drop all tables | Use with caution |
-| `seed` | `pnpm seed` | Seed all entities | Default: interactive |
-| `seed:all` | `pnpm seed:all` | Seed all (CLI-driven) | Dependency orchestration |
-| `seed:dry` | `pnpm seed --dry-run` | Preview seeding | Non-destructive |
-| `seed:verbose` | `pnpm seed --verbose` | Detailed seed output | With progress info |
-| `seed:validate` | `pnpm seed:validate` | Validate seed data | --dry-run --verbose |
-| `seed:clear` | `pnpm seed:clear` | Clear all seed data | Via REST API |
-| `seed:reset` | `pnpm seed:reset` | Clear all seed data | DELETE operation |
-| Seeding entities: `seed:comics`, `seed:chapters`, `seed:types`, `seed:authors`, `seed:artists`, `seed:genres` | - | Entity-specific seeding | One script per entity |
+| Script                                                                                                        | Command               | Purpose                         | Notes                             |
+| ------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------- | --------------------------------- |
+| `db:push`                                                                                                     | `pnpm db:push`        | Apply schema changes (dev only) | Use after schema.ts modifications |
+| `db:studio`                                                                                                   | `pnpm db:studio`      | Drizzle Studio browser UI       | Visual DB viewer/editor           |
+| `db:generate`                                                                                                 | `pnpm db:generate`    | Generate SQL migration files    | From schema changes               |
+| `db:migrate`                                                                                                  | `pnpm db:migrate`     | Run pending migrations (prod)   | Safe for production               |
+| `db:pull`                                                                                                     | `pnpm db:pull`        | Introspect database             | Reverse engineering               |
+| `db:check`                                                                                                    | `pnpm db:check`       | Validate schema vs database     | Catch drift early                 |
+| `db:reset`                                                                                                    | `pnpm db:reset`       | Drop + regenerate + push        | **DESTRUCTIVE** - dev only        |
+| `db:drop`                                                                                                     | `pnpm db:drop`        | Drop all tables                 | Use with caution                  |
+| `seed`                                                                                                        | `pnpm seed`           | Seed all entities               | Default: interactive              |
+| `seed:all`                                                                                                    | `pnpm seed:all`       | Seed all (CLI-driven)           | Dependency orchestration          |
+| `seed:dry`                                                                                                    | `pnpm seed --dry-run` | Preview seeding                 | Non-destructive                   |
+| `seed:verbose`                                                                                                | `pnpm seed --verbose` | Detailed seed output            | With progress info                |
+| `seed:validate`                                                                                               | `pnpm seed:validate`  | Validate seed data              | --dry-run --verbose               |
+| `seed:clear`                                                                                                  | `pnpm seed:clear`     | Clear all seed data             | Via REST API                      |
+| `seed:reset`                                                                                                  | `pnpm seed:reset`     | Clear all seed data             | DELETE operation                  |
+| Seeding entities: `seed:comics`, `seed:chapters`, `seed:types`, `seed:authors`, `seed:artists`, `seed:genres` | -                     | Entity-specific seeding         | One script per entity             |
 
 ---
 
@@ -77,22 +77,22 @@ Database schema management and test data seeding.
 
 Service health checks and cache statistics.
 
-| Script | Command | Purpose | Output |
-| --- | --- | --- | --- |
-| `health:all` | `pnpm health:all` | Check db, redis, general | Summary |
-| `health:check` | `pnpm health:check` | General health check | CLI output |
-| `health:check:json` | `pnpm health:check --json` | Health check (JSON) | Machine-readable |
-| `health:check:verbose` | `pnpm health:check --verbose` | Detailed health check | Full details |
-| `health:db` | `pnpm health:db` | Database connectivity | Status + latency |
-| `health:db:json` | `pnpm health:db --json` | DB health (JSON) | For parsing |
-| `health:db:verbose` | `pnpm health:db --verbose` | DB health (detailed) | Version, latency, status |
-| `health:redis` | `pnpm health:redis` | Redis connectivity | Memory, response, latency |
-| `health:redis:json` | `pnpm health:redis --json` | Redis health (JSON) | Machine-readable |
-| `health:redis:verbose` | `pnpm health:redis --verbose` | Redis health (detailed) | Full metrics |
-| `cache:clear` | `pnpm cache:clear` | Clear Redis cache | All keys or pattern |
-| `cache:clear:dry` | `pnpm cache:clear --dry-run` | Preview cache clear | Non-destructive |
-| `cache:stats` | `pnpm cache:stats` | Cache statistics | Memory, hit rates, keys |
-| `cache:stats:json` | `pnpm cache:stats --json` | Cache stats (JSON) | For monitoring |
+| Script                 | Command                       | Purpose                  | Output                    |
+| ---------------------- | ----------------------------- | ------------------------ | ------------------------- |
+| `health:all`           | `pnpm health:all`             | Check db, redis, general | Summary                   |
+| `health:check`         | `pnpm health:check`           | General health check     | CLI output                |
+| `health:check:json`    | `pnpm health:check --json`    | Health check (JSON)      | Machine-readable          |
+| `health:check:verbose` | `pnpm health:check --verbose` | Detailed health check    | Full details              |
+| `health:db`            | `pnpm health:db`              | Database connectivity    | Status + latency          |
+| `health:db:json`       | `pnpm health:db --json`       | DB health (JSON)         | For parsing               |
+| `health:db:verbose`    | `pnpm health:db --verbose`    | DB health (detailed)     | Version, latency, status  |
+| `health:redis`         | `pnpm health:redis`           | Redis connectivity       | Memory, response, latency |
+| `health:redis:json`    | `pnpm health:redis --json`    | Redis health (JSON)      | Machine-readable          |
+| `health:redis:verbose` | `pnpm health:redis --verbose` | Redis health (detailed)  | Full metrics              |
+| `cache:clear`          | `pnpm cache:clear`            | Clear Redis cache        | All keys or pattern       |
+| `cache:clear:dry`      | `pnpm cache:clear --dry-run`  | Preview cache clear      | Non-destructive           |
+| `cache:stats`          | `pnpm cache:stats`            | Cache statistics         | Memory, hit rates, keys   |
+| `cache:stats:json`     | `pnpm cache:stats --json`     | Cache stats (JSON)       | For monitoring            |
 
 ---
 
@@ -100,22 +100,22 @@ Service health checks and cache statistics.
 
 Type inference, naming conventions, import optimization.
 
-| Script | Command | Purpose | Safe? |
-| --- | --- | --- | --- |
-| `optimize:types` | `pnpm optimize:types` | Replace 'any' with proper types | --dry-run to preview |
-| `optimize:types:dry` | `pnpm optimize:types --dry-run` | Preview type replacements | Read-only |
-| `optimize:types:backup` | `pnpm optimize:types --backup` | Create backup before modifying | In .backups/ dir |
-| `optimize:camelcase` | `pnpm optimize:camelcase` | Convert to camelCase | --dry-run available |
-| `optimize:camelcase:dry` | `pnpm optimize:camelcase --dry-run` | Preview casing changes | Read-only |
-| `optimize:kebabcase` | `pnpm optimize:kebabcase` | Convert to kebab-case | Rare usage |
-| `optimize:kebabcase:check` | `pnpm optimize:kebabcase --check` | Check without modifying | Read-only |
-| `imports:check` | `pnpm imports:check` | Check import path aliases | --dry-run (no changes) |
-| `imports:optimize` | `pnpm imports:optimize` | Rewrite to use proper aliases | --dry-run available |
-| `imports:optimize:dry` | `pnpm imports:optimize --dry-run` | Preview import changes | Read-only |
-| `analyze` | `pnpm analyze` | Find unused dependencies | Analysis only |
-| `analyze:packages` | `pnpm analyze:packages` | Detailed package analysis | --dry-run |
-| `check-updates` | `pnpm check-updates` | List available updates | Information only |
-| `upstash` | `pnpm upstash` | Upstash Redis management | Admin operations |
+| Script                     | Command                             | Purpose                         | Safe?                  |
+| -------------------------- | ----------------------------------- | ------------------------------- | ---------------------- |
+| `optimize:types`           | `pnpm optimize:types`               | Replace 'any' with proper types | --dry-run to preview   |
+| `optimize:types:dry`       | `pnpm optimize:types --dry-run`     | Preview type replacements       | Read-only              |
+| `optimize:types:backup`    | `pnpm optimize:types --backup`      | Create backup before modifying  | In .backups/ dir       |
+| `optimize:camelcase`       | `pnpm optimize:camelcase`           | Convert to camelCase            | --dry-run available    |
+| `optimize:camelcase:dry`   | `pnpm optimize:camelcase --dry-run` | Preview casing changes          | Read-only              |
+| `optimize:kebabcase`       | `pnpm optimize:kebabcase`           | Convert to kebab-case           | Rare usage             |
+| `optimize:kebabcase:check` | `pnpm optimize:kebabcase --check`   | Check without modifying         | Read-only              |
+| `imports:check`            | `pnpm imports:check`                | Check import path aliases       | --dry-run (no changes) |
+| `imports:optimize`         | `pnpm imports:optimize`             | Rewrite to use proper aliases   | --dry-run available    |
+| `imports:optimize:dry`     | `pnpm imports:optimize --dry-run`   | Preview import changes          | Read-only              |
+| `analyze`                  | `pnpm analyze`                      | Find unused dependencies        | Analysis only          |
+| `analyze:packages`         | `pnpm analyze:packages`             | Detailed package analysis       | --dry-run              |
+| `check-updates`            | `pnpm check-updates`                | List available updates          | Information only       |
+| `upstash`                  | `pnpm upstash`                      | Upstash Redis management        | Admin operations       |
 
 ---
 
@@ -123,24 +123,24 @@ Type inference, naming conventions, import optimization.
 
 Scaffolding, git operations, documentation generation.
 
-| Script | Command | Purpose | Generates |
-| --- | --- | --- | --- |
-| `scaffold` | `pnpm scaffold` | Create new files/dirs | Interactive |
-| `scaffold:action` | `pnpm scaffold:action` | Create Server Action | boilerplate |
-| `scaffold:component` | `pnpm scaffold:component` | Create React Component | With props/types |
-| `scaffold:hook` | `pnpm scaffold:hook` | Create custom hook | With types |
-| `git:commit` | `pnpm git:commit` | Conventional commit helper | Assisted message |
-| `git:init` | `pnpm git:init` | Initialize git repo | Setup |
-| `git:push` | `pnpm git:push` | Push with message | Interactive |
-| `docs:all` | `pnpm docs:all` | Generate all docs | Markdown files |
-| `docs:generate` | `pnpm docs:generate` | Generate API docs | From code |
-| `docs:prompts` | `pnpm docs:prompts` | Generate prompt docs | From .prompt files |
-| `docs:readme` | `pnpm docs:readme` | Generate/update README | Markdown |
-| `validate` | `pnpm validate` | Run all quality checks | format, type, lint, test |
-| `prepare` | (automatic) | Runs before commit (husky) | Pre-commit hook |
-| `posttest` | (automatic) | Runs after tests | Coverage reporting |
-| `clean:all` | `pnpm clean:all` | Full cleanup + node_modules | Reset state |
-| `clean:cache` | `pnpm clean:cache` | Clear build cache | .turbo, .next |
+| Script               | Command                   | Purpose                     | Generates                |
+| -------------------- | ------------------------- | --------------------------- | ------------------------ |
+| `scaffold`           | `pnpm scaffold`           | Create new files/dirs       | Interactive              |
+| `scaffold:action`    | `pnpm scaffold:action`    | Create Server Action        | boilerplate              |
+| `scaffold:component` | `pnpm scaffold:component` | Create React Component      | With props/types         |
+| `scaffold:hook`      | `pnpm scaffold:hook`      | Create custom hook          | With types               |
+| `git:commit`         | `pnpm git:commit`         | Conventional commit helper  | Assisted message         |
+| `git:init`           | `pnpm git:init`           | Initialize git repo         | Setup                    |
+| `git:push`           | `pnpm git:push`           | Push with message           | Interactive              |
+| `docs:all`           | `pnpm docs:all`           | Generate all docs           | Markdown files           |
+| `docs:generate`      | `pnpm docs:generate`      | Generate API docs           | From code                |
+| `docs:prompts`       | `pnpm docs:prompts`       | Generate prompt docs        | From .prompt files       |
+| `docs:readme`        | `pnpm docs:readme`        | Generate/update README      | Markdown                 |
+| `validate`           | `pnpm validate`           | Run all quality checks      | format, type, lint, test |
+| `prepare`            | (automatic)               | Runs before commit (husky)  | Pre-commit hook          |
+| `posttest`           | (automatic)               | Runs after tests            | Coverage reporting       |
+| `clean:all`          | `pnpm clean:all`          | Full cleanup + node_modules | Reset state              |
+| `clean:cache`        | `pnpm clean:cache`        | Clear build cache           | .turbo, .next            |
 
 ---
 

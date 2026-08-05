@@ -120,7 +120,7 @@ export class ProgressTracker {
 
     console.log(`  ${progressLine}`);
     console.log(
-      `  Inserted: ${this.inserted} | Updated: ${this.updated} | Skipped: ${this.skipped} | Errors: ${this.errors} | Speed: ${itemsPerSecond}/sec`
+      `  Inserted: ${this.inserted} | Updated: ${this.updated} | Skipped: ${this.skipped} | Errors: ${this.errors} | Speed: ${itemsPerSecond}/sec`,
     );
   }
 

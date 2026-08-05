@@ -313,7 +313,7 @@ export class ChapterImageSeeder extends BaseSeeder<ChapterSeed> {
                     {
                       entityMeta,
                       skipIfExists: enableDeduplication,
-                    }
+                    },
                   );
 
                   if (downloadResult.success && downloadResult.filePath) {
@@ -330,7 +330,7 @@ export class ChapterImageSeeder extends BaseSeeder<ChapterSeed> {
                     pageNumber: img.pageNumber,
                     cached: false,
                   };
-                })
+                }),
               );
             } else {
               finalImages = imageData.map((img) => ({ imageUrl: img.url, pageNumber: img.pageNumber, cached: false }));
@@ -352,7 +352,7 @@ export class ChapterImageSeeder extends BaseSeeder<ChapterSeed> {
               error: error instanceof Error ? error.message : String(error),
             };
           }
-        })
+        }),
       );
 
       // Collect results from this batch
@@ -386,7 +386,7 @@ export class ChapterImageSeeder extends BaseSeeder<ChapterSeed> {
         const elapsed = this.formatDuration(Date.now() - startTime);
 
         logger.info(
-          `[chapter-images] Progress: ${processed}/${totalChapters} chapters | images: ${allImageRows.length} collected | ETA: ${eta} | elapsed: ${elapsed}`
+          `[chapter-images] Progress: ${processed}/${totalChapters} chapters | images: ${allImageRows.length} collected | ETA: ${eta} | elapsed: ${elapsed}`,
         );
       }
     }
@@ -453,7 +453,7 @@ export class ChapterImageSeeder extends BaseSeeder<ChapterSeed> {
         const eta = this.formatDuration(Math.round(avgChunkTime * remainingChunks));
         const elapsed = this.formatDuration(Date.now() - startTime);
         logger.info(
-          `[chunk ${chunkIdx + 1}/${totalChunks}] ${inserted} inserted, ${updated} updated | elapsed: ${elapsed} | ETA: ${eta}`
+          `[chunk ${chunkIdx + 1}/${totalChunks}] ${inserted} inserted, ${updated} updated | elapsed: ${elapsed} | ETA: ${eta}`,
         );
       }
     }

@@ -34,7 +34,7 @@ export function ReaderSettings({ isOpen, onClose }: ReaderSettingsProps) {
       setBrightness(value);
       updateSettings({ brightness: value });
     },
-    [updateSettings]
+    [updateSettings],
   );
 
   const handleContrastChange = useCallback(
@@ -42,21 +42,21 @@ export function ReaderSettings({ isOpen, onClose }: ReaderSettingsProps) {
       setContrast(value);
       updateSettings({ contrast: value });
     },
-    [updateSettings]
+    [updateSettings],
   );
 
   const handleViewModeChange = useCallback(
     (mode: "double" | "single") => {
       updateSettings({ viewMode: mode });
     },
-    [updateSettings]
+    [updateSettings],
   );
 
   const handleAutoScrollChange = useCallback(
     (enabled: boolean) => {
       updateSettings({ autoScroll: enabled });
     },
-    [updateSettings]
+    [updateSettings],
   );
 
   if (!isOpen) return null;

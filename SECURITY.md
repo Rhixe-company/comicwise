@@ -33,7 +33,7 @@ ComicWise implements defense-in-depth with multiple security layers.
 const SignUpSchema = z.object({
   email: z.string().trim().email(),
   username: z.string().trim().min(3).max(100),
-  password: z.string().trim().min(8).max(128)
+  password: z.string().trim().min(8).max(128),
 });
 ```
 
@@ -63,9 +63,9 @@ const SignUpSchema = z.object({
 ## 6. API Security
 
 - **Rate Limiting**: Upstash Redis + `@upstash/ratelimit`
-  - Sign-in: 5 req/15min
-  - Sign-up: 3 req/60min
-  - API: 100 req/min general
+    - Sign-in: 5 req/15min
+    - Sign-up: 3 req/60min
+    - API: 100 req/min general
 - **No CORS** issues (same-origin Server Actions)
 - **Input size limits** enforced via Zod
 

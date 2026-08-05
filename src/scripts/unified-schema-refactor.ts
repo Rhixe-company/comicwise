@@ -146,7 +146,7 @@ async function verifyDALUsage(logger: any): Promise<{ files: string[]; issues: n
       {
         encoding: "utf8",
         stdio: ["pipe", "pipe", "ignore"],
-      }
+      },
     );
 
     const lines = result.split("\n").filter(Boolean);
@@ -213,7 +213,7 @@ async function checkUseDirectives(logger: any): Promise<{ files: string[]; missi
       {
         encoding: "utf8",
         stdio: ["pipe", "pipe", "ignore"],
-      }
+      },
     );
 
     const files = result.split("\n").filter(Boolean).slice(0, 10); // Limit to first 10
@@ -362,7 +362,7 @@ async function main() {
   // Exit with status
   const totalIssues = Object.values(results).reduce(
     (sum: number, res: any) => sum + (res.fixed || res.updated || res.issues || res.missing || 0),
-    0
+    0,
   );
 
   process.exit(totalIssues > 0 ? 1 : 0);

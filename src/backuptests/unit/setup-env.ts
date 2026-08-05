@@ -63,7 +63,7 @@ function applyMockFilter(items: typeof mockComics, where: MockCondition | undefi
     if (!col) return items;
     return items.filter((item) => {
       const val = item[col as keyof typeof item];
-      // eslint-disable-next-line @typescript-eslint/no-base-to-string
+
       return val !== null && val !== undefined && String(val).toLowerCase().includes(pattern);
     });
   }
@@ -100,34 +100,26 @@ vi.mock("drizzle-orm", async () => {
   return {
     ...actual,
     count: vi.fn().mockReturnValue({ _: "mock" }),
-    ilike: vi.fn(
-      (column: { name?: string }, pattern: string): MockCondition => ({
-        __mockType: "ilike",
-        // eslint-disable-next-line @typescript-eslint/no-base-to-string
-        columnName: column?.name ?? String(column),
-        pattern,
-      })
-    ),
-    eq: vi.fn(
-      (column: { name?: string }, value: unknown): MockCondition => ({
-        __mockType: "eq",
-        // eslint-disable-next-line @typescript-eslint/no-base-to-string
-        columnName: column?.name ?? String(column),
-        value,
-      })
-    ),
-    and: vi.fn(
-      (...conditions: (MockCondition | undefined)[]): MockCondition => ({
-        __mockType: "and",
-        conditions: conditions.filter(Boolean) as MockCondition[],
-      })
-    ),
-    or: vi.fn(
-      (...conditions: (MockCondition | undefined)[]): MockCondition => ({
-        __mockType: "or",
-        conditions: conditions.filter(Boolean) as MockCondition[],
-      })
-    ),
+    ilike: vi.fn((column: { name?: string }, pattern: string): MockCondition => ({
+      __mockType: "ilike",
+
+      columnName: column?.name ?? String(column),
+      pattern,
+    })),
+    eq: vi.fn((column: { name?: string }, value: unknown): MockCondition => ({
+      __mockType: "eq",
+
+      columnName: column?.name ?? String(column),
+      value,
+    })),
+    and: vi.fn((...conditions: (MockCondition | undefined)[]): MockCondition => ({
+      __mockType: "and",
+      conditions: conditions.filter(Boolean) as MockCondition[],
+    })),
+    or: vi.fn((...conditions: (MockCondition | undefined)[]): MockCondition => ({
+      __mockType: "or",
+      conditions: conditions.filter(Boolean) as MockCondition[],
+    })),
   };
 });
 

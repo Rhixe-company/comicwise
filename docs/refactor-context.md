@@ -24,80 +24,80 @@ A comprehensive analysis of 92 reference scripts across two directories (`.refer
 
 ### ComicWise Scripts (62 total)
 
-| # | Filename | Purpose | Category | Status | Dependencies |
-| --- | --- | --- | --- | --- | --- |
-| 1 | analyze-project.ts | Project analysis for bottlenecks, vulnerabilities, code quality | performance | duplicate | chalk, ora, glob |
-| 2 | build.ps1/build.sh | Build the Next.js project | dev-setup | implemented | next |
-| 3 | cacheStats.ts | Redis cache usage statistics | health-checks | implemented | ioredis |
-| 4 | camelCaseConverter2025.ts | Convert filenames to camelCase | code-generation | niche | glob, fs-extra, ora, chalk |
-| 5 | checkDb.ts | Database connection health check | health-checks | implemented | drizzle-orm |
-| 6 | checkRedis.ts | Redis connection health check | health-checks | implemented | ioredis |
-| 7 | cleanup-duplicates.ts | Remove duplicate files and dead code | refactoring | duplicate | glob, fs-extra |
-| 8 | cleanup-project.ps1/cleanup.sh | Build artifacts and cache cleanup | utility | implemented | none |
-| 9 | clearCache.ts | Clear Redis cache with pattern matching | utility | implemented | ioredis |
-| 10 | complete-setup\*.ts (4 variants) | Setup task completion runners | dev-setup | niche/duplicate | none |
-| 11 | comprehensiveMasterOptimization2025.ts | Master optimization combining phases | performance | duplicate | chalk, ora |
-| 12 | cw-aliases\*.ps1/sh | CLI command aliases | utility | high-value-missing | none |
-| 13 | cw-enhanced.ps1/cw.sh | CLI wrapper with argument parsing | utility | high-value-missing | none |
-| 14 | deploy-vercel.ts | Vercel deployment automation | setup-deployment | high-value-missing | chalk, ora, inquirer |
-| 15 | dev.ps1/dev.sh | Start dev server with Turbopack | dev-setup | implemented | none |
-| 16 | drizzleSetup.ts | Drizzle ORM configuration and migrations | database-ops | niche | drizzle-kit, drizzle-orm |
-| 17 | execute-all-tasks.ts | Execute all project setup tasks | dev-setup | niche | none |
-| 18 | fix-line-endings.sh | Fix CRLF/LF line endings | utility | niche | none |
-| 19 | format.ps1/format.sh | Run Prettier formatting | dev-setup | implemented | prettier |
-| 20 | generateDTOs.ts | Generate DTO interfaces from server actions | code-generation | high-value-missing | glob, ts-morph, zod |
-| 21 | git-commit.ts | Conventional commit with message generation | git-ops | high-value-missing | chalk, ora, inquirer, simple-git |
-| 22 | git-init.ts | Initialize git repository with hooks | git-ops | high-value-missing | simple-git |
-| 23 | healthCheck.ts | Comprehensive health check (DB, Redis, env) | health-checks | implemented | drizzle-orm, ioredis |
-| 24 | install-deps.ps1/install-deps.sh | Install project dependencies | dev-setup | implemented | none |
-| 25 | install-vscode-extensions.ps1 | Install VS Code extensions | dev-setup | niche | none |
-| 26 | lint.ps1/lint.sh | Run ESLint | dev-setup | implemented | eslint |
-| 27 | master-setup.ts/master-complete-setup.ts (3 variants) | Master setup orchestration | dev-setup | duplicate | none |
-| 28 | masterOptimization.ts | Execute all optimizations | performance | duplicate | chalk |
-| 29 | migrateToDto.ts | Migrate API payloads to DTO pattern | refactoring | high-value-missing | glob, ts-morph |
-| 30 | ops.ps1/ops.sh | Operations shortcuts | utility | high-value-missing | none |
-| 31 | optimize-project.ps1 | Project optimization wrapper | performance | duplicate | none |
-| 32 | optimize-vscode-complete-enhanced.ps1 | VS Code optimization | dev-setup | niche | none |
-| 33 | prioritySystem.ts/priority-system.bat | Priority queue system | utility | niche/unused | none |
-| 34 | projectCleanup\*.ts (3 variants) | Project cleanup with variants | refactoring | duplicate | glob, fs-extra, chalk |
-| 35 | queueWorker.ts | Background queue worker | utility | niche/unused | bull, ioredis |
-| 36 | replaceImportsEnhanced.ts | Replace relative imports with aliases | refactoring | implemented | glob, ts-morph |
-| 37 | run-import-replacement.ps1/sh | Import replacement wrapper | refactoring | duplicate | none |
-| 38 | run.ps1/run.sh | Main CLI entry point | utility | high-value-missing | none |
-| 39 | scaffold.ts | Generate pages/components/routes | code-generation | implemented | none |
-| 40 | seed-dry-run.md | Seed dry-run documentation | documentation | high-value-missing | none |
-| 41 | setup-env.ps1 | Configure environment variables | dev-setup | implemented | none |
-| 42 | setup.ps1/setup.sh | Main setup script | dev-setup | implemented | none |
-| 43 | test.ps1/test.sh | Run Vitest unit tests | dev-setup | implemented | vitest |
-| 44 | type-check.ps1/type-check.sh | Run TypeScript type checking | dev-setup | implemented | typescript |
-| 45 | uninstall-unused-packages.ts | Uninstall unused npm dependencies | refactoring | high-value-missing | glob |
-| 46 | updateAnyTypes.ts | Remove 'any' type annotations | refactoring | implemented | glob, chalk |
-| 47 | uploadBulk.ts | Bulk upload to ImageKit/Cloudinary/S3 | utility | high-value-missing | chalk, ora, glob |
-| 48 | verify-\* (4 scripts) | VS Code/MCP verification | dev-setup/health-checks | niche | none |
+| #   | Filename                                              | Purpose                                                         | Category                | Status             | Dependencies                     |
+| --- | ----------------------------------------------------- | --------------------------------------------------------------- | ----------------------- | ------------------ | -------------------------------- |
+| 1   | analyze-project.ts                                    | Project analysis for bottlenecks, vulnerabilities, code quality | performance             | duplicate          | chalk, ora, glob                 |
+| 2   | build.ps1/build.sh                                    | Build the Next.js project                                       | dev-setup               | implemented        | next                             |
+| 3   | cacheStats.ts                                         | Redis cache usage statistics                                    | health-checks           | implemented        | ioredis                          |
+| 4   | camelCaseConverter2025.ts                             | Convert filenames to camelCase                                  | code-generation         | niche              | glob, fs-extra, ora, chalk       |
+| 5   | checkDb.ts                                            | Database connection health check                                | health-checks           | implemented        | drizzle-orm                      |
+| 6   | checkRedis.ts                                         | Redis connection health check                                   | health-checks           | implemented        | ioredis                          |
+| 7   | cleanup-duplicates.ts                                 | Remove duplicate files and dead code                            | refactoring             | duplicate          | glob, fs-extra                   |
+| 8   | cleanup-project.ps1/cleanup.sh                        | Build artifacts and cache cleanup                               | utility                 | implemented        | none                             |
+| 9   | clearCache.ts                                         | Clear Redis cache with pattern matching                         | utility                 | implemented        | ioredis                          |
+| 10  | complete-setup\*.ts (4 variants)                      | Setup task completion runners                                   | dev-setup               | niche/duplicate    | none                             |
+| 11  | comprehensiveMasterOptimization2025.ts                | Master optimization combining phases                            | performance             | duplicate          | chalk, ora                       |
+| 12  | cw-aliases\*.ps1/sh                                   | CLI command aliases                                             | utility                 | high-value-missing | none                             |
+| 13  | cw-enhanced.ps1/cw.sh                                 | CLI wrapper with argument parsing                               | utility                 | high-value-missing | none                             |
+| 14  | deploy-vercel.ts                                      | Vercel deployment automation                                    | setup-deployment        | high-value-missing | chalk, ora, inquirer             |
+| 15  | dev.ps1/dev.sh                                        | Start dev server with Turbopack                                 | dev-setup               | implemented        | none                             |
+| 16  | drizzleSetup.ts                                       | Drizzle ORM configuration and migrations                        | database-ops            | niche              | drizzle-kit, drizzle-orm         |
+| 17  | execute-all-tasks.ts                                  | Execute all project setup tasks                                 | dev-setup               | niche              | none                             |
+| 18  | fix-line-endings.sh                                   | Fix CRLF/LF line endings                                        | utility                 | niche              | none                             |
+| 19  | format.ps1/format.sh                                  | Run Prettier formatting                                         | dev-setup               | implemented        | prettier                         |
+| 20  | generateDTOs.ts                                       | Generate DTO interfaces from server actions                     | code-generation         | high-value-missing | glob, ts-morph, zod              |
+| 21  | git-commit.ts                                         | Conventional commit with message generation                     | git-ops                 | high-value-missing | chalk, ora, inquirer, simple-git |
+| 22  | git-init.ts                                           | Initialize git repository with hooks                            | git-ops                 | high-value-missing | simple-git                       |
+| 23  | healthCheck.ts                                        | Comprehensive health check (DB, Redis, env)                     | health-checks           | implemented        | drizzle-orm, ioredis             |
+| 24  | install-deps.ps1/install-deps.sh                      | Install project dependencies                                    | dev-setup               | implemented        | none                             |
+| 25  | install-vscode-extensions.ps1                         | Install VS Code extensions                                      | dev-setup               | niche              | none                             |
+| 26  | lint.ps1/lint.sh                                      | Run ESLint                                                      | dev-setup               | implemented        | eslint                           |
+| 27  | master-setup.ts/master-complete-setup.ts (3 variants) | Master setup orchestration                                      | dev-setup               | duplicate          | none                             |
+| 28  | masterOptimization.ts                                 | Execute all optimizations                                       | performance             | duplicate          | chalk                            |
+| 29  | migrateToDto.ts                                       | Migrate API payloads to DTO pattern                             | refactoring             | high-value-missing | glob, ts-morph                   |
+| 30  | ops.ps1/ops.sh                                        | Operations shortcuts                                            | utility                 | high-value-missing | none                             |
+| 31  | optimize-project.ps1                                  | Project optimization wrapper                                    | performance             | duplicate          | none                             |
+| 32  | optimize-vscode-complete-enhanced.ps1                 | VS Code optimization                                            | dev-setup               | niche              | none                             |
+| 33  | prioritySystem.ts/priority-system.bat                 | Priority queue system                                           | utility                 | niche/unused       | none                             |
+| 34  | projectCleanup\*.ts (3 variants)                      | Project cleanup with variants                                   | refactoring             | duplicate          | glob, fs-extra, chalk            |
+| 35  | queueWorker.ts                                        | Background queue worker                                         | utility                 | niche/unused       | bull, ioredis                    |
+| 36  | replaceImportsEnhanced.ts                             | Replace relative imports with aliases                           | refactoring             | implemented        | glob, ts-morph                   |
+| 37  | run-import-replacement.ps1/sh                         | Import replacement wrapper                                      | refactoring             | duplicate          | none                             |
+| 38  | run.ps1/run.sh                                        | Main CLI entry point                                            | utility                 | high-value-missing | none                             |
+| 39  | scaffold.ts                                           | Generate pages/components/routes                                | code-generation         | implemented        | none                             |
+| 40  | seed-dry-run.md                                       | Seed dry-run documentation                                      | documentation           | high-value-missing | none                             |
+| 41  | setup-env.ps1                                         | Configure environment variables                                 | dev-setup               | implemented        | none                             |
+| 42  | setup.ps1/setup.sh                                    | Main setup script                                               | dev-setup               | implemented        | none                             |
+| 43  | test.ps1/test.sh                                      | Run Vitest unit tests                                           | dev-setup               | implemented        | vitest                           |
+| 44  | type-check.ps1/type-check.sh                          | Run TypeScript type checking                                    | dev-setup               | implemented        | typescript                       |
+| 45  | uninstall-unused-packages.ts                          | Uninstall unused npm dependencies                               | refactoring             | high-value-missing | glob                             |
+| 46  | updateAnyTypes.ts                                     | Remove 'any' type annotations                                   | refactoring             | implemented        | glob, chalk                      |
+| 47  | uploadBulk.ts                                         | Bulk upload to ImageKit/Cloudinary/S3                           | utility                 | high-value-missing | chalk, ora, glob                 |
+| 48  | verify-\* (4 scripts)                                 | VS Code/MCP verification                                        | dev-setup/health-checks | niche              | none                             |
 
 ### ComicR Scripts (30 total)
 
-| # | Filename | Purpose | Category | Status | Dependencies |
-| --- | --- | --- | --- | --- | --- |
-| 73 | ast-refactor.ts | AST-based refactoring with ts-morph | refactoring | duplicate | ts-morph |
-| 74 | autofix-chapter-fields.ts | Auto-fix chapter field values | database-ops | niche | drizzle-orm |
-| 75 | cleanup-duplicates.ts | Duplicate code scanner/remover | refactoring | duplicate | glob, fs-extra |
-| 76 | complete-plan.ts | Execute plan with progress tracking | utility | niche | none |
-| 77 | cw.ts | Main CLI entry point | utility | implemented | none |
-| 78 | db-truncate.ts | Safely truncate seeded tables | database-ops | implemented | drizzle-orm |
-| 79 | docker-init.sh | Initialize Docker container | dev-setup | high-value-missing | none |
-| 80 | enhance-seo.ts | SEO optimizations (metadata, structured data, CWV) | performance | high-value-missing | none |
-| 81 | fix-line-endings.sh | Fix CRLF to LF line endings | utility | niche | none |
-| 82 | fix-use-directives.ts | Add 'use server'/'use client' automatically | code-generation | high-value-missing | glob |
-| 83 | init-db.sql | Database initialization SQL | database-ops | niche | none |
-| 84 | install-extensions.ps1 | Install recommended extensions | dev-setup | niche | none |
-| 85 | merge-seed-data.ts | Merge data from multiple seed sources | database-ops | niche | glob |
-| 86 | optimize-performance.ts | Comprehensive performance optimization | performance | duplicate | none |
-| 87 | rename-to-kebab-case.ts | Batch rename files to kebab-case | refactoring | niche | glob, fs-extra |
-| 88 | report-missing-chapter-fields.ts | Report chapters with missing fields | utility | niche | drizzle-orm |
-| 89 | setup-api.ts | API routes and middleware setup | setup-deployment | niche | none |
-| 90 | setup-deployment.ts | Deployment environment configuration | setup-deployment | high-value-missing | none |
-| 91 | setup-error-boundaries.ts | Add error boundary components | code-generation | high-value-missing | glob, ts-morph |
+| #   | Filename                         | Purpose                                            | Category         | Status             | Dependencies   |
+| --- | -------------------------------- | -------------------------------------------------- | ---------------- | ------------------ | -------------- |
+| 73  | ast-refactor.ts                  | AST-based refactoring with ts-morph                | refactoring      | duplicate          | ts-morph       |
+| 74  | autofix-chapter-fields.ts        | Auto-fix chapter field values                      | database-ops     | niche              | drizzle-orm    |
+| 75  | cleanup-duplicates.ts            | Duplicate code scanner/remover                     | refactoring      | duplicate          | glob, fs-extra |
+| 76  | complete-plan.ts                 | Execute plan with progress tracking                | utility          | niche              | none           |
+| 77  | cw.ts                            | Main CLI entry point                               | utility          | implemented        | none           |
+| 78  | db-truncate.ts                   | Safely truncate seeded tables                      | database-ops     | implemented        | drizzle-orm    |
+| 79  | docker-init.sh                   | Initialize Docker container                        | dev-setup        | high-value-missing | none           |
+| 80  | enhance-seo.ts                   | SEO optimizations (metadata, structured data, CWV) | performance      | high-value-missing | none           |
+| 81  | fix-line-endings.sh              | Fix CRLF to LF line endings                        | utility          | niche              | none           |
+| 82  | fix-use-directives.ts            | Add 'use server'/'use client' automatically        | code-generation  | high-value-missing | glob           |
+| 83  | init-db.sql                      | Database initialization SQL                        | database-ops     | niche              | none           |
+| 84  | install-extensions.ps1           | Install recommended extensions                     | dev-setup        | niche              | none           |
+| 85  | merge-seed-data.ts               | Merge data from multiple seed sources              | database-ops     | niche              | glob           |
+| 86  | optimize-performance.ts          | Comprehensive performance optimization             | performance      | duplicate          | none           |
+| 87  | rename-to-kebab-case.ts          | Batch rename files to kebab-case                   | refactoring      | niche              | glob, fs-extra |
+| 88  | report-missing-chapter-fields.ts | Report chapters with missing fields                | utility          | niche              | drizzle-orm    |
+| 89  | setup-api.ts                     | API routes and middleware setup                    | setup-deployment | niche              | none           |
+| 90  | setup-deployment.ts              | Deployment environment configuration               | setup-deployment | high-value-missing | none           |
+| 91  | setup-error-boundaries.ts        | Add error boundary components                      | code-generation  | high-value-missing | glob, ts-morph |
 
 ---
 
@@ -130,10 +130,10 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--pattern`, `--keep-canonical`, `--dry-run`, `--verbose`, `--yes`, `--json`
 - **CLI**: `pnpm cleanup:duplicates --pattern "src/components/**/*.tsx" --dry-run --verbose`
 - **Logic**:
-  - Compute file hashes (SHA256)
-  - Group by hash
-  - Flag duplicates, keep canonical (alphabetically first in src/)
-  - Delete backups, .old, .copy versions
+    - Compute file hashes (SHA256)
+    - Group by hash
+    - Flag duplicates, keep canonical (alphabetically first in src/)
+    - Delete backups, .old, .copy versions
 - **Depends on**: crypto, fs, logger.ts, confirmAction.ts
 - **Priority**: HIGH (cleanup technical debt)
 
@@ -144,11 +144,11 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--sync`, `--dry-run`, `--verbose`
 - **CLI**: `pnpm validate:env --sync --dry-run` (preview changes), then `pnpm validate:env --sync --yes`
 - **Logic**:
-  - Parse `.env.local.example` (source of truth)
-  - Extract keys from `src/lib/env.ts` Zod schema
-  - Validate `.env.local` has all required keys
-  - Suggest missing keys
-  - Optional `--sync`: add missing from .example to .local
+    - Parse `.env.local.example` (source of truth)
+    - Extract keys from `src/lib/env.ts` Zod schema
+    - Validate `.env.local` has all required keys
+    - Suggest missing keys
+    - Optional `--sync`: add missing from .example to .local
 - **Depends on**: logger.ts, Zod parser
 - **Priority**: HIGH (dev experience, onboarding)
 
@@ -159,11 +159,11 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--dry-run`, `--verbose`, `--yes`, `--clear-global` (clear pnpm global cache)
 - **CLI**: `pnpm cleanup:project --dry-run --verbose`, then `pnpm cleanup:project --yes`
 - **Scope**:
-  - Remove: node_modules/.vite, .turbo, .next, dist, build
-  - Remove: `*.log`, `*.tmp`, .DS_Store, Thumbs.db, .turbo cache
-  - Remove: empty directories
-  - Optional: `pnpm cache clean` (local artifact cache)
-  - Report: disk space freed
+    - Remove: node_modules/.vite, .turbo, .next, dist, build
+    - Remove: `*.log`, `*.tmp`, .DS_Store, Thumbs.db, .turbo cache
+    - Remove: empty directories
+    - Optional: `pnpm cache clean` (local artifact cache)
+    - Report: disk space freed
 - **Depends on**: fs, path, logger.ts, confirmAction.ts
 - **Priority**: HIGH (disk cleanup, slow build fixes)
 
@@ -174,11 +174,11 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--analyze`, `--cache-audit`, `--dry-run`, `--verbose`, `--json`
 - **CLI**: `pnpm optimize:performance --analyze --cache-audit --json > performance-report.json`
 - **Output**: JSON report + console summary
-  - Bundle size per module
-  - Build time trend (if historical data)
-  - Cache hit rates (Turbopack file system cache)
-  - Top 10 slowest modules
-  - Optimization suggestions (code splitting, tree-shaking, lazy loading)
+    - Bundle size per module
+    - Build time trend (if historical data)
+    - Cache hit rates (Turbopack file system cache)
+    - Top 10 slowest modules
+    - Optimization suggestions (code splitting, tree-shaking, lazy loading)
 - **Depends on**: logger.ts, fs
 - **Priority**: MEDIUM (performance visibility)
 
@@ -190,10 +190,10 @@ These scripts provide clear value with minimal duplication across references and
 
 - **Lines**: ~300 (from ~180 current)
 - **New additions**:
-  - Security scan: Find hardcoded secrets (patterns: API_KEY, PASSWORD, TOKEN)
-  - Dependency analysis: Circular imports, unused deps
-  - Code metrics: LOC per file, complexity score
-  - Component audit: Count components, identify orphans
+    - Security scan: Find hardcoded secrets (patterns: API_KEY, PASSWORD, TOKEN)
+    - Dependency analysis: Circular imports, unused deps
+    - Code metrics: LOC per file, complexity score
+    - Component audit: Count components, identify orphans
 - **Flags**: `--security`, `--dependencies`, `--metrics`, `--components`, `--json`
 - **CLI**: `pnpm analyze:project --security --json`
 - **Output**: Markdown report + JSON
@@ -206,11 +206,11 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--verbose`, `--turbo` (fast mode, skip counts)
 - **CLI**: `pnpm health:db --verbose`
 - **Logic**:
-  - Test connection via `src/database/db.ts`
-  - Verify schema (27 tables exist)
-  - Count rows per table (top 5 largest)
-  - Check FK integrity
-  - Output: Table with row counts, schema validation
+    - Test connection via `src/database/db.ts`
+    - Verify schema (27 tables exist)
+    - Count rows per table (top 5 largest)
+    - Check FK integrity
+    - Output: Table with row counts, schema validation
 - **Depends on**: db.ts, logger.ts
 - **Priority**: HIGH (health check integration)
 
@@ -221,21 +221,21 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--verbose`, `--yes`
 - **CLI**: `pnpm git:init --yes`
 - **Logic**:
-  - Install Husky if not present
-  - Create `.husky/pre-commit` → `pnpm lint:fix && pnpm type-check`
-  - Create `.husky/pre-push` → `pnpm test`
-  - Report: hooks installed
+    - Install Husky if not present
+    - Create `.husky/pre-commit` → `pnpm lint:fix && pnpm type-check`
+    - Create `.husky/pre-push` → `pnpm test`
+    - Report: hooks installed
 - **Depends on**: child_process, logger.ts
 - **Priority**: MEDIUM (team dev hygiene)
 
 #### 9. **scaffold.ts** (ENHANCE existing, ~400 lines total)
 
 - **Subcommands** (NEW capabilities):
-  - `scaffold component <name>` → `src/components/<kebab>/<kebab>.tsx`
-  - `scaffold dal <Entity>` → `src/dal/<entity>-dal.ts`
-  - `scaffold action <name>` → `src/actions/<kebab>.actions.ts`
-  - `scaffold page <name>` → `src/app/(root)/<kebab>/page.tsx`
-  - `scaffold schema <Entity>` → `src/schemas/<entity>.schema.ts` (NEW)
+    - `scaffold component <name>` → `src/components/<kebab>/<kebab>.tsx`
+    - `scaffold dal <Entity>` → `src/dal/<entity>-dal.ts`
+    - `scaffold action <name>` → `src/actions/<kebab>.actions.ts`
+    - `scaffold page <name>` → `src/app/(root)/<kebab>/page.tsx`
+    - `scaffold schema <Entity>` → `src/schemas/<entity>.schema.ts` (NEW)
 - **All templates**: Include JSDoc, types, `"use server"`/`"use client"`, proper structure
 - **Flags**: `--force` (overwrite), `--dry-run`
 - **CLI**:
@@ -404,28 +404,28 @@ After Batch 2.B-E completion:
 
 ### By Category
 
-| Category | Count | Key Scripts |
-| --- | --- | --- |
-| **dev-setup** | 23 | build, dev, test, lint, setup, install, verify extensions |
-| **refactoring** | 13 | updateAnyTypes, replaceImports, cleanup, ast-refactor, DAL verify |
-| **utility** | 15 | cw.sh/ps1, ops, cache, plan execution, queue (unused) |
-| **health-checks** | 6 | checkDb, checkRedis, healthCheck, MCP verify |
-| **database-ops** | 8 | db-truncate, drizzleSetup, autofix fields, merge seed |
-| **performance** | 7 | optimize variants (3), analyze, enhance-seo |
-| **code-generation** | 6 | scaffold, generateDTOs, fix-use-directives, setup-error-boundaries |
-| **git-ops** | 2 | git-commit, git-init |
-| **setup-deployment** | 4 | deploy-vercel, setup-deployment, setup-api, setup-logging |
-| **testing** | 1 | verify-links |
-| **documentation** | 2 | seed-dry-run.md, UPLOAD_BULK_README.md |
+| Category             | Count | Key Scripts                                                        |
+| -------------------- | ----- | ------------------------------------------------------------------ |
+| **dev-setup**        | 23    | build, dev, test, lint, setup, install, verify extensions          |
+| **refactoring**      | 13    | updateAnyTypes, replaceImports, cleanup, ast-refactor, DAL verify  |
+| **utility**          | 15    | cw.sh/ps1, ops, cache, plan execution, queue (unused)              |
+| **health-checks**    | 6     | checkDb, checkRedis, healthCheck, MCP verify                       |
+| **database-ops**     | 8     | db-truncate, drizzleSetup, autofix fields, merge seed              |
+| **performance**      | 7     | optimize variants (3), analyze, enhance-seo                        |
+| **code-generation**  | 6     | scaffold, generateDTOs, fix-use-directives, setup-error-boundaries |
+| **git-ops**          | 2     | git-commit, git-init                                               |
+| **setup-deployment** | 4     | deploy-vercel, setup-deployment, setup-api, setup-logging          |
+| **testing**          | 1     | verify-links                                                       |
+| **documentation**    | 2     | seed-dry-run.md, UPLOAD_BULK_README.md                             |
 
 ### By Status
 
-| Status | Count | % | Action |
-| --- | --- | --- | --- |
-| already-implemented-in-project | 28 | 30% | Document version differences, consider consolidation |
-| high-value-missing | 26 | 28% | **Implement as new unified scripts** |
-| duplicate-of-existing | 18 | 20% | **Consolidate into unified scripts** |
-| niche-specialized | 20 | 22% | Keep if actively used, delete if unused |
+| Status                         | Count | %   | Action                                               |
+| ------------------------------ | ----- | --- | ---------------------------------------------------- |
+| already-implemented-in-project | 28    | 30% | Document version differences, consider consolidation |
+| high-value-missing             | 26    | 28% | **Implement as new unified scripts**                 |
+| duplicate-of-existing          | 18    | 20% | **Consolidate into unified scripts**                 |
+| niche-specialized              | 20    | 22% | Keep if actively used, delete if unused              |
 
 ---
 
@@ -695,10 +695,7 @@ pnpm verify-links              # Validate links
 
 ```typescript
 // confirmAction.ts — Interactive confirmation for destructive ops
-export async function confirmAction(
-  title: string,
-  items: string[]
-): Promise<boolean>;
+export async function confirmAction(title: string, items: string[]): Promise<boolean>;
 
 // colors.ts — ANSI color utilities (no chalk dependency issues)
 export const colors = { reset, red, green, blue, yellow, cyan };
@@ -707,19 +704,11 @@ export const colors = { reset, red, green, blue, yellow, cyan };
 export function createSpinner(message: string): Spinner;
 
 // logger.ts — Structured logging
-export function log(
-  level: "info" | "success" | "error" | "warn",
-  message: string
-): void;
+export function log(level: "info" | "success" | "error" | "warn", message: string): void;
 
 // fileUtils.ts — Safe file operations
-export async function deleteWithBackup(
-  paths: string[]
-): Promise<void>;
-export async function getDiff(
-  before: string,
-  after: string
-): Promise<string>;
+export async function deleteWithBackup(paths: string[]): Promise<void>;
+export async function getDiff(before: string, after: string): Promise<string>;
 ```
 
 ### Design Principles

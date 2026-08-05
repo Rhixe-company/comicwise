@@ -46,11 +46,7 @@
     "tsBuildInfoFile": ".next/cache/tsbuildinfo.json",
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "exclude": [
-    "node_modules",
-    ".references",
-    "src/backuptests/**/*.ts"
-  ],
+  "exclude": ["node_modules", ".references", "src/backuptests/**/*.ts"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

@@ -94,7 +94,7 @@ export async function processDuplicateImage(imagePath: string): Promise<Deduplic
   try {
     await unlink(imagePath);
     logger.debug(
-      `Deduplicated: removed duplicate ${path.basename(imagePath)} (matches ${path.basename(duplicatePath)})`
+      `Deduplicated: removed duplicate ${path.basename(imagePath)} (matches ${path.basename(duplicatePath)})`,
     );
     return {
       isDuplicate: true,

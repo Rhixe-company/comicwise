@@ -69,11 +69,11 @@ export class SearchDAL {
       if (
         status &&
         (["Ongoing", "Hiatus", "Completed", "Dropped", "Season End", "Coming Soon"] as readonly string[]).includes(
-          status
+          status,
         )
       ) {
         filterConditions.push(
-          eq(comic.status, status as "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing" | "Season End")
+          eq(comic.status, status as "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing" | "Season End"),
         );
       }
 

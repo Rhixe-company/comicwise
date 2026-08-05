@@ -54,7 +54,7 @@ async function applyImageStrategy(
   comicId: number,
   slug: string,
   imageIndex: number,
-  isCover: boolean = false
+  isCover: boolean = false,
 ): Promise<string> {
   if (!url || !isValidImageUrl(url)) {
     return getCoverFallback(comicTitle);
@@ -159,7 +159,7 @@ export class ComicImageSeeder extends BaseSeeder<ComicSeed> {
       const dedupStats = await getDeduplicationStats();
       if (dedupStats.totalImages > 0) {
         logger.info(
-          `Deduplication: ${dedupStats.totalImages} images, ${dedupStats.uniqueImages} unique, ${dedupStats.duplicates} duplicates, saved ${dedupStats.storageSavedMB}MB`
+          `Deduplication: ${dedupStats.totalImages} images, ${dedupStats.uniqueImages} unique, ${dedupStats.duplicates} duplicates, saved ${dedupStats.storageSavedMB}MB`,
         );
       }
     }
@@ -184,7 +184,7 @@ export class ComicImageSeeder extends BaseSeeder<ComicSeed> {
    */
   private async processComicImages(
     item: ComicSeed,
-    strategy: string
+    strategy: string,
   ): Promise<{ error?: string; inserted: number; skipped: number; updated: number }> {
     const comicId = this.cache.comics.get(item.slug);
     if (!comicId) {
@@ -207,7 +207,7 @@ export class ComicImageSeeder extends BaseSeeder<ComicSeed> {
         imageUrl: await applyImageStrategy(img.url, strategy, item.title, comicId, item.slug, idx + 1),
         imageOrder: idx + 1,
         originalUrl: img.url, // Keep original URL for comparison
-      }))
+      })),
     );
 
     // Determine if we should update existing records
@@ -349,7 +349,7 @@ export class ComicImageSeeder extends BaseSeeder<ComicSeed> {
         const elapsed = formatDuration(Date.now() - startTime);
 
         logger.info(
-          `[comic-images] Progress: ${processed}/${totalComics} | inserted: ${inserted}, updated: ${updated}, skipped: ${skipped} | ETA: ${eta} | elapsed: ${elapsed}`
+          `[comic-images] Progress: ${processed}/${totalComics} | inserted: ${inserted}, updated: ${updated}, skipped: ${skipped} | ETA: ${eta} | elapsed: ${elapsed}`,
         );
       }
     }

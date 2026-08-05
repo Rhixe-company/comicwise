@@ -33,7 +33,7 @@ export const useNotificationStore = create<NotificationState>()(
             return { notifications, unreadCount: notifications.filter((n) => !n.read).length };
           },
           false,
-          "markRead"
+          "markRead",
         ),
       markAllRead: () =>
         set(
@@ -42,7 +42,7 @@ export const useNotificationStore = create<NotificationState>()(
             unreadCount: 0,
           }),
           false,
-          "markAllRead"
+          "markAllRead",
         ),
       addNotification: (item) =>
         set(
@@ -51,9 +51,9 @@ export const useNotificationStore = create<NotificationState>()(
             unreadCount: item.read ? s.unreadCount : s.unreadCount + 1,
           }),
           false,
-          "addNotification"
+          "addNotification",
         ),
     }),
-    { name: "NotificationStore" }
-  )
+    { name: "NotificationStore" },
+  ),
 );

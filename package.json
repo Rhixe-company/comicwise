@@ -55,7 +55,7 @@
     "fix:line-endings": "tsx --env-file=.env.local src/scripts/fix-line-endings.ts --yes",
     "fix:line-endings:dry": "tsx --env-file=.env.local src/scripts/fix-line-endings.ts --dry-run",
     "format": "prettier --write .",
-    "format:check": "pnpm format && prettier --check .",
+    "format:check": "prettier --check .",
     "git:commit": "tsx src/scripts/git-commit.ts",
     "git:init": "tsx src/scripts/git-init.ts",
     "git:push": "tsx src/scripts/git-commit.ts --no-push=false",
@@ -148,7 +148,10 @@
     "validate": "pnpm format:check && pnpm type-check && pnpm lint:strict && pnpm imports:check && pnpm health:all && pnpm test",
     "validate:env": "tsx --env-file=.env.local src/scripts/unified-dev-setup.ts --validate-env --sync",
     "validate:env:dry": "tsx --env-file=.env.local src/scripts/unified-dev-setup.ts --validate-env --sync --dry-run",
-    "vscode:extensions": "./install-vscode-extensions.sh"
+    "vscode:extensions": "./install-vscode-extensions.sh",
+    "markdownlint": "markdownlint-cli2 \"**/*.md\"",
+    "spellcheck": "cspell lint \"**/*.{ts,tsx,js,jsx,mjs,json,yaml,yml,toml,py,sh}\" --no-progress",
+    "check": "npm run lint && npm run format:check && npm run markdownlint && npm run spellcheck"
   },
   "dependencies": {
     "@auth/core": "^0.34.3",
@@ -259,7 +262,7 @@
     "eslint-plugin-vitest": "^0.5.4",
     "eslint-plugin-zod": "^3.5.0",
     "glob": "^13.0.6",
-    "globals": "^17.4.0",
+    "globals": "^17.8.0",
     "globby": "^16.1.1",
     "happy-dom": "^20.8.4",
     "husky": "^9.1.7",
@@ -287,11 +290,12 @@
     "tsx": "^4.21.0",
     "tw-animate-css": "^1.4.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.0",
+    "typescript-eslint": "^8.65.0",
     "update-browserslist-db": "^1.2.3",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.0",
-    "web-vitals": "^5.1.0"
+    "web-vitals": "^5.1.0",
+    "markdownlint-cli2": "^0.17.2"
   },
   "packageManager": "pnpm@9.12.3"
 }

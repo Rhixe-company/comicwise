@@ -25,19 +25,19 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Status**: ⬜ Not Started | **Priority**: 🔴 BLOCKER (before new features)
 
 - [ ] **TASK-CLN-001**: Execute `process-vscode-config-audit-1.md` (49 tasks)
-  - Recovery: Branch `cleanup/workspace-hygiene` can be abandoned
+    - Recovery: Branch `cleanup/workspace-hygiene` can be abandoned
 
 - [ ] **TASK-CLN-002**: Execute `process-docs-triage-cleanup-1.md` (63 tasks)
-  - Recovery: Same branch
+    - Recovery: Same branch
 
 - [ ] **TASK-CLN-003**: Execute `process-app-routes-triage-1.md` (29 tasks)
-  - Recovery: Same branch
+    - Recovery: Same branch
 
 - [ ] **TASK-CLN-004**: Execute `process-components-triage-1.md` (32 tasks)
-  - Recovery: Same branch
+    - Recovery: Same branch
 
 - [ ] **TASK-CLN-005**: Execute `process-scripts-triage-1.md` (42 tasks)
-  - Recovery: Same branch
+    - Recovery: Same branch
 
 **Checkpoint CP-CLN**: Quality gate passes, workspace is clean
 
@@ -58,21 +58,21 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 4 | **Status**: ⬜ Not Started | **Estimated**: 1 day
 
 - [ ] TASK-4.3.1-001: Create `readingHistory` table in schema.ts
-  - File: `src/database/schema.ts`
-  - Code: Add `readingHistory` + `readingHistoryRelations`
-  - Est: 30 min
+    - File: `src/database/schema.ts`
+    - Code: Add `readingHistory` + `readingHistoryRelations`
+    - Est: 30 min
 
 - [ ] TASK-4.3.1-002: Add `timeSpentSeconds` to `readingProgress` table
-  - File: `src/database/schema.ts`
-  - Est: 15 min
+    - File: `src/database/schema.ts`
+    - Est: 15 min
 
 - [ ] TASK-4.3.1-003: Generate migration
-  - Command: `pnpm db:generate`
-  - Est: 5 min
+    - Command: `pnpm db:generate`
+    - Est: 5 min
 
 - [ ] TASK-4.3.1-004: Apply schema changes
-  - Command: `pnpm db:push`
-  - Est: 5 min
+    - Command: `pnpm db:push`
+    - Est: 5 min
 
 **Checkpoint CP-4.3.1**: ✅ Schema applied
 
@@ -88,28 +88,28 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 6 | **Status**: ⬜ Not Started | **Est**: 1 day | **Depends**: CP-4.3.1
 
 - [ ] TASK-4.3.2-001: Create `reading-history-dal.ts`
-  - File: `src/dal/reading-history-dal.ts`
-  - Est: 1 hour
+    - File: `src/dal/reading-history-dal.ts`
+    - Est: 1 hour
 
 - [ ] TASK-4.3.2-002: Implement `recordSession()`
-  - Method: Record reading session (userId, comicId, chapterId, timeSpent)
-  - Est: 30 min
+    - Method: Record reading session (userId, comicId, chapterId, timeSpent)
+    - Est: 30 min
 
 - [ ] TASK-4.3.2-003: Implement `getHistory()`
-  - Method: Paginated reading history with eager loading
-  - Est: 30 min
+    - Method: Paginated reading history with eager loading
+    - Est: 30 min
 
 - [ ] TASK-4.3.2-004: Implement `getStats()`
-  - Method: Aggregate stats (total time, chapters read, completed comics, genres)
-  - Est: 45 min
+    - Method: Aggregate stats (total time, chapters read, completed comics, genres)
+    - Est: 45 min
 
 - [ ] TASK-4.3.2-005: Implement `getRecentlyRead()`
-  - Method: Last 10 unique comics read
-  - Est: 20 min
+    - Method: Last 10 unique comics read
+    - Est: 20 min
 
 - [ ] TASK-4.3.2-006: Implement `getReadingStreak()`
-  - Method: Consecutive days with reading activity
-  - Est: 30 min
+    - Method: Consecutive days with reading activity
+    - Est: 30 min
 
 **Checkpoint CP-4.3.2**: ✅ DAL complete
 
@@ -124,17 +124,17 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 3 | **Status**: ⬜ Not Started | **Est**: 0.5 day | **Depends**: CP-4.3.2
 
 - [ ] TASK-4.3.3-001: Create `reading-history.schema.ts`
-  - File: `src/schemas/reading-history.schema.ts`
-  - Include: `RecordReadingSessionSchema`
-  - Est: 30 min
+    - File: `src/schemas/reading-history.schema.ts`
+    - Include: `RecordReadingSessionSchema`
+    - Est: 30 min
 
 - [ ] TASK-4.3.3-002: Create `ReadingHistoryFilterSchema`
-  - Include: Date range, pagination, comic filter
-  - Est: 20 min
+    - Include: Date range, pagination, comic filter
+    - Est: 20 min
 
 - [ ] TASK-4.3.3-003: Write validation tests
-  - File: `src/tests/schemas/reading-history-schema.spec.ts`
-  - Est: 45 min
+    - File: `src/tests/schemas/reading-history-schema.spec.ts`
+    - Est: 45 min
 
 **Checkpoint CP-4.3.3**: ✅ Schemas tested
 
@@ -148,24 +148,24 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 5 | **Status**: ⬜ Not Started | **Est**: 1 day | **Depends**: CP-4.3.3
 
 - [ ] TASK-4.3.4-001: Create `reading-history.actions.ts`
-  - File: `src/actions/reading-history.actions.ts`
-  - Est: 30 min
+    - File: `src/actions/reading-history.actions.ts`
+    - Est: 30 min
 
 - [ ] TASK-4.3.4-002: Implement `recordReadingSessionAction()`
-  - Pattern: Auth → Validate → DAL → Revalidate
-  - Est: 30 min
+    - Pattern: Auth → Validate → DAL → Revalidate
+    - Est: 30 min
 
 - [ ] TASK-4.3.4-003: Implement `getReadingHistoryAction()`
-  - Pattern: Auth → Validate → DAL
-  - Est: 20 min
+    - Pattern: Auth → Validate → DAL
+    - Est: 20 min
 
 - [ ] TASK-4.3.4-004: Implement `getReadingStatsAction()`
-  - Pattern: Auth → DAL (aggregations)
-  - Est: 20 min
+    - Pattern: Auth → DAL (aggregations)
+    - Est: 20 min
 
 - [ ] TASK-4.3.4-005: Write action tests
-  - File: `src/tests/reading-history.actions.test.ts`
-  - Est: 1 hour
+    - File: `src/tests/reading-history.actions.test.ts`
+    - Est: 1 hour
 
 **Checkpoint CP-4.3.4**: ✅ Actions tested
 
@@ -181,28 +181,28 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 6 | **Status**: ⬜ Not Started | **Est**: 1.5 day | **Depends**: CP-4.3.4
 
 - [ ] TASK-4.3.5-001: `reading-dashboard.tsx`
-  - File: `src/components/analytics/reading-dashboard.tsx`
-  - Purpose: Main analytics orchestration
-  - Est: 1 hour
+    - File: `src/components/analytics/reading-dashboard.tsx`
+    - Purpose: Main analytics orchestration
+    - Est: 1 hour
 
 - [ ] TASK-4.3.5-002: `reading-timeline.tsx`
-  - Purpose: Chronological reading history list
-  - Est: 1 hour
+    - Purpose: Chronological reading history list
+    - Est: 1 hour
 
 - [ ] TASK-4.3.5-003: `reading-stats-overview.tsx`
-  - Purpose: Stats cards (time, chapters, streak)
-  - Est: 45 min
+    - Purpose: Stats cards (time, chapters, streak)
+    - Est: 45 min
 
 - [ ] TASK-4.3.5-004: `recently-read-widget.tsx`
-  - Purpose: Sidebar recent comics (10 last read)
-  - Est: 45 min
+    - Purpose: Sidebar recent comics (10 last read)
+    - Est: 45 min
 
 - [ ] TASK-4.3.5-005: `reading-goals.tsx`
-  - Purpose: Set and track reading goals
-  - Est: 1 hour
+    - Purpose: Set and track reading goals
+    - Est: 1 hour
 
 - [ ] TASK-4.3.5-006: Create barrel export `index.ts`
-  - Est: 5 min
+    - Est: 5 min
 
 **Component Requirements**:
 
@@ -225,19 +225,19 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 4 | **Status**: ⬜ Not Started | **Est**: 0.5 day | **Depends**: CP-4.3.5
 
 - [ ] TASK-4.3.6-001: Update `reading-progress/page.tsx`
-  - File: `src/app/(root)/reading-progress/page.tsx`
-  - Add: Analytics dashboard integration
-  - Est: 30 min
+    - File: `src/app/(root)/reading-progress/page.tsx`
+    - Add: Analytics dashboard integration
+    - Est: 30 min
 
 - [ ] TASK-4.3.6-002: Add route file structure
-  - Files: `loading.tsx`, `error.tsx`
-  - Est: 20 min
+    - Files: `loading.tsx`, `error.tsx`
+    - Est: 20 min
 
 - [ ] TASK-4.3.6-003: Add metadata for SEO
-  - Est: 10 min
+    - Est: 10 min
 
 - [ ] TASK-4.3.6-004: Integrate `recently-read-widget` into sidebar/home
-  - Est: 20 min
+    - Est: 20 min
 
 **Checkpoint CP-4.3.6**: ✅ Full quality gate
 
@@ -254,17 +254,17 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 3 | **Status**: ⬜ Not Started | **Est**: 0.5 day | **Depends**: CP-4.3.6
 
 - [ ] TASK-4.3.7-001: Update `ChapterReader` to record sessions
-  - File: `src/components/reading/chapter-reader.tsx`
-  - Call: `recordReadingSessionAction` on completion
-  - Est: 45 min
+    - File: `src/components/reading/chapter-reader.tsx`
+    - Call: `recordReadingSessionAction` on completion
+    - Est: 45 min
 
 - [ ] TASK-4.3.7-002: Track time spent per chapter
-  - Implement: Timer on mount, pause on visibilitychange
-  - Est: 30 min
+    - Implement: Timer on mount, pause on visibilitychange
+    - Est: 30 min
 
 - [ ] TASK-4.3.7-003: Track pages read
-  - Implement: Count image views
-  - Est: 20 min
+    - Implement: Count image views
+    - Est: 20 min
 
 **Checkpoint CP-4.3**: ✅ **PHASE 4.3 COMPLETE**
 
@@ -285,19 +285,19 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 4 | **Status**: ⬜ Not Started | **Est**: 1 day
 
 - [ ] TASK-4.4.1-001: Add `review` table
-  - Columns: userId, comicId, title, body, rating, helpfulCount, createdAt, updatedAt
-  - Est: 30 min
+    - Columns: userId, comicId, title, body, rating, helpfulCount, createdAt, updatedAt
+    - Est: 30 min
 
 - [ ] TASK-4.4.1-002: Add `reviewVote` table
-  - Columns: userId, reviewId, isHelpful
-  - Est: 15 min
+    - Columns: userId, reviewId, isHelpful
+    - Est: 15 min
 
 - [ ] TASK-4.4.1-003: Add table relations
-  - Est: 10 min
+    - Est: 10 min
 
 - [ ] TASK-4.4.1-004: Generate and apply migration
-  - Commands: `pnpm db:generate && pnpm db:push`
-  - Est: 5 min
+    - Commands: `pnpm db:generate && pnpm db:push`
+    - Est: 5 min
 
 **Checkpoint CP-4.4.1**: ✅ Schema applied
 
@@ -310,19 +310,19 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 5 | **Status**: ⬜ Not Started | **Est**: 1.5 day
 
 - [ ] TASK-4.4.2-001: Create `review-dal.ts` with CRUD + votes
-  - Est: 1.5 hours
+    - Est: 1.5 hours
 
 - [ ] TASK-4.4.2-002: Create `review.schema.ts` with 3 schemas
-  - Est: 45 min
+    - Est: 45 min
 
 - [ ] TASK-4.4.2-003: Create `review.actions.ts` with 4 actions
-  - Est: 1 hour
+    - Est: 1 hour
 
 - [ ] TASK-4.4.2-004: Write schema validation tests
-  - Est: 45 min
+    - Est: 45 min
 
 - [ ] TASK-4.4.2-005: Write action tests
-  - Est: 1 hour
+    - Est: 1 hour
 
 **Checkpoint CP-4.4.2**: ✅ DAL/Schemas/Actions complete
 
@@ -336,19 +336,19 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 **Tasks**: 5 | **Status**: ⬜ Not Started | **Est**: 1.5 day
 
 - [ ] TASK-4.4.3-001: Create `review-section.tsx`
-  - Est: 45 min
+    - Est: 45 min
 
 - [ ] TASK-4.4.3-002: Create `review-card.tsx`
-  - Est: 45 min
+    - Est: 45 min
 
 - [ ] TASK-4.4.3-003: Create `review-form.tsx`
-  - Est: 1 hour
+    - Est: 1 hour
 
 - [ ] TASK-4.4.3-004: Create `review-sort.tsx`
-  - Est: 30 min
+    - Est: 30 min
 
 - [ ] TASK-4.4.3-005: Update comic detail page
-  - Est: 20 min
+    - Est: 20 min
 
 **Checkpoint CP-4.4**: ✅ **PHASE 4.4 COMPLETE**
 
@@ -368,34 +368,34 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 ### Tasks Summary
 
 - [ ] TASK-4.5-001: Mobile responsiveness audit (320px, 375px, 414px)
-  - Est: 2 hours
+    - Est: 2 hours
 
 - [ ] TASK-4.5-002: Touch swipe gestures in chapter reader
-  - Est: 1.5 hours
+    - Est: 1.5 hours
 
 - [ ] TASK-4.5-003: Pinch-to-zoom support
-  - Est: 1 hour
+    - Est: 1 hour
 
 - [ ] TASK-4.5-004: Create `manifest.webmanifest`
-  - Est: 30 min
+    - Est: 30 min
 
 - [ ] TASK-4.5-005: Add PWA meta tags
-  - Est: 20 min
+    - Est: 20 min
 
 - [ ] TASK-4.5-006: Implement service worker
-  - Est: 2 hours
+    - Est: 2 hours
 
 - [ ] TASK-4.5-007: Optimize images (responsive sizes, lazy loading)
-  - Est: 1.5 hours
+    - Est: 1.5 hours
 
 - [ ] TASK-4.5-008: Validate touch targets (44x44px minimum)
-  - Est: 1 hour
+    - Est: 1 hour
 
 - [ ] TASK-4.5-009: Mobile bottom navigation bar
-  - Est: 1 hour
+    - Est: 1 hour
 
 - [ ] TASK-4.5-010: Lighthouse mobile audit
-  - Est: 1 hour
+    - Est: 1 hour
 
 **Checkpoint CP-4.5**: ✅ **PHASE 4.5 COMPLETE**
 
@@ -445,13 +445,13 @@ Track progress through Phases 4.3–6 with checkpoints and recovery points.
 
 ## Milestone Checkpoints
 
-| Milestone | Target Date | Status | Notes |
-| --- | --- | --- | --- |
-| CP-CLN | TBD | ⬜ | Cleanup complete, workspace clean |
-| CP-4.3 | TBD | ⬜ | Reading Analytics complete |
-| CP-4.4 | TBD | ⬜ | Social Features complete |
-| CP-4.5 | TBD | ⬜ | Mobile optimization complete |
-| **PHASE 4 COMPLETE** | TBD | ⬜ | All phases 4.1–4.5 done |
+| Milestone            | Target Date | Status | Notes                             |
+| -------------------- | ----------- | ------ | --------------------------------- |
+| CP-CLN               | TBD         | ⬜     | Cleanup complete, workspace clean |
+| CP-4.3               | TBD         | ⬜     | Reading Analytics complete        |
+| CP-4.4               | TBD         | ⬜     | Social Features complete          |
+| CP-4.5               | TBD         | ⬜     | Mobile optimization complete      |
+| **PHASE 4 COMPLETE** | TBD         | ⬜     | All phases 4.1–4.5 done           |
 
 ---
 

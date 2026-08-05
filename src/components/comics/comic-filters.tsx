@@ -50,7 +50,7 @@ export function ComicFilters({
   const searchParams = useSearchParams();
   const [filterAnnouncement, setFilterAnnouncement] = useState("");
   const [previousFilters, setPreviousFilters] = useState(
-    `${defaultQuery}-${defaultSort}-${selectedStatus}-${selectedGenreId}-${selectedTypeId}`
+    `${defaultQuery}-${defaultSort}-${selectedStatus}-${selectedGenreId}-${selectedTypeId}`,
   );
   const [searchInput, setSearchInput] = useState(defaultQuery);
   const debouncedSearch = useDebounce(searchInput, 300);

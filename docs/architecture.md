@@ -46,13 +46,13 @@ ComicWise follows a **Next.js App Router (v16) full-stack architecture** with a 
 
 ### Key Structural Patterns
 
-| Pattern | Location | Example |
-| --- | --- | --- |
-| **Data Flow** | Server Component → DAL query → Props → Client | `src/app/(root)/comics/page.tsx` → `comic-dal.ts` → `ComicCard` |
-| **Mutations** | Server Actions with validation → DAL → revalidate | `src/actions/bookmark.actions.ts` |
-| **Validation** | Zod schemas → Server Actions → Database | `src/schemas/bookmark-schema.ts` |
-| **State Management** | Zustand for UI state, React Query for server state | `src/stores/reader-store.ts` |
-| **API Routes** | Minimal; only for external webhooks/seeding | `src/app/api/seed/` |
+| Pattern              | Location                                           | Example                                                         |
+| -------------------- | -------------------------------------------------- | --------------------------------------------------------------- |
+| **Data Flow**        | Server Component → DAL query → Props → Client      | `src/app/(root)/comics/page.tsx` → `comic-dal.ts` → `ComicCard` |
+| **Mutations**        | Server Actions with validation → DAL → revalidate  | `src/actions/bookmark.actions.ts`                               |
+| **Validation**       | Zod schemas → Server Actions → Database            | `src/schemas/bookmark-schema.ts`                                |
+| **State Management** | Zustand for UI state, React Query for server state | `src/stores/reader-store.ts`                                    |
+| **API Routes**       | Minimal; only for external webhooks/seeding        | `src/app/api/seed/`                                             |
 
 ---
 
@@ -527,18 +527,14 @@ src/tests/
 
 ```typescript
 "use server";
-export async function actionName(
-  input: unknown
-): Promise<ActionResult<T>> {
+export async function actionName(input: unknown): Promise<ActionResult<T>> {
   // 1. Auth check
   const session = await auth();
-  if (!session?.user?.id)
-    return { ok: false, error: "Not authenticated" };
+  if (!session?.user?.id) return { ok: false, error: "Not authenticated" };
 
   // 2. Validate input
   const parsed = ZodSchema.safeParse(input);
-  if (!parsed.success)
-    return { ok: false, error: parsed.error.errors[0]?.message };
+  if (!parsed.success) return { ok: false, error: parsed.error.errors[0]?.message };
 
   try {
     // 3. Mutate via DAL
@@ -561,18 +557,12 @@ export async function actionName(
 **Purpose:** Runtime type safety bridge between API/UI and database. **Organization:** One file per domain (comic-schema.ts, bookmark-schema.ts, etc.); schemas composed from base. **Key Pattern:**
 
 ```typescript
-const BaseSchema = z.object({
-  /* common fields */
-});
-export const CreateSchema = BaseSchema.extend({
-  /* create-specific */
-});
+const BaseSchema = z.object({/* common fields */});
+export const CreateSchema = BaseSchema.extend({/* create-specific */});
 export const UpdateSchema = BaseSchema.partial().extend({
-  id: z.string().uuid()
+  id: z.string().uuid(),
 });
-export const FilterSchema = z.object({
-  /* filter fields */
-});
+export const FilterSchema = z.object({/* filter fields */});
 ```
 
 ### `src/database/` — Drizzle ORM Schema
@@ -609,65 +599,65 @@ export const FilterSchema = z.object({
 
 ### Configuration Files
 
-| Type | Location | File | Purpose |
-| --- | --- | --- | --- |
-| **Next.js** | Root | `next.config.ts` | Framework setup, React Compiler, Turbopack |
-| **TypeScript** | Root | `tsconfig.json` | Type checking, path aliases |
-| **Tailwind CSS** | Root | `tailwind.config.ts` | Design tokens, theme |
-| **PostCSS** | Root | `postcss.config.mjs` | CSS processing |
-| **Drizzle ORM** | Root | `drizzle.config.ts` | Database connection, migrations |
-| **Prettier** | Root | `.prettierrc.ts` | Code formatting |
-| **ESLint** | Root | `eslint.config.mts` | Linting rules |
-| **Vitest** | Root | `vitest.config.mts` | Unit test setup |
-| **Playwright** | Root | `playwright.config.mts` | E2E test setup |
-| **GitHub Actions** | `.github/workflows/` | `*.yml` | CI/CD pipelines |
-| **Environment** | Root | `.env.local` | Secrets and API keys (gitignored) |
+| Type               | Location             | File                    | Purpose                                    |
+| ------------------ | -------------------- | ----------------------- | ------------------------------------------ |
+| **Next.js**        | Root                 | `next.config.ts`        | Framework setup, React Compiler, Turbopack |
+| **TypeScript**     | Root                 | `tsconfig.json`         | Type checking, path aliases                |
+| **Tailwind CSS**   | Root                 | `tailwind.config.ts`    | Design tokens, theme                       |
+| **PostCSS**        | Root                 | `postcss.config.mjs`    | CSS processing                             |
+| **Drizzle ORM**    | Root                 | `drizzle.config.ts`     | Database connection, migrations            |
+| **Prettier**       | Root                 | `.prettierrc.ts`        | Code formatting                            |
+| **ESLint**         | Root                 | `eslint.config.mts`     | Linting rules                              |
+| **Vitest**         | Root                 | `vitest.config.mts`     | Unit test setup                            |
+| **Playwright**     | Root                 | `playwright.config.mts` | E2E test setup                             |
+| **GitHub Actions** | `.github/workflows/` | `*.yml`                 | CI/CD pipelines                            |
+| **Environment**    | Root                 | `.env.local`            | Secrets and API keys (gitignored)          |
 
 ### Model/Entity Definitions
 
-| Purpose | Location | Pattern |
-| --- | --- | --- |
-| **Database schema** | `src/database/schema.ts` | Drizzle table definitions (all in one file) |
-| **Type exports** | `src/types/[entity].ts` | TypeScript interfaces derived from `$inferSelect` |
-| **API request/response** | `src/schemas/[entity]-schema.ts` | Zod schemas for validation |
-| **Form validation** | `src/schemas/[entity]-schema.ts` | Zod schemas with `.extend()` for forms |
+| Purpose                  | Location                         | Pattern                                           |
+| ------------------------ | -------------------------------- | ------------------------------------------------- |
+| **Database schema**      | `src/database/schema.ts`         | Drizzle table definitions (all in one file)       |
+| **Type exports**         | `src/types/[entity].ts`          | TypeScript interfaces derived from `$inferSelect` |
+| **API request/response** | `src/schemas/[entity]-schema.ts` | Zod schemas for validation                        |
+| **Form validation**      | `src/schemas/[entity]-schema.ts` | Zod schemas with `.extend()` for forms            |
 
 ### Business Logic
 
-| Type | Location | Pattern |
-| --- | --- | --- |
-| **Queries** | `src/dal/[entity]-dal.ts` | Drizzle queries, eager loading, singletons |
-| **Mutations** | `src/actions/[entity].actions.ts` | Server Actions with ActionResult pattern |
-| **State logic** | `src/stores/use-[entity]-store.ts` | Zustand stores (UI state only) |
-| **Hooks** | `src/hooks/use-[name].ts` | Custom React hooks for logic reuse |
-| **Utilities** | `src/lib/[feature].ts` | Helper functions (never database access) |
+| Type            | Location                           | Pattern                                    |
+| --------------- | ---------------------------------- | ------------------------------------------ |
+| **Queries**     | `src/dal/[entity]-dal.ts`          | Drizzle queries, eager loading, singletons |
+| **Mutations**   | `src/actions/[entity].actions.ts`  | Server Actions with ActionResult pattern   |
+| **State logic** | `src/stores/use-[entity]-store.ts` | Zustand stores (UI state only)             |
+| **Hooks**       | `src/hooks/use-[name].ts`          | Custom React hooks for logic reuse         |
+| **Utilities**   | `src/lib/[feature].ts`             | Helper functions (never database access)   |
 
 ### Display Logic
 
-| Type | Location | Pattern |
-| --- | --- | --- |
-| **Page routes** | `src/app/[route]/page.tsx` | Server Components, async, `await params` |
-| **Layouts** | `src/app/[route]/layout.tsx` | Nested layout wrappers |
-| **Components** | `src/components/[feature]/Component.tsx` | Reusable UI, Server or Client |
-| **UI elements** | `src/components/ui/Button.tsx` | shadcn/Radix primitives |
+| Type            | Location                                 | Pattern                                  |
+| --------------- | ---------------------------------------- | ---------------------------------------- |
+| **Page routes** | `src/app/[route]/page.tsx`               | Server Components, async, `await params` |
+| **Layouts**     | `src/app/[route]/layout.tsx`             | Nested layout wrappers                   |
+| **Components**  | `src/components/[feature]/Component.tsx` | Reusable UI, Server or Client            |
+| **UI elements** | `src/components/ui/Button.tsx`           | shadcn/Radix primitives                  |
 
 ### Test Files
 
-| Type | Location | Pattern |
-| --- | --- | --- |
-| **Unit tests** | `src/**/*.test.ts`, `src/**/*.spec.ts` | Vitest (jsdom), mocks external deps |
-| **E2E tests** | `tests/**/*.spec.ts` | Playwright, browser-based |
-| **Test utilities** | `src/tests/` | Mocks, fixtures, setup |
+| Type               | Location                               | Pattern                             |
+| ------------------ | -------------------------------------- | ----------------------------------- |
+| **Unit tests**     | `src/**/*.test.ts`, `src/**/*.spec.ts` | Vitest (jsdom), mocks external deps |
+| **E2E tests**      | `tests/**/*.spec.ts`                   | Playwright, browser-based           |
+| **Test utilities** | `src/tests/`                           | Mocks, fixtures, setup              |
 
 ### Documentation Files
 
-| Type | Location |
-| --- | --- |
-| **API documentation** | `docs/` (\*.md files) |
-| **Implementation plans** | `.github/plan/` |
-| **Architecture decisions** | `docs/dev.content.md`, `AGENTS.md` |
-| **Coding standards** | `.github/instructions/` (auto-applied by filename) |
-| **Code comments** | Inline in code files (docstrings for complex functions) |
+| Type                       | Location                                                |
+| -------------------------- | ------------------------------------------------------- |
+| **API documentation**      | `docs/` (\*.md files)                                   |
+| **Implementation plans**   | `.github/plan/`                                         |
+| **Architecture decisions** | `docs/dev.content.md`, `AGENTS.md`                      |
+| **Coding standards**       | `.github/instructions/` (auto-applied by filename)      |
+| **Code comments**          | Inline in code files (docstrings for complex functions) |
 
 ---
 
@@ -675,27 +665,27 @@ export const FilterSchema = z.object({
 
 ### File Naming Patterns
 
-| File Type | Convention | Examples |
-| --- | --- | --- |
-| **React Components** | PascalCase | `ComicCard.tsx`, `SearchResults.tsx`, `BookmarkButton.tsx` |
-| **Custom Hooks** | camelCase, `use-` prefix | `use-debounce.ts`, `use-mobile.ts`, `use-keyboard-navigation.tsx` |
-| **DAL Classes** | PascalCase, `-dal` suffix | `ComicDal`, `BookmarkDal`, `SearchDal` |
-| **DAL files** | kebab-case, `-dal` suffix | `comic-dal.ts`, `bookmark-dal.ts` |
-| **Server Actions** | camelCase, `-actions` suffix | `bookmark.actions.ts`, `rating.actions.ts` |
-| **Zod Schemas** | camelCase, `-schema` suffix | `comic-schema.ts`, `bookmark-schema.ts` |
-| **Stores** | camelCase, `use-` prefix | `use-reader-store.ts`, `use-bookmark-store.ts` |
-| **Utility files** | kebab-case | `query-client.ts`, `image-optimization.ts` |
-| **Test files** | Match source name, `.test.ts` or `.spec.ts` | `comic-dal.test.ts`, `search-schema.spec.ts` |
-| **Configuration** | camelCase or kebab-case | `next.config.ts`, `vitest.config.mts` |
+| File Type            | Convention                                  | Examples                                                          |
+| -------------------- | ------------------------------------------- | ----------------------------------------------------------------- |
+| **React Components** | PascalCase                                  | `ComicCard.tsx`, `SearchResults.tsx`, `BookmarkButton.tsx`        |
+| **Custom Hooks**     | camelCase, `use-` prefix                    | `use-debounce.ts`, `use-mobile.ts`, `use-keyboard-navigation.tsx` |
+| **DAL Classes**      | PascalCase, `-dal` suffix                   | `ComicDal`, `BookmarkDal`, `SearchDal`                            |
+| **DAL files**        | kebab-case, `-dal` suffix                   | `comic-dal.ts`, `bookmark-dal.ts`                                 |
+| **Server Actions**   | camelCase, `-actions` suffix                | `bookmark.actions.ts`, `rating.actions.ts`                        |
+| **Zod Schemas**      | camelCase, `-schema` suffix                 | `comic-schema.ts`, `bookmark-schema.ts`                           |
+| **Stores**           | camelCase, `use-` prefix                    | `use-reader-store.ts`, `use-bookmark-store.ts`                    |
+| **Utility files**    | kebab-case                                  | `query-client.ts`, `image-optimization.ts`                        |
+| **Test files**       | Match source name, `.test.ts` or `.spec.ts` | `comic-dal.test.ts`, `search-schema.spec.ts`                      |
+| **Configuration**    | camelCase or kebab-case                     | `next.config.ts`, `vitest.config.mts`                             |
 
 ### Folder Naming Patterns
 
-| Folder Type | Convention | Examples |
-| --- | --- | --- |
-| **Feature domains** | lowercase | `comics/`, `bookmarks/`, `search/` |
-| **Type groupings** | lowercase, descriptive | `components/`, `hooks/`, `stores/`, `types/` |
-| **Internal organization** | lowercase | `shared/`, `utils/`, `mocks/`, `fixtures/` |
-| **Generated output** | dot-prefixed | `.next/`, `.turbo/`, `.husky/` |
+| Folder Type               | Convention             | Examples                                     |
+| ------------------------- | ---------------------- | -------------------------------------------- |
+| **Feature domains**       | lowercase              | `comics/`, `bookmarks/`, `search/`           |
+| **Type groupings**        | lowercase, descriptive | `components/`, `hooks/`, `stores/`, `types/` |
+| **Internal organization** | lowercase              | `shared/`, `utils/`, `mocks/`, `fixtures/`   |
+| **Generated output**      | dot-prefixed           | `.next/`, `.turbo/`, `.husky/`               |
 
 ### Component Prop Naming
 
@@ -748,14 +738,14 @@ import X from "components/ComicCard"; // src/components/comics/comic-card.tsx
 
 ### Entry Points & Getting Started
 
-| Task | Starting Point |
-| --- | --- |
-| **Understand architecture** | Read `AGENTS.md`, `.github/copilot-instructions.md`, `docs/dev.content.md` |
-| **View database schema** | `src/database/schema.ts` (604 lines, all tables & relations) |
-| **Understand a feature** | Navigate feature directory: `src/app/(root)/[feature]/` → `src/dal/[entity]-dal.ts` → `src/actions/[entity].actions.ts` → `src/components/[feature]/` |
-| **Add new page** | Create `src/app/(root)/[new-feature]/page.tsx` as Server Component |
-| **Add new component** | Create `src/components/[feature]/NewComponent.tsx` with proper typing |
-| **Add new API** | Create Server Action in `src/actions/[entity].actions.ts`, not API routes |
+| Task                        | Starting Point                                                                                                                                        |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Understand architecture** | Read `AGENTS.md`, `.github/copilot-instructions.md`, `docs/dev.content.md`                                                                            |
+| **View database schema**    | `src/database/schema.ts` (604 lines, all tables & relations)                                                                                          |
+| **Understand a feature**    | Navigate feature directory: `src/app/(root)/[feature]/` → `src/dal/[entity]-dal.ts` → `src/actions/[entity].actions.ts` → `src/components/[feature]/` |
+| **Add new page**            | Create `src/app/(root)/[new-feature]/page.tsx` as Server Component                                                                                    |
+| **Add new component**       | Create `src/components/[feature]/NewComponent.tsx` with proper typing                                                                                 |
+| **Add new API**             | Create Server Action in `src/actions/[entity].actions.ts`, not API routes                                                                             |
 
 ### Common Development Tasks
 
@@ -902,13 +892,13 @@ Output (.next/)
 
 ### Build Commands
 
-| Command | Purpose | Output |
-| --- | --- | --- |
-| `pnpm dev` | Development server (Turbopack, hot reload) | Port 3000; no build artifact |
-| `pnpm build` | Production build (optimized) | `.next/` directory (~34s) |
-| `pnpm start` | Run production build locally | Port 3000 (from `.next/`) |
-| `pnpm build:analyze` | Build with bundle analysis | `.next/` + bundle report |
-| `pnpm build:debug` | Build with debug prerendering | `.next/` + prerender log |
+| Command              | Purpose                                    | Output                       |
+| -------------------- | ------------------------------------------ | ---------------------------- |
+| `pnpm dev`           | Development server (Turbopack, hot reload) | Port 3000; no build artifact |
+| `pnpm build`         | Production build (optimized)               | `.next/` directory (~34s)    |
+| `pnpm start`         | Run production build locally               | Port 3000 (from `.next/`)    |
+| `pnpm build:analyze` | Build with bundle analysis                 | `.next/` + bundle report     |
+| `pnpm build:debug`   | Build with debug prerendering              | `.next/` + prerender log     |
 
 ### Output Structure
 
@@ -993,7 +983,7 @@ const env = z
   .object({
     DATABASE_URL: z.string().url(),
     AUTH_SECRET: z.string().min(32),
-    NEXT_PUBLIC_API_URL: z.string().url().optional()
+    NEXT_PUBLIC_API_URL: z.string().url().optional(),
   })
   .parse(process.env);
 
@@ -1124,7 +1114,7 @@ type NewEntityType = typeof newTable.$inferSelect;
 export class NewEntityDal extends BaseDal<NewEntityType> {
   async list() {
     return db.query.newTable.findMany({
-      with: { relations: true } // Eager load
+      with: { relations: true }, // Eager load
     });
   }
 }
@@ -1139,12 +1129,12 @@ export const newEntityDal = new NewEntityDal();
 import { z } from "zod";
 
 const BaseSchema = z.object({
-  name: z.string().min(1).max(255)
+  name: z.string().min(1).max(255),
 });
 
 export const CreateSchema = BaseSchema;
 export const UpdateSchema = BaseSchema.partial().extend({
-  id: z.number().int()
+  id: z.number().int(),
 });
 ```
 
@@ -1156,16 +1146,12 @@ export const UpdateSchema = BaseSchema.partial().extend({
 import { auth } from "@/auth";
 import type { ActionResult } from "./types";
 
-export async function createNewEntityAction(
-  input: unknown
-): Promise<ActionResult<NewEntity>> {
+export async function createNewEntityAction(input: unknown): Promise<ActionResult<NewEntity>> {
   const session = await auth();
-  if (!session?.user?.id)
-    return { ok: false, error: "Not authenticated" };
+  if (!session?.user?.id) return { ok: false, error: "Not authenticated" };
 
   const parsed = CreateSchema.safeParse(input);
-  if (!parsed.success)
-    return { ok: false, error: parsed.error.errors[0]?.message };
+  if (!parsed.success) return { ok: false, error: parsed.error.errors[0]?.message };
 
   try {
     const entity = await newEntityDal.create(parsed.data);
@@ -1245,9 +1231,7 @@ import { test, expect } from "@playwright/test";
 
 test("user can view new feature", async ({ page }) => {
   await page.goto("/new-feature");
-  await expect(page.getByRole("heading")).toContainText(
-    "New Feature"
-  );
+  await expect(page.getByRole("heading")).toContainText("New Feature");
 });
 ```
 
@@ -1414,15 +1398,10 @@ describe('NewComponent', () => {
 import { auth } from "@/auth";
 import type { ActionResult } from "./types";
 import { newEntityDal } from "@/dal/new-entity-dal";
-import {
-  CreateSchema,
-  UpdateSchema
-} from "@/schemas/new-entity-schema";
+import { CreateSchema, UpdateSchema } from "@/schemas/new-entity-schema";
 import { revalidatePath } from "next/cache";
 
-export async function createNewEntityAction(
-  input: unknown
-): Promise<ActionResult<NewEntity>> {
+export async function createNewEntityAction(input: unknown): Promise<ActionResult<NewEntity>> {
   // 1. AUTH CHECK
   const session = await auth();
   if (!session?.user?.id) {
@@ -1434,7 +1413,7 @@ export async function createNewEntityAction(
   if (!parsed.success) {
     return {
       ok: false,
-      error: parsed.error.errors[0]?.message ?? "Invalid input"
+      error: parsed.error.errors[0]?.message ?? "Invalid input",
     };
   }
 
@@ -1442,7 +1421,7 @@ export async function createNewEntityAction(
     // 3. MUTATE (via DAL)
     const entity = await newEntityDal.create({
       ...parsed.data,
-      createdById: session.user.id
+      createdById: session.user.id,
     });
 
     // 4. REVALIDATE CACHE
@@ -1456,9 +1435,7 @@ export async function createNewEntityAction(
   }
 }
 
-export async function updateNewEntityAction(
-  input: unknown
-): Promise<ActionResult<NewEntity>> {
+export async function updateNewEntityAction(input: unknown): Promise<ActionResult<NewEntity>> {
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, error: "Not authenticated" };
@@ -1472,7 +1449,7 @@ export async function updateNewEntityAction(
   try {
     const entity = await newEntityDal.update(parsed.data.id, {
       ...parsed.data,
-      updatedBy: session.user.id
+      updatedBy: session.user.id,
     });
     revalidatePath("/new-feature");
     return { ok: true, data: entity };
@@ -1481,9 +1458,7 @@ export async function updateNewEntityAction(
   }
 }
 
-export async function deleteNewEntityAction(
-  id: number
-): Promise<ActionResult<void>> {
+export async function deleteNewEntityAction(id: number): Promise<ActionResult<void>> {
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, error: "Not authenticated" };
@@ -1543,9 +1518,7 @@ test.describe("New Feature", () => {
   });
 
   test("displays list of entities", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", { name: /New Feature/i })
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: /New Feature/i })).toBeVisible();
 
     const cards = page.getByRole("article");
     await expect(cards).toBeDefined();
@@ -1566,9 +1539,7 @@ test.describe("New Feature", () => {
     });
 
     await test.step("Verify success", async () => {
-      await expect(
-        page.getByText("New Entity Created")
-      ).toBeVisible();
+      await expect(page.getByText("New Entity Created")).toBeVisible();
     });
   });
 });
@@ -1622,14 +1593,14 @@ pnpm type-check && pnpm lint:fix && pnpm test && pnpm build
 
 ### ESLint Rules for Structure
 
-| Rule | Enforces |
-| --- | --- |
-| `no-explicit-any` | No raw `any` types (use proper TypeScript) |
-| `import/order` | Standard import grouping (React, Next.js, internal, utils) |
-| `jsx-a11y/*` | Accessibility (alt text, ARIA labels, semantic HTML) |
-| `@next/next/*` | Next.js best practices (Image, Link, etc.) |
-| `react/jsx-sort-props` | Consistent prop ordering |
-| `@typescript-eslint/no-unused-vars` | No unused declarations |
+| Rule                                | Enforces                                                   |
+| ----------------------------------- | ---------------------------------------------------------- |
+| `no-explicit-any`                   | No raw `any` types (use proper TypeScript)                 |
+| `import/order`                      | Standard import grouping (React, Next.js, internal, utils) |
+| `jsx-a11y/*`                        | Accessibility (alt text, ARIA labels, semantic HTML)       |
+| `@next/next/*`                      | Next.js best practices (Image, Link, etc.)                 |
+| `react/jsx-sort-props`              | Consistent prop ordering                                   |
+| `@typescript-eslint/no-unused-vars` | No unused declarations                                     |
 
 ### Documentation Practices
 
@@ -1689,9 +1660,9 @@ pnpm type-check && pnpm lint:fix && pnpm test && pnpm build
 
 ### Version History
 
-| Version | Date | Changes |
-| --- | --- | --- |
-| 1.0 | 2026-03-07 | Initial blueprint for ComicWise phase 4+ structure |
+| Version | Date       | Changes                                            |
+| ------- | ---------- | -------------------------------------------------- |
+| 1.0     | 2026-03-07 | Initial blueprint for ComicWise phase 4+ structure |
 
 ### Key Metrics to Track
 
@@ -1719,14 +1690,14 @@ pnpm type-check && pnpm lint:fix && pnpm test && pnpm build
 
 ### Troubleshooting Structure Issues
 
-| Problem | Solution |
-| --- | --- |
-| **Can't find component** | Check `src/components/[feature]/`, search for filename |
-| **Type error after adding file** | Run `pnpm type-check`, verify imports use path aliases |
-| **DAL query missing field** | Check `.with()` eager loading, verify schema has field |
-| **Circular imports** | Restructure to avoid A→B→A imports; move shared code to utils |
-| **Component too large** | Decompose into smaller components, extract hooks |
-| **Test fails after refactor** | Generated SQL migrations may have broken; run `pnpm db:reset` |
+| Problem                          | Solution                                                      |
+| -------------------------------- | ------------------------------------------------------------- |
+| **Can't find component**         | Check `src/components/[feature]/`, search for filename        |
+| **Type error after adding file** | Run `pnpm type-check`, verify imports use path aliases        |
+| **DAL query missing field**      | Check `.with()` eager loading, verify schema has field        |
+| **Circular imports**             | Restructure to avoid A→B→A imports; move shared code to utils |
+| **Component too large**          | Decompose into smaller components, extract hooks              |
+| **Test fails after refactor**    | Generated SQL migrations may have broken; run `pnpm db:reset` |
 
 ---
 

@@ -469,7 +469,7 @@ interface DuplicateGroup {
 
 async function runCleanupDuplicates(
   logger: any,
-  options: SetupOptions
+  options: SetupOptions,
 ): Promise<{ success: boolean; deleted: number; freed: string }> {
   const spinner = createSpinner("Scanning for duplicate files...");
   spinner.start();

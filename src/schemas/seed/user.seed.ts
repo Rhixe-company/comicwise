@@ -44,7 +44,7 @@ export const userSeedSchema = z.array(
     createdAt: z.coerce.date().default(() => new Date()),
     updatedAt: z.coerce.date().default(() => new Date()),
     lastActivityDate: z.coerce.date().nullable().optional(),
-  })
+  }),
 );
 
 /**

@@ -3,21 +3,13 @@
     {
       "outputFile": "comic.json",
       "description": "All comic entries",
-      "sourceFiles": [
-        "comics.json",
-        "comicsdata1.json",
-        "comicsdata2.json"
-      ],
+      "sourceFiles": ["comics.json", "comicsdata1.json", "comicsdata2.json"],
       "totalEntries": 627
     },
     {
       "outputFile": "chapter.json",
       "description": "All chapter entries",
-      "sourceFiles": [
-        "chapters.json",
-        "chaptersdata1.json",
-        "chaptersdata2.json"
-      ],
+      "sourceFiles": ["chapters.json", "chaptersdata1.json", "chaptersdata2.json"],
       "totalEntries": 5814
     }
   ],

@@ -163,9 +163,7 @@ ComicWise uses **Next.js Server Actions** for all mutations. There are no tradit
 
 ```typescript
 // All Server Actions return this discriminated union
-type ActionResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: string };
+type ActionResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
 // Usage in client component
 const result = await someAction(input);

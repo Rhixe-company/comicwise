@@ -40,8 +40,8 @@ export const useReaderStore = create<ReaderState>()(
         prevPage: () => set((s) => ({ currentPage: Math.max(s.currentPage - 1, 1) }), false, "prevPage"),
         reset: () => set({ currentPage: 1, scrollPercentage: 0 }, false, "reset"),
       }),
-      { name: "reader-settings", partialize: (s) => ({ zoom: s.zoom, layout: s.layout, direction: s.direction }) }
+      { name: "reader-settings", partialize: (s) => ({ zoom: s.zoom, layout: s.layout, direction: s.direction }) },
     ),
-    { name: "ReaderStore" }
-  )
+    { name: "ReaderStore" },
+  ),
 );

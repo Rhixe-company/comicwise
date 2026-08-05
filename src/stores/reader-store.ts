@@ -39,8 +39,8 @@ export const useReaderStore = create<ReaderState>()(
       }),
       {
         name: "reader-settings",
-      }
+      },
     ),
-    { name: "ReaderStore" }
-  )
+    { name: "ReaderStore" },
+  ),
 );

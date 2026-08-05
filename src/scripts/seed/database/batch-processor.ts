@@ -40,7 +40,7 @@ export class BatchProcessor<T> {
   async process<U>(
     items: T[],
     processor: (item: T, index: number) => Promise<U>,
-    _taskName: string = "Batch Processing"
+    _taskName: string = "Batch Processing",
   ): Promise<BatchProcessorResult<U>> {
     const results: U[] = [];
     const errors: Array<{ error: Error; index: number }> = [];
@@ -66,7 +66,7 @@ export class BatchProcessor<T> {
           errors.push({
             index: itemIndex,
             error: new Error(
-              `Processing failed: ${result.reason instanceof Error ? result.reason.message : String(result.reason)}`
+              `Processing failed: ${result.reason instanceof Error ? result.reason.message : String(result.reason)}`,
             ),
           });
 
@@ -119,7 +119,7 @@ export class BatchProcessor<T> {
   private async processBatchConcurrently<U>(
     batch: T[],
     processor: (item: T, index: number) => Promise<U>,
-    batchStartIndex: number
+    batchStartIndex: number,
   ): Promise<PromiseSettledResult<U>[]> {
     const results: PromiseSettledResult<U>[] = [];
 
@@ -127,7 +127,7 @@ export class BatchProcessor<T> {
     for (let i = 0; i < batch.length; i += this.concurrency) {
       const chunk = batch.slice(i, i + this.concurrency);
       const chunkPromises = chunk.map((item, chunkIndex) =>
-        processor(item, batchStartIndex + i + chunkIndex).then((result) => result)
+        processor(item, batchStartIndex + i + chunkIndex).then((result) => result),
       );
 
       // Use Promise.allSettled to prevent one failure from stopping the batch

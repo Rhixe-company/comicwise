@@ -65,18 +65,18 @@
 
 ### **Group 1: Authentication & Authorization**
 
-| Entity | Purpose | Key Constraint |
-| --- | --- | --- |
-| `user` | User accounts with settings | Email unique, UUID primary key |
-| `account` | OAuth provider links | Links to user via userId |
-| `session` | Active login sessions | Expires automatically |
-| `verificationToken` | Email verification codes | Email-token unique pair |
-| `authenticator` | WebAuthn/2FA credentials | Per-user credential storage |
-| `passwordResetToken` | Password reset links | One-time use token |
-| `role` | Role definitions | Used with permission system |
-| `permission` | Action permissions | Resource-action pair unique |
-| `userRole` | User-role mapping | Many-to-many relationship |
-| `rolePermission` | Role-permission mapping | Many-to-many relationship |
+| Entity               | Purpose                     | Key Constraint                 |
+| -------------------- | --------------------------- | ------------------------------ |
+| `user`               | User accounts with settings | Email unique, UUID primary key |
+| `account`            | OAuth provider links        | Links to user via userId       |
+| `session`            | Active login sessions       | Expires automatically          |
+| `verificationToken`  | Email verification codes    | Email-token unique pair        |
+| `authenticator`      | WebAuthn/2FA credentials    | Per-user credential storage    |
+| `passwordResetToken` | Password reset links        | One-time use token             |
+| `role`               | Role definitions            | Used with permission system    |
+| `permission`         | Action permissions          | Resource-action pair unique    |
+| `userRole`           | User-role mapping           | Many-to-many relationship      |
+| `rolePermission`     | Role-permission mapping     | Many-to-many relationship      |
 
 **Critical Pattern:** User deletion cascades to all dependent records (account, session, bookmarks, comments, etc.)
 
@@ -84,17 +84,17 @@
 
 ### **Group 2: Comic Content**
 
-| Entity | Purpose | Key Constraint |
-| --- | --- | --- |
-| `type` | Comic type (manga, manhwa, etc.) | Name unique |
-| `author` | Comic authors | Name unique |
-| `artist` | Comic artists | Name unique |
-| `genre` | Content genres | Name and slug unique |
-| `comic` | Main comic entries | Title and slug unique per comic |
-| `comicImage` | Cover/preview images | Ordered, unique URL |
-| `comicToGenre` | Comic-genre mapping | Composite primary key |
-| `chapter` | Comic chapters | Composite unique: (comicId, chapterNumber) |
-| `chapterImage` | Chapter pages | Composite unique: (chapterId, pageNumber) |
+| Entity         | Purpose                          | Key Constraint                             |
+| -------------- | -------------------------------- | ------------------------------------------ |
+| `type`         | Comic type (manga, manhwa, etc.) | Name unique                                |
+| `author`       | Comic authors                    | Name unique                                |
+| `artist`       | Comic artists                    | Name unique                                |
+| `genre`        | Content genres                   | Name and slug unique                       |
+| `comic`        | Main comic entries               | Title and slug unique per comic            |
+| `comicImage`   | Cover/preview images             | Ordered, unique URL                        |
+| `comicToGenre` | Comic-genre mapping              | Composite primary key                      |
+| `chapter`      | Comic chapters                   | Composite unique: (comicId, chapterNumber) |
+| `chapterImage` | Chapter pages                    | Composite unique: (chapterId, pageNumber)  |
 
 **Critical Pattern:** Deleting a comic cascades to all chapters, chapter images, bookmarks, and reading progress.
 
@@ -102,14 +102,14 @@
 
 ### **Group 3: User Interactions**
 
-| Entity | Purpose | Key Constraint |
-| --- | --- | --- |
-| `bookmark` | User's comic reading list | Composite key: (userId, comicId), optional lastReadChapterId |
-| `comment` | Thread discussions per chapter | Supports replies via parentId |
-| `rating` | User comic ratings (1-5 stars) | Composite unique: (userId, comicId) |
-| `readingProgress` | Detailed reading position | Linked to comic AND chapter |
-| `readerSettings` | Per-user reader preferences | One-to-one with user |
-| `notification` | User alerts/messages | Can link to comic or chapter |
+| Entity            | Purpose                        | Key Constraint                                               |
+| ----------------- | ------------------------------ | ------------------------------------------------------------ |
+| `bookmark`        | User's comic reading list      | Composite key: (userId, comicId), optional lastReadChapterId |
+| `comment`         | Thread discussions per chapter | Supports replies via parentId                                |
+| `rating`          | User comic ratings (1-5 stars) | Composite unique: (userId, comicId)                          |
+| `readingProgress` | Detailed reading position      | Linked to comic AND chapter                                  |
+| `readerSettings`  | Per-user reader preferences    | One-to-one with user                                         |
+| `notification`    | User alerts/messages           | Can link to comic or chapter                                 |
 
 **Critical Pattern:** All user data is tied to userId via cascade delete.
 
@@ -117,8 +117,8 @@
 
 ### **Group 4: Audit & Logging**
 
-| Entity | Purpose | Key Constraint |
-| --- | --- | --- |
+| Entity     | Purpose                 | Key Constraint                                |
+| ---------- | ----------------------- | --------------------------------------------- |
 | `auditLog` | Complete action history | JSON fields for details, oldValues, newValues |
 
 ---
@@ -563,7 +563,7 @@ for (const c of comics) {
 const comicsWithAuthors = await db
   .select({
     comic: comic,
-    author: author
+    author: author,
   })
   .from(comic)
   .leftJoin(author, eq(comic.authorId, author.id));
@@ -575,8 +575,8 @@ const comicsWithAuthors = await db.query.comic.findMany({
     author: true,
     artist: true,
     type: true,
-    genres: true
-  }
+    genres: true,
+  },
 });
 // Result: 1-2 queries (depending on Drizzle's implementation)
 ```
@@ -587,15 +587,9 @@ const comicsWithAuthors = await db.query.comic.findMany({
 
 ```typescript
 // ❌ N+1 PROBLEM
-const bookmarks = await db
-  .select()
-  .from(bookmark)
-  .where(eq(bookmark.userId, userId));
+const bookmarks = await db.select().from(bookmark).where(eq(bookmark.userId, userId));
 for (const b of bookmarks) {
-  b.comic = await db
-    .select()
-    .from(comic)
-    .where(eq(comic.id, b.comicId)); // Query per bookmark
+  b.comic = await db.select().from(comic).where(eq(comic.id, b.comicId)); // Query per bookmark
   b.comic.genres = await db
     .select()
     .from(comicToGenre)
@@ -609,7 +603,7 @@ const bookmarksWithComics = await db
   .select({
     bookmark: bookmark,
     comic: comic,
-    genre: genre
+    genre: genre,
   })
   .from(bookmark)
   .innerJoin(comic, eq(bookmark.comicId, comic.id))
@@ -661,16 +655,16 @@ const comments = await db.query.comment.findMany({
 ```typescript
 // ❌ N+1 PROBLEM
 const progress = await db.query.readingProgress.findMany({
-  where: eq(readingProgress.userId, userId)
+  where: eq(readingProgress.userId, userId),
 });
 for (const p of progress) {
   p.comic = await db.query.comic.findFirst({
     // Query per progress
-    where: eq(comic.id, p.comicId)
+    where: eq(comic.id, p.comicId),
   });
   p.chapter = await db.query.chapter.findFirst({
     // Query per progress
-    where: eq(chapter.id, p.chapterId)
+    where: eq(chapter.id, p.chapterId),
   });
 }
 
@@ -679,8 +673,8 @@ const progress = await db.query.readingProgress.findMany({
   where: eq(readingProgress.userId, userId),
   with: {
     comic: true,
-    chapter: true
-  }
+    chapter: true,
+  },
 });
 ```
 
@@ -702,14 +696,14 @@ const comicWithDetails = await db.query.comic.findFirst({
     type: true,
     genres: {
       with: {
-        genre: true // Get genre details through junction
-      }
+        genre: true, // Get genre details through junction
+      },
     },
     chapters: {
-      orderBy: [c => desc(c.chapterNumber)],
-      limit: 30 // Only recent chapters
-    }
-  }
+      orderBy: [(c) => desc(c.chapterNumber)],
+      limit: 30, // Only recent chapters
+    },
+  },
 });
 
 // Returns:
@@ -736,21 +730,21 @@ const bookmarksFeed = await db.query.bookmark.findMany({
         author: true,
         artist: true,
         genres: {
-          with: { genre: true }
-        }
-      }
+          with: { genre: true },
+        },
+      },
     },
     lastReadChapter: {
       columns: {
         id: true,
         chapterNumber: true,
         title: true,
-        releaseDate: true
-      }
-    }
+        releaseDate: true,
+      },
+    },
   },
-  orderBy: b => desc(b.updatedAt),
-  limit: 20
+  orderBy: (b) => desc(b.updatedAt),
+  limit: 20,
 });
 
 // Efficiently loads: bookmarks, linked comics with metadata, last read chapter
@@ -763,17 +757,14 @@ const bookmarksFeed = await db.query.bookmark.findMany({
 
 ```typescript
 const currentProgress = await db.query.readingProgress.findFirst({
-  where: and(
-    eq(readingProgress.userId, userId),
-    eq(readingProgress.comicId, comicId)
-  ),
+  where: and(eq(readingProgress.userId, userId), eq(readingProgress.comicId, comicId)),
   with: {
     chapter: {
       with: {
-        comic: true
-      }
-    }
-  }
+        comic: true,
+      },
+    },
+  },
 });
 
 if (currentProgress && !currentProgress.completedAt) {
@@ -782,7 +773,7 @@ if (currentProgress && !currentProgress.completedAt) {
     chapterId: currentProgress.chapterId,
     pageNumber: currentProgress.pageNumber,
     scrollPosition: currentProgress.scrollPosition,
-    progressPercent: currentProgress.progressPercent
+    progressPercent: currentProgress.progressPercent,
   };
 }
 ```
@@ -799,13 +790,13 @@ const chapter = await db.query.chapter.findFirst({
       columns: {
         id: true,
         title: true,
-        slug: true
-      }
+        slug: true,
+      },
     },
     images: {
-      orderBy: img => asc(img.pageNumber)
-    }
-  }
+      orderBy: (img) => asc(img.pageNumber),
+    },
+  },
 });
 
 // Returns chapter + ordered images + comic metadata
@@ -818,21 +809,16 @@ const chapter = await db.query.chapter.findFirst({
 
 ```typescript
 const unreadNotifications = await db.query.notification.findMany({
-  where: and(
-    eq(notification.userId, userId),
-    eq(notification.read, false)
-  ),
-  orderBy: n => desc(n.createdAt),
-  limit: 50
+  where: and(eq(notification.userId, userId), eq(notification.read, false)),
+  orderBy: (n) => desc(n.createdAt),
+  limit: 50,
 });
 
 // Mark as read
 await db
   .update(notification)
   .set({ read: true })
-  .where(
-    and(eq(notification.userId, userId), eq(notification.read, false))
-  );
+  .where(and(eq(notification.userId, userId), eq(notification.read, false)));
 ```
 
 ---
@@ -848,12 +834,12 @@ const comments = await db.query.comment.findMany({
         id: true,
         name: true,
         image: true,
-        role: true
-      }
+        role: true,
+      },
     },
-    parent: true // For thread replies
+    parent: true, // For thread replies
   },
-  orderBy: c => asc(c.createdAt)
+  orderBy: (c) => asc(c.createdAt),
 });
 
 // Build tree structure in application:
@@ -869,22 +855,19 @@ const comments = await db.query.comment.findMany({
 const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
 const recentlyRead = await db.query.readingProgress.findMany({
-  where: and(
-    eq(readingProgress.userId, userId),
-    gte(readingProgress.lastReadAt, thirtyDaysAgo)
-  ),
+  where: and(eq(readingProgress.userId, userId), gte(readingProgress.lastReadAt, thirtyDaysAgo)),
   with: {
     comic: {
       columns: {
         id: true,
         title: true,
         slug: true,
-        coverImage: true
-      }
-    }
+        coverImage: true,
+      },
+    },
   },
-  orderBy: rp => desc(rp.lastReadAt),
-  limit: 20
+  orderBy: (rp) => desc(rp.lastReadAt),
+  limit: 20,
 });
 
 // Great for "Previously read" or "Recent activity" feed
@@ -898,16 +881,13 @@ const recentlyRead = await db.query.readingProgress.findMany({
 // Requires: tsVector column + GIN index (not shown in schema)
 const searchResults = await db.query.comic.findMany({
   where: sql`searchVector @@ websearch_to_tsquery('${searchTerm}')`,
-  limit: 20
+  limit: 20,
 });
 
 // Simpler substring search (no full-text setup):
 const searchResults = await db.query.comic.findMany({
-  where: or(
-    ilike(comic.title, `%${searchTerm}%`),
-    ilike(comic.description, `%${searchTerm}%`)
-  ),
-  limit: 20
+  where: or(ilike(comic.title, `%${searchTerm}%`), ilike(comic.description, `%${searchTerm}%`)),
+  limit: 20,
 });
 ```
 
@@ -919,20 +899,20 @@ const searchResults = await db.query.comic.findMany({
 
 The schema includes these key indexes:
 
-| Table | Index Name | Columns | Purpose |
-| --- | --- | --- | --- |
-| `user` | userEmailIdx | email | Auth login |
-| `comic` | comicSlugIdx | slug | URL lookups |
-| `comic` | comicStatusIdx | status | Filter by ongoing/completed |
-| `chapter` | chapterComicIdIdx | comicId | Get chapters for comic |
-| `chapter` | chapterComicChapterIdx | (comicId, chapterNumber) | Get specific chapter |
-| `bookmark` | bookmarkUserIdIdx | userId | Get user's bookmarks |
-| `readingProgress` | readingProgressUserIdIdx | userId | Continue reading |
-| `readingProgress` | readingProgressUserComicIdx | (userId, comicId) | Get progress for comic |
-| `comment` | commentUserIdIdx | userId | User's comments |
-| `comment` | commentChapterIdIdx | chapterId | Comments on chapter |
-| `notification` | notificationUserReadIdx | (userId, read) | Get unread notifications |
-| `rating` | ratingUserIdIdx, ratingComicIdIdx | userId, comicId | User ratings |
+| Table             | Index Name                        | Columns                  | Purpose                     |
+| ----------------- | --------------------------------- | ------------------------ | --------------------------- |
+| `user`            | userEmailIdx                      | email                    | Auth login                  |
+| `comic`           | comicSlugIdx                      | slug                     | URL lookups                 |
+| `comic`           | comicStatusIdx                    | status                   | Filter by ongoing/completed |
+| `chapter`         | chapterComicIdIdx                 | comicId                  | Get chapters for comic      |
+| `chapter`         | chapterComicChapterIdx            | (comicId, chapterNumber) | Get specific chapter        |
+| `bookmark`        | bookmarkUserIdIdx                 | userId                   | Get user's bookmarks        |
+| `readingProgress` | readingProgressUserIdIdx          | userId                   | Continue reading            |
+| `readingProgress` | readingProgressUserComicIdx       | (userId, comicId)        | Get progress for comic      |
+| `comment`         | commentUserIdIdx                  | userId                   | User's comments             |
+| `comment`         | commentChapterIdIdx               | chapterId                | Comments on chapter         |
+| `notification`    | notificationUserReadIdx           | (userId, read)           | Get unread notifications    |
+| `rating`          | ratingUserIdIdx, ratingComicIdIdx | userId, comicId          | User ratings                |
 
 **✨ GOLDEN RULE:** If your WHERE clause includes a column not in an index, queries will full-table scan.
 
@@ -974,12 +954,7 @@ const end2025 = new Date("2026-01-01");
 const query = db
   .select()
   .from(readingProgress)
-  .where(
-    and(
-      gte(readingProgress.lastReadAt, start2025),
-      lt(readingProgress.lastReadAt, end2025)
-    )
-  );
+  .where(and(gte(readingProgress.lastReadAt, start2025), lt(readingProgress.lastReadAt, end2025)));
 ```
 
 ---
@@ -1020,37 +995,16 @@ This section is structured for AI consumption to understand the database context
       "primaryKey": "id (serial)",
       "uniqueFields": ["title", "slug"],
       "enums": {
-        "status": [
-          "Ongoing",
-          "Hiatus",
-          "Completed",
-          "Dropped",
-          "Season End",
-          "Coming Soon"
-        ]
+        "status": ["Ongoing", "Hiatus", "Completed", "Dropped", "Season End", "Coming Soon"]
       },
       "foreignKeys": {
         "authorId": "author.id",
         "artistId": "artist.id",
         "typeId": "type.id"
       },
-      "childTables": [
-        "chapter",
-        "comicImage",
-        "comicToGenre",
-        "bookmark",
-        "rating",
-        "readingProgress",
-        "notification"
-      ],
+      "childTables": ["chapter", "comicImage", "comicToGenre", "bookmark", "rating", "readingProgress", "notification"],
       "cascadeDelete": true,
-      "indexes": [
-        "comicSlugIdx",
-        "comicTitleIdx",
-        "comicStatusIdx",
-        "comicRatingIdx",
-        "comicViewsIdx"
-      ]
+      "indexes": ["comicSlugIdx", "comicTitleIdx", "comicStatusIdx", "comicRatingIdx", "comicViewsIdx"]
     },
     "chapter": {
       "purpose": "Individual chapters of comics",
@@ -1059,18 +1013,9 @@ This section is structured for AI consumption to understand the database context
       "foreignKeys": {
         "comicId": "comic.id (CASCADE DELETE)"
       },
-      "childTables": [
-        "chapterImage",
-        "readingProgress",
-        "comment",
-        "notification"
-      ],
+      "childTables": ["chapterImage", "readingProgress", "comment", "notification"],
       "cascadeDelete": true,
-      "indexes": [
-        "chapterSlugIdx",
-        "chapterComicIdIdx",
-        "chapterComicChapterIdx"
-      ]
+      "indexes": ["chapterSlugIdx", "chapterComicIdIdx", "chapterComicChapterIdx"]
     },
     "bookmark": {
       "purpose": "User's comic reading list",
@@ -1092,16 +1037,8 @@ This section is structured for AI consumption to understand the database context
         "comicId": "comic.id (CASCADE DELETE)",
         "chapterId": "chapter.id (CASCADE DELETE)"
       },
-      "queryPatterns": [
-        "Continue reading",
-        "User activity",
-        "Progress tracking"
-      ],
-      "indexes": [
-        "readingProgressUserIdIdx",
-        "readingProgressComicIdIdx",
-        "readingProgressUserComicIdx"
-      ]
+      "queryPatterns": ["Continue reading", "User activity", "Progress tracking"],
+      "indexes": ["readingProgressUserIdIdx", "readingProgressComicIdIdx", "readingProgressUserComicIdx"]
     },
     "comment": {
       "purpose": "Discussion threads on chapters",
@@ -1113,11 +1050,7 @@ This section is structured for AI consumption to understand the database context
       },
       "softDelete": "deletedAt (nullable)",
       "notes": "Supports threaded replies via parentId",
-      "indexes": [
-        "commentUserIdIdx",
-        "commentChapterIdIdx",
-        "commentParentIdIdx"
-      ]
+      "indexes": ["commentUserIdIdx", "commentChapterIdIdx", "commentParentIdIdx"]
     },
     "notification": {
       "purpose": "User alerts and notifications",
@@ -1128,11 +1061,7 @@ This section is structured for AI consumption to understand the database context
         "chapterId": "chapter.id (nullable, CASCADE DELETE)"
       },
       "types": ["new_chapter", "comment_reply", "system"],
-      "indexes": [
-        "notificationUserIdIdx",
-        "notificationReadIdx",
-        "notificationUserReadIdx"
-      ]
+      "indexes": ["notificationUserIdIdx", "notificationReadIdx", "notificationUserReadIdx"]
     }
   }
 }

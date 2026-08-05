@@ -74,7 +74,7 @@ export class ShareDal extends BaseDal<ShareType> {
   async getSharesForResource(
     resourceType: "chapter" | "comic",
     resourceId: number,
-    options?: DalOptions
+    options?: DalOptions,
   ): Promise<ShareType[]> {
     const { limit = 20, offset = 0 } = options ?? {};
 

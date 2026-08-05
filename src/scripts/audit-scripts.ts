@@ -116,7 +116,7 @@ async function auditAllScripts() {
   console.log("DETAILED RESULTS:\n");
 
   const sortedByCompliance = results.sort(
-    (a, b) => Object.values(b.flags).filter(Boolean).length - Object.values(a.flags).filter(Boolean).length
+    (a, b) => Object.values(b.flags).filter(Boolean).length - Object.values(a.flags).filter(Boolean).length,
   );
 
   for (const result of sortedByCompliance) {

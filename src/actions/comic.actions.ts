@@ -17,7 +17,7 @@ import type { ActionResult } from "@/types/actions-types";
  * Get paginated list of comics with optional filters
  */
 export async function getComicsListAction(
-  filter: ComicFilter
+  filter: ComicFilter,
 ): Promise<ActionResult<{ comics: unknown[]; total: number }>> {
   try {
     const offset = ((filter.page ?? 1) - 1) * (filter.limit ?? 20);
@@ -39,7 +39,7 @@ export async function getComicsListAction(
       };
       const dbStatus = statusMap[filter.status] ?? filter.status;
       conditions.push(
-        eq(comic.status, dbStatus as "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing" | "Season End")
+        eq(comic.status, dbStatus as "Coming Soon" | "Completed" | "Dropped" | "Hiatus" | "Ongoing" | "Season End"),
       );
     }
 
@@ -111,7 +111,7 @@ export async function getComicBySlugAction(slug: string): Promise<ActionResult<n
  */
 export async function getRelatedComicsAction(
   comicId: number,
-  limit: number = 6
+  limit: number = 6,
 ): Promise<ActionResult<Record<string, unknown>[]>> {
   try {
     if (!comicId) {

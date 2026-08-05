@@ -155,8 +155,8 @@ async function main() {
           ...stats,
         },
         null,
-        2
-      )
+        2,
+      ),
     );
   } else {
     // Summary section

@@ -116,7 +116,7 @@ export class UserSeeder extends BaseSeeder<UserSeedItem> {
     if (this.options.count != null && this.options.count > 0) {
       const synthetic = generateSyntheticUsers(this.options.count);
       logger.info(
-        `Generated ${synthetic.length} synthetic users (${Math.round(ROLE_RATIOS.admin * 100)}% admin, ${Math.round(ROLE_RATIOS.moderator * 100)}% mod, ${Math.round(ROLE_RATIOS.user * 100)}% user)`
+        `Generated ${synthetic.length} synthetic users (${Math.round(ROLE_RATIOS.admin * 100)}% admin, ${Math.round(ROLE_RATIOS.moderator * 100)}% mod, ${Math.round(ROLE_RATIOS.user * 100)}% user)`,
       );
       return synthetic;
     }

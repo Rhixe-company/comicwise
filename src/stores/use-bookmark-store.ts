@@ -27,7 +27,7 @@ export const useBookmarkStore = create<BookmarkState>()(
         set(
           { bookmarks: Object.fromEntries(bookmarks.map((b) => [b.comicId, b])), isLoaded: true },
           false,
-          "setBookmarks"
+          "setBookmarks",
         ),
       addBookmark: (entry) =>
         set((s) => ({ bookmarks: { ...s.bookmarks, [entry.comicId]: entry } }), false, "addBookmark"),
@@ -39,7 +39,7 @@ export const useBookmarkStore = create<BookmarkState>()(
             return { bookmarks: b };
           },
           false,
-          "removeBookmark"
+          "removeBookmark",
         ),
       updateBookmark: (comicId, data) =>
         set(
@@ -47,10 +47,10 @@ export const useBookmarkStore = create<BookmarkState>()(
             bookmarks: { ...s.bookmarks, [comicId]: { ...s.bookmarks[comicId], ...data } },
           }),
           false,
-          "updateBookmark"
+          "updateBookmark",
         ),
       isBookmarked: (comicId) => !!get().bookmarks[comicId],
     }),
-    { name: "BookmarkStore" }
-  )
+    { name: "BookmarkStore" },
+  ),
 );

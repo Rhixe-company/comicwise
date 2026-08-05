@@ -129,7 +129,7 @@ export class PermissionSeeder extends BaseSeeder<PermissionSeedItem> {
               resource: item.resource,
               action: item.action,
               createdAt: item.createdAt ?? new Date(),
-            }))
+            })),
           )
           .onConflictDoNothing()
           .returning();

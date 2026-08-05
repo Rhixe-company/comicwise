@@ -114,7 +114,7 @@ export const ChapterSchemaLegacy = z.array(
           path: z.string(),
           checksum: z.string(),
           status: z.string(),
-        })
+        }),
       ),
       spider: z.string(),
     }),
@@ -133,9 +133,9 @@ export const ChapterSchemaLegacy = z.array(
           path: z.string(),
           checksum: z.string(),
           status: z.string(),
-        })
+        }),
       ),
       spider: z.string(),
     }),
-  ])
+  ]),
 );

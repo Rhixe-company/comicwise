@@ -194,18 +194,12 @@ return { ok: true, data: prefs }; // Now passing UserPreference
    ```typescript
    // BEFORE
    const comic = comicDal.getBySlug(slug);
-   const [relatedComics, session] = await Promise.all([
-     comicDal.getRelated(comic.id, { limit: 6 }),
-     auth()
-   ]);
+   const [relatedComics, session] = await Promise.all([comicDal.getRelated(comic.id, { limit: 6 }), auth()]);
    // Error: comic.id doesn't exist on Promise
 
    // AFTER
    const comic = await comicDal.getBySlug(slug);
-   const [relatedComics, session] = await Promise.all([
-     comicDal.getRelated(comic.id, { limit: 6 }),
-     auth()
-   ]);
+   const [relatedComics, session] = await Promise.all([comicDal.getRelated(comic.id, { limit: 6 }), auth()]);
    // Now works (comic is resolved)
    ```
 
@@ -224,10 +218,7 @@ return { ok: true, data: prefs }; // Now passing UserPreference
    const comic = comicDal.getBySlug(slug);
    if (!comic) return null; // Never true
 
-   const chapter = chapterDal.getByComicAndNumber(
-     comic.id,
-     chapterNumber
-   );
+   const chapter = chapterDal.getByComicAndNumber(comic.id, chapterNumber);
    if (!chapter) return null;
    if (chapter.url && typeof chapter.url === "string") {
    } // Error on chapter.url
@@ -236,10 +227,7 @@ return { ok: true, data: prefs }; // Now passing UserPreference
    const comic = await comicDal.getBySlug(slug);
    if (!comic) return null;
 
-   const chapter = await chapterDal.getByComicAndNumber(
-     comic.id,
-     chapterNumber
-   );
+   const chapter = await chapterDal.getByComicAndNumber(comic.id, chapterNumber);
    if (!chapter) return null;
    if (chapter?.url && typeof chapter.url === "string") {
    }
@@ -253,10 +241,7 @@ return { ok: true, data: prefs }; // Now passing UserPreference
    return !!bookmark; // Always true (Promise is truthy)
 
    // AFTER
-   const bookmark = await bookmarkDal.getByUserAndComic(
-     userId,
-     comicId
-   );
+   const bookmark = await bookmarkDal.getByUserAndComic(userId, comicId);
    return !!bookmark;
    ```
 
@@ -292,27 +277,19 @@ const preferences = await userPreferenceDal.getByUserId(session.user.id);
 
 ```typescript
 // BEFORE
-const bookmarks = bookmarkDal.getByUserAndStatus(
-  session.user.id,
-  "Reading",
-  { limit: 5, offset: 0 }
-);
+const bookmarks = bookmarkDal.getByUserAndStatus(session.user.id, "Reading", { limit: 5, offset: 0 });
 if (!bookmarks || bookmarks.length === 0) {
 } // Error: length doesn't exist on Promise
 {
-  (bookmarks as Array<Record<string, unknown>>).map(bookmark => {});
+  (bookmarks as Array<Record<string, unknown>>).map((bookmark) => {});
 } // Error: map doesn't exist on Promise
 
 // AFTER
-const bookmarks = await bookmarkDal.getByUserAndStatus(
-  session.user.id,
-  "Reading",
-  { limit: 5, offset: 0 }
-);
+const bookmarks = await bookmarkDal.getByUserAndStatus(session.user.id, "Reading", { limit: 5, offset: 0 });
 if (!bookmarks || bookmarks.length === 0) {
 } // Now works
 {
-  (bookmarks as Array<Record<string, unknown>>).map(bookmark => {});
+  (bookmarks as Array<Record<string, unknown>>).map((bookmark) => {});
 } // Now works
 ```
 
@@ -343,17 +320,17 @@ $ pnpm type-check
 
 ### Files Modified
 
-| File | Errors | Fixes Applied | Status |
-| --- | --- | --- | --- |
-| `src/dal/chapter-dal.ts` | 1 | 1x `await` added | ✅ Fixed |
-| `src/dal/comic-dal.ts` | 1 | 1x `await` added | ✅ Fixed |
-| `src/actions/user-preferences.actions.ts` | 1 | 1x `await` added | ✅ Fixed |
-| `src/actions/comment-rating.actions.ts` | 8 | 4x `await` added | ✅ Fixed |
-| `src/app/(root)/comics/[slug]/page.tsx` | 14 | 2x `await` added | ✅ Fixed |
-| `src/app/(root)/comics/[slug]/[chapterNumber]/page.tsx` | 18 | 2x `await` added | ✅ Fixed |
-| `src/app/(root)/settings/page.tsx` | 1 | 1x `await` added | ✅ Fixed |
-| `src/components/home/continue-reading-section.tsx` | 4 | 1x `await` added | ✅ Fixed |
-| **TOTAL** | **48** | **13x `await` added** | **✅ 100% Fixed** |
+| File                                                    | Errors | Fixes Applied         | Status            |
+| ------------------------------------------------------- | ------ | --------------------- | ----------------- |
+| `src/dal/chapter-dal.ts`                                | 1      | 1x `await` added      | ✅ Fixed          |
+| `src/dal/comic-dal.ts`                                  | 1      | 1x `await` added      | ✅ Fixed          |
+| `src/actions/user-preferences.actions.ts`               | 1      | 1x `await` added      | ✅ Fixed          |
+| `src/actions/comment-rating.actions.ts`                 | 8      | 4x `await` added      | ✅ Fixed          |
+| `src/app/(root)/comics/[slug]/page.tsx`                 | 14     | 2x `await` added      | ✅ Fixed          |
+| `src/app/(root)/comics/[slug]/[chapterNumber]/page.tsx` | 18     | 2x `await` added      | ✅ Fixed          |
+| `src/app/(root)/settings/page.tsx`                      | 1      | 1x `await` added      | ✅ Fixed          |
+| `src/components/home/continue-reading-section.tsx`      | 4      | 1x `await` added      | ✅ Fixed          |
+| **TOTAL**                                               | **48** | **13x `await` added** | **✅ 100% Fixed** |
 
 ---
 

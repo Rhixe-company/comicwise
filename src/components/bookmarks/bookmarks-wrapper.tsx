@@ -83,7 +83,7 @@ export function BookmarksWrapper({ initialBookmarks, initialStats, isAuthenticat
       search: string,
       sort: "date" | "progress" | "title",
       page: number,
-      viewMode: "grid" | "list"
+      viewMode: "grid" | "list",
     ) => {
       setState((prev) => ({ ...prev, isLoading: true }));
 
@@ -124,7 +124,7 @@ export function BookmarksWrapper({ initialBookmarks, initialStats, isAuthenticat
         }));
       }
     },
-    []
+    [],
   );
 
   // Load stats
@@ -141,7 +141,7 @@ export function BookmarksWrapper({ initialBookmarks, initialStats, isAuthenticat
       setState((prev) => ({ ...prev, status: newStatus, page: 1 }));
       void loadBookmarks(newStatus, state.search, state.sort, 1, state.view);
     },
-    [loadBookmarks, state.search, state.sort, state.view]
+    [loadBookmarks, state.search, state.sort, state.view],
   );
 
   // Handle search
@@ -150,7 +150,7 @@ export function BookmarksWrapper({ initialBookmarks, initialStats, isAuthenticat
       setState((prev) => ({ ...prev, search: query, page: 1 }));
       void loadBookmarks(state.status, query, state.sort, 1, state.view);
     },
-    [loadBookmarks, state.status, state.sort, state.view]
+    [loadBookmarks, state.status, state.sort, state.view],
   );
 
   // Handle sort change
@@ -159,7 +159,7 @@ export function BookmarksWrapper({ initialBookmarks, initialStats, isAuthenticat
       setState((prev) => ({ ...prev, sort: newSort, page: 1 }));
       void loadBookmarks(state.status, state.search, newSort, 1, state.view);
     },
-    [loadBookmarks, state.status, state.search, state.view]
+    [loadBookmarks, state.status, state.search, state.view],
   );
 
   // Handle remove bookmark
@@ -177,7 +177,7 @@ export function BookmarksWrapper({ initialBookmarks, initialStats, isAuthenticat
         }
       });
     },
-    [loadStats, loadBookmarks, state.status, state.search, state.sort, state.page, state.view]
+    [loadStats, loadBookmarks, state.status, state.search, state.sort, state.page, state.view],
   );
 
   // Handle status change from StatusEditor
@@ -186,7 +186,7 @@ export function BookmarksWrapper({ initialBookmarks, initialStats, isAuthenticat
       await loadStats();
       await loadBookmarks(state.status, state.search, state.sort, state.page, state.view);
     },
-    [loadStats, loadBookmarks, state.status, state.search, state.sort, state.page, state.view]
+    [loadStats, loadBookmarks, state.status, state.search, state.sort, state.page, state.view],
   );
 
   // Calculate pagination

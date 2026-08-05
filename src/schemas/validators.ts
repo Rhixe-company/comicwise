@@ -6,7 +6,7 @@ import type { z } from "zod";
  */
 export function safeParse<T>(
   schema: z.ZodType<T>,
-  data: unknown
+  data: unknown,
 ): { data: T; success: true } | { error: string; success: false } {
   const result = schema.safeParse(data);
   if (result.success) {

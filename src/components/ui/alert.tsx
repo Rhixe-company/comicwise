@@ -16,7 +16,7 @@ const alertVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 function Alert({ className, variant, ...props }: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
@@ -38,7 +38,7 @@ function AlertDescription({ className, ...props }: React.ComponentProps<"div">) 
     <div
       className={cn(
         "col-start-2 grid justify-items-start gap-1 text-sm text-muted-foreground [&_p]:leading-relaxed",
-        className
+        className,
       )}
       data-slot="alert-description"
       {...props}

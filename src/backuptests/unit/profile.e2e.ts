@@ -169,7 +169,7 @@ test.describe("Profile Pages E2E Tests", () => {
 
       // Look for theme dropdown or radio buttons
       const themeSelector = page.locator(
-        'select, [role="combobox"], input[type="radio"][value*="light"], input[type="radio"][value*="dark"]'
+        'select, [role="combobox"], input[type="radio"][value*="light"], input[type="radio"][value*="dark"]',
       );
       expect(await themeSelector.count()).toBeGreaterThan(0);
     });

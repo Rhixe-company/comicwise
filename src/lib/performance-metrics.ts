@@ -155,7 +155,7 @@ export class PerformanceMonitor {
    */
   private getRating(
     metricName: keyof typeof CORE_WEB_VITALS_THRESHOLDS,
-    value: number
+    value: number,
   ): "good" | "needs-improvement" | "poor" {
     const thresholds = CORE_WEB_VITALS_THRESHOLDS[metricName as never] as Record<string, number>;
 
@@ -232,8 +232,7 @@ export class PerformanceMonitor {
     // FCP (First Contentful Paint)
     if ("performance" in window && "getEntriesByName" in window.performance) {
       const fcpEntry = window.performance.getEntriesByName("first-contentful-paint")[0] as
-        | PerformanceEntryWithStartTime
-        | undefined;
+        PerformanceEntryWithStartTime | undefined;
       if (fcpEntry) {
         const value = fcpEntry.startTime;
         this.metrics.set("FCP", value);

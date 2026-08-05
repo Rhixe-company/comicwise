@@ -165,7 +165,7 @@ export class ComicSeeder extends BaseSeeder<ComicSeed> {
 
     if (deduplicated.length < allData.length) {
       logger.info(
-        `Deduplicated comics: ${allData.length} → ${deduplicated.length} (removed ${allData.length - deduplicated.length} duplicates)`
+        `Deduplicated comics: ${allData.length} → ${deduplicated.length} (removed ${allData.length - deduplicated.length} duplicates)`,
       );
     }
 
@@ -358,7 +358,7 @@ export class ComicSeeder extends BaseSeeder<ComicSeed> {
               genreIds.map((genreId) => ({
                 comicId,
                 genreId,
-              }))
+              })),
             );
           }
         }

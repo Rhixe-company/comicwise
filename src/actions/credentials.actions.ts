@@ -18,7 +18,7 @@ import type { ActionResult } from "@/types/actions-types";
  */
 export async function signInWithCredentialsAction(
   username: string,
-  password: string
+  password: string,
 ): Promise<ActionResult<{ success: true }>> {
   try {
     // Validate inputs
@@ -81,7 +81,7 @@ export async function signInWithCredentialsAction(
 export async function registerAction(
   username: string,
   email: string,
-  password: string
+  password: string,
 ): Promise<ActionResult<{ userId: string }>> {
   try {
     // Validate inputs

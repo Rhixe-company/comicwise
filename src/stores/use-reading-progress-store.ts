@@ -28,12 +28,12 @@ export const useReadingProgressStore = create<ReadingProgressState>()(
             progress: { ...s.progress, [comicId]: { ...entry, comicId, updatedAt: new Date() } },
           }),
           false,
-          "setProgress"
+          "setProgress",
         ),
       getProgress: (comicId) => get().progress[comicId],
       bulkSetProgress: (entries) =>
         set({ progress: Object.fromEntries(entries.map((e) => [e.comicId, e])) }, false, "bulkSetProgress"),
     }),
-    { name: "ReadingProgressStore" }
-  )
+    { name: "ReadingProgressStore" },
+  ),
 );

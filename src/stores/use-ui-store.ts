@@ -24,8 +24,8 @@ export const useUIStore = create<UIState>()(
         setSearchOpen: (searchOpen) => set({ searchOpen }, false, "setSearchOpen"),
         setTheme: (theme) => set({ theme }, false, "setTheme"),
       }),
-      { name: "ui-preferences", partialize: (s) => ({ theme: s.theme, sidebarOpen: s.sidebarOpen }) }
+      { name: "ui-preferences", partialize: (s) => ({ theme: s.theme, sidebarOpen: s.sidebarOpen }) },
     ),
-    { name: "UIStore" }
-  )
+    { name: "UIStore" },
+  ),
 );

@@ -2,11 +2,11 @@
 
 ## Test Framework
 
-| Layer | Tool | Scope |
-| --- | --- | --- |
-| Unit Tests | Vitest 4.1 | DAL, actions, utils, schemas |
-| Component Tests | Vitest + Testing Library | React component rendering |
-| E2E Tests | Playwright 1.58 | Full user flows |
+| Layer           | Tool                     | Scope                        |
+| --------------- | ------------------------ | ---------------------------- |
+| Unit Tests      | Vitest 4.1               | DAL, actions, utils, schemas |
+| Component Tests | Vitest + Testing Library | React component rendering    |
+| E2E Tests       | Playwright 1.58          | Full user flows              |
 
 ## Running Tests
 

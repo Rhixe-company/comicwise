@@ -30,7 +30,7 @@ const registerSchema = z
       .max(100, "Password must not exceed 100 characters")
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
       ),
     confirmPassword: z.string().min(1, "Please confirm your password"),
     agreeToTerms: z.boolean().refine((val) => val === true, {

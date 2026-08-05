@@ -68,7 +68,7 @@ export async function getUserProfileAction(): Promise<
  * Update user profile
  */
 export async function updateProfileAction(
-  input: unknown
+  input: unknown,
 ): Promise<ActionResult<{ email: string; image: null | string; name: null | string }>> {
   const session = await auth();
   if (!session?.user?.id) {

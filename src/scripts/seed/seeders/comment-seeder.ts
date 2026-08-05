@@ -100,7 +100,7 @@ export class CommentSeeder extends BaseSeeder<CommentSeedItem> {
           where: and(
             eq(comment.userId, item.userId),
             eq(comment.chapterId, item.chapterId),
-            eq(comment.content, item.content)
+            eq(comment.content, item.content),
           ),
         });
 

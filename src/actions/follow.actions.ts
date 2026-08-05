@@ -104,7 +104,7 @@ interface FollowWithUser {
 export async function getFollowersAction(
   userId: string,
   page = 1,
-  limit = 20
+  limit = 20,
 ): Promise<ActionResult<{ followers: FollowWithUser[]; total: number }>> {
   try {
     const followers = await followDal.getFollowers(userId, {
@@ -122,7 +122,7 @@ export async function getFollowersAction(
 export async function getFollowingAction(
   userId: string,
   page = 1,
-  limit = 20
+  limit = 20,
 ): Promise<ActionResult<{ following: FollowWithUser[]; total: number }>> {
   try {
     const following = await followDal.getFollowing(userId, {
@@ -152,7 +152,7 @@ export async function isFollowingAction(targetUserId: string): Promise<ActionRes
 }
 
 export async function getFollowStatsAction(
-  userId: string
+  userId: string,
 ): Promise<ActionResult<{ followers: number; following: number }>> {
   try {
     const followers = await followDal.getFollowersCount(userId);

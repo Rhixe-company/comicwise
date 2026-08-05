@@ -92,7 +92,7 @@ describe("Comment Threading", () => {
 
       const buildTree = (
         comments: Array<{ id: number; parentId: null | number }>,
-        parentId: null | number = null
+        parentId: null | number = null,
       ): Array<{
         id: number;
         parentId: null | number;
@@ -153,7 +153,7 @@ describe("Comment Pagination", () => {
   it("should lazy-load replies", () => {
     const loadReplies = (
       commentId: number,
-      allComments: Array<{ id: number; parentId: null | number }>
+      allComments: Array<{ id: number; parentId: null | number }>,
     ): Array<{ id: number; parentId: null | number }> => {
       return allComments.filter((c) => c.parentId === commentId);
     };
@@ -189,7 +189,7 @@ describe("Comment Moderation", () => {
       const isRateLimited = (
         userId: string,
         recentComments: Array<{ createdAt: Date; userId: string }>,
-        limitPerMinute = 3
+        limitPerMinute = 3,
       ): boolean => {
         const oneMinuteAgo = new Date(Date.now() - 60000);
         const userComments = recentComments.filter((c) => c.userId === userId && c.createdAt > oneMinuteAgo);

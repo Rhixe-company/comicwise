@@ -38,7 +38,7 @@ function PaginationLink({ className, isActive, size = "icon", ...props }: Pagina
           size,
         }),
         "dark:border-border/50 dark:hover:bg-accent/50",
-        className
+        className,
       )}
       data-active={isActive}
       data-slot="pagination-link"

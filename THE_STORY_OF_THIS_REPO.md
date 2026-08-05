@@ -91,12 +91,12 @@ Your API: Extend subscription → Send receipt
 // lib/stripe/webhooks.ts
 export async function handleWebhook(event: Stripe.Event) {
   const exists = await db.stripeWebhookEvent.findUnique({
-    where: { stripeEventId: event.id }
+    where: { stripeEventId: event.id },
   });
   if (exists) return { received: true, duplicate: true };
 
   await db.stripeWebhookEvent.create({
-    data: { stripeEventId: event.id }
+    data: { stripeEventId: event.id },
   });
 
   switch (event.type) {
@@ -150,11 +150,11 @@ Comics = images. Lots of images.
 
 July 2025. Three comic projects:
 
-| Project | Stack | Status |
-| --- | --- | --- |
-| `comicwise` | Next.js 15 + Prisma + Stripe | **Active** |
-| `rhixe_scans` | Next.js 15 + Prisma + Stripe/PayPal | Active |
-| `rhixecompany-comics` | Django + Next.js 16 | **Survivor** |
+| Project               | Stack                               | Status       |
+| --------------------- | ----------------------------------- | ------------ |
+| `comicwise`           | Next.js 15 + Prisma + Stripe        | **Active**   |
+| `rhixe_scans`         | Next.js 15 + Prisma + Stripe/PayPal | Active       |
+| `rhixecompany-comics` | Django + Next.js 16                 | **Survivor** |
 
 **P1 Priority:** Merge `comicwise` + `rhixe_scans` + `Django-Scrapy-Selenium` + `selenium_webdriver` → `rhixecompany-comics`
 

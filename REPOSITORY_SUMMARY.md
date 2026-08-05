@@ -10,10 +10,10 @@
 
 ## Architecture
 
-| Property | Value |
-| --- | --- |
-| **Type** | Next.js comic streaming platform |
-| **Pattern** | App Router with Prisma ORM, Stripe subscriptions |
+| Property      | Value                                                                  |
+| ------------- | ---------------------------------------------------------------------- |
+| **Type**      | Next.js comic streaming platform                                       |
+| **Pattern**   | App Router with Prisma ORM, Stripe subscriptions                       |
 | **Reference** | [Workflow Analysis](../docs/Project_Architecture/Workflow_Analysis.md) |
 
 Next.js 15 + Prisma + Stripe. Digital comic storefront with subscription management, user auth, and image-optimized content delivery.

@@ -394,7 +394,7 @@ export async function migrateImages(): Promise<MigrationResult> {
 
     // Report stats
     logger.success(
-      `Migration complete: ${stats.migrated} migrated, ${stats.skipped} skipped, ${stats.errors} errors, ${stats.dbUpdated} DB records updated`
+      `Migration complete: ${stats.migrated} migrated, ${stats.skipped} skipped, ${stats.errors} errors, ${stats.dbUpdated} DB records updated`,
     );
 
     // Auto-cleanup old directories if migration was successful
@@ -484,7 +484,7 @@ export async function reprocessExistingImages(options: ReprocessImagesOptions): 
           if (current % 10 === 0 || current === total) {
             logger.info(`Comics: ${current}/${total} (saved ${(saved / 1024 / 1024).toFixed(2)}MB)`);
           }
-        }
+        },
       );
 
       result.comicsProcessed = comicsStats.processed;
@@ -505,7 +505,7 @@ export async function reprocessExistingImages(options: ReprocessImagesOptions): 
           if (current % 50 === 0 || current === total) {
             logger.info(`Chapters: ${current}/${total} (saved ${(saved / 1024 / 1024).toFixed(2)}MB)`);
           }
-        }
+        },
       );
 
       result.chaptersProcessed = chaptersStats.processed;
@@ -519,7 +519,7 @@ export async function reprocessExistingImages(options: ReprocessImagesOptions): 
     result.success = result.errors.length === 0;
 
     logger.success(
-      `Reprocessing complete: ${result.comicsProcessed} comics + ${result.chaptersProcessed} chapters processed, saved ${(result.totalSavedBytes / 1024 / 1024).toFixed(2)}MB`
+      `Reprocessing complete: ${result.comicsProcessed} comics + ${result.chaptersProcessed} chapters processed, saved ${(result.totalSavedBytes / 1024 / 1024).toFixed(2)}MB`,
     );
 
     return result;

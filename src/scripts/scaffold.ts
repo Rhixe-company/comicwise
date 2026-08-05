@@ -541,7 +541,7 @@ async function main() {
         name: pascalName,
         file: targetPath,
         dryRun: options.dryRun,
-      })
+      }),
     );
   } else {
     const action = options.dryRun ? "Would create" : "Created";

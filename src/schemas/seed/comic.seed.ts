@@ -95,7 +95,7 @@ export const comicSeedItemSchema = z.object({
         z.union([
           z.object({ name: z.string() }),
           z.string(), // Handle string genre names
-        ])
+        ]),
       ),
       z.string(), // Single category field
     ])

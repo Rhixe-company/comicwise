@@ -2,41 +2,41 @@
 
 ## Similar Open-Source Projects
 
-| Project | URL | Stack |
-| --- | --- | --- |
-| **nextjs/saas-starter** | <https://github.com/nextjs/saas-starter> | Next.js + Postgres + Drizzle + Stripe + shadcn/ui ⭐15.8k |
-| **laribright/stripe-crashcourse** | <https://github.com/laribright/stripe-crashcourse> | Next.js + Drizzle + Stripe + PostgreSQL |
-| **burakorkmez/stripe-subscriptions** | <https://github.com/burakorkmez/stripe-subscriptions> | Next.js 14 + Prisma + MongoDB + Stripe + Kinde Auth |
-| **ixartz/SaaS-Boilerplate** | <https://github.com/ixartz/SaaS-Boilerplate> | Next.js + Stripe + Prisma + TailwindCSS |
-| **next-saas-stripe-starter** | <https://github.com/next-saas-stripe-starter> | Next.js + Prisma + NextAuth + Stripe |
-| **Makerkit Next.js 16 + Drizzle** | <https://makerkit.dev/courses/nextjs-drizzle/course> | Next.js 16 + React 19 + Drizzle + Stripe B2B SaaS |
-| **Vercel Next.js + Stripe guide** | <https://vercel.com/kb/guide/getting-started-with-nextjs-typescript-stripe> | Official Stripe + Next.js TypeScript guide |
-| **DEV Community: Next.js 16 Stripe guide** | <https://dev.to/huangyongshan46a11y/how-to-set-up-stripe-subscriptions-in-nextjs-16-complete-guide-phd> | Complete Checkout + Webhooks + Portal guide |
+| Project                                    | URL                                                                                                     | Stack                                                     |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| **nextjs/saas-starter**                    | <https://github.com/nextjs/saas-starter>                                                                | Next.js + Postgres + Drizzle + Stripe + shadcn/ui ⭐15.8k |
+| **laribright/stripe-crashcourse**          | <https://github.com/laribright/stripe-crashcourse>                                                      | Next.js + Drizzle + Stripe + PostgreSQL                   |
+| **burakorkmez/stripe-subscriptions**       | <https://github.com/burakorkmez/stripe-subscriptions>                                                   | Next.js 14 + Prisma + MongoDB + Stripe + Kinde Auth       |
+| **ixartz/SaaS-Boilerplate**                | <https://github.com/ixartz/SaaS-Boilerplate>                                                            | Next.js + Stripe + Prisma + TailwindCSS                   |
+| **next-saas-stripe-starter**               | <https://github.com/next-saas-stripe-starter>                                                           | Next.js + Prisma + NextAuth + Stripe                      |
+| **Makerkit Next.js 16 + Drizzle**          | <https://makerkit.dev/courses/nextjs-drizzle/course>                                                    | Next.js 16 + React 19 + Drizzle + Stripe B2B SaaS         |
+| **Vercel Next.js + Stripe guide**          | <https://vercel.com/kb/guide/getting-started-with-nextjs-typescript-stripe>                             | Official Stripe + Next.js TypeScript guide                |
+| **DEV Community: Next.js 16 Stripe guide** | <https://dev.to/huangyongshan46a11y/how-to-set-up-stripe-subscriptions-in-nextjs-16-complete-guide-phd> | Complete Checkout + Webhooks + Portal guide               |
 
 ## Key Findings
 
 ### Next.js 16 + Stripe State-of-Art (2026)
 
 - **Next.js 16 (Oct 2025):** Turbopack is the default bundler (2-5× faster builds), React 19 bundled, Cache Components with `"use cache"` replace PPR, `revalidateTag()` now requires `cacheLife` profile as second arg.
-  - Source: <https://nextjs.org/blog/next-16>
+    - Source: <https://nextjs.org/blog/next-16>
 - **Next.js 16.2 (March 2026):** Stable Build Adapters API for non-Vercel platforms (OpenNext, etc.) supporting `proxy.ts`. 13 security advisories patched (7 high-severity including DoS in Server Components, middleware bypass, SSRF).
-  - Source: <https://makerkit.dev/blog/tutorials/nextjs-16>
+    - Source: <https://makerkit.dev/blog/tutorials/nextjs-16>
 - **Drizzle vs Prisma (2026):** Drizzle ~7.4 KB gzipped, zero runtime deps, SQL-first. Prisma 7.x: Rust-based query engine (~8 MB), schema-first. Drizzle chosen by MakerKit for its Drizzle kit; Prisma kit still maintained.
-  - Source: <https://makerkit.dev/blog/tutorials/drizzle-vs-prisma>
-  - Source: <https://designrevision.com/blog/prisma-vs-drizzle>
+    - Source: <https://makerkit.dev/blog/tutorials/drizzle-vs-prisma>
+    - Source: <https://designrevision.com/blog/prisma-vs-drizzle>
 
 ### Webhook Security (Critical)
 
 - **Major anti-pattern:** AI-generated webhook code often parses body as JSON before signature verification — this breaks Stripe signature validation and leaves the endpoint spoofable.
 - **Required pattern:** `req.text()` first → verify `stripe-signature` header → parse JSON.
 - **Common omission:** Handlers for `payment_failed` and `subscription_deleted` are regularly missing in scaffolded code.
-  - Source: <https://dev.to/whoffagents/webhook-security-in-nextjs-signatures-idempotency-and-avoiding-common-mistakes-4g6>
+    - Source: <https://dev.to/whoffagents/webhook-security-in-nextjs-signatures-idempotency-and-avoiding-common-mistakes-4g6>
 
 ### Stripe Subscription Billing Patterns
 
 - Full lifecycle: Checkout → `checkout.session.completed` → `customer.subscription.updated` → `customer.subscription.deleted`.
 - Customer Portal (billing management) is handled by Stripe-hosted UI. Build a redirect via `stripe.billingPortal.sessions.create()`.
-  - Source: <https://designrevision.com/blog/best-nextjs-subscription-templates>
+    - Source: <https://designrevision.com/blog/best-nextjs-subscription-templates>
 - Feature gating should track subscription status in your DB (source of truth for access control) — Stripe is source of truth for billing only.
 
 ## Cheatsheet
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     line_items: [{ price: priceId, quantity: 1 }],
     metadata: { userId },
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/cancel`
+    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/cancel`,
   });
   return NextResponse.json({ url: session.url });
 }
@@ -71,24 +71,13 @@ export const config = { api: { bodyParser: false } };
 export async function POST(req: Request) {
   const body = await req.text(); // raw body required for signature
   const sig = req.headers.get("stripe-signature");
-  if (!sig)
-    return NextResponse.json(
-      { error: "No signature" },
-      { status: 400 }
-    );
+  if (!sig) return NextResponse.json({ error: "No signature" }, { status: 400 });
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch {
-    return NextResponse.json(
-      { error: "Invalid signature" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
   switch (event.type) {

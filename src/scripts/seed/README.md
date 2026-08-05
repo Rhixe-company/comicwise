@@ -4,18 +4,18 @@ Comprehensive database seeding system for ComicWise with configurable image hand
 
 ## Quick Reference
 
-| Component | Type | Purpose |
-| --- | --- | --- |
-| **seedOrchestrator.ts** | Orchestrator | Dependency-ordered seeding (types→authors→comics→chapters) |
-| **run.ts** | CLI Entry | Command-line interface with Commander.js parsing |
-| **baseSeed.ts** | Base Class | Template method pattern for all seeders |
-| **comicSeeder.ts** | Seeder | Comics with relations (author, artist, genre, images) |
-| **chapterSeeder.ts** | Seeder | Chapters with image linking and chapter number extraction |
-| **imageStrategy.ts** | Strategy | Multi-mode image handling (urls, local, imagekit) |
-| **progressTracker.ts** | Utility | Real-time progress metrics and ASCII progress bars |
-| **transactionManager.ts** | Utility | Drizzle transaction wrapping with rollback |
-| **batchProcessor.ts** | Utility | Concurrent batch processing with error isolation |
-| **dataLoader.ts** | Utility | JSON loading with fallback pattern (data.json → data-data1.json → data-data2.json) |
+| Component                 | Type         | Purpose                                                                            |
+| ------------------------- | ------------ | ---------------------------------------------------------------------------------- |
+| **seedOrchestrator.ts**   | Orchestrator | Dependency-ordered seeding (types→authors→comics→chapters)                         |
+| **run.ts**                | CLI Entry    | Command-line interface with Commander.js parsing                                   |
+| **baseSeed.ts**           | Base Class   | Template method pattern for all seeders                                            |
+| **comicSeeder.ts**        | Seeder       | Comics with relations (author, artist, genre, images)                              |
+| **chapterSeeder.ts**      | Seeder       | Chapters with image linking and chapter number extraction                          |
+| **imageStrategy.ts**      | Strategy     | Multi-mode image handling (urls, local, imagekit)                                  |
+| **progressTracker.ts**    | Utility      | Real-time progress metrics and ASCII progress bars                                 |
+| **transactionManager.ts** | Utility      | Drizzle transaction wrapping with rollback                                         |
+| **batchProcessor.ts**     | Utility      | Concurrent batch processing with error isolation                                   |
+| **dataLoader.ts**         | Utility      | JSON loading with fallback pattern (data.json → data-data1.json → data-data2.json) |
 
 ## Architecture Diagram
 
@@ -241,9 +241,7 @@ export class ComicSeeder extends BaseSeeder<ComicSeed> {
     return ["comic"]; // comic.json → comic-data1.json → etc.
   }
 
-  protected async insertBatch(
-    data: ComicSeed[]
-  ): Promise<EntityResult> {
+  protected async insertBatch(data: ComicSeed[]): Promise<EntityResult> {
     // Insert comics with relation resolution
     // Return EntityResult with counts
   }
@@ -321,9 +319,9 @@ Concurrent batch processing with Promise.allSettled for error isolation.
 ```typescript
 const processor = new BatchProcessor({
   batchSize: 100,
-  concurrency: 5
+  concurrency: 5,
 });
-const result = await processor.process(items, async item => {
+const result = await processor.process(items, async (item) => {
   // Process each item
   return result;
 });
@@ -387,11 +385,7 @@ Strategy pattern dispatcher for image handling (3 modes).
 
 ```typescript
 const strategy = new ImageStrategy({ mode: "local" });
-const result = await strategy.processImage(
-  "https://example.com/image.jpg",
-  "comic",
-  1
-);
+const result = await strategy.processImage("https://example.com/image.jpg", "comic", 1);
 // Returns: { success: true, url: "/comics/comic/1-hash.jpg" }
 ```
 
@@ -410,11 +404,7 @@ Local filesystem caching with exponential backoff retry.
 **Usage:**
 
 ```typescript
-const result = await imageDownloader.download(
-  "https://example.com/image.jpg",
-  "comic",
-  1
-);
+const result = await imageDownloader.download("https://example.com/image.jpg", "comic", 1);
 // Returns: { success: true, filePath: "/comics/comic/1-hash.jpg" }
 ```
 
@@ -549,7 +539,7 @@ try {
   errors.push({
     itemIndex: i,
     value: data[i],
-    message: error.message
+    message: error.message,
   });
   // Continue processing next item
 }
@@ -563,7 +553,7 @@ try {
 ```typescript
 // If transaction fails for entity:
 try {
-  return await withTransaction("Comics", options, async tx => {
+  return await withTransaction("Comics", options, async (tx) => {
     // DB operations
   });
 } catch (error) {
@@ -581,7 +571,7 @@ const result = schema.safeParse(item);
 if (!result.success) {
   errors.push({
     itemIndex: i,
-    message: result.error.errors[0].message
+    message: result.error.errors[0].message,
   });
   // Skip this item, continue processing
 }

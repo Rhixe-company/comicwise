@@ -14,66 +14,66 @@ The schema defines 30+ PostgreSQL tables via Drizzle ORM, organized into these d
 
 ### Auth Tables
 
-| Table | Key Fields | Purpose |
-| --- | --- | --- |
-| `user` | id (UUID), email (unique), password (hash), role (enum), status (boolean), settings (JSONB), deletedAt (soft delete) | User accounts with role-based access |
-| `account` | userId (FK), provider, providerAccountId | OAuth provider accounts (NextAuth) |
-| `session` | sessionToken (PK), userId (FK), expires | Session management |
-| `verificationToken` | identifier, token, expires | Email verification |
-| `authenticator` | credentialID, userId (FK), credentialPublicKey | WebAuthn/passkey support |
-| `passwordResetToken` | id, email, token, expires | Password reset flow |
+| Table                | Key Fields                                                                                                           | Purpose                              |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| `user`               | id (UUID), email (unique), password (hash), role (enum), status (boolean), settings (JSONB), deletedAt (soft delete) | User accounts with role-based access |
+| `account`            | userId (FK), provider, providerAccountId                                                                             | OAuth provider accounts (NextAuth)   |
+| `session`            | sessionToken (PK), userId (FK), expires                                                                              | Session management                   |
+| `verificationToken`  | identifier, token, expires                                                                                           | Email verification                   |
+| `authenticator`      | credentialID, userId (FK), credentialPublicKey                                                                       | WebAuthn/passkey support             |
+| `passwordResetToken` | id, email, token, expires                                                                                            | Password reset flow                  |
 
 **Enums:** `user_role` = `'user' | 'admin' | 'moderator'`
 
 ### Comic Content Tables
 
-| Table | Key Fields | Purpose |
-| --- | --- | --- |
-| `type` | id, name (unique), description | Comic type classification (manga, manhwa, etc.) |
-| `author` | id, name (unique), bio, image, searchVector | Author profiles with full-text search |
-| `artist` | id, name (unique), bio, image, searchVector | Artist profiles with full-text search |
-| `genre` | id, name (unique), slug (unique), description, isActive | Genre taxonomy |
-| `comic` | id, title (unique), slug (unique), description, coverImage, status, publicationDate, rating, views, authorId, artistId, typeId | Core comic entity with 9 indexes |
-| `chapter` | id, slug (unique), title, chapterNumber, releaseDate, comicId (FK), views, content | Chapter with unique(comicId, chapterNumber) |
-| `comicImage` | id, comicId (FK), imageUrl (unique), imageOrder | Comic cover/banner images |
-| `chapterImage` | id, chapterId (FK), imageUrl, pageNumber | Chapter page images with unique(chapterId, pageNumber) |
-| `comicToGenre` | comicId, genreId (composite PK) | Many-to-many comic-genre mapping |
+| Table          | Key Fields                                                                                                                     | Purpose                                                |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| `type`         | id, name (unique), description                                                                                                 | Comic type classification (manga, manhwa, etc.)        |
+| `author`       | id, name (unique), bio, image, searchVector                                                                                    | Author profiles with full-text search                  |
+| `artist`       | id, name (unique), bio, image, searchVector                                                                                    | Artist profiles with full-text search                  |
+| `genre`        | id, name (unique), slug (unique), description, isActive                                                                        | Genre taxonomy                                         |
+| `comic`        | id, title (unique), slug (unique), description, coverImage, status, publicationDate, rating, views, authorId, artistId, typeId | Core comic entity with 9 indexes                       |
+| `chapter`      | id, slug (unique), title, chapterNumber, releaseDate, comicId (FK), views, content                                             | Chapter with unique(comicId, chapterNumber)            |
+| `comicImage`   | id, comicId (FK), imageUrl (unique), imageOrder                                                                                | Comic cover/banner images                              |
+| `chapterImage` | id, chapterId (FK), imageUrl, pageNumber                                                                                       | Chapter page images with unique(chapterId, pageNumber) |
+| `comicToGenre` | comicId, genreId (composite PK)                                                                                                | Many-to-many comic-genre mapping                       |
 
 **Enum:** `comic_status` = `'Ongoing' | 'Hiatus' | 'Completed' | 'Dropped' | 'Season End' | 'Coming Soon'`
 
 ### User Interaction Tables
 
-| Table | Key Fields | Purpose |
-| --- | --- | --- |
-| `bookmark` | userId, comicId (composite PK), lastReadChapterId, status, notes | User bookmarks with reading status |
-| `comment` | id, content, userId (FK), chapterId (FK), parentId (self-ref FK), deletedAt | Nested comments with soft-delete |
-| `readingProgress` | id, userId, comicId, chapterId, pageNumber, scrollPosition, progressPercent, completedAt | Granular per-chapter reading position |
-| `readerSettings` | id, userId (unique), backgroundMode, readingMode, defaultQuality | Per-user reader preferences |
-| `rating` | id, userId, comicId, rating (1-5), review | User ratings with unique(userId, comicId) |
-| `notification` | id, userId, type, title, message, link, read, comicId, chapterId | In-app notifications |
+| Table             | Key Fields                                                                               | Purpose                                   |
+| ----------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------- |
+| `bookmark`        | userId, comicId (composite PK), lastReadChapterId, status, notes                         | User bookmarks with reading status        |
+| `comment`         | id, content, userId (FK), chapterId (FK), parentId (self-ref FK), deletedAt              | Nested comments with soft-delete          |
+| `readingProgress` | id, userId, comicId, chapterId, pageNumber, scrollPosition, progressPercent, completedAt | Granular per-chapter reading position     |
+| `readerSettings`  | id, userId (unique), backgroundMode, readingMode, defaultQuality                         | Per-user reader preferences               |
+| `rating`          | id, userId, comicId, rating (1-5), review                                                | User ratings with unique(userId, comicId) |
+| `notification`    | id, userId, type, title, message, link, read, comicId, chapterId                         | In-app notifications                      |
 
 ### RBAC Tables
 
-| Table | Key Fields | Purpose |
-| --- | --- | --- |
-| `role` | id, name (unique), description, isSystem | Role definitions |
-| `permission` | id, name (unique), resource (enum), action (enum) | Granular permissions with unique(resource, action) |
-| `rolePermission` | roleId, permissionId (composite PK) | Role-permission mappings |
-| `userRole` | userId, roleId (composite PK), assignedBy | User-role assignments |
+| Table            | Key Fields                                        | Purpose                                            |
+| ---------------- | ------------------------------------------------- | -------------------------------------------------- |
+| `role`           | id, name (unique), description, isSystem          | Role definitions                                   |
+| `permission`     | id, name (unique), resource (enum), action (enum) | Granular permissions with unique(resource, action) |
+| `rolePermission` | roleId, permissionId (composite PK)               | Role-permission mappings                           |
+| `userRole`       | userId, roleId (composite PK), assignedBy         | User-role assignments                              |
 
 **Enums:** `resource_type` = 12 resources, `action_type` = `'create' | 'read' | 'update' | 'delete' | 'manage'`
 
 ### Analytics & Social Tables
 
-| Table | Key Fields | Purpose |
-| --- | --- | --- |
-| `auditLog` | id (UUID), userId, action, resource, resourceId, details, oldValues, newValues, ipAddress, userAgent | Comprehensive audit trail |
-| `userPreference` | id, userId (unique), theme, defaultLayout, pageNavigationStyle, fontSize, notification toggles, privacy flags | User preferences |
-| `readingHistory` | id, userId, comicId, chapterId, startedAt, completedAt, timeSpentSeconds, progress | Reading analytics time-series |
-| `readingGoal` | id, userId, type (daily_chapters/weekly_comics/monthly_minutes), target, currentCount, startDate, endDate | Goal tracking |
-| `searchIndex` | id, comicId (unique), denormalized title/synopsis/authors/artists/genres, searchVector (tsvector), popularity, rating | Full-text search optimization |
-| `follow` | followerId, followingId (composite PK) | User-user following |
-| `share` | id, userId, resourceType, resourceId, message | Share to activity feed |
+| Table            | Key Fields                                                                                                            | Purpose                       |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| `auditLog`       | id (UUID), userId, action, resource, resourceId, details, oldValues, newValues, ipAddress, userAgent                  | Comprehensive audit trail     |
+| `userPreference` | id, userId (unique), theme, defaultLayout, pageNavigationStyle, fontSize, notification toggles, privacy flags         | User preferences              |
+| `readingHistory` | id, userId, comicId, chapterId, startedAt, completedAt, timeSpentSeconds, progress                                    | Reading analytics time-series |
+| `readingGoal`    | id, userId, type (daily_chapters/weekly_comics/monthly_minutes), target, currentCount, startDate, endDate             | Goal tracking                 |
+| `searchIndex`    | id, comicId (unique), denormalized title/synopsis/authors/artists/genres, searchVector (tsvector), popularity, rating | Full-text search optimization |
+| `follow`         | followerId, followingId (composite PK)                                                                                | User-user following           |
+| `share`          | id, userId, resourceType, resourceId, message                                                                         | Share to activity feed        |
 
 ### Relations
 
@@ -92,9 +92,7 @@ Server actions are Next.js Server Actions using `"use server"` pattern. Each act
 
 ```typescript
 // Pattern: validate input with Zod -> call DAL -> return result
-export async function actionName(
-  input: InputType
-): Promise<ActionResult> {
+export async function actionName(input: InputType): Promise<ActionResult> {
   const validated = schema.parse(input); // or safeParse
   // authorize (RBAC check)
   // call DAL
@@ -229,35 +227,35 @@ Zod schemas for runtime validation:
 
 ### Custom Hooks (src/hooks/)
 
-| Hook | Signature | Purpose |
-| --- | --- | --- |
-| `use-debounce.ts` | `useDebounce<T>(value: T, delay: number): T` | Debounces a value by specified ms for search-as-you-type |
-| `use-keyboard-navigation.tsx` | `useKeyboardNavigation(keyMap: KeyMap): void` | Maps arrow keys, Enter, Escape for reader keyboard shortcuts |
-| `use-mobile.ts` | `useMobile(): boolean` | Detects mobile viewport (<768px) for responsive UI switching |
-| `use-now.tsx` | `useNow(interval?: number): Date` | SSR-safe reactive clock used for reading time tracking |
-| `use-pagination.ts` | `usePagination<T>(items: T[], pageSize: number): PaginationResult<T>` | Client-side pagination state with currentPage, totalPages, handlers |
-| `use-performance-monitoring.tsx` | `usePerformanceMonitoring(componentName: string): void` | Tracks render times and interaction metrics for analytics |
+| Hook                             | Signature                                                             | Purpose                                                             |
+| -------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `use-debounce.ts`                | `useDebounce<T>(value: T, delay: number): T`                          | Debounces a value by specified ms for search-as-you-type            |
+| `use-keyboard-navigation.tsx`    | `useKeyboardNavigation(keyMap: KeyMap): void`                         | Maps arrow keys, Enter, Escape for reader keyboard shortcuts        |
+| `use-mobile.ts`                  | `useMobile(): boolean`                                                | Detects mobile viewport (<768px) for responsive UI switching        |
+| `use-now.tsx`                    | `useNow(interval?: number): Date`                                     | SSR-safe reactive clock used for reading time tracking              |
+| `use-pagination.ts`              | `usePagination<T>(items: T[], pageSize: number): PaginationResult<T>` | Client-side pagination state with currentPage, totalPages, handlers |
+| `use-performance-monitoring.tsx` | `usePerformanceMonitoring(componentName: string): void`               | Tracks render times and interaction metrics for analytics           |
 
 ### Library Utilities (src/lib/)
 
-| File | Key Export | Purpose |
-| --- | --- | --- |
-| `utils.ts` | `cn(...inputs)` | Tailwind class merging with clsx + tailwind-merge |
-| `accessibility.ts` | `skipToContent`, `announceToScreenReader` | ARIA helpers for keyboard nav and live regions |
-| `image-optimization.ts` | `getOptimizedImageUrl`, `generateSrcSet` | Generates responsive image URLs with quality/size params |
-| `image-processor.ts` | `processClientImage`, `validateFileType` | Client-side validation (size, dimensions, type) before upload |
-| `performance-metrics.ts` | `trackMetric`, `MetricCollector` | Collects and batches Web Vitals and custom metrics |
-| `query-client.ts` | `queryClient`, `trpcClient` | React Query and tRPC client configuration with SSR hydration |
+| File                     | Key Export                                | Purpose                                                       |
+| ------------------------ | ----------------------------------------- | ------------------------------------------------------------- |
+| `utils.ts`               | `cn(...inputs)`                           | Tailwind class merging with clsx + tailwind-merge             |
+| `accessibility.ts`       | `skipToContent`, `announceToScreenReader` | ARIA helpers for keyboard nav and live regions                |
+| `image-optimization.ts`  | `getOptimizedImageUrl`, `generateSrcSet`  | Generates responsive image URLs with quality/size params      |
+| `image-processor.ts`     | `processClientImage`, `validateFileType`  | Client-side validation (size, dimensions, type) before upload |
+| `performance-metrics.ts` | `trackMetric`, `MetricCollector`          | Collects and batches Web Vitals and custom metrics            |
+| `query-client.ts`        | `queryClient`, `trpcClient`               | React Query and tRPC client configuration with SSR hydration  |
 
 ### Zustand Stores (src/stores/)
 
-| Store | Key State | Persisted |
-| --- | --- | --- |
-| `use-bookmark-store.ts` | `bookmarks[]`, `addBookmark`, `removeBookmark` | Yes |
-| `use-reader-store.ts` | `layout`, `direction`, `zoom`, `currentPage` | Yes |
-| `use-reading-progress-store.ts` | `progressByChapter`, `syncProgress` | Yes |
-| `use-notification-store.ts` | `notifications[]`, `unreadCount`, `markRead` | No |
-| `use-ui-store.ts` | `sidebar`, `theme`, `mobileMenu` | Partial |
+| Store                           | Key State                                      | Persisted |
+| ------------------------------- | ---------------------------------------------- | --------- |
+| `use-bookmark-store.ts`         | `bookmarks[]`, `addBookmark`, `removeBookmark` | Yes       |
+| `use-reader-store.ts`           | `layout`, `direction`, `zoom`, `currentPage`   | Yes       |
+| `use-reading-progress-store.ts` | `progressByChapter`, `syncProgress`            | Yes       |
+| `use-notification-store.ts`     | `notifications[]`, `unreadCount`, `markRead`   | No        |
+| `use-ui-store.ts`               | `sidebar`, `theme`, `mobileMenu`               | Partial   |
 
 ---
 
@@ -276,9 +274,7 @@ type UserType = typeof user.$inferSelect; // Full user row type
 ### Action Result Pattern
 
 ```typescript
-type ActionResult<T> =
-  | { data: T; ok: true }
-  | { error: string; ok: false };
+type ActionResult<T> = { data: T; ok: true } | { error: string; ok: false };
 ```
 
 ### Server Action Input Types

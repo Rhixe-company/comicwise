@@ -36,11 +36,11 @@ This document outlines the complete batch implementation plan derived from three
 **File:** `src/components/search/search-results.tsx`  
 **Status:** ✅ VERIFIED - 0 errors found
 
-| Issue | Description | Status |
-| --- | --- | --- |
-| Import validation | Check bookmark import path | ✅ Valid: `@/components/comics/bookmark-button` |
-| String/Number mismatch | `comic.id` type validation | ✅ Correct: Already using proper types |
-| Nullable handling | `comic.synopsis` optional check | ✅ Correct: Using `?? undefined` |
+| Issue                  | Description                     | Status                                          |
+| ---------------------- | ------------------------------- | ----------------------------------------------- |
+| Import validation      | Check bookmark import path      | ✅ Valid: `@/components/comics/bookmark-button` |
+| String/Number mismatch | `comic.id` type validation      | ✅ Correct: Already using proper types          |
+| Nullable handling      | `comic.synopsis` optional check | ✅ Correct: Using `?? undefined`                |
 
 **Verification:**
 
@@ -115,10 +115,10 @@ grep -r "continue-reading-card" src/ --include="*.tsx" --include="*.ts"
 
 #### Task 1C.2: Create Barrel Exports (4 files)
 
-| Directory | New File | Exports |
-| --- | --- | --- |
+| Directory                   | New File   | Exports                             |
+| --------------------------- | ---------- | ----------------------------------- |
 | `src/components/bookmarks/` | `index.ts` | 4 exports (identify from directory) |
-| `src/components/search/` | `index.ts` | 5 exports (identify from directory) |
+| `src/components/search/`    | `index.ts` | 5 exports (identify from directory) |
 
 **Implementation:**
 
@@ -254,13 +254,13 @@ grep -r "shadcn-studio" src/ → 0 results
 
 #### Scripts to Create
 
-| Script | Purpose | Flags | Status |
-| --- | --- | --- | --- |
-| `project-cleanup.ts` | Deep cleanup (duplicates, unused, temp) | `--dry-run`, `--verbose`, `--yes` | ⏳ |
-| `cleanup-duplicates.ts` | Pattern-based duplicate detection | `--dry-run`, `--verbose` | ⏳ |
-| `optimize-performance.ts` | Bundle analysis + caching audit | `--dry-run`, `--verbose`, `--json` | ⏳ |
-| `validate-env.ts` | Env validation + .env sync | `--dry-run`, `--verbose` | ⏳ |
-| `fix-line-endings.ts` | CRLF→LF normalization | `--dry-run`, `--verbose`, `--yes` | ⏳ |
+| Script                    | Purpose                                 | Flags                              | Status |
+| ------------------------- | --------------------------------------- | ---------------------------------- | ------ |
+| `project-cleanup.ts`      | Deep cleanup (duplicates, unused, temp) | `--dry-run`, `--verbose`, `--yes`  | ⏳     |
+| `cleanup-duplicates.ts`   | Pattern-based duplicate detection       | `--dry-run`, `--verbose`           | ⏳     |
+| `optimize-performance.ts` | Bundle analysis + caching audit         | `--dry-run`, `--verbose`, `--json` | ⏳     |
+| `validate-env.ts`         | Env validation + .env sync              | `--dry-run`, `--verbose`           | ⏳     |
+| `fix-line-endings.ts`     | CRLF→LF normalization                   | `--dry-run`, `--verbose`, `--yes`  | ⏳     |
 
 **Pattern:** All use `confirmAction.ts` for destructive ops + Logger from seed system
 
@@ -284,17 +284,17 @@ grep -r "shadcn-studio" src/ → 0 results
 
 #### Enhance (2 pairs)
 
-| Script | Enhancements |
-| --- | --- |
-| `setup-dev.sh`/`.ps1` | Add `--skip-db`, `--skip-seed`, `--skip-install` |
-| `quality-gate.sh`/`.ps1` | Add `tee`/`Tee-Object`, timing, JSON summary |
+| Script                   | Enhancements                                     |
+| ------------------------ | ------------------------------------------------ |
+| `setup-dev.sh`/`.ps1`    | Add `--skip-db`, `--skip-seed`, `--skip-install` |
+| `quality-gate.sh`/`.ps1` | Add `tee`/`Tee-Object`, timing, JSON summary     |
 
 #### Create NEW (2 pairs)
 
-| Script | Purpose |
-| --- | --- |
-| `dev.sh`/`dev.ps1` | Prerequisites + dev server + auto-open browser |
-| `cleanup.sh`/`cleanup.ps1` | Artifact removal with dry-run |
+| Script                     | Purpose                                        |
+| -------------------------- | ---------------------------------------------- |
+| `dev.sh`/`dev.ps1`         | Prerequisites + dev server + auto-open browser |
+| `cleanup.sh`/`cleanup.ps1` | Artifact removal with dry-run                  |
 
 **Status:** ⏳ READY TO IMPLEMENT
 
@@ -492,18 +492,18 @@ pnpm build:debug 2>&1 | tee build-report.txt
 
 ### Phase 4A: Pre-Identified Issues to Fix (10 issues)
 
-| # | File | Issue | Fix | Status |
-| --- | --- | --- | --- | --- |
-| 1 | `src/actions/auth-db.ts` | Not a Server Action (no `"use server"`) | Move to `src/dal/auth-db.ts` | ⏳ |
-| 2 | `src/dal/search-dal.ts` | Only DAL not extending `BaseDal<T>` | Make it extend `BaseDal<ComicType>` | ⏳ |
-| 3 | `src/dal/search-dal.ts` L116,118 | 2 `any` types | Replace with proper interfaces | ⏳ |
-| 4 | `src/actions/goals.actions.ts` | Wrong import `./actions-types` | Change to `@/types/actions-types` | ⏳ |
-| 5 | `src/schemas/comic-schema.ts` | Dead file — imported nowhere | Delete | ⏳ |
-| 6 | `src/tests/example.spec.ts` | Playwright placeholder | Delete | ⏳ |
-| 7 | `src/tests/schemas/comic-schema.spec.ts` | Naming mismatch | Rename to `comic.schema.spec.ts` | ⏳ |
-| 8 | `src/actions/reading-progress.actions.ts` + `reading-progress.ts` | Potential duplicates | Investigate and merge | ⏳ |
-| 9 | `src/dal/comment-rating-dal.ts` | Bundles 2 DALs in one file | Investigate if should split | ⏳ |
-| 10 | 12 files (20 usages) | `process.env` used directly | Migrate ALL to `getEnv()` | ⏳ |
+| #   | File                                                              | Issue                                   | Fix                                 | Status |
+| --- | ----------------------------------------------------------------- | --------------------------------------- | ----------------------------------- | ------ |
+| 1   | `src/actions/auth-db.ts`                                          | Not a Server Action (no `"use server"`) | Move to `src/dal/auth-db.ts`        | ⏳     |
+| 2   | `src/dal/search-dal.ts`                                           | Only DAL not extending `BaseDal<T>`     | Make it extend `BaseDal<ComicType>` | ⏳     |
+| 3   | `src/dal/search-dal.ts` L116,118                                  | 2 `any` types                           | Replace with proper interfaces      | ⏳     |
+| 4   | `src/actions/goals.actions.ts`                                    | Wrong import `./actions-types`          | Change to `@/types/actions-types`   | ⏳     |
+| 5   | `src/schemas/comic-schema.ts`                                     | Dead file — imported nowhere            | Delete                              | ⏳     |
+| 6   | `src/tests/example.spec.ts`                                       | Playwright placeholder                  | Delete                              | ⏳     |
+| 7   | `src/tests/schemas/comic-schema.spec.ts`                          | Naming mismatch                         | Rename to `comic.schema.spec.ts`    | ⏳     |
+| 8   | `src/actions/reading-progress.actions.ts` + `reading-progress.ts` | Potential duplicates                    | Investigate and merge               | ⏳     |
+| 9   | `src/dal/comment-rating-dal.ts`                                   | Bundles 2 DALs in one file              | Investigate if should split         | ⏳     |
+| 10  | 12 files (20 usages)                                              | `process.env` used directly             | Migrate ALL to `getEnv()`           | ⏳     |
 
 **Status:** ⏳ READY TO EXECUTE
 
@@ -513,12 +513,12 @@ pnpm build:debug 2>&1 | tee build-report.txt
 
 #### Auth/Service Configs (8 usages)
 
-| File | Violation | Fix |
-| --- | --- | --- |
-| `src/auth-providers.ts` | GITHUB*CLIENT_ID, KEYCLOAK*\* (4 usages) | Use `getEnv()` |
-| `src/auth-config.ts` | AUTH_SECRET (1 usage) | Use `getEnv()` |
-| `src/lib/cache/redis.ts` | UPSTASH*REDIS_REST*\* (2 usages) | Use `getEnv()` |
-| `src/scripts/seed/images/image-kit-uploader.ts` | IMAGEKIT\_\* (3 usages) | Use `getEnv()` |
+| File                                            | Violation                                | Fix            |
+| ----------------------------------------------- | ---------------------------------------- | -------------- |
+| `src/auth-providers.ts`                         | GITHUB*CLIENT_ID, KEYCLOAK*\* (4 usages) | Use `getEnv()` |
+| `src/auth-config.ts`                            | AUTH_SECRET (1 usage)                    | Use `getEnv()` |
+| `src/lib/cache/redis.ts`                        | UPSTASH*REDIS_REST*\* (2 usages)         | Use `getEnv()` |
+| `src/scripts/seed/images/image-kit-uploader.ts` | IMAGEKIT\_\* (3 usages)                  | Use `getEnv()` |
 
 **Status:** ⏳ READY TO IMPLEMENT
 
@@ -526,15 +526,15 @@ pnpm build:debug 2>&1 | tee build-report.txt
 
 #### NODE_ENV Checks (12 usages in 8 files)
 
-| Files | Pattern | Fix |
-| --- | --- | --- |
-| `src/database/db.ts` | NODE_ENV check | Use `getEnv()` |
-| `src/lib/query-client.ts` | NODE_ENV check | Use `getEnv()` |
-| `src/lib/performance-metrics.ts` | NODE_ENV check | Use `getEnv()` |
-| `src/hooks/use-performance-monitoring.tsx` | NODE_ENV check | Use `getEnv()` |
-| `src/app/api/seed/route.ts` | NODE_ENV check | Use `getEnv()` |
-| `src/scripts/seed/run.ts` | NODE_ENV check | Use `getEnv()` |
-| `src/components/layout/layout-provider.tsx` | NODE_ENV check | Use `getEnv()` |
+| Files                                                          | Pattern        | Fix            |
+| -------------------------------------------------------------- | -------------- | -------------- |
+| `src/database/db.ts`                                           | NODE_ENV check | Use `getEnv()` |
+| `src/lib/query-client.ts`                                      | NODE_ENV check | Use `getEnv()` |
+| `src/lib/performance-metrics.ts`                               | NODE_ENV check | Use `getEnv()` |
+| `src/hooks/use-performance-monitoring.tsx`                     | NODE_ENV check | Use `getEnv()` |
+| `src/app/api/seed/route.ts`                                    | NODE_ENV check | Use `getEnv()` |
+| `src/scripts/seed/run.ts`                                      | NODE_ENV check | Use `getEnv()` |
+| `src/components/layout/layout-provider.tsx`                    | NODE_ENV check | Use `getEnv()` |
 | `src/components/optimized/performance-monitoring-provider.tsx` | NODE_ENV check | Use `getEnv()` |
 
 **Status:** ⏳ READY TO IMPLEMENT
@@ -779,25 +779,25 @@ pnpm build:debug 2>&1 | tee build-report.txt
 
 ## Implementation Priority Matrix
 
-| Batch | Phase | Priority | Duration | Blocker? | Dependencies |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Fix TS Errors | CRITICAL | 30m | No | None |
-| 1 | Doc Cleanup | HIGH | 30m | No | None |
-| 1 | Components | HIGH | 1h | No | None |
-| 1 | VS Code | MEDIUM | 1h | No | None |
-| 2 | Analyze Scripts | HIGH | 1h | No | Batch 1 |
-| 2 | Port Scripts | HIGH | 2h | No | Batch 1 |
-| 2 | Enhance Scripts | HIGH | 1h | No | Port Scripts |
-| 2 | Shell Scripts | MEDIUM | 1h | No | Port Scripts |
-| 2 | package.json | HIGH | 30m | No | Port Scripts |
-| 3 | Seed Enhancement | HIGH | 2h | No | Batch 2 |
-| 3 | Quality Gate | HIGH | 1h | No | Batch 2 |
-| 3 | Triage | HIGH | 1h | No | Quality Gate |
-| 4 | Pre-identified | CRITICAL | 2h | Yes | Batch 1-3 |
-| 4 | process.env | CRITICAL | 2h | Yes | Batch 1-3 |
-| 4 | Directory Audit | HIGH | 3h | Yes | Pre-identified |
-| 5 | CI/CD | HIGH | 1.5h | No | Batch 4 |
-| 5 | Phase Plan | MEDIUM | 1.5h | No | All Batches |
+| Batch | Phase            | Priority | Duration | Blocker? | Dependencies   |
+| ----- | ---------------- | -------- | -------- | -------- | -------------- |
+| 1     | Fix TS Errors    | CRITICAL | 30m      | No       | None           |
+| 1     | Doc Cleanup      | HIGH     | 30m      | No       | None           |
+| 1     | Components       | HIGH     | 1h       | No       | None           |
+| 1     | VS Code          | MEDIUM   | 1h       | No       | None           |
+| 2     | Analyze Scripts  | HIGH     | 1h       | No       | Batch 1        |
+| 2     | Port Scripts     | HIGH     | 2h       | No       | Batch 1        |
+| 2     | Enhance Scripts  | HIGH     | 1h       | No       | Port Scripts   |
+| 2     | Shell Scripts    | MEDIUM   | 1h       | No       | Port Scripts   |
+| 2     | package.json     | HIGH     | 30m      | No       | Port Scripts   |
+| 3     | Seed Enhancement | HIGH     | 2h       | No       | Batch 2        |
+| 3     | Quality Gate     | HIGH     | 1h       | No       | Batch 2        |
+| 3     | Triage           | HIGH     | 1h       | No       | Quality Gate   |
+| 4     | Pre-identified   | CRITICAL | 2h       | Yes      | Batch 1-3      |
+| 4     | process.env      | CRITICAL | 2h       | Yes      | Batch 1-3      |
+| 4     | Directory Audit  | HIGH     | 3h       | Yes      | Pre-identified |
+| 5     | CI/CD            | HIGH     | 1.5h     | No       | Batch 4        |
+| 5     | Phase Plan       | MEDIUM   | 1.5h     | No       | All Batches    |
 
 **Total Estimated Time:** 24-32 hours
 

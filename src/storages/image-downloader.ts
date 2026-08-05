@@ -48,7 +48,7 @@ export function configureImageDownloader(config: Partial<ImageOptimizationConfig
     enabled: config.enabled ?? optimizationConfig.enabled,
   };
   logger.debug(
-    `ImageDownloader configured: optimization=${optimizationConfig.enabled}, maxWidth=${optimizationConfig.maxWidth}, quality=${optimizationConfig.quality}`
+    `ImageDownloader configured: optimization=${optimizationConfig.enabled}, maxWidth=${optimizationConfig.maxWidth}, quality=${optimizationConfig.quality}`,
   );
 }
 
@@ -149,7 +149,7 @@ export class ImageDownloader {
   constructor(
     cacheDir: string = "./public/uploads/comics",
     maxRetries: number = 3,
-    timeout: number = DEFAULT_TIMEOUT_MS
+    timeout: number = DEFAULT_TIMEOUT_MS,
   ) {
     this.cacheDir = cacheDir;
     this.maxRetries = maxRetries;
@@ -295,7 +295,7 @@ export class ImageDownloader {
     url: string,
     entityType: string,
     entityId: number | string,
-    options: DownloadOptions = {}
+    options: DownloadOptions = {},
   ): Promise<ImageDownloadResult> {
     const { entityMeta, maxRetries = this.maxRetries, timeout = this.timeout, skipIfExists = true } = options;
 
@@ -465,7 +465,7 @@ export class ImageDownloader {
 
       if (optimizeResult.success && optimizeResult.savedPercent && optimizeResult.savedPercent > 1) {
         logger.debug(
-          `Optimized ${url}: saved ${optimizeResult.savedPercent.toFixed(1)}% (${(optimizeResult.originalSize! / 1024).toFixed(1)}KB → ${(optimizeResult.newSize! / 1024).toFixed(1)}KB)`
+          `Optimized ${url}: saved ${optimizeResult.savedPercent.toFixed(1)}% (${(optimizeResult.originalSize! / 1024).toFixed(1)}KB → ${(optimizeResult.newSize! / 1024).toFixed(1)}KB)`,
         );
       } else if (!optimizeResult.success) {
         logger.debug(`Optimization failed for ${url}: ${optimizeResult.error}`);

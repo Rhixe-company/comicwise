@@ -64,39 +64,39 @@
 
 ### Core Framework & Runtime
 
-| Layer | Technology | Version | Purpose |
-| --- | --- | --- | --- |
-| **Frontend Framework** | Next.js | 16.1.6 | App Router, Server Components, Turbopack |
-| **React** | React / React DOM | 19.2.4 | UI library with Server Components |
-| **Runtime TypeScript** | TypeScript | 5.9.3 | Static type checking (strict mode) |
-| **Node Runtime** | Node.js | 18+ | JavaScript runtime |
+| Layer                  | Technology        | Version | Purpose                                  |
+| ---------------------- | ----------------- | ------- | ---------------------------------------- |
+| **Frontend Framework** | Next.js           | 16.1.6  | App Router, Server Components, Turbopack |
+| **React**              | React / React DOM | 19.2.4  | UI library with Server Components        |
+| **Runtime TypeScript** | TypeScript        | 5.9.3   | Static type checking (strict mode)       |
+| **Node Runtime**       | Node.js           | 18+     | JavaScript runtime                       |
 
 ### Database & ORM
 
-| Component | Technology | Version | Purpose |
-| --- | --- | --- | --- |
-| **Database** | PostgreSQL | 14+ | Primary relational database |
-| **ORM** | Drizzle ORM | 0.45.1 | Type-safe database queries |
-| **ORM CLI** | Drizzle Kit | 0.45.1 | Migrations and schema management |
-| **Driver** | postgres-js | — | PostgreSQL protocol driver |
+| Component    | Technology  | Version | Purpose                          |
+| ------------ | ----------- | ------- | -------------------------------- |
+| **Database** | PostgreSQL  | 14+     | Primary relational database      |
+| **ORM**      | Drizzle ORM | 0.45.1  | Type-safe database queries       |
+| **ORM CLI**  | Drizzle Kit | 0.45.1  | Migrations and schema management |
+| **Driver**   | postgres-js | —       | PostgreSQL protocol driver       |
 
 ### Authentication & Authorization
 
-| Component | Technology | Version | Purpose |
-| --- | --- | --- | --- |
-| **Auth Framework** | NextAuth.js | v5.0.0-beta.30 | Session & OAuth management |
-| **Auth Adapter** | @auth/drizzle-adapter | — | NextAuth ↔ Drizzle integration |
-| **Password Hashing** | bcryptjs | — | Secure password hashing |
-| **OAuth Providers** | GitHub, Keycloak | — | 3rd-party authentication |
+| Component            | Technology            | Version        | Purpose                        |
+| -------------------- | --------------------- | -------------- | ------------------------------ |
+| **Auth Framework**   | NextAuth.js           | v5.0.0-beta.30 | Session & OAuth management     |
+| **Auth Adapter**     | @auth/drizzle-adapter | —              | NextAuth ↔ Drizzle integration |
+| **Password Hashing** | bcryptjs              | —              | Secure password hashing        |
+| **OAuth Providers**  | GitHub, Keycloak      | —              | 3rd-party authentication       |
 
 ### State Management & Validation
 
-| Component | Technology | Version | Purpose |
-| --- | --- | --- | --- |
-| **Client State** | Zustand | 5.0.11 | Minimal client-side state |
-| **Data Fetching** | React Query | 5.x | Server-state caching on client |
-| **Validation** | Zod | 4.3.6 | Runtime schema validation (⚠️ v4 API) |
-| **Form State** | React Hook Form | — | Form state management |
+| Component         | Technology      | Version | Purpose                               |
+| ----------------- | --------------- | ------- | ------------------------------------- |
+| **Client State**  | Zustand         | 5.0.11  | Minimal client-side state             |
+| **Data Fetching** | React Query     | 5.x     | Server-state caching on client        |
+| **Validation**    | Zod             | 4.3.6   | Runtime schema validation (⚠️ v4 API) |
+| **Form State**    | React Hook Form | —       | Form state management                 |
 
 ### UI & Styling
 
@@ -111,21 +111,21 @@
 
 ### Development & Testing
 
-| Component | Technology | Version | Purpose |
-| --- | --- | --- | --- |
-| **Build Tool** | Turbopack | Built-in | Default Next.js bundler (file system caching) |
-| **Linting** | ESLint | Flat config | Code quality |
-| **Formatting** | Prettier | — | Code formatting |
-| **Unit Testing** | Vitest | 4.0.18 | Unit test framework (jsdom) |
-| **E2E Testing** | Playwright | — | Browser automation testing |
-| **Package Manager** | pnpm | 8+ | Monorepo-ready package management |
+| Component           | Technology | Version     | Purpose                                       |
+| ------------------- | ---------- | ----------- | --------------------------------------------- |
+| **Build Tool**      | Turbopack  | Built-in    | Default Next.js bundler (file system caching) |
+| **Linting**         | ESLint     | Flat config | Code quality                                  |
+| **Formatting**      | Prettier   | —           | Code formatting                               |
+| **Unit Testing**    | Vitest     | 4.0.18      | Unit test framework (jsdom)                   |
+| **E2E Testing**     | Playwright | —           | Browser automation testing                    |
+| **Package Manager** | pnpm       | 8+          | Monorepo-ready package management             |
 
 ### Monitoring & Observability
 
-| Component | Technology | Purpose |
-| --- | --- | --- |
-| **Error Tracking** | Sentry | Error monitoring (optional, stubs present) |
-| **Caching** | Redis/Upstash | Session caching (optional, stubs present) |
+| Component          | Technology    | Purpose                                    |
+| ------------------ | ------------- | ------------------------------------------ |
+| **Error Tracking** | Sentry        | Error monitoring (optional, stubs present) |
+| **Caching**        | Redis/Upstash | Session caching (optional, stubs present)  |
 
 ---
 
@@ -365,12 +365,7 @@ const apiUrl = getEnv().NEXT_PUBLIC_API_URL; // ✅ Type-safe
 
 ```typescript
 // Comic status (Title-Case)
-comicStatus: "Ongoing" |
-  "Hiatus" |
-  "Completed" |
-  "Dropped" |
-  "Season End" |
-  "Coming Soon";
+comicStatus: "Ongoing" | "Hiatus" | "Completed" | "Dropped" | "Season End" | "Coming Soon";
 
 // User roles (lowercase)
 userRole: "user" | "admin" | "moderator";
@@ -393,27 +388,27 @@ actionEnum: "create" | "read" | "update" | "delete" | "manage";
 
 ### Table Categories
 
-| Category | Tables | Count |
-| --- | --- | --- |
-| **Auth/User** | `user`, `account`, `session`, `verificationToken`, `authenticator`, `passwordResetToken` | 6 |
-| **Content** | `type`, `author`, `artist`, `genre`, `comic`, `chapter`, `comicImage`, `chapterImage` | 8 |
-| **Junctions** | `comicToGenre` | 1 |
-| **User Activity** | `bookmark`, `comment`, `readingProgress`, `readerSettings`, `rating`, `notification`, `userPreference` | 7 |
-| **RBAC** | `role`, `permission`, `rolePermission`, `userRole2` | 4 |
-| **Audit** | `auditLog` | 1 |
-| **TOTAL** | — | **27** |
+| Category          | Tables                                                                                                 | Count  |
+| ----------------- | ------------------------------------------------------------------------------------------------------ | ------ |
+| **Auth/User**     | `user`, `account`, `session`, `verificationToken`, `authenticator`, `passwordResetToken`               | 6      |
+| **Content**       | `type`, `author`, `artist`, `genre`, `comic`, `chapter`, `comicImage`, `chapterImage`                  | 8      |
+| **Junctions**     | `comicToGenre`                                                                                         | 1      |
+| **User Activity** | `bookmark`, `comment`, `readingProgress`, `readerSettings`, `rating`, `notification`, `userPreference` | 7      |
+| **RBAC**          | `role`, `permission`, `rolePermission`, `userRole2`                                                    | 4      |
+| **Audit**         | `auditLog`                                                                                             | 1      |
+| **TOTAL**         | —                                                                                                      | **27** |
 
 ### Key Table Details
 
-| Table | Key Column | Critical Notes |
-| --- | --- | --- |
-| `user` | `id: text (UUID)` | NOT integer. Password nullable (OAuth). Soft delete via `deletedAt`. JSONB `settings` column. |
-| `comic` | `rating: decimal(10,1)` | Aggregate display rating. NOT integer. `status` is Title-Case enum. |
-| `rating` | `rating: integer (1-5)` | Per-user stars. Different type from `comic.rating`! Aggregate via `AVG()`. |
-| `bookmark` | Composite PK `(userId, comicId)` | Upsert via `onConflictDoUpdate`. |
-| `chapter` | Composite unique `(comicId, chapterNumber)` | — |
-| `comment` | `parentId` FK missing `.references()` | ⚠️ Cannot use `.with()` for threading. Manual SQL JOIN needed. |
-| `auditLog` | `userId` → `"set null"` | ⚠️ Exception: NOT cascade (preserves audit trail). |
+| Table      | Key Column                                  | Critical Notes                                                                                |
+| ---------- | ------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `user`     | `id: text (UUID)`                           | NOT integer. Password nullable (OAuth). Soft delete via `deletedAt`. JSONB `settings` column. |
+| `comic`    | `rating: decimal(10,1)`                     | Aggregate display rating. NOT integer. `status` is Title-Case enum.                           |
+| `rating`   | `rating: integer (1-5)`                     | Per-user stars. Different type from `comic.rating`! Aggregate via `AVG()`.                    |
+| `bookmark` | Composite PK `(userId, comicId)`            | Upsert via `onConflictDoUpdate`.                                                              |
+| `chapter`  | Composite unique `(comicId, chapterNumber)` | —                                                                                             |
+| `comment`  | `parentId` FK missing `.references()`       | ⚠️ Cannot use `.with()` for threading. Manual SQL JOIN needed.                                |
+| `auditLog` | `userId` → `"set null"`                     | ⚠️ Exception: NOT cascade (preserves audit trail).                                            |
 
 ### Foreign Keys & Cascade Rules
 
@@ -436,38 +431,38 @@ auditLog.userId → SET NULL
 
 #### User Table
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `text` (UUID) | Primary key. NOT integer. |
-| `name` | `text` | Nullable |
-| `email` | `text` | UNIQUE, NOT NULL |
-| `emailVerified` | `timestamp` | Nullable |
-| `image` | `text` | Profile picture URL |
-| `password` | `text` | bcrypt hash, nullable for OAuth users |
-| `role` | `userRole` enum | `user \| admin \| moderator`, default: `user` |
-| `status` | `boolean` | Account active/inactive |
-| `settings` | `jsonb` | `{ emailNotifications, profileVisibility, readingHistoryVisibility }` |
-| `deletedAt` | `timestamp` | Soft delete, nullable |
-| `createdAt` / `updatedAt` | `timestamp` | Auto-managed |
+| Column                    | Type            | Notes                                                                 |
+| ------------------------- | --------------- | --------------------------------------------------------------------- |
+| `id`                      | `text` (UUID)   | Primary key. NOT integer.                                             |
+| `name`                    | `text`          | Nullable                                                              |
+| `email`                   | `text`          | UNIQUE, NOT NULL                                                      |
+| `emailVerified`           | `timestamp`     | Nullable                                                              |
+| `image`                   | `text`          | Profile picture URL                                                   |
+| `password`                | `text`          | bcrypt hash, nullable for OAuth users                                 |
+| `role`                    | `userRole` enum | `user \| admin \| moderator`, default: `user`                         |
+| `status`                  | `boolean`       | Account active/inactive                                               |
+| `settings`                | `jsonb`         | `{ emailNotifications, profileVisibility, readingHistoryVisibility }` |
+| `deletedAt`               | `timestamp`     | Soft delete, nullable                                                 |
+| `createdAt` / `updatedAt` | `timestamp`     | Auto-managed                                                          |
 
 **Indexes:** `userEmailIdx`, `userRoleIdx` **⚠️ Common mistake:** Forgetting to filter `WHERE deletedAt IS NULL` in queries.
 
 #### Comic Table
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `serial` | Primary key |
-| `title` | `text` | UNIQUE |
-| `slug` | `text` | UNIQUE, URL-friendly — primary query parameter |
-| `description` | `text` | — |
-| `coverImage` | `text` | Image URL |
-| `status` | `comicStatus` enum | Title-Case only |
-| `publicationDate` | `timestamp` | — |
-| `rating` | `decimal(10,1)` | Aggregate display rating, default 0. NOT integer. |
-| `views` | `integer` | View counter, default 0 |
-| `authorId` / `artistId` / `typeId` | `integer` FK | CASCADE delete |
-| `searchVector` | `text` | For full-text search (not PostgreSQL `tsvector`) |
-| `createdAt` / `updatedAt` | `timestamp` | Auto-managed |
+| Column                             | Type               | Notes                                             |
+| ---------------------------------- | ------------------ | ------------------------------------------------- |
+| `id`                               | `serial`           | Primary key                                       |
+| `title`                            | `text`             | UNIQUE                                            |
+| `slug`                             | `text`             | UNIQUE, URL-friendly — primary query parameter    |
+| `description`                      | `text`             | —                                                 |
+| `coverImage`                       | `text`             | Image URL                                         |
+| `status`                           | `comicStatus` enum | Title-Case only                                   |
+| `publicationDate`                  | `timestamp`        | —                                                 |
+| `rating`                           | `decimal(10,1)`    | Aggregate display rating, default 0. NOT integer. |
+| `views`                            | `integer`          | View counter, default 0                           |
+| `authorId` / `artistId` / `typeId` | `integer` FK       | CASCADE delete                                    |
+| `searchVector`                     | `text`             | For full-text search (not PostgreSQL `tsvector`)  |
+| `createdAt` / `updatedAt`          | `timestamp`        | Auto-managed                                      |
 
 **Indexes:** 9 indexes covering slug, title, status, rating, views.
 
@@ -487,56 +482,56 @@ auditLog.userId → SET NULL
 
 #### Bookmark Table
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `userId` | `text` FK | CASCADE delete |
-| `comicId` | `integer` FK | CASCADE delete |
-| `lastReadChapterId` | `integer` FK | Nullable |
-| `status` | `text` | Reading, Plan to Read, Completed, On Hold, Dropped |
-| `notes` | `text` | User notes |
-| `createdAt` / `updatedAt` | `timestamp` | Auto-managed |
+| Column                    | Type         | Notes                                              |
+| ------------------------- | ------------ | -------------------------------------------------- |
+| `userId`                  | `text` FK    | CASCADE delete                                     |
+| `comicId`                 | `integer` FK | CASCADE delete                                     |
+| `lastReadChapterId`       | `integer` FK | Nullable                                           |
+| `status`                  | `text`       | Reading, Plan to Read, Completed, On Hold, Dropped |
+| `notes`                   | `text`       | User notes                                         |
+| `createdAt` / `updatedAt` | `timestamp`  | Auto-managed                                       |
 
 **Primary Key:** Composite `(userId, comicId)` — enables idempotent upserts via `onConflictDoUpdate`.
 
 #### Reading Progress Table
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `serial` | Primary key |
-| `userId` | `text` FK | CASCADE delete |
-| `comicId` / `chapterId` | `integer` FK | CASCADE delete |
-| `pageNumber` | `integer` | Current page in chapter |
-| `scrollPosition` / `scrollPercentage` | `integer` | Scroll tracking |
-| `progressPercent` | `integer` | 0-100, how far through comic |
-| `completedAt` | `timestamp` | Nullable, when finished |
-| `lastReadAt` | `timestamp` | Tracks reading activity |
+| Column                                | Type         | Notes                        |
+| ------------------------------------- | ------------ | ---------------------------- |
+| `id`                                  | `serial`     | Primary key                  |
+| `userId`                              | `text` FK    | CASCADE delete               |
+| `comicId` / `chapterId`               | `integer` FK | CASCADE delete               |
+| `pageNumber`                          | `integer`    | Current page in chapter      |
+| `scrollPosition` / `scrollPercentage` | `integer`    | Scroll tracking              |
+| `progressPercent`                     | `integer`    | 0-100, how far through comic |
+| `completedAt`                         | `timestamp`  | Nullable, when finished      |
+| `lastReadAt`                          | `timestamp`  | Tracks reading activity      |
 
 **Indexes:** userId, comicId, chapterId, lastReadAt, composite (userId, comicId). **Analytics:** `lastReadAt` and `progressPercent` enable "recently read" feed, progress bars, "continue reading" resume, and engagement tracking.
 
 #### Notification Table
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `serial` | Primary key |
-| `userId` | `text` FK | CASCADE delete |
-| `type` | `text` | `new_chapter \| comment_reply \| system` |
-| `title` / `message` | `text` | Notification content |
-| `link` | `text` | Nullable, URL to navigate to |
-| `read` | `boolean` | Default false |
-| `comicId` / `chapterId` | `integer` FK | Nullable, CASCADE delete |
+| Column                  | Type         | Notes                                    |
+| ----------------------- | ------------ | ---------------------------------------- |
+| `id`                    | `serial`     | Primary key                              |
+| `userId`                | `text` FK    | CASCADE delete                           |
+| `type`                  | `text`       | `new_chapter \| comment_reply \| system` |
+| `title` / `message`     | `text`       | Notification content                     |
+| `link`                  | `text`       | Nullable, URL to navigate to             |
+| `read`                  | `boolean`    | Default false                            |
+| `comicId` / `chapterId` | `integer` FK | Nullable, CASCADE delete                 |
 
 **Indexes:** userId, read, type, createdAt, composite (userId, read).
 
 #### Comment Table
 
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `serial` | Primary key |
-| `userId` | `text` FK | CASCADE delete |
-| `chapterId` | `integer` FK | CASCADE delete |
-| `content` | `text` | — |
-| `parentId` | `integer` | Nullable, self-reference for threaded replies |
-| `deletedAt` | `timestamp` | Soft delete |
+| Column      | Type         | Notes                                         |
+| ----------- | ------------ | --------------------------------------------- |
+| `id`        | `serial`     | Primary key                                   |
+| `userId`    | `text` FK    | CASCADE delete                                |
+| `chapterId` | `integer` FK | CASCADE delete                                |
+| `content`   | `text`       | —                                             |
+| `parentId`  | `integer`    | Nullable, self-reference for threaded replies |
+| `deletedAt` | `timestamp`  | Soft delete                                   |
 
 **⚠️ Known issue:** `parentId` is missing `.references()` — cannot use `.with()` for threading.
 
@@ -547,7 +542,7 @@ Filter `WHERE deletedAt IS NULL` in user queries:
 ```typescript
 // ✅ Correct
 const users = await db.query.user.findMany({
-  where: isNull(user.deletedAt)
+  where: isNull(user.deletedAt),
 });
 
 // ❌ Wrong (includes soft-deleted users)
@@ -607,10 +602,7 @@ async authorize(
 
 ```typescript
 import bcrypt from "bcryptjs";
-export async function verifyPassword(
-  plain: string,
-  hash: string
-): Promise<boolean> {
+export async function verifyPassword(plain: string, hash: string): Promise<boolean> {
   return bcrypt.compare(plain, hash);
 }
 ```
@@ -640,7 +632,7 @@ await signIn("github", { redirectTo: "/dashboard" });
 const result = await signIn("credentials", {
   username: "user",
   password: "pass",
-  redirect: false
+  redirect: false,
 });
 ```
 
@@ -671,10 +663,7 @@ export abstract class BaseDal<T> {
   abstract list(options?: DalOptions): Promise<T[]>;
   abstract getById(id: string | number): Promise<T | null>;
   abstract create(data: unknown): Promise<T>;
-  abstract update(
-    id: string | number,
-    data: unknown
-  ): Promise<T | null>;
+  abstract update(id: string | number, data: unknown): Promise<T | null>;
   abstract delete?(id: string | number): Promise<void>;
 
   protected handleError(error: unknown, operation: string): never {
@@ -702,15 +691,15 @@ export class ComicDal extends BaseDal<ComicType> {
         author: true,
         artist: true,
         type: true,
-        comicToGenre: { with: { genre: true } }
-      }
+        comicToGenre: { with: { genre: true } },
+      },
     });
   }
 
   async getById(id: string) {
     return db.query.comic.findFirst({
       where: eq(comic.id, id),
-      with: { author: true, chapters: true }
+      with: { author: true, chapters: true },
     });
   }
 
@@ -738,12 +727,12 @@ export const comicDal = new ComicDal(); // ✅ Singleton export — REQUIRED
 
 ### N+1 Anti-Pattern Catalog
 
-| Trap | ❌ Wrong | ✅ Right |
-| --- | --- | --- |
-| Comics + Authors | `for (comic of comics) { await getAuthor(id) }` | `.with({ author: true })` |
-| Bookmarks + Comics | Loop through bookmarks, fetch each | `.with({ comic: { with: { genres: true } } })` |
-| Comment Threading | `comment.parentId` has no FK ref | Manual SQL JOIN (add `relations()` to fix) |
-| Dashboard Stats | Separate count/sum/avg queries | Single aggregation query |
+| Trap               | ❌ Wrong                                        | ✅ Right                                       |
+| ------------------ | ----------------------------------------------- | ---------------------------------------------- |
+| Comics + Authors   | `for (comic of comics) { await getAuthor(id) }` | `.with({ author: true })`                      |
+| Bookmarks + Comics | Loop through bookmarks, fetch each              | `.with({ comic: { with: { genres: true } } })` |
+| Comment Threading  | `comment.parentId` has no FK ref                | Manual SQL JOIN (add `relations()` to fix)     |
+| Dashboard Stats    | Separate count/sum/avg queries                  | Single aggregation query                       |
 
 ### N+1 Solutions with Code Examples
 
@@ -753,15 +742,12 @@ export const comicDal = new ComicDal(); // ✅ Singleton export — REQUIRED
 // ❌ N+1: 101 queries for 100 comics
 const comics = await db.select().from(comic);
 for (const c of comics) {
-  c.author = await db
-    .select()
-    .from(author)
-    .where(eq(author.id, c.authorId));
+  c.author = await db.select().from(author).where(eq(author.id, c.authorId));
 }
 
 // ✅ Solution: 1-2 queries with eager loading
 const comicsWithAuthors = await db.query.comic.findMany({
-  with: { author: true, artist: true, type: true, genres: true }
+  with: { author: true, artist: true, type: true, genres: true },
 });
 ```
 
@@ -769,15 +755,9 @@ const comicsWithAuthors = await db.query.comic.findMany({
 
 ```typescript
 // ❌ N+1: 41 queries for 20 bookmarks
-const bookmarks = await db
-  .select()
-  .from(bookmark)
-  .where(eq(bookmark.userId, userId));
+const bookmarks = await db.select().from(bookmark).where(eq(bookmark.userId, userId));
 for (const b of bookmarks) {
-  b.comic = await db
-    .select()
-    .from(comic)
-    .where(eq(comic.id, b.comicId));
+  b.comic = await db.select().from(comic).where(eq(comic.id, b.comicId));
   b.comic.genres = await db
     .select()
     .from(comicToGenre)
@@ -793,12 +773,12 @@ const bookmarksWithComics = await db.query.bookmark.findMany({
       with: {
         author: true,
         artist: true,
-        genres: { with: { genre: true } }
-      }
+        genres: { with: { genre: true } },
+      },
     },
-    lastReadChapter: true
+    lastReadChapter: true,
   },
-  orderBy: b => desc(b.updatedAt)
+  orderBy: (b) => desc(b.updatedAt),
 });
 ```
 
@@ -806,17 +786,11 @@ const bookmarksWithComics = await db.query.bookmark.findMany({
 
 ```typescript
 // ❌ Exponential queries for nested replies
-const comments = await db
-  .select()
-  .from(comment)
-  .where(eq(comment.chapterId, chapterId));
+const comments = await db.select().from(comment).where(eq(comment.chapterId, chapterId));
 for (const c of comments) {
   c.user = await db.select().from(user).where(eq(user.id, c.userId));
   if (c.parentId) {
-    c.parent = await db
-      .select()
-      .from(comment)
-      .where(eq(comment.id, c.parentId));
+    c.parent = await db.select().from(comment).where(eq(comment.id, c.parentId));
   }
 }
 
@@ -825,24 +799,24 @@ const comments = await db.query.comment.findMany({
   where: eq(comment.chapterId, chapterId),
   with: {
     user: { columns: { id: true, name: true, image: true } },
-    parent: { with: { user: true } }
-  }
+    parent: { with: { user: true } },
+  },
 });
 ```
 
 ### Performance Index Strategy
 
-| Table | Index | Columns | Purpose |
-| --- | --- | --- | --- |
-| `user` | `userEmailIdx` | email | Auth login |
-| `comic` | `comicSlugIdx` | slug | URL lookups |
-| `comic` | `comicStatusIdx` | status | Filter by status |
-| `chapter` | `chapterComicIdIdx` | comicId | Get chapters for comic |
-| `chapter` | `chapterComicChapterIdx` | (comicId, chapterNumber) | Get specific chapter |
-| `bookmark` | `bookmarkUserIdIdx` | userId | Get user's bookmarks |
-| `readingProgress` | `readingProgressUserComicIdx` | (userId, comicId) | Get progress for comic |
-| `comment` | `commentChapterIdIdx` | chapterId | Comments on chapter |
-| `notification` | `notificationUserReadIdx` | (userId, read) | Unread notifications |
+| Table             | Index                         | Columns                  | Purpose                |
+| ----------------- | ----------------------------- | ------------------------ | ---------------------- |
+| `user`            | `userEmailIdx`                | email                    | Auth login             |
+| `comic`           | `comicSlugIdx`                | slug                     | URL lookups            |
+| `comic`           | `comicStatusIdx`              | status                   | Filter by status       |
+| `chapter`         | `chapterComicIdIdx`           | comicId                  | Get chapters for comic |
+| `chapter`         | `chapterComicChapterIdx`      | (comicId, chapterNumber) | Get specific chapter   |
+| `bookmark`        | `bookmarkUserIdIdx`           | userId                   | Get user's bookmarks   |
+| `readingProgress` | `readingProgressUserComicIdx` | (userId, comicId)        | Get progress for comic |
+| `comment`         | `commentChapterIdIdx`         | chapterId                | Comments on chapter    |
+| `notification`    | `notificationUserReadIdx`     | (userId, read)           | Unread notifications   |
 
 **Rule:** If your WHERE clause includes a column not indexed, queries will full-table scan.
 
@@ -857,9 +831,7 @@ All extend `BaseDal<T>` with proper eager loading via `.with()`.
 ### ActionResult Type (`src/actions/types.ts`)
 
 ```typescript
-export type ActionResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: string };
+export type ActionResult<T> = { ok: true; data: T } | { ok: false; error: string };
 ```
 
 ### Standard Pattern (`src/actions/comic.actions.ts`)
@@ -873,20 +845,17 @@ import { CreateComicSchema } from "@/schemas/comic.schema";
 import { comicDal } from "@/dal/comic-dal";
 import type { ActionResult } from "./types";
 
-export async function createComicAction(
-  input: unknown
-): Promise<ActionResult<ComicType>> {
+export async function createComicAction(input: unknown): Promise<ActionResult<ComicType>> {
   // 1. Auth check (first!)
   const session = await auth();
-  if (!session?.user?.id)
-    return { ok: false, error: "Not authenticated" };
+  if (!session?.user?.id) return { ok: false, error: "Not authenticated" };
 
   // 2. Zod validation
   const parsed = CreateComicSchema.safeParse(input);
   if (!parsed.success)
     return {
       ok: false,
-      error: parsed.error.errors[0]?.message ?? "Invalid"
+      error: parsed.error.errors[0]?.message ?? "Invalid",
     };
 
   // 3. DAL operation
@@ -919,10 +888,10 @@ export async function createComicAction(
 
 ### When to Use What
 
-| Context | Pattern | Why |
-| --- | --- | --- |
-| **App mutations** (UI) | Server Action → DAL | Type-safe, auth, validation, cache invalidation |
-| **Bulk seeding** | Seeder → direct Drizzle | Batch performance (50k items in ~8 min vs hours) |
+| Context                | Pattern                 | Why                                              |
+| ---------------------- | ----------------------- | ------------------------------------------------ |
+| **App mutations** (UI) | Server Action → DAL     | Type-safe, auth, validation, cache invalidation  |
+| **Bulk seeding**       | Seeder → direct Drizzle | Batch performance (50k items in ~8 min vs hours) |
 
 ### Seeder Template (`BaseSeed<T>`)
 
@@ -944,7 +913,7 @@ export class MyEntitySeeder extends BaseSeed<MyEntity> {
   }
 
   protected transformData(items: unknown[]): MyEntity[] {
-    return items.map(item => {
+    return items.map((item) => {
       /* normalize raw JSON → typed entity */
     });
   }
@@ -955,7 +924,7 @@ export class MyEntitySeeder extends BaseSeed<MyEntity> {
       .values(data)
       .onConflictDoUpdate({
         target: myEntity.id,
-        set: { updatedAt: new Date() }
+        set: { updatedAt: new Date() },
       });
   }
 }
@@ -1012,7 +981,7 @@ The image helper provides robust image downloading for seeding:
 export async function downloadImage(
   url: string,
   targetPath: string,
-  options?: { maxRetries?: number; timeout?: number }
+  options?: { maxRetries?: number; timeout?: number },
 ): Promise<{ success: boolean; path: string }>;
 
 export function validateImageFormat(url: string): boolean; // jpeg, png, webp, avif
@@ -1041,7 +1010,7 @@ export const seedConfig = {
   validateBeforeSeed: true,
   skipInvalidRecords: false,
   verbose: process.env.SEED_VERBOSE === "true",
-  logProgress: true
+  logProgress: true,
 };
 ```
 
@@ -1104,20 +1073,15 @@ Root Layout
 export const queryKeys = {
   comics: {
     all: ["comics"],
-    list: filters => ["comics", "list", filters],
-    detail: slug => ["comics", "detail", slug],
-    chapters: comicId => ["comics", comicId, "chapters"]
+    list: (filters) => ["comics", "list", filters],
+    detail: (slug) => ["comics", "detail", slug],
+    chapters: (comicId) => ["comics", comicId, "chapters"],
   },
   bookmarks: {
     all: ["bookmarks"],
-    list: userId => ["bookmarks", "list", userId],
-    check: (userId, comicId) => [
-      "bookmarks",
-      "check",
-      userId,
-      comicId
-    ]
-  }
+    list: (userId) => ["bookmarks", "list", userId],
+    check: (userId, comicId) => ["bookmarks", "check", userId, comicId],
+  },
   // ... etc
 };
 ```
@@ -1132,15 +1096,14 @@ export function proxy(request: NextRequest) {
   const token = request.cookies.get("auth-token");
 
   if (request.nextUrl.pathname.startsWith("/dashboard")) {
-    if (!token)
-      return NextResponse.redirect(new URL("/login", request.url));
+    if (!token) return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*"]
+  matcher: ["/dashboard/:path*", "/admin/:path*"],
 };
 ```
 
@@ -1187,9 +1150,9 @@ export const config = {
 - Extends `next/core-web-vitals`, `next/typescript`
 - Plugins: `prettier`, `better-tailwindcss`, `playwright`, `vitest`, `drizzle`, `zod`
 - **Active rules:**
-  - `no-explicit-any: "error"`
-  - `no-unused-vars` (ignores `^_` prefix)
-  - `no-import-type-side-effects`
+    - `no-explicit-any: "error"`
+    - `no-unused-vars` (ignores `^_` prefix)
+    - `no-import-type-side-effects`
 
 ### Vitest (`vitest.config.mts`)
 
@@ -1228,21 +1191,13 @@ Recommended extensions: ESLint, Prettier, Tailwind CSS, Next.js Snippets, Vitest
 
 ```typescript
 // ✅ CORRECT (Next.js 16)
-export default async function Page({
-  searchParams
-}: {
-  searchParams: Promise<{ page?: string }>;
-}) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const params = await searchParams;
   const page = params.page;
 }
 
 // ❌ WRONG (Next.js 15 pattern)
-export default function Page({
-  searchParams
-}: {
-  searchParams: { page?: string };
-}) {
+export default function Page({ searchParams }: { searchParams: { page?: string } }) {
   const page = searchParams.page;
 }
 ```
@@ -1268,14 +1223,9 @@ import { devtools, persist } from "zustand/middleware";
 
 export const useMyStore = create<State>()(
   devtools(
-    persist(
-      set => ({
-        /* initial state + actions */
-      }),
-      { name: "store-name" }
-    ),
-    { name: "MyStore" }
-  )
+    persist((set) => ({/* initial state + actions */}), { name: "store-name" }),
+    { name: "MyStore" },
+  ),
 );
 ```
 
@@ -1493,14 +1443,14 @@ git push origin main
 
 ## Technical Debt & Known Issues
 
-| Issue | Impact | File | Fix |
-| --- | --- | --- | --- |
-| `/admin` routes unguarded | Security gap | `src/proxy.ts` | Add admin check to middleware |
-| Cookie check for auth | May not align with NextAuth | `src/proxy.ts` | Use NextAuth session instead |
-| `comment.parentId` no FK ref | Can't use `.with()` for threading | `src/database/schema.ts` | Add `.references()` + `relations()` |
-| No `relations()` in schema | Limited to FK-inferred relations | `src/database/schema.ts` | Add explicit `relations()` definitions |
-| ~60 commented env stubs | Only 6 fields actively validated | `src/lib/env.ts` | Uncomment and validate as needed |
-| `performance.instructions.md` outdated | Conflicts with React Compiler | `.github/instructions/` | Update to remove memo/useMemo rules |
+| Issue                                  | Impact                            | File                     | Fix                                    |
+| -------------------------------------- | --------------------------------- | ------------------------ | -------------------------------------- |
+| `/admin` routes unguarded              | Security gap                      | `src/proxy.ts`           | Add admin check to middleware          |
+| Cookie check for auth                  | May not align with NextAuth       | `src/proxy.ts`           | Use NextAuth session instead           |
+| `comment.parentId` no FK ref           | Can't use `.with()` for threading | `src/database/schema.ts` | Add `.references()` + `relations()`    |
+| No `relations()` in schema             | Limited to FK-inferred relations  | `src/database/schema.ts` | Add explicit `relations()` definitions |
+| ~60 commented env stubs                | Only 6 fields actively validated  | `src/lib/env.ts`         | Uncomment and validate as needed       |
+| `performance.instructions.md` outdated | Conflicts with React Compiler     | `.github/instructions/`  | Update to remove memo/useMemo rules    |
 
 ---
 
@@ -1575,9 +1525,9 @@ const logger = pino({
     process.env.NODE_ENV === "development"
       ? {
           target: "pino-pretty",
-          options: { colorize: true, translateTime: "SYS:HH:MM:ss" }
+          options: { colorize: true, translateTime: "SYS:HH:MM:ss" },
         }
-      : undefined
+      : undefined,
 });
 
 // Context-specific child loggers
@@ -1604,14 +1554,12 @@ export function chunkArray<T>(array: T[], chunkSize: number): T[][] {
 export async function processInBatches<T, R>(
   items: T[],
   batchSize: number,
-  processor: (item: T) => Promise<R>
+  processor: (item: T) => Promise<R>,
 ): Promise<PromiseSettledResult<R>[]> {
   const chunks = chunkArray(items, batchSize);
   const results: PromiseSettledResult<R>[] = [];
   for (const chunk of chunks) {
-    const batchResults = await Promise.allSettled(
-      chunk.map(processor)
-    );
+    const batchResults = await Promise.allSettled(chunk.map(processor));
     results.push(...batchResults);
   }
   return results;
@@ -1631,51 +1579,41 @@ interface ImageValidationResult {
   error?: string;
 }
 
-const SUPPORTED_MIME_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/avif"
-];
+const SUPPORTED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB
 
-export async function validateImage(
-  url: string
-): Promise<ImageValidationResult> {
+export async function validateImage(url: string): Promise<ImageValidationResult> {
   try {
     const response = await fetch(url, { method: "HEAD" });
     if (!response.ok)
       return {
         isValid: false,
         url,
-        error: `HTTP ${response.status}`
+        error: `HTTP ${response.status}`,
       };
 
     const contentType = response.headers.get("content-type") ?? "";
-    const contentLength = parseInt(
-      response.headers.get("content-length") ?? "0",
-      10
-    );
+    const contentLength = parseInt(response.headers.get("content-length") ?? "0", 10);
 
-    if (!SUPPORTED_MIME_TYPES.some(t => contentType.includes(t))) {
+    if (!SUPPORTED_MIME_TYPES.some((t) => contentType.includes(t))) {
       return {
         isValid: false,
         url,
-        error: `Unsupported type: ${contentType}`
+        error: `Unsupported type: ${contentType}`,
       };
     }
     if (contentLength > MAX_IMAGE_SIZE) {
       return {
         isValid: false,
         url,
-        error: `Too large: ${contentLength} bytes`
+        error: `Too large: ${contentLength} bytes`,
       };
     }
     return {
       isValid: true,
       url,
       mimeType: contentType,
-      sizeBytes: contentLength
+      sizeBytes: contentLength,
     };
   } catch (error) {
     return { isValid: false, url, error: String(error) };
@@ -1688,17 +1626,7 @@ export async function validateImage(
 ```typescript
 import { db } from "@/database/db";
 import { comic, author, genre, comicGenre } from "@/database/schema";
-import {
-  ilike,
-  eq,
-  and,
-  gte,
-  lte,
-  inArray,
-  sql,
-  desc,
-  asc
-} from "drizzle-orm";
+import { ilike, eq, and, gte, lte, inArray, sql, desc, asc } from "drizzle-orm";
 
 interface SearchOptions {
   query?: string;
@@ -1712,16 +1640,7 @@ interface SearchOptions {
 }
 
 export async function searchComics(options: SearchOptions) {
-  const {
-    query,
-    genres,
-    authorId,
-    status,
-    minRating,
-    sortBy = "latest",
-    page = 1,
-    limit = 20
-  } = options;
+  const { query, genres, authorId, status, minRating, sortBy = "latest", page = 1, limit = 20 } = options;
   const conditions = [];
 
   if (query) conditions.push(ilike(comic.title, `%${query}%`));
@@ -1733,12 +1652,11 @@ export async function searchComics(options: SearchOptions) {
     title: asc(comic.title),
     rating: desc(comic.averageRating),
     latest: desc(comic.createdAt),
-    popular: desc(comic.viewCount)
+    popular: desc(comic.viewCount),
   }[sortBy];
 
   const offset = (page - 1) * limit;
-  const where =
-    conditions.length > 0 ? and(...conditions) : undefined;
+  const where = conditions.length > 0 ? and(...conditions) : undefined;
 
   const [results, [{ total }]] = await Promise.all([
     db.query.comic.findMany({
@@ -1746,19 +1664,19 @@ export async function searchComics(options: SearchOptions) {
       orderBy: [orderBy],
       limit,
       offset,
-      with: { author: true, type: true }
+      with: { author: true, type: true },
     }),
     db
       .select({ total: sql<number>`count(*)` })
       .from(comic)
-      .where(where)
+      .where(where),
   ]);
 
   return {
     results,
     total,
     page,
-    totalPages: Math.ceil(total / limit)
+    totalPages: Math.ceil(total / limit),
   };
 }
 ```
@@ -1775,7 +1693,7 @@ const VIOLATIONS_PATTERNS = [
   /db\.select\(/, // Direct db.select usage
   /db\.insert\(/, // Direct db.insert usage
   /db\.update\(/, // Direct db.update usage
-  /db\.delete\(/ // Direct db.delete usage
+  /db\.delete\(/, // Direct db.delete usage
 ];
 
 function scanFile(filePath: string): string[] {
@@ -1809,20 +1727,18 @@ export const userSeedSchema = z.object({
   password: z.string().min(8),
   name: z.string().optional(),
   role: z.enum(["user", "moderator", "admin"]).default("user"),
-  image: z.string().url().optional()
+  image: z.string().url().optional(),
 });
 
 export const comicSeedSchema = z.object({
   title: z.string().min(1).max(200),
   slug: z.string().min(1).max(200),
   synopsis: z.string().optional(),
-  status: z
-    .enum(["ongoing", "completed", "hiatus", "cancelled"])
-    .default("ongoing"),
+  status: z.enum(["ongoing", "completed", "hiatus", "cancelled"]).default("ongoing"),
   coverImage: z.string().url().optional(),
   authorName: z.string().min(1),
   typeName: z.string().min(1),
-  genreNames: z.array(z.string()).default([])
+  genreNames: z.array(z.string()).default([]),
 });
 
 export const chapterSeedSchema = z.object({
@@ -1831,7 +1747,7 @@ export const chapterSeedSchema = z.object({
   title: z.string().optional(),
   content: z.string().optional(),
   pageCount: z.number().positive().default(1),
-  images: z.array(z.string().url()).default([])
+  images: z.array(z.string().url()).default([]),
 });
 
 export type UserSeed = z.infer<typeof userSeedSchema>;
@@ -1865,9 +1781,9 @@ export const rating = pgTable(
     isSpoiler: boolean("isSpoiler").default(false),
     helpfulCount: integer("helpfulCount").default(0),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().notNull()
+    updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   },
-  table => [primaryKey({ columns: [table.userId, table.comicId] })]
+  (table) => [primaryKey({ columns: [table.userId, table.comicId] })],
 );
 ```
 
@@ -1900,28 +1816,23 @@ export const readingProgress = pgTable(
     comicId: integer("comicId")
       .notNull()
       .references(() => comic.id),
-    currentChapterId: integer("currentChapterId").references(
-      () => chapter.id
-    ),
+    currentChapterId: integer("currentChapterId").references(() => chapter.id),
     currentPageNumber: integer("currentPageNumber").default(0),
     progressPercent: decimal("progressPercent", {
       precision: 5,
-      scale: 2
+      scale: 2,
     }),
     lastReadAt: timestamp("lastReadAt"),
     status: text("status").default("Reading"),
-    createdAt: timestamp("createdAt").defaultNow().notNull()
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
   },
-  table => [
+  (table) => [
     primaryKey({
       columns: [table.userId, table.comicId],
-      name: "readingProgress_pk"
+      name: "readingProgress_pk",
     }),
-    index("readingProgress_user_lastRead_idx").on(
-      table.userId,
-      table.lastReadAt
-    )
-  ]
+    index("readingProgress_user_lastRead_idx").on(table.userId, table.lastReadAt),
+  ],
 );
 ```
 
@@ -1991,19 +1902,13 @@ export default async function ComicsPage({ searchParams }: { searchParams: Promi
 ```typescript
 "use client";
 
-export function ComicFilters({
-  defaultSort
-}: {
-  defaultSort: string;
-}) {
+export function ComicFilters({ defaultSort }: { defaultSort: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const handleFilterChange = (filters: Record<string, string>) => {
     const params = new URLSearchParams(searchParams);
-    Object.entries(filters).forEach(([key, value]) =>
-      params.set(key, value)
-    );
+    Object.entries(filters).forEach(([key, value]) => params.set(key, value));
     router.push(`?${params.toString()}`);
   };
   // URL-driven state keeps server and client in sync
@@ -2044,12 +1949,12 @@ USER LAYER:
 
 ### 24.2 Cascade Delete Rules
 
-| When Deleted | Cascades To |
-| --- | --- |
-| **User** | account, session, bookmark, comment, rating, readingProgress, notification, userRole |
-| **Comic** | chapter → chapterImage, comicImage, comicGenre, comicArtist, bookmark, rating, readingProgress |
-| **Chapter** | chapterImage, comment, readingProgress (where currentChapterId) |
-| **Role** | rolePermission, userRole |
+| When Deleted | Cascades To                                                                                    |
+| ------------ | ---------------------------------------------------------------------------------------------- |
+| **User**     | account, session, bookmark, comment, rating, readingProgress, notification, userRole           |
+| **Comic**    | chapter → chapterImage, comicImage, comicGenre, comicArtist, bookmark, rating, readingProgress |
+| **Chapter**  | chapterImage, comment, readingProgress (where currentChapterId)                                |
+| **Role**     | rolePermission, userRole                                                                       |
 
 ### 24.3 Key RBAC Query
 
@@ -2079,7 +1984,7 @@ function mapUser(dbUser: typeof user.$inferSelect): User {
     ...dbUser,
     name: dbUser.name ?? undefined,
     email: dbUser.email ?? undefined,
-    image: dbUser.image ?? undefined
+    image: dbUser.image ?? undefined,
   };
 }
 ```
@@ -2167,9 +2072,7 @@ When adding a new entity to the system, follow this checklist:
 ```typescript
 // In schema.ts — index frequently queried columns
 export const comicSlugIndex = index("comic_slug_idx").on(comic.slug);
-export const bookmarkUserIndex = index("bookmark_user_idx").on(
-  bookmark.userId
-);
+export const bookmarkUserIndex = index("bookmark_user_idx").on(bookmark.userId);
 ```
 
 ---

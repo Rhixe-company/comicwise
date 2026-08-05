@@ -25,17 +25,17 @@ The ComicWise codebase has **critical security issues requiring immediate attent
 
 The `.env.local` file contains live credentials for 15+ services:
 
-| Service | Credentials Exposed | Risk |
-| --- | --- | --- |
+| Service               | Credentials Exposed                         | Risk                       |
+| --------------------- | ------------------------------------------- | -------------------------- |
 | **PostgreSQL (Neon)** | Full connection URLs with username/password | Database read/write access |
-| **GitHub OAuth** | Client ID + Client Secret | OAuth account compromise |
-| **Gmail SMTP** | Email address + App Password | Email account takeover |
-| **ImageKit** | Public Key + Private Key + URL Endpoint | Image storage access |
-| **Cloudinary** | Cloud name | CDN account access |
-| **Redis** | Connection URL (may contain password) | Cache data exposure |
-| **QStash** | Current + Next signing keys | Queue manipulation |
-| **Sentry** | Auth Token + DSN | Error data exposure |
-| **Upstash Redis** | REST URL + Token | Remote cache access |
+| **GitHub OAuth**      | Client ID + Client Secret                   | OAuth account compromise   |
+| **Gmail SMTP**        | Email address + App Password                | Email account takeover     |
+| **ImageKit**          | Public Key + Private Key + URL Endpoint     | Image storage access       |
+| **Cloudinary**        | Cloud name                                  | CDN account access         |
+| **Redis**             | Connection URL (may contain password)       | Cache data exposure        |
+| **QStash**            | Current + Next signing keys                 | Queue manipulation         |
+| **Sentry**            | Auth Token + DSN                            | Error data exposure        |
+| **Upstash Redis**     | REST URL + Token                            | Remote cache access        |
 
 **Remediation:**
 

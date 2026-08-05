@@ -10,9 +10,9 @@
 - 27 PostgreSQL database tables with Drizzle ORM
 - 4 pgEnums: userRole, comicStatus, resourceEnum, actionEnum
 - Authentication system with NextAuth.js v5
-  - Credentials (bcryptjs)
-  - GitHub OAuth
-  - Keycloak OIDC
+    - Credentials (bcryptjs)
+    - GitHub OAuth
+    - Keycloak OIDC
 - 28 DAL files with eager loading via `.with()`
 - 21 Server Action files with ActionResult pattern
 - 62 shadcn/ui components

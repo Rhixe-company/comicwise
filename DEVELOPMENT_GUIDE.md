@@ -27,18 +27,18 @@ pnpm build         # Production build (~35s)
 
 ### Critical Rules
 
-| Rule | Enforcement | Alternative |
-| --- | --- | --- |
-| **No `any` types** | ESLint `no-explicit-any: error` | Use `unknown` with type guards |
-| **No manual memoization** | React Compiler enabled | Never use `useMemo`, `useCallback`, `memo` |
-| **No raw `process.env`** | ESLint + appConfig.ts | Use `getEnv()` from `appConfig.ts` |
-| **DAL returns `null`** | Convention | Not `undefined` when record not found |
-| **Async params** | Next.js v16 | `const { id } = await params` |
-| **ActionResult pattern** | Server Actions | Return `{ ok, data }` or `{ ok, error }` |
-| **No N+1 queries** | Always use `.with()` | Eager loading in DAL |
-| **No raw SQL** | Use Drizzle query builders | `eq()`, `and()`, `or()` |
-| **No API routes for mutations** | Server Actions only | Use `"use server"` |
-| **Auth check first** | Every action | `const session = await auth()` |
+| Rule                            | Enforcement                     | Alternative                                |
+| ------------------------------- | ------------------------------- | ------------------------------------------ |
+| **No `any` types**              | ESLint `no-explicit-any: error` | Use `unknown` with type guards             |
+| **No manual memoization**       | React Compiler enabled          | Never use `useMemo`, `useCallback`, `memo` |
+| **No raw `process.env`**        | ESLint + appConfig.ts           | Use `getEnv()` from `appConfig.ts`         |
+| **DAL returns `null`**          | Convention                      | Not `undefined` when record not found      |
+| **Async params**                | Next.js v16                     | `const { id } = await params`              |
+| **ActionResult pattern**        | Server Actions                  | Return `{ ok, data }` or `{ ok, error }`   |
+| **No N+1 queries**              | Always use `.with()`            | Eager loading in DAL                       |
+| **No raw SQL**                  | Use Drizzle query builders      | `eq()`, `and()`, `or()`                    |
+| **No API routes for mutations** | Server Actions only             | Use `"use server"`                         |
+| **Auth check first**            | Every action                    | `const session = await auth()`             |
 
 ### Naming Conventions
 
@@ -63,8 +63,8 @@ export class ComicDAL {
       where: eq(comics.id, id),
       with: {
         chapters: { orderBy: [desc(chapters.number)] },
-        genres: true
-      }
+        genres: true,
+      },
     }); // Returns Comic | null
   }
 }
@@ -79,19 +79,14 @@ export const comicDal = new ComicDAL();
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 
-const Schema = z.object({
-  /* ... */
-});
+const Schema = z.object({/* ... */});
 
-export async function action(
-  input: unknown
-): Promise<ActionResult<Data>> {
+export async function action(input: unknown): Promise<ActionResult<Data>> {
   const session = await auth();
   if (!session?.user) return { ok: false, error: "Unauthorized" };
 
   const parsed = Schema.safeParse(input);
-  if (!parsed.success)
-    return { ok: false, error: parsed.error.message };
+  if (!parsed.success) return { ok: false, error: parsed.error.message };
 
   try {
     const data = await db.insert(/* ... */).returning();

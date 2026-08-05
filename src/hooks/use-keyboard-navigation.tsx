@@ -139,7 +139,7 @@ interface FocusManagementOptions {
  */
 export function useFocusManagement(
   containerRef: React.RefObject<HTMLElement>,
-  options: FocusManagementOptions = {}
+  options: FocusManagementOptions = {},
 ): {
   restoreFocus: () => void;
   trapFocus: (event: React.KeyboardEvent) => void;
@@ -248,7 +248,7 @@ type AnnouncementPoliteness = "assertive" | "polite";
  * ```
  */
 export function useAccessibleAnnouncement(
-  containerId = "announcer"
+  containerId = "announcer",
 ): (message: string, politeness?: AnnouncementPoliteness) => void {
   return (message: string, politeness: AnnouncementPoliteness = "polite") => {
     const container = document.getElementById(containerId);

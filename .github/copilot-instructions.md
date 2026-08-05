@@ -225,15 +225,15 @@ pnpm seed:reset                # Clear all seed data
 
 ### Naming Conventions
 
-| Type | Convention | Example |
-| --- | --- | --- |
-| Components | PascalCase | `ComicCard`, `BookmarkButton` |
-| Files (components) | kebab-case.tsx | `comic-card.tsx` |
-| DAL files | entity-dal.ts | `comic-dal.ts` |
-| Server Actions | entity.actions.ts | `bookmark.actions.ts` |
-| Tests | entity.test.ts | `comic-dal.test.ts` |
-| Types/interfaces | PascalCase | `ComicCardProps` |
-| Variables/functions | camelCase | `getComicBySlug` |
+| Type                | Convention        | Example                       |
+| ------------------- | ----------------- | ----------------------------- |
+| Components          | PascalCase        | `ComicCard`, `BookmarkButton` |
+| Files (components)  | kebab-case.tsx    | `comic-card.tsx`              |
+| DAL files           | entity-dal.ts     | `comic-dal.ts`                |
+| Server Actions      | entity.actions.ts | `bookmark.actions.ts`         |
+| Tests               | entity.test.ts    | `comic-dal.test.ts`           |
+| Types/interfaces    | PascalCase        | `ComicCardProps`              |
+| Variables/functions | camelCase         | `getComicBySlug`              |
 
 ### Imports
 
@@ -273,19 +273,13 @@ import { cn } from "utils";
 Server Actions never throw. Always return `ActionResult<T>`:
 
 ```typescript
-type ActionResult<T> =
-  | { data: T; ok: true }
-  | { error: string; ok: false };
+type ActionResult<T> = { data: T; ok: true } | { error: string; ok: false };
 
-export async function createAction(
-  input: unknown
-): Promise<ActionResult<Data>> {
+export async function createAction(input: unknown): Promise<ActionResult<Data>> {
   const session = await auth(); // 1. Auth first
-  if (!session?.user?.id)
-    return { ok: false, error: "Not authenticated" };
+  if (!session?.user?.id) return { ok: false, error: "Not authenticated" };
   const parsed = schema.safeParse(input); // 2. Zod validate
-  if (!parsed.success)
-    return { ok: false, error: parsed.error.message };
+  if (!parsed.success) return { ok: false, error: parsed.error.message };
   const result = await dal.create(parsed.data); // 3. DAL mutate
   revalidatePath("/path"); // 4. Revalidate
   return { ok: true, data: result }; // 5. Return
@@ -324,16 +318,16 @@ Server Component (async) -> await params -> DAL query (.with() eager load)
   -> mutations via Server Actions -> ActionResult<T> -> revalidate
 ```
 
-| Directory | Purpose |
-| --- | --- |
-| `src/app/` | Pages & routes (groups: `(auth)/`, `(root)/`, `admin/`) |
-| `src/dal/` | Data Access Layer — all DB reads, extends `BaseDal<T>` |
-| `src/actions/` | Server Actions — all writes, return `ActionResult<T>` |
-| `src/database/` | Drizzle schema (27 tables), migrations |
-| `src/schemas/` | Zod validation schemas |
-| `src/components/` | React components (`ui/` = shadcn) |
-| `src/stores/` | Zustand stores |
-| `src/lib/` | Utilities: `appConfig.ts`, `utils.ts`, `cache/` |
+| Directory         | Purpose                                                 |
+| ----------------- | ------------------------------------------------------- |
+| `src/app/`        | Pages & routes (groups: `(auth)/`, `(root)/`, `admin/`) |
+| `src/dal/`        | Data Access Layer — all DB reads, extends `BaseDal<T>`  |
+| `src/actions/`    | Server Actions — all writes, return `ActionResult<T>`   |
+| `src/database/`   | Drizzle schema (27 tables), migrations                  |
+| `src/schemas/`    | Zod validation schemas                                  |
+| `src/components/` | React components (`ui/` = shadcn)                       |
+| `src/stores/`     | Zustand stores                                          |
+| `src/lib/`        | Utilities: `appConfig.ts`, `utils.ts`, `cache/`         |
 
 ---
 
@@ -439,16 +433,16 @@ Response to Client Component
 
 ## File Naming Conventions
 
-| File Type | Pattern | Example |
-| --- | --- | --- |
-| Components | kebab-case | `src/components/comics/comic-card.tsx` |
-| DAL classes | entity-dal.ts | `src/dal/comic-dal.ts` |
-| Server Actions | entity.actions.ts | `src/actions/bookmark.actions.ts` |
-| Schemas | entity.schema.ts | `src/schemas/comic.schema.ts` |
-| Hooks | use-feature-name.ts | `src/hooks/use-debounce.ts` |
-| Utilities | utility-name.ts | `src/lib/cache-utils.ts` |
-| Stores | use-store-name.ts | `src/stores/use-bookmark-store.ts` |
-| Tests | entity.test.ts | `src/tests/schemas/search-schema.spec.ts` |
+| File Type      | Pattern             | Example                                   |
+| -------------- | ------------------- | ----------------------------------------- |
+| Components     | kebab-case          | `src/components/comics/comic-card.tsx`    |
+| DAL classes    | entity-dal.ts       | `src/dal/comic-dal.ts`                    |
+| Server Actions | entity.actions.ts   | `src/actions/bookmark.actions.ts`         |
+| Schemas        | entity.schema.ts    | `src/schemas/comic.schema.ts`             |
+| Hooks          | use-feature-name.ts | `src/hooks/use-debounce.ts`               |
+| Utilities      | utility-name.ts     | `src/lib/cache-utils.ts`                  |
+| Stores         | use-store-name.ts   | `src/stores/use-bookmark-store.ts`        |
+| Tests          | entity.test.ts      | `src/tests/schemas/search-schema.spec.ts` |
 
 **Folder Organization:**
 
@@ -470,18 +464,14 @@ import { auth } from "@/auth";
 import { CreateComicSchema } from "schemas/comic";
 import type { ActionResult } from "./types";
 
-export async function createComicAction(
-  input: unknown
-): Promise<ActionResult<Comic>> {
+export async function createComicAction(input: unknown): Promise<ActionResult<Comic>> {
   // 1. AUTH FIRST
   const session = await auth();
-  if (!session?.user?.id)
-    return { ok: false, error: "Not authenticated" };
+  if (!session?.user?.id) return { ok: false, error: "Not authenticated" };
 
   // 2. VALIDATE
   const parsed = CreateComicSchema.safeParse(input);
-  if (!parsed.success)
-    return { ok: false, error: parsed.error.errors[0]?.message };
+  if (!parsed.success) return { ok: false, error: parsed.error.errors[0]?.message };
 
   try {
     // 3. MUTATE (via DAL)
@@ -517,8 +507,8 @@ export class ComicDal extends BaseDal<ComicType> {
         author: true,
         artist: true,
         genres: { with: { genre: true } },
-        chapters: { orderBy: [c => desc(c.chapterNumber)] }
-      }
+        chapters: { orderBy: [(c) => desc(c.chapterNumber)] },
+      },
     });
   }
 
@@ -527,7 +517,7 @@ export class ComicDal extends BaseDal<ComicType> {
       where: eq(bookmark.userId, userId),
       // ✅ EAGER LOADING — get related comics in one query
       with: { comic: true, lastReadChapter: true },
-      orderBy: b => desc(b.updatedAt)
+      orderBy: (b) => desc(b.updatedAt),
     });
   }
 }
@@ -570,41 +560,41 @@ export default async function ComicPage({ params }: PageProps) {
 
 ## Path Aliases (tsconfig.json)
 
-| Alias | Target | Example |
-| --- | --- | --- |
-| `@/*` | `./src/*` | `import { cn } from "@/lib/utils"` |
-| `ui` | `./src/components/ui/*` | `import { Button } from "ui/button"` |
-| `database` | `./src/database/*` | `import { db } from "database/db"` |
-| `schemas` | `./src/schemas/*` | `import { ComicSchema } from "schemas/comic"` |
-| `env` | `./src/lib/env.ts` | `import { getEnv } from "env"` |
-| `hooks` | `./src/hooks/*` | `import { useCurrentYear } from "hooks/use-now"` |
-| `appConfig` | `./appConfig.ts` | `import appConfig from "appConfig"` |
-| `lib` | `./src/lib/*` | `import { queryKeys } from "lib/query-client"` |
-| `types` | `./src/types/*` | `import type { Comic } from "types/comic"` |
-| `components` | `./src/components/*` | `import { AppSidebar } from "components/layout/app-sidebar"` |
-| `utils` | `./src/lib/utils.ts` | `import { cn } from "utils"` |
-| `assets` | `./src/assets/*` | `import logo from "assets/logo.svg"` |
-| `styles` | `./src/styles/*` | `import "styles/globals.css"` |
-| `tests` | `./src/tests/*` | `import { setup } from "tests/setup-env"` |
+| Alias        | Target                  | Example                                                      |
+| ------------ | ----------------------- | ------------------------------------------------------------ |
+| `@/*`        | `./src/*`               | `import { cn } from "@/lib/utils"`                           |
+| `ui`         | `./src/components/ui/*` | `import { Button } from "ui/button"`                         |
+| `database`   | `./src/database/*`      | `import { db } from "database/db"`                           |
+| `schemas`    | `./src/schemas/*`       | `import { ComicSchema } from "schemas/comic"`                |
+| `env`        | `./src/lib/env.ts`      | `import { getEnv } from "env"`                               |
+| `hooks`      | `./src/hooks/*`         | `import { useCurrentYear } from "hooks/use-now"`             |
+| `appConfig`  | `./appConfig.ts`        | `import appConfig from "appConfig"`                          |
+| `lib`        | `./src/lib/*`           | `import { queryKeys } from "lib/query-client"`               |
+| `types`      | `./src/types/*`         | `import type { Comic } from "types/comic"`                   |
+| `components` | `./src/components/*`    | `import { AppSidebar } from "components/layout/app-sidebar"` |
+| `utils`      | `./src/lib/utils.ts`    | `import { cn } from "utils"`                                 |
+| `assets`     | `./src/assets/*`        | `import logo from "assets/logo.svg"`                         |
+| `styles`     | `./src/styles/*`        | `import "styles/globals.css"`                                |
+| `tests`      | `./src/tests/*`         | `import { setup } from "tests/setup-env"`                    |
 
 ---
 
 ## Key File Locations
 
-| File | Purpose |
-| --- | --- |
-| `src/database/schema.ts` | 27 Drizzle tables, 4 pgEnums, relations (604 lines) |
-| `src/database/db.ts` | Drizzle singleton (postgres-js driver) |
-| `src/dal/base-dal.ts` | Abstract `BaseDal<T>` — all DALs extend this |
-| `src/actions/types.ts` | `ActionResult<T>` type definition |
-| `src/lib/env.ts` | Zod-validated environment variables |
-| `src/auth.ts` | NextAuth init: `{ handlers, auth, signIn, signOut }` |
-| `src/proxy.ts` | Middleware: route protection for `/profile`, `/bookmarks`, `/ratings`, `/admin` |
-| `src/hooks/use-now.tsx` | SSR-safe `useCurrentYear()` hook |
-| `src/scripts/seed/seedOrchestrator.ts` | Seed dependency resolution + execution |
-| `src/scripts/seed/seeders/baseSeed.ts` | Template method for all seeders |
-| `next.config.ts` | React Compiler, Turbopack, cacheComponents |
-| `appConfig.ts` | Structured app config from env |
+| File                                   | Purpose                                                                         |
+| -------------------------------------- | ------------------------------------------------------------------------------- |
+| `src/database/schema.ts`               | 27 Drizzle tables, 4 pgEnums, relations (604 lines)                             |
+| `src/database/db.ts`                   | Drizzle singleton (postgres-js driver)                                          |
+| `src/dal/base-dal.ts`                  | Abstract `BaseDal<T>` — all DALs extend this                                    |
+| `src/actions/types.ts`                 | `ActionResult<T>` type definition                                               |
+| `src/lib/env.ts`                       | Zod-validated environment variables                                             |
+| `src/auth.ts`                          | NextAuth init: `{ handlers, auth, signIn, signOut }`                            |
+| `src/proxy.ts`                         | Middleware: route protection for `/profile`, `/bookmarks`, `/ratings`, `/admin` |
+| `src/hooks/use-now.tsx`                | SSR-safe `useCurrentYear()` hook                                                |
+| `src/scripts/seed/seedOrchestrator.ts` | Seed dependency resolution + execution                                          |
+| `src/scripts/seed/seeders/baseSeed.ts` | Template method for all seeders                                                 |
+| `next.config.ts`                       | React Compiler, Turbopack, cacheComponents                                      |
+| `appConfig.ts`                         | Structured app config from env                                                  |
 
 ---
 
@@ -631,27 +621,27 @@ const comic = await db.query.comic.findFirst({
     author: true,
     artist: true,
     genres: { with: { genre: true } },
-    chapters: { orderBy: [c => desc(c.chapterNumber)] }
-  }
+    chapters: { orderBy: [(c) => desc(c.chapterNumber)] },
+  },
 });
 
 // User's bookmarks
 const bookmarks = await db.query.bookmark.findMany({
   where: eq(bookmark.userId, userId),
   with: { comic: true, lastReadChapter: true },
-  orderBy: b => desc(b.updatedAt)
+  orderBy: (b) => desc(b.updatedAt),
 });
 
 // ❌ BAD: N+1 queries
 for (const comic of comics) {
   const chapters = await db.query.chapter.findMany({
-    where: eq(chapter.comicId, comic.id)
+    where: eq(chapter.comicId, comic.id),
   }); // 51 queries instead of 1!
 }
 
 // ✅ GOOD: Single query with eager loading
 const comics = await db.query.comic.findMany({
-  with: { chapters: true } // All at once!
+  with: { chapters: true }, // All at once!
 });
 ```
 
@@ -730,29 +720,29 @@ pnpm test:ui
 
 ## Documentation Index
 
-| Document | Purpose | Link |
-| --- | --- | --- |
-| **Quick Setup** | 30-second start guide | `docs/QUICK_START.md` |
-| **Full Developer Guide** | Complete architecture, conventions, patterns | `docs/DEVELOPMENT.md` |
-| **Database Setup** | Detailed DB configuration | `docs/DATABASE_SETUP.md` |
-| **Project Context Map** | Entity relationships, constraints | `docs/database-context-map.md` |
-| **Dev Content** | 26 sections: patterns, troubleshooting, code examples | `docs/dev.content.md` |
-| **Implementation Master** | Phase completion, feature tracking | `docs/IMPLEMENTATION_MASTER.md` |
-| **AI Agent Setup Guide** | AI agent capabilities, skills, agents | `.github/AI_AGENT_SETUP_GUIDE.md` |
+| Document                  | Purpose                                               | Link                              |
+| ------------------------- | ----------------------------------------------------- | --------------------------------- |
+| **Quick Setup**           | 30-second start guide                                 | `docs/QUICK_START.md`             |
+| **Full Developer Guide**  | Complete architecture, conventions, patterns          | `docs/DEVELOPMENT.md`             |
+| **Database Setup**        | Detailed DB configuration                             | `docs/DATABASE_SETUP.md`          |
+| **Project Context Map**   | Entity relationships, constraints                     | `docs/database-context-map.md`    |
+| **Dev Content**           | 26 sections: patterns, troubleshooting, code examples | `docs/dev.content.md`             |
+| **Implementation Master** | Phase completion, feature tracking                    | `docs/IMPLEMENTATION_MASTER.md`   |
+| **AI Agent Setup Guide**  | AI agent capabilities, skills, agents                 | `.github/AI_AGENT_SETUP_GUIDE.md` |
 
 ---
 
 ## Common Mistakes & Fixes
 
-| Mistake | Fix |
-| --- | --- |
-| `Cannot find module '@/lib/utils'` | Check path alias in `tsconfig.json` |
-| N+1 query errors | Add `.with()` eager loading to DAL queries |
-| Type errors in Server Actions | Return `ActionResult<T>` instead of throwing |
-| Styling not applying | Check Tailwind v4 syntax (e.g., `bg-linear-to-br` not `bg-gradient-to-br`) |
-| Database connection fails | Verify `DATABASE_URL` and run `pnpm db:studio` to test |
-| Tests fail in CI but pass locally | Check mock setup in `src/tests/setup-env.ts` |
-| Deployment fails | Run `pnpm build` locally first to catch issues |
+| Mistake                            | Fix                                                                        |
+| ---------------------------------- | -------------------------------------------------------------------------- |
+| `Cannot find module '@/lib/utils'` | Check path alias in `tsconfig.json`                                        |
+| N+1 query errors                   | Add `.with()` eager loading to DAL queries                                 |
+| Type errors in Server Actions      | Return `ActionResult<T>` instead of throwing                               |
+| Styling not applying               | Check Tailwind v4 syntax (e.g., `bg-linear-to-br` not `bg-gradient-to-br`) |
+| Database connection fails          | Verify `DATABASE_URL` and run `pnpm db:studio` to test                     |
+| Tests fail in CI but pass locally  | Check mock setup in `src/tests/setup-env.ts`                               |
+| Deployment fails                   | Run `pnpm build` locally first to catch issues                             |
 
 ---
 

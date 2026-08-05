@@ -37,7 +37,7 @@ function getValidationError(error: unknown): string {
 export async function recordReadingProgressAction(
   comicId: number,
   chapterId: number,
-  input: unknown
+  input: unknown,
 ): Promise<
   ActionResult<{
     historyId: number;
@@ -116,7 +116,7 @@ export async function updateReadingProgressAction(input: unknown): Promise<
     const entry = await readingHistoryDal.updateProgress(
       parsed.data.historyId,
       parsed.data.timeSpentSeconds,
-      parsed.data.progress
+      parsed.data.progress,
     );
 
     // 4. Check if goals were completed
@@ -204,7 +204,7 @@ export async function completeChapterAction(input: unknown): Promise<
  */
 export async function getReadingStatsAction(
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
 ): Promise<
   ActionResult<{
     averageTimePerChapter: number;
@@ -250,7 +250,7 @@ export async function getReadingHistoryAction(
   limit: number = 50,
   offset: number = 0,
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
 ): Promise<
   ActionResult<
     Array<{

@@ -34,7 +34,7 @@ export function SearchResults({ results, isLoading = false }: SearchResultsProps
         router.push(`/comics/${results.results[index].slug}`);
       }
     },
-    [results, router]
+    [results, router],
   );
 
   useKeyboardNavigation({
