@@ -42,17 +42,17 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 - **Status:** ✅ Complete
 - **Actions:**
-    - Created barrel exports for `bookmarks/` and `search/`
-    - Deleted `shadcn-studio/` directory
-    - Deleted `admin/data.json`
+  - Created barrel exports for `bookmarks/` and `search/`
+  - Deleted `shadcn-studio/` directory
+  - Deleted `admin/data.json`
 
 #### Phase 1D: VS Code Config Audit
 
 - **Status:** ✅ Complete
 - **Actions:**
-    - Hidden `.references/` in explorer
-    - Removed duplicate Type Check task
-    - Verified launch.json, extensions.json, mcp.json
+  - Hidden `.references/` in explorer
+  - Removed duplicate Type Check task
+  - Verified launch.json, extensions.json, mcp.json
 
 ---
 
@@ -68,27 +68,27 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 - **Status:** ✅ Complete
 - **Scripts:**
-    - `project-cleanup.ts` — Deep cleanup with dry-run
-    - `cleanup-duplicates.ts` — Pattern-based duplicate detection
-    - `optimize-performance.ts` — Bundle analysis
-    - `validate-env.ts` — Env validation + sync
-    - `fix-line-endings.ts` — CRLF→LF normalization
+  - `project-cleanup.ts` — Deep cleanup with dry-run
+  - `cleanup-duplicates.ts` — Pattern-based duplicate detection
+  - `optimize-performance.ts` — Bundle analysis
+  - `validate-env.ts` — Env validation + sync
+  - `fix-line-endings.ts` — CRLF→LF normalization
 
 #### Phase 2C: Enhanced Scripts
 
 - **Status:** ✅ Complete
 - **Enhanced:**
-    - `analyze-project.ts` — Added security scan, dependency analysis, metrics
-    - `scaffold.ts` — Added DAL, schema templates
+  - `analyze-project.ts` — Added security scan, dependency analysis, metrics
+  - `scaffold.ts` — Added DAL, schema templates
 
 #### Phase 2D: Shell Scripts
 
 - **Status:** ✅ Complete
 - **Created/Enhanced:**
-    - `dev.sh` / `dev.ps1` — Prerequisites + dev server + browser
-    - `cleanup.sh` / `cleanup.ps1` — Artifact removal
-    - `setup-dev.sh` / `setup-dev.ps1` — Added --skip-db, --skip-seed, --skip-install
-    - `quality-gate.sh` / `quality-gate.ps1` — tee logging, timing, JSON summary
+  - `dev.sh` / `dev.ps1` — Prerequisites + dev server + browser
+  - `cleanup.sh` / `cleanup.ps1` — Artifact removal
+  - `setup-dev.sh` / `setup-dev.ps1` — Added --skip-db, --skip-seed, --skip-install
+  - `quality-gate.sh` / `quality-gate.ps1` — tee logging, timing, JSON summary
 
 #### Phase 2E: Package.json Updates
 
@@ -103,21 +103,21 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 - **Status:** ✅ Complete
 - **Features:**
-    - User seeder: 10 users default (3 admin, 3 mod, 4 user)
-    - Comic/Chapter image seeders: multi-strategy (URL/local/ImageKit)
-    - Chunked processing with `--chunk-size` flag
-    - Checkpoint/resume via `.seed-checkpoints/` directory
-    - `--resume` flag to continue from checkpoint
+  - User seeder: 10 users default (3 admin, 3 mod, 4 user)
+  - Comic/Chapter image seeders: multi-strategy (URL/local/ImageKit)
+  - Chunked processing with `--chunk-size` flag
+  - Checkpoint/resume via `.seed-checkpoints/` directory
+  - `--resume` flag to continue from checkpoint
 
 #### Phase 3B: Quality Gate Scripts
 
 - **Status:** ✅ Complete
 - **Features:**
-    - `quality-gate.sh` / `quality-gate.ps1` with tee logging
-    - Per-gate timing
-    - `--continue-on-error` flag
-    - JSON summary output
-    - Skip flags for individual gates
+  - `quality-gate.sh` / `quality-gate.ps1` with tee logging
+  - Per-gate timing
+  - `--continue-on-error` flag
+  - JSON summary output
+  - Skip flags for individual gates
 
 #### Phase 3C: Triage System
 
@@ -155,10 +155,10 @@ This document provides a comprehensive inventory of all phases from Phase 1 thro
 
 - **Status:** ✅ Complete
 - **Verified:**
-    - `src/hooks/` — Clean ✅
-    - `src/types/` — Clean ✅
-    - `src/dal/` — Extends BaseDal ✅
-    - `src/actions/` — Server Actions pattern ✅
+  - `src/hooks/` — Clean ✅
+  - `src/types/` — Clean ✅
+  - `src/dal/` — Extends BaseDal ✅
+  - `src/actions/` — Server Actions pattern ✅
 
 ---
 

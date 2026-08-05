@@ -130,10 +130,10 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--pattern`, `--keep-canonical`, `--dry-run`, `--verbose`, `--yes`, `--json`
 - **CLI**: `pnpm cleanup:duplicates --pattern "src/components/**/*.tsx" --dry-run --verbose`
 - **Logic**:
-    - Compute file hashes (SHA256)
-    - Group by hash
-    - Flag duplicates, keep canonical (alphabetically first in src/)
-    - Delete backups, .old, .copy versions
+  - Compute file hashes (SHA256)
+  - Group by hash
+  - Flag duplicates, keep canonical (alphabetically first in src/)
+  - Delete backups, .old, .copy versions
 - **Depends on**: crypto, fs, logger.ts, confirmAction.ts
 - **Priority**: HIGH (cleanup technical debt)
 
@@ -144,11 +144,11 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--sync`, `--dry-run`, `--verbose`
 - **CLI**: `pnpm validate:env --sync --dry-run` (preview changes), then `pnpm validate:env --sync --yes`
 - **Logic**:
-    - Parse `.env.local.example` (source of truth)
-    - Extract keys from `src/lib/env.ts` Zod schema
-    - Validate `.env.local` has all required keys
-    - Suggest missing keys
-    - Optional `--sync`: add missing from .example to .local
+  - Parse `.env.local.example` (source of truth)
+  - Extract keys from `src/lib/env.ts` Zod schema
+  - Validate `.env.local` has all required keys
+  - Suggest missing keys
+  - Optional `--sync`: add missing from .example to .local
 - **Depends on**: logger.ts, Zod parser
 - **Priority**: HIGH (dev experience, onboarding)
 
@@ -159,11 +159,11 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--dry-run`, `--verbose`, `--yes`, `--clear-global` (clear pnpm global cache)
 - **CLI**: `pnpm cleanup:project --dry-run --verbose`, then `pnpm cleanup:project --yes`
 - **Scope**:
-    - Remove: node_modules/.vite, .turbo, .next, dist, build
-    - Remove: `*.log`, `*.tmp`, .DS_Store, Thumbs.db, .turbo cache
-    - Remove: empty directories
-    - Optional: `pnpm cache clean` (local artifact cache)
-    - Report: disk space freed
+  - Remove: node_modules/.vite, .turbo, .next, dist, build
+  - Remove: `*.log`, `*.tmp`, .DS_Store, Thumbs.db, .turbo cache
+  - Remove: empty directories
+  - Optional: `pnpm cache clean` (local artifact cache)
+  - Report: disk space freed
 - **Depends on**: fs, path, logger.ts, confirmAction.ts
 - **Priority**: HIGH (disk cleanup, slow build fixes)
 
@@ -174,11 +174,11 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--analyze`, `--cache-audit`, `--dry-run`, `--verbose`, `--json`
 - **CLI**: `pnpm optimize:performance --analyze --cache-audit --json > performance-report.json`
 - **Output**: JSON report + console summary
-    - Bundle size per module
-    - Build time trend (if historical data)
-    - Cache hit rates (Turbopack file system cache)
-    - Top 10 slowest modules
-    - Optimization suggestions (code splitting, tree-shaking, lazy loading)
+  - Bundle size per module
+  - Build time trend (if historical data)
+  - Cache hit rates (Turbopack file system cache)
+  - Top 10 slowest modules
+  - Optimization suggestions (code splitting, tree-shaking, lazy loading)
 - **Depends on**: logger.ts, fs
 - **Priority**: MEDIUM (performance visibility)
 
@@ -190,10 +190,10 @@ These scripts provide clear value with minimal duplication across references and
 
 - **Lines**: ~300 (from ~180 current)
 - **New additions**:
-    - Security scan: Find hardcoded secrets (patterns: API_KEY, PASSWORD, TOKEN)
-    - Dependency analysis: Circular imports, unused deps
-    - Code metrics: LOC per file, complexity score
-    - Component audit: Count components, identify orphans
+  - Security scan: Find hardcoded secrets (patterns: API_KEY, PASSWORD, TOKEN)
+  - Dependency analysis: Circular imports, unused deps
+  - Code metrics: LOC per file, complexity score
+  - Component audit: Count components, identify orphans
 - **Flags**: `--security`, `--dependencies`, `--metrics`, `--components`, `--json`
 - **CLI**: `pnpm analyze:project --security --json`
 - **Output**: Markdown report + JSON
@@ -206,11 +206,11 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--verbose`, `--turbo` (fast mode, skip counts)
 - **CLI**: `pnpm health:db --verbose`
 - **Logic**:
-    - Test connection via `src/database/db.ts`
-    - Verify schema (27 tables exist)
-    - Count rows per table (top 5 largest)
-    - Check FK integrity
-    - Output: Table with row counts, schema validation
+  - Test connection via `src/database/db.ts`
+  - Verify schema (27 tables exist)
+  - Count rows per table (top 5 largest)
+  - Check FK integrity
+  - Output: Table with row counts, schema validation
 - **Depends on**: db.ts, logger.ts
 - **Priority**: HIGH (health check integration)
 
@@ -221,21 +221,21 @@ These scripts provide clear value with minimal duplication across references and
 - **Flags**: `--verbose`, `--yes`
 - **CLI**: `pnpm git:init --yes`
 - **Logic**:
-    - Install Husky if not present
-    - Create `.husky/pre-commit` → `pnpm lint:fix && pnpm type-check`
-    - Create `.husky/pre-push` → `pnpm test`
-    - Report: hooks installed
+  - Install Husky if not present
+  - Create `.husky/pre-commit` → `pnpm lint:fix && pnpm type-check`
+  - Create `.husky/pre-push` → `pnpm test`
+  - Report: hooks installed
 - **Depends on**: child_process, logger.ts
 - **Priority**: MEDIUM (team dev hygiene)
 
 #### 9. **scaffold.ts** (ENHANCE existing, ~400 lines total)
 
 - **Subcommands** (NEW capabilities):
-    - `scaffold component <name>` → `src/components/<kebab>/<kebab>.tsx`
-    - `scaffold dal <Entity>` → `src/dal/<entity>-dal.ts`
-    - `scaffold action <name>` → `src/actions/<kebab>.actions.ts`
-    - `scaffold page <name>` → `src/app/(root)/<kebab>/page.tsx`
-    - `scaffold schema <Entity>` → `src/schemas/<entity>.schema.ts` (NEW)
+  - `scaffold component <name>` → `src/components/<kebab>/<kebab>.tsx`
+  - `scaffold dal <Entity>` → `src/dal/<entity>-dal.ts`
+  - `scaffold action <name>` → `src/actions/<kebab>.actions.ts`
+  - `scaffold page <name>` → `src/app/(root)/<kebab>/page.tsx`
+  - `scaffold schema <Entity>` → `src/schemas/<entity>.schema.ts` (NEW)
 - **All templates**: Include JSDoc, types, `"use server"`/`"use client"`, proper structure
 - **Flags**: `--force` (overwrite), `--dry-run`
 - **CLI**:

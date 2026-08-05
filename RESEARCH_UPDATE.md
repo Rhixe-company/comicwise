@@ -18,25 +18,25 @@
 ### Next.js 16 + Stripe State-of-Art (2026)
 
 - **Next.js 16 (Oct 2025):** Turbopack is the default bundler (2-5× faster builds), React 19 bundled, Cache Components with `"use cache"` replace PPR, `revalidateTag()` now requires `cacheLife` profile as second arg.
-    - Source: <https://nextjs.org/blog/next-16>
+  - Source: <https://nextjs.org/blog/next-16>
 - **Next.js 16.2 (March 2026):** Stable Build Adapters API for non-Vercel platforms (OpenNext, etc.) supporting `proxy.ts`. 13 security advisories patched (7 high-severity including DoS in Server Components, middleware bypass, SSRF).
-    - Source: <https://makerkit.dev/blog/tutorials/nextjs-16>
+  - Source: <https://makerkit.dev/blog/tutorials/nextjs-16>
 - **Drizzle vs Prisma (2026):** Drizzle ~7.4 KB gzipped, zero runtime deps, SQL-first. Prisma 7.x: Rust-based query engine (~8 MB), schema-first. Drizzle chosen by MakerKit for its Drizzle kit; Prisma kit still maintained.
-    - Source: <https://makerkit.dev/blog/tutorials/drizzle-vs-prisma>
-    - Source: <https://designrevision.com/blog/prisma-vs-drizzle>
+  - Source: <https://makerkit.dev/blog/tutorials/drizzle-vs-prisma>
+  - Source: <https://designrevision.com/blog/prisma-vs-drizzle>
 
 ### Webhook Security (Critical)
 
 - **Major anti-pattern:** AI-generated webhook code often parses body as JSON before signature verification — this breaks Stripe signature validation and leaves the endpoint spoofable.
 - **Required pattern:** `req.text()` first → verify `stripe-signature` header → parse JSON.
 - **Common omission:** Handlers for `payment_failed` and `subscription_deleted` are regularly missing in scaffolded code.
-    - Source: <https://dev.to/whoffagents/webhook-security-in-nextjs-signatures-idempotency-and-avoiding-common-mistakes-4g6>
+  - Source: <https://dev.to/whoffagents/webhook-security-in-nextjs-signatures-idempotency-and-avoiding-common-mistakes-4g6>
 
 ### Stripe Subscription Billing Patterns
 
 - Full lifecycle: Checkout → `checkout.session.completed` → `customer.subscription.updated` → `customer.subscription.deleted`.
 - Customer Portal (billing management) is handled by Stripe-hosted UI. Build a redirect via `stripe.billingPortal.sessions.create()`.
-    - Source: <https://designrevision.com/blog/best-nextjs-subscription-templates>
+  - Source: <https://designrevision.com/blog/best-nextjs-subscription-templates>
 - Feature gating should track subscription status in your DB (source of truth for access control) — Stripe is source of truth for billing only.
 
 ## Cheatsheet

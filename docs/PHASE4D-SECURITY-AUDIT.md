@@ -30,9 +30,9 @@ ComicWise has implemented comprehensive security controls addressing **OWASP Top
 - Role-based access control (RBAC) implemented via NextAuth callbacks (`src/auth-config.ts`)
 - Session strategy uses database sessions (30-day expiration)
 - Protected routes via `src/proxy.ts` middleware:
-    - `/admin` requires `role: "admin"`
-    - `/dashboard` requires authenticated user
-    - `/profile` requires authenticated user
+  - `/admin` requires `role: "admin"`
+  - `/dashboard` requires authenticated user
+  - `/profile` requires authenticated user
 - JWT signing disables `jti` claim to prevent token replay
 
 **Implementation:**

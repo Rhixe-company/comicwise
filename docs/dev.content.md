@@ -1150,9 +1150,9 @@ export const config = {
 - Extends `next/core-web-vitals`, `next/typescript`
 - Plugins: `prettier`, `better-tailwindcss`, `playwright`, `vitest`, `drizzle`, `zod`
 - **Active rules:**
-    - `no-explicit-any: "error"`
-    - `no-unused-vars` (ignores `^_` prefix)
-    - `no-import-type-side-effects`
+  - `no-explicit-any: "error"`
+  - `no-unused-vars` (ignores `^_` prefix)
+  - `no-import-type-side-effects`
 
 ### Vitest (`vitest.config.mts`)
 

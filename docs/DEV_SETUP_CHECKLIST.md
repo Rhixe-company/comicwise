@@ -6,9 +6,9 @@
 - [ ] pnpm installed (`npm install -g pnpm`)
 - [ ] PostgreSQL 14+ or Neon.tech account
 - [ ] VS Code with extensions (optional):
-    - [ ] Drizzle ORM extension
-    - [ ] Thunder Client or Postman for API testing
-    - [ ] PostgreSQL extension for DB browsing
+  - [ ] Drizzle ORM extension
+  - [ ] Thunder Client or Postman for API testing
+  - [ ] PostgreSQL extension for DB browsing
 
 ## Phase 1: Environment Setup (15 min)
 
