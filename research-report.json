@@ -400,7 +400,7 @@
         "Lazy load Framer Motion: dynamic(() => import('./AnimatedComponent'), { ssr: false })"
       ],
       "commonPitfalls": [
-        "Animations not playing on first npm run dev (dev-mode SSR issue)",
+        "Animations not playing on first bun run dev (dev-mode SSR issue)",
         "Wrapping entire page in motion component kills SSR/SEO",
         "Bundle size impact (~50KB gzipped)",
         "Hydration mismatches with initial variants"

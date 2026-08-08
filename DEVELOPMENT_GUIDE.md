@@ -79,7 +79,9 @@ export const comicDal = new ComicDAL();
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 
-const Schema = z.object({/* ... */});
+const Schema = z.object({
+  /* ... */
+});
 
 export async function action(input: unknown): Promise<ActionResult<Data>> {
   const session = await auth();

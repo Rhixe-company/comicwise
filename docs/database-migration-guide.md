@@ -46,7 +46,7 @@ pnpm db:migrate
 
 - Node.js 18+ (verify with `node --version`)
 - PostgreSQL 13+ (local or cloud)
-- pnpm installed (`npm install -g pnpm`)
+- pnpm installed (`bun install -g pnpm`)
 
 ### Database Connection Options
 

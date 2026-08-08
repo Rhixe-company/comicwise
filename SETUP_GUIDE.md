@@ -114,11 +114,11 @@ pnpm build            # Production build (~35s)
 
 ## Troubleshooting
 
-| Problem               | Solution                                |
-| --------------------- | --------------------------------------- |
-| `pnpm install` fails  | Ensure pnpm ≥ 9: `npm i -g pnpm@latest` |
-| Database connection   | Verify `DATABASE_URL` in `.env.local`   |
-| `db:push` errors      | Check PostgreSQL is running             |
-| Build fails           | `pnpm clean && pnpm build`              |
-| ESLint warnings       | `pnpm lint:fix` for auto-fix            |
-| Playwright test fails | `pnpm exec playwright install`          |
+| Problem               | Solution                                      |
+| --------------------- | --------------------------------------------- |
+| `pnpm install` fails  | Ensure pnpm ≥ 9: `bun install -g pnpm@latest` |
+| Database connection   | Verify `DATABASE_URL` in `.env.local`         |
+| `db:push` errors      | Check PostgreSQL is running                   |
+| Build fails           | `pnpm clean && pnpm build`                    |
+| ESLint warnings       | `pnpm lint:fix` for auto-fix                  |
+| Playwright test fails | `pnpm exec playwright install`                |

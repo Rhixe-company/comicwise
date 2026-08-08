@@ -703,7 +703,7 @@ pnpm build:debug 2>&1 | tee build-report.txt
 
 **Updates:**
 
-- Replace `npm install -g pnpm` with `pnpm/action-setup@v3`
+- Replace `bun install -g pnpm` with `pnpm/action-setup@v3`
 - Add pnpm cache
 - Pin Node 20
 

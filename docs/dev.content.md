@@ -100,14 +100,14 @@
 
 ### UI & Styling
 
-| Component | Technology | Purpose |
-| --- | --- | --- | --- |
-| **CSS Framework** | Tailwind CSS | 4.x | Utility-first styling |
-| **Component Library** | shadcn/ui | Accessible pre-built components |
-| **Primitives** | Radix UI | Accessible component primitives |
-| **Icons** | Tabler Icons | Icon library |
-| **Charts** | Recharts | Data visualization |
-| **Tables** | TanStack Table | Advanced data tables |
+| Component             | Technology     | Purpose                         |
+| --------------------- | -------------- | ------------------------------- | --------------------- |
+| **CSS Framework**     | Tailwind CSS   | 4.x                             | Utility-first styling |
+| **Component Library** | shadcn/ui      | Accessible pre-built components |
+| **Primitives**        | Radix UI       | Accessible component primitives |
+| **Icons**             | Tabler Icons   | Icon library                    |
+| **Charts**            | Recharts       | Data visualization              |
+| **Tables**            | TanStack Table | Advanced data tables            |
 
 ### Development & Testing
 
@@ -1223,7 +1223,12 @@ import { devtools, persist } from "zustand/middleware";
 
 export const useMyStore = create<State>()(
   devtools(
-    persist((set) => ({/* initial state + actions */}), { name: "store-name" }),
+    persist(
+      (set) => ({
+        /* initial state + actions */
+      }),
+      { name: "store-name" },
+    ),
     { name: "MyStore" },
   ),
 );
@@ -1684,7 +1689,7 @@ export async function searchComics(options: SearchOptions) {
 ### 22.5 DAL Compliance Verification Script
 
 ```typescript
-// scripts/verify-dal-usage.ts — Run: npx tsx scripts/verify-dal-usage.ts
+// scripts/verify-dal-usage.ts — Run: bunx tsx scripts/verify-dal-usage.ts
 import { readFileSync, readdirSync, statSync } from "fs";
 import { join } from "path";
 

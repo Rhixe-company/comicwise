@@ -63,7 +63,7 @@
 
 ```bash
 # Install Vercel CLI
-npm install -g vercel
+bun install -g vercel
 
 # Login to Vercel
 vercel login

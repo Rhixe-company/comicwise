@@ -232,7 +232,8 @@ export class PerformanceMonitor {
     // FCP (First Contentful Paint)
     if ("performance" in window && "getEntriesByName" in window.performance) {
       const fcpEntry = window.performance.getEntriesByName("first-contentful-paint")[0] as
-        PerformanceEntryWithStartTime | undefined;
+        | PerformanceEntryWithStartTime
+        | undefined;
       if (fcpEntry) {
         const value = fcpEntry.startTime;
         this.metrics.set("FCP", value);

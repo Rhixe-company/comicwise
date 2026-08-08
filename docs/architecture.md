@@ -557,12 +557,18 @@ export async function actionName(input: unknown): Promise<ActionResult<T>> {
 **Purpose:** Runtime type safety bridge between API/UI and database. **Organization:** One file per domain (comic-schema.ts, bookmark-schema.ts, etc.); schemas composed from base. **Key Pattern:**
 
 ```typescript
-const BaseSchema = z.object({/* common fields */});
-export const CreateSchema = BaseSchema.extend({/* create-specific */});
+const BaseSchema = z.object({
+  /* common fields */
+});
+export const CreateSchema = BaseSchema.extend({
+  /* create-specific */
+});
 export const UpdateSchema = BaseSchema.partial().extend({
   id: z.string().uuid(),
 });
-export const FilterSchema = z.object({/* filter fields */});
+export const FilterSchema = z.object({
+  /* filter fields */
+});
 ```
 
 ### `src/database/` — Drizzle ORM Schema

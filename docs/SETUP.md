@@ -18,7 +18,7 @@ cd comicwise
 1. Install dependencies:
 
 ```bash
-npm install
+bun install
 # or
 yarn install
 ```
@@ -33,7 +33,7 @@ cp .env.example .env
 1. Start the development server:
 
 ```bash
-npm run dev
+bun run dev
 # or
 yarn dev
 ```
@@ -42,10 +42,10 @@ yarn dev
 
 | Command         | Description              |
 | --------------- | ------------------------ |
-| `npm run dev`   | Start development server |
-| `npm run build` | Build for production     |
-| `npm run lint`  | Run linter               |
-| `npm test`      | Run tests                |
+| `bun run dev`   | Start development server |
+| `bun run build` | Build for production     |
+| `bun run lint`  | Run linter               |
+| `bun run test`  | Run tests                |
 
 ## Project Structure
 

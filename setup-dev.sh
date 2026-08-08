@@ -66,7 +66,7 @@ main() {
 
   if ! command -v pnpm &> /dev/null; then
     log_warn "pnpm not found. Installing globally..."
-    npm install -g pnpm || {
+    bun install -g pnpm || {
       log_error "Failed to install pnpm"
       exit 1
     }

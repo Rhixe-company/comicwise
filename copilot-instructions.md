@@ -8,7 +8,7 @@
 
 **TypeScript**: Strict mode; Next.js 15 App Router; `pnpm` for package management (`pnpm-lock.yaml`); Node.js 18+.
 
-**Database**: PostgreSQL via Prisma ORM; schema-first approach; generate with `npx prisma generate`; push schema with `npx prisma db push`; Prisma Studio for browsing; NextAuth.js v5 adapter for auth.
+**Database**: PostgreSQL via Prisma ORM; schema-first approach; generate with `bunx prisma generate`; push schema with `bunx prisma db push`; Prisma Studio for browsing; NextAuth.js v5 adapter for auth.
 
 **Auth/Payments**: NextAuth.js for authentication; Stripe for subscription payments; Stripe webhooks for lifecycle events; server-side Stripe keys only.
 
@@ -18,4 +18,4 @@
 
 **Env**: `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, Stripe keys, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`.
 
-**Commands**: `npm run dev` (development); `npm run build` (production build); `npm run lint` (ESLint); `npx prisma generate` (schema client); `npx prisma db push` (migrate); `npx prisma studio` (DB browser); `npm run format` (Prettier).
+**Commands**: `bun run dev` (development); `bun run build` (production build); `bun run lint` (ESLint); `bunx prisma generate` (schema client); `bunx prisma db push` (migrate); `bunx prisma studio` (DB browser); `bun run format` (Prettier).

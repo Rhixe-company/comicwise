@@ -100,26 +100,34 @@ vi.mock("drizzle-orm", async () => {
   return {
     ...actual,
     count: vi.fn().mockReturnValue({ _: "mock" }),
-    ilike: vi.fn((column: { name?: string }, pattern: string): MockCondition => ({
-      __mockType: "ilike",
+    ilike: vi.fn(
+      (column: { name?: string }, pattern: string): MockCondition => ({
+        __mockType: "ilike",
 
-      columnName: column?.name ?? String(column),
-      pattern,
-    })),
-    eq: vi.fn((column: { name?: string }, value: unknown): MockCondition => ({
-      __mockType: "eq",
+        columnName: column?.name ?? String(column),
+        pattern,
+      }),
+    ),
+    eq: vi.fn(
+      (column: { name?: string }, value: unknown): MockCondition => ({
+        __mockType: "eq",
 
-      columnName: column?.name ?? String(column),
-      value,
-    })),
-    and: vi.fn((...conditions: (MockCondition | undefined)[]): MockCondition => ({
-      __mockType: "and",
-      conditions: conditions.filter(Boolean) as MockCondition[],
-    })),
-    or: vi.fn((...conditions: (MockCondition | undefined)[]): MockCondition => ({
-      __mockType: "or",
-      conditions: conditions.filter(Boolean) as MockCondition[],
-    })),
+        columnName: column?.name ?? String(column),
+        value,
+      }),
+    ),
+    and: vi.fn(
+      (...conditions: (MockCondition | undefined)[]): MockCondition => ({
+        __mockType: "and",
+        conditions: conditions.filter(Boolean) as MockCondition[],
+      }),
+    ),
+    or: vi.fn(
+      (...conditions: (MockCondition | undefined)[]): MockCondition => ({
+        __mockType: "or",
+        conditions: conditions.filter(Boolean) as MockCondition[],
+      }),
+    ),
   };
 });
 

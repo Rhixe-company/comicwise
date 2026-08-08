@@ -89,12 +89,12 @@ tools:
       - "📦 CLI tool: List and download personas, prompts, and chat modes"
       - "🎭 Rich persona library: Architecture, React, Azure, and more"
       - "🧠 Cognitive modes: Advanced reasoning and planning personas"
-      - "⚡ Easy install: npm install -g workspace-architect"
+      - "⚡ Easy install: bun install -g workspace-architect"
     configuration:
       type: bash
       content: |
         # Install globally
-        npm install -g workspace-architect
+        bun install -g workspace-architect
 
         # List available items
         workspace-architect list

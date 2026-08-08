@@ -88,8 +88,8 @@ cp .env.example .env.local
 # Configure Stripe, database, and other service credentials
 
 # Database setup
-npx prisma generate
-npx prisma db push
+bunx prisma generate
+bunx prisma db push
 
 # Start development server
 pnpm run dev

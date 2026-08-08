@@ -70,7 +70,7 @@ print_success "Node.js v$(node --version | sed 's/v//')"
 # Check pnpm version (8+)
 print_info "Checking pnpm version..."
 if ! command -v pnpm &> /dev/null; then
-  print_error "pnpm is not installed. Install with: npm install -g pnpm"
+  print_error "pnpm is not installed. Install with: bun install -g pnpm"
   exit 1
 fi
 PNPM_VERSION=$(pnpm --version | cut -d. -f1)

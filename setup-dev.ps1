@@ -43,7 +43,7 @@ try {
 }
 catch {
   Write-Warn "pnpm not found. Installing globally..."
-  & npm install -g pnpm
+  & bun install -g pnpm
   $pnpmVersion = (& pnpm --version) 2>$null
   Write-Success "pnpm $pnpmVersion installed"
 }

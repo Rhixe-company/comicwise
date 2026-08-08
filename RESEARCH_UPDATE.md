@@ -139,7 +139,7 @@ export const cacheComponents = true;
 
 1. **Idempotent webhook handlers:** Store `stripeEventId` per event, skip if already processed. Stripe retries failed webhooks for up to 3+ days.
 2. **Separate billing source of truth:** Stripe = billing truth; your DB = access/entitlement truth. Sync via webhooks.
-3. **Use `drizzle-kit studio`** for schema exploration during development (`npx drizzle-kit studio`).
+3. **Use `drizzle-kit studio`** for schema exploration during development (`bunx drizzle-kit studio`).
 4. **Separate DATABASE_URL per environment** for dev/test/prod. Drizzle has no built-in env switching.
 
 - Source: <https://stackoverflow.com/questions/77093723/how-to-have-both-production-and-test-databases-in-drizzle-orm>

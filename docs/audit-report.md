@@ -206,7 +206,7 @@ While Server Actions have built-in CSRF protection, the `api/seed/route.ts` rout
 
 1. Rotate all credentials listed above
 2. Check git history for committed secrets
-3. Add pre-commit hook: `npx secretlint` or `ggshield`
+3. Add pre-commit hook: `bunx secretlint` or `ggshield`
 
 ### Short-term (1 week)
 

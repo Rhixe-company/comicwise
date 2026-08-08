@@ -50,7 +50,7 @@ try {
   Write-Success "pnpm $pv"
 }
 catch {
-  Write-Error_ "pnpm is not installed or not in PATH. Install with: npm install -g pnpm"
+  Write-Error_ "pnpm is not installed or not in PATH. Install with: bun install -g pnpm"
   exit 1
 }
 

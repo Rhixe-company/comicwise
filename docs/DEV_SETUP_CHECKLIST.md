@@ -3,7 +3,7 @@
 ## Pre-Setup Requirements
 
 - [ ] Node.js 18+ installed (`node -v`)
-- [ ] pnpm installed (`npm install -g pnpm`)
+- [ ] pnpm installed (`bun install -g pnpm`)
 - [ ] PostgreSQL 14+ or Neon.tech account
 - [ ] VS Code with extensions (optional):
   - [ ] Drizzle ORM extension

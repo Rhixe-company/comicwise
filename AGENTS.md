@@ -20,12 +20,12 @@ Next.js 15 + Prisma + Stripe. Digital comic storefront with subscription managem
 ## Commands
 
 ```bash
-npm run dev
-npm run build
-npm run lint
-npx prisma generate
-npx prisma db push
-npx prisma studio
+bun run dev
+bun run build
+bun run lint
+bunx prisma generate
+bunx prisma db push
+bunx prisma studio
 ```
 
 ## Conventions
