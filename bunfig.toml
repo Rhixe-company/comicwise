@@ -1,0 +1,14 @@
+# comicwise — Bun configuration
+# Next.js comic streaming platform (Prisma + Stripe)
+
+[build]
+loader = false
+
+[test]
+coverage = true
+root = "./src"
+
+[install]
+optional = true
+dev = true
+peer = true
