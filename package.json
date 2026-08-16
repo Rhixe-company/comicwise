@@ -27,7 +27,7 @@
     "cache:stats:json": "tsx --env-file=.env.local src/scripts/cache-stats.ts --json",
     "check-updates": "bunx npm-check-updates --deep -i && bunx update-browserslist-db --auto",
     "clean": "rimraf .next out dist build .turbo coverage .react-email",
-    "clean:all": "bun run clean && rimraf node_modules pnpm-lock.yaml",
+    "clean:all": "bun run clean && rimraf node_modules bun.lockb",
     "clean:cache": "rimraf .next/cache",
     "cleanup:duplicates": "tsx --env-file=.env.local src/scripts/unified-dev-setup.ts --duplicates",
     "cleanup:duplicates:dry": "tsx --env-file=.env.local src/scripts/unified-dev-setup.ts --duplicates --dry-run",
